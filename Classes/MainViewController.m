@@ -1,0 +1,850 @@
+//
+//  MainViewController.m
+//  SudokuHelper
+//
+//  Created by gracegyu on 10. 3. 15..
+//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//
+
+#import "MainViewController.h"
+#import "MainView.h"
+
+
+
+
+@implementation MainViewController
+
+@synthesize mainView;
+@synthesize labelNewGame;
+@synthesize labelTitleLevel;
+@synthesize labelTitleGameTime;
+@synthesize labelTitleBlank;
+@synthesize buttonNewGameVeryEasy;
+@synthesize buttonNewGameEasy;
+@synthesize buttonNewGameNormal;
+@synthesize buttonNewGameHard;
+@synthesize buttonNewGameVeryHard;
+@synthesize buttonNewGameCancel;
+@synthesize buttonNew;
+@synthesize buttonUndo;
+@synthesize buttonMemo;
+@synthesize buttonScore;
+@synthesize buttonDel;
+@synthesize buttonReset;
+@synthesize viewMenu;
+@synthesize labelLevel;
+@synthesize labelGameTime;
+@synthesize labelBlank;
+@synthesize timerGame;
+@synthesize timerNewGame;
+@synthesize activityIndicator;
+#ifdef IPHONE_FREEVERSION
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
+@synthesize bannerView;
+#endif
+@synthesize adViewController;
+#endif
+
+- (void) initScore
+{
+	NSLog(@"initScore");	
+	
+	
+	for (int i=0; i<5; i++)
+	{
+		scoreGames[i] = 0;
+		scoreClears[i] = 0;
+		scoreBestTime[i] = 0;
+		scoreClearTimeSum[i] = 0;
+	}	
+}
+
+#define kScoreGames			@"scoreGames"
+#define kScoreClears		@"scoreClears"
+#define kScoreBestTime		@"scoreBestTime"
+#define kScoreClearTimeSum	@"scoreClearTimeSum"
+
+- (void) saveScoreData
+{
+	NSLog(@"saveScoreData");	
+
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	for (int i=0; i<5; i++)
+	{
+		[defaults setInteger:scoreGames[i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
+		[defaults setInteger:scoreClears[i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
+		[defaults setInteger:scoreBestTime[i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
+		[defaults setInteger:scoreClearTimeSum[i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
+	}	
+}
+
+- (void) loadScoreData
+{
+	NSLog(@"loadScoreData");	
+
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	for (int i=0; i<5; i++)
+	{
+		scoreGames[i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
+		scoreClears[i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
+		scoreBestTime[i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
+		scoreClearTimeSum[i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
+	}	
+}
+
+- (void) writeScore:(SudokuGame*)sudokuGame
+{
+	NSLog(@"writeScore");	
+
+	scoreClears[sudokuGame.gameLevel] += 1;
+	if (scoreBestTime[sudokuGame.gameLevel] == 0 || 
+		sudokuGame.gameTime < scoreBestTime[sudokuGame.gameLevel])
+		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;
+	scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
+	
+	[self saveScoreData];
+}
+
+#ifdef IPHONE_FREEVERSION	   
+- (CGRect) setPressFrame:(CGRect) frame 
+{
+	frame.origin.y *= mainView.fPress;
+	
+	return frame;
+}
+
+
+- (void) setPressAd
+{
+	buttonNew.frame		= [self setPressFrame:buttonNew.frame];
+	buttonUndo.frame	= [self setPressFrame:buttonUndo.frame];
+	buttonMemo.frame	= [self setPressFrame:buttonMemo.frame];
+	buttonDel.frame		= [self setPressFrame:buttonDel.frame];
+	buttonReset.frame	= [self setPressFrame:buttonReset.frame];
+	buttonScore.frame	= [self setPressFrame:buttonScore.frame];		
+	
+	labelTitleLevel.frame	= [self setPressFrame:labelTitleLevel.frame];
+	labelLevel.frame		= [self setPressFrame:labelLevel.frame];	
+	labelTitleGameTime.frame= [self setPressFrame:labelTitleGameTime.frame];
+	labelGameTime.frame		= [self setPressFrame:labelGameTime.frame];	
+	labelTitleBlank.frame	= [self setPressFrame:labelTitleBlank.frame];	
+	labelBlank.frame		= [self setPressFrame:labelBlank.frame];		
+}
+
+#endif
+
+
+- (void) setOrientation
+{
+	NSLog(@"setOrientation");	
+
+	mainView.rectPortrait = self.view.frame;
+	NSLog(@"mainView.rectPortrait=%f,%f", mainView.rectPortrait.size.width, mainView.rectPortrait.size.height);	
+
+	CGRect rectLandscape = mainView.rectPortrait;
+	rectLandscape.size.width = mainView.rectPortrait.size.height+20;
+	rectLandscape.size.height = mainView.rectPortrait.size.width-20; 
+	mainView.rectLandscape = rectLandscape;
+	NSLog(@"mainView.rectLandscape=%f,%f", mainView.rectLandscape.size.width, mainView.rectLandscape.size.height);	
+	
+	mainView.rectCurrent = mainView.rectPortrait;
+	mainView.fTableWidth = mainView.rectCurrent.size.width;
+	mainView.fButtonStart = labelLevel.frame.origin.y+labelLevel.frame.size.height+5;
+	
+	CGRect frameTemp;
+	
+	frameNewPortrait = buttonNew.frame;
+	frameUndoPortrait = buttonUndo.frame;
+	frameMemoPortrait = buttonMemo.frame;
+	frameDelPortrait = buttonDel.frame;
+	frameResetPortrait = buttonReset.frame;
+	frameScorePortrait = buttonScore.frame;	
+	
+	frameTemp = frameNewPortrait;
+	frameTemp.origin.x = mainView.rectLandscape.size.height + 10; 
+	frameTemp.origin.y = 2;
+	frameNewLandscape = frameTemp;
+
+	frameTemp = frameScorePortrait;
+	frameTemp.origin.x = mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
+	frameTemp.origin.y = 2;
+	frameScoreLandscape = frameTemp;
+
+	frameTemp = frameResetPortrait;
+	frameTemp.origin.x = (frameNewLandscape.origin.x + frameScoreLandscape.origin.x)/2;
+	frameTemp.origin.y = 2;
+	frameResetLandscape = frameTemp;
+	
+	frameTemp = frameDelPortrait;
+	frameTemp.origin.x = frameNewLandscape.origin.x; 
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameDelLandscape = frameTemp;
+	
+	frameTemp = frameUndoPortrait;
+	frameTemp.origin.x = frameResetLandscape.origin.x;  
+	frameTemp.origin.y = frameDelLandscape.origin.y;
+	frameUndoLandscape = frameTemp;
+	
+	frameTemp = frameMemoPortrait;
+	frameTemp.origin.x = frameScoreLandscape.origin.x;
+	frameTemp.origin.y = frameDelLandscape.origin.y;
+	frameMemoLandscape = frameTemp;
+	
+	
+	frameTitleLevelPortrait = labelTitleLevel.frame;
+	frameLevelPortrait = labelLevel.frame;	
+	frameTitleGameTimePortrait = labelTitleGameTime.frame;	
+	frameGameTimePortrait = labelGameTime.frame;	
+	frameTitleBlankPortrait = labelTitleBlank.frame;	
+	frameBlankPortrait = labelBlank.frame;
+	
+	frameTemp = frameTitleLevelPortrait;
+	frameTemp.origin.x = frameNewLandscape.origin.x; 
+	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height;
+	frameTitleLevelLandscape = frameTemp;
+	
+	frameTemp = frameLevelPortrait;
+	frameTemp.origin.x = frameTitleLevelLandscape.origin.x; 
+	frameTemp.origin.y = frameTitleLevelLandscape.origin.y + frameTitleLevelLandscape.size.height;
+	frameLevelLandscape = frameTemp;
+
+	frameTemp = frameTitleGameTimePortrait;
+	frameTemp.origin.x = frameLevelLandscape.origin.x; 
+	frameTemp.origin.y = frameDelLandscape.origin.y - frameGameTimePortrait.size.height - frameTitleGameTimePortrait.size.height;
+	frameTitleGameTimeLandscape = frameTemp;
+	
+	frameTemp = frameGameTimePortrait;
+	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x; 
+	frameTemp.origin.y = frameTitleGameTimeLandscape.origin.y + frameTitleGameTimeLandscape.size.height;
+	frameGameTimeLandscape = frameTemp;
+	
+	frameTemp = frameTitleBlankPortrait;
+	frameTemp.origin.x = (frameNewLandscape.origin.x*0.1 + frameScoreLandscape.origin.x*0.9);
+	frameTemp.origin.y = frameTitleGameTimeLandscape.origin.y;
+	frameTitleBlankLandscape = frameTemp;
+	
+	frameTemp = frameBlankPortrait;
+	frameTemp.origin.x = frameTitleBlankLandscape.origin.x; 
+	frameTemp.origin.y = frameGameTimeLandscape.origin.y;
+	frameBlankLandscape = frameTemp;
+	
+	
+
+}
+
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+ 	NSLog(@"initWithNibName");	
+   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        mainView = (MainView*) self.view;
+ 	    frameMainViewOrg = mainView.frame;
+	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
+#ifdef IPHONE_FREEVERSION	   
+	    mainView.fPress =  (frameMainViewOrg.size.height - 48) / frameMainViewOrg.size.height;	   
+		[self setPressAd];
+#else
+		mainView.fPress = 1.f;
+#endif
+		[self setOrientation];
+		[mainView setFont];
+		if ([mainView loadGame] == YES) {
+			[self setGameLevel];
+			[self updateBlankCellCount];
+			[self updateButtonUndo];
+			[self updateButtonClear];
+			[self updateButtonDel];
+		} else { 
+			[self showMenu];
+		}
+		[self initScore];
+		[self loadScoreData];
+		[self startTimer];
+		[self showMemoButton];
+
+    }
+    return self;
+}
+
+
+
+ // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+ - (void)viewDidLoad {
+	 NSLog(@"viewDidLoad");	
+	 [super viewDidLoad];
+
+	 labelTitleLevel.text = NSLocalizedString(@"level", nil);
+	 labelTitleGameTime.text = NSLocalizedString(@"game time", nil);
+	 labelTitleBlank.text = NSLocalizedString(@"blank", nil);
+	 labelNewGame.text = NSLocalizedString(@"New Game", nil);
+	 
+	 [buttonNewGameVeryEasy setTitle:NSLocalizedString(@"very easy", nil) forState:UIControlStateNormal];
+	 [buttonNewGameEasy setTitle:NSLocalizedString(@"easy", nil) forState:UIControlStateNormal];
+	 [buttonNewGameNormal setTitle:NSLocalizedString(@"normal", nil) forState:UIControlStateNormal];
+	 [buttonNewGameHard setTitle:NSLocalizedString(@"hard", nil) forState:UIControlStateNormal];
+	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
+	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
+	 
+	 
+
+}
+
+
+/*
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
+
+
+- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller {
+    
+	[self dismissModalViewControllerAnimated:YES];
+}
+
+
+- (void) setInteger:(UILabel*)label num:(NSInteger)num
+{
+	NSString* str;
+	
+	str = [[NSString alloc] initWithFormat:@"%d", num];
+	label.text = str;
+	
+	[str release];
+}
+
+- (void) setTime:(UILabel*)label num:(NSInteger)num
+{
+	NSString *str;
+	
+	if (num >= 60*60*100)
+		num = 60*60*100 - 1;
+	
+	if (num >= 60*60)
+		str = [[NSString alloc] initWithFormat:@"%02d:%02d:%02d",
+			   num / (60*60),
+			   num / (60),
+			   num % (60)];
+	else if (num > 0) 
+		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
+			   num / (60),
+			   num % (60)];
+	else 
+		str = [[NSString alloc] initWithString:@"-"];
+
+	
+	label.text = str; 
+	
+	[str release];
+	
+}
+
+- (IBAction)showInfo {    
+	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:
+										  cDeviceType == DEVICETYPE_IPAD ? @"FlipsideView4iPad" : 
+										  @"FlipsideView" bundle:nil];
+	controller.delegate = self;
+	
+	controller.title = NSLocalizedString(@"Score", nil);
+	
+	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	[self presentModalViewController:controller animated:YES];
+
+//	[self.navigationController presentModalViewController:controller animated:YES];
+	
+	
+	controller.title = NSLocalizedString(@"Score", nil);
+
+	[self setInteger:controller.labelVeryHardGames num:scoreGames[0]];
+	[self setInteger:controller.labelVeryHardClears num:scoreClears[0]];
+	[self setTime:controller.labelVeryHardBestTime num:scoreBestTime[0]];
+	[self setTime:controller.labelVeryHardAverage num:scoreClears[0] ? scoreClearTimeSum[0]/scoreClears[0] : 0];	
+	[self setInteger:controller.labelHardGames num:scoreGames[1]];
+	[self setInteger:controller.labelHardClears num:scoreClears[1]];
+	[self setTime:controller.labelHardBestTime num:scoreBestTime[1]];
+	[self setTime:controller.labelHardAverage num:scoreClears[1] ? scoreClearTimeSum[1]/scoreClears[1] : 0];
+	[self setInteger:controller.labelNormalGames num:scoreGames[2]];
+	[self setInteger:controller.labelNormalClears num:scoreClears[2]];
+	[self setTime:controller.labelNormalBestTime num:scoreBestTime[2]];
+	[self setTime:controller.labelNormalAverage num:scoreClears[2] ? scoreClearTimeSum[2]/scoreClears[2] : 0];
+	[self setInteger:controller.labelEasyGames num:scoreGames[3]];
+	[self setInteger:controller.labelEasyClears num:scoreClears[3]];
+	[self setTime:controller.labelEasyBestTime num:scoreBestTime[3]];
+	[self setTime:controller.labelEasyAverage num:scoreClears[3] ? scoreClearTimeSum[3]/scoreClears[3] : 0];
+	[self setInteger:controller.labelVeryEasyGames num:scoreGames[4]];
+	[self setInteger:controller.labelVeryEasyClears num:scoreClears[4]];
+	[self setTime:controller.labelVeryEasyBestTime num:scoreBestTime[4]];
+	[self setTime:controller.labelVeryEasyAverage num:scoreClears[4] ? scoreClearTimeSum[4]/scoreClears[4] : 0];
+	
+	[self setInteger:controller.labelTotalGames num:scoreGames[0]+scoreGames[1]+scoreGames[2]+scoreGames[3]+scoreGames[4]];
+	[self setInteger:controller.labelTotalClears num:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
+	
+	[controller release];
+
+}
+
+- (void) updateButtonUndo
+{
+	if (mainView.sudokuGame.strUndo.length > 0 && mainView.sudokuGame.gameFinished == NO) {
+		buttonUndo.alpha = 1.0f;
+		buttonUndo.enabled = YES;
+	} else {
+		buttonUndo.alpha = 0.5f;
+		buttonUndo.enabled = NO;
+	}
+}
+
+- (IBAction)runUndo {    
+	[mainView runUndo];
+	
+	[self updateBlankCellCount];
+	[self updateButtonUndo];
+	[self updateButtonClear];
+	[self updateButtonDel];
+	
+}
+
+
+- (void)showMemoButton
+{
+	if (mainView.bMemoMode) {
+		buttonMemo.alpha = 1.f;	
+	} else {
+		buttonMemo.alpha = 0.5f;	
+	}
+	
+}
+
+- (IBAction) memoOnOff {
+	[mainView memoOnOff];
+	[self showMemoButton];
+}
+
+- (IBAction) delNumber
+{
+	[mainView delNumber];
+}
+
+- (IBAction) clearNumbers
+{
+	[mainView clearNumbers];
+}
+
+
+
+/*
+ // Override to allow orientations other than the default portrait orientation.
+ - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+ // Return YES for supported orientations
+ return (interfaceOrientation == UIInterfaceOrientationPortrait);
+ }
+ */
+
+- (void)didReceiveMemoryWarning {
+	// Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+	
+	// Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+	NSLog(@"viewDidUnload");	
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+	NSLog(@"dealloc");
+#ifdef IPHONE_FREEVERSION
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000	
+	bannerView.delegate = nil;
+	[bannerView release];
+#endif
+#endif
+    [super dealloc];
+}
+
+- (void) allButtonLock
+{
+	buttonNewGameVeryEasy.enabled = NO;
+	buttonNewGameEasy.enabled = NO;	
+	buttonNewGameNormal.enabled = NO;	
+	buttonNewGameHard.enabled = NO;	
+	buttonNewGameVeryHard.enabled = NO;	
+	buttonNewGameCancel.enabled = NO;	
+}
+
+- (void) allButtonUnLock
+{
+	buttonNewGameVeryEasy.enabled = YES;
+	buttonNewGameEasy.enabled = YES;	
+	buttonNewGameNormal.enabled = YES;	
+	buttonNewGameHard.enabled = YES;	
+	buttonNewGameVeryHard.enabled = YES;	
+	buttonNewGameCancel.enabled = YES;	
+}
+
+
+- (void) showMenuView
+{
+	[activityIndicator stopAnimating];	
+	viewMenu.hidden = NO;
+	viewMenu.alpha = 0.8f;
+	mainView.bMenuMode = YES;
+	
+	buttonNewGameCancel.hidden = (mainView.sudokuGame == nil);	
+}
+
+- (void) setGameLevel
+{
+	switch (mainView.sudokuGame.gameLevel) {
+		case GAMELEVEL_VERYEASY:
+			labelLevel.text = NSLocalizedString(@"very easy", nil);
+			break;
+		case GAMELEVEL_EASY:
+			labelLevel.text = NSLocalizedString(@"easy", nil);
+			break;
+		case GAMELEVEL_NORMAL:
+			labelLevel.text = NSLocalizedString(@"normal", nil);
+			break;
+		case GAMELEVEL_HARD:
+			labelLevel.text = NSLocalizedString(@"hard", nil);
+			break;
+		case GAMELEVEL_VERYHARD:
+			labelLevel.text = NSLocalizedString(@"very hard", nil);
+			break;
+		default:
+			break;
+	}
+}
+
+- (void) hideMenuView
+{
+	viewMenu.hidden = YES;
+	mainView.bMenuMode = NO;
+	
+	[self setGameLevel];
+	[self updateBlankCellCount];
+	[self startTimer];
+
+}
+- (void) updateGameTime:(NSInteger) time
+{
+	NSString *str;
+	
+	if (time >= 60*60*100)
+		time = 60*60*100 - 1;
+	
+	if (time >= 60*60)
+		str = [[NSString alloc] initWithFormat:@"%02d:%02d:%02d",
+			   time / (60*60),
+			   time / (60),
+			   time % (60)];
+	else 
+		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
+			   time / (60),
+			   time % (60)];
+	
+	labelGameTime.text = str; 
+	
+	[str release];
+	
+}
+
+
+- (IBAction)showMenu
+{
+//	[self allButtonUnLock];
+	[self showMenuView];
+	[self stopTimer];
+
+}
+
+
+
+
+- (void)OnTimerNewGame:(NSTimer *)timer
+{
+	NSLog(@"OnTimerNewGame");	
+	
+	//	[self allButtonLock];
+	[mainView.sudokuGame release];
+	[mainView newGame:levelNewGame];
+	
+	scoreGames[mainView.sudokuGame.gameLevel] += 1;
+	[self saveScoreData];
+	
+	[self updateGameTime:0];
+	[activityIndicator stopAnimating];
+	// all button unlock
+	
+	[self updateButtonUndo];
+	[self updateButtonClear];
+	[self updateButtonDel];
+	
+	[self hideMenuView];	
+	
+}
+
+- (void) makeNewGame:(NSInteger)level
+{
+	NSLog(@"makeNewGame");	
+//	[self startIndicator];
+	[activityIndicator startAnimating];
+	levelNewGame = level;
+
+	timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0 
+												target:self
+											  selector:@selector(OnTimerNewGame:)
+											  userInfo:nil
+											   repeats:NO];	
+	
+	
+}	
+
+- (IBAction)menuVeryEasy
+{
+	[self makeNewGame:GAMELEVEL_VERYEASY];
+
+}
+
+- (IBAction)menuEasy
+{
+	[self makeNewGame:GAMELEVEL_EASY];
+
+}
+
+- (IBAction)menuNormal
+{
+	[self makeNewGame:GAMELEVEL_NORMAL];
+
+}
+
+- (IBAction)menuHard
+{
+	[self makeNewGame:GAMELEVEL_HARD];
+
+}
+
+- (IBAction)menuVeryHard
+{
+	[self makeNewGame:GAMELEVEL_VERYHARD];
+
+}
+
+- (IBAction)menuCancel
+{
+	[self hideMenuView];
+}
+
+- (void) startTimer
+{
+	timerGame = [NSTimer scheduledTimerWithTimeInterval:1 
+												 target:self
+											   selector:@selector(OnTimer:)
+											   userInfo:nil
+												repeats:YES];
+}
+
+- (void) stopTimer
+{
+	[timerGame invalidate];	
+}
+
+
+
+- (void) OnTimer:(NSTimer *)timer
+{
+	NSInteger time = [mainView.sudokuGame add1sec];
+	
+	[self updateGameTime:time];	
+//	if (!mainView.sudokuGame.gameFinished)	// lock the screen
+//		[mainView.sudokuGame saveData];
+}
+
+- (void) updateBlankCellCount
+{
+	NSInteger count = [mainView.sudokuGame countBlankCells];
+	NSString *str;
+	str = [[NSString alloc] initWithFormat:@"%d", count];
+	
+	labelBlank.text =str;
+	[str release];
+}
+
+- (void) updateButtonClear
+{
+	NSInteger count = [mainView.sudokuGame countFixCells];
+
+	if (count > 0)	{
+		buttonReset.alpha = 1.0f;
+		buttonReset.enabled = YES;
+	} else {
+		buttonReset.alpha = 0.5f;
+		buttonReset.enabled = NO;		
+	}
+}
+
+- (void) updateButtonDel
+{
+	if ([mainView selectedCellisFixed])	{
+		buttonDel.alpha = 1.0f;
+		buttonDel.enabled = YES;
+	} else {
+		buttonDel.alpha = 0.5f;
+		buttonDel.enabled = NO;		
+	}
+}
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 
+{ 
+	NSLog(@"duration = %f", duration);
+
+	if (toInterfaceOrientation == UIInterfaceOrientationPortrait ||
+		toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+		buttonNew.frame = frameNewPortrait;
+		buttonReset.frame = frameResetPortrait;
+		buttonScore.frame = frameScorePortrait;
+		buttonDel.frame = frameDelPortrait;
+		buttonUndo.frame = frameUndoPortrait;
+		buttonMemo.frame = frameMemoPortrait;
+		
+		labelTitleLevel.frame = frameTitleLevelPortrait;
+		labelLevel.frame = frameLevelPortrait;	
+		labelTitleGameTime.frame = frameTitleGameTimePortrait;	
+		labelGameTime.frame = frameGameTimePortrait;	
+		labelTitleBlank.frame = frameTitleBlankPortrait;	
+		labelBlank.frame = frameBlankPortrait;
+	} else {
+		buttonNew.frame = frameNewLandscape;
+		buttonReset.frame = frameResetLandscape;
+		buttonScore.frame = frameScoreLandscape;
+		buttonDel.frame = frameDelLandscape;
+		buttonUndo.frame = frameUndoLandscape;
+		buttonMemo.frame = frameMemoLandscape;
+
+		labelTitleLevel.frame = frameTitleLevelLandscape;
+		labelLevel.frame = frameLevelLandscape;	
+		labelTitleGameTime.frame = frameTitleGameTimeLandscape;	
+		labelGameTime.frame = frameGameTimeLandscape;	
+		labelTitleBlank.frame = frameTitleBlankLandscape;	
+		labelBlank.frame = frameBlankLandscape;
+	}
+} 
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+	NSLog(@"shouldAutorotateToInterfaceOrientation");	
+
+#ifdef IPHONE_FREEVERSION	
+	mainView.lastOrientation = UIInterfaceOrientationPortrait;	
+
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);	
+#else	
+	mainView.lastOrientation = interfaceOrientation;	
+	
+	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
+		interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+		mainView.rectCurrent = mainView.rectPortrait;
+		mainView.fTableWidth = mainView.rectCurrent.size.width;
+	} else { 
+		mainView.rectCurrent = mainView.rectLandscape;
+		mainView.fTableWidth = mainView.rectCurrent.size.height;
+	}
+
+	
+	return YES;
+#endif
+}
+
+
+#ifdef IPHONE_FREEVERSION
+
+
+#pragma mark -
+#pragma mark Banner frame change methods
+
+- (void)moveBannerViewOffscreen
+{
+	CGRect newBannerFrame;	
+	CGRect newMainFrame = frameMainViewOrg;
+	newMainFrame.origin.y = self.view.frame.origin.y;
+	frameMainViewOrg = newMainFrame;
+	
+	// Hide iAd
+	newBannerFrame= self.bannerView.frame;
+	newBannerFrame.origin.y = -60;
+	self.bannerView.frame = newBannerFrame;
+	
+	// Show adMob
+	newBannerFrame = adViewController.view.frame;
+	if (newBannerFrame.origin.y > -100) {
+		newBannerFrame.origin.y = frameMainViewOrg.size.height-newBannerFrame.size.height;
+		adViewController.view.frame = newBannerFrame;
+
+		// MainView resize
+/*		newMainFrame.size.height = frameMainViewOrg.size.height - newBannerFrame.size.height;
+		self.mainView.frame = newMainFrame;
+		
+		self.mainView.fPress = newMainFrame.size.height / frameMainViewOrg.size.height;
+*/		
+	} else {	
+		// Fail to show adMob
+/*		newMainFrame.size.height = frameMainViewOrg.size.height;
+		self.mainView.frame = newMainFrame;
+		self.mainView.fPress = 1.f;
+*/	}
+}
+
+
+- (void)moveBannerViewOnscreen
+{
+	CGRect newBannerFrame;		
+	CGRect newMainFrame = frameMainViewOrg;
+	newMainFrame.origin.y = self.view.frame.origin.y;
+	frameMainViewOrg = newMainFrame;
+	
+	// Show iAd
+	newBannerFrame= self.bannerView.frame;
+	newBannerFrame.origin.y = frameMainViewOrg.size.height - newBannerFrame.size.height;
+	self.bannerView.frame = newBannerFrame;	
+	
+	// MainView resize
+/*	newMainFrame.size.height = frameMainViewOrg.size.height - self.bannerView.frame.size.height;
+	self.mainView.frame = newMainFrame;
+	self.mainView.fPress = newMainFrame.size.height / frameMainViewOrg.size.height;
+*/	
+	// Hide iAdMob
+	newBannerFrame = adViewController.view.frame;
+	if (newBannerFrame.origin.y > -100) {
+		newBannerFrame.origin.y = -60;
+		adViewController.view.frame = newBannerFrame;
+	}	
+}
+
+
+
+
+#pragma mark -
+#pragma mark ADBannerViewDelegate methods
+
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+{
+	[self moveBannerViewOffscreen];
+}
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+{
+	[self moveBannerViewOnscreen];
+}
+
+
+#endif
+
+
+@end
