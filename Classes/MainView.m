@@ -24,6 +24,7 @@
 @synthesize candidateTwoColor;
 @synthesize cellFailColor;
 @synthesize numButtonColor;
+@synthesize memoButtonColor;
 @synthesize bgButtonColor;
 @synthesize pressedButtonColor;
 
@@ -46,8 +47,11 @@
 @synthesize cellFourFont;
 @synthesize cellNineFont;
 @synthesize buttonSmallFont;
-@synthesize buttonBitFont;
+@synthesize buttonBigFont;
 @synthesize buttonTextFont;
+@synthesize buttonMemoSmallFont;
+@synthesize buttonMemoBigFont;
+@synthesize buttonMemoTextFont;
 
 
 @synthesize rectLandscape;
@@ -79,6 +83,7 @@
 	self.bgButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
 	self.pressedButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
 	self.numButtonColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
+	self.memoButtonColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
 	
 	self.selectedXPos = 0;
 	self.selectedYPos = 0;
@@ -106,15 +111,18 @@
 - (void) setFont
 {
 	NSLog(@"setFont");
-	self.cellOneSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
-	self.cellOneBigFont		= [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];			
-	self.cellFailFont		= [UIFont fontWithName:@"Trebuchet MS" size:cCellFailFontSize];		
-	self.cellTwoFont		= [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];		
-	self.cellFourFont		= [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];				
-	self.cellNineFont		= [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];		
-	self.buttonSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];	
-	self.buttonBitFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];		
-	self.buttonTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];		
+	self.cellOneSmallFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
+	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];			
+	self.cellFailFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFailFontSize];		
+	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];		
+	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];				
+	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];		
+	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];	
+	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];		
+	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];		
+	self.buttonMemoSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoSmallFontSize];	
+	self.buttonMemoBigFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoBigFontSize];		
+	self.buttonMemoTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoTextFontSize];		
 	
 }
 
@@ -568,14 +576,16 @@
 			if (bPuzzleNum && i < 10)	{
 				CGContextSetFillColorWithColor(context, bgButtonColor.CGColor);
 			} else {
-				CGContextSetFillColorWithColor(context, numButtonColor.CGColor);
+				CGContextSetFillColorWithColor(context, bMemoMode ? memoButtonColor.CGColor : numButtonColor.CGColor);
 			}
-			x = x + cWidthButton/2 - cButtonSmallFontSize/2+cButtonSmallFontSize/5;
-			y = y + cHeightButton/2 - cButtonSmallFontSize/2-cButtonSmallFontSize/10;
+            
+            NSInteger iFontSize = bMemoMode? cButtonMemoSmallFontSize : cButtonSmallFontSize;
+            
+			x = x + cWidthButton/2 - iFontSize/2+iFontSize/5;
+			y = y + cHeightButton/2 - iFontSize/2-iFontSize/10;
 			
 			str = [[NSString alloc] initWithFormat:@"%d", i];
-
-			[str drawAtPoint:CGPointMake(x, y) withFont:buttonSmallFont];
+            [str drawAtPoint:CGPointMake(x, y) withFont:bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
 			[str release];
 		}
 	}
@@ -599,11 +609,13 @@
 		
 		CGContextSetFillColorWithColor(context, numButtonColor.CGColor);
 		{
-			x = x + cWidthButton/2 - cButtonBigFontSize/2+cButtonBigFontSize/5-1;
-			y = y + cHeightButton/2 - cButtonBigFontSize/2-cButtonBigFontSize/10-1;
+            NSInteger iFontSize = bMemoMode? cButtonMemoBigFontSize : cButtonBigFontSize;
+
+			x = x + cWidthButton/2 - iFontSize/2+iFontSize/5-1;
+			y = y + cHeightButton/2 - iFontSize/2-iFontSize/10-1;
 			
 			str = [[NSString alloc] initWithFormat:@"%d", i];
-			[str drawAtPoint:CGPointMake(x, y) withFont:buttonBitFont];	
+			[str drawAtPoint:CGPointMake(x, y) withFont:bMemoMode ? buttonMemoBigFont : buttonBigFont];	
 		}
 		
 		[str release];
@@ -721,7 +733,11 @@
 	CGFloat fX = firstTouch.x;
 	CGFloat fY = firstTouch.y;
 	
-	NSLog(@"touchesDo(%f,%f)", fX, fY);
+	NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
+    if (bEnd && [touch tapCount] == 2) { 
+        [ctrl memoOnOff];   
+    }
+        
 		
 	NSInteger xPos = [self TouchToPosX:fX];
 	NSInteger yPos = [self TouchToPosY:fY];

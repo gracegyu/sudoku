@@ -21,6 +21,9 @@
 #define cButtonSmallFontSize	25*cResizeRatioW//20
 #define cButtonBigFontSize		35*cResizeRatioW
 #define cButtonTextFontSize		20*cResizeRatioW
+#define cButtonMemoSmallFontSize	22*cResizeRatioW
+#define cButtonMemoBigFontSize		33*cResizeRatioW
+#define cButtonMemoTextFontSize		18*cResizeRatioW
 
 
 enum GAMELEVEL {

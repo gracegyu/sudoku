@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -393,8 +393,11 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudoku" */;
-			compatibilityVersion = "Xcode 3.1";
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
@@ -526,6 +529,7 @@
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 				);
 				PRODUCT_NAME = sudoku9;
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
@@ -533,6 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -543,6 +548,9 @@
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 				);
 				PRODUCT_NAME = sudoku9;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -550,13 +558,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				PRODUCT_NAME = sudoku9;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				PROVISIONING_PROFILE = "32FC678A-9177-476F-82A8-BD56C389D0A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -566,12 +575,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				PRODUCT_NAME = sudoku9;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -585,9 +594,8 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				PREBINDING = NO;
 				PRODUCT_NAME = sudoku9;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "3DDDB8CD-DB1A-4544-BCA0-25DDB3A1D580";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5F8AD1B-9000-4C2D-B940-724FA5DFE0FA";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -597,6 +605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Raymond Jeon";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -606,6 +615,9 @@
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 				);
 				PRODUCT_NAME = sudoku9;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5F8AD1B-9000-4C2D-B940-724FA5DFE0FA";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = NO;
 			};
 			name = Distribute;
 		};
@@ -620,7 +632,7 @@
 				CFDA663E11576AB500A77B90 /* Distribute */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Distribute;
 		};
 		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudoku" */ = {
 			isa = XCConfigurationList;
@@ -630,7 +642,7 @@
 				CFDA663D11576AB500A77B90 /* Distribute */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Distribute;
 		};
 /* End XCConfigurationList section */
 	};

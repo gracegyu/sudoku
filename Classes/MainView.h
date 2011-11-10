@@ -24,6 +24,7 @@
 	UIColor *candidateTwoColor;
 	UIColor *cellFailColor;
 	UIColor *numButtonColor;
+	UIColor *memoButtonColor;
 	UIColor *bgButtonColor;
 	UIColor *pressedButtonColor;
 	
@@ -44,8 +45,11 @@
 	UIFont *cellFourFont;
 	UIFont *cellNineFont;
 	UIFont *buttonSmallFont;
-	UIFont *buttonBitFont;
+	UIFont *buttonBigFont;
 	UIFont *buttonTextFont;
+	UIFont *buttonMemoSmallFont;
+	UIFont *buttonMemoBigFont;
+	UIFont *buttonMemoTextFont;
 	
     SystemSoundID   soundClickID;	
     SystemSoundID   soundClearID;	
@@ -81,6 +85,7 @@
 @property (nonatomic, retain) UIColor *cellFailColor;
 @property (nonatomic, retain) SudokuGame* sudokuGame;
 @property (nonatomic, retain) UIColor *numButtonColor;
+@property (nonatomic, retain) UIColor *memoButtonColor;
 @property (nonatomic, retain) UIColor *bgButtonColor;
 @property (nonatomic, retain) UIColor *pressedButtonColor;
 @property NSInteger selectedXPos;
@@ -99,8 +104,11 @@
 @property (nonatomic, retain) UIFont *cellFourFont;
 @property (nonatomic, retain) UIFont *cellNineFont;
 @property (nonatomic, retain) UIFont *buttonSmallFont;
-@property (nonatomic, retain) UIFont *buttonBitFont;
+@property (nonatomic, retain) UIFont *buttonBigFont;
 @property (nonatomic, retain) UIFont *buttonTextFont;
+@property (nonatomic, retain) UIFont *buttonMemoSmallFont;
+@property (nonatomic, retain) UIFont *buttonMemoBigFont;
+@property (nonatomic, retain) UIFont *buttonMemoTextFont;
 
 @property CGRect	rectLandscape;
 @property CGRect	rectPortrait;
