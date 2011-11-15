@@ -15,7 +15,7 @@
  */
 
 #import <UIKit/UIKit.h>
-#import "AdMobDelegateProtocol.h";
+#import "AdMobDelegateProtocol.h"
 @class AdMobView;
 
 @interface AdViewController : UIViewController<AdMobDelegate> {
