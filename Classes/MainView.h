@@ -15,6 +15,7 @@
     UIColor	*tableBgColor;
     UIColor	*selectedTableBgColor;
 	UIColor *selectedTableBorderColor;
+    UIColor	*HintBgColor;
 	UIColor *choosingOkColor;
 	UIColor *choosingNoColor;
 	UIColor *tableLineColor;
@@ -23,6 +24,7 @@
 	UIColor *candidateColor;
 	UIColor *candidateTwoColor;
 	UIColor *cellFailColor;
+	UIColor *cellWarnColor;
 	UIColor *numButtonColor;
 	UIColor *memoButtonColor;
 	UIColor *bgButtonColor;
@@ -59,6 +61,8 @@
 	BOOL bSetThisTime;
 	BOOL bMemoMode;
 	BOOL bMenuMode;
+	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
+	BOOL bSoundOn;						// 소리를 켤까요?
 	
 	CGRect	rectLandscape;
 	CGRect	rectPortrait;
@@ -74,6 +78,7 @@
 @property (nonatomic, retain) UIColor *tableBgColor;
 @property (nonatomic, retain) UIColor *selectedTableBgColor;
 @property (nonatomic, retain) UIColor *selectedTableBorderColor;
+@property (nonatomic, retain) UIColor *HintBgColor;
 @property (nonatomic, retain) UIColor *choosingOkColor;
 @property (nonatomic, retain) UIColor *choosingNoColor;
 
@@ -83,6 +88,8 @@
 @property (nonatomic, retain) UIColor *candidateColor;
 @property (nonatomic, retain) UIColor *candidateTwoColor;
 @property (nonatomic, retain) UIColor *cellFailColor;
+@property (nonatomic, retain) UIColor *cellWarnColor;
+
 @property (nonatomic, retain) SudokuGame* sudokuGame;
 @property (nonatomic, retain) UIColor *numButtonColor;
 @property (nonatomic, retain) UIColor *memoButtonColor;
@@ -96,6 +103,9 @@
 @property BOOL bPressedInCell;
 @property BOOL bMemoMode;
 @property BOOL bMenuMode;
+@property BOOL bDupWarn;	
+@property BOOL bSoundOn;
+
 
 @property (nonatomic, retain) UIFont *cellOneSmallFont;
 @property (nonatomic, retain) UIFont *cellOneBigFont;

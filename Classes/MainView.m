@@ -15,6 +15,7 @@
 @synthesize tableBgColor;
 @synthesize selectedTableBgColor;
 @synthesize selectedTableBorderColor;
+@synthesize HintBgColor;
 @synthesize choosingOkColor;
 @synthesize choosingNoColor;
 @synthesize tableLineColor;
@@ -23,6 +24,8 @@
 @synthesize candidateColor;
 @synthesize candidateTwoColor;
 @synthesize cellFailColor;
+@synthesize cellWarnColor;
+
 @synthesize numButtonColor;
 @synthesize memoButtonColor;
 @synthesize bgButtonColor;
@@ -38,6 +41,8 @@
 @synthesize bPressedInCell;
 @synthesize bMemoMode;
 @synthesize bMenuMode;
+@synthesize bDupWarn;
+@synthesize bSoundOn;
 
 
 @synthesize cellOneSmallFont;
@@ -70,6 +75,7 @@
 	self.tableBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
 	self.selectedTableBgColor = [UIColor whiteColor];
 	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.8f];
+	self.HintBgColor = [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.2f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
 	self.choosingNoColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
 	self.tableLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
@@ -79,6 +85,7 @@
 	self.candidateColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
 	self.candidateTwoColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
 	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:0.8f];
+	self.cellWarnColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:0.9f];
 	
 	self.bgButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
 	self.pressedButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
@@ -91,8 +98,11 @@
 	self.bTouch = NO;
 	self.bPressedInButton = NO;
 	self.bPressedInCell = NO;
+	self.bDupWarn = YES;
+	self.bSoundOn = NO;
 	
 	self.fPress = 1.f;
+	
 	
 	
 	
@@ -147,12 +157,11 @@
     return self;
 }
 
-
-- (void)drawRectTable:(CGContextRef) context 
+- (void)drawRectTableBackground:(CGContextRef) context 
 {
 	NSLog(@"drawRectTable(%f)", self.fPress);
-
-
+	
+	
 	CGRect currentRect;
     
     CGContextSetLineWidth(context, cLineDrawWidth);
@@ -162,7 +171,16 @@
 	
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
+}
 
+
+- (void)drawRectTableLine:(CGContextRef) context 
+{
+	NSLog(@"drawRectTable(%f)", self.fPress);
+
+
+	CGRect currentRect;
+    
 	int x,y,i;
 	
     CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
@@ -246,11 +264,17 @@
 }
 
 // 검정
-- (void)drawRectCellOnePuzzle:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY
+- (void)drawRectCellOnePuzzle:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY dupwarn:(BOOL)bDupWarnArea
 {
 	NSString *str;
 
-    CGContextSetFillColorWithColor(context, fixedByUserColor.CGColor);
+	if (bDupWarnArea)
+	{
+		CGContextSetFillColorWithColor(context, cellWarnColor.CGColor);
+	} else {
+		CGContextSetFillColorWithColor(context, fixedByUserColor.CGColor);
+	}
+
 
 	
 	str = [[NSString alloc] initWithFormat:@"%d", num];
@@ -261,9 +285,15 @@
 
 
 // 나머지는 파스텔톤
-- (void)drawRectCellOneUserFixed:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY
+- (void)drawRectCellOneUserFixed:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY dupwarn:(BOOL)bDupWarnArea
 {
-    CGContextSetFillColorWithColor(context, fixedByAutoColor.CGColor);
+	if (bDupWarnArea)
+	{
+		CGContextSetFillColorWithColor(context, cellWarnColor.CGColor);
+	} else {
+		CGContextSetFillColorWithColor(context, fixedByAutoColor.CGColor);
+	}
+
 	
 	NSString *str = [[NSString alloc] initWithFormat:@"%d", num];
 	[str drawAtPoint:CGPointMake(10*cResizeRatioW+zeroX, zeroY-1*cResizeRatioH) 
@@ -376,6 +406,18 @@
 
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+	BOOL bDupWarnArea = NO;
+	if (sudokuGame.gameLevel >= GAMELEVEL_EASY)
+	{	
+		if (bPressedInButton && pushedButton >= 1 && pushedButton <=9)	// 현재 버튼을 누르는 중, 중복 번호 경고 on
+		{
+			if (selectedXPos == xPos || selectedYPos == yPos || (selectedXPos/3 == xPos/3 && selectedYPos/3 == yPos/3)) // 중복 검사 영역
+			{
+				bDupWarnArea = YES;
+			}		
+		}
+	}
+	
 	CGFloat zeroX = xPos*cCellWidth + (xPos-1)*cLineWidth + (xPos/3)*(cBoldLine-cLineWidth); 
 	CGFloat zeroY = yPos*cCellHeight + (yPos-1)*cLineWidth + (yPos/3)*(cBoldLine-cLineWidth);
 
@@ -384,12 +426,16 @@
 	char *pMemo = [sudokuGame getMemoNums:xPos y:yPos];
 	
 	if (puzzleNum > 0)	{
-		[self drawRectCellOnePuzzle:context num:puzzleNum zeroX:zeroX zeroY:zeroY];
+		// 원래 문제에 있던 번호 
+		[self drawRectCellOnePuzzle:context num:puzzleNum zeroX:zeroX zeroY:zeroY dupwarn:bDupWarnArea&&(puzzleNum==pushedButton)];
 	} else if (bMemoMode == NO && bPressedInButton && selectedXPos == xPos && selectedYPos == yPos && pushedButton >= 0 && pushedButton <= 9) {
+		// 선택중인 번호 - 큰 글씨로 나온다.
 		[self drawRectCellOneChoosing:context zeroX:zeroX zeroY:zeroY];
 	} else if (fixNum > 0)	{
-		[self drawRectCellOneUserFixed:context num:fixNum zeroX:zeroX zeroY:zeroY];
+		// 사용자가 입력해 넣은 번호
+		[self drawRectCellOneUserFixed:context num:fixNum zeroX:zeroX zeroY:zeroY dupwarn:bDupWarnArea&&(fixNum==pushedButton)];
 	} else if (pMemo) {
+		// 메모 중인 번호 
 		[self drawRectCellOneMemo:context memo:pMemo zeroX:zeroX zeroY:zeroY];	
 	}
 		
@@ -438,6 +484,34 @@
 	
 	bSetThisTime = NO;
 }
+
+- (void)drawHintBackground:(CGContextRef)context
+{
+	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 && selectedYPos >= 9)	// no selectec cell
+		return;
+		
+	for (int x=0; x<9; x++) {
+	for (int y=0; y<9; y++) {
+	if (selectedXPos == x ||
+		selectedYPos == y ||
+		(selectedXPos/3 == x/3 && selectedYPos/3 == y/3)) {
+		CGRect currentRect;
+		NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
+		NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
+		
+		CGContextSetLineWidth(context, cLineDrawWidth);
+		CGContextSetStrokeColorWithColor(context, HintBgColor.CGColor);
+		CGContextSetFillColorWithColor(context, HintBgColor.CGColor);
+		currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
+		
+		CGContextAddRect(context, currentRect);
+		CGContextDrawPath(context, kCGPathFillStroke);
+		}
+		
+	} //y
+	} //x
+}
+
 
 - (void)drawHighlightCell:(CGContextRef)context
 {
@@ -625,6 +699,7 @@
 	
 }
 
+// Draw screen again
 
 - (void)drawRect:(CGRect)rect 
 {
@@ -635,8 +710,10 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
 	NSLog(@"drawRect ---------- refresh");
-	
-	[self drawRectTable:context];
+
+	[self drawRectTableBackground:context];
+	[self drawHintBackground:context];
+	[self drawRectTableLine:context];
 	[self drawHighlightCell:context];
 	[self drawRectNums:context];
 	[self drawNumButton:context];
