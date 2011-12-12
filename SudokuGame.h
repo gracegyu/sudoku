@@ -24,6 +24,7 @@
 
 	NSInteger		countBlank;
 	NSInteger		countFixNums;
+	NSInteger		countHint;			// Hint 가능 수
 }
 
 @property NSInteger		gameLevel;			
@@ -34,6 +35,7 @@
 @property (nonatomic, retain) NSString*		strUndo;
 @property NSInteger		countBlank;
 @property NSInteger		countFixNums;
+@property NSInteger		countHint;
 
 // Create Game : Level
 // 
@@ -41,6 +43,7 @@
 - (id)initWithSudokuNum:(SudokuNum*)sudoku;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
+- (void) setHintNum:(NSInteger)x y:(NSInteger)y;
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y;
 - (char*) getMemoNums:(NSInteger)x y:(NSInteger)y;

@@ -58,6 +58,7 @@
 	UIButton	*buttonDel;
 	UIButton	*buttonReset;
 	UIButton	*buttonScore;
+	UIButton	*buttonHint;
 	
 	CGRect		frameNewPortrait;
 	CGRect		frameNewLandscape;
@@ -71,6 +72,8 @@
 	CGRect		frameResetLandscape;
 	CGRect		frameScorePortrait;
 	CGRect		frameScoreLandscape;
+	CGRect		frameHintPortrait;
+	CGRect		frameHintLandscape;
 	
 	UIView		*viewMenu;
 
@@ -84,6 +87,7 @@
 	NSInteger	scoreBestTime[5];
 	NSInteger	scoreClearTimeSum[5];
 	NSInteger	levelNewGame;
+	NSInteger	countHint;
 	
 #ifdef IPHONE_FREEVERSION
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
@@ -119,6 +123,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonScore;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonReset;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonHint;
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
@@ -136,6 +141,9 @@
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
+- (IBAction)doHint;
+
+
 
 - (IBAction)showMenu;
 - (IBAction)menuVeryEasy;
@@ -157,8 +165,11 @@
 - (void) updateButtonUndo;
 - (void) updateButtonClear;
 - (void) updateButtonDel;
+- (void) updateButtonHint;
 - (void) writeScore:(SudokuGame*)sudokuGame;
 - (void) showMemoButton;
+- (void) showHintButton;
+
 
 
 

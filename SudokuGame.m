@@ -19,6 +19,7 @@
 @synthesize gameFinished;
 @synthesize countBlank;
 @synthesize countFixNums;
+@synthesize countHint;
 
 
 - (id)initWithSudokuNum:(SudokuNum*)sudoku
@@ -33,6 +34,7 @@
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
+	countHint = 1;
 	NSMutableArray *array = sudokuNum.nums;	
 	
 	NSString *str;	
@@ -78,6 +80,12 @@
 	[SudokuGame set9x9Strs:[listItems objectAtIndex:8]	strs:&memoNums[0][0][0]];
 	
 	strUndo = [[NSString alloc] initWithString:[listItems objectAtIndex:9]];
+	if ([listItems count] > 10) {
+		countHint = [[listItems objectAtIndex:10] integerValue];
+	} else {
+		countHint = 1;
+	}
+
 //	[self countBlankCells];
 
 	return self;
@@ -184,6 +192,16 @@
 {
 	return fixNums[x][y];	
 }
+
+- (void) setHintNum:(NSInteger)x y:(NSInteger)y
+{
+	if (puzzleNums[x][y] == 0)
+	{
+		puzzleNums[x][y] = answerNums[x][y];
+		answerNums[x][y] = 0;		
+	}	
+}
+
 
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
@@ -338,7 +356,7 @@
 	[SudokuGame get9x9Strs:zStrMemoNum		strs:&memoNums[0][0][0]];
 	
 	NSString *str = [[NSString alloc] initWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -348,7 +366,8 @@
 					 (char*)zStrAnswerNum,
 					 (char*)zStrFixNum,
 					 (char*)zStrMemoNum,
-					 strUndo];
+					 strUndo,
+					 countHint];
 					 
 	NSLog(@"saveData(%@)", str);
 	

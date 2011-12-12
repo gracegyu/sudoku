@@ -132,10 +132,13 @@
 - (BOOL) memoOnOff;
 - (void) delNumber;
 - (void) clearNumbers;
+- (void) doHint;
+
 
 - (void) newGame:(NSInteger)level;
 - (BOOL) loadGame;
 - (void) checkClearGame;
 - (BOOL) selectedCellisFixed;
+- (BOOL) selectedCellisableHint;
 - (void) setFont;
 @end

@@ -31,6 +31,8 @@
 @synthesize buttonScore;
 @synthesize buttonDel;
 @synthesize buttonReset;
+@synthesize buttonHint;
+
 @synthesize viewMenu;
 @synthesize labelLevel;
 @synthesize labelGameTime;
@@ -123,6 +125,7 @@
 	buttonDel.frame		= [self setPressFrame:buttonDel.frame];
 	buttonReset.frame	= [self setPressFrame:buttonReset.frame];
 	buttonScore.frame	= [self setPressFrame:buttonScore.frame];		
+	buttonHint.frame	= [self setPressFrame:buttonHint.frame];
 	
 	labelTitleLevel.frame	= [self setPressFrame:labelTitleLevel.frame];
 	labelLevel.frame		= [self setPressFrame:labelLevel.frame];	
@@ -160,36 +163,54 @@
 	frameDelPortrait = buttonDel.frame;
 	frameResetPortrait = buttonReset.frame;
 	frameScorePortrait = buttonScore.frame;	
+	frameHintPortrait = buttonHint.frame;
+	
+	
+	CGFloat widthLandTable = mainView.rectLandscape.size.height;
+	CGFloat startButtonX = widthLandTable + 10;
+	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - 10;
+	
 	
 	frameTemp = frameNewPortrait;
-	frameTemp.origin.x = mainView.rectLandscape.size.height + 10; 
+	frameTemp.origin.x = startButtonX;//mainView.rectLandscape.size.height + 10; 
 	frameTemp.origin.y = 2;
 	frameNewLandscape = frameTemp;
-
+	
+	frameTemp = frameDelPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons*1/3;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
+	frameTemp.origin.y = 2;
+	frameDelLandscape = frameTemp;
+	
+	frameTemp = frameResetPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
+	frameTemp.origin.y = 2;
+	frameResetLandscape = frameTemp;	
+	
 	frameTemp = frameScorePortrait;
-	frameTemp.origin.x = mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
+	frameTemp.origin.x = startButtonX + widthButtons;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
 	frameTemp.origin.y = 2;
 	frameScoreLandscape = frameTemp;
 
-	frameTemp = frameResetPortrait;
-	frameTemp.origin.x = (frameNewLandscape.origin.x + frameScoreLandscape.origin.x)/2;
-	frameTemp.origin.y = 2;
-	frameResetLandscape = frameTemp;
 	
-	frameTemp = frameDelPortrait;
-	frameTemp.origin.x = frameNewLandscape.origin.x; 
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
-	frameDelLandscape = frameTemp;
-	
-	frameTemp = frameUndoPortrait;
-	frameTemp.origin.x = frameResetLandscape.origin.x;  
-	frameTemp.origin.y = frameDelLandscape.origin.y;
-	frameUndoLandscape = frameTemp;
+	frameTemp = frameHintPortrait;
+	frameTemp.origin.x = startButtonX;//frameNewLandscape.origin.x;
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;;
+	frameHintLandscape = frameTemp;	
 	
 	frameTemp = frameMemoPortrait;
-	frameTemp.origin.x = frameScoreLandscape.origin.x;
-	frameTemp.origin.y = frameDelLandscape.origin.y;
+	frameTemp.origin.x = startButtonX + widthButtons/2;//(frameHintLandscape.origin.x + frameUndoLandscape.origin.x)/2;  
+	frameTemp.origin.y = frameHintLandscape.origin.y;
 	frameMemoLandscape = frameTemp;
+	
+	frameTemp = frameUndoPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons;//frameScoreLandscape.origin.x;
+	frameTemp.origin.y = frameHintLandscape.origin.y;
+	frameUndoLandscape = frameTemp;
+	
+	
+	
+
+	
 	
 	
 	frameTitleLevelPortrait = labelTitleLevel.frame;
@@ -201,7 +222,7 @@
 	
 	frameTemp = frameTitleLevelPortrait;
 	frameTemp.origin.x = frameNewLandscape.origin.x; 
-	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height;
+	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.1;
 	frameTitleLevelLandscape = frameTemp;
 	
 	frameTemp = frameLevelPortrait;
@@ -211,7 +232,7 @@
 
 	frameTemp = frameTitleGameTimePortrait;
 	frameTemp.origin.x = frameLevelLandscape.origin.x; 
-	frameTemp.origin.y = frameDelLandscape.origin.y - frameGameTimePortrait.size.height - frameTitleGameTimePortrait.size.height;
+	frameTemp.origin.y = frameHintLandscape.origin.y - frameGameTimePortrait.size.height - frameTitleGameTimePortrait.size.height*1.1;
 	frameTitleGameTimeLandscape = frameTemp;
 	
 	frameTemp = frameGameTimePortrait;
@@ -254,6 +275,7 @@
 			[self updateButtonUndo];
 			[self updateButtonClear];
 			[self updateButtonDel];
+			[self updateButtonHint];
 		} else { 
 			[self showMenu];
 		}
@@ -261,6 +283,7 @@
 		[self loadScoreData];
 		[self startTimer];
 		[self showMemoButton];
+	    [self showHintButton];
 
     }
     return self;
@@ -403,6 +426,7 @@
 	[self updateButtonUndo];
 	[self updateButtonClear];
 	[self updateButtonDel];
+	[self updateButtonHint];
 	
 }
 
@@ -432,6 +456,16 @@
 	[mainView clearNumbers];
 }
 
+- (void)showHintButton
+{
+	[self updateButtonHint];
+}
+
+
+- (IBAction) doHint
+{
+	[mainView doHint];
+}
 
 
 /*
@@ -584,6 +618,7 @@
 	[self updateButtonUndo];
 	[self updateButtonClear];
 	[self updateButtonDel];
+	[self updateButtonHint];
 	
 	[self hideMenuView];	
 	
@@ -699,6 +734,18 @@
 	}
 }
 
+- (void) updateButtonHint	// TODO Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
+{
+	if ([mainView selectedCellisableHint])	{	// AND Hint item > 0
+		buttonHint.alpha = 1.0f;
+		buttonHint.enabled = YES;
+	} else {
+		buttonHint.alpha = 0.5f;
+		buttonHint.enabled = NO;		
+	}
+}
+
+
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 
 { 
@@ -712,6 +759,7 @@
 		buttonDel.frame = frameDelPortrait;
 		buttonUndo.frame = frameUndoPortrait;
 		buttonMemo.frame = frameMemoPortrait;
+		buttonHint.frame = frameHintPortrait;
 		
 		labelTitleLevel.frame = frameTitleLevelPortrait;
 		labelLevel.frame = frameLevelPortrait;	
@@ -726,6 +774,7 @@
 		buttonDel.frame = frameDelLandscape;
 		buttonUndo.frame = frameUndoLandscape;
 		buttonMemo.frame = frameMemoLandscape;
+		buttonHint.frame = frameHintLandscape;
 
 		labelTitleLevel.frame = frameTitleLevelLandscape;
 		labelLevel.frame = frameLevelLandscape;	

@@ -884,6 +884,7 @@
 	}
 
 	[ctrl updateButtonDel];
+	[ctrl updateButtonHint];
 
 }
 
@@ -951,9 +952,9 @@
 	return bMemoMode;
 }
 
-- (void) delNumber
+
+- (void) checkClearAndUpdateButton
 {
-	[sudokuGame setFixNums:0 x:selectedXPos y:selectedYPos];
 	[self checkClearGame];	
 	
 	AudioServicesPlaySystemSound (soundClickID);	
@@ -962,8 +963,17 @@
 	[ctrl updateButtonUndo];
 	[ctrl updateButtonClear];
 	[ctrl updateButtonDel];
-
+	[ctrl updateButtonHint];
+	
 	[self setNeedsDisplay];	
+}
+
+
+- (void) delNumber
+{
+	[sudokuGame setFixNums:0 x:selectedXPos y:selectedYPos];
+	[self checkClearAndUpdateButton];
+
 }
 
 - (void) clearNumbers
@@ -977,6 +987,16 @@
 	[alert release];			
 }
 
+- (void) doHint
+{
+	if (sudokuGame.countHint > 0) {
+		sudokuGame.countHint -= 1;
+		[sudokuGame setHintNum:selectedXPos y:selectedYPos];
+	}
+
+	[self checkClearAndUpdateButton];
+
+}
 
 - (BOOL) loadGame
 {
@@ -1112,6 +1132,17 @@ static int	HandyCount[] = { 0, 2, 5, 8, 12 };
 	return NO;
 }
 
+- (BOOL) selectedCellisableHint
+{
+	if (selectedXPos >= 0 && selectedXPos < 9 && selectedYPos >= 0 && selectedYPos < 9) {
+		if ([sudokuGame getPuzzleNums:selectedXPos y:selectedYPos] == 0) {// 사용자가 입력하는 칸이다.
+			if ([sudokuGame countHint] > 0)		// 아직 Hint item이 남아 있다.
+				return YES;
+		}
+	}
+	
+	return NO;
+}
 
 
 
