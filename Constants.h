@@ -24,6 +24,7 @@
 #define cButtonMemoSmallFontSize	22*cResizeRatioW
 #define cButtonMemoBigFontSize		33*cResizeRatioW
 #define cButtonMemoTextFontSize		18*cResizeRatioW
+#define cDefaultHintCount       0
 
 
 enum GAMELEVEL {

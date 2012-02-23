@@ -889,7 +889,8 @@
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
-	[self moveBannerViewOnscreen];
+//	[self moveBannerViewOnscreen];
+	[self moveBannerViewOffscreen];
 }
 
 

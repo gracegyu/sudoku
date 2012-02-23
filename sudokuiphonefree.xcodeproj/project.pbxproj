@@ -130,7 +130,7 @@
 		CF6FF9091288F0C100587748 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "resource/Free/Icon-Small-50.png"; sourceTree = "<group>"; };
 		CF6FF90A1288F0C100587748 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "resource/Free/Icon-Small.png"; sourceTree = "<group>"; };
 		CF6FF90B1288F0C100587748 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "resource/Free/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		CF6FF90C1288F0C100587748 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = resource/Free/Icon.png; sourceTree = "<group>"; };
+		CF6FF90C1288F0C100587748 /* Icon.png */ = {isa = PBXFileReference; explicitFileType = image.icns; name = Icon.png; path = resource/Free/Icon.png; sourceTree = "<group>"; };
 		CF6FF90D1288F0C100587748 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "resource/Free/Icon@2x.png"; sourceTree = "<group>"; };
 		CF6FF9261288F19200587748 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -602,6 +602,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Raymond Jeon";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -612,6 +613,7 @@
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 				);
 				PRODUCT_NAME = sudoku;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5F8AD1B-9000-4C2D-B940-724FA5DFE0FA";
 			};
 			name = "Distribute free";
 		};

@@ -34,7 +34,7 @@
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
-	countHint = 1;
+	countHint = cDefaultHintCount;
 	NSMutableArray *array = sudokuNum.nums;	
 	
 	NSString *str;	
@@ -83,7 +83,7 @@
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
 	} else {
-		countHint = 1;
+		countHint = cDefaultHintCount;
 	}
 
 //	[self countBlankCells];
