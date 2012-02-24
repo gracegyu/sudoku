@@ -26,6 +26,8 @@
 #define cButtonMemoTextFontSize		18*cResizeRatioW
 #define cDefaultHintCount       0
 
+#define MY_BANNER_UNIT_ID       @"a14ccfafd6895cb" 
+
 
 enum GAMELEVEL {
 	GAMELEVEL_VERYHARD = 0,		// handy 0

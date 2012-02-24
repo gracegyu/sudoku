@@ -40,12 +40,14 @@
 @synthesize timerGame;
 @synthesize timerNewGame;
 @synthesize activityIndicator;
+/*
 #ifdef IPHONE_FREEVERSION
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
 @synthesize bannerView;
 #endif
 @synthesize adViewController;
 #endif
+*/
 
 - (void) initScore
 {
@@ -262,7 +264,7 @@
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 #ifdef IPHONE_FREEVERSION	   
-	    mainView.fPress =  (frameMainViewOrg.size.height - 48) / frameMainViewOrg.size.height;	   
+	    mainView.fPress =  (frameMainViewOrg.size.height - GAD_SIZE_320x50.height) / frameMainViewOrg.size.height;	   
 		[self setPressAd];
 #else
 		mainView.fPress = 1.f;
@@ -307,7 +309,27 @@
 	 [buttonNewGameHard setTitle:NSLocalizedString(@"hard", nil) forState:UIControlStateNormal];
 	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
 	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
-	 
+
+#ifdef IPHONE_FREEVERSION	 
+     // Create a view of the standard size at the bottom of the screen.
+     bannerView_ = [[GADBannerView alloc]
+                    initWithFrame:CGRectMake(0.0,
+                                             self.view.frame.size.height -
+                                             GAD_SIZE_320x50.height,
+                                             GAD_SIZE_320x50.width,
+                                             GAD_SIZE_320x50.height)];
+     
+     // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
+     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+     
+     // Let the runtime know which UIViewController to restore after taking
+     // the user wherever the ad goes and add it to the view hierarchy.
+     bannerView_.rootViewController = self;
+     [self.view addSubview:bannerView_];
+     
+     // Initiate a generic request to load it with an ad.
+     [bannerView_ loadRequest:[GADRequest request]];     
+#endif
 	 
 
 }
@@ -485,6 +507,10 @@
 
 - (void)viewDidUnload {
 	NSLog(@"viewDidUnload");	
+    
+#ifdef IPHONE_FREEVERSION
+    [bannerView_ release];
+#endif    
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -493,10 +519,12 @@
 - (void)dealloc {
 	NSLog(@"dealloc");
 #ifdef IPHONE_FREEVERSION
+/*
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000	
 	bannerView.delegate = nil;
 	[bannerView release];
 #endif
+*/
 #endif
     [super dealloc];
 }
@@ -811,7 +839,7 @@
 }
 
 
-#ifdef IPHONE_FREEVERSION
+#if 0 //def IPHONE_FREEVERSION
 
 
 #pragma mark -
