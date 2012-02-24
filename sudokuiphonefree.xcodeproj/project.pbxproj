@@ -19,7 +19,6 @@
 		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
 		CF023CE31212503B009C58A3 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754B0DD40C5E005A515E /* MainView.xib */; };
 		CF1BB7931287D16A0054FA4C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1BB7921287D16A0054FA4C /* Default.png */; };
-		CF35AF80127FEF040062E321 /* MainViewFree.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF35AF7F127FEF040062E321 /* MainViewFree.xib */; };
 		CF3ADFD3121E5F9C0072E639 /* MainView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */; };
 		CF3AE037121E68400072E639 /* MainWindow4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3AE036121E68400072E639 /* MainWindow4iPad.xib */; };
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
@@ -27,6 +26,7 @@
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
 		CF68481E14F73D75007ECC9D /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68481C14F73D75007ECC9D /* libGoogleAdMobAds.a */; };
 		CF68482214F73DDF007ECC9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */; };
+		CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF68483D14F7646B007ECC9D /* Sudoku-free.plist */; };
 		CF6FF90E1288F0C100587748 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9071288F0C100587748 /* Icon-72.png */; };
 		CF6FF90F1288F0C100587748 /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9081288F0C100587748 /* Icon-512.png */; };
 		CF6FF9101288F0C100587748 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9091288F0C100587748 /* Icon-Small-50.png */; };
@@ -70,7 +70,6 @@
 		289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideViewController.m; path = Classes/FlipsideViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* sudoku_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sudoku_Prefix.pch; sourceTree = "<group>"; };
-		8D1107310486CEB800E47090 /* SudokuHelper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SudokuHelper-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		CF023E3A1212719E009C58A3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF023E3B121271A8009C58A3 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF023E3C121271AE009C58A3 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -82,7 +81,6 @@
 		CF023EA61212853D009C58A3 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF023EA712128541009C58A3 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF1BB7921287D16A0054FA4C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		CF35AF7F127FEF040062E321 /* MainViewFree.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainViewFree.xib; sourceTree = "<group>"; };
 		CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView4iPad.xib; sourceTree = "<group>"; };
 		CF3AE036121E68400072E639 /* MainWindow4iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow4iPad.xib; sourceTree = "<group>"; };
 		CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
@@ -96,6 +94,7 @@
 		CF68481B14F73D75007ECC9D /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
 		CF68481C14F73D75007ECC9D /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		CF68483D14F7646B007ECC9D /* Sudoku-free.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Sudoku-free.plist"; sourceTree = "<group>"; };
 		CF6FF9071288F0C100587748 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "resource/Free/Icon-72.png"; sourceTree = "<group>"; };
 		CF6FF9081288F0C100587748 /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-512.png"; path = "resource/Free/Icon-512.png"; sourceTree = "<group>"; };
 		CF6FF9091288F0C100587748 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "resource/Free/Icon-Small-50.png"; sourceTree = "<group>"; };
@@ -215,6 +214,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF68483D14F7646B007ECC9D /* Sudoku-free.plist */,
 				CF6FF9071288F0C100587748 /* Icon-72.png */,
 				CF6FF9081288F0C100587748 /* Icon-512.png */,
 				CF6FF9091288F0C100587748 /* Icon-Small-50.png */,
@@ -233,11 +233,9 @@
 				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
 				CF95D0E312278FBF0016338F /* FlipsideView4iPad.xib */,
 				280E754B0DD40C5E005A515E /* MainView.xib */,
-				CF35AF7F127FEF040062E321 /* MainViewFree.xib */,
 				CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */,
 				280E754C0DD40C5E005A515E /* MainWindow.xib */,
 				CF3AE036121E68400072E639 /* MainWindow4iPad.xib */,
-				8D1107310486CEB800E47090 /* SudokuHelper-Info.plist */,
 				CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */,
 				CF98AE12120FADFC0041A3FE /* Localizable.strings */,
 			);
@@ -353,7 +351,6 @@
 				CF3ADFD3121E5F9C0072E639 /* MainView4iPad.xib in Resources */,
 				CF3AE037121E68400072E639 /* MainWindow4iPad.xib in Resources */,
 				CF95D0E412278FBF0016338F /* FlipsideView4iPad.xib in Resources */,
-				CF35AF80127FEF040062E321 /* MainViewFree.xib in Resources */,
 				CF1BB7931287D16A0054FA4C /* Default.png in Resources */,
 				CF6FF90E1288F0C100587748 /* Icon-72.png in Resources */,
 				CF6FF90F1288F0C100587748 /* Icon-512.png in Resources */,
@@ -362,6 +359,7 @@
 				CF6FF9121288F0C100587748 /* Icon-Small@2x.png in Resources */,
 				CF6FF9131288F0C100587748 /* Icon.png in Resources */,
 				CF6FF9141288F0C100587748 /* Icon@2x.png in Resources */,
+				CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +422,8 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "SudokuHelper-Info.plist";
+				INFOPLIST_FILE = "Sudoku-free.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -432,6 +431,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
 				);
 				PRODUCT_NAME = sudoku;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release free";
 		};
@@ -475,7 +475,8 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "SudokuHelper-Info.plist";
+				INFOPLIST_FILE = "Sudoku-free.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -483,6 +484,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
 				);
 				PRODUCT_NAME = sudoku;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug free";
 		};
@@ -510,7 +512,8 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "SudokuHelper-Info.plist";
+				INFOPLIST_FILE = "Sudoku-free.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -519,6 +522,7 @@
 				);
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5F8AD1B-9000-4C2D-B940-724FA5DFE0FA";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Distribute free";
 		};

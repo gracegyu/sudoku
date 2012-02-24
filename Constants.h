@@ -28,6 +28,11 @@
 
 #define MY_BANNER_UNIT_ID       @"a14ccfafd6895cb" 
 
+#define IPHONE_GAD_H            GAD_SIZE_320x50.height
+#define IPHONE_GAD_W            GAD_SIZE_320x50.width
+#define IPAD_GAD_H              GAD_SIZE_728x90.height
+#define IPAD_GAD_W              GAD_SIZE_728x90.width
+
 
 enum GAMELEVEL {
 	GAMELEVEL_VERYHARD = 0,		// handy 0

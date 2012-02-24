@@ -22,7 +22,7 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
  
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
-#ifdef IPHONE_FREEVERSION
+#ifdef IPHONE_FREEVERSION___
 								@"MainViewFree"
 #else
 							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : @"MainView" 

@@ -28,6 +28,7 @@
 	CGRect		frameMainViewOrg;
 
 	UILabel		*labelNewGame;
+	UILabel		*labelRights;
 	UILabel		*labelTitleLevel;
 	UILabel		*labelTitleGameTime;
 	UILabel		*labelTitleBlank;
@@ -115,6 +116,7 @@
 
 @property (nonatomic, retain) MainView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel	*labelNewGame;
+@property (nonatomic, retain) IBOutlet UILabel	*labelRights;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleLevel;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleGameTime;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleBlank;

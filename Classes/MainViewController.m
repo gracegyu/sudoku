@@ -16,6 +16,7 @@
 
 @synthesize mainView;
 @synthesize labelNewGame;
+@synthesize labelRights;
 @synthesize labelTitleLevel;
 @synthesize labelTitleGameTime;
 @synthesize labelTitleBlank;
@@ -134,7 +135,9 @@
 	labelTitleGameTime.frame= [self setPressFrame:labelTitleGameTime.frame];
 	labelGameTime.frame		= [self setPressFrame:labelGameTime.frame];	
 	labelTitleBlank.frame	= [self setPressFrame:labelTitleBlank.frame];	
-	labelBlank.frame		= [self setPressFrame:labelBlank.frame];		
+	labelBlank.frame		= [self setPressFrame:labelBlank.frame];	
+	
+    labelRights.hidden = false;
 }
 
 #endif
@@ -264,7 +267,8 @@
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 #ifdef IPHONE_FREEVERSION	   
-	    mainView.fPress =  (frameMainViewOrg.size.height - GAD_SIZE_320x50.height) / frameMainViewOrg.size.height;	   
+       mainView.fPress =  (frameMainViewOrg.size.height - ((cDeviceType == DEVICETYPE_IPAD) ? IPAD_GAD_H : IPHONE_GAD_H)) / 
+                            frameMainViewOrg.size.height;	   
 		[self setPressAd];
 #else
 		mainView.fPress = 1.f;
@@ -312,13 +316,20 @@
 
 #ifdef IPHONE_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
-     bannerView_ = [[GADBannerView alloc]
-                    initWithFrame:CGRectMake(0.0,
-                                             self.view.frame.size.height -
-                                             GAD_SIZE_320x50.height,
-                                             GAD_SIZE_320x50.width,
-                                             GAD_SIZE_320x50.height)];
-     
+     if (cDeviceType == DEVICETYPE_IPAD)
+     {    
+         bannerView_ = [[GADBannerView alloc]
+                        initWithFrame:CGRectMake((self.view.frame.size.width - IPAD_GAD_W)/2.0,
+                                                 self.view.frame.size.height - IPAD_GAD_H,
+                                                 IPAD_GAD_W,
+                                                 IPAD_GAD_H)];
+     } else {   
+         bannerView_ = [[GADBannerView alloc]
+                        initWithFrame:CGRectMake((self.view.frame.size.width - IPHONE_GAD_W)/2.0,
+                                                 self.view.frame.size.height - IPHONE_GAD_H,
+                                             IPHONE_GAD_W,
+                                             IPHONE_GAD_H)];
+     }
      // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
      bannerView_.adUnitID = MY_BANNER_UNIT_ID;
      
