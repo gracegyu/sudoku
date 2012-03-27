@@ -487,7 +487,7 @@
 
 - (void)drawHintBackground:(CGContextRef)context
 {
-	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 && selectedYPos >= 9)	// no selectec cell
+	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
 		return;
 		
 	for (int x=0; x<9; x++) {
