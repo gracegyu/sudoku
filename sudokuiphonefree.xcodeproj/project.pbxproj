@@ -419,11 +419,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -431,7 +432,9 @@
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
 				);
 				PRODUCT_NAME = sudoku;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Release free";
 		};
@@ -470,13 +473,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -484,7 +489,10 @@
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
 				);
 				PRODUCT_NAME = sudoku;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				PROVISIONING_PROFILE = "32FC678A-9177-476F-82A8-BD56C389D0A8";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Debug free";
 		};
@@ -513,7 +521,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
@@ -521,8 +529,9 @@
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
 				);
 				PRODUCT_NAME = sudoku;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D5F8AD1B-9000-4C2D-B940-724FA5DFE0FA";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BDE8A80-9483-40C0-B7A1-25786D581481";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = "Distribute free";
 		};

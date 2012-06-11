@@ -24,7 +24,7 @@
 #define cButtonMemoSmallFontSize	22*cResizeRatioW
 #define cButtonMemoBigFontSize		33*cResizeRatioW
 #define cButtonMemoTextFontSize		18*cResizeRatioW
-#define cDefaultHintCount       0
+#define cDefaultHintCount       1 //
 
 #define MY_BANNER_UNIT_ID       @"a14ccfafd6895cb" 
 
