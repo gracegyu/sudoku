@@ -6,7 +6,7 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
 
 /*
@@ -94,7 +94,7 @@
 	NSInteger	levelNewGame;
 	NSInteger	countHint;
 
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
     GADBannerView *bannerView_;
 /*
  #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
@@ -106,7 +106,7 @@
 }
 
 /*
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
 @property (nonatomic, retain) IBOutlet ADBannerView	*bannerView;
 #endif

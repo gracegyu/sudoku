@@ -408,7 +408,7 @@
 {
 	BOOL bDupWarnArea = NO;
 	if (sudokuGame.gameLevel >= GAMELEVEL_EASY)
-	{	
+	{	// zzz 사용자가 누를 수 있는 버튼인 경우도 조건에 추가를 해야 한다.
 		if (bPressedInButton && pushedButton >= 1 && pushedButton <=9)	// 현재 버튼을 누르는 중, 중복 번호 경고 on
 		{
 			if (selectedXPos == xPos || selectedYPos == yPos || (selectedXPos/3 == xPos/3 && selectedYPos/3 == yPos/3)) // 중복 검사 영역
@@ -560,8 +560,14 @@
 		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		centerX = cWidthScreen/2;
 	} else {
-		centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
+        centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
+#ifdef ADMOB_FREEVERSION
+		centerY = (fTableWidth/fPress)/2 + 1;
+#else
 		centerY = fTableWidth/2 + 1;
+#endif        
+//		centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
+//		centerY = fTableWidth/2 + 1;
 	}	
 	
 	if (lastOrientation == UIInterfaceOrientationPortrait ||
@@ -587,7 +593,11 @@
 		centerX = cWidthScreen/2;
 	} else {
 		centerX = cTableWidth + (rectCurrent.size.width - fTableWidth)/2;
+#ifdef ADMOB_FREEVERSION
+		centerY = (cTableHeight/fPress)/2;
+#else
 		centerY = cTableHeight/2;
+#endif
 	}	
 	
 	if (lastOrientation == UIInterfaceOrientationPortrait ||

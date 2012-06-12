@@ -42,7 +42,7 @@
 @synthesize timerNewGame;
 @synthesize activityIndicator;
 /*
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
 @synthesize bannerView;
 #endif
@@ -111,7 +111,7 @@
 	[self saveScoreData];
 }
 
-#ifdef IPHONE_FREEVERSION	   
+#ifdef ADMOB_FREEVERSION	   
 - (CGRect) setPressFrame:(CGRect) frame 
 {
 	frame.origin.y *= mainView.fPress;
@@ -151,8 +151,8 @@
 	NSLog(@"mainView.rectPortrait=%f,%f", mainView.rectPortrait.size.width, mainView.rectPortrait.size.height);	
 
 	CGRect rectLandscape = mainView.rectPortrait;
-	rectLandscape.size.width = mainView.rectPortrait.size.height+20;
-	rectLandscape.size.height = mainView.rectPortrait.size.width-20; 
+	rectLandscape.size.width = mainView.rectPortrait.size.height+20;    // titlebar:20
+	rectLandscape.size.height = mainView.rectPortrait.size.width-20;    // titlebar:20
 	mainView.rectLandscape = rectLandscape;
 	NSLog(@"mainView.rectLandscape=%f,%f", mainView.rectLandscape.size.width, mainView.rectLandscape.size.height);	
 	
@@ -170,8 +170,16 @@
 	frameScorePortrait = buttonScore.frame;	
 	frameHintPortrait = buttonHint.frame;
 	
-	
-	CGFloat widthLandTable = mainView.rectLandscape.size.height;
+    CGFloat widthLandTable;
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPAD)
+        widthLandTable = (mainView.rectLandscape.size.height - IPAD_GAD_H) / mainView.fPress;
+    else
+        widthLandTable = mainView.rectLandscape.size.height;
+#else
+    widthLandTable = mainView.rectLandscape.size.height;
+#endif
+    NSLog(@"widthLandTable=%f", widthLandTable);
 	CGFloat startButtonX = widthLandTable + 10;
 	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - 10;
 	
@@ -266,9 +274,10 @@
         mainView = (MainView*) self.view;
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
-#ifdef IPHONE_FREEVERSION	   
+#ifdef ADMOB_FREEVERSION	   
        mainView.fPress =  (frameMainViewOrg.size.height - ((cDeviceType == DEVICETYPE_IPAD) ? IPAD_GAD_H : IPHONE_GAD_H)) / 
-                            frameMainViewOrg.size.height;	   
+                            frameMainViewOrg.size.height;	
+       NSLog(@"fPress = %f", mainView.fPress);
 		[self setPressAd];
 #else
 		mainView.fPress = 1.f;
@@ -314,7 +323,7 @@
 	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
 	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
 
-#ifdef IPHONE_FREEVERSION	 
+#ifdef ADMOB_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
      if (cDeviceType == DEVICETYPE_IPAD)
      {    
@@ -327,11 +336,11 @@
          bannerView_ = [[GADBannerView alloc]
                         initWithFrame:CGRectMake((self.view.frame.size.width - IPHONE_GAD_W)/2.0,
                                                  self.view.frame.size.height - IPHONE_GAD_H,
-                                             IPHONE_GAD_W,
-                                             IPHONE_GAD_H)];
+                                                 IPHONE_GAD_W,
+                                                 IPHONE_GAD_H)];
      }
      // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
-     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+     bannerView_.adUnitID = DEVICETYPE_IPAD ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE;
      
      // Let the runtime know which UIViewController to restore after taking
      // the user wherever the ad goes and add it to the view hierarchy.
@@ -519,7 +528,7 @@
 - (void)viewDidUnload {
 	NSLog(@"viewDidUnload");	
     
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
     [bannerView_ release];
 #endif    
 	// Release any retained subviews of the main view.
@@ -529,7 +538,7 @@
 
 - (void)dealloc {
 	NSLog(@"dealloc");
-#ifdef IPHONE_FREEVERSION
+#ifdef ADMOB_FREEVERSION
 /*
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000	
 	bannerView.delegate = nil;
@@ -828,11 +837,38 @@
 {
 	NSLog(@"shouldAutorotateToInterfaceOrientation");	
 
-#ifdef IPHONE_FREEVERSION	
-	mainView.lastOrientation = UIInterfaceOrientationPortrait;	
-
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);	
-#else	
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+	{ 
+        mainView.lastOrientation = UIInterfaceOrientationPortrait;	
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    } else {
+/*        CGRect frameTemp = bannerView_.frame;
+        NSLog(@"bannerView_.frame = %f,%f", bannerView_.frame.origin.x, bannerView_.frame.origin.y);
+        frameTemp.origin.y -= 1;
+        
+        bannerView_.frame = frameTemp;
+        NSLog(@"bannerView_.frame = %f,%f", bannerView_.frame.origin.x, bannerView_.frame.origin.y);
+*/        
+//        NSLog(@"self.view.frame.size=%f,%f", self.view.frame.size.width, self.view.frame.size.height);
+        if (interfaceOrientation == UIInterfaceOrientationPortrait ||
+            interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+            CGRect frameTemp = bannerView_.frame;
+            
+            frameTemp.origin.x = (mainView.rectPortrait.size.width - IPAD_GAD_W)/2.0;
+            frameTemp.origin.y = mainView.rectPortrait.size.height - IPAD_GAD_H;
+            bannerView_.frame = frameTemp;
+        } else {
+            CGRect frameTemp = bannerView_.frame;
+            
+            frameTemp.origin.x = 0; 
+            frameTemp.origin.y = mainView.rectLandscape.size.height - IPAD_GAD_H;
+            
+            bannerView_.frame = frameTemp;
+        }
+    }
+#endif
+	
 	mainView.lastOrientation = interfaceOrientation;	
 	
 	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
@@ -841,16 +877,23 @@
 		mainView.fTableWidth = mainView.rectCurrent.size.width;
 	} else { 
 		mainView.rectCurrent = mainView.rectLandscape;
-		mainView.fTableWidth = mainView.rectCurrent.size.height;
+        NSLog(@"mainView.rectCurrent=%f,%f", mainView.rectCurrent.size.width, mainView.rectCurrent.size.height);       
+#ifdef ADMOB_FREEVERSION
+        if (cDeviceType == DEVICETYPE_IPAD)
+        {
+            mainView.fTableWidth = (mainView.rectCurrent.size.height - IPAD_GAD_H) / mainView.fPress;            NSLog(@"%f,%f", mainView.rectCurrent.size.height - IPAD_GAD_H, mainView.rectCurrent.size.height);
+            return YES;
+        }
+#endif        
+        mainView.fTableWidth = mainView.rectCurrent.size.height;
 	}
 
 	
 	return YES;
-#endif
 }
 
 
-#if 0 //def IPHONE_FREEVERSION
+#if 0 //def ADMOB_FREEVERSION
 
 
 #pragma mark -

@@ -140,8 +140,11 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-#ifdef IPHONE_FREEVERSION	
-	return (interfaceOrientation == UIInterfaceOrientationPortrait);	
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPAD)
+        return YES;
+    else
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);	
 #else	
 	return YES;
 #endif

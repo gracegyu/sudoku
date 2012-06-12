@@ -24,7 +24,6 @@
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
 		CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */; };
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
-		CF68481E14F73D75007ECC9D /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68481C14F73D75007ECC9D /* libGoogleAdMobAds.a */; };
 		CF68482214F73DDF007ECC9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */; };
 		CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF68483D14F7646B007ECC9D /* Sudoku-free.plist */; };
 		CF6FF90E1288F0C100587748 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9071288F0C100587748 /* Icon-72.png */; };
@@ -43,6 +42,7 @@
 		CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96BC70114F4D0D009B4E78 /* AppDelegate.m */; };
 		CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
 		CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */; };
+		CFA531891586DB92008E2F78 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */; };
 		CFBE97E2114DED8700CCED88 /* SudokuNum.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBE97E1114DED8700CCED88 /* SudokuNum.m */; };
 		CFDA65F21157614A00A77B90 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CFDA65F11157614A00A77B90 /* click.wav */; };
 		CFDA66051157626500A77B90 /* Funk.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFDA66041157626500A77B90 /* Funk.aiff */; };
@@ -86,13 +86,6 @@
 		CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		CF68481614F73D75007ECC9D /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		CF68481714F73D75007ECC9D /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		CF68481814F73D75007ECC9D /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		CF68481914F73D75007ECC9D /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		CF68481A14F73D75007ECC9D /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		CF68481B14F73D75007ECC9D /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		CF68481C14F73D75007ECC9D /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
 		CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CF68483D14F7646B007ECC9D /* Sudoku-free.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Sudoku-free.plist"; sourceTree = "<group>"; };
 		CF6FF9071288F0C100587748 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "resource/Free/Icon-72.png"; sourceTree = "<group>"; };
@@ -115,6 +108,16 @@
 		CF98AE14120FAE010041A3FE /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CFA46E0F115E7BAB0090B9B1 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFA46E13115E7BB60090B9B1 /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CFA5317F1586DB92008E2F78 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADAdMobExtras.h; path = GoogleAdMobAdsSDK/GADAdMobExtras.h; sourceTree = SOURCE_ROOT; };
+		CFA531801586DB92008E2F78 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADAdNetworkExtras.h; path = GoogleAdMobAdsSDK/GADAdNetworkExtras.h; sourceTree = SOURCE_ROOT; };
+		CFA531811586DB92008E2F78 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADAdSize.h; path = GoogleAdMobAdsSDK/GADAdSize.h; sourceTree = SOURCE_ROOT; };
+		CFA531821586DB92008E2F78 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADBannerView.h; path = GoogleAdMobAdsSDK/GADBannerView.h; sourceTree = SOURCE_ROOT; };
+		CFA531831586DB92008E2F78 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADBannerViewDelegate.h; path = GoogleAdMobAdsSDK/GADBannerViewDelegate.h; sourceTree = SOURCE_ROOT; };
+		CFA531841586DB92008E2F78 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADInterstitial.h; path = GoogleAdMobAdsSDK/GADInterstitial.h; sourceTree = SOURCE_ROOT; };
+		CFA531851586DB92008E2F78 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADInterstitialDelegate.h; path = GoogleAdMobAdsSDK/GADInterstitialDelegate.h; sourceTree = SOURCE_ROOT; };
+		CFA531861586DB92008E2F78 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADRequest.h; path = GoogleAdMobAdsSDK/GADRequest.h; sourceTree = SOURCE_ROOT; };
+		CFA531871586DB92008E2F78 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADRequestError.h; path = GoogleAdMobAdsSDK/GADRequestError.h; sourceTree = SOURCE_ROOT; };
+		CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAdMobAds.a; path = GoogleAdMobAdsSDK/libGoogleAdMobAds.a; sourceTree = SOURCE_ROOT; };
 		CFBE97E0114DED8700CCED88 /* SudokuNum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SudokuNum.h; sourceTree = "<group>"; };
 		CFBE97E1114DED8700CCED88 /* SudokuNum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SudokuNum.m; sourceTree = "<group>"; };
 		CFDA65F11157614A00A77B90 /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
@@ -138,7 +141,7 @@
 				CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */,
 				CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */,
 				CF6FF9271288F19200587748 /* iAd.framework in Frameworks */,
-				CF68481E14F73D75007ECC9D /* libGoogleAdMobAds.a in Frameworks */,
+				CFA531891586DB92008E2F78 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -261,13 +264,16 @@
 		CF68481514F73D75007ECC9D /* GoogleAdMobAds */ = {
 			isa = PBXGroup;
 			children = (
-				CF68481614F73D75007ECC9D /* GADBannerView.h */,
-				CF68481714F73D75007ECC9D /* GADBannerViewDelegate.h */,
-				CF68481814F73D75007ECC9D /* GADInterstitial.h */,
-				CF68481914F73D75007ECC9D /* GADInterstitialDelegate.h */,
-				CF68481A14F73D75007ECC9D /* GADRequest.h */,
-				CF68481B14F73D75007ECC9D /* GADRequestError.h */,
-				CF68481C14F73D75007ECC9D /* libGoogleAdMobAds.a */,
+				CFA5317F1586DB92008E2F78 /* GADAdMobExtras.h */,
+				CFA531801586DB92008E2F78 /* GADAdNetworkExtras.h */,
+				CFA531811586DB92008E2F78 /* GADAdSize.h */,
+				CFA531821586DB92008E2F78 /* GADBannerView.h */,
+				CFA531831586DB92008E2F78 /* GADBannerViewDelegate.h */,
+				CFA531841586DB92008E2F78 /* GADInterstitial.h */,
+				CFA531851586DB92008E2F78 /* GADInterstitialDelegate.h */,
+				CFA531861586DB92008E2F78 /* GADRequest.h */,
+				CFA531871586DB92008E2F78 /* GADRequestError.h */,
+				CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */,
 			);
 			path = GoogleAdMobAds;
 			sourceTree = "<group>";
@@ -424,17 +430,18 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
+					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Release free";
 		};
@@ -444,7 +451,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PREPROCESSOR_DEFINITIONS = IPHONE_FREEVERSION;
+				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -459,7 +466,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PREPROCESSOR_DEFINITIONS = IPHONE_FREEVERSION;
+				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -481,18 +488,19 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
+					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;
 				PROVISIONING_PROFILE = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Debug free";
 		};
@@ -502,7 +510,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Raymond Jeon";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_PREPROCESSOR_DEFINITIONS = IPHONE_FREEVERSION;
+				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -521,17 +529,18 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				INFOPLIST_FILE = "Sudoku-free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/AdMob\"",
 					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
 					"\"$(SRCROOT)/GoogleAdMobAds\"",
+					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BDE8A80-9483-40C0-B7A1-25786D581481";
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = "Distribute free";
 		};
