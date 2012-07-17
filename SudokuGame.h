@@ -66,6 +66,7 @@
 - (NSInteger) countBlankCells;
 - (NSInteger) countFixCells;
 
+
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (CGPoint) runUndo;
 

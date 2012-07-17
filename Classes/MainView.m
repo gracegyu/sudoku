@@ -407,7 +407,7 @@
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
 	BOOL bDupWarnArea = NO;
-	if (sudokuGame.gameLevel >= GAMELEVEL_EASY)
+	if (sudokuGame.gameLevel >= GAMELEVEL_VERYHARD)
 	{	// zzz 사용자가 누를 수 있는 버튼인 경우도 조건에 추가를 해야 한다.
 		if (bPressedInButton && pushedButton >= 1 && pushedButton <=9)	// 현재 버튼을 누르는 중, 중복 번호 경고 on
 		{
@@ -547,7 +547,7 @@
 #define cWidthButton 46*cResizeRatioW
 #define cHeightButton (53*cResizeRatioW*fPress)
 #define cDistXButton 24*cResizeRatioW
-#define cDistYButton ((rectCurrent.size.height*fPress-cYButtonStart)*0.95-cHeightButton)
+#define cDistYButton ((rectCurrent.size.height*fPress-cYButtonStart)*0.98-cHeightButton)
 
 #define cWidthScreen fTableWidth
 #define cYButtonStart (fButtonStart)
@@ -878,6 +878,7 @@
 					
 					AudioServicesPlaySystemSound (soundClickID);	
 					[ctrl updateBlankCellCount];
+					[ctrl updateHintCount];
 					[ctrl updateButtonUndo];
 					[ctrl updateButtonClear];
 
@@ -970,6 +971,7 @@
 	AudioServicesPlaySystemSound (soundClickID);	
 	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 	[ctrl updateBlankCellCount];
+    [ctrl updateHintCount];
 	[ctrl updateButtonUndo];
 	[ctrl updateButtonClear];
 	[ctrl updateButtonDel];
@@ -1060,7 +1062,8 @@ static int	HandyCount[] = { 0, 2, 5, 8, 12 };
 		
 		MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 		[ctrl updateBlankCellCount];
-	
+        [ctrl updateHintCount];
+
 
 		AudioServicesPlaySystemSound(soundClearID);	
 	}

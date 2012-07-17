@@ -20,6 +20,7 @@
 @synthesize labelTitleLevel;
 @synthesize labelTitleGameTime;
 @synthesize labelTitleBlank;
+@synthesize labelTitleHint;
 @synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
 @synthesize buttonNewGameNormal;
@@ -38,6 +39,7 @@
 @synthesize labelLevel;
 @synthesize labelGameTime;
 @synthesize labelBlank;
+@synthesize labelHint;
 @synthesize timerGame;
 @synthesize timerNewGame;
 @synthesize activityIndicator;
@@ -136,6 +138,8 @@
 	labelGameTime.frame		= [self setPressFrame:labelGameTime.frame];	
 	labelTitleBlank.frame	= [self setPressFrame:labelTitleBlank.frame];	
 	labelBlank.frame		= [self setPressFrame:labelBlank.frame];	
+	labelTitleHint.frame	= [self setPressFrame:labelTitleHint.frame];	
+	labelHint.frame		= [self setPressFrame:labelHint.frame];	
 	
     labelRights.hidden = false;
 }
@@ -168,7 +172,7 @@
 	frameDelPortrait = buttonDel.frame;
 	frameResetPortrait = buttonReset.frame;
 	frameScorePortrait = buttonScore.frame;	
-	frameHintPortrait = buttonHint.frame;
+	frameHintButtonPortrait = buttonHint.frame;
 	
     CGFloat widthLandTable;
 #ifdef ADMOB_FREEVERSION
@@ -189,36 +193,39 @@
 	frameTemp.origin.y = 2;
 	frameNewLandscape = frameTemp;
 	
-	frameTemp = frameDelPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons*1/3;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
+	frameTemp = frameScorePortrait;
+	frameTemp.origin.x = startButtonX + widthButtons*1/3;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
 	frameTemp.origin.y = 2;
-	frameDelLandscape = frameTemp;
-	
+	frameScoreLandscape = frameTemp;
+
 	frameTemp = frameResetPortrait;
 	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
 	frameTemp.origin.y = 2;
 	frameResetLandscape = frameTemp;	
 	
-	frameTemp = frameScorePortrait;
-	frameTemp.origin.x = startButtonX + widthButtons;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
+	frameTemp = frameDelPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
 	frameTemp.origin.y = 2;
-	frameScoreLandscape = frameTemp;
+	frameDelLandscape = frameTemp;
+	
+    
 
 	
-	frameTemp = frameHintPortrait;
-	frameTemp.origin.x = startButtonX;//frameNewLandscape.origin.x;
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;;
-	frameHintLandscape = frameTemp;	
+	frameTemp = frameHintButtonPortrait;
+	frameTemp.origin.x = startButtonX;
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameHintButtonLandscape = frameTemp;	
+
+	frameTemp = frameUndoPortrait;
+	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons/2;
+	frameTemp.origin.y = frameHintButtonLandscape.origin.y;
+	frameUndoLandscape = frameTemp;
 	
 	frameTemp = frameMemoPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons/2;//(frameHintLandscape.origin.x + frameUndoLandscape.origin.x)/2;  
-	frameTemp.origin.y = frameHintLandscape.origin.y;
+	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons;  
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
 	frameMemoLandscape = frameTemp;
 	
-	frameTemp = frameUndoPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons;//frameScoreLandscape.origin.x;
-	frameTemp.origin.y = frameHintLandscape.origin.y;
-	frameUndoLandscape = frameTemp;
 	
 	
 	
@@ -232,10 +239,12 @@
 	frameGameTimePortrait = labelGameTime.frame;	
 	frameTitleBlankPortrait = labelTitleBlank.frame;	
 	frameBlankPortrait = labelBlank.frame;
+	frameTitleHintPortrait = labelTitleHint.frame;	
+	frameHintPortrait = labelHint.frame;
 	
 	frameTemp = frameTitleLevelPortrait;
 	frameTemp.origin.x = frameNewLandscape.origin.x; 
-	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.1;
+	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.3;
 	frameTitleLevelLandscape = frameTemp;
 	
 	frameTemp = frameLevelPortrait;
@@ -243,26 +252,38 @@
 	frameTemp.origin.y = frameTitleLevelLandscape.origin.y + frameTitleLevelLandscape.size.height;
 	frameLevelLandscape = frameTemp;
 
-	frameTemp = frameTitleGameTimePortrait;
-	frameTemp.origin.x = frameLevelLandscape.origin.x; 
-	frameTemp.origin.y = frameHintLandscape.origin.y - frameGameTimePortrait.size.height - frameTitleGameTimePortrait.size.height*1.1;
-	frameTitleGameTimeLandscape = frameTemp;
-	
-	frameTemp = frameGameTimePortrait;
-	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x; 
-	frameTemp.origin.y = frameTitleGameTimeLandscape.origin.y + frameTitleGameTimeLandscape.size.height;
-	frameGameTimeLandscape = frameTemp;
-	
-	frameTemp = frameTitleBlankPortrait;
-	frameTemp.origin.x = (frameNewLandscape.origin.x*0.1 + frameScoreLandscape.origin.x*0.9);
-	frameTemp.origin.y = frameTitleGameTimeLandscape.origin.y;
+ 	frameTemp = frameTitleBlankPortrait;
+	frameTemp.origin.x = frameResetLandscape.origin.x;
+	frameTemp.origin.y = frameTitleLevelLandscape.origin.y;
 	frameTitleBlankLandscape = frameTemp;
 	
 	frameTemp = frameBlankPortrait;
 	frameTemp.origin.x = frameTitleBlankLandscape.origin.x; 
-	frameTemp.origin.y = frameGameTimeLandscape.origin.y;
+	frameTemp.origin.y = frameLevelLandscape.origin.y;
 	frameBlankLandscape = frameTemp;
+   
+
+	frameTemp = frameTitleHintPortrait;
+	frameTemp.origin.x = frameLevelLandscape.origin.x; 
+	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.3 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
+	frameTitleHintLandscape = frameTemp;
 	
+	frameTemp = frameHintPortrait;
+	frameTemp.origin.x = frameTitleHintLandscape.origin.x; 
+	frameTemp.origin.y = frameTitleHintLandscape.origin.y + frameTitleHintLandscape.size.height;
+	frameHintLandscape = frameTemp;
+	
+
+	frameTemp = frameTitleGameTimePortrait;
+	frameTemp.origin.x = frameUndoLandscape.origin.x; 
+	frameTemp.origin.y = frameTitleHintLandscape.origin.y;
+	frameTitleGameTimeLandscape = frameTemp;
+	
+	frameTemp = frameGameTimePortrait;
+	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x; 
+	frameTemp.origin.y = frameHintLandscape.origin.y;
+	frameGameTimeLandscape = frameTemp;
+    
 	
 
 }
@@ -287,6 +308,7 @@
 		if ([mainView loadGame] == YES) {
 			[self setGameLevel];
 			[self updateBlankCellCount];
+			[self updateHintCount];
 			[self updateButtonUndo];
 			[self updateButtonClear];
 			[self updateButtonDel];
@@ -314,6 +336,7 @@
 	 labelTitleLevel.text = NSLocalizedString(@"level", nil);
 	 labelTitleGameTime.text = NSLocalizedString(@"game time", nil);
 	 labelTitleBlank.text = NSLocalizedString(@"blank", nil);
+	 labelTitleHint.text = NSLocalizedString(@"hint", nil);
 	 labelNewGame.text = NSLocalizedString(@"New Game", nil);
 	 
 	 [buttonNewGameVeryEasy setTitle:NSLocalizedString(@"very easy", nil) forState:UIControlStateNormal];
@@ -465,6 +488,7 @@
 	[mainView runUndo];
 	
 	[self updateBlankCellCount];
+	[self updateHintCount];
 	[self updateButtonUndo];
 	[self updateButtonClear];
 	[self updateButtonDel];
@@ -610,6 +634,7 @@
 	
 	[self setGameLevel];
 	[self updateBlankCellCount];
+    [self updateHintCount];
 	[self startTimer];
 
 }
@@ -758,6 +783,17 @@
 	[str release];
 }
 
+- (void) updateHintCount
+{
+	NSInteger count = mainView.sudokuGame.countHint;
+	NSString *str;
+	str = [[NSString alloc] initWithFormat:@"%d", count];
+	
+	labelHint.text =str;
+	[str release];
+}
+
+
 - (void) updateButtonClear
 {
 	NSInteger count = [mainView.sudokuGame countFixCells];
@@ -807,7 +843,7 @@
 		buttonDel.frame = frameDelPortrait;
 		buttonUndo.frame = frameUndoPortrait;
 		buttonMemo.frame = frameMemoPortrait;
-		buttonHint.frame = frameHintPortrait;
+		buttonHint.frame = frameHintButtonPortrait;
 		
 		labelTitleLevel.frame = frameTitleLevelPortrait;
 		labelLevel.frame = frameLevelPortrait;	
@@ -815,6 +851,8 @@
 		labelGameTime.frame = frameGameTimePortrait;	
 		labelTitleBlank.frame = frameTitleBlankPortrait;	
 		labelBlank.frame = frameBlankPortrait;
+		labelTitleHint.frame = frameTitleHintPortrait;	
+		labelHint.frame = frameHintPortrait;
 	} else {
 		buttonNew.frame = frameNewLandscape;
 		buttonReset.frame = frameResetLandscape;
@@ -822,7 +860,7 @@
 		buttonDel.frame = frameDelLandscape;
 		buttonUndo.frame = frameUndoLandscape;
 		buttonMemo.frame = frameMemoLandscape;
-		buttonHint.frame = frameHintLandscape;
+		buttonHint.frame = frameHintButtonLandscape;
 
 		labelTitleLevel.frame = frameTitleLevelLandscape;
 		labelLevel.frame = frameLevelLandscape;	
@@ -830,6 +868,8 @@
 		labelGameTime.frame = frameGameTimeLandscape;	
 		labelTitleBlank.frame = frameTitleBlankLandscape;	
 		labelBlank.frame = frameBlankLandscape;
+		labelTitleHint.frame = frameTitleHintLandscape;
+		labelHint.frame = frameHintLandscape;
 	}
 } 
 // Override to allow orientations other than the default portrait orientation.

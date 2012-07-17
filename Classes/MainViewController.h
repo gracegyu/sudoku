@@ -32,9 +32,11 @@
 	UILabel		*labelTitleLevel;
 	UILabel		*labelTitleGameTime;
 	UILabel		*labelTitleBlank;
+	UILabel		*labelTitleHint;
 	UILabel		*labelLevel;
 	UILabel		*labelGameTime;
 	UILabel		*labelBlank;
+	UILabel		*labelHint;
 	
 	CGRect		frameTitleLevelPortrait;
 	CGRect		frameTitleLevelLandscape;
@@ -48,6 +50,10 @@
 	CGRect		frameTitleBlankLandscape;
 	CGRect		frameBlankPortrait;
 	CGRect		frameBlankLandscape;
+	CGRect		frameTitleHintPortrait;
+	CGRect		frameTitleHintLandscape;
+	CGRect		frameHintButtonPortrait;
+	CGRect		frameHintButtonLandscape;
 	
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
@@ -120,6 +126,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleLevel;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleGameTime;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleBlank;
+@property (nonatomic, retain) IBOutlet UILabel	*labelTitleHint;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;
@@ -140,6 +147,7 @@
 @property (nonatomic, retain) IBOutlet UILabel		*labelLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelGameTime;
 @property (nonatomic, retain) IBOutlet UILabel		*labelBlank;
+@property (nonatomic, retain) IBOutlet UILabel		*labelHint;
 @property (nonatomic, retain) NSTimer		*timerGame;
 @property (nonatomic, retain) NSTimer		*timerNewGame;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
@@ -172,6 +180,7 @@
 - (void) stopTimer;
 - (void) OnTimer:(NSTimer *)timer;
 - (void) updateBlankCellCount;
+- (void) updateHintCount;
 - (void) updateButtonUndo;
 - (void) updateButtonClear;
 - (void) updateButtonDel;
