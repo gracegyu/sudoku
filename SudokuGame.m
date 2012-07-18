@@ -193,6 +193,12 @@
 	return fixNums[x][y];	
 }
 
+- (NSInteger) getDisplayNums:(NSInteger)x y:(NSInteger)y
+{
+	return fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];	
+}
+
+
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y
 {
 	if (puzzleNums[x][y] == 0)

@@ -110,7 +110,7 @@
 	
 	NSString *path;
 	
-	path = [[NSBundle mainBundle] pathForResource:@"Funk" ofType:@"wav"];
+	path = [[NSBundle mainBundle] pathForResource:@"Pop" ofType:@"aiff"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID);
 	path = [[NSBundle mainBundle] pathForResource:@"clear" ofType:@"wav"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClearID);
@@ -489,6 +489,24 @@
 
 // 숫자가 중복되면 안되는 바닥을 보여줌
 
+
+- (void)drawOneCelBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
+{
+    CGRect currentRect;
+    NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
+    NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
+    
+    CGContextSetLineWidth(context, cLineDrawWidth);
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextSetFillColorWithColor(context, color.CGColor);
+    currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
+    
+    CGContextAddRect(context, currentRect);
+    CGContextDrawPath(context, kCGPathFillStroke);
+}
+
+
+
 - (void)drawHintBackground:(CGContextRef)context
 {
 	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
@@ -496,22 +514,37 @@
 		
 	for (int x=0; x<9; x++) {
 	for (int y=0; y<9; y++) {
-	if (selectedXPos == x ||
-		selectedYPos == y ||
-		(selectedXPos/3 == x/3 && selectedYPos/3 == y/3)) {
-		CGRect currentRect;
-		NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
-		NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
+        if (selectedXPos == x ||
+            selectedYPos == y ||
+            (selectedXPos/3 == x/3 && selectedYPos/3 == y/3)) {
+            [self drawOneCelBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
+            /*
+            CGRect currentRect;
+            NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
+            NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
 		
-		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
-		CGContextSetFillColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
-		currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
+            CGContextSetLineWidth(context, cLineDrawWidth);
+            CGContextSetStrokeColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
+            CGContextSetFillColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
+            currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
 		
-		CGContextAddRect(context, currentRect);
-		CGContextDrawPath(context, kCGPathFillStroke);
+            CGContextAddRect(context, currentRect);
+            CGContextDrawPath(context, kCGPathFillStroke);
+             */
 		}
-		
+        
+        if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
+        {
+            if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNums:x y:y])
+            {    
+                [self drawOneCelBackground:context color:selectedTableBgColor x:x y:y];
+            }
+        }
+        
+		//////
+        
+        
+        
 	} //y
 	} //x
 }
@@ -725,10 +758,10 @@
 
 	NSLog(@"drawRect ---------- refresh");
 
-	[self drawRectTableBackground:context];
-	[self drawHintBackground:context];
-	[self drawRectTableLine:context];
-	[self drawHighlightCell:context];
+	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
+	[self drawHintBackground:context];          // 힌트 바탕 색
+	[self drawRectTableLine:context];           // 테이블 라인 긎기
+	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawRectNums:context];
 	[self drawNumButton:context];
 
@@ -1027,7 +1060,7 @@
 }
 
 
-static int	HandyCount[] = { 0, 2, 5, 8, 12 };
+static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 
 - (void) newGame:(NSInteger)level
 {

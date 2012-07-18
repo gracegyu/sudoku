@@ -16,8 +16,8 @@
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
 	BOOL			gameFinished;		// 0, 1
-	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) 
-	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) 
+	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
+	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 정답
 	NSInteger		fixNums[9][9];		// User decided num (9x9 1~9, beside Puzzle num) 
 	char			memoNums[9][9][9+1];// zzzzzzz NSString ?
 	NSString*		strUndo;			// x,y,num(0~9) (3bytes), 0 is del
@@ -43,6 +43,7 @@
 - (id)initWithSudokuNum:(SudokuNum*)sudoku;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getDisplayNums:(NSInteger)x y:(NSInteger)y;
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y;
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y;
