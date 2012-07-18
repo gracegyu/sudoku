@@ -16,6 +16,7 @@
     UIColor	*selectedTableBgColor;
 	UIColor *selectedTableBorderColor;
     UIColor	*HintBgColor;
+    UIColor	*MemoModeHintBgColor;
 	UIColor *choosingOkColor;
 	UIColor *choosingNoColor;
 	UIColor *tableLineColor;
@@ -79,6 +80,7 @@
 @property (nonatomic, retain) UIColor *selectedTableBgColor;
 @property (nonatomic, retain) UIColor *selectedTableBorderColor;
 @property (nonatomic, retain) UIColor *HintBgColor;
+@property (nonatomic, retain) UIColor *MemoModeHintBgColor;
 @property (nonatomic, retain) UIColor *choosingOkColor;
 @property (nonatomic, retain) UIColor *choosingNoColor;
 

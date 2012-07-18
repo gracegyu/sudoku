@@ -16,6 +16,7 @@
 @synthesize selectedTableBgColor;
 @synthesize selectedTableBorderColor;
 @synthesize HintBgColor;
+@synthesize MemoModeHintBgColor;
 @synthesize choosingOkColor;
 @synthesize choosingNoColor;
 @synthesize tableLineColor;
@@ -76,6 +77,7 @@
 	self.selectedTableBgColor = [UIColor whiteColor];
 	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.8f];
 	self.HintBgColor = [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.2f];
+	self.MemoModeHintBgColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.2f alpha:0.2f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
 	self.choosingNoColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
 	self.tableLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
@@ -485,6 +487,8 @@
 	bSetThisTime = NO;
 }
 
+// 숫자가 중복되면 안되는 바닥을 보여줌
+
 - (void)drawHintBackground:(CGContextRef)context
 {
 	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
@@ -500,8 +504,8 @@
 		NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, HintBgColor.CGColor);
-		CGContextSetFillColorWithColor(context, HintBgColor.CGColor);
+		CGContextSetStrokeColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
+		CGContextSetFillColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
 		currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
 		
 		CGContextAddRect(context, currentRect);

@@ -355,15 +355,16 @@
                                                  self.view.frame.size.height - IPAD_GAD_H,
                                                  IPAD_GAD_W,
                                                  IPAD_GAD_H)];
+         bannerView_.adUnitID = MY_BANNER_UNIT_ID_IPAD;
      } else {   
          bannerView_ = [[GADBannerView alloc]
                         initWithFrame:CGRectMake((self.view.frame.size.width - IPHONE_GAD_W)/2.0,
                                                  self.view.frame.size.height - IPHONE_GAD_H,
                                                  IPHONE_GAD_W,
                                                  IPHONE_GAD_H)];
+         // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
+         bannerView_.adUnitID = MY_BANNER_UNIT_ID_IPHONE;
      }
-     // Specify the ad's "unit identifier." This is your AdMob Publisher ID.
-     bannerView_.adUnitID = DEVICETYPE_IPAD ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE;
      
      // Let the runtime know which UIViewController to restore after taking
      // the user wherever the ad goes and add it to the view hierarchy.
@@ -901,7 +902,7 @@
         } else {
             CGRect frameTemp = bannerView_.frame;
             
-            frameTemp.origin.x = 0; 
+            frameTemp.origin.x = -5; 
             frameTemp.origin.y = mainView.rectLandscape.size.height - IPAD_GAD_H;
             
             bannerView_.frame = frameTemp;
