@@ -26,6 +26,7 @@
 	UIColor *candidateTwoColor;
 	UIColor *cellFailColor;
 	UIColor *cellWarnColor;
+	UIColor *cellConflictColor;
 	UIColor *numButtonColor;
 	UIColor *memoButtonColor;
 	UIColor *bgButtonColor;
@@ -91,6 +92,7 @@
 @property (nonatomic, retain) UIColor *candidateTwoColor;
 @property (nonatomic, retain) UIColor *cellFailColor;
 @property (nonatomic, retain) UIColor *cellWarnColor;
+@property (nonatomic, retain) UIColor *cellConflictColor;
 
 @property (nonatomic, retain) SudokuGame* sudokuGame;
 @property (nonatomic, retain) UIColor *numButtonColor;

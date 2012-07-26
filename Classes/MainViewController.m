@@ -194,13 +194,13 @@
 	frameNewLandscape = frameTemp;
 	
 	frameTemp = frameScorePortrait;
-	frameTemp.origin.x = startButtonX + widthButtons*1/3;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
+	frameTemp.origin.x = startButtonX + widthButtons/2;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
 	frameTemp.origin.y = 2;
 	frameScoreLandscape = frameTemp;
 
 	frameTemp = frameResetPortrait;
 	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
-	frameTemp.origin.y = 2;
+	frameTemp.origin.y = -100;          // 사라진다.
 	frameResetLandscape = frameTemp;	
 	
 	frameTemp = frameDelPortrait;
@@ -265,7 +265,7 @@
 
 	frameTemp = frameTitleHintPortrait;
 	frameTemp.origin.x = frameLevelLandscape.origin.x; 
-	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.3 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
+	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.4 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
 	frameTitleHintLandscape = frameTemp;
 	
 	frameTemp = frameHintPortrait;
@@ -303,7 +303,18 @@
 #else
 		mainView.fPress = 1.f;
 #endif
-		[self setOrientation];
+
+       
+       [buttonMemo setTitle:NSLocalizedString(@"memo", nil) forState:UIControlStateNormal];
+       [buttonDel setTitle:NSLocalizedString(@"del", nil) forState:UIControlStateNormal];
+       [buttonNew setTitle:NSLocalizedString(@"new", nil) forState:UIControlStateNormal];
+       [buttonReset setTitle:NSLocalizedString(@"reset", nil) forState:UIControlStateNormal];
+       [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
+       [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
+       [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
+       
+       
+       [self setOrientation];
 		[mainView setFont];
 		if ([mainView loadGame] == YES) {
 			[self setGameLevel];

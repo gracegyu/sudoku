@@ -26,6 +26,7 @@
 @synthesize candidateTwoColor;
 @synthesize cellFailColor;
 @synthesize cellWarnColor;
+@synthesize cellConflictColor;
 
 @synthesize numButtonColor;
 @synthesize memoButtonColor;
@@ -88,6 +89,7 @@
 	self.candidateTwoColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
 	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:0.8f];
 	self.cellWarnColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:0.9f];
+	self.cellConflictColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:0.9f];
 	
 	self.bgButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
 	self.pressedButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
@@ -110,7 +112,7 @@
 	
 	NSString *path;
 	
-	path = [[NSBundle mainBundle] pathForResource:@"Pop" ofType:@"aiff"];
+	path = [[NSBundle mainBundle] pathForResource:@"Funk" ofType:@"aiff"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID);
 	path = [[NSBundle mainBundle] pathForResource:@"clear" ofType:@"wav"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClearID);
@@ -287,13 +289,15 @@
 
 
 // 나머지는 파스텔톤
-- (void)drawRectCellOneUserFixed:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY dupwarn:(BOOL)bDupWarnArea
+- (void)drawRectCellOneUserFixed:(CGContextRef)context num:(NSInteger)num zeroX:(CGFloat)zeroX zeroY:(CGFloat)zeroY dupwarn:(BOOL)bDupWarnArea conflict:(BOOL)bConflict
 {
 	if (bDupWarnArea)
 	{
 		CGContextSetFillColorWithColor(context, cellWarnColor.CGColor);
-	} else {
-		CGContextSetFillColorWithColor(context, fixedByAutoColor.CGColor);
+	} else if (bConflict) {     // conflict number 처리
+		CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
+    } else {
+        CGContextSetFillColorWithColor(context, fixedByAutoColor.CGColor);
 	}
 
 	
@@ -406,6 +410,34 @@
 		[self drawRectCellNine:context memo:memo zeroX:zeroX zeroY:zeroY];
 }
 
+- (BOOL)conflictCell:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+    NSInteger fixNum = [sudokuGame getFixNums:xPos y:yPos];
+    
+    if (fixNum == 0)
+        return false;
+    
+    int x, y;
+    for (x = 0, y = yPos; x < 9; x++)
+    {
+        if (x != xPos && [sudokuGame getDisplayNums:x y:y] == fixNum) 
+            return true;
+    }
+    for (x = xPos, y = 0; y < 9; y++)
+    {
+        if (y != yPos && [sudokuGame getDisplayNums:x y:y] == fixNum) 
+            return true;
+    }
+    for (x = (xPos/3)*3; x < (xPos/3)*3+3; x++)
+    for (y = (yPos/3)*3; y < (yPos/3)*3+3; y++)
+    {
+        if ((x != xPos || y != yPos) && [sudokuGame getDisplayNums:x y:y] == fixNum) 
+            return true;
+    }
+    return false;   
+    
+}
+
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
 	BOOL bDupWarnArea = NO;
@@ -435,13 +467,19 @@
 		[self drawRectCellOneChoosing:context zeroX:zeroX zeroY:zeroY];
 	} else if (fixNum > 0)	{
 		// 사용자가 입력해 넣은 번호
-		[self drawRectCellOneUserFixed:context num:fixNum zeroX:zeroX zeroY:zeroY dupwarn:bDupWarnArea&&(fixNum==pushedButton)];
+        
+        
+        BOOL bConflict = [self conflictCell:xPos yPos:yPos];
+        
+        
+        
+		[self drawRectCellOneUserFixed:context num:fixNum zeroX:zeroX zeroY:zeroY dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
 	} else if (pMemo) {
 		// 메모 중인 번호 
 		[self drawRectCellOneMemo:context memo:pMemo zeroX:zeroX zeroY:zeroY];	
 	}
 		
-	
+
 	
 	
 /*	
@@ -583,7 +621,7 @@
 
 #define cWidthButton 46*cResizeRatioW
 #define cHeightButton (53*cResizeRatioW*fPress)
-#define cDistXButton 24*cResizeRatioW
+#define cDistXButton 23*cResizeRatioW
 #define cDistYButton ((rectCurrent.size.height*fPress-cYButtonStart)*0.98-cHeightButton)
 
 #define cWidthScreen fTableWidth
@@ -644,7 +682,7 @@
 		if (cDeviceType == DEVICETYPE_IPHONE) {
 			y = cTableHeight/2 - cHeightButton*1.2 + (i-1)/3 * cHeightButton*1.2;
 		} else {
-			y = centerY + (i-5)*(cHeightButton*0.45);
+			y = centerY + (i-5)*(cHeightButton*0.43);
 		}
 	}
 	
@@ -762,7 +800,7 @@
 	[self drawHintBackground:context];          // 힌트 바탕 색
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawHighlightCell:context];           // 선택된 셀 표시
-	[self drawRectNums:context];
+	[self drawRectNums:context];                // 9*9 칸에 숫자를 출력
 	[self drawNumButton:context];
 
 
@@ -995,7 +1033,7 @@
 		bMemoMode = YES;
 	}
 	
-	[self setNeedsDisplay];	// zzzzzzzzzz button re-display
+	[self setNeedsDisplay];	// button re-display
 	
 	return bMemoMode;
 }
@@ -1066,7 +1104,7 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 {
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 
-	// zzz turn on activityIndicator
+	// turn on activityIndicator
 	
 	[sudokuNum countCell];
 	NSInteger i = 0;
