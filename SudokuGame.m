@@ -188,6 +188,11 @@
 	return puzzleNums[x][y];
 }
 
+- (BOOL) isPuzzleNum:(NSInteger)x y:(NSInteger)y
+{
+	return puzzleNums[x][y] > 0;
+}
+
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y
 {
 	return fixNums[x][y];	
@@ -211,6 +216,10 @@
 
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+    if (puzzleNums[x][y] > 0)               // 문제칸은 Set할 수 없다.
+        return;
+    
+    
 	if (fixNums[x][y] == num)
 		return;
 
@@ -234,11 +243,20 @@
 
 - (char*) getMemoNums:(NSInteger)x y:(NSInteger)y
 {
+    if ([self isPuzzleNum:x y:y])               // 문제칸은 Memo가 있을 수 없다.
+        return "";
+    
+    
 	return (char*)(memoNums[x][y]);
 }
 
 - (BOOL) beMemoNums:(NSInteger)num  x:(NSInteger)x y:(NSInteger)y
 {
+    if ([self isPuzzleNum:x y:y])              // 문제칸은 Memo가 있을 수 없다.
+        return FALSE;
+    
+    
+    
 	char *s = memoNums[x][y];
 	char *p = strchr(s, num+'0');
 
@@ -247,6 +265,10 @@
 
 - (void) addMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+    if ([self isPuzzleNum:x y:y])           // 문제칸은 Memo 할 수 없다.
+        return;
+    
+    
 	char *s = memoNums[x][y];
 	NSLog(@"addMemoNums => org num : '%s'", s);
 	char *p;
@@ -267,6 +289,10 @@
 
 - (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+    if ([self isPuzzleNum:x y:y])               // 문제칸은 Memo를 지울 수 없다.
+        return;
+    
+    
 	char *s = memoNums[x][y];
 	char *p = strchr(s, num+'0');
 	
@@ -277,6 +303,10 @@
 
 - (void) revertMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+    if ([self isPuzzleNum:x y:y])                // 문제칸은 Memo 할 수 없다.
+        return;
+    
+    
 	char *s = memoNums[x][y];
 	char c = num + '0';
 	
@@ -289,6 +319,10 @@
 
 - (void) clearMemoNums:(NSInteger)x y:(NSInteger)y
 {
+   if ([self isPuzzleNum:x y:y])                // 문제칸은 Memo 할 수 없다.
+        return;
+    
+    
 	char *s = memoNums[x][y];
 	*s = '\0';
 }

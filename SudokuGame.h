@@ -42,6 +42,7 @@
 
 - (id)initWithSudokuNum:(SudokuNum*)sudoku;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
+- (BOOL) isPuzzleNum:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getDisplayNums:(NSInteger)x y:(NSInteger)y;
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y;

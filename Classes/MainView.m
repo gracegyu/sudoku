@@ -903,9 +903,11 @@
 		
 	NSInteger xPos = [self TouchToPosX:fX];
 	NSInteger yPos = [self TouchToPosY:fY];
-	
-	if (xPos < 9 && yPos < 9) {
-		if (bPressedInCell) {
+    
+    if (xPos < 9 && yPos < 9) {
+        if ([sudokuGame isPuzzleNum:xPos y:yPos]) {
+            // do nothing
+        } else if (bPressedInCell) {
 			if (xPos != selectedXPos || yPos != selectedYPos)
 			{
 				selectedXPos = xPos;	
@@ -938,6 +940,9 @@
 //				NSLog(@"bEnd=%d", bEnd);
 				if (bEnd && selectedXPos >=0 && selectedYPos >=0)
 				{
+                    if ([sudokuGame isPuzzleNum:selectedXPos y:selectedYPos]) {
+                        // do nothing
+                    } else {
 					if (bMemoMode) { 
 						if (buttonNum > 0) {
 							[sudokuGame cancelFixNums:selectedXPos y:selectedYPos];
@@ -956,6 +961,7 @@
 					[ctrl updateHintCount];
 					[ctrl updateButtonUndo];
 					[ctrl updateButtonClear];
+                    }
 
 				}
 			}
