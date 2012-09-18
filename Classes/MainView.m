@@ -626,13 +626,16 @@
 
 #define cWidthScreen fTableWidth
 #define cYButtonStart (fButtonStart)
+#define currentOrientation [UIDevice currentDevice].orientation
 
 - (NSInteger) buttonXCenter:(NSInteger)i
 {
 	NSInteger centerX, centerY, x;
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+    NSLog(@"currentOrientation(%d), UIInterfaceOrientationPortrait(%d)", currentOrientation, UIInterfaceOrientationPortrait);
+    
+	if (currentOrientation == UIInterfaceOrientationPortrait ||
+		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		centerX = cWidthScreen/2;
 	} else {
         centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
@@ -645,8 +648,8 @@
 //		centerY = fTableWidth/2 + 1;
 	}	
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (currentOrientation == UIInterfaceOrientationPortrait ||
+		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		x = centerX + (i-5)*cDistXButton;	
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {
@@ -663,8 +666,8 @@
 {
 	NSInteger centerX, centerY, y;
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (currentOrientation == UIInterfaceOrientationPortrait ||
+		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		centerX = cWidthScreen/2;
 	} else {
 		centerX = cTableWidth + (rectCurrent.size.width - fTableWidth)/2;
@@ -675,8 +678,8 @@
 #endif
 	}	
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (currentOrientation == UIInterfaceOrientationPortrait ||
+		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		y = cYButtonStart+((i+1)%2)*cDistYButton + cHeightButton/2;
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {

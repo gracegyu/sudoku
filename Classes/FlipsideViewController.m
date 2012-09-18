@@ -138,6 +138,8 @@
     [super dealloc];
 }
 
+// deprecated
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
 #ifdef ADMOB_FREEVERSION

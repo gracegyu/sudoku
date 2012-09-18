@@ -357,6 +357,9 @@
 	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
 	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
 
+     //
+     mainView.lastOrientation = [UIDevice currentDevice].orientation;
+     
 #ifdef ADMOB_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
      if (cDeviceType == DEVICETYPE_IPAD)
@@ -885,6 +888,18 @@
 	}
 } 
 // Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotate
+{
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+        return NO;
+#endif
+    return YES;
+    
+}
+
+
+// deprecated
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
 	NSLog(@"shouldAutorotateToInterfaceOrientation");	
