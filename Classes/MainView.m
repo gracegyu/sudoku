@@ -150,20 +150,21 @@
     return self;
 }
 
+
 - (id)initWithFrame:(CGRect)frame {
 	NSLog(@"initWithFrame");	
 	
     if (self = [super initWithFrame:frame]) {
 
     }
-	
+
 
     return self;
 }
 
 - (void)drawRectTableBackground:(CGContextRef) context 
 {
-	NSLog(@"drawRectTable(%f)", self.fPress);
+	NSLog(@"drawRectTable(%f, cTableWidth=%f)", self.fPress, cTableWidth);
 	
 	
 	CGRect currentRect;
@@ -180,7 +181,7 @@
 
 - (void)drawRectTableLine:(CGContextRef) context 
 {
-	NSLog(@"drawRectTable(%f)", self.fPress);
+	NSLog(@"drawRectTable(%f, cTableWidth=%f)", self.fPress, cTableWidth);
 
 
 	CGRect currentRect;
@@ -626,30 +627,35 @@
 
 #define cWidthScreen fTableWidth
 #define cYButtonStart (fButtonStart)
-#define currentOrientation [UIDevice currentDevice].orientation
 
 - (NSInteger) buttonXCenter:(NSInteger)i
 {
 	NSInteger centerX, centerY, x;
+    if (i == 2)
+    {
+        NSLog(@"cWidthScreen=%f", cWidthScreen);
+    }
 	
-    NSLog(@"currentOrientation(%d), UIInterfaceOrientationPortrait(%d)", currentOrientation, UIInterfaceOrientationPortrait);
-    
-	if (currentOrientation == UIInterfaceOrientationPortrait ||
-		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (lastOrientation == UIInterfaceOrientationPortrait ||
+		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		centerX = cWidthScreen/2;
 	} else {
+        if (i == 2)
+        {
+            NSLog(@"rectCurrent.size.width=%f", rectCurrent.size.width);
+        }
+        
         centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
 #ifdef ADMOB_FREEVERSION
 		centerY = (fTableWidth/fPress)/2 + 1;
 #else
 		centerY = fTableWidth/2 + 1;
 #endif        
-//		centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
-//		centerY = fTableWidth/2 + 1;
+
 	}	
 	
-	if (currentOrientation == UIInterfaceOrientationPortrait ||
-		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (lastOrientation == UIInterfaceOrientationPortrait ||
+		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		x = centerX + (i-5)*cDistXButton;	
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {
@@ -665,9 +671,14 @@
 - (NSInteger) buttonYCenter:(NSInteger)i
 {
 	NSInteger centerX, centerY, y;
-	
-	if (currentOrientation == UIInterfaceOrientationPortrait ||
-		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+
+    NSLog(@"buttonYCenter(%d, cTableWidth=%f)", i, cTableWidth);
+    if (i == 2)
+    {
+        NSLog(@"cWidthScreen=%f", cWidthScreen);
+    }
+	if (lastOrientation == UIInterfaceOrientationPortrait ||
+		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
 		centerX = cWidthScreen/2;
 	} else {
 		centerX = cTableWidth + (rectCurrent.size.width - fTableWidth)/2;
@@ -678,8 +689,9 @@
 #endif
 	}	
 	
-	if (currentOrientation == UIInterfaceOrientationPortrait ||
-		currentOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (lastOrientation == UIInterfaceOrientationPortrait ||
+		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+        NSLog(@"cYButtonStart=%f, cDistYButton=%f, cHeightButton=%f", cYButtonStart, cDistYButton, cHeightButton);
 		y = cYButtonStart+((i+1)%2)*cDistYButton + cHeightButton/2;
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {
@@ -1155,6 +1167,9 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    
+    NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
+    
 	if (bMenuMode)
 		return;
 	if (sudokuGame.gameFinished)	// lock the screen

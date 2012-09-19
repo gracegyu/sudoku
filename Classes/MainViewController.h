@@ -188,7 +188,7 @@
 - (void) writeScore:(SudokuGame*)sudokuGame;
 - (void) showMemoButton;
 - (void) showHintButton;
-
+- (void) setOrientationReady;
 
 
 

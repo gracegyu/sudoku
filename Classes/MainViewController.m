@@ -146,147 +146,34 @@
 
 #endif
 
-
-- (void) setOrientation
+- (void)getDeviceOrientation
 {
-	NSLog(@"setOrientation");	
-
-	mainView.rectPortrait = self.view.frame;
-	NSLog(@"mainView.rectPortrait=%f,%f", mainView.rectPortrait.size.width, mainView.rectPortrait.size.height);	
-
-	CGRect rectLandscape = mainView.rectPortrait;
-	rectLandscape.size.width = mainView.rectPortrait.size.height+20;    // titlebar:20
-	rectLandscape.size.height = mainView.rectPortrait.size.width-20;    // titlebar:20
-	mainView.rectLandscape = rectLandscape;
-	NSLog(@"mainView.rectLandscape=%f,%f", mainView.rectLandscape.size.width, mainView.rectLandscape.size.height);	
-	
-	mainView.rectCurrent = mainView.rectPortrait;
-	mainView.fTableWidth = mainView.rectCurrent.size.width;
-	mainView.fButtonStart = labelLevel.frame.origin.y+labelLevel.frame.size.height+5;
-	
-	CGRect frameTemp;
-	
-	frameNewPortrait = buttonNew.frame;
-	frameUndoPortrait = buttonUndo.frame;
-	frameMemoPortrait = buttonMemo.frame;
-	frameDelPortrait = buttonDel.frame;
-	frameResetPortrait = buttonReset.frame;
-	frameScorePortrait = buttonScore.frame;	
-	frameHintButtonPortrait = buttonHint.frame;
-	
-    CGFloat widthLandTable;
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPAD)
-        widthLandTable = (mainView.rectLandscape.size.height - IPAD_GAD_H) / mainView.fPress;
-    else
-        widthLandTable = mainView.rectLandscape.size.height;
-#else
-    widthLandTable = mainView.rectLandscape.size.height;
-#endif
-    NSLog(@"widthLandTable=%f", widthLandTable);
-	CGFloat startButtonX = widthLandTable + 10;
-	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - 10;
-	
-	
-	frameTemp = frameNewPortrait;
-	frameTemp.origin.x = startButtonX;//mainView.rectLandscape.size.height + 10; 
-	frameTemp.origin.y = 2;
-	frameNewLandscape = frameTemp;
-	
-	frameTemp = frameScorePortrait;
-	frameTemp.origin.x = startButtonX + widthButtons/2;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width; 
-	frameTemp.origin.y = 2;
-	frameScoreLandscape = frameTemp;
-
-	frameTemp = frameResetPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
-	frameTemp.origin.y = -100;          // 사라진다.
-	frameResetLandscape = frameTemp;	
-	
-	frameTemp = frameDelPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
-	frameTemp.origin.y = 2;
-	frameDelLandscape = frameTemp;
-	
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     
-
-	
-	frameTemp = frameHintButtonPortrait;
-	frameTemp.origin.x = startButtonX;
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
-	frameHintButtonLandscape = frameTemp;	
-
-	frameTemp = frameUndoPortrait;
-	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons/2;
-	frameTemp.origin.y = frameHintButtonLandscape.origin.y;
-	frameUndoLandscape = frameTemp;
-	
-	frameTemp = frameMemoPortrait;
-	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons;  
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
-	frameMemoLandscape = frameTemp;
-	
-	
-	
-	
-
-	
-	
-	
-	frameTitleLevelPortrait = labelTitleLevel.frame;
-	frameLevelPortrait = labelLevel.frame;	
-	frameTitleGameTimePortrait = labelTitleGameTime.frame;	
-	frameGameTimePortrait = labelGameTime.frame;	
-	frameTitleBlankPortrait = labelTitleBlank.frame;	
-	frameBlankPortrait = labelBlank.frame;
-	frameTitleHintPortrait = labelTitleHint.frame;	
-	frameHintPortrait = labelHint.frame;
-	
-	frameTemp = frameTitleLevelPortrait;
-	frameTemp.origin.x = frameNewLandscape.origin.x; 
-	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.3;
-	frameTitleLevelLandscape = frameTemp;
-	
-	frameTemp = frameLevelPortrait;
-	frameTemp.origin.x = frameTitleLevelLandscape.origin.x; 
-	frameTemp.origin.y = frameTitleLevelLandscape.origin.y + frameTitleLevelLandscape.size.height;
-	frameLevelLandscape = frameTemp;
-
- 	frameTemp = frameTitleBlankPortrait;
-	frameTemp.origin.x = frameResetLandscape.origin.x;
-	frameTemp.origin.y = frameTitleLevelLandscape.origin.y;
-	frameTitleBlankLandscape = frameTemp;
-	
-	frameTemp = frameBlankPortrait;
-	frameTemp.origin.x = frameTitleBlankLandscape.origin.x; 
-	frameTemp.origin.y = frameLevelLandscape.origin.y;
-	frameBlankLandscape = frameTemp;
-   
-
-	frameTemp = frameTitleHintPortrait;
-	frameTemp.origin.x = frameLevelLandscape.origin.x; 
-	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.4 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
-	frameTitleHintLandscape = frameTemp;
-	
-	frameTemp = frameHintPortrait;
-	frameTemp.origin.x = frameTitleHintLandscape.origin.x; 
-	frameTemp.origin.y = frameTitleHintLandscape.origin.y + frameTitleHintLandscape.size.height;
-	frameHintLandscape = frameTemp;
-	
-
-	frameTemp = frameTitleGameTimePortrait;
-	frameTemp.origin.x = frameUndoLandscape.origin.x; 
-	frameTemp.origin.y = frameTitleHintLandscape.origin.y;
-	frameTitleGameTimeLandscape = frameTemp;
-	
-	frameTemp = frameGameTimePortrait;
-	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x; 
-	frameTemp.origin.y = frameHintLandscape.origin.y;
-	frameGameTimeLandscape = frameTemp;
-    
-	
-
+    switch (orientation) {
+        case UIDeviceOrientationUnknown:
+        case UIDeviceOrientationPortrait:
+        case UIDeviceOrientationFaceUp:
+            mainView.lastOrientation = UIInterfaceOrientationPortrait;
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+        case UIDeviceOrientationFaceDown:
+            mainView.lastOrientation = UIInterfaceOrientationPortraitUpsideDown;
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            mainView.lastOrientation = UIInterfaceOrientationLandscapeLeft;
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            mainView.lastOrientation = UIInterfaceOrientationLandscapeRight;
+            break;
+        default:
+            mainView.lastOrientation = UIInterfaceOrientationPortrait;
+            break;
+    }
 }
+
+
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -313,8 +200,8 @@
        [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
        [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
        
-       
-       [self setOrientation];
+       [self getDeviceOrientation];
+       [self setOrientationReady];
 		[mainView setFont];
 		if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -343,7 +230,12 @@
  - (void)viewDidLoad {
 	 NSLog(@"viewDidLoad");	
 	 [super viewDidLoad];
-
+/*
+     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didRotate:)
+                                                 name:@"UIDeviceOrientationDidChangeNotification"
+                                               object:nil];
+*/
 	 labelTitleLevel.text = NSLocalizedString(@"level", nil);
 	 labelTitleGameTime.text = NSLocalizedString(@"game time", nil);
 	 labelTitleBlank.text = NSLocalizedString(@"blank", nil);
@@ -357,8 +249,6 @@
 	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
 	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
 
-     //
-     mainView.lastOrientation = [UIDevice currentDevice].orientation;
      
 #ifdef ADMOB_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
@@ -843,13 +733,265 @@
 		buttonHint.enabled = NO;		
 	}
 }
+/*
+- (void) didRotate:(NSNotification *)notification {
+    [self getDeviceOrientation];
+    [self setOrientationReady];
+  
+    
+    [self getDeviceOrientation];
+
+    UIInterfaceOrientation toInterfaceOrientation = mainView.lastOrientation;
+    
+	if (toInterfaceOrientation == UIInterfaceOrientationPortrait ||
+		toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+		buttonNew.frame = frameNewPortrait;
+		buttonReset.frame = frameResetPortrait;
+		buttonScore.frame = frameScorePortrait;
+		buttonDel.frame = frameDelPortrait;
+		buttonUndo.frame = frameUndoPortrait;
+		buttonMemo.frame = frameMemoPortrait;
+		buttonHint.frame = frameHintButtonPortrait;
+		
+		labelTitleLevel.frame = frameTitleLevelPortrait;
+		labelLevel.frame = frameLevelPortrait;
+		labelTitleGameTime.frame = frameTitleGameTimePortrait;
+		labelGameTime.frame = frameGameTimePortrait;
+		labelTitleBlank.frame = frameTitleBlankPortrait;
+		labelBlank.frame = frameBlankPortrait;
+		labelTitleHint.frame = frameTitleHintPortrait;
+		labelHint.frame = frameHintPortrait;
+	} else {
+		buttonNew.frame = frameNewLandscape;
+		buttonReset.frame = frameResetLandscape;
+		buttonScore.frame = frameScoreLandscape;
+		buttonDel.frame = frameDelLandscape;
+		buttonUndo.frame = frameUndoLandscape;
+		buttonMemo.frame = frameMemoLandscape;
+		buttonHint.frame = frameHintButtonLandscape;
+        
+		labelTitleLevel.frame = frameTitleLevelLandscape;
+		labelLevel.frame = frameLevelLandscape;
+		labelTitleGameTime.frame = frameTitleGameTimeLandscape;
+		labelGameTime.frame = frameGameTimeLandscape;
+		labelTitleBlank.frame = frameTitleBlankLandscape;
+		labelBlank.frame = frameBlankLandscape;
+		labelTitleHint.frame = frameTitleHintLandscape;
+		labelHint.frame = frameHintLandscape;
+	}
+    
+    
+    [mainView setNeedsDisplay];
+    
+}
+*/
+- (void) setOrientationReady
+{
+	NSLog(@"setOrientationReady");
+    
+    
+	mainView.rectPortrait = self.view.frame;
+	NSLog(@"mainView.rectPortrait=%f,%f", mainView.rectPortrait.size.width, mainView.rectPortrait.size.height);
+    
+	CGRect rectLandscape = mainView.rectPortrait;
+	rectLandscape.size.width = mainView.rectPortrait.size.height+20;    // titlebar:20
+	rectLandscape.size.height = mainView.rectPortrait.size.width-20;    // titlebar:20
+	mainView.rectLandscape = rectLandscape;
+	NSLog(@"mainView.rectLandscape=%f,%f", mainView.rectLandscape.size.width, mainView.rectLandscape.size.height);
+	
+	mainView.rectCurrent = mainView.rectPortrait;
+//	mainView.fTableWidth = mainView.rectCurrent.size.width;
+	mainView.fTableWidth = mainView.rectPortrait.size.width;
+    NSLog(@"mainView.fTableWidth = %f", mainView.fTableWidth);
+	mainView.fButtonStart = labelLevel.frame.origin.y+labelLevel.frame.size.height+5;
+	
+	CGRect frameTemp;
+	
+	frameNewPortrait = buttonNew.frame;
+	frameUndoPortrait = buttonUndo.frame;
+	frameMemoPortrait = buttonMemo.frame;
+	frameDelPortrait = buttonDel.frame;
+	frameResetPortrait = buttonReset.frame;
+	frameScorePortrait = buttonScore.frame;
+	frameHintButtonPortrait = buttonHint.frame;
+	
+    CGFloat widthLandTable;
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPAD)
+        widthLandTable = (mainView.rectLandscape.size.height - IPAD_GAD_H) / mainView.fPress;
+    else
+        widthLandTable = mainView.rectLandscape.size.height;
+#else
+    widthLandTable = mainView.rectLandscape.size.height;
+#endif
+    NSLog(@"widthLandTable=%f", widthLandTable);
+	CGFloat startButtonX = widthLandTable + 10;
+	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - 10;
+	
+	
+	frameTemp = frameNewPortrait;
+	frameTemp.origin.x = startButtonX;//mainView.rectLandscape.size.height + 10;
+	frameTemp.origin.y = 2;
+	frameNewLandscape = frameTemp;
+	
+	frameTemp = frameScorePortrait;
+	frameTemp.origin.x = startButtonX + widthButtons/2;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width;
+	frameTemp.origin.y = 2;
+	frameScoreLandscape = frameTemp;
+    
+	frameTemp = frameResetPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
+	frameTemp.origin.y = -100;          // 사라진다.
+	frameResetLandscape = frameTemp;
+	
+	frameTemp = frameDelPortrait;
+	frameTemp.origin.x = startButtonX + widthButtons;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
+	frameTemp.origin.y = 2;
+	frameDelLandscape = frameTemp;
+	
+    
+    
+	
+	frameTemp = frameHintButtonPortrait;
+	frameTemp.origin.x = startButtonX;
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameHintButtonLandscape = frameTemp;
+    
+	frameTemp = frameUndoPortrait;
+	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons/2;
+	frameTemp.origin.y = frameHintButtonLandscape.origin.y;
+	frameUndoLandscape = frameTemp;
+	
+	frameTemp = frameMemoPortrait;
+	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons;
+	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameMemoLandscape = frameTemp;
+	
+	
+	
+	
+    
+	
+	
+	
+	frameTitleLevelPortrait = labelTitleLevel.frame;
+	frameLevelPortrait = labelLevel.frame;
+	frameTitleGameTimePortrait = labelTitleGameTime.frame;
+	frameGameTimePortrait = labelGameTime.frame;
+	frameTitleBlankPortrait = labelTitleBlank.frame;
+	frameBlankPortrait = labelBlank.frame;
+	frameTitleHintPortrait = labelTitleHint.frame;
+	frameHintPortrait = labelHint.frame;
+	
+	frameTemp = frameTitleLevelPortrait;
+	frameTemp.origin.x = frameNewLandscape.origin.x;
+	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.3;
+	frameTitleLevelLandscape = frameTemp;
+	
+	frameTemp = frameLevelPortrait;
+	frameTemp.origin.x = frameTitleLevelLandscape.origin.x;
+	frameTemp.origin.y = frameTitleLevelLandscape.origin.y + frameTitleLevelLandscape.size.height;
+	frameLevelLandscape = frameTemp;
+    
+ 	frameTemp = frameTitleBlankPortrait;
+	frameTemp.origin.x = frameResetLandscape.origin.x;
+	frameTemp.origin.y = frameTitleLevelLandscape.origin.y;
+	frameTitleBlankLandscape = frameTemp;
+	
+	frameTemp = frameBlankPortrait;
+	frameTemp.origin.x = frameTitleBlankLandscape.origin.x;
+	frameTemp.origin.y = frameLevelLandscape.origin.y;
+	frameBlankLandscape = frameTemp;
+    
+    
+	frameTemp = frameTitleHintPortrait;
+	frameTemp.origin.x = frameLevelLandscape.origin.x;
+	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.4 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
+	frameTitleHintLandscape = frameTemp;
+	
+	frameTemp = frameHintPortrait;
+	frameTemp.origin.x = frameTitleHintLandscape.origin.x;
+	frameTemp.origin.y = frameTitleHintLandscape.origin.y + frameTitleHintLandscape.size.height;
+	frameHintLandscape = frameTemp;
+	
+    
+	frameTemp = frameTitleGameTimePortrait;
+	frameTemp.origin.x = frameUndoLandscape.origin.x;
+	frameTemp.origin.y = frameTitleHintLandscape.origin.y;
+	frameTitleGameTimeLandscape = frameTemp;
+	
+	frameTemp = frameGameTimePortrait;
+	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x;
+	frameTemp.origin.y = frameHintLandscape.origin.y;
+	frameGameTimeLandscape = frameTemp;
+    
+	
+    
+}
+
+- (void)setOrientationFrame:(UIInterfaceOrientation)interfaceOrientation
+{
+	NSLog(@"shouldAutorotateToInterfaceOrientation");
+    
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+	{
+        mainView.lastOrientation = UIInterfaceOrientationPortrait;
+        return;
+    } else {
+        if (interfaceOrientation == UIInterfaceOrientationPortrait ||
+            interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+            CGRect frameTemp = bannerView_.frame;
+            
+            frameTemp.origin.x = (mainView.rectPortrait.size.width - IPAD_GAD_W)/2.0;
+            frameTemp.origin.y = mainView.rectPortrait.size.height - IPAD_GAD_H;
+            bannerView_.frame = frameTemp;
+        } else {
+            CGRect frameTemp = bannerView_.frame;
+            
+            frameTemp.origin.x = -5;
+            frameTemp.origin.y = mainView.rectLandscape.size.height - IPAD_GAD_H;
+            
+            bannerView_.frame = frameTemp;
+        }
+    }
+#endif
+	
+	mainView.lastOrientation = interfaceOrientation;
+	
+	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
+		interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
+		mainView.rectCurrent = mainView.rectPortrait;
+		mainView.fTableWidth = mainView.rectCurrent.size.width;
+        NSLog(@"mainView.fTableWidth = %f", mainView.fTableWidth);
+	} else {
+		mainView.rectCurrent = mainView.rectLandscape;
+        NSLog(@"mainView.rectCurrent=%f,%f", mainView.rectCurrent.size.width, mainView.rectCurrent.size.height);
+#ifdef ADMOB_FREEVERSION
+        if (cDeviceType == DEVICETYPE_IPAD)
+        {
+            mainView.fTableWidth = (mainView.rectCurrent.size.height - IPAD_GAD_H) / mainView.fPress;
+            NSLog(@"%f,%f", mainView.rectCurrent.size.height - IPAD_GAD_H, mainView.rectCurrent.size.height);
+            NSLog(@"mainView.fTableWidth = %f", mainView.fTableWidth);
+            return;
+        }
+#endif
+        mainView.fTableWidth = mainView.rectCurrent.size.height;
+        NSLog(@"mainView.fTableWidth = %f", mainView.fTableWidth);
+	}
+    
+	
+	return;
+}
 
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 
 { 
-	NSLog(@"duration = %f", duration);
-
+	NSLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
+    mainView.lastOrientation = toInterfaceOrientation;
+    [self setOrientationFrame:toInterfaceOrientation];
+    
 	if (toInterfaceOrientation == UIInterfaceOrientationPortrait ||
 		toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
 		buttonNew.frame = frameNewPortrait;
@@ -886,7 +1028,14 @@
 		labelTitleHint.frame = frameTitleHintLandscape;
 		labelHint.frame = frameHintLandscape;
 	}
-} 
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    //[mainView setNeedsDisplay];
+//    [self setOrientation];
+}
+
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
@@ -898,61 +1047,32 @@
     
 }
 
+- (NSUInteger)supportedInterfaceOrientations
+{
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+        return UIInterfaceOrientationMaskPortrait;
+#endif
+    return UIInterfaceOrientationMaskAll;
+}
 
-// deprecated
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+
+// Deprecated
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	NSLog(@"shouldAutorotateToInterfaceOrientation");	
 
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-	{ 
-        mainView.lastOrientation = UIInterfaceOrientationPortrait;	
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    } else {
-/*        CGRect frameTemp = bannerView_.frame;
-        NSLog(@"bannerView_.frame = %f,%f", bannerView_.frame.origin.x, bannerView_.frame.origin.y);
-        frameTemp.origin.y -= 1;
-        
-        bannerView_.frame = frameTemp;
-        NSLog(@"bannerView_.frame = %f,%f", bannerView_.frame.origin.x, bannerView_.frame.origin.y);
-*/        
-//        NSLog(@"self.view.frame.size=%f,%f", self.view.frame.size.width, self.view.frame.size.height);
-        if (interfaceOrientation == UIInterfaceOrientationPortrait ||
-            interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
-            CGRect frameTemp = bannerView_.frame;
-            
-            frameTemp.origin.x = (mainView.rectPortrait.size.width - IPAD_GAD_W)/2.0;
-            frameTemp.origin.y = mainView.rectPortrait.size.height - IPAD_GAD_H;
-            bannerView_.frame = frameTemp;
-        } else {
-            CGRect frameTemp = bannerView_.frame;
-            
-            frameTemp.origin.x = -5; 
-            frameTemp.origin.y = mainView.rectLandscape.size.height - IPAD_GAD_H;
-            
-            bannerView_.frame = frameTemp;
-        }
-    }
-#endif
-	
-	mainView.lastOrientation = interfaceOrientation;	
 	
 	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
 		interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
-		mainView.rectCurrent = mainView.rectPortrait;
-		mainView.fTableWidth = mainView.rectCurrent.size.width;
+
 	} else { 
-		mainView.rectCurrent = mainView.rectLandscape;
-        NSLog(@"mainView.rectCurrent=%f,%f", mainView.rectCurrent.size.width, mainView.rectCurrent.size.height);       
 #ifdef ADMOB_FREEVERSION
         if (cDeviceType == DEVICETYPE_IPAD)
         {
-            mainView.fTableWidth = (mainView.rectCurrent.size.height - IPAD_GAD_H) / mainView.fPress;            NSLog(@"%f,%f", mainView.rectCurrent.size.height - IPAD_GAD_H, mainView.rectCurrent.size.height);
             return YES;
         }
 #endif        
-        mainView.fTableWidth = mainView.rectCurrent.size.height;
 	}
 
 	

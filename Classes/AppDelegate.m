@@ -24,17 +24,19 @@
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
 							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : @"MainView" 
 								bundle:nil];
-		
-//	[aController release];
+	// xxx for autorotate
+    [window setRootViewController:self.mainViewController];
 
 
 	NSLog(@"model=%@(%d)", [UIDevice currentDevice].model, cDeviceType);
 	
 	
 	
-    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-	NSLog(@"mainViewController.view.frame size = %f,%f", mainViewController.view.frame.size.width, mainViewController.view.frame.size.height);
-	[window addSubview:[mainViewController view]];
+    mainViewController.mainView.frame = [UIScreen mainScreen].applicationFrame;
+//    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
+	NSLog(@"mainViewController.view.frame size = %f,%f", mainViewController.mainView.frame.size.width, mainViewController.mainView.frame.size.height);
+	[window addSubview:[mainViewController mainView]];
+//	[window addSubview:[mainViewController view]];
 	NSLog(@"window.screen = %@", window.screen);
 	NSLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
 
@@ -47,14 +49,22 @@
 }
 
 
-- (void)applicationWillResignActive:(UIApplication *)application {
+- (void)applicationWillResignActive:(UIApplication *)application
+{
 	NSLog(@"applicationWillResignActive");
 	if (mainViewController.mainView.sudokuGame)
 		[mainViewController.mainView.sudokuGame saveData];
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
 	NSLog(@"applicationDidBecomeActive");
+}
+
+- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    NSLog(@"supportedInterfaceOrientationsForWindow");
+    return UIInterfaceOrientationMaskAll;
 }
 
 - (void)dealloc {
