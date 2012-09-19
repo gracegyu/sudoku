@@ -37,6 +37,7 @@
 		CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF80599F1155213300AE3DB5 /* AudioToolbox.framework */; };
 		CF8059A81155220600AE3DB5 /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF8059A51155220600AE3DB5 /* fail.wav */; };
 		CF8059D411552D0600AE3DB5 /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF8059D311552D0600AE3DB5 /* clear.wav */; };
+		CF85176816099C5900090393 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85176716099C5900090393 /* Default-568h@2x.png */; };
 		CF89365011F9592000C65D98 /* SudokuGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CF89364F11F9592000C65D98 /* SudokuGame.m */; };
 		CF95D0E412278FBF0016338F /* FlipsideView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF95D0E312278FBF0016338F /* FlipsideView4iPad.xib */; };
 		CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96BC70114F4D0D009B4E78 /* AppDelegate.m */; };
@@ -100,7 +101,7 @@
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF8059A51155220600AE3DB5 /* fail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fail.wav; sourceTree = "<group>"; };
 		CF8059D311552D0600AE3DB5 /* clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clear.wav; sourceTree = "<group>"; };
-		CF851755160995B200090393 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CF85176716099C5900090393 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		CF865C56114FBB1100662564 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		CF89364E11F9592000C65D98 /* SudokuGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SudokuGame.h; sourceTree = "<group>"; };
 		CF89364F11F9592000C65D98 /* SudokuGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SudokuGame.m; sourceTree = "<group>"; };
@@ -195,7 +196,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CF851755160995B200090393 /* Default-568h@2x.png */,
 				CF68481514F73D75007ECC9D /* GoogleAdMobAds */,
 				CFBE97D5114DE8FC00CCED88 /* Data */,
 				289233A00DB2D0730083E9F9 /* Main View */,
@@ -230,6 +230,7 @@
 				CF6FF90C1288F0C100587748 /* Icon.png */,
 				CF6FF90D1288F0C100587748 /* Icon@2x.png */,
 				CF1BB7921287D16A0054FA4C /* Default.png */,
+				CF85176716099C5900090393 /* Default-568h@2x.png */,
 				CFDA6629115766BA00A77B90 /* Funk.wav */,
 				CFDA66141157642B00A77B90 /* Sosumi.aiff */,
 				CFDA660D115762D100A77B90 /* Tink.aiff */,
@@ -372,6 +373,7 @@
 				CF6FF9141288F0C100587748 /* Icon@2x.png in Resources */,
 				CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */,
 				CFBB5FC215B6716400C9E087 /* Pop.aiff in Resources */,
+				CF85176816099C5900090393 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,9 +441,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
-					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
-					"\"$(SRCROOT)/GoogleAdMobAds\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;
@@ -497,15 +496,13 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
-					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
-					"\"$(SRCROOT)/GoogleAdMobAds\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = "Debug free";
 		};
@@ -537,9 +534,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/AdMob\"",
-					"\"$(SRCROOT)/admob_iphone_sdk/AdMob\"",
-					"\"$(SRCROOT)/GoogleAdMobAds\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				PRODUCT_NAME = sudoku;

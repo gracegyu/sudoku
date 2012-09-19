@@ -19,8 +19,10 @@
 
 
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
- 
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
+//Tall????
+    
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
 							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : @"MainView" 
 								bundle:nil];
