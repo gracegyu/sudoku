@@ -1123,6 +1123,7 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 	// zzzz release previous game
 	sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum];
 	sudokuGame.gameLevel = level;
+    [sudokuGame saveData];          // save Sudoku data as soon as making new game
 	
 	[sudokuNum release];
 
