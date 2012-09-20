@@ -52,7 +52,13 @@ enum {
 	DEVICETYPE_WINDOWPHONE7
 };
 
+#define cTableXMargine              60
+#define cTableYMargine              33
 #define cDeviceType					((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? DEVICETYPE_IPAD : DEVICETYPE_IPHONE)
 #define cOSType						@"iOS"
 #define cOSVersion					[[[UIDevice currentDevice] systemVersion] floatValue]
-
+#define isIpad                      (cDeviceType == DEVICETYPE_IPAD)
+#define isIphone5                    ([UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale] == 1136)
+#define cTableStartX                (isIpad ? 0 : (isIphone5 ? (isPortrait ? 0 : cTableXMargine) : 0))
+#define cTableStartY                (isIpad ? 0 : (isIphone5 ? (isPortrait ? cTableYMargine : 0) : 0))
+#define isPortrait                  (lastOrientation == UIInterfaceOrientationPortrait || lastOrientation == UIInterfaceOrientationPortraitUpsideDown)

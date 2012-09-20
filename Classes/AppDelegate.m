@@ -22,9 +22,13 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
 //Tall????
+
+//    NSInteger tall = [UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale];
+// 1136
     
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
-							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : @"MainView" 
+							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
+                               (isIphone5 ? @"MainView4iPhone5" : @"MainView")
 								bundle:nil];
 	// xxx for autorotate
     [window setRootViewController:self.mainViewController];
@@ -42,6 +46,10 @@
 	NSLog(@"window.screen = %@", window.screen);
 	NSLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
 
+    
+    
+    
+    
     [window makeKeyAndVisible];
 }
 

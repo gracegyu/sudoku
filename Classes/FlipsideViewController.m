@@ -13,6 +13,7 @@
 
 @implementation FlipsideViewController
 
+//@synthesize mainViewController;
 @synthesize delegate;
 @synthesize naviItem;
 @synthesize lableTitle;
@@ -138,6 +139,27 @@
     [super dealloc];
 }
 
+// Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotate
+{
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+        return NO;
+#endif
+    return YES;
+    
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE)
+        return UIInterfaceOrientationMaskPortrait;
+#endif
+    return UIInterfaceOrientationMaskAll;
+}
+
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
 #ifdef ADMOB_FREEVERSION
@@ -148,6 +170,18 @@
 #else	
 	return YES;
 #endif
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    MainViewController *mainViewController = (MainViewController *)delegate;
+    [mainViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+        MainViewController *mainViewController = (MainViewController *)delegate;
+    [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 @end

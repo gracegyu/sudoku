@@ -172,7 +172,7 @@
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, tableBgColor.CGColor);
     CGContextSetFillColorWithColor(context, tableBgColor.CGColor);
-	currentRect = CGRectMake (0,0,cTableWidth-1,cTableHeight-1);
+	currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
 	
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
@@ -190,24 +190,28 @@
 	
     CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
     CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
-	
-	x = cCellWidth*3 + cLineWidth*2;
-    currentRect = CGRectMake (x,0,cBoldLine-1,cTableHeight-1);
+	// Bold line
+	x = cTableStartX + cCellWidth*3 + cLineWidth*2;
+    y = cTableStartY;
+    currentRect = CGRectMake (x,y,cBoldLine-1, cTableHeight-1);
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
 
-	x = cCellWidth*6 + cLineWidth*4 + cBoldLine;
-    currentRect = CGRectMake (x,0,cBoldLine-1,cTableHeight-1);
+	x = cTableStartX + cCellWidth*6 + cLineWidth*4 + cBoldLine;
+    y = cTableStartY;
+    currentRect = CGRectMake (x, y,cBoldLine-1, cTableHeight-1);
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
 
-	y = cCellHeight*3 + cLineWidth*2;
-    currentRect = CGRectMake (0,y,cTableWidth-1,cBoldLine-1);
+    x = cTableStartX;
+	y = cTableStartY + cCellHeight*3 + cLineWidth*2;
+    currentRect = CGRectMake (x, y,cTableWidth-1, cBoldLine-1);
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
 	
-	y = cCellHeight*6 + cLineWidth*4 + cBoldLine;
-    currentRect = CGRectMake (0,y,cTableWidth-1,cBoldLine-1);
+    x = cTableStartX;
+	y = cTableStartY + cCellHeight*6 + cLineWidth*4 + cBoldLine;
+    currentRect = CGRectMake (x, y,cTableWidth-1, cBoldLine-1);
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
 
@@ -215,9 +219,10 @@
 	{
 		if (i%3 != 0)
 		{
-			x = i*cCellWidth + (i-1)*cLineWidth + (i/3)*(cBoldLine-cLineWidth);
-			CGContextMoveToPoint(context, x, 0);
-            CGContextAddLineToPoint(context, x, cTableHeight-1);
+			x = cTableStartX + i*cCellWidth + (i-1)*cLineWidth + (i/3)*(cBoldLine-cLineWidth);
+            y = cTableStartY;
+			CGContextMoveToPoint(context, x, y);
+            CGContextAddLineToPoint(context, x, y+cTableHeight-1);
 		}
 	}
 
@@ -225,9 +230,10 @@
 	{
 		if (i%3 != 0)
 		{
-			y = i*cCellHeight + (i-1)*cLineWidth + (i/3)*(cBoldLine-cLineWidth);
-			CGContextMoveToPoint(context, 0, y);
-            CGContextAddLineToPoint(context, cTableWidth-1, y);
+            x = cTableStartX;
+			y = cTableStartY + i*cCellHeight + (i-1)*cLineWidth + (i/3)*(cBoldLine-cLineWidth);
+			CGContextMoveToPoint(context, x, y);
+            CGContextAddLineToPoint(context, x+cTableWidth-1, y);
 		}
 	}
 	CGContextStrokePath(context);	
@@ -453,8 +459,8 @@
 		}
 	}
 	
-	CGFloat zeroX = xPos*cCellWidth + (xPos-1)*cLineWidth + (xPos/3)*(cBoldLine-cLineWidth); 
-	CGFloat zeroY = yPos*cCellHeight + (yPos-1)*cLineWidth + (yPos/3)*(cBoldLine-cLineWidth);
+	CGFloat zeroX = cTableStartX + xPos*cCellWidth + (xPos-1)*cLineWidth + (xPos/3)*(cBoldLine-cLineWidth);
+	CGFloat zeroY = cTableStartY + yPos*cCellHeight + (yPos-1)*cLineWidth + (yPos/3)*(cBoldLine-cLineWidth);
 
 	NSInteger puzzleNum = [sudokuGame getPuzzleNums:xPos y:yPos];
 	NSInteger fixNum = [sudokuGame getFixNums:xPos y:yPos];
@@ -529,11 +535,11 @@
 // 숫자가 중복되면 안되는 바닥을 보여줌
 
 
-- (void)drawOneCelBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
+- (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
 {
     CGRect currentRect;
-    NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
-    NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
+    NSInteger xPos = cTableStartX + x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth);
+    NSInteger yPos = cTableStartY + y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
@@ -556,34 +562,16 @@
         if (selectedXPos == x ||
             selectedYPos == y ||
             (selectedXPos/3 == x/3 && selectedYPos/3 == y/3)) {
-            [self drawOneCelBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
-            /*
-            CGRect currentRect;
-            NSInteger xPos = x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth); 
-            NSInteger yPos = y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
-		
-            CGContextSetLineWidth(context, cLineDrawWidth);
-            CGContextSetStrokeColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
-            CGContextSetFillColorWithColor(context, bMemoMode ? MemoModeHintBgColor.CGColor : HintBgColor.CGColor);
-            currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
-		
-            CGContextAddRect(context, currentRect);
-            CGContextDrawPath(context, kCGPathFillStroke);
-             */
+            [self drawOneCellBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
 		}
         
         if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
         {
             if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNums:x y:y])
             {    
-                [self drawOneCelBackground:context color:selectedTableBgColor x:x y:y];
+                [self drawOneCellBackground:context color:selectedTableBgColor x:x y:y];
             }
         }
-        
-		//////
-        
-        
-        
 	} //y
 	} //x
 }
@@ -594,8 +582,8 @@
 	if (selectedXPos >= 0 && selectedXPos < 9 && selectedYPos >= 0 && selectedYPos < 9)
 	{
 		CGRect currentRect;
-		NSInteger xPos = selectedXPos*cCellWidth + (selectedXPos-1)*cLineWidth + (selectedXPos/3)*(cBoldLine-cLineWidth); 
-		NSInteger yPos = selectedYPos*cCellHeight + (selectedYPos-1)*cLineWidth + (selectedYPos/3)*(cBoldLine-cLineWidth);
+		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth + (selectedXPos-1)*cLineWidth + (selectedXPos/3)*(cBoldLine-cLineWidth);
+		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight + (selectedYPos-1)*cLineWidth + (selectedYPos/3)*(cBoldLine-cLineWidth);
     
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, selectedTableBgColor.CGColor);
@@ -620,46 +608,35 @@
 	
 }
 
-#define cWidthButton 46*cResizeRatioW
-#define cHeightButton (53*cResizeRatioW*fPress)
-#define cDistXButton 23*cResizeRatioW
-#define cDistYButton ((rectCurrent.size.height*fPress-cYButtonStart)*0.98-cHeightButton)
+#define cWidthButton ((isIphone5 && !isPortrait ? 55 : 46)*cResizeRatioW)
+#define cHeightButton ((isIphone5 && !isPortrait ? 64 : 53)*cResizeRatioW*fPress)
+#define cDistXButton cWidthButton/2 // 23*cResizeRatioW
+#define cDistYButton (isIphone5 ? cHeightButton : ((rectCurrent.size.height*fPress-cYButtonStart)*0.98-cHeightButton))
+             
 
 #define cWidthScreen fTableWidth
 #define cYButtonStart (fButtonStart)
 
 - (NSInteger) buttonXCenter:(NSInteger)i
 {
-	NSInteger centerX, centerY, x;
+	NSInteger centerX, x;
     if (i == 2)
     {
         NSLog(@"cWidthScreen=%f", cWidthScreen);
     }
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (isPortrait) {
 		centerX = cWidthScreen/2;
 	} else {
-        if (i == 2)
-        {
-            NSLog(@"rectCurrent.size.width=%f", rectCurrent.size.width);
-        }
-        
-        centerX = fTableWidth + (rectCurrent.size.width - fTableWidth)/2;
-#ifdef ADMOB_FREEVERSION
-		centerY = (fTableWidth/fPress)/2 + 1;
-#else
-		centerY = fTableWidth/2 + 1;
-#endif        
-
+        centerX = cTableStartX + fTableWidth + (rectCurrent.size.width - cTableStartX - fTableWidth)/2;
+        NSLog(@"centerX = %d", centerX);
 	}	
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
+	if (isPortrait) {
 		x = centerX + (i-5)*cDistXButton;	
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {
-			x = centerX + (((i-1)%3)-1) * cWidthButton * 1.3;
+			x = centerX + (((i-1)%3)-1) * cWidthButton * 1.2;
 		} else {
 			x = centerX + (((i+1)%2)*2-1)*cWidthButton/2;
 		}
@@ -670,18 +647,16 @@
 
 - (NSInteger) buttonYCenter:(NSInteger)i
 {
-	NSInteger centerX, centerY, y;
+	NSInteger centerY, y;
 
     NSLog(@"buttonYCenter(%d, cTableWidth=%f)", i, cTableWidth);
     if (i == 2)
     {
         NSLog(@"cWidthScreen=%f", cWidthScreen);
     }
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-		centerX = cWidthScreen/2;
+	if (isPortrait) {
+
 	} else {
-		centerX = cTableWidth + (rectCurrent.size.width - fTableWidth)/2;
 #ifdef ADMOB_FREEVERSION
 		centerY = (cTableHeight/fPress)/2;
 #else
@@ -689,10 +664,13 @@
 #endif
 	}	
 	
-	if (lastOrientation == UIInterfaceOrientationPortrait ||
-		lastOrientation == UIInterfaceOrientationPortraitUpsideDown) {
-        NSLog(@"cYButtonStart=%f, cDistYButton=%f, cHeightButton=%f", cYButtonStart, cDistYButton, cHeightButton);
-		y = cYButtonStart+((i+1)%2)*cDistYButton + cHeightButton/2;
+	if (isPortrait) {
+		if (isIphone5)
+        {
+            y = cYButtonStart+((i+1)%2)*cDistYButton + cHeightButton/2;
+        } else {
+            y = cYButtonStart+((i+1)%2)*cDistYButton + cHeightButton/2;
+        }
 	} else {
 		if (cDeviceType == DEVICETYPE_IPHONE) {
 			y = cTableHeight/2 - cHeightButton*1.2 + (i-1)/3 * cHeightButton*1.2;
@@ -828,7 +806,9 @@
 
 - (NSInteger) TouchToPosX:(CGFloat)floatTouch
 {
-	if (floatTouch >= (cCellWidth*3 + cLineWidth*2))
+    floatTouch -= cTableStartX;
+	
+    if (floatTouch >= (cCellWidth*3 + cLineWidth*2))
 		floatTouch -= (cBoldLine - cLineWidth);
 	if (floatTouch >= (cCellWidth*6 + cLineWidth*5))
 		floatTouch -= (cBoldLine - cLineWidth);
@@ -842,6 +822,8 @@
 
 - (NSInteger) TouchToPosY:(CGFloat)floatTouch
 {
+    floatTouch -= cTableStartY;
+    
 	if (floatTouch >= (cCellHeight*3 + cLineWidth*2))
 		floatTouch -= (cBoldLine - cLineWidth);
 	if (floatTouch >= (cCellHeight*6 + cLineWidth*5))

@@ -6,11 +6,15 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
+
+
 @protocol FlipsideViewControllerDelegate;
 
 
 @interface FlipsideViewController : UIViewController {
 	id <FlipsideViewControllerDelegate> delegate;
+    
+//    MainViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;
@@ -53,6 +57,7 @@
 
 @property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 
+//@property (nonatomic, retain) MainViewController	*mainViewController;
 @property (nonatomic, retain) IBOutlet UINavigationItem	*naviItem;
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 

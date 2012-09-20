@@ -183,7 +183,10 @@
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 #ifdef ADMOB_FREEVERSION	   
-       mainView.fPress =  (frameMainViewOrg.size.height - ((cDeviceType == DEVICETYPE_IPAD) ? IPAD_GAD_H : IPHONE_GAD_H)) / 
+       if (isIphone5)
+           mainView.fPress = 1.f;
+       else
+           mainView.fPress =  (frameMainViewOrg.size.height - ((cDeviceType == DEVICETYPE_IPAD) ? IPAD_GAD_H : IPHONE_GAD_H)) /
                             frameMainViewOrg.size.height;	
        NSLog(@"fPress = %f", mainView.fPress);
 		[self setPressAd];
@@ -339,6 +342,7 @@
 										  cDeviceType == DEVICETYPE_IPAD ? @"FlipsideView4iPad" : 
 										  @"FlipsideView" bundle:nil];
 	controller.delegate = self;
+//    controller.mainViewController = self;
 	
 	controller.title = NSLocalizedString(@"Score", nil);
 	
@@ -733,58 +737,26 @@
 		buttonHint.enabled = NO;		
 	}
 }
-/*
-- (void) didRotate:(NSNotification *)notification {
-    [self getDeviceOrientation];
-    [self setOrientationReady];
-  
-    
-    [self getDeviceOrientation];
 
-    UIInterfaceOrientation toInterfaceOrientation = mainView.lastOrientation;
-    
-	if (toInterfaceOrientation == UIInterfaceOrientationPortrait ||
-		toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
-		buttonNew.frame = frameNewPortrait;
-		buttonReset.frame = frameResetPortrait;
-		buttonScore.frame = frameScorePortrait;
-		buttonDel.frame = frameDelPortrait;
-		buttonUndo.frame = frameUndoPortrait;
-		buttonMemo.frame = frameMemoPortrait;
-		buttonHint.frame = frameHintButtonPortrait;
-		
-		labelTitleLevel.frame = frameTitleLevelPortrait;
-		labelLevel.frame = frameLevelPortrait;
-		labelTitleGameTime.frame = frameTitleGameTimePortrait;
-		labelGameTime.frame = frameGameTimePortrait;
-		labelTitleBlank.frame = frameTitleBlankPortrait;
-		labelBlank.frame = frameBlankPortrait;
-		labelTitleHint.frame = frameTitleHintPortrait;
-		labelHint.frame = frameHintPortrait;
-	} else {
-		buttonNew.frame = frameNewLandscape;
-		buttonReset.frame = frameResetLandscape;
-		buttonScore.frame = frameScoreLandscape;
-		buttonDel.frame = frameDelLandscape;
-		buttonUndo.frame = frameUndoLandscape;
-		buttonMemo.frame = frameMemoLandscape;
-		buttonHint.frame = frameHintButtonLandscape;
-        
-		labelTitleLevel.frame = frameTitleLevelLandscape;
-		labelLevel.frame = frameLevelLandscape;
-		labelTitleGameTime.frame = frameTitleGameTimeLandscape;
-		labelGameTime.frame = frameGameTimeLandscape;
-		labelTitleBlank.frame = frameTitleBlankLandscape;
-		labelBlank.frame = frameBlankLandscape;
-		labelTitleHint.frame = frameTitleHintLandscape;
-		labelHint.frame = frameHintLandscape;
-	}
-    
-    
-    [mainView setNeedsDisplay];
-    
+- (CGFloat) LandScapeButtonXforiPhone5:(NSInteger)n
+{
+    return 4.0;
 }
-*/
+
+- (CGFloat) LandScapeButtonYforiPhone5:(NSInteger)n
+{
+    CGFloat buttonHeight = frameNewPortrait.size.height;
+    CGFloat margineButton = 2;
+    CGFloat betweenButtons = 10;
+    
+    if (n > 0)
+    {
+        return margineButton + (n-1)*(buttonHeight + betweenButtons);
+    } else {
+        return mainView.rectLandscape.size.height - margineButton + n*buttonHeight + (n+1)*betweenButtons;
+    }
+}
+
 - (void) setOrientationReady
 {
 	NSLog(@"setOrientationReady");
@@ -825,46 +797,48 @@
     widthLandTable = mainView.rectLandscape.size.height;
 #endif
     NSLog(@"widthLandTable=%f", widthLandTable);
-	CGFloat startButtonX = widthLandTable + 10;
-	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - 10;
-	
+    CGFloat betweenTableButtons = 10;
+	CGFloat startButtonX = isIphone5 ? widthLandTable + cTableXMargine + betweenTableButtons : widthLandTable + betweenTableButtons;
+	CGFloat widthButtons = mainView.rectLandscape.size.width - startButtonX - frameNewPortrait.size.width - betweenTableButtons - 7;
+	CGFloat landH = mainView.rectLandscape.size.height;
+    CGFloat margine = 2;
 	
 	frameTemp = frameNewPortrait;
-	frameTemp.origin.x = startButtonX;//mainView.rectLandscape.size.height + 10;
-	frameTemp.origin.y = 2;
+	frameTemp.origin.x = isIphone5 ? [self LandScapeButtonXforiPhone5:1] : startButtonX;
+	frameTemp.origin.y = isIphone5 ? [self LandScapeButtonYforiPhone5:1] : margine;
 	frameNewLandscape = frameTemp;
 	
 	frameTemp = frameScorePortrait;
-	frameTemp.origin.x = startButtonX + widthButtons/2;//mainView.rectLandscape.size.width - 10 - frameTemp.size.width;
-	frameTemp.origin.y = 2;
+	frameTemp.origin.x = isIphone5 ? [self LandScapeButtonXforiPhone5:2] : startButtonX + widthButtons/2;
+	frameTemp.origin.y = isIphone5 ? [self LandScapeButtonYforiPhone5:2] : margine;
 	frameScoreLandscape = frameTemp;
     
 	frameTemp = frameResetPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons*2/3;//frameNewLandscape.origin.x*1/3 + frameScoreLandscape.origin.x*2/3;
-	frameTemp.origin.y = -100;          // 사라진다.
+	frameTemp.origin.x = isIphone5 ? [self LandScapeButtonXforiPhone5:3] : startButtonX + widthButtons*2/3;
+	frameTemp.origin.y = isIphone5 ? [self LandScapeButtonYforiPhone5:3] : -100;          // 사라진다.
 	frameResetLandscape = frameTemp;
 	
 	frameTemp = frameDelPortrait;
-	frameTemp.origin.x = startButtonX + widthButtons;//frameNewLandscape.origin.x*2/3 + frameScoreLandscape.origin.x*1/3;
-	frameTemp.origin.y = 2;
+	frameTemp.origin.x = isIphone5 ? startButtonX : startButtonX + widthButtons;
+	frameTemp.origin.y = isIphone5 ? landH - margine - frameTemp.size.height : margine;
 	frameDelLandscape = frameTemp;
 	
     
     
 	
 	frameTemp = frameHintButtonPortrait;
-	frameTemp.origin.x = startButtonX;
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameTemp.origin.x = isIphone5 ? [self LandScapeButtonXforiPhone5:-2] : startButtonX;
+	frameTemp.origin.y = isIphone5 ? [self LandScapeButtonYforiPhone5:-2] : landH - margine - frameTemp.size.height;
 	frameHintButtonLandscape = frameTemp;
     
 	frameTemp = frameUndoPortrait;
-	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons/2;
-	frameTemp.origin.y = frameHintButtonLandscape.origin.y;
+	frameTemp.origin.x = isIphone5 ? [self LandScapeButtonXforiPhone5:-1] : frameHintButtonLandscape.origin.x + widthButtons/2;
+	frameTemp.origin.y = isIphone5 ? [self LandScapeButtonYforiPhone5:-1] : frameHintButtonLandscape.origin.y;
 	frameUndoLandscape = frameTemp;
 	
 	frameTemp = frameMemoPortrait;
-	frameTemp.origin.x = frameHintButtonLandscape.origin.x + widthButtons;
-	frameTemp.origin.y = mainView.rectLandscape.size.height - 2 - frameTemp.size.height;
+	frameTemp.origin.x = isIphone5 ? startButtonX + widthButtons : frameHintButtonLandscape.origin.x + widthButtons;
+	frameTemp.origin.y = landH - margine - frameTemp.size.height;
 	frameMemoLandscape = frameTemp;
 	
 	
@@ -884,17 +858,17 @@
 	frameHintPortrait = labelHint.frame;
 	
 	frameTemp = frameTitleLevelPortrait;
-	frameTemp.origin.x = frameNewLandscape.origin.x;
-	frameTemp.origin.y = frameNewLandscape.origin.y + frameNewLandscape.size.height*1.3;
+	frameTemp.origin.x = startButtonX;
+	frameTemp.origin.y = isIphone5 ? margine : margine + frameNewLandscape.size.height*1.3;
 	frameTitleLevelLandscape = frameTemp;
 	
 	frameTemp = frameLevelPortrait;
-	frameTemp.origin.x = frameTitleLevelLandscape.origin.x;
+	frameTemp.origin.x = startButtonX;
 	frameTemp.origin.y = frameTitleLevelLandscape.origin.y + frameTitleLevelLandscape.size.height;
 	frameLevelLandscape = frameTemp;
     
  	frameTemp = frameTitleBlankPortrait;
-	frameTemp.origin.x = frameResetLandscape.origin.x;
+	frameTemp.origin.x = isIphone5 ? startButtonX + widthButtons*0.7 : startButtonX + widthButtons*0.7;
 	frameTemp.origin.y = frameTitleLevelLandscape.origin.y;
 	frameTitleBlankLandscape = frameTemp;
 	
@@ -905,24 +879,24 @@
     
     
 	frameTemp = frameTitleHintPortrait;
-	frameTemp.origin.x = frameLevelLandscape.origin.x;
+	frameTemp.origin.x = isIphone5 ? frameHintButtonLandscape.origin.x : startButtonX;
 	frameTemp.origin.y = frameHintButtonLandscape.origin.y - frameHintButtonLandscape.size.height*0.4 - frameHintPortrait.size.height - frameTitleHintPortrait.size.height;
 	frameTitleHintLandscape = frameTemp;
 	
 	frameTemp = frameHintPortrait;
-	frameTemp.origin.x = frameTitleHintLandscape.origin.x;
+	frameTemp.origin.x = isIphone5 ? frameTitleHintLandscape.origin.x + 5 : frameTitleHintLandscape.origin.x;
 	frameTemp.origin.y = frameTitleHintLandscape.origin.y + frameTitleHintLandscape.size.height;
 	frameHintLandscape = frameTemp;
 	
     
 	frameTemp = frameTitleGameTimePortrait;
-	frameTemp.origin.x = frameUndoLandscape.origin.x;
-	frameTemp.origin.y = frameTitleHintLandscape.origin.y;
+	frameTemp.origin.x = isIphone5 ? startButtonX + widthButtons : frameUndoLandscape.origin.x;
+	frameTemp.origin.y = isIphone5 ? margine: frameTitleHintLandscape.origin.y;
 	frameTitleGameTimeLandscape = frameTemp;
 	
 	frameTemp = frameGameTimePortrait;
 	frameTemp.origin.x = frameTitleGameTimeLandscape.origin.x;
-	frameTemp.origin.y = frameHintLandscape.origin.y;
+	frameTemp.origin.y = frameTitleGameTimeLandscape.origin.y + frameTitleGameTimeLandscape.size.height;
 	frameGameTimeLandscape = frameTemp;
     
 	
@@ -1032,7 +1006,7 @@
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-    //[mainView setNeedsDisplay];
+    [mainView setNeedsDisplay];
 //    [self setOrientation];
 }
 
