@@ -10,7 +10,7 @@
 #import "SudokuNum.h"
 #import "Constants.h"
 
-@interface SudokuGame : NSObject {
+@interface SudokuGame : NSObject {      // 스도쿠 게임 운영 
 	NSInteger		gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)

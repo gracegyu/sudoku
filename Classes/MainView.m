@@ -251,10 +251,10 @@
 	}
 		
 	NSString *str = [[NSString alloc] initWithFormat:@"%d", pushedButton];
-/*	NSRange range = [strNum rangeOfString:@"*"];
+/*	NSRange range;
 	BOOL bFixedCellByUser = NO;
 	
-	if (range.location != NSNotFound)
+	if ([SudokuNum isFixedByUser:strNum])
 		bFixedCellByUser = YES;
 	
 	range = [strNum rangeOfString:str];
@@ -784,7 +784,7 @@
 //	NSString* s;
 	
 //	NSLog(@"%@", [sudokuNum getNums]);
-//		NSLog(@"s = %@", [self.sudokuNum getCellNumX:0 yPos:0]);
+
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
 	NSLog(@"drawRect ---------- refresh");
@@ -1166,7 +1166,10 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 	} else {
 		UITouch *touch = [touches anyObject];
 		CGPoint	firstTouch = [touch locationInView:self];
-		if (firstTouch.y < cTableWidth)
+
+        if (firstTouch.x >= cTableStartX && firstTouch.x < cTableStartX+cTableWidth &&
+            firstTouch.y >= cTableStartY && firstTouch.y < cTableStartY+cTableHeight)
+//		if (firstTouch.y < cTableWidth)
 		{
 			bPressedInCell = YES;
 		}

@@ -11,7 +11,7 @@
 #define kSudokuNum		@"sudokunum"
 #define kSudokuTrack	@"sudokutrack"
 
-@interface SudokuNum : NSObject 
+@interface SudokuNum : NSObject // 스도쿠 퍼즐 생성기
 {
 	NSMutableArray	*nums;
 	NSString		*strUndo;
@@ -34,20 +34,11 @@
 @property NSInteger		countAutoFixed;
 @property NSInteger		countNotFixed;
 
+
 - (BOOL) setCellAuto:(NSInteger)handy;
-- (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
-- (BOOL) setCellCheck:(NSString*)str xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
-- (BOOL) setCellUserFixed:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
-- (NSString*) strDelNum:(NSString*)str ucNum:(unichar)ucNum;
-- (NSString*) getCellNumX:(NSInteger)xPos yPos:(NSInteger)yPos;
-+ (BOOL) fixedByUser:(NSString*)str;
-+ (BOOL) fixedByAuto:(NSString*)str;
-- (void) clearCell;
-- (void) editCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
+- (NSString*) getCellStr:(NSInteger)x y:(NSInteger)y;
++ (BOOL) isFixedByUser:(NSString*)str;
 - (void) printNums;
-- (void) saveData;
-- (void) loadData;
-- (CGPoint) undoSet:(NSInteger)num;
 - (void) countCell;
    
 @end

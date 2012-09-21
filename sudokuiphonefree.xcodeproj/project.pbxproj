@@ -7,49 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		280E754D0DD40C5E005A515E /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754A0DD40C5E005A515E /* FlipsideView.xib */; };
 		288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765580DF743DE002DB57D /* CoreGraphics.framework */; };
 		289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A30DB2D0840083E9F9 /* FlipsideView.m */; };
 		289233A70DB2D0840083E9F9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A50DB2D0840083E9F9 /* MainView.m */; };
 		289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A90DB2D0DB0083E9F9 /* MainViewController.m */; };
 		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
-		CF023CE31212503B009C58A3 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 280E754B0DD40C5E005A515E /* MainView.xib */; };
-		CF1BB7931287D16A0054FA4C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF1BB7921287D16A0054FA4C /* Default.png */; };
-		CF3ADFD3121E5F9C0072E639 /* MainView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */; };
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
 		CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */; };
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
+		CF50283A160B2AB100B1CDF6 /* SudokuGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998585160B26B70097879C /* SudokuGame.m */; };
+		CF50283B160B2AB100B1CDF6 /* SudokuNum.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998587160B26B70097879C /* SudokuNum.m */; };
 		CF68482214F73DDF007ECC9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */; };
-		CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF68483D14F7646B007ECC9D /* Sudoku-free.plist */; };
-		CF6FF90E1288F0C100587748 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9071288F0C100587748 /* Icon-72.png */; };
-		CF6FF90F1288F0C100587748 /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9081288F0C100587748 /* Icon-512.png */; };
-		CF6FF9101288F0C100587748 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF9091288F0C100587748 /* Icon-Small-50.png */; };
-		CF6FF9111288F0C100587748 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF90A1288F0C100587748 /* Icon-Small.png */; };
-		CF6FF9121288F0C100587748 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF90B1288F0C100587748 /* Icon-Small@2x.png */; };
-		CF6FF9131288F0C100587748 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF90C1288F0C100587748 /* Icon.png */; };
-		CF6FF9141288F0C100587748 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6FF90D1288F0C100587748 /* Icon@2x.png */; };
 		CF6FF9271288F19200587748 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6FF9261288F19200587748 /* iAd.framework */; };
 		CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF80599F1155213300AE3DB5 /* AudioToolbox.framework */; };
-		CF8059A81155220600AE3DB5 /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF8059A51155220600AE3DB5 /* fail.wav */; };
-		CF8059D411552D0600AE3DB5 /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF8059D311552D0600AE3DB5 /* clear.wav */; };
-		CF85176816099C5900090393 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF85176716099C5900090393 /* Default-568h@2x.png */; };
-		CF89365011F9592000C65D98 /* SudokuGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CF89364F11F9592000C65D98 /* SudokuGame.m */; };
-		CF95D0E412278FBF0016338F /* FlipsideView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF95D0E312278FBF0016338F /* FlipsideView4iPad.xib */; };
 		CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96BC70114F4D0D009B4E78 /* AppDelegate.m */; };
 		CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
+		CF998520160B24710097879C /* Sudoku.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF99851F160B24710097879C /* Sudoku.plist */; };
+		CF99853A160B25560097879C /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998532160B25560097879C /* Icon-72.png */; };
+		CF99853B160B25560097879C /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998533160B25560097879C /* Icon-512.png */; };
+		CF99853C160B25560097879C /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998534160B25560097879C /* Icon-1024.png */; };
+		CF99853D160B25560097879C /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998535160B25560097879C /* Icon-Small-50.png */; };
+		CF99853E160B25560097879C /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998536160B25560097879C /* Icon-Small.png */; };
+		CF99853F160B25560097879C /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998537160B25560097879C /* Icon-Small@2x.png */; };
+		CF998540160B25560097879C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998538160B25560097879C /* Icon.png */; };
+		CF998541160B25560097879C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998539160B25560097879C /* Icon@2x.png */; };
+		CF998548160B25CE0097879C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998546160B25CE0097879C /* Default-568h@2x.png */; };
+		CF998549160B25CE0097879C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998547160B25CE0097879C /* Default.png */; };
+		CF998552160B26130097879C /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99854A160B26130097879C /* clear.wav */; };
+		CF998553160B26130097879C /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99854B160B26130097879C /* click.wav */; };
+		CF998554160B26130097879C /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99854C160B26130097879C /* fail.wav */; };
+		CF998555160B26130097879C /* Funk.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF99854D160B26130097879C /* Funk.aiff */; };
+		CF998556160B26130097879C /* Funk.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99854E160B26130097879C /* Funk.wav */; };
+		CF998557160B26130097879C /* Pop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF99854F160B26130097879C /* Pop.aiff */; };
+		CF998558160B26130097879C /* Sosumi.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF998550160B26130097879C /* Sosumi.aiff */; };
+		CF998559160B26130097879C /* Tink.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF998551160B26130097879C /* Tink.aiff */; };
+		CF998579160B266D0097879C /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF998574160B266D0097879C /* FlipsideView.xib */; };
+		CF99857A160B266D0097879C /* FlipsideView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF998575160B266D0097879C /* FlipsideView4iPad.xib */; };
+		CF99857B160B266D0097879C /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF998576160B266D0097879C /* MainView.xib */; };
+		CF99857C160B266D0097879C /* MainView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF998577160B266D0097879C /* MainView4iPad.xib */; };
+		CF99857D160B266D0097879C /* MainView4iPhone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF998578160B266D0097879C /* MainView4iPhone5.xib */; };
+		CF998597160B275E0097879C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998596160B275E0097879C /* main.m */; };
 		CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */; };
 		CFA531891586DB92008E2F78 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */; };
-		CFBB5FC215B6716400C9E087 /* Pop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFBB5FC115B6716400C9E087 /* Pop.aiff */; };
-		CFBC5421160AD23000374675 /* MainView4iPhone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFBC5420160AD23000374675 /* MainView4iPhone5.xib */; };
-		CFBE97E2114DED8700CCED88 /* SudokuNum.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBE97E1114DED8700CCED88 /* SudokuNum.m */; };
-		CFDA65F21157614A00A77B90 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CFDA65F11157614A00A77B90 /* click.wav */; };
-		CFDA66051157626500A77B90 /* Funk.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFDA66041157626500A77B90 /* Funk.aiff */; };
-		CFDA660E115762D100A77B90 /* Tink.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFDA660D115762D100A77B90 /* Tink.aiff */; };
-		CFDA66151157642B00A77B90 /* Sosumi.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CFDA66141157642B00A77B90 /* Sosumi.aiff */; };
-		CFDA662A115766BA00A77B90 /* Funk.wav in Resources */ = {isa = PBXBuildFile; fileRef = CFDA6629115766BA00A77B90 /* Funk.wav */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,8 +58,6 @@
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		280E754A0DD40C5E005A515E /* FlipsideView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideView.xib; sourceTree = "<group>"; };
-		280E754B0DD40C5E005A515E /* MainView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView.xib; sourceTree = "<group>"; };
 		288765580DF743DE002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		289233A20DB2D0840083E9F9 /* FlipsideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideView.h; path = Classes/FlipsideView.h; sourceTree = "<group>"; };
 		289233A30DB2D0840083E9F9 /* FlipsideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideView.m; path = Classes/FlipsideView.m; sourceTree = "<group>"; };
@@ -68,7 +67,6 @@
 		289233A90DB2D0DB0083E9F9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
 		289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideViewController.h; path = Classes/FlipsideViewController.h; sourceTree = "<group>"; };
 		289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideViewController.m; path = Classes/FlipsideViewController.m; sourceTree = "<group>"; };
-		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* sudoku_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sudoku_Prefix.pch; sourceTree = "<group>"; };
 		CF023E3A1212719E009C58A3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF023E3B121271A8009C58A3 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -80,32 +78,45 @@
 		CF023EA51212853A009C58A3 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF023EA61212853D009C58A3 /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF023EA712128541009C58A3 /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		CF1BB7921287D16A0054FA4C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainView4iPad.xib; sourceTree = "<group>"; };
 		CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		CF68483D14F7646B007ECC9D /* Sudoku-free.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Sudoku-free.plist"; sourceTree = "<group>"; };
-		CF6FF9071288F0C100587748 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "resource/Free/Icon-72.png"; sourceTree = "<group>"; };
-		CF6FF9081288F0C100587748 /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-512.png"; path = "resource/Free/Icon-512.png"; sourceTree = "<group>"; };
-		CF6FF9091288F0C100587748 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "resource/Free/Icon-Small-50.png"; sourceTree = "<group>"; };
-		CF6FF90A1288F0C100587748 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "resource/Free/Icon-Small.png"; sourceTree = "<group>"; };
-		CF6FF90B1288F0C100587748 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "resource/Free/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		CF6FF90C1288F0C100587748 /* Icon.png */ = {isa = PBXFileReference; explicitFileType = image.icns; name = Icon.png; path = resource/Free/Icon.png; sourceTree = "<group>"; };
-		CF6FF90D1288F0C100587748 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "resource/Free/Icon@2x.png"; sourceTree = "<group>"; };
 		CF6FF9261288F19200587748 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		CF8059A51155220600AE3DB5 /* fail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = fail.wav; sourceTree = "<group>"; };
-		CF8059D311552D0600AE3DB5 /* clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = clear.wav; sourceTree = "<group>"; };
-		CF85176716099C5900090393 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		CF865C56114FBB1100662564 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		CF89364E11F9592000C65D98 /* SudokuGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SudokuGame.h; sourceTree = "<group>"; };
-		CF89364F11F9592000C65D98 /* SudokuGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SudokuGame.m; sourceTree = "<group>"; };
-		CF95D0E312278FBF0016338F /* FlipsideView4iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FlipsideView4iPad.xib; sourceTree = "<group>"; };
 		CF96BC70114F4D0D009B4E78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CF98AE10120FADF40041A3FE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF98AE14120FAE010041A3FE /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CF99851F160B24710097879C /* Sudoku.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Sudoku.plist; path = resource/Sudoku9free/Sudoku.plist; sourceTree = "<group>"; };
+		CF998532160B25560097879C /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "resource/Sudoku9free/Icon-72.png"; sourceTree = "<group>"; };
+		CF998533160B25560097879C /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-512.png"; path = "resource/Sudoku9free/Icon-512.png"; sourceTree = "<group>"; };
+		CF998534160B25560097879C /* Icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-1024.png"; path = "resource/Sudoku9free/Icon-1024.png"; sourceTree = "<group>"; };
+		CF998535160B25560097879C /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "resource/Sudoku9free/Icon-Small-50.png"; sourceTree = "<group>"; };
+		CF998536160B25560097879C /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "resource/Sudoku9free/Icon-Small.png"; sourceTree = "<group>"; };
+		CF998537160B25560097879C /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "resource/Sudoku9free/Icon-Small@2x.png"; sourceTree = "<group>"; };
+		CF998538160B25560097879C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = resource/Sudoku9free/Icon.png; sourceTree = "<group>"; };
+		CF998539160B25560097879C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "resource/Sudoku9free/Icon@2x.png"; sourceTree = "<group>"; };
+		CF998546160B25CE0097879C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "resource/Default-568h@2x.png"; sourceTree = "<group>"; };
+		CF998547160B25CE0097879C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = resource/Default.png; sourceTree = "<group>"; };
+		CF99854A160B26130097879C /* clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = clear.wav; path = resource/clear.wav; sourceTree = "<group>"; };
+		CF99854B160B26130097879C /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = click.wav; path = resource/click.wav; sourceTree = "<group>"; };
+		CF99854C160B26130097879C /* fail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = fail.wav; path = resource/fail.wav; sourceTree = "<group>"; };
+		CF99854D160B26130097879C /* Funk.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Funk.aiff; path = resource/Funk.aiff; sourceTree = "<group>"; };
+		CF99854E160B26130097879C /* Funk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Funk.wav; path = resource/Funk.wav; sourceTree = "<group>"; };
+		CF99854F160B26130097879C /* Pop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Pop.aiff; path = resource/Pop.aiff; sourceTree = "<group>"; };
+		CF998550160B26130097879C /* Sosumi.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Sosumi.aiff; path = resource/Sosumi.aiff; sourceTree = "<group>"; };
+		CF998551160B26130097879C /* Tink.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Tink.aiff; path = resource/Tink.aiff; sourceTree = "<group>"; };
+		CF998574160B266D0097879C /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView.xib; path = resource/FlipsideView.xib; sourceTree = "<group>"; };
+		CF998575160B266D0097879C /* FlipsideView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView4iPad.xib; path = resource/FlipsideView4iPad.xib; sourceTree = "<group>"; };
+		CF998576160B266D0097879C /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = resource/MainView.xib; sourceTree = "<group>"; };
+		CF998577160B266D0097879C /* MainView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView4iPad.xib; path = resource/MainView4iPad.xib; sourceTree = "<group>"; };
+		CF998578160B266D0097879C /* MainView4iPhone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView4iPhone5.xib; path = resource/MainView4iPhone5.xib; sourceTree = "<group>"; };
+		CF998583160B26AA0097879C /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
+		CF998584160B26B70097879C /* SudokuGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SudokuGame.h; path = Classes/SudokuGame.h; sourceTree = "<group>"; };
+		CF998585160B26B70097879C /* SudokuGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SudokuGame.m; path = Classes/SudokuGame.m; sourceTree = "<group>"; };
+		CF998586160B26B70097879C /* SudokuNum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SudokuNum.h; path = Classes/SudokuNum.h; sourceTree = "<group>"; };
+		CF998587160B26B70097879C /* SudokuNum.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SudokuNum.m; path = Classes/SudokuNum.m; sourceTree = "<group>"; };
+		CF998596160B275E0097879C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
 		CFA46E0F115E7BAB0090B9B1 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFA46E13115E7BB60090B9B1 /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFA5317F1586DB92008E2F78 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADAdMobExtras.h; path = GoogleAdMobAdsSDK/GADAdMobExtras.h; sourceTree = SOURCE_ROOT; };
@@ -118,15 +129,6 @@
 		CFA531861586DB92008E2F78 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADRequest.h; path = GoogleAdMobAdsSDK/GADRequest.h; sourceTree = SOURCE_ROOT; };
 		CFA531871586DB92008E2F78 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GADRequestError.h; path = GoogleAdMobAdsSDK/GADRequestError.h; sourceTree = SOURCE_ROOT; };
 		CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAdMobAds.a; path = GoogleAdMobAdsSDK/libGoogleAdMobAds.a; sourceTree = SOURCE_ROOT; };
-		CFBB5FC115B6716400C9E087 /* Pop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Pop.aiff; sourceTree = "<group>"; };
-		CFBC5420160AD23000374675 /* MainView4iPhone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainView4iPhone5.xib; sourceTree = "<group>"; };
-		CFBE97E0114DED8700CCED88 /* SudokuNum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SudokuNum.h; sourceTree = "<group>"; };
-		CFBE97E1114DED8700CCED88 /* SudokuNum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SudokuNum.m; sourceTree = "<group>"; };
-		CFDA65F11157614A00A77B90 /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
-		CFDA66041157626500A77B90 /* Funk.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Funk.aiff; sourceTree = "<group>"; };
-		CFDA660D115762D100A77B90 /* Tink.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Tink.aiff; sourceTree = "<group>"; };
-		CFDA66141157642B00A77B90 /* Sosumi.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; path = Sosumi.aiff; sourceTree = "<group>"; };
-		CFDA6629115766BA00A77B90 /* Funk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Funk.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,7 +184,7 @@
 		289233A00DB2D0730083E9F9 /* Main View */ = {
 			isa = PBXGroup;
 			children = (
-				CF865C56114FBB1100662564 /* Constants.h */,
+				CF998583160B26AA0097879C /* Constants.h */,
 				289233A40DB2D0840083E9F9 /* MainView.h */,
 				289233A50DB2D0840083E9F9 /* MainView.m */,
 				289233A80DB2D0DB0083E9F9 /* MainViewController.h */,
@@ -210,8 +212,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CF998596160B275E0097879C /* main.m */,
 				32CA4F630368D1EE00C91783 /* sudoku_Prefix.pch */,
-				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -219,29 +221,30 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CF68483D14F7646B007ECC9D /* Sudoku-free.plist */,
-				CF6FF9071288F0C100587748 /* Icon-72.png */,
-				CF6FF9081288F0C100587748 /* Icon-512.png */,
-				CF6FF9091288F0C100587748 /* Icon-Small-50.png */,
-				CF6FF90A1288F0C100587748 /* Icon-Small.png */,
-				CF6FF90B1288F0C100587748 /* Icon-Small@2x.png */,
-				CF6FF90C1288F0C100587748 /* Icon.png */,
-				CF6FF90D1288F0C100587748 /* Icon@2x.png */,
-				CF1BB7921287D16A0054FA4C /* Default.png */,
-				CF85176716099C5900090393 /* Default-568h@2x.png */,
-				CFDA6629115766BA00A77B90 /* Funk.wav */,
-				CFDA66141157642B00A77B90 /* Sosumi.aiff */,
-				CFDA660D115762D100A77B90 /* Tink.aiff */,
-				CFDA66041157626500A77B90 /* Funk.aiff */,
-				CFDA65F11157614A00A77B90 /* click.wav */,
-				CF8059D311552D0600AE3DB5 /* clear.wav */,
-				CF8059A51155220600AE3DB5 /* fail.wav */,
-				CFBB5FC115B6716400C9E087 /* Pop.aiff */,
-				280E754A0DD40C5E005A515E /* FlipsideView.xib */,
-				CF95D0E312278FBF0016338F /* FlipsideView4iPad.xib */,
-				280E754B0DD40C5E005A515E /* MainView.xib */,
-				CFBC5420160AD23000374675 /* MainView4iPhone5.xib */,
-				CF3ADFD2121E5F9C0072E639 /* MainView4iPad.xib */,
+				CF99851F160B24710097879C /* Sudoku.plist */,
+				CF998532160B25560097879C /* Icon-72.png */,
+				CF998533160B25560097879C /* Icon-512.png */,
+				CF998534160B25560097879C /* Icon-1024.png */,
+				CF998535160B25560097879C /* Icon-Small-50.png */,
+				CF998536160B25560097879C /* Icon-Small.png */,
+				CF998537160B25560097879C /* Icon-Small@2x.png */,
+				CF998538160B25560097879C /* Icon.png */,
+				CF998539160B25560097879C /* Icon@2x.png */,
+				CF998546160B25CE0097879C /* Default-568h@2x.png */,
+				CF998547160B25CE0097879C /* Default.png */,
+				CF99854A160B26130097879C /* clear.wav */,
+				CF99854B160B26130097879C /* click.wav */,
+				CF99854C160B26130097879C /* fail.wav */,
+				CF99854D160B26130097879C /* Funk.aiff */,
+				CF99854E160B26130097879C /* Funk.wav */,
+				CF99854F160B26130097879C /* Pop.aiff */,
+				CF998550160B26130097879C /* Sosumi.aiff */,
+				CF998551160B26130097879C /* Tink.aiff */,
+				CF998574160B266D0097879C /* FlipsideView.xib */,
+				CF998575160B266D0097879C /* FlipsideView4iPad.xib */,
+				CF998576160B266D0097879C /* MainView.xib */,
+				CF998577160B266D0097879C /* MainView4iPad.xib */,
+				CF998578160B266D0097879C /* MainView4iPhone5.xib */,
 				CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */,
 				CF98AE12120FADFC0041A3FE /* Localizable.strings */,
 			);
@@ -284,10 +287,10 @@
 		CFBE97D5114DE8FC00CCED88 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				CFBE97E0114DED8700CCED88 /* SudokuNum.h */,
-				CFBE97E1114DED8700CCED88 /* SudokuNum.m */,
-				CF89364E11F9592000C65D98 /* SudokuGame.h */,
-				CF89364F11F9592000C65D98 /* SudokuGame.m */,
+				CF998584160B26B70097879C /* SudokuGame.h */,
+				CF998585160B26B70097879C /* SudokuGame.m */,
+				CF998586160B26B70097879C /* SudokuNum.h */,
+				CF998587160B26B70097879C /* SudokuNum.m */,
 			);
 			name = Data;
 			sourceTree = "<group>";
@@ -345,31 +348,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				280E754D0DD40C5E005A515E /* FlipsideView.xib in Resources */,
-				CF023CE31212503B009C58A3 /* MainView.xib in Resources */,
-				CF8059A81155220600AE3DB5 /* fail.wav in Resources */,
-				CF8059D411552D0600AE3DB5 /* clear.wav in Resources */,
-				CFDA65F21157614A00A77B90 /* click.wav in Resources */,
-				CFDA66051157626500A77B90 /* Funk.aiff in Resources */,
-				CFDA660E115762D100A77B90 /* Tink.aiff in Resources */,
-				CFDA66151157642B00A77B90 /* Sosumi.aiff in Resources */,
-				CFDA662A115766BA00A77B90 /* Funk.wav in Resources */,
 				CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */,
 				CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */,
-				CF3ADFD3121E5F9C0072E639 /* MainView4iPad.xib in Resources */,
-				CF95D0E412278FBF0016338F /* FlipsideView4iPad.xib in Resources */,
-				CF1BB7931287D16A0054FA4C /* Default.png in Resources */,
-				CF6FF90E1288F0C100587748 /* Icon-72.png in Resources */,
-				CF6FF90F1288F0C100587748 /* Icon-512.png in Resources */,
-				CF6FF9101288F0C100587748 /* Icon-Small-50.png in Resources */,
-				CF6FF9111288F0C100587748 /* Icon-Small.png in Resources */,
-				CF6FF9121288F0C100587748 /* Icon-Small@2x.png in Resources */,
-				CF6FF9131288F0C100587748 /* Icon.png in Resources */,
-				CF6FF9141288F0C100587748 /* Icon@2x.png in Resources */,
-				CF68483E14F7646B007ECC9D /* Sudoku-free.plist in Resources */,
-				CFBB5FC215B6716400C9E087 /* Pop.aiff in Resources */,
-				CF85176816099C5900090393 /* Default-568h@2x.png in Resources */,
-				CFBC5421160AD23000374675 /* MainView4iPhone5.xib in Resources */,
+				CF998520160B24710097879C /* Sudoku.plist in Resources */,
+				CF99853A160B25560097879C /* Icon-72.png in Resources */,
+				CF99853B160B25560097879C /* Icon-512.png in Resources */,
+				CF99853C160B25560097879C /* Icon-1024.png in Resources */,
+				CF99853D160B25560097879C /* Icon-Small-50.png in Resources */,
+				CF99853E160B25560097879C /* Icon-Small.png in Resources */,
+				CF99853F160B25560097879C /* Icon-Small@2x.png in Resources */,
+				CF998540160B25560097879C /* Icon.png in Resources */,
+				CF998541160B25560097879C /* Icon@2x.png in Resources */,
+				CF998548160B25CE0097879C /* Default-568h@2x.png in Resources */,
+				CF998549160B25CE0097879C /* Default.png in Resources */,
+				CF998552160B26130097879C /* clear.wav in Resources */,
+				CF998553160B26130097879C /* click.wav in Resources */,
+				CF998554160B26130097879C /* fail.wav in Resources */,
+				CF998555160B26130097879C /* Funk.aiff in Resources */,
+				CF998556160B26130097879C /* Funk.wav in Resources */,
+				CF998557160B26130097879C /* Pop.aiff in Resources */,
+				CF998558160B26130097879C /* Sosumi.aiff in Resources */,
+				CF998559160B26130097879C /* Tink.aiff in Resources */,
+				CF998579160B266D0097879C /* FlipsideView.xib in Resources */,
+				CF99857A160B266D0097879C /* FlipsideView4iPad.xib in Resources */,
+				CF99857B160B266D0097879C /* MainView.xib in Resources */,
+				CF99857C160B266D0097879C /* MainView4iPad.xib in Resources */,
+				CF99857D160B266D0097879C /* MainView4iPhone5.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,14 +384,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				CF50283A160B2AB100B1CDF6 /* SudokuGame.m in Sources */,
+				CF50283B160B2AB100B1CDF6 /* SudokuNum.m in Sources */,
 				289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */,
 				289233A70DB2D0840083E9F9 /* MainView.m in Sources */,
 				289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */,
 				289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */,
-				CFBE97E2114DED8700CCED88 /* SudokuNum.m in Sources */,
 				CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */,
-				CF89365011F9592000C65D98 /* SudokuGame.m in Sources */,
+				CF998597160B275E0097879C /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,12 +437,13 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "Sudoku-free.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
@@ -488,12 +493,13 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "Sudoku-free.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
@@ -526,12 +532,13 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "Sudoku-free.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = sudoku;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BDE8A80-9483-40C0-B7A1-25786D581481";
 				SDKROOT = iphoneos;
