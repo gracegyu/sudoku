@@ -6,6 +6,7 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
+#import "ScoreViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
 
@@ -295,10 +296,6 @@
  */
 
 
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller {
-    
-	[self dismissModalViewControllerAnimated:YES];
-}
 
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
@@ -337,19 +334,17 @@
 	
 }
 
-- (IBAction)showInfo {    
-	FlipsideViewController *controller = [[FlipsideViewController alloc] initWithNibName:
-										  cDeviceType == DEVICETYPE_IPAD ? @"FlipsideView4iPad" : 
-										  @"FlipsideView" bundle:nil];
-	controller.delegate = self;
-//    controller.mainViewController = self;
+- (IBAction) showScoreView {    
+	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
+										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
+										  @"ScoreView" bundle:nil];
+    controller.mainViewController = self;
 	
 	controller.title = NSLocalizedString(@"Score", nil);
 	
-	controller.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
-
-//	[self.navigationController presentModalViewController:controller animated:YES];
+    // UIModalTransitionStyleCrossDissolve for newgame
 	
 	
 	controller.title = NSLocalizedString(@"Score", nil);

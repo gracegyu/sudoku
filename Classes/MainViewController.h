@@ -8,22 +8,12 @@
 
 #ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
-
-/*
- #import <UIKit/UIKit.h>
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-#import <iAd/iAd.h>
-#endif
-#import "AdViewController.h"
-#import "AdMobDelegateProtocol.h"
-*/
 #endif
 
-#import "FlipsideViewController.h"
 #import "MainView.h"
 
 
-@interface MainViewController : UIViewController <FlipsideViewControllerDelegate> {
+@interface MainViewController : UIViewController {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
 
@@ -102,23 +92,9 @@
 
 #ifdef ADMOB_FREEVERSION
     GADBannerView *bannerView_;
-/*
- #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-	ADBannerView	*bannerView;
-#endif
-	AdViewController *adViewController;	
-*/
+
 #endif
 }
-
-/*
-#ifdef ADMOB_FREEVERSION
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000
-@property (nonatomic, retain) IBOutlet ADBannerView	*bannerView;
-#endif
-@property (nonatomic, retain) IBOutlet AdViewController *adViewController;
-#endif
-*/
 
 @property (nonatomic, retain) MainView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel	*labelNewGame;
@@ -154,7 +130,7 @@
 
 
 
-- (IBAction)showInfo;
+- (IBAction)showScoreView;
 - (IBAction)runUndo;
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
@@ -189,7 +165,6 @@
 - (void) showMemoButton;
 - (void) showHintButton;
 - (void) setOrientationReady;
-
 
 
 @end

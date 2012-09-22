@@ -1,20 +1,19 @@
 //
-//  FlipsideViewController.m
+//  ScoreViewController.m
 //  SudokuHelper
 //
 //  Created by gracegyu on 10. 3. 15..
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
-#import "FlipsideViewController.h"
+#import "ScoreViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
 
 
-@implementation FlipsideViewController
+@implementation ScoreViewController
 
-//@synthesize mainViewController;
-@synthesize delegate;
+@synthesize mainViewController;
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize labelVeryEasyGames;
@@ -110,17 +109,10 @@
 
 
 - (IBAction)done {
-	[self.delegate flipsideViewControllerDidFinish:self];	
+    [mainViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 
-/*
- // Override to allow orientations other than the default portrait orientation.
- - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
- // Return YES for supported orientations
- return (interfaceOrientation == UIInterfaceOrientationPortrait);
- }
- */
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -163,10 +155,10 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
 #ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPAD)
-        return YES;
+    if (cDeviceType == DEVICETYPE_IPHONE)
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
     else
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);	
+        return YES;	
 #else	
 	return YES;
 #endif
@@ -174,13 +166,11 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    MainViewController *mainViewController = (MainViewController *)delegate;
     [mainViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-        MainViewController *mainViewController = (MainViewController *)delegate;
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 

@@ -10,10 +10,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765580DF743DE002DB57D /* CoreGraphics.framework */; };
-		289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A30DB2D0840083E9F9 /* FlipsideView.m */; };
 		289233A70DB2D0840083E9F9 /* MainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A50DB2D0840083E9F9 /* MainView.m */; };
 		289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233A90DB2D0DB0083E9F9 /* MainViewController.m */; };
-		289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */; };
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
 		CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */; };
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
@@ -35,8 +33,6 @@
 		CF50285E160B2B3000B1CDF6 /* Funk.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF502857160B2B3000B1CDF6 /* Funk.wav */; };
 		CF50285F160B2B3000B1CDF6 /* Pop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF502858160B2B3000B1CDF6 /* Pop.aiff */; };
 		CF502860160B2B3000B1CDF6 /* Sosumi.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF502859160B2B3000B1CDF6 /* Sosumi.aiff */; };
-		CF502866160B2B3E00B1CDF6 /* FlipsideView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF502861160B2B3E00B1CDF6 /* FlipsideView.xib */; };
-		CF502867160B2B3E00B1CDF6 /* FlipsideView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF502862160B2B3E00B1CDF6 /* FlipsideView4iPad.xib */; };
 		CF502868160B2B3E00B1CDF6 /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF502863160B2B3E00B1CDF6 /* MainView.xib */; };
 		CF502869160B2B3E00B1CDF6 /* MainView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF502864160B2B3E00B1CDF6 /* MainView4iPad.xib */; };
 		CF50286A160B2B3E00B1CDF6 /* MainView4iPhone5.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF502865160B2B3E00B1CDF6 /* MainView4iPhone5.xib */; };
@@ -47,6 +43,10 @@
 		CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
 		CF998593160B273E0097879C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998592160B273E0097879C /* main.m */; };
 		CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */; };
+		CFEB832F160D8D8A00FED1FE /* ScoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEB832D160D8D8A00FED1FE /* ScoreView.xib */; };
+		CFEB8330160D8D8A00FED1FE /* ScoreView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CFEB832E160D8D8A00FED1FE /* ScoreView4iPad.xib */; };
+		CFEB8331160D8D9500FED1FE /* ScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB832A160D8D7700FED1FE /* ScoreView.m */; };
+		CFEB8332160D8D9500FED1FE /* ScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB832C160D8D7700FED1FE /* ScoreViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,14 +55,10 @@
 		1D6058910D05DD3D006BFB54 /* sudoku9.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sudoku9.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765580DF743DE002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		289233A20DB2D0840083E9F9 /* FlipsideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideView.h; path = Classes/FlipsideView.h; sourceTree = "<group>"; };
-		289233A30DB2D0840083E9F9 /* FlipsideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideView.m; path = Classes/FlipsideView.m; sourceTree = "<group>"; };
 		289233A40DB2D0840083E9F9 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainView.h; path = Classes/MainView.h; sourceTree = "<group>"; };
 		289233A50DB2D0840083E9F9 /* MainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainView.m; path = Classes/MainView.m; sourceTree = "<group>"; };
 		289233A80DB2D0DB0083E9F9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Classes/MainViewController.h; sourceTree = "<group>"; };
 		289233A90DB2D0DB0083E9F9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Classes/MainViewController.m; sourceTree = "<group>"; };
-		289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FlipsideViewController.h; path = Classes/FlipsideViewController.h; sourceTree = "<group>"; };
-		289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FlipsideViewController.m; path = Classes/FlipsideViewController.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* sudoku_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sudoku_Prefix.pch; sourceTree = "<group>"; };
 		CF023E3A1212719E009C58A3 /* Japanese */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Japanese; path = Japanese.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF023E3B121271A8009C58A3 /* French */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = French; path = French.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -95,8 +91,6 @@
 		CF502857160B2B3000B1CDF6 /* Funk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Funk.wav; path = resource/Funk.wav; sourceTree = "<group>"; };
 		CF502858160B2B3000B1CDF6 /* Pop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Pop.aiff; path = resource/Pop.aiff; sourceTree = "<group>"; };
 		CF502859160B2B3000B1CDF6 /* Sosumi.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Sosumi.aiff; path = resource/Sosumi.aiff; sourceTree = "<group>"; };
-		CF502861160B2B3E00B1CDF6 /* FlipsideView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView.xib; path = resource/FlipsideView.xib; sourceTree = "<group>"; };
-		CF502862160B2B3E00B1CDF6 /* FlipsideView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FlipsideView4iPad.xib; path = resource/FlipsideView4iPad.xib; sourceTree = "<group>"; };
 		CF502863160B2B3E00B1CDF6 /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = resource/MainView.xib; sourceTree = "<group>"; };
 		CF502864160B2B3E00B1CDF6 /* MainView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView4iPad.xib; path = resource/MainView4iPad.xib; sourceTree = "<group>"; };
 		CF502865160B2B3E00B1CDF6 /* MainView4iPhone5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView4iPhone5.xib; path = resource/MainView4iPhone5.xib; sourceTree = "<group>"; };
@@ -112,6 +106,12 @@
 		CF998592160B273E0097879C /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Classes/main.m; sourceTree = "<group>"; };
 		CFA46E0F115E7BAB0090B9B1 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFA46E13115E7BB60090B9B1 /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CFEB8329160D8D7700FED1FE /* ScoreView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreView.h; path = Classes/ScoreView.h; sourceTree = "<group>"; };
+		CFEB832A160D8D7700FED1FE /* ScoreView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ScoreView.m; path = Classes/ScoreView.m; sourceTree = "<group>"; };
+		CFEB832B160D8D7700FED1FE /* ScoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreViewController.h; path = Classes/ScoreViewController.h; sourceTree = "<group>"; };
+		CFEB832C160D8D7700FED1FE /* ScoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ScoreViewController.m; path = Classes/ScoreViewController.m; sourceTree = "<group>"; };
+		CFEB832D160D8D8A00FED1FE /* ScoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScoreView.xib; path = resource/ScoreView.xib; sourceTree = "<group>"; };
+		CFEB832E160D8D8A00FED1FE /* ScoreView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScoreView4iPad.xib; path = resource/ScoreView4iPad.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,15 +150,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		281C6CD70DB2D82200F60ACC /* Flipside View */ = {
+		281C6CD70DB2D82200F60ACC /* Score View */ = {
 			isa = PBXGroup;
 			children = (
-				289233A20DB2D0840083E9F9 /* FlipsideView.h */,
-				289233A30DB2D0840083E9F9 /* FlipsideView.m */,
-				289233AC0DB2D0DB0083E9F9 /* FlipsideViewController.h */,
-				289233AD0DB2D0DB0083E9F9 /* FlipsideViewController.m */,
+				CFEB8329160D8D7700FED1FE /* ScoreView.h */,
+				CFEB832A160D8D7700FED1FE /* ScoreView.m */,
+				CFEB832B160D8D7700FED1FE /* ScoreViewController.h */,
+				CFEB832C160D8D7700FED1FE /* ScoreViewController.m */,
 			);
-			name = "Flipside View";
+			name = "Score View";
 			sourceTree = "<group>";
 		};
 		289233A00DB2D0730083E9F9 /* Main View */ = {
@@ -178,7 +178,7 @@
 			children = (
 				CFBE97D5114DE8FC00CCED88 /* Data */,
 				289233A00DB2D0730083E9F9 /* Main View */,
-				281C6CD70DB2D82200F60ACC /* Flipside View */,
+				281C6CD70DB2D82200F60ACC /* Score View */,
 				080E96DDFE201D6D7F000001 /* Application Delegate */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -218,8 +218,8 @@
 				CF502857160B2B3000B1CDF6 /* Funk.wav */,
 				CF502858160B2B3000B1CDF6 /* Pop.aiff */,
 				CF502859160B2B3000B1CDF6 /* Sosumi.aiff */,
-				CF502861160B2B3E00B1CDF6 /* FlipsideView.xib */,
-				CF502862160B2B3E00B1CDF6 /* FlipsideView4iPad.xib */,
+				CFEB832D160D8D8A00FED1FE /* ScoreView.xib */,
+				CFEB832E160D8D8A00FED1FE /* ScoreView4iPad.xib */,
 				CF502863160B2B3E00B1CDF6 /* MainView.xib */,
 				CF502864160B2B3E00B1CDF6 /* MainView4iPad.xib */,
 				CF502865160B2B3E00B1CDF6 /* MainView4iPhone5.xib */,
@@ -330,11 +330,11 @@
 				CF50285E160B2B3000B1CDF6 /* Funk.wav in Resources */,
 				CF50285F160B2B3000B1CDF6 /* Pop.aiff in Resources */,
 				CF502860160B2B3000B1CDF6 /* Sosumi.aiff in Resources */,
-				CF502866160B2B3E00B1CDF6 /* FlipsideView.xib in Resources */,
-				CF502867160B2B3E00B1CDF6 /* FlipsideView4iPad.xib in Resources */,
 				CF502868160B2B3E00B1CDF6 /* MainView.xib in Resources */,
 				CF502869160B2B3E00B1CDF6 /* MainView4iPad.xib in Resources */,
 				CF50286A160B2B3E00B1CDF6 /* MainView4iPhone5.xib in Resources */,
+				CFEB832F160D8D8A00FED1FE /* ScoreView.xib in Resources */,
+				CFEB8330160D8D8A00FED1FE /* ScoreView4iPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,12 +345,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFEB8331160D8D9500FED1FE /* ScoreView.m in Sources */,
+				CFEB8332160D8D9500FED1FE /* ScoreViewController.m in Sources */,
 				CF50286B160B2B6100B1CDF6 /* SudokuGame.m in Sources */,
 				CF50286C160B2B6100B1CDF6 /* SudokuNum.m in Sources */,
-				289233A60DB2D0840083E9F9 /* FlipsideView.m in Sources */,
 				289233A70DB2D0840083E9F9 /* MainView.m in Sources */,
 				289233AE0DB2D0DB0083E9F9 /* MainViewController.m in Sources */,
-				289233B00DB2D0DB0083E9F9 /* FlipsideViewController.m in Sources */,
 				CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */,
 				CF998593160B273E0097879C /* main.m in Sources */,
 			);

@@ -43,7 +43,6 @@
 						<string key="NSFrame">{{0, 516}, {325, 18}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -272,6 +271,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">new</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -312,6 +312,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">score</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -340,6 +341,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">reset</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -368,6 +370,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">del</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -405,6 +408,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">hint</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -433,6 +437,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">undo</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -461,6 +466,7 @@
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
+						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">memo</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<object class="NSColor" key="IBUINormalTitleColor">
@@ -1018,12 +1024,12 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">showInfo</string>
+						<string key="label">showScoreView</string>
 						<reference key="source" ref="672020680"/>
 						<reference key="destination" ref="372490531"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">103</int>
+					<int key="connectionID">146</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
@@ -1273,7 +1279,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">145</int>
+			<int key="maxID">146</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1300,8 +1306,8 @@
 						<string key="menuVeryEasy">id</string>
 						<string key="menuVeryHard">id</string>
 						<string key="runUndo">id</string>
-						<string key="showInfo">id</string>
 						<string key="showMenu">id</string>
+						<string key="showScoreView">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="clearNumbers">
@@ -1348,12 +1354,12 @@
 							<string key="name">runUndo</string>
 							<string key="candidateClassName">id</string>
 						</object>
-						<object class="IBActionInfo" key="showInfo">
-							<string key="name">showInfo</string>
-							<string key="candidateClassName">id</string>
-						</object>
 						<object class="IBActionInfo" key="showMenu">
 							<string key="name">showMenu</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="showScoreView">
+							<string key="name">showScoreView</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</dictionary>

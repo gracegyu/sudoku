@@ -1,5 +1,5 @@
 //
-//  FlipsideViewController.h
+//  ScoreViewController.h
 //  SudokuHelper
 //
 //  Created by gracegyu on 10. 3. 15..
@@ -7,14 +7,10 @@
 //
 
 
+//@protocol ScoreViewControllerDelegate;
 
-@protocol FlipsideViewControllerDelegate;
-
-
-@interface FlipsideViewController : UIViewController {
-	id <FlipsideViewControllerDelegate> delegate;
-    
-//    MainViewController *mainViewController;
+@interface ScoreViewController : UIViewController {
+    UIViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;
@@ -55,9 +51,8 @@
 	UILabel *labelTitleAverage;
 }
 
-@property (nonatomic, assign) id <FlipsideViewControllerDelegate> delegate;
 
-//@property (nonatomic, retain) MainViewController	*mainViewController;
+@property (nonatomic, retain) UIViewController	*mainViewController;
 @property (nonatomic, retain) IBOutlet UINavigationItem	*naviItem;
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 
@@ -98,8 +93,4 @@
 
 @end
 
-
-@protocol FlipsideViewControllerDelegate
-- (void)flipsideViewControllerDidFinish:(FlipsideViewController *)controller;
-@end
 
