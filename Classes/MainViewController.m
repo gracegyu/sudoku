@@ -194,10 +194,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-    bannerView_.frame = areaAdBanner.frame;;
+#ifdef ADMOB_FREEVERSION    
+    bannerView_.frame = areaAdBanner.frame;
+#endif
 }
- 
+
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
@@ -645,18 +646,19 @@
 { 
 	NSLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-
+#ifdef ADMOB_FREEVERSION
     bannerView_.hidden = YES;
+#endif
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
-//    [self setOrientationFrame: mainView.lastOrientation];
+#ifdef ADMOB_FREEVERSION
     bannerView_.frame = areaAdBanner.frame;
     bannerView_.hidden = NO;
-
+#endif
     [mainView setNeedsDisplay];
-//    [self setOrientation];
+
 }
 
 // Override to allow orientations other than the default portrait orientation.

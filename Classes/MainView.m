@@ -275,21 +275,28 @@
            withFont:font
       lineBreakMode:NSLineBreakByClipping
           alignment:UITextAlignmentCenter];
-    [str release];
 }
 
 
 - (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
     NSAssert(num > 0 && num <= 9, @"drawNumRect(%d)", num);
-    
+
     NSString *str = [[NSString alloc] initWithFormat:@"%d", num];
     [self drawStrRect:context
                   str:str
                  rect:rect
                 color:color
                  font:font];
+//    NSLog(@"str.retainCount = %d", str.retainCount);
     [str release];
+/*
+    [self drawStrRect:context
+                  str:[NSString stringWithFormat:@"%d", num]
+                 rect:rect
+                color:color
+                 font:font];
+*/
 }
 
 
