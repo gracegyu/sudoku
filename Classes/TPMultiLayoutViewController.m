@@ -215,7 +215,8 @@
 - (void)applyAttributes:(NSDictionary*)attributes toView:(UIView*)view {
     view.frame = [[attributes objectForKey:@"frame"] CGRectValue];
     view.bounds = [[attributes objectForKey:@"bounds"] CGRectValue];
-    view.hidden = [[attributes objectForKey:@"hidden"] boolValue];
+// hidden 속성은 따라가도록 한다.
+//    view.hidden = [[attributes objectForKey:@"hidden"] boolValue];
     view.autoresizingMask = [[attributes objectForKey:@"autoresizingMask"] integerValue];
 }
 

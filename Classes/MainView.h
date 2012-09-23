@@ -59,21 +59,21 @@
     SystemSoundID   soundClearID;	
     SystemSoundID   soundFailID;	
 	
-	BOOL bFailCell;
+//	BOOL bFailCell;
 	BOOL bSetThisTime;
 	BOOL bMemoMode;
 	BOOL bMenuMode;
 	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
 	BOOL bSoundOn;						// 소리를 켤까요?
-	
-	CGRect	rectLandscape;
-	CGRect	rectPortrait;
-	CGRect	rectCurrent;
-	UIInterfaceOrientation	lastOrientation;
-	CGFloat	fTableWidth;	
-	CGFloat	fButtonStart;	
-	
-	CGFloat	fPress;
+
+//    UIInterfaceOrientation	lastOrientation;
+
+//	CGRect	rectLandscape;
+//	CGRect	rectPortrait;
+//	CGRect	rectCurrent;
+//	CGFloat	fTableWidth;
+//	CGFloat	fButtonStart;
+//	CGFloat	fPress;
 }
 
 
@@ -124,13 +124,7 @@
 @property (nonatomic, retain) UIFont *buttonMemoBigFont;
 @property (nonatomic, retain) UIFont *buttonMemoTextFont;
 
-@property CGRect	rectLandscape;
-@property CGRect	rectPortrait;
-@property CGRect	rectCurrent;
-@property UIInterfaceOrientation	lastOrientation;
-@property CGFloat	fTableWidth;
-@property CGFloat	fButtonStart;
-@property CGFloat	fPress;
+//@property UIInterfaceOrientation	lastOrientation;
 
 - (void) runUndo;
 - (BOOL) memoOnOff;
@@ -142,7 +136,7 @@
 - (void) newGame:(NSInteger)level;
 - (BOOL) loadGame;
 - (void) checkClearGame;
-- (BOOL) selectedCellisFixed;
-- (BOOL) selectedCellisableHint;
+- (BOOL) isSelectedCellisFixed;
+- (BOOL) isSelectedCellisableHint;
 - (void) setFont;
 @end

@@ -27,24 +27,27 @@
 	if ((super.init) == nil) 
 		return nil;
 	
-//	SudokuNum *sudokuNum = sudoku;
-	
 	gameLevel = GAMELEVEL_NORMAL;
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
 	countHint = cDefaultHintCount;
-//	NSMutableArray *array = sudokuNum.nums;
+    
+    SudokuNum *sudokuNum = sudoku;
+    NSMutableArray *array = sudokuNum.nums;	
 	
 	NSString *str;	
 	for (int y=0; y<9; y++) {
 		for (int x=0; x<9; x++) {
-			str = [sudoku getCellStr:x y:y];
-			if ([SudokuNum isFixedByUser:str]) {		// fixed cell
+            str = [[array objectAtIndex:x] objectAtIndex:y];
+			if ([SudokuNum fixedByUser:str]) {		// fixed cell
+//			str = [sudoku getCellStr:x y:y];
+//			if ([SudokuNum isFixedByUser:str]) {		// fixed cell
 				puzzleNums[x][y] = [str integerValue];
 				answerNums[x][y] = 0;
 			} else {
+                NSAssert([str integerValue] > 0, @"Puzzlenum(%d) should be bigger than 0", [str integerValue]);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = [str integerValue];
 			}

@@ -6,6 +6,9 @@
 //  Copyright __MyCompanyName__ 2010. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
+#import "TPMultiLayoutViewController.h"
+
 #ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
 #endif
@@ -13,7 +16,7 @@
 #import "MainView.h"
 
 
-@interface MainViewController : UIViewController {
+@interface MainViewController : TPMultiLayoutViewController {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
 
@@ -27,24 +30,11 @@
 	UILabel		*labelGameTime;
 	UILabel		*labelBlank;
 	UILabel		*labelHint;
-	
-	CGRect		frameTitleLevelPortrait;
-	CGRect		frameTitleLevelLandscape;
-	CGRect		frameLevelPortrait;
-	CGRect		frameLevelLandscape;
-	CGRect		frameTitleGameTimePortrait;
-	CGRect		frameTitleGameTimeLandscape;
-	CGRect		frameGameTimePortrait;
-	CGRect		frameGameTimeLandscape;
-	CGRect		frameTitleBlankPortrait;
-	CGRect		frameTitleBlankLandscape;
-	CGRect		frameBlankPortrait;
-	CGRect		frameBlankLandscape;
-	CGRect		frameTitleHintPortrait;
-	CGRect		frameTitleHintLandscape;
-	CGRect		frameHintButtonPortrait;
-	CGRect		frameHintButtonLandscape;
-	
+
+    UIButton    *areaPuzzleTable;
+    UIButton    *areaNumButton;
+    UIButton    *areaAdBanner;
+    
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
 	UIButton	*buttonNewGameNormal;
@@ -61,20 +51,6 @@
 	UIButton	*buttonScore;
 	UIButton	*buttonHint;
 	
-	CGRect		frameNewPortrait;
-	CGRect		frameNewLandscape;
-	CGRect		frameUndoPortrait;
-	CGRect		frameUndoLandscape;
-	CGRect		frameMemoPortrait;
-	CGRect		frameMemoLandscape;
-	CGRect		frameDelPortrait;
-	CGRect		frameDelLandscape;
-	CGRect		frameResetPortrait;
-	CGRect		frameResetLandscape;
-	CGRect		frameScorePortrait;
-	CGRect		frameScoreLandscape;
-	CGRect		frameHintPortrait;
-	CGRect		frameHintLandscape;
 	
 	UIView		*viewMenu;
 
@@ -103,6 +79,9 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleGameTime;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleBlank;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleHint;
+@property (nonatomic, retain) IBOutlet UIButton	*areaPuzzleTable;
+@property (nonatomic, retain) IBOutlet UIButton	*areaNumButton;
+@property (nonatomic, retain) IBOutlet UIButton *areaAdBanner;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;
@@ -164,7 +143,7 @@
 - (void) writeScore:(SudokuGame*)sudokuGame;
 - (void) showMemoButton;
 - (void) showHintButton;
-- (void) setOrientationReady;
+//- (void) setOrientationReady;
 
 
 @end

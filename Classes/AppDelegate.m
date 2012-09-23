@@ -27,8 +27,13 @@
 // 1136
     
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
-							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
+#ifdef ADMOB_FREEVERSION
+							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" :
+                               (isIphone5 ? @"MainView4iPhone5" : @"MainViewFree")
+#else
+                               cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
                                (isIphone5 ? @"MainView4iPhone5" : @"MainView")
+#endif
 								bundle:nil];
 	// xxx for autorotate
     [window setRootViewController:self.mainViewController];

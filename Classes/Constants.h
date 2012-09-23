@@ -1,33 +1,13 @@
-#define cStdWidth				320.f
-#define cResizeRatioW			(cTableWidth/cStdWidth)
-#define cResizeRatioH			(cTableHeight/cStdWidth)
 
-#define cCellWidth				(cTableWidth-cBoldLine*2-cLineWidth*6)/9	//34
-#define cCellHeight				(cTableHeight-cBoldLine*2-cLineWidth*6)/9	//34
 
-#define cLineWidth				1.f*cResizeRatioW
-#define cLineDrawWidth			0.5f*cResizeRatioW
-#define cBoldLine				4.f*cResizeRatioW
-#define cTableWidth				fTableWidth	
-#define cTableHeight			(fTableWidth*fPress)
-#define cBorderButton			5
 
-#define cCellOneSmallFontSize	30*cResizeRatioW*0.9f
-#define cCellOneBigFontSize		40*cResizeRatioW*0.9f
-#define cCellFailFontSize		16*cResizeRatioW*0.9f
-#define cCellTwoFontSize		22*cResizeRatioW*0.9f	
-#define cCellFourFontSize		16*cResizeRatioW*0.9f	
-#define cCellNineFontSize		12*cResizeRatioW*0.9f
-#define cButtonSmallFontSize	25*cResizeRatioW//20
-#define cButtonBigFontSize		35*cResizeRatioW
-#define cButtonTextFontSize		20*cResizeRatioW
-#define cButtonMemoSmallFontSize	22*cResizeRatioW
-#define cButtonMemoBigFontSize		33*cResizeRatioW
-#define cButtonMemoTextFontSize		18*cResizeRatioW
-#define cDefaultHintCount       2 //
 
-#define MY_BANNER_UNIT_ID_IPHONE  @"a14ccfafd6895cb" 
-#define MY_BANNER_UNIT_ID_IPAD  @"a14fd69f029bc6d" 
+
+#define cDefaultHintCount       12 //
+
+#define MY_BANNER_UNIT_ID_IPHONE  (@"a14ccfafd6895cb")
+#define MY_BANNER_UNIT_ID_IPAD  (@"a14fd69f029bc6d") 
+#define MY_BANNER_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE)
 
 #define IPHONE_GAD_H            GAD_SIZE_320x50.height
 #define IPHONE_GAD_W            GAD_SIZE_320x50.width
@@ -59,6 +39,5 @@ enum {
 #define cOSVersion					[[[UIDevice currentDevice] systemVersion] floatValue]
 #define isIpad                      (cDeviceType == DEVICETYPE_IPAD)
 #define isIphone5                    ([UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale] == 1136)
-#define cTableStartX                (isIpad ? 0 : (isIphone5 ? (isPortrait ? 0 : cTableXMargine) : 0))
-#define cTableStartY                (isIpad ? 0 : (isIphone5 ? (isPortrait ? cTableYMargine : 0) : 0))
-#define isPortrait                  (lastOrientation == UIInterfaceOrientationPortrait || lastOrientation == UIInterfaceOrientationPortraitUpsideDown)
+//#define isPortrait                  (lastOrientation == UIInterfaceOrientationPortrait || lastOrientation == UIInterfaceOrientationPortraitUpsideDown)
+#define isPortrait                  ([self interfaceOrientation] == UIInterfaceOrientationPortrait || [self interfaceOrientation] == UIInterfaceOrientationPortraitUpsideDown)

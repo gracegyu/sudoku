@@ -17,7 +17,7 @@
 	NSTimeInterval	gameTime;			// Game time (seconds)
 	BOOL			gameFinished;		// 0, 1
 	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
-	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 정답
+	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
 	NSInteger		fixNums[9][9];		// User decided num (9x9 1~9, beside Puzzle num) 
 	char			memoNums[9][9][9+1];// 
 	NSString*		strUndo;			// x,y,num(0~9) (3bytes), 0 is del
