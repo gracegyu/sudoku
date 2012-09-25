@@ -17,6 +17,7 @@
 #define BACKTRACKING_START      3
 #define BACKTRACKING_INTERVAL    3
 #define BACKTRACKING_MAX        15
+#define MAX_HANDYTRAYFAIL       30
 
 
 enum GAMELEVEL {

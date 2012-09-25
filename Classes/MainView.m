@@ -1107,7 +1107,18 @@
 }
 
 
-static int	HandyCount[] = { 0, 5, 10, 20, 30 };
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 1, 2, 3, 4 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 5, 10, 24, 37 } // 9
+};
 
 - (void) newGame:(NSInteger)level
 {
@@ -1117,7 +1128,7 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 	
 	[sudokuNum countCell];
 	NSInteger i = 0;
-	while ([sudokuNum setCellAuto:HandyCount[level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+	while ([sudokuNum setCellAuto:HandyCount[9][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 	{
 		i++;
         //NSLog(@"############### i = %d", i);

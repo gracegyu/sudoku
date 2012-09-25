@@ -25,6 +25,7 @@
 	NSInteger		countUserFixed;
 	NSInteger		countAutoFixed;
 	NSInteger		countNotFixed;
+    NSInteger       countHandyTryFailed;
     
     NSInteger       numBackTracking;
 	

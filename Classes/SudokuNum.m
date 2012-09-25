@@ -72,6 +72,7 @@
 	if((self = [super init])) {
 		NSLog(@"init");
         numBackTracking = BACKTRACKING_START;
+        countHandyTryFailed = 0;
         [self initMap];
         [self initNumsUndo];
 
@@ -686,11 +687,15 @@
 	NSInteger len;
 	NSString *str;	
 	
+    
+    // Handy 적용하다가 무한루프에 빠질 수 있음... 
 	if (countNotFixed == 0) {	// last time
-		for (int i=0; i<handy && countAutoFixed>0; i++) {
+		for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++) {
 			valRand = arc4random();	
 			numRandom = valRand % countAutoFixed;
 			num = 0;
+            
+            // 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
 			for (int y=0; y<9 && num <= numRandom; y++) {
 				for (int x=0; x<9 && num <= numRandom; x++) {
 					str = [[array objectAtIndex:x] objectAtIndex:y];
@@ -699,14 +704,19 @@
 							unichar c = [str characterAtIndex:0];
 							
 							if ([self setCellUserFixed:(NSInteger)(c - '0') xPos:x yPos:y] == NO)
+                            {
 								i--;
-						} 
+                                countHandyTryFailed += 1;
+                            }
+						}
 						num += 1;
 					}			
 				}
 			}	
 //			[self printNums];
 			[self countCell];
+            if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
+                NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
 		}		
 		return NO;
 	}	
@@ -717,7 +727,7 @@
 	numRandom = valRand % countNotFixed;
 	num = 0;
 
-    // numRandom번째의 아직 Fix가 안된 Cell을 찾는다.
+    
 	for (int y=0; y<9 && num <= numRandom; y++) {
 		for (int x=0; x<9 && num <= numRandom; x++) {
 			str = [[array objectAtIndex:x] objectAtIndex:y];
