@@ -27,29 +27,27 @@
 	if ((super.init) == nil) 
 		return nil;
 	
+    size = [sudoku getCellSize];
 	gameLevel = GAMELEVEL_NORMAL;
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
 	countHint = cDefaultHintCount;
-    
-    SudokuNum *sudokuNum = sudoku;
-    NSMutableArray *array = sudokuNum.nums;	
-	
-	NSString *str;	
-	for (int y=0; y<9; y++) {
+
+	NSInteger num;
+    for (int y=0; y<9; y++) {
 		for (int x=0; x<9; x++) {
-            str = [[array objectAtIndex:x] objectAtIndex:y];
-			if ([SudokuNum fixedByUser:str]) {		// fixed cell
-//			str = [sudoku getCellStr:x y:y];
-//			if ([SudokuNum isFixedByUser:str]) {		// fixed cell
-				puzzleNums[x][y] = [str integerValue];
+            mapNums[x][y] = [[sudoku getMap] getMapNum:x y:y];
+            num = [sudoku getCellNum:x y:y];
+            
+            if ([sudoku fixedByUser:x y:y]) {		// fixed cell
+				puzzleNums[x][y] = num;
 				answerNums[x][y] = 0;
 			} else {
-                NSAssert([str integerValue] > 0, @"Puzzlenum(%d) should be bigger than 0", [str integerValue]);
+                NSAssert(num > 0, @"Puzzlenum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
-				answerNums[x][y] = [str integerValue];
+				answerNums[x][y] = num;
 			}
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
@@ -62,6 +60,7 @@
 	return self;
 
 }
+
 
 - (id)initWithSavedString:(NSString *)str
 {
@@ -88,7 +87,22 @@
 	} else {
 		countHint = cDefaultHintCount;
 	}
-
+	if ([listItems count] > 11) {
+        size = [[listItems objectAtIndex:11] integerValue];
+    } else {
+        size = 9;
+    }
+	
+    if ([listItems count] > 12) {
+        [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	nums:&mapNums[0][0]];
+    } else {
+        NSString *default9x9Map = @"111222333111222333111222333444555666444555666444555666777888999777888999777888999";
+        [SudokuGame set9x9Nums:default9x9Map nums:&mapNums[0][0]];
+    }
+    
+    
+    [self saveData];
+    
 //	[self countBlankCells];
 
 	return self;
@@ -185,6 +199,15 @@
 	[super dealloc];
 }
 
+- (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
+{
+    return mapNums[x][y];
+}
+
+- (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2
+{
+    return mapNums[x][y] == mapNums[x2][y2];
+}
 
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y
 {
@@ -335,22 +358,44 @@
 
 + (void) get9x9Nums:(char*)str	nums:(NSInteger*)nums
 {
-	for (int i=0; i<81; i++)
+	int x, y;
+    
+    for (y=0; y<9; y++)
+    {
+        for (x=0; x<9; x++)     // 호환을 위해서 순서를 맞춘다.
+        {
+            *str++ = ('0' + nums[x + y*9]);
+        }
+    }
+    
+    
+/*	for (int i=0; i<9*9; i++)
 	{
 		*str++ = ('0' + *nums++);	// y first
 
 	}
-	*str = '\0';
+*/	*str = '\0';
 }
 
 + (void) set9x9Nums:(NSString *)str	nums:(NSInteger*)nums
 {
 	char *s	= (char*)[str cStringUsingEncoding:NSASCIIStringEncoding];
-	
-	for (int i=0; i<81; i++)
+	int x, y;
+    
+    for (y=0; y<9; y++)
+    {
+        for (x=0; x<9; x++)
+        {
+            nums[x + y*9] = *s++ - '0';
+        }
+    }
+/*
+    
+	for (int i=0; i<9*9; i++)
 	{
 		*nums++ = *s++ - '0';
 	}
+ */
 }
 
 
@@ -388,18 +433,20 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
+	char zStrMapNum[9*9+1] = "";
 	char zStrPuzzleNum[9*9+1] = "";
 	char zStrAnswerNum[9*9+1] = "";
 	char zStrFixNum[9*9+1] = "";
 	char zStrMemoNum[9*9*10+1] = "";
 	
+	[SudokuGame get9x9Nums:zStrMapNum       nums:&mapNums[0][0]];
 	[SudokuGame get9x9Nums:zStrPuzzleNum	nums:&puzzleNums[0][0]];
 	[SudokuGame get9x9Nums:zStrAnswerNum	nums:&answerNums[0][0]];
 	[SudokuGame get9x9Nums:zStrFixNum		nums:&fixNums[0][0]];
 	[SudokuGame get9x9Strs:zStrMemoNum		strs:&memoNums[0][0][0]];
 	
 	NSString *str = [[NSString alloc] initWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -410,7 +457,9 @@
 					 (char*)zStrFixNum,
 					 (char*)zStrMemoNum,
 					 strUndo,
-					 countHint];
+					 countHint,
+                     size,                  // 9칸?
+                     (char*)zStrMapNum];
 					 
 	NSLog(@"saveData(%@)", str);
 	

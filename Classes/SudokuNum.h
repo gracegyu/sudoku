@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SudokuMap.h"
 
 #define kSudokuNum		@"sudokunum"
 #define kSudokuTrack	@"sudokutrack"
 
 @interface SudokuNum : NSObject 
 {
+    NSInteger       size;
 	NSMutableArray	*nums;
+    SudokuMap       *map;
 	NSString		*strUndo;
 	BOOL			bOkSetCell;
 	BOOL			bOkAutoSet;
@@ -22,6 +25,8 @@
 	NSInteger		countUserFixed;
 	NSInteger		countAutoFixed;
 	NSInteger		countNotFixed;
+    
+    NSInteger       numBackTracking;
 	
 	// 숫자 array 로 변환
 }
@@ -34,6 +39,10 @@
 @property NSInteger		countAutoFixed;
 @property NSInteger		countNotFixed;
 
+- (NSInteger) getCellSize;
+- (SudokuMap*) getMap;
+- (NSInteger) getCellNum:(NSInteger)x y:(NSInteger)y;
+- (BOOL) fixedByUser:(NSInteger)x y:(NSInteger)y;
 - (BOOL) setCellAuto:(NSInteger)handy;
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (BOOL) setCellCheck:(NSString*)str xPos:(NSInteger)xPos yPos:(NSInteger)yPos;

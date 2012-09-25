@@ -73,8 +73,8 @@
 #define cResizeRatioW			(isIpad ? 768/320 : 1) 
 //#define cResizeRatioH			(isIpad ? 1004/460 : 1)
 
-#define cCellWidth				(cTableWidth-cBoldLine*2-cLineWidth*6)/9	
-#define cCellHeight				(cTableHeight-cBoldLine*2-cLineWidth*6)/9	
+#define cCellWidth				cTableWidth/9 //(cTableWidth-cBoldLine*2-cLineWidth*6)/9	
+#define cCellHeight				cTableHeight/9 //(cTableHeight-cBoldLine*2-cLineWidth*6)/9	
 
 #define cLineWidth				1.f*cResizeRatioW
 #define cLineDrawWidth			0.5f*cResizeRatioW
@@ -317,11 +317,49 @@
 }
 
 
-- (void)drawRectTableLine:(CGContextRef) context 
+- (void)drawRectTableLine:(CGContextRef) context
 {
-//	NSLog(@"drawRectTable(%f, cTableWidth=%f)", self.fPress, cTableWidth);
+	int x,y,i,j;
+	
+    CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
+    CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
 
+    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    // 수직선
+	for (i=1; i<9; i++)
+	{
+		x = cTableStartX + i*cCellWidth;
+        for (j=0; j<9; j++)
+        {
+            y = cTableStartY + j*cCellHeight;
+			CGContextMoveToPoint(context, x, y);
+            CGContextAddLineToPoint(context, x, y+cCellHeight);
+            CGContextSetLineWidth(context, [sudokuGame isSameMap:i-1 y:j x2:i y2:j] ? cLineDrawWidth : cBoldLine);
+            CGContextStrokePath(context);
+		}
+	}
 
+    // 수평선
+	for (i=1; i<9; i++)
+	{
+		y = cTableStartY + i*cCellHeight;
+        for (j=0; j<9; j++)
+        {
+            x = cTableStartX + j*cCellWidth;
+			CGContextMoveToPoint(context, x, y);
+            CGContextAddLineToPoint(context, x+cCellWidth, y);
+            CGContextSetLineWidth(context, [sudokuGame isSameMap:j y:i-1 x2:j y2:i] ? cLineDrawWidth : cBoldLine);
+            CGContextStrokePath(context);
+		}
+	}
+	
+	
+}
+
+/*
+- (void)drawRectTableLineXXXXXXXXXXXXXXXXX:(CGContextRef) context
+{
 	CGRect currentRect;
     
 	int x,y,i;
@@ -376,7 +414,7 @@
 	}
 	CGContextStrokePath(context);	
 	
-}
+}*/
 
 // what color?
 - (void)drawRectCellOneChoosing:(CGContextRef)context rect:(CGRect)rect
@@ -509,8 +547,8 @@
 			}		
 		}
 	}
-    CGRect rect = CGRectMake(cTableStartX + xPos*cCellWidth + (xPos)*cLineWidth + (xPos/3)*(cBoldLine-cLineWidth),
-                             cTableStartY + yPos*cCellHeight + (yPos)*cLineWidth + (yPos/3)*(cBoldLine-cLineWidth),
+    CGRect rect = CGRectMake(cTableStartX + xPos*cCellWidth,// + (xPos)*cLineWidth + (xPos/3)*(cBoldLine-cLineWidth),
+                             cTableStartY + yPos*cCellHeight,// + (yPos)*cLineWidth + (yPos/3)*(cBoldLine-cLineWidth),
                              cCellWidth,
                              cCellHeight);
 
@@ -568,33 +606,45 @@
 - (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
 {
     CGRect currentRect;
-    NSInteger xPos = cTableStartX + x*cCellWidth + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth);
-    NSInteger yPos = cTableStartY + y*cCellHeight + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
+    NSInteger xPos = cTableStartX + x*cCellWidth;// + (x-1)*cLineWidth + (x/3)*(cBoldLine-cLineWidth);
+    NSInteger yPos = cTableStartY + y*cCellHeight;// + (y-1)*cLineWidth + (y/3)*(cBoldLine-cLineWidth);
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
     CGContextSetFillColorWithColor(context, color.CGColor);
-    currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
+    currentRect = CGRectMake (xPos,yPos,cCellWidth,cCellHeight);
     
     CGContextAddRect(context, currentRect);
     CGContextDrawPath(context, kCGPathFillStroke);
 }
 
+- (BOOL) isSameMapWithSelectedCell:(NSInteger)x y:(NSInteger)y
+{
+    if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
+		return NO;
+    
+    NSInteger i = [sudokuGame getMapNums:x y:y];
+    NSInteger j = [sudokuGame getMapNums:selectedXPos y:selectedYPos];
+    
+    return i>0 && j>0 && i == j;
+}
 
 
 - (void)drawHintBackground:(CGContextRef)context
 {
 	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
 		return;
-		
+    
 	for (int x=0; x<9; x++) {
 	for (int y=0; y<9; y++) {
+        // 같은 맵 영역 같은 색으로 칠하기
         if (selectedXPos == x ||
-            selectedYPos == y ||
-            (selectedXPos/3 == x/3 && selectedYPos/3 == y/3)) {
+            selectedYPos == y ||            
+            [self isSameMapWithSelectedCell:x y:y]) {
             [self drawOneCellBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
 		}
         
+        // 같은 영역에 같은 숫자는 충돌이 되므로 바탕을 다르게 표시하기
         if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
         {
             if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNums:x y:y])
@@ -612,8 +662,8 @@
 	if (selectedXPos >= 0 && selectedXPos < 9 && selectedYPos >= 0 && selectedYPos < 9)
 	{
 		CGRect currentRect;
-		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth + (selectedXPos-1)*cLineWidth + (selectedXPos/3)*(cBoldLine-cLineWidth);
-		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight + (selectedYPos-1)*cLineWidth + (selectedYPos/3)*(cBoldLine-cLineWidth);
+		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;// + (selectedXPos-1)*cLineWidth + (selectedXPos/3)*(cBoldLine-cLineWidth);
+		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;// + (selectedYPos-1)*cLineWidth + (selectedYPos/3)*(cBoldLine-cLineWidth);
     
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, selectedTableBgColor.CGColor);
@@ -656,7 +706,7 @@
 	
     x = [self getNumButtonAreaX] + cWidthButton/2 +
         (([self getNumButtonAreaW] - cWidthButton) / (numButton-1)) * ((i-1)%numButton);
-	NSLog(@"buttonXCenter(%d) -> %f", i, x);
+//	NSLog(@"buttonXCenter(%d) -> %f", i, x);
 	return x;	
 }
 
@@ -673,7 +723,7 @@
         y = [self getNumButtonAreaY] + cHeightButton/2 +
             (([self getNumButtonAreaH] - cHeightButton) / (numButton-1)) * ((i-1)%numButton);   // 교대로 나옴 %
     }
-   	NSLog(@"buttonYCenter(%d) -> %f", i, y);
+//   	NSLog(@"buttonYCenter(%d) -> %f", i, y);
 	return y;
 }
 
@@ -712,7 +762,7 @@
 		}	
 
 		currentRect = CGRectMake(x,y,cWidthButton,cHeightButton);
-		NSLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
+		//NSLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
@@ -775,13 +825,13 @@
 - (NSInteger) TouchToPosX:(CGFloat)floatTouch
 {
     floatTouch -= cTableStartX;
-	
+/*
     if (floatTouch >= (cCellWidth*3 + cLineWidth*2))
 		floatTouch -= (cBoldLine - cLineWidth);
 	if (floatTouch >= (cCellWidth*6 + cLineWidth*5))
 		floatTouch -= (cBoldLine - cLineWidth);
-	
-	NSInteger pos = floatTouch/(cCellWidth + cLineWidth);
+*/	
+	NSInteger pos = floatTouch/(cCellWidth);// + cLineWidth);
  	
 	NSLog(@"TouchToPosX(%f) -> %d", floatTouch, pos);
 	
@@ -791,13 +841,13 @@
 - (NSInteger) TouchToPosY:(CGFloat)floatTouch
 {
     floatTouch -= cTableStartY;
-    
+/*
 	if (floatTouch >= (cCellHeight*3 + cLineWidth*2))
 		floatTouch -= (cBoldLine - cLineWidth);
 	if (floatTouch >= (cCellHeight*6 + cLineWidth*5))
 		floatTouch -= (cBoldLine - cLineWidth);
-	
-	NSInteger pos = floatTouch/(cCellHeight + cLineWidth);
+*/	
+	NSInteger pos = floatTouch/(cCellHeight);// + cLineWidth);
  	
 	NSLog(@"TouchToPosY(%f) -> %d", floatTouch, pos);
 	
@@ -1067,14 +1117,16 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
 	
 	[sudokuNum countCell];
 	NSInteger i = 0;
-	while ([sudokuNum setCellAuto:HandyCount[level]])
+	while ([sudokuNum setCellAuto:HandyCount[level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 	{
 		i++;
+        //NSLog(@"############### i = %d", i);
 		[sudokuNum printNums];
 		[sudokuNum countCell];
 	}	
 	NSLog(@"%d times loop", i);
-	
+	[sudokuNum printNums];
+    
 	
 	// zzzz release previous game
 	sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum];
@@ -1207,7 +1259,7 @@ static int	HandyCount[] = { 0, 5, 10, 20, 30 };
     
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	NSLog(@"drawRect ---------- refresh");
+	//NSLog(@"drawRect ---------- refresh");
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawHintBackground:context];          // 힌트 바탕 색
