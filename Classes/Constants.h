@@ -14,6 +14,10 @@
 #define IPAD_GAD_H              GAD_SIZE_728x90.height
 #define IPAD_GAD_W              GAD_SIZE_728x90.width
 
+#define BACKTRACKING_START      3
+#define BACKTRACKING_INTERVAL    3
+#define BACKTRACKING_MAX        15
+
 
 enum GAMELEVEL {
 	GAMELEVEL_VERYHARD = 0,		// handy 0

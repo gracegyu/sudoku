@@ -7,6 +7,7 @@
 //
 
 #import "SudokuNum.h"
+#import "Constants.h"
 
 
 @implementation SudokuNum
@@ -70,7 +71,7 @@
 
 	if((self = [super init])) {
 		NSLog(@"init");
-        numBackTracking = 5;
+        numBackTracking = BACKTRACKING_START;
         [self initMap];
         [self initNumsUndo];
 
@@ -716,7 +717,7 @@
 	numRandom = valRand % countNotFixed;
 	num = 0;
 
-
+    // numRandom번째의 아직 Fix가 안된 Cell을 찾는다.
 	for (int y=0; y<9 && num <= numRandom; y++) {
 		for (int x=0; x<9 && num <= numRandom; x++) {
 			str = [[array objectAtIndex:x] objectAtIndex:y];
@@ -744,7 +745,9 @@
 	if (bOkAutoSet == NO) {
 		[self undoSet:numBackTracking];
         
-        numBackTracking += 3;   // 잘못되면 Backtracking 깊이를 점점 증가시킨다.
+        numBackTracking += BACKTRACKING_INTERVAL;   // 잘못되면 Backtracking 깊이를 점점 증가시킨다.
+        if (numBackTracking > BACKTRACKING_MAX)
+            numBackTracking = BACKTRACKING_MAX;
 	}
 
 	
