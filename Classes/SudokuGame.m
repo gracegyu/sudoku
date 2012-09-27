@@ -11,8 +11,10 @@
 #import "AppDelegate.h"
 
 @implementation SudokuGame
+
 @synthesize strUndo;
-@synthesize gameLevel;	
+@synthesize size;
+@synthesize gameLevel;
 @synthesize startTime;
 @synthesize lastTime;
 @synthesize gameTime;

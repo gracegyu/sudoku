@@ -36,8 +36,8 @@
 
 - (void) initMap
 {
-    map = [[SudokuMap alloc] initWithSize:9];
     size = 9;
+    map = [[SudokuMap alloc] initWithSize:9];
 }
 
 - (void) initNums
@@ -67,20 +67,21 @@
     bOkSetCell = NO;
 }
 
+// 최초에 한번만 초기화
+- (void) initPuzzle:(NSInteger)size
+{
+    numBackTracking = BACKTRACKING_START;
+    countHandyTryFailed = 0;
+    [self initMap];
+    [self initNumsUndo];
+}
+
 - (id) init {
 
 	if((self = [super init])) {
 		NSLog(@"init");
-        numBackTracking = BACKTRACKING_START;
-        countHandyTryFailed = 0;
-        [self initMap];
-        [self initNumsUndo];
-
 	}
-
-
-	
-	return self;	
+	return self;
 }
 
 - (SudokuMap*) getMap
@@ -589,8 +590,10 @@
 		for (y=0; y<9; y++)
 		{
 			if (x != xPos && y != yPos) {
-				if ((x == xPos || y == yPos) || 
-					(x/3 == xPos/3 && y/3 == yPos/3)) {
+				if ((x == xPos || y == yPos) ||
+                    [map isSameMap:x y:y x2:xPos y2:yPos]) {
+                    
+                    
 					s = [[array objectAtIndex:x] objectAtIndex:y];
 					range = [s rangeOfString:str1];
 					if (range.location != NSNotFound)		// 이미 세팅했던 것들임

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #define MAXMAPSIZE  9
+#define SIZE_9      9
+#define SIZE_6      6
 
 @interface SudokuMap : NSObject
 {
@@ -21,6 +23,7 @@
 - (SudokuMap*) initWithSize:(NSInteger)size;
 - (NSInteger*) getMap;
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y;
+- (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 
 
 @end

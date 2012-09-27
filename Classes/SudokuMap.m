@@ -54,7 +54,7 @@ static int Map6x6[6*6] = {
 
 - (SudokuMap*) initWithSize:(NSInteger)sizeMap
 {
-    NSAssert(sizeMap == 9 || sizeMap == 6, @"sizeMap=%d", sizeMap);
+    NSAssert(sizeMap == SIZE_9 || sizeMap == SIZE_6, @"sizeMap=%d", sizeMap);
     NSInteger countMap[MAXMAPSIZE+10] = {0};
     
     if (sizeMap > MAXMAPSIZE)
@@ -63,7 +63,7 @@ static int Map6x6[6*6] = {
     memset(&countMap, 0, sizeof(countMap));
     
     int x, y, i=0;
-    int *Map =  sizeMap == 9 ? Map9x9 : Map6x6;
+    int *Map =  sizeMap == SIZE_9 ? Map9x9 : Map6x6;
     
     for (y = 0; y < sizeMap; y++) {
         for (x = 0; x < sizeMap; x++) {
@@ -92,5 +92,9 @@ static int Map6x6[6*6] = {
     return map[x][y];
 }
 
+- (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2
+{
+    return map[x][y] == map[x2][y2];
+}
 
 @end

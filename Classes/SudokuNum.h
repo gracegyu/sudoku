@@ -40,6 +40,7 @@
 @property NSInteger		countAutoFixed;
 @property NSInteger		countNotFixed;
 
+- (void) initPuzzle:(NSInteger)size;
 - (NSInteger) getCellSize;
 - (SudokuMap*) getMap;
 - (NSInteger) getCellNum:(NSInteger)x y:(NSInteger)y;

@@ -29,8 +29,9 @@
 	NSInteger		countHint;			// Hint 가능 수
 }
 
-@property NSInteger		gameLevel;			
-@property NSTimeInterval	startTime;			
+@property NSInteger		size;
+@property NSInteger		gameLevel;
+@property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			
 @property BOOL			gameFinished;
