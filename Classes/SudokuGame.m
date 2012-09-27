@@ -38,8 +38,8 @@
 	countHint = cDefaultHintCount;
 
 	NSInteger num;
-    for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+    for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
             mapNums[x][y] = [[sudoku getMap] getMapNum:x y:y];
             num = [sudoku getCellNum:x y:y];
             
@@ -77,12 +77,6 @@
 	gameTime = [[listItems objectAtIndex:3] floatValue];
 	gameFinished = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
 
-	
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:5]	nums:&puzzleNums[0][0]];
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:6]	nums:&answerNums[0][0]];
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:7]	nums:&fixNums[0][0]];
-	[SudokuGame set9x9Strs:[listItems objectAtIndex:8]	strs:&memoNums[0][0][0]];
-	
 	strUndo = [[NSString alloc] initWithString:[listItems objectAtIndex:9]];
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
@@ -94,12 +88,18 @@
     } else {
         size = 9;
     }
+    
+	
+	[SudokuGame set9x9Nums:[listItems objectAtIndex:5] size:size nums:&puzzleNums[0][0]];
+	[SudokuGame set9x9Nums:[listItems objectAtIndex:6] size:size nums:&answerNums[0][0]];
+	[SudokuGame set9x9Nums:[listItems objectAtIndex:7] size:size nums:&fixNums[0][0]];
+	[SudokuGame set9x9Strs:[listItems objectAtIndex:8] size:size strs:&memoNums[0][0][0]];
 	
     if ([listItems count] > 12) {
-        [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	nums:&mapNums[0][0]];
+        [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	size:size nums:&mapNums[0][0]];
     } else {
         NSString *default9x9Map = @"111222333111222333111222333444555666444555666444555666777888999777888999777888999";
-        [SudokuGame set9x9Nums:default9x9Map nums:&mapNums[0][0]];
+        [SudokuGame set9x9Nums:default9x9Map size:size nums:&mapNums[0][0]];
     }
     
     
@@ -116,8 +116,8 @@
 - (void) clearAllNums
 {
 
-	for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
 		}
@@ -130,8 +130,8 @@
 - (NSInteger) countBlankCells
 {
 	NSInteger num = 0;
-	for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
 			if (answerNums[x][y] > 0 && fixNums[x][y] == 0)
 				num++;
 		}
@@ -145,8 +145,8 @@
 - (NSInteger) countFixCells
 {
 	NSInteger num = 0;
-	for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
 			if (fixNums[x][y] > 0)
 				num++;
 		}
@@ -163,8 +163,8 @@
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
 	
-	for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
 			if (fixNums[x][y] == 0 && answerNums[x][y] != 0) {
 				NSLog(@"unFixedCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				unfixedCells++;
@@ -358,75 +358,64 @@
 #define kSudokuGame		@"sudokugame"
 
 
-+ (void) get9x9Nums:(char*)str	nums:(NSInteger*)nums
++ (void) get9x9Nums:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
 	int x, y;
     
-    for (y=0; y<9; y++)
+    for (y=0; y<size; y++)
     {
-        for (x=0; x<9; x++)     // 호환을 위해서 순서를 맞춘다.
+        for (x=0; x<size; x++)     // 호환을 위해서 순서를 맞춘다.
         {
-            *str++ = ('0' + nums[x + y*9]);
+            *str++ = ('0' + nums[x + y*MAXMAPSIZE]);
         }
     }
     
     
-/*	for (int i=0; i<9*9; i++)
-	{
-		*str++ = ('0' + *nums++);	// y first
-
-	}
-*/	*str = '\0';
+	*str = '\0';
 }
 
-+ (void) set9x9Nums:(NSString *)str	nums:(NSInteger*)nums
++ (void) set9x9Nums:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
 	char *s	= (char*)[str cStringUsingEncoding:NSASCIIStringEncoding];
 	int x, y;
     
-    for (y=0; y<9; y++)
+    for (y=0; y<size; y++)
     {
-        for (x=0; x<9; x++)
+        for (x=0; x<size; x++)
         {
-            nums[x + y*9] = *s++ - '0';
+            nums[x + y*MAXMAPSIZE] = *s++ - '0';
         }
     }
-/*
-    
-	for (int i=0; i<9*9; i++)
-	{
-		*nums++ = *s++ - '0';
-	}
- */
+
 }
 
 
 
 
-+ (void) get9x9Strs:(char*)str	strs:(char*)strs
++ (void) get9x9Strs:(char*)str	size:(NSInteger)size strs:(char*)strs
 {
 	int len;
 	
-	for (int i=0; i<81; i++)
+	for (int i=0; i<size*size; i++)
 	{
 		len = strlen(strs);
 		if (len)
 			strcpy(str, strs);
 		strcat(str, "|");
 		str += len+1;
-		strs += 10;
+		strs += MAXMAPSIZE+1;
 	}
 	*str = '\0';
 }
 
-+ (void) set9x9Strs:(NSString *)str	strs:(char*)strs
++ (void) set9x9Strs:(NSString *)str	size:(NSInteger)size strs:(char*)strs
 {
 	NSArray *listItems = [str componentsSeparatedByString:@"|"];
 
-	for (int i=0; i<81; i++)
+	for (int i=0; i<size*size; i++)
 	{
 		strcpy(strs, [[listItems objectAtIndex:i] cStringUsingEncoding:NSASCIIStringEncoding]);
-		strs += 10;
+		strs += MAXMAPSIZE+1;
 	}
 }
 
@@ -435,17 +424,17 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	char zStrMapNum[9*9+1] = "";
-	char zStrPuzzleNum[9*9+1] = "";
-	char zStrAnswerNum[9*9+1] = "";
-	char zStrFixNum[9*9+1] = "";
-	char zStrMemoNum[9*9*10+1] = "";
+	char zStrMapNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrFixNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrMemoNum[MAXMAPSIZE*MAXMAPSIZE*(MAXMAPSIZE*MAXMAPSIZE+1)+1] = "";
 	
-	[SudokuGame get9x9Nums:zStrMapNum       nums:&mapNums[0][0]];
-	[SudokuGame get9x9Nums:zStrPuzzleNum	nums:&puzzleNums[0][0]];
-	[SudokuGame get9x9Nums:zStrAnswerNum	nums:&answerNums[0][0]];
-	[SudokuGame get9x9Nums:zStrFixNum		nums:&fixNums[0][0]];
-	[SudokuGame get9x9Strs:zStrMemoNum		strs:&memoNums[0][0][0]];
+	[SudokuGame get9x9Nums:zStrMapNum       size:size   nums:&mapNums[0][0]];
+	[SudokuGame get9x9Nums:zStrPuzzleNum	size:size   nums:&puzzleNums[0][0]];
+	[SudokuGame get9x9Nums:zStrAnswerNum	size:size   nums:&answerNums[0][0]];
+	[SudokuGame get9x9Nums:zStrFixNum		size:size   nums:&fixNums[0][0]];
+	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [[NSString alloc] initWithFormat:
 					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s",
@@ -472,6 +461,8 @@
 
 + (SudokuGame*) loadData
 {
+ //   return nil;
+    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kSudokuGame];	
 	if (str == nil) {

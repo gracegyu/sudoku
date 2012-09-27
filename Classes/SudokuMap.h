@@ -9,8 +9,12 @@
 #import <Foundation/Foundation.h>
 
 #define MAXMAPSIZE  9
-#define SIZE_9      9
+#define SIZE_4      4
+#define SIZE_5      5
 #define SIZE_6      6
+#define SIZE_7      7
+#define SIZE_8      8
+#define SIZE_9      9
 
 @interface SudokuMap : NSObject
 {

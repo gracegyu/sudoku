@@ -72,6 +72,10 @@
 
 #define cResizeRatioW			(isIpad ? 768/320 : 1) 
 //#define cResizeRatioH			(isIpad ? 1004/460 : 1)
+#define cTableStartX [self getTableX]
+#define cTableStartY [self getTableY]
+#define cTableWidth	 [self getTableW]
+#define cTableHeight [self getTableH]
 
 #define cCellWidth				(cTableWidth/sudokuGame.size) 
 #define cCellHeight				(cTableHeight/sudokuGame.size) 
@@ -81,7 +85,7 @@
 #define cBoldLine				4.f*cResizeRatioW
 //#define cBorderButton			5
 
-
+/*
 #define cButtonSmallFontSize        30*cResizeRatioW
 #define cButtonBigFontSize          40*cResizeRatioW
 #define cButtonTextFontSize         20*cResizeRatioW
@@ -94,8 +98,8 @@
 #define cCellTwoFontSize            20*cResizeRatioW
 #define cCellFourFontSize           15*cResizeRatioW
 #define cCellNineFontSize           11*cResizeRatioW
-
-#define fontAdjust   0.63
+*/
+#define fontAdjust   0.60
 
 
 
@@ -153,22 +157,7 @@
 
 
 
-- (void) setFont
-{
-	NSLog(@"setFont");
-	self.cellOneSmallFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
-	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];			
-	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];		
-	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];				
-	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];		
-	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];	
-	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];		
-	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
-	self.buttonMemoSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoSmallFontSize];	
-	self.buttonMemoBigFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoBigFontSize];		
-	self.buttonMemoTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoTextFontSize];		
 
-}
 
 - (id)initWithCoder:(NSCoder*)coder
 {
@@ -188,8 +177,6 @@
     if (self = [super initWithFrame:frame]) {
 
     }
-
-    [self setFont];
     return self;
 }
 
@@ -220,10 +207,6 @@
 }
 
 
-#define cTableStartX [self getTableX]
-#define cTableStartY [self getTableY]
-#define cTableWidth	 [self getTableW]
-#define cTableHeight [self getTableH]
 
 - (CGRect) getNumButtonAreaRect
 {
@@ -425,6 +408,7 @@
 	int i = 0;
 	int x, y;
     int count = (len <= 4 ? 2 : 3);
+    CGFloat margin = 0.05f;
     
 	
 	for (y=0; y<count; y++)
@@ -435,10 +419,10 @@
 			{
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
-                             rect:CGRectMake(rect.origin.x+rect.size.width*x/count,
-                                             rect.origin.y+rect.size.height*y/count,
-                                             rect.size.width/count,
-                                             rect.size.height/count)
+                             rect:CGRectMake(rect.origin.x+rect.size.width*margin+(rect.size.width*(1-2*margin))*x/count,
+                                             rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/count,
+                                             (rect.size.width*(1-2*margin))/count,
+                                             (rect.size.height*(1-2*margin))/count)
                             color:candidateColor.CGColor
                              font:len <= 4 ? cellFourFont : cellNineFont];
                 i++;
@@ -467,9 +451,9 @@
     }
     
     
-    for (int x=0; x<9; x++)
+    for (int x=0; x<sudokuGame.size; x++)
     {
-        for (int y=0; y<9; y++)
+        for (int y=0; y<sudokuGame.size; y++)
         {
             if ((x != xPos || y != yPos) &&
                 [sudokuGame isSameMap:x y:y x2:xPos y2:yPos] == YES &&
@@ -492,7 +476,9 @@
 	BOOL bDupWarnArea = NO;
 	if (sudokuGame.gameLevel >= GAMELEVEL_VERYHARD)
 	{	// zzz 사용자가 누를 수 있는 버튼인 경우도 조건에 추가를 해야 한다.
-		if (bPressedInButton && pushedButton >= 1 && pushedButton <=9)	// 현재 버튼을 누르는 중, 중복 번호 경고 on
+		if (bPressedInButton &&
+            pushedButton >= 1 &&
+            pushedButton <=sudokuGame.size)	// 현재 버튼을 누르는 중, 중복 번호 경고 on
 		{
 			if (selectedXPos == xPos || selectedYPos == yPos ||
                 [sudokuGame isSameMap:selectedXPos y:selectedYPos x2:xPos y2:yPos]) // 중복 검사 영역
@@ -513,7 +499,12 @@
 	if (puzzleNum > 0)	{
 		// 원래 문제에 있던 번호 
 		[self drawRectCellOnePuzzle:context num:puzzleNum rect:rect dupwarn:bDupWarnArea&&(puzzleNum==pushedButton)];
-	} else if (bMemoMode == NO && bPressedInButton && selectedXPos == xPos && selectedYPos == yPos && pushedButton >= 0 && pushedButton <= 9) {
+	} else if (bMemoMode == NO &&
+               bPressedInButton &&
+               selectedXPos == xPos &&
+               selectedYPos == yPos &&
+               pushedButton >= 0 &&
+               pushedButton <= sudokuGame.size) {
 		// 선택중인 번호 - 큰 글씨로 나온다.
 		[self drawRectCellOneChoosing:context rect:rect];
 	} else if (fixNum > 0)	{		// 사용자가 입력해 넣은 번호
@@ -538,9 +529,9 @@
 
 //	bFailCell = NO;
 	
-	for (x=0; x<9; x++)
+	for (x=0; x<sudokuGame.size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<sudokuGame.size; y++)
 		{ 
 			[self drawRectCell:context xPos:x yPos:y]; 	
 		}		
@@ -566,7 +557,7 @@
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
     CGContextSetFillColorWithColor(context, color.CGColor);
-    currentRect = CGRectMake (xPos,yPos,cCellWidth,cCellHeight);
+    currentRect = CGRectMake (xPos,yPos,cCellWidth-1,cCellHeight-1);
     
     CGContextAddRect(context, currentRect);
     CGContextDrawPath(context, kCGPathFillStroke);
@@ -574,7 +565,8 @@
 
 - (BOOL) isSameMapWithSelectedCell:(NSInteger)x y:(NSInteger)y
 {
-    if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
+    if (selectedXPos < 0 || selectedXPos >= sudokuGame.size ||
+        selectedYPos < 0 || selectedYPos >= sudokuGame.size)	// no selectec cell
 		return NO;
     
     NSInteger i = [sudokuGame getMapNums:x y:y];
@@ -586,19 +578,23 @@
 
 - (void)drawHintBackground:(CGContextRef)context
 {
-	if (selectedXPos < 0 || selectedXPos >= 9 || selectedYPos < 0 || selectedYPos >= 9)	// no selectec cell
+	if (selectedXPos < 0 || selectedXPos >= sudokuGame.size ||
+        selectedYPos < 0 || selectedYPos >= sudokuGame.size)	// no selectec cell
 		return;
     
-	for (int x=0; x<9; x++) {
-        for (int y=0; y<9; y++) {
+	for (int x=0; x<sudokuGame.size; x++)
+    {
+        for (int y=0; y<sudokuGame.size; y++)
+        {
             // 같은 맵 영역 같은 색으로 칠하기
             if (selectedXPos == x ||
                 selectedYPos == y ||
-                [self isSameMapWithSelectedCell:x y:y]) {
+                [self isSameMapWithSelectedCell:x y:y])
+            {
                 [self drawOneCellBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
             }
             
-            // 같은 영역에 같은 숫자는 충돌이 되므로 바탕을 다르게 표시하기
+            // 같은 숫자는 충돌이 되므로 바탕을 다르게 표시하기
             if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
             {
                 if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNums:x y:y])
@@ -610,34 +606,43 @@
 	} //x
 }
 
-
-- (void)drawHighlightCell:(CGContextRef)context
+- (void)drawHighlightCellBackground:(CGContextRef)context
 {
-	if (selectedXPos >= 0 && selectedXPos < 9 && selectedYPos >= 0 && selectedYPos < 9)
+	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
+        selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
 		CGRect currentRect;
 		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;
 		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
-    
+        
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, selectedTableBgColor.CGColor);
 		CGContextSetFillColorWithColor(context, selectedTableBgColor.CGColor);
-		currentRect = CGRectMake (xPos+1,yPos+1,cCellWidth-1,cCellHeight-1);
+		currentRect = CGRectMake (xPos,yPos,cCellWidth,cCellHeight);
 		
 		CGContextAddRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);
+	}
+	
+}
 
 
+- (void)drawHighlightCell:(CGContextRef)context
+{
+	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
+        selectedYPos >= 0 && selectedYPos < sudokuGame.size)
+	{
+		CGRect currentRect;
+		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;
+		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
 		
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
 		CGContextSetStrokeColorWithColor(context, selectedTableBorderColor.CGColor);
-		currentRect = CGRectMake (xPos+1-4,yPos+1-4,cCellWidth-1+8,cCellHeight-1+8);
+		currentRect = CGRectMake (xPos-cBoldLine/2,yPos-cBoldLine/2,
+                                  cCellWidth+cBoldLine,cCellHeight+cBoldLine);
 		
 		CGContextAddRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathStroke);
-		
-	
-	
 	}
 	
 }
@@ -647,35 +652,135 @@
     return [self getNumButtonAreaX]/[self getNumButtonAreaY] > 1.5;
 }
 
-#define cWidthButton (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
-#define cHeightButton (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
-#define cDistXButton cWidthButton/2
-#define cDistYButton cHeightButton
+#define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
+#define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
+#define cDistXButton cButtonWidth/2
+#define cDistYButton cButtonHeight
 
+- (NSInteger) numButtonX
+{
+    if (sudokuGame.size == SIZE_4)
+    {
+        return [self isButtonBox] ? 2 : 4;
+    }
+    else if (sudokuGame.size == SIZE_5)
+    {
+        return [self isButtonBox] ? 5 : 5;
+    }
+    else if (sudokuGame.size == SIZE_6)
+    {
+        return [self isButtonBox] ? 3 : 6;
+    }
+    else if (sudokuGame.size == SIZE_7)
+    {
+        return [self isButtonBox] ? 5 : 7;
+    }
+    else if (sudokuGame.size == SIZE_8)
+    {
+        return [self isButtonBox] ? 5 : 8;
+    }
+    else // if (sudokuGame.size == SIZE_9)
+    {
+        return [self isButtonBox] ? 3 : 9;
+    }
+}
+
+- (NSInteger) numButtonY
+{
+    if (sudokuGame.size == SIZE_4)
+    {
+        return [self isButtonBox] ? 2 : 1;
+    }
+    else if (sudokuGame.size == SIZE_5)
+    {
+        return [self isButtonBox] ? 2 : 2;
+    }
+    else if (sudokuGame.size == SIZE_6)
+    {
+        return [self isButtonBox] ? 2 : 2;
+    }
+    else if (sudokuGame.size == SIZE_7)
+    {
+        return [self isButtonBox] ? 3 : 2;
+    }
+    else if (sudokuGame.size == SIZE_8)
+    {
+        return [self isButtonBox] ? 3 : 2;
+    }
+    else // if (sudokuGame.size == SIZE_9)
+    {
+        return [self isButtonBox] ? 3 : 2;
+    }
+}
 
 - (CGFloat) buttonXCenter:(NSInteger)i
 {
 	CGFloat x;
-    NSInteger numButton = [self isButtonBox] ? 3 : 9;
-	
-    x = [self getNumButtonAreaX] + cWidthButton/2 +
-        (([self getNumButtonAreaW] - cWidthButton) / (numButton-1)) * ((i-1)%numButton);
-//	NSLog(@"buttonXCenter(%d) -> %f", i, x);
-	return x;	
+    NSInteger numX = [self numButtonX];
+    CGFloat margin = .0f;
+    
+    if (numX == 2)
+        margin = [self isButtonBox] ? 0.2 : 0;
+    else if (numX == 8)
+        margin = [self isButtonBox] ? 0 : 0.05;
+    else if (numX < 7)
+        margin = [self isButtonBox] ? 0 : 0.15;
+    
+    // 엇갈리에 배치하기 위해서
+    if (sudokuGame.size == 8 && [self isButtonBox])
+        i = i*2 - 1;
+    else if (sudokuGame.size == 7 && [self isButtonBox])
+        i = i*2;
+    else if (sudokuGame.size == 5 && [self isButtonBox])
+        i = i*2 - 1;
+    
+    
+    if (numX == 1)
+    {
+        x = [self getNumButtonAreaX] + [self getNumButtonAreaW]/2;        
+    }
+    else
+    {
+        x = [self getNumButtonAreaX] +
+        [self getNumButtonAreaW]*margin/2 +
+        cButtonWidth/2 +
+        (([self getNumButtonAreaW]*(1-margin) - cButtonWidth) / (numX-1)) * ((i-1)%numX);
+    }
+    
+	return x;
 }
 
 - (CGFloat) buttonYCenter:(NSInteger)i
 {
 	CGFloat y;
-    NSInteger numButton = [self isButtonBox] ? 3 : 2;
+    NSInteger numX = [self numButtonX];
+    NSInteger numY = [self numButtonY];
+    CGFloat margin = .0f;
     
-    if ([self isButtonBox])
+    if ([self isButtonBox] == YES && numY < 3)
+        margin = 0.2;
+    
+    // 엇갈리에 배치하기 위해서
+    if (sudokuGame.size == 8 && [self isButtonBox])
+        i = i*2 - 1;
+    else if (sudokuGame.size == 7 && [self isButtonBox])
+        i = i*2;
+    else if (sudokuGame.size == 5 && [self isButtonBox])
+        i = i*2 - 1;
+    
+    if (numY == 1)
     {
-        y = [self getNumButtonAreaY] + cHeightButton/2 +
-            (([self getNumButtonAreaH] - cHeightButton) / (numButton-1)) * ((i-1)/numButton);   // 세개씩 /3
+        y = [self getNumButtonAreaY] + [self getNumButtonAreaH]/2;
+    
+    } else  if ([self isButtonBox])
+    {
+        y = [self getNumButtonAreaY] +
+            [self getNumButtonAreaH]*margin/2 +
+            cButtonHeight/2 +
+            (([self getNumButtonAreaH]*(1-margin) - cButtonHeight) / (numY-1)) * ((i-1)/numX);   // 세개씩 /3
     } else {
-        y = [self getNumButtonAreaY] + cHeightButton/2 +
-            (([self getNumButtonAreaH] - cHeightButton) / (numButton-1)) * ((i-1)%numButton);   // 교대로 나옴 %
+        y = [self getNumButtonAreaY] + cButtonHeight/2 +
+            (([self getNumButtonAreaH] - cButtonHeight) / (numY-1)) * ((i-1)%numY);   // 교대로 나옴 %
     }
 //   	NSLog(@"buttonYCenter(%d) -> %f", i, y);
 	return y;
@@ -691,7 +796,9 @@
 	CGFloat x, y;
 	
 	
-	if (selectedXPos >= 0 && selectedXPos < 9 && selectedYPos >= 0 && selectedYPos < 9) {
+	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
+        selectedYPos >= 0 && selectedYPos < sudokuGame.size)
+    {
 		if ([sudokuGame getPuzzleNums:selectedXPos y:selectedYPos] > 0)
 			bPuzzleNum = YES;
 		if ([sudokuGame getFixNums:selectedXPos y:selectedYPos] == 0 &&
@@ -700,10 +807,10 @@
 	}
 	
 	
-	for (i=1; i<=9; i++)    // 버튼 모양 그리기
+	for (i=1; i<=sudokuGame.size; i++)    // 버튼 모양 그리기
 	{
-		x = [self buttonXCenter:i] - cWidthButton/2;
-		y = [self buttonYCenter:i] - cHeightButton/2; 
+		x = [self buttonXCenter:i] - cButtonWidth/2;
+		y = [self buttonYCenter:i] - cButtonHeight/2; 
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		if (bMemoNum && i>0 && i<10 && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
@@ -715,7 +822,7 @@
 			CGContextSetFillColorWithColor(context, bgButtonColor.CGColor);
 		}	
 
-		currentRect = CGRectMake(x,y,cWidthButton,cHeightButton);
+		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		//NSLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
 		CGContextAddEllipseInRect(context, currentRect);
@@ -733,7 +840,7 @@
             // 버튼에 숫자를 적기
             [self drawNumRect:context
                           num:i
-                         rect:CGRectMake(x, y, cWidthButton, cHeightButton)
+                         rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
                         color:color
                          font:bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
 		}
@@ -743,14 +850,14 @@
 		pushedButton > 0 && pushedButton < 10)
 	{
 		i = pushedButton;
-		x = [self buttonXCenter:i] - cWidthButton/2; 
-		y = [self buttonYCenter:i] - cHeightButton/2; 
+		x = [self buttonXCenter:i] - cButtonWidth/2; 
+		y = [self buttonYCenter:i] - cButtonHeight/2; 
 		
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, pressedButtonColor.CGColor);
 		CGContextSetFillColorWithColor(context, pressedButtonColor.CGColor);
-		currentRect = CGRectMake(x,y,cWidthButton,cHeightButton);
+		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
@@ -759,7 +866,7 @@
         // 버튼에 숫자를 적기
         [self drawNumRect:context
                       num:i
-                     rect:CGRectMake(x, y, cWidthButton, cHeightButton)
+                     rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
                     color:numButtonColor.CGColor
                      font:bMemoMode ? buttonMemoBigFont : buttonBigFont];
 
@@ -814,7 +921,7 @@
 - (NSInteger) pressedButtonNum:(NSSet *)touches
 {
 	int i;
-	NSInteger dist = cHeightButton*cHeightButton/4;
+	NSInteger dist = cButtonHeight*cButtonHeight/4;
 	NSInteger dist1;
 	NSInteger dist2;
 	NSInteger xButtonCenter;
@@ -824,7 +931,7 @@
 	CGFloat fX = firstTouch.x;
 	CGFloat fY = firstTouch.y;
 	
-	for (i=1; i<=9; i++)
+	for (i=1; i<=sudokuGame.size; i++)
 	{
 
 		xButtonCenter = [self buttonXCenter:i]; 
@@ -835,7 +942,7 @@
 		dist1 = ((fX-xButtonCenter)*(fX-xButtonCenter)+(fY-yButtonCenter)*(fY-yButtonCenter));
 		if (dist1 <= dist)
 		{
-			if (i<9)
+			if (i<sudokuGame.size)
 			{
 				xButtonCenter = [self buttonXCenter:i+1]; 
 				yButtonCenter = [self buttonYCenter:i+1]; 
@@ -873,7 +980,7 @@
 	NSInteger xPos = [self TouchToPosX:fX];
 	NSInteger yPos = [self TouchToPosY:fY];
     
-    if (xPos < 9 && yPos < 9) {
+    if (xPos < sudokuGame.size && yPos < sudokuGame.size) {
         if ([sudokuGame isPuzzleNum:xPos y:yPos]) {
             // do nothing
         } else if (bPressedInCell) {
@@ -1054,6 +1161,9 @@
 	sudokuGame = [SudokuGame loadData];
 	
 	if (sudokuGame != NULL) {
+        
+//        [self setFont];
+        
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -1074,9 +1184,8 @@ static int	HandyCount[][5] = {
     { 0, 5, 10, 24, 37 } // 9
 };
 
-- (void) newGame:(NSInteger)level
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
-    NSInteger sizePuzzle = SIZE_9;
     
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 
@@ -1217,6 +1326,45 @@ static int	HandyCount[][5] = {
 	return NO;
 }
 
+
+#define MINWHT   MIN(cCellWidth, cCellHeight)
+#define MINWHB   MIN(cButtonWidth, cButtonHeight)
+
+
+#define cCellOneBigFontSize         (1.0f * MINWHT) //36*cResizeRatioW
+#define cCellOneSmallFontSize       (0.8f * MINWHT) //27*cResizeRatioW
+#define cCellTwoFontSize            (0.9f * MINWHT / 2) //20*cResizeRatioW
+#define cCellFourFontSize           (0.8f * MINWHT / 2) //15*cResizeRatioW
+#define cCellNineFontSize           (1.0f * MINWHT / 3) //11*cResizeRatioW
+
+#define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
+#define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
+#define cButtonTextFontSize         (0.8f * MINWHB) //20*cResizeRatioW
+#define cButtonMemoBigFontSize		(0.8f * MINWHB) //35*cResizeRatioW
+#define cButtonMemoSmallFontSize	(0.7f * MINWHB) //25*cResizeRatioW
+#define cButtonMemoTextFontSize		(0.7f * MINWHB) //17*cResizeRatioW
+
+
+
+
+
+- (void) setFont
+{
+	NSLog(@"setFont(%f)", cCellWidth);
+	self.cellOneSmallFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
+	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];
+	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];
+	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];
+	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
+	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
+	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];
+	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
+	self.buttonMemoSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoSmallFontSize];
+	self.buttonMemoBigFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoBigFontSize];
+	self.buttonMemoTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoTextFontSize];
+    
+}
+
 // Draw screen again
 
 - (void)drawRect:(CGRect)rect
@@ -1227,16 +1375,19 @@ static int	HandyCount[][5] = {
     
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	//NSLog(@"drawRect ---------- refresh");
+	NSLog(@"drawRect ---------- refresh");
+    
+    [self setFont];
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawHintBackground:context];          // 힌트 바탕 색
+	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
 	[self drawNumButton:context];
     
-    
+
 }
 
 @end

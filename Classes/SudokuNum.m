@@ -36,29 +36,30 @@
 
 - (void) initMap
 {
-    size = 9;
-    map = [[SudokuMap alloc] initWithSize:9];
+    map = [[SudokuMap alloc] initWithSize:size];
 }
 
 - (void) initNums
 {
 	NSLog(@"initNums");
 	NSString *str;
+    
+    NSString *strInit = [[[NSString alloc] initWithString:@"123456789ABCDEFG"] substringToIndex:size];
+    
+	nums = [NSMutableArray arrayWithCapacity:MAXMAPSIZE+1];
 	
-	nums = [NSMutableArray arrayWithCapacity:10];	
-	
-	for (int i=0; i<9; i++) {
-		NSMutableArray *numbers = [NSMutableArray arrayWithCapacity:10];
-		for (int j=0; j<9; j++) {
-//			[numbers addObject:@"123456789"];
-			str = [[NSString alloc] initWithString:@"123456789"];
+	for (int i=0; i<MAXMAPSIZE; i++) {
+		NSMutableArray *numbers = [NSMutableArray arrayWithCapacity:MAXMAPSIZE+1];
+		for (int j=0; j<MAXMAPSIZE; j++) {
+			str = [[NSString alloc] initWithString:strInit];
 			[numbers addObject:str];
 			[str release];
 		}
 		[nums addObject:numbers];
-//		[numbers release];
 	}
 	[nums retain];
+    
+//    [strInit release]; crash남
 }
 
 - (void) initNumsUndo {
@@ -68,10 +69,12 @@
 }
 
 // 최초에 한번만 초기화
-- (void) initPuzzle:(NSInteger)size
+- (void) initPuzzle:(NSInteger)sizePuzzle
 {
     numBackTracking = BACKTRACKING_START;
     countHandyTryFailed = 0;
+    size = sizePuzzle;
+    
     [self initMap];
     [self initNumsUndo];
 }
@@ -149,9 +152,9 @@
 	int x,y;
 	NSString *s;
 	
-	for (x=0; x<9; x++)
+	for (x=0; x<size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
 		{
 			s = [[array objectAtIndex:x] objectAtIndex:y];
 			if (s.length == 1)
@@ -204,16 +207,16 @@
 	NSString *strNum;
 	NSRange range;
 	
-	for (x=0; x<9 && bOkAutoSet; x++)
+	for (x=0; x<size && bOkAutoSet; x++)
 	{
-		for (k=1; k<=9 && bOkAutoSet; k++)
+		for (k=1; k<=size && bOkAutoSet; k++)
 		{
 			countFound = 0;
 			posFirstFound = -1;
 			
 			strNum = [[NSString alloc] initWithFormat:@"%d", k];
 			
-			for (y=0; y<9 && bOkAutoSet; y++)
+			for (y=0; y<size && bOkAutoSet; y++)
 			{
 				s = [[array objectAtIndex:x] objectAtIndex:y];
 				range = [s rangeOfString:strNum];
@@ -256,16 +259,16 @@
 	NSString *strNum;
 	NSRange range;
 	
-	for (y=0; y<9 && bOkAutoSet; y++)
+	for (y=0; y<size && bOkAutoSet; y++)
 	{
-		for (k=1; k<=9 && bOkAutoSet; k++)
+		for (k=1; k<=size && bOkAutoSet; k++)
 		{
 			countFound = 0;
 			posFirstFound = -1;
 			
 			strNum = [[NSString alloc] initWithFormat:@"%d", k];
 			
-			for (x=0; x<9 && bOkAutoSet; x++)
+			for (x=0; x<size && bOkAutoSet; x++)
 			{
 				s = [[array objectAtIndex:x] objectAtIndex:y];
 				range = [s rangeOfString:strNum];
@@ -315,7 +318,7 @@
 	NSRange range;
     NSInteger numMap = [map getMapNum:xPos y:yPos];
 
-	for (k=1; k<=9 && bOkAutoSet; k++) 
+	for (k=1; k<=size && bOkAutoSet; k++)
 	{
 		countFound = 0;
 		posXFirstFound = -1;
@@ -323,9 +326,9 @@
 		
 		strNum = [[NSString alloc] initWithFormat:@"%d", k];
 
-		for (x=0; x<9 && bOkAutoSet; x++)
+		for (x=0; x<size && bOkAutoSet; x++)
 		{
-			for (y=0; y<9 && bOkAutoSet; y++)
+			for (y=0; y<size && bOkAutoSet; y++)
 			{
                 if (numMap == [map getMapNum:x y:y]) // 작은 블록 내의 칸인가?
                 {
@@ -386,7 +389,7 @@
 	NSInteger num = 0;
 	NSString *str;
 
-	for (y=0; y<9; y++) {
+	for (y=0; y<size; y++) {
 		str = [[array objectAtIndex:x] objectAtIndex:y];
 		if ([SudokuNum fixedByUser:str])
 			num++;
@@ -403,7 +406,7 @@
 	NSInteger num = 0;
 	NSString *str;
 	
-	for (x=0; x<9; x++) {
+	for (x=0; x<size; x++) {
 		str = [[array objectAtIndex:x] objectAtIndex:y];
 		if ([SudokuNum fixedByUser:str])
 			num++;
@@ -423,9 +426,9 @@
 	
     int mapNum = [map getMapNum:xPos y:yPos];
 	
-	for (x=0; x<9; x++)
+	for (x=0; x<size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
 		{
             if (mapNum == [map getMapNum:x y:y])
             {
@@ -456,7 +459,7 @@
 
 	// 주변 후보 숫자 수정	
 	
-	for (x=0; x<9; x++) {
+	for (x=0; x<size; x++) {
 		if (x != xPos) {
 			s = [[array objectAtIndex:x] objectAtIndex:yPos];
 			newStr = [self strDelNum:s ucNum:c];
@@ -472,7 +475,7 @@
 		}		
 	}
 	
-	for (y=0; y<9; y++) {
+	for (y=0; y<size; y++) {
 		if (y != yPos) {
 			s = [[array objectAtIndex:xPos] objectAtIndex:y];
 			newStr = [self strDelNum:s ucNum:c];
@@ -491,9 +494,9 @@
 	
     int mapNum = [map getMapNum:xPos y:yPos];
 	
-    for (x=0; x<9; x++)
+    for (x=0; x<size; x++)
     {
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
         {
             if (mapNum == [map getMapNum:x y:y])
             {
@@ -566,7 +569,7 @@
 			
 		}
 
-		// 이전에 지정한 셀에 다른 값(0~9)을 설정하려고 함
+		// 이전에 지정한 셀에 다른 값(0~size)을 설정하려고 함
 		[self editCell:num xPos:xPos yPos:yPos];
 		
 		return NO;	
@@ -585,9 +588,9 @@
 	NSString *str1 = [[NSString alloc] initWithFormat:@"%d*", num];
 	NSString *str2 = [[NSString alloc] initWithFormat:@"%d~", num];
 
-	for (x=0; x<9; x++)
+	for (x=0; x<size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
 		{
 			if (x != xPos && y != yPos) {
 				if ((x == xPos || y == yPos) ||
@@ -699,8 +702,8 @@
 			num = 0;
             
             // 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
-			for (int y=0; y<9 && num <= numRandom; y++) {
-				for (int x=0; x<9 && num <= numRandom; x++) {
+			for (int y=0; y<size && num <= numRandom; y++) {
+				for (int x=0; x<size && num <= numRandom; x++) {
 					str = [[array objectAtIndex:x] objectAtIndex:y];
 					if ([SudokuNum fixedByAuto:str] == YES) {
 						if (num == numRandom) {
@@ -731,8 +734,8 @@
 	num = 0;
 
     
-	for (int y=0; y<9 && num <= numRandom; y++) {
-		for (int x=0; x<9 && num <= numRandom; x++) {
+	for (int y=0; y<size && num <= numRandom; y++) {
+		for (int x=0; x<size && num <= numRandom; x++) {
 			str = [[array objectAtIndex:x] objectAtIndex:y];
 			if ([SudokuNum fixedByUser:str] == NO &&
 				[SudokuNum fixedByAuto:str] == NO) {
@@ -741,10 +744,12 @@
 					strRandom = arc4random() % len;
 					unichar c = [str characterAtIndex:strRandom];
 					
-					if ([self countUserFixedNumX:x yPos:y] >= 8 ||
-						[self countUserFixedNumY:x yPos:y] >= 8 ||
-						[self countUserFixedNumXY:x yPos:y] >= 8) {
-						NSLog(@"Made 99999999999999999");
+                    // zzz 4x4 다시 해야 한다.
+					if ([self countUserFixedNumX:x yPos:y] >= size-1 ||
+						[self countUserFixedNumY:x yPos:y] >= size-1 ||
+						[self countUserFixedNumXY:x yPos:y] >= size-1) {
+						
+                        
 					} else {
 						[self setCell:(NSInteger)(c - '0') xPos:x yPos:y];
 					}
@@ -771,11 +776,11 @@
 
 - (BOOL) setCellUserFixed:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	if ([self countUserFixedNumX:xPos yPos:yPos] >= 8 ||
-		[self countUserFixedNumY:xPos yPos:yPos] >= 8 ||
-		[self countUserFixedNumXY:xPos yPos:yPos] >= 8)
+	if ([self countUserFixedNumX:xPos yPos:yPos] >= size-1 ||
+		[self countUserFixedNumY:xPos yPos:yPos] >= size-1 ||
+		[self countUserFixedNumXY:xPos yPos:yPos] >= size-1)
 	{
-		NSLog(@"Made 99999999999999999");
+		
 		return NO;
 	}
 	
@@ -821,13 +826,13 @@
 {
 	int x, y;
 	NSMutableArray *array = self.nums;	
-	NSString *newStr = @"123456789";
+    NSString *strInit = [[[NSString alloc] initWithString:@"123456789ABCDEFG"] substringToIndex:size];
 	
-	for (x=0; x<9; x++)
+	for (x=0; x<size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
 		{
-			[[array objectAtIndex:x] replaceObjectAtIndex:y withObject:newStr];	
+			[[array objectAtIndex:x] replaceObjectAtIndex:y withObject:strInit];
 		}
 	}
 	NSLog(@"clearCell");
@@ -841,10 +846,12 @@
 	NSString *newStr;
 	NSRange range;
 	NSString *s;
+    NSString *strInit = [[[NSString alloc] initWithString:@"123456789ABCDEFG"] substringToIndex:size];
+
 	
 	if (num == 0)
 	{
-		newStr = [[NSString alloc] initWithString:@"123456789"]; // del number
+		newStr = [[NSString alloc] initWithString:strInit]; // del number
 	} else 
 	{
 		newStr = [[NSString alloc] initWithFormat:@"%d*", num];	// edit number
@@ -856,9 +863,9 @@
 	
 
 	int x, y;
-	for (x=0; x<9; x++)
+	for (x=0; x<size; x++)
 	{
-		for (y=0; y<9; y++)
+		for (y=0; y<size; y++)
 		{
 			s = [[array objectAtIndex:x] objectAtIndex:y];
 			range = [s rangeOfString:@"*"];
@@ -870,6 +877,7 @@
 	}
 	
 	[array release];	// release old array
+//    [strInit release];
 }
 
 - (NSInteger) getIntegerAtIndexFromString:(NSString *)str index:(NSUInteger)index
@@ -942,10 +950,10 @@
 	NSMutableArray *array = self.nums;
 	str = [str stringByAppendingString:@"\n"];
 	str = [str stringByAppendingString:@"-------------------------------------\n"];
-	for (int y=0; y<9; y++) {
+	for (int y=0; y<size; y++) {
 		for (int k=0; k<3; k++) {
 			str = [str stringByAppendingString:@"|"];
-			for (int x=0; x<9; x++) {
+			for (int x=0; x<size; x++) {
 				NSString *s = [[array objectAtIndex:x] objectAtIndex:y];
 				NSInteger len = s.length;
 				for (int l=0; l<3; l++) {
@@ -989,8 +997,8 @@
 	NSMutableArray *array = self.nums;
 	NSString *str;
 
-	for (int y=0; y<9; y++) {
-		for (int x=0; x<9; x++) {
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
 			str = [[array objectAtIndex:x] objectAtIndex:y];
 			if ([SudokuNum fixedByUser:str])
 				countUserFixed += 1;	

@@ -132,7 +132,7 @@
        [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
        
 
-       [mainView setFont];
+ //      [mainView setFont];
 		if ([mainView loadGame] == YES) {
 			[self setGameLevel];
 			[self updateBlankCellCount];
@@ -180,6 +180,7 @@
 #ifdef ADMOB_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
      bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
+     [bannerView_ setDelegate:self];
      bannerView_.adUnitID = MY_BANNER_UNIT_ID;
      
      bannerView_.rootViewController = self;
@@ -369,12 +370,8 @@
 - (void)dealloc {
 	NSLog(@"dealloc");
 #ifdef ADMOB_FREEVERSION
-/*
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 40000	
-	bannerView.delegate = nil;
-	[bannerView release];
-#endif
-*/
+    bannerView_.delegate = nil;
+    [bannerView_ release];
 #endif
     [super dealloc];
 }
@@ -491,7 +488,7 @@
 	
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
-	[mainView newGame:levelNewGame];
+	[mainView newGame:levelNewGame size:SIZE_9];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;
 	[self saveScoreData];
@@ -524,6 +521,8 @@
 	
 	
 }	
+
+
 
 - (IBAction)menuVeryEasy
 {
@@ -714,5 +713,38 @@
 }
 
 
+
+#ifdef ADMOB_FREEVERSION
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+{
+}
+
+- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+{
+
+}
+
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+{
+    [self stopTimer];
+}
+
+- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+{
+    [self startTimer];
+}
+
+- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+{
+    
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+{
+    
+}
+
+#endif
 
 @end

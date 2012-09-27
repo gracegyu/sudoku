@@ -133,7 +133,7 @@
 - (void) doHint;
 
 
-- (void) newGame:(NSInteger)level;
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
 - (BOOL) loadGame;
 - (void) checkClearGame;
 - (BOOL) isSelectedCellisFixed;

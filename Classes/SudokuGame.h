@@ -64,10 +64,10 @@
 - (void) saveData;
 + (SudokuGame*) loadData;
 
-+ (void) get9x9Nums:(char*)str	nums:(NSInteger*)nums;
-+ (void) set9x9Nums:(NSString *)str	nums:(NSInteger*)nums;
-+ (void) get9x9Strs:(char*)str	strs:(char*)strs;
-+ (void) set9x9Strs:(NSString *)str	strs:(char*)strs;
++ (void) get9x9Nums:(char*)str	size:(NSInteger)size   nums:(NSInteger*)nums;
++ (void) set9x9Nums:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums;
++ (void) get9x9Strs:(char*)str	size:(NSInteger)size    strs:(char*)strs;
++ (void) set9x9Strs:(NSString *)str	size:(NSInteger)size strs:(char*)strs;
 
 - (NSInteger) add1sec;
 - (NSInteger) countBlankCells;

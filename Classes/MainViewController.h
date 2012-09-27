@@ -11,12 +11,17 @@
 
 #ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
+#import "GADBannerViewDelegate.h"
 #endif
 
 #import "MainView.h"
 
 
-@interface MainViewController : TPMultiLayoutViewController {
+@interface MainViewController : TPMultiLayoutViewController
+#ifdef ADMOB_FREEVERSION
+    <GADBannerViewDelegate>
+#endif
+{
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
 
