@@ -402,11 +402,12 @@
 
 - (void) showMenuView
 {
-	[activityIndicator stopAnimating];	
+	[activityIndicator stopAnimating];
 	viewMenu.hidden = NO;
     
     
     CGRect frameOld = viewMenu.frame;
+    frameOld.origin.x = 0;
     frameOld.origin.y = 0;
     viewMenu.frame = frameOld;
 	viewMenu.alpha = 0.8f;
@@ -649,6 +650,11 @@
 #ifdef ADMOB_FREEVERSION
     bannerView_.hidden = YES;
 #endif
+    CGRect frameOld = viewMenu.frame;
+    frameOld.origin.x = 0;
+    frameOld.origin.y = 0;
+    viewMenu.frame = frameOld;
+
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation

@@ -518,6 +518,7 @@
 						<string key="NSFrame">{{269, 419}, {50, 36}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC40NjgwMzg4MjQyIDAuNTY2NDIwNzgxIDAuOTQ4OTc5NTkxOCAwAA</bytes>
@@ -773,7 +774,7 @@
 						<string key="NSFrameSize">{320, 300}</string>
 						<reference key="NSSuperview" ref="865956028"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="42832250"/>
+						<reference key="NSNextKeyView" ref="993134200"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -1050,6 +1051,7 @@
 						<string key="NSFrame">{{2, 356}, {45, 23}}</string>
 						<reference key="NSSuperview" ref="865956028"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC40NjgwMzg4MjQyIDAuNTY2NDIwNzgxIDAuOTQ4OTc5NTkxOCAwAA</bytes>
@@ -1360,7 +1362,7 @@
 								<string key="NSFrame">{{181, 226}, {118, 29}}</string>
 								<reference key="NSSuperview" ref="42832250"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="993134200"/>
+								<reference key="NSNextKeyView" ref="444652174"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
@@ -1408,7 +1410,7 @@
 				<string key="NSFrame">{{0, 20}, {480, 300}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="444652174"/>
+				<reference key="NSNextKeyView" ref="42832250"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MC41MDM3NjA4NTk1IDAuNjAzOTQyMzgwMSAwLjg3NzU1MTAyMDQAA</bytes>
@@ -2422,6 +2424,7 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="activityIndicator">UIActivityIndicatorView</string>
+						<string key="areaAdBanner">UIButton</string>
 						<string key="areaNumButton">UIButton</string>
 						<string key="areaPuzzleTable">UIButton</string>
 						<string key="buttonDel">UIButton</string>
@@ -2453,6 +2456,10 @@
 						<object class="IBToOneOutletInfo" key="activityIndicator">
 							<string key="name">activityIndicator</string>
 							<string key="candidateClassName">UIActivityIndicatorView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="areaAdBanner">
+							<string key="name">areaAdBanner</string>
+							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="areaNumButton">
 							<string key="name">areaNumButton</string>
