@@ -69,9 +69,9 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [[NSString alloc] initWithFormat:@"%02d:%02d:%02d",
+		str = [[NSString alloc] initWithFormat:@"%d:%02d:%02d",
 			   num / (60*60),
-			   num / (60),
+			   num / (60) % (60),
 			   num % (60)];
 	else 
 		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
