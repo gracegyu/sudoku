@@ -38,6 +38,7 @@
 @synthesize buttonDel;
 @synthesize buttonReset;
 @synthesize buttonHint;
+@synthesize buttonSound;
 
 @synthesize viewMenu;
 @synthesize labelLevel;
@@ -130,7 +131,7 @@
        [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
        [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
        [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
-       
+       [self setSoundIcon];
 
  //      [mainView setFont];
 		if ([mainView loadGame] == YES) {
@@ -340,6 +341,27 @@
 	[mainView doHint];
 }
 
+- (void) setSoundIcon
+{
+    if (mainView.bSoundOn) {
+        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateNormal];
+        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateHighlighted];
+        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateSelected];
+        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateDisabled];
+        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateApplication];
+    } else {
+        [buttonSound setImage:[UIImage imageNamed:@"soundoff.png"] forState:UIControlStateNormal];
+        [buttonSound setImage:[UIImage imageNamed:@"soundoff.png"] forState:UIControlStateSelected];
+    }
+}
+
+- (IBAction)setSound
+{
+    [mainView setSound];
+    
+    [self setSoundIcon];
+    // sound mode on/off
+}
 
 /*
  // Override to allow orientations other than the default portrait orientation.
@@ -580,8 +602,8 @@
 	NSInteger time = [mainView.sudokuGame add1sec];
 	
 	[self updateGameTime:time];	
-//	if (!mainView.sudokuGame.gameFinished)	// lock the screen
-//		[mainView.sudokuGame saveData];
+	if (!mainView.sudokuGame.gameFinished)	// lock the screen
+		[mainView.sudokuGame saveData];
 }
 
 - (void) updateBlankCellCount
@@ -640,6 +662,10 @@
 	}
 }
 
+- (void) updateButtonSound
+{
+    // sound mode에 따라서 image 수정
+}
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 

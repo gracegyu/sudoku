@@ -136,7 +136,7 @@
 	self.bPressedInButton = NO;
 	self.bPressedInCell = NO;
 	self.bDupWarn = YES;
-	self.bSoundOn = NO;
+	self.bSoundOn = YES;
 	
 //	self.fPress = 1.f;
 	
@@ -367,6 +367,9 @@
                  rect:rect
                 color:bDupWarnArea ? cellWarnColor.CGColor : fixedByUserColor.CGColor
                  font:cellOneSmallFont];
+    
+    if (bDupWarnArea)
+        bFailCell = YES;
 }
 
 
@@ -377,6 +380,7 @@
     
 	if (bDupWarnArea)
 	{
+        bFailCell = YES;
 		color = cellWarnColor.CGColor;
 	} else if (bConflict) {     // conflict number 처리
 		color = cellConflictColor.CGColor;
@@ -483,6 +487,7 @@
 			if (selectedXPos == xPos || selectedYPos == yPos ||
                 [sudokuGame isSameMap:selectedXPos y:selectedYPos x2:xPos y2:yPos]) // 중복 검사 영역
 			{
+                //bFailCell = YES;
 				bDupWarnArea = YES;
 			}		
 		}
@@ -509,6 +514,7 @@
 		[self drawRectCellOneChoosing:context rect:rect];
 	} else if (fixNum > 0)	{		// 사용자가 입력해 넣은 번호
         BOOL bConflict = [self conflictCell:xPos yPos:yPos];
+        
 		[self drawRectCellOneUserFixed:context num:fixNum rect:rect dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
 	} else if (pMemo) {
 		// 메모 중인 번호 
@@ -521,13 +527,18 @@
 
 }
 
+- (void) playSound:(SystemSoundID) inSystemSoundID
+{
+    if (bSoundOn)
+        AudioServicesPlaySystemSound(inSystemSoundID);
+}
 
 - (void)drawCellNums:(CGContextRef)context
 {
 	int x, y;
 
 
-//	bFailCell = NO;
+	bFailCell = NO;
 	
 	for (x=0; x<sudokuGame.size; x++)
 	{
@@ -537,9 +548,9 @@
 		}		
 	}
 	
-	if (bSetThisTime)// && bFailCell)
+	if (bFailCell)  //bSetThisTime &&
 	{
-		AudioServicesPlaySystemSound (soundFailID);
+		//[self playSound:soundFailID];
 	}
 	
 	bSetThisTime = NO;
@@ -988,7 +999,7 @@
 			{
 				selectedXPos = xPos;	
 				selectedYPos = yPos;
-				AudioServicesPlaySystemSound (soundClickID);	// drag 
+				[self playSound:soundClickID];	// drag
 				[self setNeedsDisplay];
 			}
 		}	
@@ -1007,24 +1018,27 @@
                     if ([sudokuGame isPuzzleNum:selectedXPos y:selectedYPos]) {
                         // do nothing
                     } else {
-					if (bMemoMode) { 
-						if (buttonNum > 0) {
-							[sudokuGame cancelFixNums:selectedXPos y:selectedYPos];
-							[sudokuGame revertMemoNums:buttonNum x:selectedXPos y:selectedYPos];
-						}
-					} else {
-						NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
-						[sudokuGame setFixNums:buttonNum x:selectedXPos y:selectedYPos];
-						[self checkClearGame];	
-					}
-					pushedButton = -1;
-					bSetThisTime = YES;
-					
-					AudioServicesPlaySystemSound (soundClickID);	
-					[ctrl updateBlankCellCount];
-					[ctrl updateHintCount];
-					[ctrl updateButtonUndo];
-					[ctrl updateButtonClear];
+                        if (bMemoMode) {
+                            if (buttonNum > 0) {
+                                [sudokuGame cancelFixNums:selectedXPos y:selectedYPos];
+                                [sudokuGame revertMemoNums:buttonNum x:selectedXPos y:selectedYPos];
+                            }
+                        } else {
+                            NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
+                            [sudokuGame setFixNums:buttonNum x:selectedXPos y:selectedYPos];
+                            [self checkClearGame];
+                        }
+                        pushedButton = -1;
+                        
+                        if (bFailCell)
+                            [self playSound:soundFailID];   // 강력한 기능이라서 Setting으로 빼야 한다.
+                        else
+                            [self playSound:soundClickID];
+                        
+                        [ctrl updateBlankCellCount];
+                        [ctrl updateHintCount];
+                        [ctrl updateButtonUndo];
+                        [ctrl updateButtonClear];
                     }
 
 				}
@@ -1090,7 +1104,7 @@
 		selectedYPos = (NSInteger) pointLastUndoPos.y;
 	}
 
-	AudioServicesPlaySystemSound (soundClickID);
+	[self playSound:soundClickID];
 	
 	[self setNeedsDisplay];
 }
@@ -1113,7 +1127,7 @@
 {
 	[self checkClearGame];	
 	
-	AudioServicesPlaySystemSound (soundClickID);	
+	[self playSound:soundClickID];
 	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 	[ctrl updateBlankCellCount];
     [ctrl updateHintCount];
@@ -1154,6 +1168,17 @@
 	[self checkClearAndUpdateButton];
 
 }
+
+- (void) setSound
+{
+    bSoundOn = !bSoundOn;
+    
+    [self playSound:soundClickID];
+
+
+}
+
+
 
 - (BOOL) loadGame
 {
@@ -1227,7 +1252,7 @@ static int	HandyCount[][5] = {
         [ctrl updateHintCount];
 
 
-		AudioServicesPlaySystemSound(soundClearID);	
+		[self playSound:soundClearID];	
 	}
 	[self setNeedsDisplay];
 }

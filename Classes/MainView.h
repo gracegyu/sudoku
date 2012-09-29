@@ -59,7 +59,7 @@
     SystemSoundID   soundClearID;	
     SystemSoundID   soundFailID;	
 	
-//	BOOL bFailCell;
+	BOOL bFailCell;
 	BOOL bSetThisTime;
 	BOOL bMemoMode;
 	BOOL bMenuMode;
@@ -131,6 +131,7 @@
 - (void) delNumber;
 - (void) clearNumbers;
 - (void) doHint;
+- (void) setSound;
 
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
@@ -139,4 +140,5 @@
 - (BOOL) isSelectedCellisFixed;
 - (BOOL) isSelectedCellisableHint;
 - (void) setFont;
+- (void) playSound:(SystemSoundID) inSystemSoundID;
 @end

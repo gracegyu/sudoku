@@ -55,6 +55,7 @@
 	UIButton	*buttonReset;
 	UIButton	*buttonScore;
 	UIButton	*buttonHint;
+    UIButton    *buttonSound;
 	
 	
 	UIView		*viewMenu;
@@ -101,6 +102,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonReset;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHint;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonSound;
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
@@ -120,6 +122,7 @@
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
 - (IBAction)doHint;
+- (IBAction)setSound;
 
 
 
@@ -132,7 +135,7 @@
 - (IBAction)menuCancel;
 
 
-
+- (void) setSoundIcon;
 - (void) showMenuView;
 - (void) hideMenuView;
 - (void) setGameLevel;
@@ -145,6 +148,7 @@
 - (void) updateButtonClear;
 - (void) updateButtonDel;
 - (void) updateButtonHint;
+- (void) updateButtonSound;
 - (void) writeScore:(SudokuGame*)sudokuGame;
 - (void) showMemoButton;
 - (void) showHintButton;
