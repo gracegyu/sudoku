@@ -145,7 +145,7 @@
 	
 	NSString *path;
 	
-	path = [[NSBundle mainBundle] pathForResource:@"Funk" ofType:@"aiff"];
+	path = [[NSBundle mainBundle] pathForResource:@"click" ofType:@"wav"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID);
 	path = [[NSBundle mainBundle] pathForResource:@"clear" ofType:@"wav"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClearID);

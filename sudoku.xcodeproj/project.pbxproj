@@ -18,6 +18,7 @@
 		CF2BCAF91615EF95005F8391 /* soundoff.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCAF71615EF95005F8391 /* soundoff.png */; };
 		CF2BCAFA1615EF95005F8391 /* soundon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2BCAF81615EF95005F8391 /* soundon.png */; };
 		CF4896E9160EF2D30076D28E /* MainViewFree.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF4896E8160EF2D30076D28E /* MainViewFree.xib */; };
+		CF4A627D16172B5A0068FC7B /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF4A627C16172B590068FC7B /* click.wav */; };
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
 		CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */; };
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
@@ -45,13 +46,8 @@
 		CF998544160B25BB0097879C /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998542160B25BB0097879C /* Default-568h@2x.png */; };
 		CF998545160B25BB0097879C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF998543160B25BB0097879C /* Default.png */; };
 		CF998562160B26210097879C /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99855A160B26210097879C /* clear.wav */; };
-		CF998563160B26210097879C /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99855B160B26210097879C /* click.wav */; };
-		CF998564160B26210097879C /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99855C160B26210097879C /* fail.wav */; };
 		CF998565160B26210097879C /* Funk.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF99855D160B26210097879C /* Funk.aiff */; };
-		CF998566160B26210097879C /* Funk.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF99855E160B26210097879C /* Funk.wav */; };
-		CF998567160B26210097879C /* Pop.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF99855F160B26210097879C /* Pop.aiff */; };
 		CF998568160B26210097879C /* Sosumi.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF998560160B26210097879C /* Sosumi.aiff */; };
-		CF998569160B26210097879C /* Tink.aiff in Resources */ = {isa = PBXBuildFile; fileRef = CF998561160B26210097879C /* Tink.aiff */; };
 		CF99856F160B26590097879C /* ScoreView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF99856A160B26590097879C /* ScoreView.xib */; };
 		CF998570160B26590097879C /* ScoreView4iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF99856B160B26590097879C /* ScoreView4iPad.xib */; };
 		CF998571160B26590097879C /* MainView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF99856C160B26590097879C /* MainView.xib */; };
@@ -93,6 +89,7 @@
 		CF2BCAF71615EF95005F8391 /* soundoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = soundoff.png; path = resource/soundoff.png; sourceTree = "<group>"; };
 		CF2BCAF81615EF95005F8391 /* soundon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = soundon.png; path = resource/soundon.png; sourceTree = "<group>"; };
 		CF4896E8160EF2D30076D28E /* MainViewFree.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainViewFree.xib; path = resource/MainViewFree.xib; sourceTree = "<group>"; };
+		CF4A627C16172B590068FC7B /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = click.wav; path = resource/click.wav; sourceTree = "<group>"; };
 		CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -121,13 +118,8 @@
 		CF998542160B25BB0097879C /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "resource/Default-568h@2x.png"; sourceTree = "<group>"; };
 		CF998543160B25BB0097879C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = resource/Default.png; sourceTree = "<group>"; };
 		CF99855A160B26210097879C /* clear.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = clear.wav; path = resource/clear.wav; sourceTree = "<group>"; };
-		CF99855B160B26210097879C /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = click.wav; path = resource/click.wav; sourceTree = "<group>"; };
-		CF99855C160B26210097879C /* fail.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = fail.wav; path = resource/fail.wav; sourceTree = "<group>"; };
 		CF99855D160B26210097879C /* Funk.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Funk.aiff; path = resource/Funk.aiff; sourceTree = "<group>"; };
-		CF99855E160B26210097879C /* Funk.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Funk.wav; path = resource/Funk.wav; sourceTree = "<group>"; };
-		CF99855F160B26210097879C /* Pop.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Pop.aiff; path = resource/Pop.aiff; sourceTree = "<group>"; };
 		CF998560160B26210097879C /* Sosumi.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Sosumi.aiff; path = resource/Sosumi.aiff; sourceTree = "<group>"; };
-		CF998561160B26210097879C /* Tink.aiff */ = {isa = PBXFileReference; lastKnownFileType = audio.aiff; name = Tink.aiff; path = resource/Tink.aiff; sourceTree = "<group>"; };
 		CF99856A160B26590097879C /* ScoreView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScoreView.xib; path = resource/ScoreView.xib; sourceTree = "<group>"; };
 		CF99856B160B26590097879C /* ScoreView4iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScoreView4iPad.xib; path = resource/ScoreView4iPad.xib; sourceTree = "<group>"; };
 		CF99856C160B26590097879C /* MainView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MainView.xib; path = resource/MainView.xib; sourceTree = "<group>"; };
@@ -251,13 +243,9 @@
 				CF5C22CA160FF56C008F8AB3 /* Default-Landscape~ipad.png */,
 				CF5C22C9160FF56C008F8AB3 /* Default-Landscape@2x~ipad.png */,
 				CF99855A160B26210097879C /* clear.wav */,
-				CF99855B160B26210097879C /* click.wav */,
-				CF99855C160B26210097879C /* fail.wav */,
+				CF4A627C16172B590068FC7B /* click.wav */,
 				CF99855D160B26210097879C /* Funk.aiff */,
-				CF99855E160B26210097879C /* Funk.wav */,
-				CF99855F160B26210097879C /* Pop.aiff */,
 				CF998560160B26210097879C /* Sosumi.aiff */,
-				CF998561160B26210097879C /* Tink.aiff */,
 				CF99856A160B26590097879C /* ScoreView.xib */,
 				CF99856B160B26590097879C /* ScoreView4iPad.xib */,
 				CF99856C160B26590097879C /* MainView.xib */,
@@ -375,13 +363,8 @@
 				CF998544160B25BB0097879C /* Default-568h@2x.png in Resources */,
 				CF998545160B25BB0097879C /* Default.png in Resources */,
 				CF998562160B26210097879C /* clear.wav in Resources */,
-				CF998563160B26210097879C /* click.wav in Resources */,
-				CF998564160B26210097879C /* fail.wav in Resources */,
 				CF998565160B26210097879C /* Funk.aiff in Resources */,
-				CF998566160B26210097879C /* Funk.wav in Resources */,
-				CF998567160B26210097879C /* Pop.aiff in Resources */,
 				CF998568160B26210097879C /* Sosumi.aiff in Resources */,
-				CF998569160B26210097879C /* Tink.aiff in Resources */,
 				CF99856F160B26590097879C /* ScoreView.xib in Resources */,
 				CF998570160B26590097879C /* ScoreView4iPad.xib in Resources */,
 				CF998571160B26590097879C /* MainView.xib in Resources */,
@@ -397,6 +380,7 @@
 				CF5C22CC160FF56C008F8AB3 /* Default-Landscape~ipad.png in Resources */,
 				CF2BCAF91615EF95005F8391 /* soundoff.png in Resources */,
 				CF2BCAFA1615EF95005F8391 /* soundon.png in Resources */,
+				CF4A627D16172B5A0068FC7B /* click.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
