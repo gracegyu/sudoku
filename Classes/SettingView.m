@@ -6,9 +6,9 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
-#import "ScoreView.h"
+#import "SettingView.h"
 
-@implementation ScoreView
+@implementation SettingView
 
 
 - (id)initWithFrame:(CGRect)frame {

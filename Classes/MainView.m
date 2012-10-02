@@ -1,9 +1,9 @@
 //
 //  MainView.m
-//  SudokuHelper
+//  Sudoku
 //
 //  Created by gracegyu on 10. 3. 15..
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//  Copyright Raymond 2010. All rights reserved.
 //
 
 #import "Constants.h"
@@ -1169,14 +1169,6 @@
 
 }
 
-- (void) setSound
-{
-    bSoundOn = !bSoundOn;
-    
-    [self playSound:soundClickID];
-
-
-}
 
 
 

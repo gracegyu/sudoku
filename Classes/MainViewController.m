@@ -1,12 +1,13 @@
 //
 //  MainViewController.m
-//  SudokuHelper
+//  Sudoku
 //
 //  Created by gracegyu on 10. 3. 15..
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//  Copyright Raymond 2010. All rights reserved.
 //
 
 #import "ScoreViewController.h"
+#import "SettingViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
 
@@ -38,7 +39,7 @@
 @synthesize buttonDel;
 @synthesize buttonReset;
 @synthesize buttonHint;
-@synthesize buttonSound;
+@synthesize buttonSetting;
 
 @synthesize viewMenu;
 @synthesize labelLevel;
@@ -131,7 +132,7 @@
        [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
        [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
        [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
-       [self setSoundIcon];
+
 
  //      [mainView setFont];
 		if ([mainView loadGame] == YES) {
@@ -238,7 +239,8 @@
 	
 }
 
-- (IBAction) showScoreView {    
+- (IBAction) showScoreView
+{
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
 										  @"ScoreView" bundle:nil];
@@ -341,26 +343,29 @@
 	[mainView doHint];
 }
 
-- (void) setSoundIcon
-{
-    if (mainView.bSoundOn) {
-        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateNormal];
-        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateHighlighted];
-        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateSelected];
-        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateDisabled];
-        [buttonSound setImage:[UIImage imageNamed:@"soundon.png"] forState:UIControlStateApplication];
-    } else {
-        [buttonSound setImage:[UIImage imageNamed:@"soundoff.png"] forState:UIControlStateNormal];
-        [buttonSound setImage:[UIImage imageNamed:@"soundoff.png"] forState:UIControlStateSelected];
-    }
-}
 
-- (IBAction)setSound
+
+- (IBAction)showSettingView
 {
-    [mainView setSound];
+
+    NSLog(@"showSettingView");
+    SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
+                                       cDeviceType == DEVICETYPE_IPAD ? @"SettingView" :
+                                       @"SettingView" bundle:nil];
+    controller.mainViewController = self;
+	controller.title = NSLocalizedString(@"Setting", nil);
+	
+	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+	[self presentModalViewController:controller animated:YES];
+    // UIModalTransitionStyleCrossDissolve for newgame
+	
+	
+	controller.title = NSLocalizedString(@"Setting", nil);
     
-    [self setSoundIcon];
-    // sound mode on/off
+	
+	[controller release];
+
+    
 }
 
 /*
@@ -662,10 +667,6 @@
 	}
 }
 
-- (void) updateButtonSound
-{
-    // sound mode에 따라서 image 수정
-}
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 

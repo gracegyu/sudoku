@@ -22,6 +22,7 @@
 		CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */; };
 		CF4C6DEC116A1B59007DFB9C /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */; };
 		CF4C6DED116A1B59007DFB9C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
+		CF4D2C55161B223D0096DF61 /* setting.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4D2C54161B223C0096DF61 /* setting.png */; };
 		CF502836160B2A6E00B1CDF6 /* SudokuNum.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998581160B26910097879C /* SudokuNum.m */; };
 		CF502838160B2A6E00B1CDF6 /* SudokuGame.m in Sources */ = {isa = PBXBuildFile; fileRef = CF99857F160B26910097879C /* SudokuGame.m */; };
 		CF5C22B4160F4F3F008F8AB3 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5C22B3160F4F3F008F8AB3 /* Default@2x.png */; };
@@ -32,6 +33,9 @@
 		CF5C22CB160FF56C008F8AB3 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5C22C9160FF56C008F8AB3 /* Default-Landscape@2x~ipad.png */; };
 		CF5C22CC160FF56C008F8AB3 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF5C22CA160FF56C008F8AB3 /* Default-Landscape~ipad.png */; };
 		CF5C22D3160FF8B1008F8AB3 /* SudokuMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF5C22D2160FF8B1008F8AB3 /* SudokuMap.m */; };
+		CF684411161B2C8A00426DA7 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF68440E161B2C6B00426DA7 /* SettingView.m */; };
+		CF684412161B2C8A00426DA7 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF684410161B2C6B00426DA7 /* SettingViewController.m */; };
+		CF684414161B2CB000426DA7 /* SettingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CF684413161B2CB000426DA7 /* SettingView.xib */; };
 		CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF80599F1155213300AE3DB5 /* AudioToolbox.framework */; };
 		CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96BC70114F4D0D009B4E78 /* AppDelegate.m */; };
 		CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
@@ -93,6 +97,7 @@
 		CF4C6DE8116A1B59007DFB9C /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		CF4C6DE9116A1B59007DFB9C /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		CF4D2C54161B223C0096DF61 /* setting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = setting.png; path = resource/setting.png; sourceTree = "<group>"; };
 		CF5C22B3160F4F3F008F8AB3 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x.png"; path = "resource/Default@2x.png"; sourceTree = "<group>"; };
 		CF5C22B5160F4FE3008F8AB3 /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon~ipad.png"; path = "resource/Sudoku9/Icon~ipad.png"; sourceTree = "<group>"; };
 		CF5C22BF160F52E0008F8AB3 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Portrait@2x~ipad.png"; path = "resource/Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
@@ -102,6 +107,11 @@
 		CF5C22CA160FF56C008F8AB3 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "resource/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		CF5C22D1160FF8B1008F8AB3 /* SudokuMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SudokuMap.h; path = Classes/SudokuMap.h; sourceTree = "<group>"; };
 		CF5C22D2160FF8B1008F8AB3 /* SudokuMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SudokuMap.m; path = Classes/SudokuMap.m; sourceTree = "<group>"; };
+		CF68440D161B2C6B00426DA7 /* SettingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SettingView.h; path = Classes/SettingView.h; sourceTree = "<group>"; };
+		CF68440E161B2C6B00426DA7 /* SettingView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SettingView.m; path = Classes/SettingView.m; sourceTree = "<group>"; };
+		CF68440F161B2C6B00426DA7 /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SettingViewController.h; path = Classes/SettingViewController.h; sourceTree = "<group>"; };
+		CF684410161B2C6B00426DA7 /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SettingViewController.m; path = Classes/SettingViewController.m; sourceTree = "<group>"; };
+		CF684413161B2CB000426DA7 /* SettingView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SettingView.xib; path = resource/SettingView.xib; sourceTree = "<group>"; };
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF96BC70114F4D0D009B4E78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CF98AE10120FADF40041A3FE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -200,6 +210,7 @@
 				CF28B988160D7ACD00EB125C /* TPMultiLayout */,
 				CFBE97D5114DE8FC00CCED88 /* Data */,
 				289233A00DB2D0730083E9F9 /* Main View */,
+				CF68440B161B2C5000426DA7 /* Setting View */,
 				281C6CD70DB2D82200F60ACC /* Score View */,
 				080E96DDFE201D6D7F000001 /* Application Delegate */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
@@ -223,6 +234,7 @@
 			isa = PBXGroup;
 			children = (
 				CF99851C160B23DB0097879C /* Sudoku.plist */,
+				CF4D2C54161B223C0096DF61 /* setting.png */,
 				CF2BCAF71615EF95005F8391 /* soundoff.png */,
 				CF2BCAF81615EF95005F8391 /* soundon.png */,
 				CF998522160B25340097879C /* Icon-72.png */,
@@ -248,6 +260,7 @@
 				CF998560160B26210097879C /* Sosumi.aiff */,
 				CF99856A160B26590097879C /* ScoreView.xib */,
 				CF99856B160B26590097879C /* ScoreView4iPad.xib */,
+				CF684413161B2CB000426DA7 /* SettingView.xib */,
 				CF99856C160B26590097879C /* MainView.xib */,
 				CF4896E8160EF2D30076D28E /* MainViewFree.xib */,
 				CF99856D160B26590097879C /* MainView4iPad.xib */,
@@ -279,6 +292,17 @@
 				CF28B98B160D7B0900EB125C /* TPMultiLayoutViewController.m */,
 			);
 			name = TPMultiLayout;
+			sourceTree = "<group>";
+		};
+		CF68440B161B2C5000426DA7 /* Setting View */ = {
+			isa = PBXGroup;
+			children = (
+				CF68440D161B2C6B00426DA7 /* SettingView.h */,
+				CF68440E161B2C6B00426DA7 /* SettingView.m */,
+				CF68440F161B2C6B00426DA7 /* SettingViewController.h */,
+				CF684410161B2C6B00426DA7 /* SettingViewController.m */,
+			);
+			name = "Setting View";
 			sourceTree = "<group>";
 		};
 		CFBE97D5114DE8FC00CCED88 /* Data */ = {
@@ -381,6 +405,8 @@
 				CF2BCAF91615EF95005F8391 /* soundoff.png in Resources */,
 				CF2BCAFA1615EF95005F8391 /* soundon.png in Resources */,
 				CF4A627D16172B5A0068FC7B /* click.wav in Resources */,
+				CF4D2C55161B223D0096DF61 /* setting.png in Resources */,
+				CF684414161B2CB000426DA7 /* SettingView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -391,6 +417,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF684411161B2C8A00426DA7 /* SettingView.m in Sources */,
+				CF684412161B2C8A00426DA7 /* SettingViewController.m in Sources */,
 				CF0F496D160D84E300E6321D /* TPMultiLayoutViewController.m in Sources */,
 				CF502836160B2A6E00B1CDF6 /* SudokuNum.m in Sources */,
 				CF502838160B2A6E00B1CDF6 /* SudokuGame.m in Sources */,

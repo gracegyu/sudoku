@@ -6,7 +6,7 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
-@interface ScoreView : UIView {
+@interface SettingView : UIView {
 
 }
 

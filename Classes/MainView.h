@@ -1,9 +1,9 @@
 //
 //  MainView.h
-//  SudokuHelper
+//  Sudoku
 //
 //  Created by gracegyu on 10. 3. 15..
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
+//  Copyright Raymond 2010. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -131,7 +131,7 @@
 - (void) delNumber;
 - (void) clearNumbers;
 - (void) doHint;
-- (void) setSound;
+
 
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
