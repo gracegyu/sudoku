@@ -69,6 +69,7 @@
 	NSInteger	scoreClears[5];
 	NSInteger	scoreBestTime[5];
 	NSInteger	scoreClearTimeSum[5];
+    NSInteger   scoreTotal;
 	NSInteger	levelNewGame;
 	NSInteger	countHint;
 

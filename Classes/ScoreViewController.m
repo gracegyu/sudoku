@@ -37,13 +37,15 @@
 @synthesize labelVeryHardBestTime;
 @synthesize labelVeryHardAverage;
 @synthesize labelTotalGames;
-@synthesize labelTotalClears;	
+@synthesize labelTotalClears;
+@synthesize labelTotalScore;
 @synthesize labelTitleVeryEasy;
 @synthesize labelTitleEasy;
 @synthesize labelTitleNormal;
 @synthesize labelTitleHard;
 @synthesize labelTitleVeryHard;
 @synthesize labelTitleTotal;
+@synthesize labelTitleTotalScore;
 @synthesize labelTitleGames;
 @synthesize labelTitleClears;
 @synthesize labelTitleBestTime;
@@ -99,6 +101,7 @@
 	labelTitleHard.text = NSLocalizedString(@"hard", nil);
 	labelTitleVeryHard.text = NSLocalizedString(@"very hard", nil);
 	labelTitleTotal.text = NSLocalizedString(@"total", nil);
+	labelTitleTotalScore.text = NSLocalizedString(@"score", nil);
 	labelTitleGames.text = NSLocalizedString(@"games", nil);
 	labelTitleClears.text = NSLocalizedString(@"clears", nil);
 	labelTitleBestTime.text = NSLocalizedString(@"best time", nil);

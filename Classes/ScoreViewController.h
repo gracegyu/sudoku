@@ -36,7 +36,8 @@
 	UILabel	*labelVeryHardBestTime;
 	UILabel	*labelVeryHardAverage;	
 	UILabel	*labelTotalGames;
-	UILabel	*labelTotalClears;	
+	UILabel	*labelTotalClears;
+    UILabel *labelTotalScore;
 	
 	
 	UILabel *labelTitleVeryEasy;
@@ -45,6 +46,7 @@
 	UILabel *labelTitleHard;
 	UILabel *labelTitleVeryHard;
 	UILabel *labelTitleTotal;
+	UILabel *labelTitleTotalScore;
 	UILabel *labelTitleGames;
 	UILabel *labelTitleClears;
 	UILabel *labelTitleBestTime;
@@ -78,12 +80,14 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryHardAverage;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTotalGames;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTotalClears;
+@property (nonatomic, retain) IBOutlet UILabel	*labelTotalScore;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleVeryEasy;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleEasy;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleNormal;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleHard;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleVeryHard;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleTotal;
+@property (nonatomic, retain) IBOutlet UILabel *labelTitleTotalScore;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleGames;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleClears;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleBestTime;

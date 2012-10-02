@@ -63,13 +63,15 @@
 		scoreClears[i] = 0;
 		scoreBestTime[i] = 0;
 		scoreClearTimeSum[i] = 0;
-	}	
+	}
+    scoreTotal = 0;
 }
 
 #define kScoreGames			@"scoreGames"
 #define kScoreClears		@"scoreClears"
 #define kScoreBestTime		@"scoreBestTime"
 #define kScoreClearTimeSum	@"scoreClearTimeSum"
+#define kScoreTotal         @"scoreTotal"
 
 - (void) saveScoreData
 {
@@ -79,11 +81,28 @@
 	
 	for (int i=0; i<5; i++)
 	{
+// set default for test
+/*        scoreGames[i] = 100 + i;
+        scoreClears[i] = 90 + i;
+        scoreBestTime[i] = 150 +i;
+        scoreClearTimeSum[i] = scoreClears[i] * scoreBestTime[i] * 1.7;
+*/
 		[defaults setInteger:scoreGames[i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreClears[i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreBestTime[i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreClearTimeSum[i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
+        
+        [defaults setInteger:scoreTotal forKey:kScoreTotal];
 	}	
+}
+
+- (NSInteger) getGameResultScore:(NSInteger)level sec:(NSInteger)sec
+{
+    NSInteger score = MIN(sec/60+1, 10);
+    
+    NSLog(@"getGameResultScore(%d,%d) => %d", level, sec, (5-level) * (10 - score + 1));
+    
+    return (5-level) * (10 - score + 1);
 }
 
 - (void) loadScoreData
@@ -97,7 +116,20 @@
 		scoreClears[i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
 		scoreBestTime[i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
 		scoreClearTimeSum[i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
-	}	
+	}
+    
+    scoreTotal = [defaults integerForKey:kScoreTotal];
+	if (scoreTotal == 0)
+    {
+        // need to migration
+        for (int i=0; i<5; i++)
+        {
+            scoreTotal += scoreGames[i];    // 게임 시작하면 무조건 1점씩 추가 됨
+            scoreTotal += scoreClears[i] * [self getGameResultScore:i sec:scoreClearTimeSum[i]/scoreClears[i]];
+        }
+	}
+    NSLog(@"scoreTotal = %d", scoreTotal);
+    
 }
 
 - (void) writeScore:(SudokuGame*)sudokuGame
@@ -110,6 +142,11 @@
 		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;
 	scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
 	
+    // add current game score to Total Score
+    scoreTotal += [self getGameResultScore:sudokuGame.gameLevel sec:sudokuGame.gameTime];
+    
+    
+    
 	[self saveScoreData];
 }
 
@@ -278,6 +315,7 @@
 	
 	[self setInteger:controller.labelTotalGames num:scoreGames[0]+scoreGames[1]+scoreGames[2]+scoreGames[3]+scoreGames[4]];
 	[self setInteger:controller.labelTotalClears num:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
+	[self setInteger:controller.labelTotalScore num:scoreTotal];
 	
 	[controller release];
 
@@ -517,7 +555,9 @@
 	[mainView.sudokuGame release];
 	[mainView newGame:levelNewGame size:SIZE_9];
 	
-	scoreGames[mainView.sudokuGame.gameLevel] += 1;
+	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
+    scoreTotal += 1;                                    // 1게임 시도당 1점 추가
+    
 	[self saveScoreData];
 	
 	[self updateGameTime:0];
