@@ -152,6 +152,7 @@
 - (void) showMemoButton;
 - (void) showHintButton;
 //- (void) setOrientationReady;
-
+- (void) loadSetting;
+- (void) saveSetting;
 
 @end

@@ -150,28 +150,48 @@
 	[self saveScoreData];
 }
 
+#define kSoundEffect    @"settingSoundEffect"
+
+- (void) loadSetting
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    mainView.bSettingSoundOn = [defaults boolForKey:kSoundEffect];
+
+}
+
+- (void) saveSetting
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setBool:mainView.bSettingSoundOn forKey:kSoundEffect];
+
+}
+
+- (void) setLocalizedMessage
+{
+    [buttonMemo setTitle:NSLocalizedString(@"memo", nil) forState:UIControlStateNormal];
+    [buttonDel setTitle:NSLocalizedString(@"del", nil) forState:UIControlStateNormal];
+    [buttonNew setTitle:NSLocalizedString(@"new", nil) forState:UIControlStateNormal];
+    [buttonReset setTitle:NSLocalizedString(@"reset", nil) forState:UIControlStateNormal];
+    [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
+    [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
+    [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
+    [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
+    [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];   
+
+}
 
 
-
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
  	NSLog(@"initWithNibName");	
    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
         mainView = (MainView*) self.view;
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 
-       
-       [buttonMemo setTitle:NSLocalizedString(@"memo", nil) forState:UIControlStateNormal];
-       [buttonDel setTitle:NSLocalizedString(@"del", nil) forState:UIControlStateNormal];
-       [buttonNew setTitle:NSLocalizedString(@"new", nil) forState:UIControlStateNormal];
-       [buttonReset setTitle:NSLocalizedString(@"reset", nil) forState:UIControlStateNormal];
-       [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
-       [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
-       [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
+       [self loadSetting];
+       [self setLocalizedMessage];
 
-
- //      [mainView setFont];
 		if ([mainView loadGame] == YES) {
 			[self setGameLevel];
 			[self updateBlankCellCount];
@@ -553,7 +573,7 @@
 	
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
-	[mainView newGame:levelNewGame size:SIZE_9];
+	[mainView newGame:levelNewGame size:SIZE_6];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
     scoreTotal += 1;                                    // 1게임 시도당 1점 추가

@@ -64,16 +64,13 @@
 	BOOL bMemoMode;
 	BOOL bMenuMode;
 	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
-	BOOL bSoundOn;						// 소리를 켤까요?
 
-//    UIInterfaceOrientation	lastOrientation;
+	BOOL bSettingSoundOn;						// 소리를 켤까요?
+    BOOL bSettingGuideline;
+    BOOL bSettingDuplicationWarning;
+    BOOL bSettingMarkingEqual;
+    BOOL bSettingDefMap;
 
-//	CGRect	rectLandscape;
-//	CGRect	rectPortrait;
-//	CGRect	rectCurrent;
-//	CGFloat	fTableWidth;
-//	CGFloat	fButtonStart;
-//	CGFloat	fPress;
 }
 
 
@@ -108,8 +105,11 @@
 @property BOOL bMemoMode;
 @property BOOL bMenuMode;
 @property BOOL bDupWarn;	
-@property BOOL bSoundOn;
-
+@property BOOL bSettingSoundOn;
+@property BOOL bSettingGuideline;
+@property BOOL bSettingDuplicationWarning;
+@property BOOL bSettingMarkingEqual;
+@property BOOL bSettingDefMap;
 
 @property (nonatomic, retain) UIFont *cellOneSmallFont;
 @property (nonatomic, retain) UIFont *cellOneBigFont;
@@ -141,4 +141,5 @@
 - (BOOL) isSelectedCellisableHint;
 - (void) setFont;
 - (void) playSound:(SystemSoundID) inSystemSoundID;
+- (void) playSoundClick;
 @end

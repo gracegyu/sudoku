@@ -44,7 +44,11 @@
 @synthesize bMemoMode;
 @synthesize bMenuMode;
 @synthesize bDupWarn;
-@synthesize bSoundOn;
+@synthesize bSettingSoundOn;
+@synthesize bSettingGuideline;
+@synthesize bSettingDuplicationWarning;
+@synthesize bSettingMarkingEqual;
+@synthesize bSettingDefMap;
 
 
 @synthesize cellOneSmallFont;
@@ -136,7 +140,11 @@
 	self.bPressedInButton = NO;
 	self.bPressedInCell = NO;
 	self.bDupWarn = YES;
-	self.bSoundOn = YES;
+	self.bSettingSoundOn = YES;
+    self.bSettingGuideline = YES;
+    self.bSettingDuplicationWarning = NO;
+    self.bSettingMarkingEqual = YES;
+    self.bSettingDefMap = YES;
 	
 //	self.fPress = 1.f;
 	
@@ -478,7 +486,7 @@
 
     
 	BOOL bDupWarnArea = NO;
-	if (sudokuGame.gameLevel >= GAMELEVEL_VERYHARD)
+	if (bSettingDuplicationWarning == YES)
 	{	// zzz 사용자가 누를 수 있는 버튼인 경우도 조건에 추가를 해야 한다.
 		if (bPressedInButton &&
             pushedButton >= 1 &&
@@ -513,7 +521,7 @@
 		// 선택중인 번호 - 큰 글씨로 나온다.
 		[self drawRectCellOneChoosing:context rect:rect];
 	} else if (fixNum > 0)	{		// 사용자가 입력해 넣은 번호
-        BOOL bConflict = [self conflictCell:xPos yPos:yPos];
+        BOOL bConflict = bSettingDuplicationWarning == YES && [self conflictCell:xPos yPos:yPos];
         
 		[self drawRectCellOneUserFixed:context num:fixNum rect:rect dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
 	} else if (pMemo) {
@@ -529,8 +537,13 @@
 
 - (void) playSound:(SystemSoundID) inSystemSoundID
 {
-    if (bSoundOn)
+    if (bSettingSoundOn)
         AudioServicesPlaySystemSound(inSystemSoundID);
+}
+
+- (void) playSoundClick
+{
+    [self playSound:soundClickID];
 }
 
 - (void)drawCellNums:(CGContextRef)context
@@ -587,9 +600,14 @@
 }
 
 
-- (void)drawHintBackground:(CGContextRef)context
+
+
+- (void) drawHintBackground:(CGContextRef)context
 {
-	if (selectedXPos < 0 || selectedXPos >= sudokuGame.size ||
+    if (bSettingGuideline == NO)
+        return;
+    
+    if (selectedXPos < 0 || selectedXPos >= sudokuGame.size ||
         selectedYPos < 0 || selectedYPos >= sudokuGame.size)	// no selectec cell
 		return;
     
@@ -603,8 +621,24 @@
                 [self isSameMapWithSelectedCell:x y:y])
             {
                 [self drawOneCellBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
-            }
-            
+            }            
+        } //y
+	} //x
+}
+
+- (void) drawMarkingEqualBackgound:(CGContextRef)context
+{
+    if (bSettingMarkingEqual == NO)
+        return;
+    
+    if (selectedXPos < 0 || selectedXPos >= sudokuGame.size ||
+        selectedYPos < 0 || selectedYPos >= sudokuGame.size)	// no selectec cell
+		return;
+    
+	for (int x=0; x<sudokuGame.size; x++)
+    {
+        for (int y=0; y<sudokuGame.size; y++)
+        {
             // 같은 숫자는 충돌이 되므로 바탕을 다르게 표시하기
             if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
             {
@@ -1398,6 +1432,7 @@ static int	HandyCount[][5] = {
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawHintBackground:context];          // 힌트 바탕 색
+    [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawHighlightCell:context];           // 선택된 셀 표시
