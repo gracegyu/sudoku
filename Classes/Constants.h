@@ -19,6 +19,14 @@
 #define BACKTRACKING_MAX        15
 #define MAX_HANDYTRAYFAIL       30
 
+#define GAMECOUNTFORREVIEW        20
+
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"403191170"  // SUDOKU9 Free
+#else
+#define APP_ID      @"386917779"  // SUDOKU9 Paid
+#endif
+
 
 enum GAMELEVEL {
 	GAMELEVEL_VERYHARD = 0,		// handy 0

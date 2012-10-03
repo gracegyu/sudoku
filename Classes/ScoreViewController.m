@@ -95,13 +95,15 @@
 	
 	naviItem.title = NSLocalizedString(@"Score", nil);
 	
+    lableTitle.text = NSLocalizedString(@"Score", nil);
+
 	labelTitleVeryEasy.text = NSLocalizedString(@"very easy", nil);
 	labelTitleEasy.text = NSLocalizedString(@"easy", nil);
 	labelTitleNormal.text = NSLocalizedString(@"normal", nil);
 	labelTitleHard.text = NSLocalizedString(@"hard", nil);
 	labelTitleVeryHard.text = NSLocalizedString(@"very hard", nil);
 	labelTitleTotal.text = NSLocalizedString(@"total", nil);
-	labelTitleTotalScore.text = NSLocalizedString(@"score", nil);
+	labelTitleTotalScore.text = NSLocalizedString(@"point", nil);
 	labelTitleGames.text = NSLocalizedString(@"games", nil);
 	labelTitleClears.text = NSLocalizedString(@"clears", nil);
 	labelTitleBestTime.text = NSLocalizedString(@"best time", nil);

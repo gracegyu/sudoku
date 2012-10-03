@@ -65,7 +65,7 @@
 	BOOL bMenuMode;
 	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
 
-	BOOL bSettingSoundOn;						// 소리를 켤까요?
+	BOOL bSettingSoundOff;						// 소리를 켤까요?
     BOOL bSettingGuideline;
     BOOL bSettingDuplicationWarning;
     BOOL bSettingMarkingEqual;
@@ -105,7 +105,7 @@
 @property BOOL bMemoMode;
 @property BOOL bMenuMode;
 @property BOOL bDupWarn;	
-@property BOOL bSettingSoundOn;
+@property BOOL bSettingSoundOff;
 @property BOOL bSettingGuideline;
 @property BOOL bSettingDuplicationWarning;
 @property BOOL bSettingMarkingEqual;

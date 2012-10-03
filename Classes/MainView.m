@@ -44,7 +44,7 @@
 @synthesize bMemoMode;
 @synthesize bMenuMode;
 @synthesize bDupWarn;
-@synthesize bSettingSoundOn;
+@synthesize bSettingSoundOff;
 @synthesize bSettingGuideline;
 @synthesize bSettingDuplicationWarning;
 @synthesize bSettingMarkingEqual;
@@ -113,7 +113,7 @@
 	
 	self.tableBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
 	self.selectedTableBgColor = [UIColor whiteColor];
-	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.8f];
+	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
 	self.HintBgColor = [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.2f];
 	self.MemoModeHintBgColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.2f alpha:0.2f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
@@ -140,11 +140,11 @@
 	self.bPressedInButton = NO;
 	self.bPressedInCell = NO;
 	self.bDupWarn = YES;
-	self.bSettingSoundOn = YES;
+	self.bSettingSoundOff = YES;
     self.bSettingGuideline = YES;
-    self.bSettingDuplicationWarning = NO;
+    self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
-    self.bSettingDefMap = YES;
+    self.bSettingDefMap = NO;
 	
 //	self.fPress = 1.f;
 	
@@ -537,7 +537,7 @@
 
 - (void) playSound:(SystemSoundID) inSystemSoundID
 {
-    if (bSettingSoundOn)
+    if (bSettingSoundOff)
         AudioServicesPlaySystemSound(inSystemSoundID);
 }
 
@@ -683,8 +683,8 @@
 		
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
 		CGContextSetStrokeColorWithColor(context, selectedTableBorderColor.CGColor);
-		currentRect = CGRectMake (xPos-cBoldLine/2,yPos-cBoldLine/2,
-                                  cCellWidth+cBoldLine,cCellHeight+cBoldLine);
+		currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
+                                  cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
 		
 		CGContextAddRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathStroke);
@@ -1240,7 +1240,7 @@ static int	HandyCount[][5] = {
     
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 
-	[sudokuNum initPuzzle:sizePuzzle];
+	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
 	[sudokuNum countCell];
 	NSInteger i = 0;
 	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
@@ -1435,8 +1435,8 @@ static int	HandyCount[][5] = {
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
-	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
+	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawNumButton:context];
     
 

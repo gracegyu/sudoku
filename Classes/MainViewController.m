@@ -125,7 +125,8 @@
         for (int i=0; i<5; i++)
         {
             scoreTotal += scoreGames[i];    // 게임 시작하면 무조건 1점씩 추가 됨
-            scoreTotal += scoreClears[i] * [self getGameResultScore:i sec:scoreClearTimeSum[i]/scoreClears[i]];
+            if (scoreClears[i] > 0)
+                scoreTotal += scoreClears[i] * [self getGameResultScore:i sec:scoreClearTimeSum[i]/scoreClears[i]];
         }
 	}
     NSLog(@"scoreTotal = %d", scoreTotal);
@@ -150,21 +151,42 @@
 	[self saveScoreData];
 }
 
-#define kSoundEffect    @"settingSoundEffect"
+#define SETTING_VERSION                 1
+#define kSettingSavedVersion            @"settingSavedVersion"
+#define kSettingSoundEffect             @"settingSoundEffect"
+#define kSettingGuideline               @"settingGuideline"
+#define kSettingDuplicationWarning      @"settingDuplicationWarning"
+#define kSettingMarkingEqual            @"settingMarkingEqual"
+#define kSettingDefMap                  @"settingDefMap"
 
 - (void) loadSetting
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    mainView.bSettingSoundOn = [defaults boolForKey:kSoundEffect];
-
+    
+    NSInteger settingVersion = [defaults integerForKey:kSettingSavedVersion];
+    if (settingVersion == 0)    // 처음에는 저장된 setting이 없다.
+    {
+        [self saveSetting];
+        return;
+    }    
+    
+    mainView.bSettingSoundOff = [defaults boolForKey:kSettingSoundEffect];
+    mainView.bSettingGuideline = [defaults boolForKey:kSettingGuideline];
+    mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
+    mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
+    mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
 }
 
 - (void) saveSetting
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    [defaults setBool:mainView.bSettingSoundOn forKey:kSoundEffect];
-
+    [defaults setInteger:SETTING_VERSION forKey:kSettingSavedVersion];
+    [defaults setBool:mainView.bSettingSoundOff forKey:kSettingSoundEffect];
+    [defaults setBool:mainView.bSettingGuideline forKey:kSettingGuideline];
+    [defaults setBool:mainView.bSettingDuplicationWarning forKey:kSettingDuplicationWarning];
+    [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
+    [defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
 }
 
 - (void) setLocalizedMessage
@@ -212,11 +234,26 @@
     }
     return self;
 }
-
-
-
+/*
+- (void) showReviewAlert
+{
+    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
+    NSInteger launchCount = [prefs integerForKey:@"launchCount"];
+    if (launchCount == GAMECOUNTFORREVIEW) {
+        launchCount++;
+        [prefs setInteger:launchCount forKey:@"launchCount"];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"LIKE MY APP?"
+                                                        message:@"Please rate it on the App Store!"
+                                                       delegate:self
+                                              cancelButtonTitle:@"NO THANKS"
+                                              otherButtonTitles:@"RATE NOW", nil];
+        [alert show];
+        [alert release];
+    }
+}
+*/
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
- - (void)viewDidLoad {
+ - (void) viewDidLoad {
 	 NSLog(@"viewDidLoad");	
 	 [super viewDidLoad];
 
@@ -408,7 +445,7 @@
 
     NSLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
-                                       cDeviceType == DEVICETYPE_IPAD ? @"SettingView" :
+                                       cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
                                        @"SettingView" bundle:nil];
     controller.mainViewController = self;
 	controller.title = NSLocalizedString(@"Setting", nil);

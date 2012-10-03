@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "SudokuGame.h"
+#import "Constants.h"
+#import "Appirater.h"
 
 @implementation AppDelegate
 
@@ -51,11 +53,22 @@
 	NSLog(@"window.screen = %@", window.screen);
 	NSLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
 
-    
-    
-    
-    
     [window makeKeyAndVisible];
+    
+    [Appirater setAppId:APP_ID];
+    [Appirater setDaysUntilPrompt:30];   // 30              최소 사용한지 30일이 지나야 한다.
+    [Appirater setUsesUntilPrompt:20];   // 20              최소 20번은 실행해야 한다.
+    [Appirater setSignificantEventsUntilPrompt:-1]; // -1
+    [Appirater setTimeBeforeReminding:7];   // 7            remind me를 선택하면 7일 후에 remind한다.
+    
+/*    [Appirater setDaysUntilPrompt:0];   // 30
+    [Appirater setUsesUntilPrompt:3];   // 20
+    [Appirater setSignificantEventsUntilPrompt:-1]; // -1
+    [Appirater setTimeBeforeReminding:0];   // 7
+*/
+    //[Appirater setDebug:YES];
+    
+    [Appirater appLaunched:YES];
 }
 
 + (AppDelegate *)sharedAppDelegate
@@ -74,6 +87,12 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
 	NSLog(@"applicationDidBecomeActive");
+}
+
+
+-(void)applicationWillEnterForeground:(UIApplication*)application
+{
+    [Appirater appEnteredForeground:YES];
 }
 
 - (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window

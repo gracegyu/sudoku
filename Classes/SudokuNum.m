@@ -34,9 +34,9 @@
     return size;
 }
 
-- (void) initMap
+- (void) initMap:(BOOL)defmap
 {
-    map = [[SudokuMap alloc] initWithSize:size];
+    map = [[SudokuMap alloc] initWithSize:size defmap:defmap];
 }
 
 - (void) initNums
@@ -69,13 +69,13 @@
 }
 
 // 최초에 한번만 초기화
-- (void) initPuzzle:(NSInteger)sizePuzzle
+- (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap
 {
     numBackTracking = BACKTRACKING_START;
     countHandyTryFailed = 0;
     size = sizePuzzle;
     
-    [self initMap];
+    [self initMap:defmap];
     [self initNumsUndo];
 }
 
@@ -686,7 +686,7 @@
 - (BOOL) setCellAuto:(NSInteger)handy;
 {
 	NSMutableArray *array = self.nums;	
-	unsigned valRand;
+	unsigned int valRand;
 	int numRandom;
 	int num;
 	int strRandom;

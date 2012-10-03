@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
+#import "Appirater.h"
 
 
 @implementation SettingViewController
@@ -25,8 +26,8 @@
 @synthesize buttonGuildeline;
 @synthesize buttonDuplicationWarning;
 @synthesize buttonMarkingEqual;
-@synthesize buttonShapeOfMap1;
-@synthesize buttonShapeOfMap2;
+@synthesize buttonShapeOfMap;
+
 @synthesize buttonFacebook;
 @synthesize buttonBugReport;
 @synthesize buttonReview;
@@ -47,52 +48,46 @@
 
 - (void) setImageSoundEffect
 {
-    if (mainViewController.mainView.bSettingSoundOn == YES)
-        [buttonSoundEffect setImage:[UIImage imageNamed:@"soundeffect_on"] forState:UIControlStateNormal];
+    if (mainViewController.mainView.bSettingSoundOff == YES)
+        [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_on"] forState:UIControlStateNormal];
     else
-        [buttonSoundEffect setImage:[UIImage imageNamed:@"soundeffect_off"] forState:UIControlStateNormal];
-    [buttonSoundEffect setImage:[UIImage imageNamed:@"soundeffect_h"] forState:UIControlStateHighlighted];
+        [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_off"] forState:UIControlStateNormal];
+    [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_h"] forState:UIControlStateHighlighted];
 }
 
 - (void) setImageGuideline
 {
     if (mainViewController.mainView.bSettingGuideline == YES)
-        [buttonGuildeline setImage:[UIImage imageNamed:@"guideline_on"] forState:UIControlStateNormal];
+        [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_on"] forState:UIControlStateNormal];
     else
-        [buttonGuildeline setImage:[UIImage imageNamed:@"guideline_off"] forState:UIControlStateNormal];
-    [buttonGuildeline setImage:[UIImage imageNamed:@"guideline_h"] forState:UIControlStateHighlighted];
+        [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_off"] forState:UIControlStateNormal];
+    [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_h"] forState:UIControlStateHighlighted];
 }
 
 - (void) setImageDuplicationWarning
 {
     if (mainViewController.mainView.bSettingDuplicationWarning == YES)
-        [buttonDuplicationWarning setImage:[UIImage imageNamed:@"dupwan_on"] forState:UIControlStateNormal];
+        [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_on"] forState:UIControlStateNormal];
     else
-        [buttonDuplicationWarning setImage:[UIImage imageNamed:@"dupwan_off"] forState:UIControlStateNormal];
-    [buttonDuplicationWarning setImage:[UIImage imageNamed:@"dupwan_h"] forState:UIControlStateHighlighted];
+        [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_off"] forState:UIControlStateNormal];
+    [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_h"] forState:UIControlStateHighlighted];
 }
 
 - (void) setImageMarkingEqual
 {
     if (mainViewController.mainView.bSettingMarkingEqual == YES)
-        [buttonMarkingEqual setImage:[UIImage imageNamed:@"markingequal_on"] forState:UIControlStateNormal];
+        [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_on"] forState:UIControlStateNormal];
     else
-        [buttonMarkingEqual setImage:[UIImage imageNamed:@"markingequal_off"] forState:UIControlStateNormal];
-    [buttonMarkingEqual setImage:[UIImage imageNamed:@"markingequal_h"] forState:UIControlStateHighlighted];
+        [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_off"] forState:UIControlStateNormal];
+    [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_h"] forState:UIControlStateHighlighted];
 }
 
 - (void) setImageShapeOfMap
 {
     if (mainViewController.mainView.bSettingDefMap == YES)
-    {
-        [buttonShapeOfMap1 setImage:[UIImage imageNamed:@"map1_on"] forState:UIControlStateNormal];
-        [buttonShapeOfMap2 setImage:[UIImage imageNamed:@"map2_off"] forState:UIControlStateNormal];
-    } else {
-        [buttonShapeOfMap1 setImage:[UIImage imageNamed:@"map1_off"] forState:UIControlStateNormal];
-        [buttonShapeOfMap2 setImage:[UIImage imageNamed:@"map2_on"] forState:UIControlStateNormal];
-    }
-    [buttonShapeOfMap1 setImage:[UIImage imageNamed:@"map1_on"] forState:UIControlStateHighlighted];
-    [buttonShapeOfMap2 setImage:[UIImage imageNamed:@"map2_on"] forState:UIControlStateHighlighted];
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_on"] forState:UIControlStateNormal];
+    else
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_off"] forState:UIControlStateNormal];
 
 
 }
@@ -103,6 +98,7 @@
 	
 	naviItem.title = NSLocalizedString(@"Setting", nil);
 	
+    lableTitle.text = NSLocalizedString(@"Setting", nil);
 	labelSoundEffect.text = NSLocalizedString(@"sound effect", nil);
     labelGuildeline.text = NSLocalizedString(@"guideline", nil);
     labelDuplicationWarning.text = NSLocalizedString(@"duplication warning", nil);
@@ -146,7 +142,7 @@
 
 - (IBAction)setSoundEffect
 {
-    mainViewController.mainView.bSettingSoundOn = !mainViewController.mainView.bSettingSoundOn;
+    mainViewController.mainView.bSettingSoundOff = !mainViewController.mainView.bSettingSoundOff;
     [self setImageSoundEffect];
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
@@ -184,10 +180,8 @@
 
 - (IBAction)setShapeOfMap1
 {
-    if (mainViewController.mainView.bSettingDefMap ==  YES)
-        return;
+    mainViewController.mainView.bSettingDefMap = !mainViewController.mainView.bSettingDefMap;
     
-    mainViewController.mainView.bSettingDefMap = YES;
     [self setImageShapeOfMap];
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
@@ -195,21 +189,38 @@
     // 게임을 새로 시작할까????
 }
 
-- (IBAction)setShapeOfMap2
+
+
+
+
+- (IBAction)goFacebook
 {
-    if (mainViewController.mainView.bSettingDefMap == NO)
-        return;
+    [[UIApplication sharedApplication]
+     openURL:[NSURL URLWithString:
+              @"http://m.facebook.com/pages/smartoneapp/291656217607690?id=291656217607690&_rdr"]];
     
-    [self setImageShapeOfMap];
-    mainViewController.mainView.bSettingDefMap = NO;
-    [self setImageShapeOfMap];
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
 
 }
 
+- (IBAction)goBugReport
+{
+    [[UIApplication sharedApplication]
+     openURL:[NSURL URLWithString:
+              @"http://code.google.com/p/gracegyu/issues/entry"]];
+}
 
+- (IBAction)goReview
+{
+    [Appirater rateApp];
+}
 
+- (IBAction)goNewApps
+{
+    [[UIApplication sharedApplication]
+     openURL:[NSURL URLWithString:
+    @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
+
+}
 
 
 

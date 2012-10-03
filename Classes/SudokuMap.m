@@ -16,17 +16,15 @@
 	[super dealloc];
 }
 
- static int Map9x9__[9*9] = {
-    1, 1, 2, 2, 2, 3, 3, 3, 3,
-    1, 1, 1, 1, 2, 2, 2, 3, 3,
-    1, 4, 1, 2, 2, 2, 3, 3, 6,
-    1, 4, 4, 5, 5, 5, 6, 3, 6,
-    4, 4, 4, 5, 5, 5, 6, 6, 6,
-    4, 7, 4, 5, 5, 5, 6, 6, 9,
-    4, 7, 7, 8, 8, 8, 9, 6, 9,
-    7, 7, 8, 8, 8, 9, 9, 9, 9,
-    7, 7, 7, 7, 8, 8, 8, 9, 9
+static int setMap6[][16*16] = {
+    {   1,1,1,2,2,2,1,1,1,2,2,2,3,3,3,4,4,4,3,3,3,4,4,4,5,5,5,6,6,6,5,5,5,6,6,6 },
+    {   1,1,1,2,2,2,1,1,2,2,2,4,3,1,3,4,4,4,3,3,3,4,6,4,3,5,5,5,6,6,5,5,5,6,6,6 },
+    {   1,1,1,2,2,2,1,1,3,3,2,2,1,3,3,3,3,2,5,4,4,4,4,6,5,5,4,4,6,6,5,5,5,6,6,6 },
+    {   1,1,1,1,1,2,4,5,5,1,5,2,4,4,5,5,5,2,4,6,6,6,2,2,4,6,3,6,6,2,4,3,3,3,3,3 },
+    {   1,2,2,2,2,3,1,1,1,2,3,3,5,6,1,2,4,3,5,6,1,6,4,3,5,6,6,6,4,3,5,5,5,4,4,4 },
+    {   0   }
 };
+
 
 static int defaultMap[][16*16] = {
     {0},
@@ -44,12 +42,12 @@ static int defaultMap[][16*16] = {
         4, 4, 3, 5, 5,
         4, 4, 5, 5, 5
     },  // 5
-    {  1	,	2	,	2	,	2	,	2	,	3	,
-        1	,	1	,	1	,	2	,	3	,	3	,
-        5	,	6	,	1	,	2	,	4	,	3	,
-        5	,	6	,	1	,	6	,	4	,	3	,
-        5	,	6	,	6	,	6	,	4	,	3	,
-        5	,	5	,	5	,	4	,	4	,	4	
+    {  1,2,2,2,2,3	,
+        1,1,1,2,3,3	,
+        5,6,1,2,4,3	,
+        5,6,1,6,4,3	,
+        5,6,6,6,4,3	,
+        5,5,5,4,4,4	
     },  // 6
     {   1, 1, 2, 2, 2, 2, 3,
         1, 1, 1, 2, 2, 2, 3,
@@ -83,7 +81,7 @@ static int defaultMap[][16*16] = {
 
 
 
-- (SudokuMap*) initWithSize:(NSInteger)sizeMap
+- (SudokuMap*) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
 {
     NSAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
     NSInteger countMap[MAXMAPSIZE+10] = {0};
@@ -94,7 +92,32 @@ static int defaultMap[][16*16] = {
     memset(&countMap, 0, sizeof(countMap));
     
     int x, y, i=0;
-    int *Map =  defaultMap[sizeMap];
+    int *Map = nil;
+    
+    switch (sizeMap) {
+        case SIZE_6 :
+            if (defmap == YES)
+            {
+                Map = setMap6[0];
+            } else {
+                NSInteger countDefMap = 0;
+                for (int i=0; setMap6[i][0]>0; i++)
+                    countDefMap++;               
+                
+                
+                unsigned int valRand = arc4random();
+                NSInteger numRandom = valRand % (countDefMap-1);
+                NSLog(@"numRandom = %d", numRandom);
+                
+                Map = setMap6[numRandom+1];
+            }
+            break;
+        default :
+            Map = defaultMap[sizeMap];
+            break;
+    }
+    
+    
     
     for (y = 0; y < sizeMap; y++) {
         for (x = 0; x < sizeMap; x++) {

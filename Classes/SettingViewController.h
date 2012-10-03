@@ -27,8 +27,8 @@
     UIButton *buttonGuildeline;
     UIButton *buttonDuplicationWarning;
     UIButton *buttonMarkingEqual;
-    UIButton *buttonShapeOfMap1;
-    UIButton *buttonShapeOfMap2;
+    UIButton *buttonShapeOfMap;
+
 	
     UIButton *buttonFacebook;
     UIButton *buttonBugReport;
@@ -51,8 +51,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonGuildeline;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDuplicationWarning;
 @property (nonatomic, retain) IBOutlet UIButton *buttonMarkingEqual;
-@property (nonatomic, retain) IBOutlet UIButton *buttonShapeOfMap1;
-@property (nonatomic, retain) IBOutlet UIButton *buttonShapeOfMap2;
+@property (nonatomic, retain) IBOutlet UIButton *buttonShapeOfMap;
+
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
 @property (nonatomic, retain) IBOutlet UIButton *buttonBugReport;
@@ -65,8 +65,12 @@
 - (IBAction)setDuplicationWarning;
 - (IBAction)setMarkingEqual;
 - (IBAction)setShapeOfMap1;
-- (IBAction)setShapeOfMap2;
 
+
+- (IBAction)goFacebook;
+- (IBAction)goBugReport;
+- (IBAction)goReview;
+- (IBAction)goNewApps;
 
 - (IBAction)done;
 

@@ -24,7 +24,7 @@
 
 @property NSInteger     size;
 
-- (SudokuMap*) initWithSize:(NSInteger)size;
+- (SudokuMap*) initWithSize:(NSInteger)size defmap:(BOOL)defmap;
 - (NSInteger*) getMap;
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
