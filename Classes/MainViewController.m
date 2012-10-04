@@ -641,6 +641,11 @@
 
 }
 
+#ifdef SUDOKU9
+#define DEFPUZZLESIZE   9
+#else
+#define DEFPUZZLESIZE   9
+#endif
 
 
 
@@ -650,7 +655,7 @@
 	
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
-	[mainView newGame:levelNewGame size:SIZE_6];
+	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
     scoreTotal += 1;                                    // 1게임 시도당 1점 추가

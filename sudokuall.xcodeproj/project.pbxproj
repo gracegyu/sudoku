@@ -27,17 +27,6 @@
 		CF68482214F73DDF007ECC9D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */; };
 		CF6BCCDB161D70AB00879F6E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */; };
 		CF6BCCDC161D70AB00879F6E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
-		CF6BCCDD161D70AB00879F6E /* Sudoku.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF99851F160B24710097879C /* Sudoku.plist */; };
-		CF6BCCDE161D70AB00879F6E /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8C1614553100DB31EA /* Icon-72.png */; };
-		CF6BCCDF161D70AB00879F6E /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8D1614553100DB31EA /* Icon-512.png */; };
-		CF6BCCE0161D70AB00879F6E /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8E1614553100DB31EA /* Icon-1024.png */; };
-		CF6BCCE1161D70AB00879F6E /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8F1614553100DB31EA /* Icon-Small-50.png */; };
-		CF6BCCE2161D70AB00879F6E /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB901614553100DB31EA /* Icon-Small.png */; };
-		CF6BCCE3161D70AB00879F6E /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB911614553100DB31EA /* Icon-Small@2x.png */; };
-		CF6BCCE4161D70AB00879F6E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB921614553100DB31EA /* Icon.png */; };
-		CF6BCCE5161D70AB00879F6E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB931614553100DB31EA /* Icon@2x.png */; };
-		CF6BCCE6161D70AB00879F6E /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB9C1614560600DB31EA /* Icon@2x~ipad.png */; };
-		CF6BCCE7161D70AB00879F6E /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB9D1614560600DB31EA /* Icon~ipad.png */; };
 		CF6BCCE8161D70AB00879F6E /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212A161C8084001FB734 /* clear.wav */; };
 		CF6BCCE9161D70AB00879F6E /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212B161C8084001FB734 /* click.wav */; };
 		CF6BCCEA161D70AB00879F6E /* fail.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212C161C8084001FB734 /* fail.wav */; };
@@ -108,6 +97,52 @@
 		CF6BCD2D161D70AB00879F6E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF4C6DEA116A1B59007DFB9C /* QuartzCore.framework */; };
 		CF6BCD2E161D70AB00879F6E /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6FF9261288F19200587748 /* iAd.framework */; };
 		CF6BCD2F161D70AB00879F6E /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */; };
+		CF6BCD46161D73E200879F6E /* Locale.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6BCCCA161D6F7F00879F6E /* Locale.m */; };
+		CF6BCD47161D73F000879F6E /* Locale.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6BCCCA161D6F7F00879F6E /* Locale.m */; };
+		CF6BCD4C161D748500879F6E /* Sudoku9paid.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD4A161D748500879F6E /* Sudoku9paid.plist */; };
+		CF6BCD4D161D748500879F6E /* Sudoku9free.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD4B161D748500879F6E /* Sudoku9free.plist */; };
+		CF6BCD6D161D825800879F6E /* Sudoku9PaidIcon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD63161D825700879F6E /* Sudoku9PaidIcon-72.png */; };
+		CF6BCD6E161D825800879F6E /* Sudoku9PaidIcon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD64161D825700879F6E /* Sudoku9PaidIcon-512.png */; };
+		CF6BCD6F161D825800879F6E /* Sudoku9PaidIcon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD65161D825700879F6E /* Sudoku9PaidIcon-1024.png */; };
+		CF6BCD70161D825800879F6E /* Sudoku9PaidIcon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD66161D825700879F6E /* Sudoku9PaidIcon-Small-50.png */; };
+		CF6BCD71161D825800879F6E /* Sudoku9PaidIcon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD67161D825700879F6E /* Sudoku9PaidIcon-Small.png */; };
+		CF6BCD72161D825800879F6E /* Sudoku9PaidIcon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD68161D825700879F6E /* Sudoku9PaidIcon-Small@2x.png */; };
+		CF6BCD73161D825800879F6E /* Sudoku9PaidIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD69161D825700879F6E /* Sudoku9PaidIcon.png */; };
+		CF6BCD74161D825800879F6E /* Sudoku9PaidIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD6A161D825700879F6E /* Sudoku9PaidIcon@2x.png */; };
+		CF6BCD75161D825800879F6E /* Sudoku9PaidIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD6B161D825700879F6E /* Sudoku9PaidIcon@2x~ipad.png */; };
+		CF6BCD76161D825800879F6E /* Sudoku9PaidIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD6C161D825700879F6E /* Sudoku9PaidIcon~ipad.png */; };
+		CF6BCD81161D850D00879F6E /* Sudoku9FreeIcon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD77161D850C00879F6E /* Sudoku9FreeIcon-72.png */; };
+		CF6BCD82161D850D00879F6E /* Sudoku9FreeIcon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD78161D850C00879F6E /* Sudoku9FreeIcon-512.png */; };
+		CF6BCD83161D850D00879F6E /* Sudoku9FreeIcon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD79161D850C00879F6E /* Sudoku9FreeIcon-1024.png */; };
+		CF6BCD84161D850D00879F6E /* Sudoku9FreeIcon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7A161D850C00879F6E /* Sudoku9FreeIcon-Small-50.png */; };
+		CF6BCD85161D850D00879F6E /* Sudoku9FreeIcon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7B161D850C00879F6E /* Sudoku9FreeIcon-Small.png */; };
+		CF6BCD86161D850D00879F6E /* Sudoku9FreeIcon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7C161D850C00879F6E /* Sudoku9FreeIcon-Small@2x.png */; };
+		CF6BCD87161D850D00879F6E /* Sudoku9FreeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7D161D850C00879F6E /* Sudoku9FreeIcon.png */; };
+		CF6BCD88161D850D00879F6E /* Sudoku9FreeIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7E161D850C00879F6E /* Sudoku9FreeIcon@2x.png */; };
+		CF6BCD89161D850D00879F6E /* Sudoku9FreeIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD7F161D850C00879F6E /* Sudoku9FreeIcon@2x~ipad.png */; };
+		CF6BCD8A161D850D00879F6E /* Sudoku9FreeIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD80161D850D00879F6E /* Sudoku9FreeIcon~ipad.png */; };
+		CF6BCD8C161D85C400879F6E /* Sudoku9PaidIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD8B161D85C400879F6E /* Sudoku9PaidIcon.png */; };
+		CF6BCD8E161D85EC00879F6E /* Sudoku9PaidIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD8D161D85EB00879F6E /* Sudoku9PaidIcon@2x.png */; };
+		CF6BCD90161D860900879F6E /* Sudoku9PaidIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD8F161D860900879F6E /* Sudoku9PaidIcon~ipad.png */; };
+		CF6BCD92161D861000879F6E /* Sudoku9PaidIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD91161D861000879F6E /* Sudoku9PaidIcon@2x~ipad.png */; };
+		CF6BCD94161D863300879F6E /* Sudoku9FreeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD93161D863300879F6E /* Sudoku9FreeIcon.png */; };
+		CF6BCD96161D864B00879F6E /* Sudoku9FreeIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD95161D864B00879F6E /* Sudoku9FreeIcon@2x.png */; };
+		CF6BCD98161D865700879F6E /* Sudoku9FreeIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD97161D865700879F6E /* Sudoku9FreeIcon~ipad.png */; };
+		CF6BCD9A161D865F00879F6E /* Sudoku9FreeIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD99161D865F00879F6E /* Sudoku9FreeIcon@2x~ipad.png */; };
+		CF6BCD9C161D86D000879F6E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD9B161D86D000879F6E /* Default.png */; };
+		CF6BCD9E161D86D900879F6E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD9D161D86D900879F6E /* Default@2x.png */; };
+		CF6BCDA0161D86DD00879F6E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD9F161D86DD00879F6E /* Default-568h@2x.png */; };
+		CF6BCDA2161D86E800879F6E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA1161D86E800879F6E /* Default-Portrait~ipad.png */; };
+		CF6BCDA4161D86EB00879F6E /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA3161D86EB00879F6E /* Default-Portrait@2x~ipad.png */; };
+		CF6BCDA6161D86F900879F6E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA5161D86F900879F6E /* Default-Landscape~ipad.png */; };
+		CF6BCDA8161D86FE00879F6E /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA7161D86FE00879F6E /* Default-Landscape@2x~ipad.png */; };
+		CF6BCDA9161D870B00879F6E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCD9B161D86D000879F6E /* Default.png */; };
+		CF6BCDAA161D870E00879F6E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF712129161C8057001FB734 /* Default@2x.png */; };
+		CF6BCDAB161D871200879F6E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF712122161C8057001FB734 /* Default-568h@2x.png */; };
+		CF6BCDAC161D871E00879F6E /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA1161D86E800879F6E /* Default-Portrait~ipad.png */; };
+		CF6BCDAD161D872100879F6E /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA3161D86EB00879F6E /* Default-Portrait@2x~ipad.png */; };
+		CF6BCDAE161D872500879F6E /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA5161D86F900879F6E /* Default-Landscape~ipad.png */; };
+		CF6BCDAF161D872900879F6E /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF6BCDA7161D86FE00879F6E /* Default-Landscape@2x~ipad.png */; };
 		CF6FF9271288F19200587748 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6FF9261288F19200587748 /* iAd.framework */; };
 		CF712112161C7F66001FB734 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF712111161C7F66001FB734 /* CFNetwork.framework */; };
 		CF712132161C8084001FB734 /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212A161C8084001FB734 /* clear.wav */; };
@@ -154,20 +189,9 @@
 		CF71219C161D20CA001FB734 /* undo_d.png in Resources */ = {isa = PBXBuildFile; fileRef = CF712199161D20CA001FB734 /* undo_d.png */; };
 		CF71219D161D20CA001FB734 /* undo_h.png in Resources */ = {isa = PBXBuildFile; fileRef = CF71219A161D20CA001FB734 /* undo_h.png */; };
 		CF71219E161D20CA001FB734 /* undo_n.png in Resources */ = {isa = PBXBuildFile; fileRef = CF71219B161D20CA001FB734 /* undo_n.png */; };
-		CF7FAB941614553100DB31EA /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8C1614553100DB31EA /* Icon-72.png */; };
-		CF7FAB951614553100DB31EA /* Icon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8D1614553100DB31EA /* Icon-512.png */; };
-		CF7FAB961614553100DB31EA /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8E1614553100DB31EA /* Icon-1024.png */; };
-		CF7FAB971614553100DB31EA /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB8F1614553100DB31EA /* Icon-Small-50.png */; };
-		CF7FAB981614553100DB31EA /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB901614553100DB31EA /* Icon-Small.png */; };
-		CF7FAB991614553100DB31EA /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB911614553100DB31EA /* Icon-Small@2x.png */; };
-		CF7FAB9A1614553100DB31EA /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB921614553100DB31EA /* Icon.png */; };
-		CF7FAB9B1614553100DB31EA /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB931614553100DB31EA /* Icon@2x.png */; };
-		CF7FAB9E1614560600DB31EA /* Icon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB9C1614560600DB31EA /* Icon@2x~ipad.png */; };
-		CF7FAB9F1614560600DB31EA /* Icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7FAB9D1614560600DB31EA /* Icon~ipad.png */; };
 		CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF80599F1155213300AE3DB5 /* AudioToolbox.framework */; };
 		CF96BC71114F4D0D009B4E78 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF96BC70114F4D0D009B4E78 /* AppDelegate.m */; };
 		CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF98AE12120FADFC0041A3FE /* Localizable.strings */; };
-		CF998520160B24710097879C /* Sudoku.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF99851F160B24710097879C /* Sudoku.plist */; };
 		CF998597160B275E0097879C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF998596160B275E0097879C /* main.m */; };
 		CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */; };
 		CFA531891586DB92008E2F78 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */; };
@@ -178,7 +202,7 @@
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* sudoku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sudoku.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* SUDOKU9free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SUDOKU9free.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765580DF743DE002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		289233A40DB2D0840083E9F9 /* MainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainView.h; path = Classes/MainView.h; sourceTree = "<group>"; };
@@ -207,8 +231,44 @@
 		CF68482114F73DDF007ECC9D /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CF6BCCC9161D6F7F00879F6E /* Locale.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Locale.h; path = Classes/Locale.h; sourceTree = "<group>"; };
 		CF6BCCCA161D6F7F00879F6E /* Locale.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = Locale.m; path = Classes/Locale.m; sourceTree = "<group>"; };
-		CF6BCD34161D70AB00879F6E /* sudoku copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sudoku copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CF6BCD36161D70AC00879F6E /* sudoku copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sudoku copy-Info.plist"; path = "/Users/gracegyu/Documents/SVN-Local/root/trunk/src/sudoku9/sudoku copy-Info.plist"; sourceTree = "<absolute>"; };
+		CF6BCD34161D70AB00879F6E /* SUDOKU9.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SUDOKU9.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF6BCD4A161D748500879F6E /* Sudoku9paid.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Sudoku9paid.plist; path = resource/Sudoku9paid.plist; sourceTree = "<group>"; };
+		CF6BCD4B161D748500879F6E /* Sudoku9free.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Sudoku9free.plist; path = resource/Sudoku9free.plist; sourceTree = "<group>"; };
+		CF6BCD63161D825700879F6E /* Sudoku9PaidIcon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-72.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-72.png"; sourceTree = "<group>"; };
+		CF6BCD64161D825700879F6E /* Sudoku9PaidIcon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-512.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-512.png"; sourceTree = "<group>"; };
+		CF6BCD65161D825700879F6E /* Sudoku9PaidIcon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-1024.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-1024.png"; sourceTree = "<group>"; };
+		CF6BCD66161D825700879F6E /* Sudoku9PaidIcon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-Small-50.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-Small-50.png"; sourceTree = "<group>"; };
+		CF6BCD67161D825700879F6E /* Sudoku9PaidIcon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-Small.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-Small.png"; sourceTree = "<group>"; };
+		CF6BCD68161D825700879F6E /* Sudoku9PaidIcon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon-Small@2x.png"; path = "resource/Sudoku9/Sudoku9PaidIcon-Small@2x.png"; sourceTree = "<group>"; };
+		CF6BCD69161D825700879F6E /* Sudoku9PaidIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sudoku9PaidIcon.png; path = resource/Sudoku9/Sudoku9PaidIcon.png; sourceTree = "<group>"; };
+		CF6BCD6A161D825700879F6E /* Sudoku9PaidIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon@2x.png"; path = "resource/Sudoku9/Sudoku9PaidIcon@2x.png"; sourceTree = "<group>"; };
+		CF6BCD6B161D825700879F6E /* Sudoku9PaidIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon@2x~ipad.png"; path = "resource/Sudoku9/Sudoku9PaidIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD6C161D825700879F6E /* Sudoku9PaidIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9PaidIcon~ipad.png"; path = "resource/Sudoku9/Sudoku9PaidIcon~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD77161D850C00879F6E /* Sudoku9FreeIcon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-72.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-72.png"; sourceTree = "<group>"; };
+		CF6BCD78161D850C00879F6E /* Sudoku9FreeIcon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-512.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-512.png"; sourceTree = "<group>"; };
+		CF6BCD79161D850C00879F6E /* Sudoku9FreeIcon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-1024.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-1024.png"; sourceTree = "<group>"; };
+		CF6BCD7A161D850C00879F6E /* Sudoku9FreeIcon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-Small-50.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-Small-50.png"; sourceTree = "<group>"; };
+		CF6BCD7B161D850C00879F6E /* Sudoku9FreeIcon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-Small.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-Small.png"; sourceTree = "<group>"; };
+		CF6BCD7C161D850C00879F6E /* Sudoku9FreeIcon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon-Small@2x.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon-Small@2x.png"; sourceTree = "<group>"; };
+		CF6BCD7D161D850C00879F6E /* Sudoku9FreeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Sudoku9FreeIcon.png; path = resource/Sudoku9free/Sudoku9FreeIcon.png; sourceTree = "<group>"; };
+		CF6BCD7E161D850C00879F6E /* Sudoku9FreeIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon@2x.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon@2x.png"; sourceTree = "<group>"; };
+		CF6BCD7F161D850C00879F6E /* Sudoku9FreeIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon@2x~ipad.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD80161D850D00879F6E /* Sudoku9FreeIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku9FreeIcon~ipad.png"; path = "resource/Sudoku9free/Sudoku9FreeIcon~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD8B161D85C400879F6E /* Sudoku9PaidIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sudoku9PaidIcon.png; sourceTree = "<group>"; };
+		CF6BCD8D161D85EB00879F6E /* Sudoku9PaidIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9PaidIcon@2x.png"; sourceTree = "<group>"; };
+		CF6BCD8F161D860900879F6E /* Sudoku9PaidIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9PaidIcon~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD91161D861000879F6E /* Sudoku9PaidIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9PaidIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD93161D863300879F6E /* Sudoku9FreeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Sudoku9FreeIcon.png; sourceTree = "<group>"; };
+		CF6BCD95161D864B00879F6E /* Sudoku9FreeIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9FreeIcon@2x.png"; sourceTree = "<group>"; };
+		CF6BCD97161D865700879F6E /* Sudoku9FreeIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9FreeIcon~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD99161D865F00879F6E /* Sudoku9FreeIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Sudoku9FreeIcon@2x~ipad.png"; sourceTree = "<group>"; };
+		CF6BCD9B161D86D000879F6E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		CF6BCD9D161D86D900879F6E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		CF6BCD9F161D86DD00879F6E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		CF6BCDA1161D86E800879F6E /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		CF6BCDA3161D86EB00879F6E /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		CF6BCDA5161D86F900879F6E /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		CF6BCDA7161D86FE00879F6E /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		CF6FF9261288F19200587748 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		CF712111161C7F66001FB734 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		CF712115161C7FC6001FB734 /* SettingView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SettingView.h; path = Classes/SettingView.h; sourceTree = "<group>"; };
@@ -266,21 +326,10 @@
 		CF712199161D20CA001FB734 /* undo_d.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = undo_d.png; path = resource/Images/undo_d.png; sourceTree = "<group>"; };
 		CF71219A161D20CA001FB734 /* undo_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = undo_h.png; path = resource/Images/undo_h.png; sourceTree = "<group>"; };
 		CF71219B161D20CA001FB734 /* undo_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = undo_n.png; path = resource/Images/undo_n.png; sourceTree = "<group>"; };
-		CF7FAB8C1614553100DB31EA /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "resource/Sudoku9free/Icon-72.png"; sourceTree = "<group>"; };
-		CF7FAB8D1614553100DB31EA /* Icon-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-512.png"; path = "resource/Sudoku9free/Icon-512.png"; sourceTree = "<group>"; };
-		CF7FAB8E1614553100DB31EA /* Icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-1024.png"; path = "resource/Sudoku9free/Icon-1024.png"; sourceTree = "<group>"; };
-		CF7FAB8F1614553100DB31EA /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "resource/Sudoku9free/Icon-Small-50.png"; sourceTree = "<group>"; };
-		CF7FAB901614553100DB31EA /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small.png"; path = "resource/Sudoku9free/Icon-Small.png"; sourceTree = "<group>"; };
-		CF7FAB911614553100DB31EA /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small@2x.png"; path = "resource/Sudoku9free/Icon-Small@2x.png"; sourceTree = "<group>"; };
-		CF7FAB921614553100DB31EA /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = resource/Sudoku9free/Icon.png; sourceTree = "<group>"; };
-		CF7FAB931614553100DB31EA /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "resource/Sudoku9free/Icon@2x.png"; sourceTree = "<group>"; };
-		CF7FAB9C1614560600DB31EA /* Icon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x~ipad.png"; path = "resource/Sudoku9free/Icon@2x~ipad.png"; sourceTree = "<group>"; };
-		CF7FAB9D1614560600DB31EA /* Icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon~ipad.png"; path = "resource/Sudoku9free/Icon~ipad.png"; sourceTree = "<group>"; };
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CF96BC70114F4D0D009B4E78 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CF98AE10120FADF40041A3FE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF98AE14120FAE010041A3FE /* Korean */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Korean; path = Korean.lproj/Localizable.strings; sourceTree = "<group>"; };
-		CF99851F160B24710097879C /* Sudoku.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Sudoku.plist; path = resource/Sudoku9free/Sudoku.plist; sourceTree = "<group>"; };
 		CF998583160B26AA0097879C /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Classes/Constants.h; sourceTree = "<group>"; };
 		CF998584160B26B70097879C /* SudokuGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SudokuGame.h; path = Classes/SudokuGame.h; sourceTree = "<group>"; };
 		CF998585160B26B70097879C /* SudokuGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SudokuGame.m; path = Classes/SudokuGame.m; sourceTree = "<group>"; };
@@ -361,8 +410,8 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* sudoku.app */,
-				CF6BCD34161D70AB00879F6E /* sudoku copy.app */,
+				1D6058910D05DD3D006BFB54 /* SUDOKU9free.app */,
+				CF6BCD34161D70AB00879F6E /* SUDOKU9.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -393,6 +442,21 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				CF6BCDA7161D86FE00879F6E /* Default-Landscape@2x~ipad.png */,
+				CF6BCDA5161D86F900879F6E /* Default-Landscape~ipad.png */,
+				CF6BCDA3161D86EB00879F6E /* Default-Portrait@2x~ipad.png */,
+				CF6BCDA1161D86E800879F6E /* Default-Portrait~ipad.png */,
+				CF6BCD9F161D86DD00879F6E /* Default-568h@2x.png */,
+				CF6BCD9D161D86D900879F6E /* Default@2x.png */,
+				CF6BCD9B161D86D000879F6E /* Default.png */,
+				CF6BCD99161D865F00879F6E /* Sudoku9FreeIcon@2x~ipad.png */,
+				CF6BCD97161D865700879F6E /* Sudoku9FreeIcon~ipad.png */,
+				CF6BCD95161D864B00879F6E /* Sudoku9FreeIcon@2x.png */,
+				CF6BCD93161D863300879F6E /* Sudoku9FreeIcon.png */,
+				CF6BCD91161D861000879F6E /* Sudoku9PaidIcon@2x~ipad.png */,
+				CF6BCD8F161D860900879F6E /* Sudoku9PaidIcon~ipad.png */,
+				CF6BCD8D161D85EB00879F6E /* Sudoku9PaidIcon@2x.png */,
+				CF6BCD8B161D85C400879F6E /* Sudoku9PaidIcon.png */,
 				CF712111161C7F66001FB734 /* CFNetwork.framework */,
 				CF4896D3160EEDC80076D28E /* TPMultiLayout */,
 				CF68481514F73D75007ECC9D /* GoogleAdMobAds */,
@@ -405,7 +469,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				CF6BCD36161D70AC00879F6E /* sudoku copy-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -424,11 +487,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CF99851F160B24710097879C /* Sudoku.plist */,
+				CF6BCD4A161D748500879F6E /* Sudoku9paid.plist */,
+				CF6BCD4B161D748500879F6E /* Sudoku9free.plist */,
 				CF71211C161C7FF9001FB734 /* Xibs */,
 				CF71211D161C8001001FB734 /* Sounds */,
 				CF71211E161C8006001FB734 /* Defaults */,
-				CF71211F161C800D001FB734 /* Icons */,
+				CF6BCD4E161D7E7800879F6E /* Sudoku9PaidIcons */,
+				CF71211F161C800D001FB734 /* Sudoku9FreeIcons */,
 				CF712120161C8012001FB734 /* Images */,
 				CFA46E11115E7BB20090B9B1 /* InfoPlist.strings */,
 				CF98AE12120FADFC0041A3FE /* Localizable.strings */,
@@ -476,6 +541,23 @@
 				CFA531881586DB92008E2F78 /* libGoogleAdMobAds.a */,
 			);
 			path = GoogleAdMobAds;
+			sourceTree = "<group>";
+		};
+		CF6BCD4E161D7E7800879F6E /* Sudoku9PaidIcons */ = {
+			isa = PBXGroup;
+			children = (
+				CF6BCD63161D825700879F6E /* Sudoku9PaidIcon-72.png */,
+				CF6BCD64161D825700879F6E /* Sudoku9PaidIcon-512.png */,
+				CF6BCD65161D825700879F6E /* Sudoku9PaidIcon-1024.png */,
+				CF6BCD66161D825700879F6E /* Sudoku9PaidIcon-Small-50.png */,
+				CF6BCD67161D825700879F6E /* Sudoku9PaidIcon-Small.png */,
+				CF6BCD68161D825700879F6E /* Sudoku9PaidIcon-Small@2x.png */,
+				CF6BCD69161D825700879F6E /* Sudoku9PaidIcon.png */,
+				CF6BCD6A161D825700879F6E /* Sudoku9PaidIcon@2x.png */,
+				CF6BCD6B161D825700879F6E /* Sudoku9PaidIcon@2x~ipad.png */,
+				CF6BCD6C161D825700879F6E /* Sudoku9PaidIcon~ipad.png */,
+			);
+			name = Sudoku9PaidIcons;
 			sourceTree = "<group>";
 		};
 		CF712114161C7F8C001FB734 /* Setting View */ = {
@@ -536,21 +618,21 @@
 			name = Defaults;
 			sourceTree = "<group>";
 		};
-		CF71211F161C800D001FB734 /* Icons */ = {
+		CF71211F161C800D001FB734 /* Sudoku9FreeIcons */ = {
 			isa = PBXGroup;
 			children = (
-				CF7FAB8C1614553100DB31EA /* Icon-72.png */,
-				CF7FAB8D1614553100DB31EA /* Icon-512.png */,
-				CF7FAB8E1614553100DB31EA /* Icon-1024.png */,
-				CF7FAB8F1614553100DB31EA /* Icon-Small-50.png */,
-				CF7FAB901614553100DB31EA /* Icon-Small.png */,
-				CF7FAB911614553100DB31EA /* Icon-Small@2x.png */,
-				CF7FAB921614553100DB31EA /* Icon.png */,
-				CF7FAB931614553100DB31EA /* Icon@2x.png */,
-				CF7FAB9C1614560600DB31EA /* Icon@2x~ipad.png */,
-				CF7FAB9D1614560600DB31EA /* Icon~ipad.png */,
+				CF6BCD77161D850C00879F6E /* Sudoku9FreeIcon-72.png */,
+				CF6BCD78161D850C00879F6E /* Sudoku9FreeIcon-512.png */,
+				CF6BCD79161D850C00879F6E /* Sudoku9FreeIcon-1024.png */,
+				CF6BCD7A161D850C00879F6E /* Sudoku9FreeIcon-Small-50.png */,
+				CF6BCD7B161D850C00879F6E /* Sudoku9FreeIcon-Small.png */,
+				CF6BCD7C161D850C00879F6E /* Sudoku9FreeIcon-Small@2x.png */,
+				CF6BCD7D161D850C00879F6E /* Sudoku9FreeIcon.png */,
+				CF6BCD7E161D850C00879F6E /* Sudoku9FreeIcon@2x.png */,
+				CF6BCD7F161D850C00879F6E /* Sudoku9FreeIcon@2x~ipad.png */,
+				CF6BCD80161D850D00879F6E /* Sudoku9FreeIcon~ipad.png */,
 			);
-			name = Icons;
+			name = Sudoku9FreeIcons;
 			sourceTree = "<group>";
 		};
 		CF712120161C8012001FB734 /* Images */ = {
@@ -603,9 +685,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* sudoku free */ = {
+		1D6058900D05DD3D006BFB54 /* sudoku9 free */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "sudoku free" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "sudoku9 free" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -615,14 +697,14 @@
 			);
 			dependencies = (
 			);
-			name = "sudoku free";
+			name = "sudoku9 free";
 			productName = SudokuHelper;
-			productReference = 1D6058910D05DD3D006BFB54 /* sudoku.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* SUDOKU9free.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF6BCCD9161D70AB00879F6E /* sudoku paid */ = {
+		CF6BCCD9161D70AB00879F6E /* sudoku9 paid */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF6BCD30161D70AB00879F6E /* Build configuration list for PBXNativeTarget "sudoku paid" */;
+			buildConfigurationList = CF6BCD30161D70AB00879F6E /* Build configuration list for PBXNativeTarget "sudoku9 paid" */;
 			buildPhases = (
 				CF6BCCDA161D70AB00879F6E /* Resources */,
 				CF6BCD16161D70AB00879F6E /* Sources */,
@@ -632,9 +714,9 @@
 			);
 			dependencies = (
 			);
-			name = "sudoku paid";
+			name = "sudoku9 paid";
 			productName = SudokuHelper;
-			productReference = CF6BCD34161D70AB00879F6E /* sudoku copy.app */;
+			productReference = CF6BCD34161D70AB00879F6E /* SUDOKU9.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -642,7 +724,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudokuiphonefree" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudokuall" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -660,8 +742,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* sudoku free */,
-				CF6BCCD9161D70AB00879F6E /* sudoku paid */,
+				1D6058900D05DD3D006BFB54 /* sudoku9 free */,
+				CF6BCCD9161D70AB00879F6E /* sudoku9 paid */,
 			);
 		};
 /* End PBXProject section */
@@ -673,17 +755,6 @@
 			files = (
 				CFA46E12115E7BB20090B9B1 /* InfoPlist.strings in Resources */,
 				CF98AE13120FADFC0041A3FE /* Localizable.strings in Resources */,
-				CF998520160B24710097879C /* Sudoku.plist in Resources */,
-				CF7FAB941614553100DB31EA /* Icon-72.png in Resources */,
-				CF7FAB951614553100DB31EA /* Icon-512.png in Resources */,
-				CF7FAB961614553100DB31EA /* Icon-1024.png in Resources */,
-				CF7FAB971614553100DB31EA /* Icon-Small-50.png in Resources */,
-				CF7FAB981614553100DB31EA /* Icon-Small.png in Resources */,
-				CF7FAB991614553100DB31EA /* Icon-Small@2x.png in Resources */,
-				CF7FAB9A1614553100DB31EA /* Icon.png in Resources */,
-				CF7FAB9B1614553100DB31EA /* Icon@2x.png in Resources */,
-				CF7FAB9E1614560600DB31EA /* Icon@2x~ipad.png in Resources */,
-				CF7FAB9F1614560600DB31EA /* Icon~ipad.png in Resources */,
 				CF712132161C8084001FB734 /* clear.wav in Resources */,
 				CF712133161C8084001FB734 /* click.wav in Resources */,
 				CF712134161C8084001FB734 /* fail.wav in Resources */,
@@ -730,6 +801,39 @@
 				CF3ACEC5161D558100ADD12B /* locale_ja.png in Resources */,
 				CF3ACEC6161D558100ADD12B /* locale_ko.png in Resources */,
 				CF3ACEC7161D558100ADD12B /* locale_zh_CN.png in Resources */,
+				CF6BCD4C161D748500879F6E /* Sudoku9paid.plist in Resources */,
+				CF6BCD4D161D748500879F6E /* Sudoku9free.plist in Resources */,
+				CF6BCD6D161D825800879F6E /* Sudoku9PaidIcon-72.png in Resources */,
+				CF6BCD6E161D825800879F6E /* Sudoku9PaidIcon-512.png in Resources */,
+				CF6BCD6F161D825800879F6E /* Sudoku9PaidIcon-1024.png in Resources */,
+				CF6BCD70161D825800879F6E /* Sudoku9PaidIcon-Small-50.png in Resources */,
+				CF6BCD71161D825800879F6E /* Sudoku9PaidIcon-Small.png in Resources */,
+				CF6BCD72161D825800879F6E /* Sudoku9PaidIcon-Small@2x.png in Resources */,
+				CF6BCD73161D825800879F6E /* Sudoku9PaidIcon.png in Resources */,
+				CF6BCD74161D825800879F6E /* Sudoku9PaidIcon@2x.png in Resources */,
+				CF6BCD75161D825800879F6E /* Sudoku9PaidIcon@2x~ipad.png in Resources */,
+				CF6BCD76161D825800879F6E /* Sudoku9PaidIcon~ipad.png in Resources */,
+				CF6BCD81161D850D00879F6E /* Sudoku9FreeIcon-72.png in Resources */,
+				CF6BCD82161D850D00879F6E /* Sudoku9FreeIcon-512.png in Resources */,
+				CF6BCD83161D850D00879F6E /* Sudoku9FreeIcon-1024.png in Resources */,
+				CF6BCD84161D850D00879F6E /* Sudoku9FreeIcon-Small-50.png in Resources */,
+				CF6BCD85161D850D00879F6E /* Sudoku9FreeIcon-Small.png in Resources */,
+				CF6BCD86161D850D00879F6E /* Sudoku9FreeIcon-Small@2x.png in Resources */,
+				CF6BCD87161D850D00879F6E /* Sudoku9FreeIcon.png in Resources */,
+				CF6BCD88161D850D00879F6E /* Sudoku9FreeIcon@2x.png in Resources */,
+				CF6BCD89161D850D00879F6E /* Sudoku9FreeIcon@2x~ipad.png in Resources */,
+				CF6BCD8A161D850D00879F6E /* Sudoku9FreeIcon~ipad.png in Resources */,
+				CF6BCD94161D863300879F6E /* Sudoku9FreeIcon.png in Resources */,
+				CF6BCD96161D864B00879F6E /* Sudoku9FreeIcon@2x.png in Resources */,
+				CF6BCD98161D865700879F6E /* Sudoku9FreeIcon~ipad.png in Resources */,
+				CF6BCD9A161D865F00879F6E /* Sudoku9FreeIcon@2x~ipad.png in Resources */,
+				CF6BCD9C161D86D000879F6E /* Default.png in Resources */,
+				CF6BCD9E161D86D900879F6E /* Default@2x.png in Resources */,
+				CF6BCDA0161D86DD00879F6E /* Default-568h@2x.png in Resources */,
+				CF6BCDA2161D86E800879F6E /* Default-Portrait~ipad.png in Resources */,
+				CF6BCDA4161D86EB00879F6E /* Default-Portrait@2x~ipad.png in Resources */,
+				CF6BCDA6161D86F900879F6E /* Default-Landscape~ipad.png in Resources */,
+				CF6BCDA8161D86FE00879F6E /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -739,17 +843,6 @@
 			files = (
 				CF6BCCDB161D70AB00879F6E /* InfoPlist.strings in Resources */,
 				CF6BCCDC161D70AB00879F6E /* Localizable.strings in Resources */,
-				CF6BCCDD161D70AB00879F6E /* Sudoku.plist in Resources */,
-				CF6BCCDE161D70AB00879F6E /* Icon-72.png in Resources */,
-				CF6BCCDF161D70AB00879F6E /* Icon-512.png in Resources */,
-				CF6BCCE0161D70AB00879F6E /* Icon-1024.png in Resources */,
-				CF6BCCE1161D70AB00879F6E /* Icon-Small-50.png in Resources */,
-				CF6BCCE2161D70AB00879F6E /* Icon-Small.png in Resources */,
-				CF6BCCE3161D70AB00879F6E /* Icon-Small@2x.png in Resources */,
-				CF6BCCE4161D70AB00879F6E /* Icon.png in Resources */,
-				CF6BCCE5161D70AB00879F6E /* Icon@2x.png in Resources */,
-				CF6BCCE6161D70AB00879F6E /* Icon@2x~ipad.png in Resources */,
-				CF6BCCE7161D70AB00879F6E /* Icon~ipad.png in Resources */,
 				CF6BCCE8161D70AB00879F6E /* clear.wav in Resources */,
 				CF6BCCE9161D70AB00879F6E /* click.wav in Resources */,
 				CF6BCCEA161D70AB00879F6E /* fail.wav in Resources */,
@@ -796,6 +889,17 @@
 				CF6BCD13161D70AB00879F6E /* locale_ja.png in Resources */,
 				CF6BCD14161D70AB00879F6E /* locale_ko.png in Resources */,
 				CF6BCD15161D70AB00879F6E /* locale_zh_CN.png in Resources */,
+				CF6BCD8C161D85C400879F6E /* Sudoku9PaidIcon.png in Resources */,
+				CF6BCD8E161D85EC00879F6E /* Sudoku9PaidIcon@2x.png in Resources */,
+				CF6BCD90161D860900879F6E /* Sudoku9PaidIcon~ipad.png in Resources */,
+				CF6BCD92161D861000879F6E /* Sudoku9PaidIcon@2x~ipad.png in Resources */,
+				CF6BCDA9161D870B00879F6E /* Default.png in Resources */,
+				CF6BCDAA161D870E00879F6E /* Default@2x.png in Resources */,
+				CF6BCDAB161D871200879F6E /* Default-568h@2x.png in Resources */,
+				CF6BCDAC161D871E00879F6E /* Default-Portrait~ipad.png in Resources */,
+				CF6BCDAD161D872100879F6E /* Default-Portrait@2x~ipad.png in Resources */,
+				CF6BCDAE161D872500879F6E /* Default-Landscape~ipad.png in Resources */,
+				CF6BCDAF161D872900879F6E /* Default-Landscape@2x~ipad.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +910,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF6BCD47161D73F000879F6E /* Locale.m in Sources */,
 				CF712180161C80DC001FB734 /* SettingView.m in Sources */,
 				CF712181161C80DC001FB734 /* SettingViewController.m in Sources */,
 				CF712182161C80DC001FB734 /* Appirater.m in Sources */,
@@ -826,6 +931,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF6BCD46161D73E200879F6E /* Locale.m in Sources */,
 				CF6BCD17161D70AB00879F6E /* SettingView.m in Sources */,
 				CF6BCD18161D70AB00879F6E /* SettingViewController.m in Sources */,
 				CF6BCD19161D70AB00879F6E /* Appirater.m in Sources */,
@@ -880,14 +986,18 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					ADMOB_FREEVERSION,
+					SUDOKU9,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = sudoku;
+				PRODUCT_NAME = SUDOKU9free;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -936,14 +1046,18 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					ADMOB_FREEVERSION,
+					SUDOKU9,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = sudoku;
+				PRODUCT_NAME = SUDOKU9free;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -975,14 +1089,18 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					ADMOB_FREEVERSION,
+					SUDOKU9,
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = sudoku;
+				PRODUCT_NAME = SUDOKU9free;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BDE8A80-9483-40C0-B7A1-25786D581481";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1000,15 +1118,15 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU9;
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "sudoku copy";
+				PRODUCT_NAME = SUDOKU9;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1024,15 +1142,15 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU9;
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "sudoku copy";
+				PRODUCT_NAME = SUDOKU9;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "32FC678A-9177-476F-82A8-BD56C389D0A8";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1047,15 +1165,15 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = "";
-				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9/Sudoku.plist";
+				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU9;
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = "sudoku copy";
+				PRODUCT_NAME = SUDOKU9;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8BDE8A80-9483-40C0-B7A1-25786D581481";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1065,7 +1183,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "sudoku free" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "sudoku9 free" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF35AEB9127FE4110062E321 /* Debug free */,
@@ -1075,7 +1193,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release free";
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudokuiphonefree" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "sudokuall" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF35AEB8127FE4110062E321 /* Debug free */,
@@ -1085,7 +1203,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = "Release free";
 		};
-		CF6BCD30161D70AB00879F6E /* Build configuration list for PBXNativeTarget "sudoku paid" */ = {
+		CF6BCD30161D70AB00879F6E /* Build configuration list for PBXNativeTarget "sudoku9 paid" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF6BCD31161D70AB00879F6E /* Debug free */,

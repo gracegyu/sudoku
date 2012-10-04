@@ -134,7 +134,12 @@
 }
 
 - (void) viewDidLoad {
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
+    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    
+#ifdef SUDOKU9
+    labelShapeOfMap.hidden = YES;
+    buttonShapeOfMap.hidden = YES;
+#endif
 	
     [self setLocalizedMessage];
 
