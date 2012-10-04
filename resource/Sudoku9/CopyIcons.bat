@@ -1,9 +1,0 @@
-copy Icon-1024.png Icon-Small.png 
-copy Icon-1024.png Icon-Small-50.png 
-copy Icon-1024.png Icon.png 
-copy Icon-1024.png Icon-small@2x.png 
-copy Icon-1024.png Icon~ipad.png 
-copy Icon-1024.png Icon-72.png 
-copy Icon-1024.png Icon@2x.png 
-copy Icon-1024.png Icon@2x~ipad.png 
-copy Icon-1024.png Icon-512.png 
