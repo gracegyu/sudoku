@@ -196,13 +196,36 @@
     [buttonNew setTitle:NSLocalizedString(@"new", nil) forState:UIControlStateNormal];
     [buttonReset setTitle:NSLocalizedString(@"reset", nil) forState:UIControlStateNormal];
     [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
-    [buttonUndo setTitle:NSLocalizedString(@"undo", nil) forState:UIControlStateNormal];
     [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
+    [buttonSetting setTitle:@"" forState:UIControlStateNormal];
     [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
     [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];   
+    [buttonUndo setTitle:@"" forState:UIControlStateNormal];
+    [buttonUndo setImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
+    [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
 
 }
 
+
+static NSBundle *bundle = nil;
+- (void) setLanguage:(NSString *)l {
+    NSLog(@"preferredLang: %@", l);
+    NSString *path = [[ NSBundle mainBundle ] pathForResource:l ofType:@"lproj" ];
+    bundle = [[NSBundle bundleWithPath:path] retain];
+}
+
+- (void) decideLocale
+{
+    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
+    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
+    NSInteger num = [languages count];
+    
+    for (int i=0; i<num; i++)
+        NSLog(@"lang(%@)", [languages objectAtIndex:i]);
+    
+    NSString *current = [[languages objectAtIndex:0] retain];
+    [self setLanguage:current];
+}
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
  	NSLog(@"initWithNibName");	
@@ -211,6 +234,9 @@
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 
+       
+       [self decideLocale];
+       
        [self loadSetting];
        [self setLocalizedMessage];
 
@@ -381,12 +407,21 @@
 - (void) updateButtonUndo
 {
 	if (mainView.sudokuGame.strUndo.length > 0 && mainView.sudokuGame.gameFinished == NO) {
-		buttonUndo.alpha = 1.0f;
+        [buttonUndo setImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
+        [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
+
+//		buttonUndo.alpha = 1.0f;
 		buttonUndo.enabled = YES;
 	} else {
-		buttonUndo.alpha = 0.5f;
+        [buttonUndo setImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
+        [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
+        
+//		buttonUndo.alpha = 0.5f;
+        
 		buttonUndo.enabled = NO;
 	}
+    
+
 }
 
 - (IBAction)runUndo {    
