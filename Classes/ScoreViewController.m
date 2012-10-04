@@ -9,6 +9,7 @@
 #import "ScoreViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
+#import "Locale.h"
 
 
 @implementation ScoreViewController
@@ -87,27 +88,27 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-	self.navigationController.title = NSLocalizedString(@"Score", nil);
+	self.navigationController.title = gettext(@"Score", nil);
 }
 
 - (void)viewDidLoad {
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
 	
-	naviItem.title = NSLocalizedString(@"Score", nil);
+	naviItem.title = gettext(@"Score", nil);
 	
-    lableTitle.text = NSLocalizedString(@"Score", nil);
+    lableTitle.text = gettext(@"Score", nil);
 
-	labelTitleVeryEasy.text = NSLocalizedString(@"very easy", nil);
-	labelTitleEasy.text = NSLocalizedString(@"easy", nil);
-	labelTitleNormal.text = NSLocalizedString(@"normal", nil);
-	labelTitleHard.text = NSLocalizedString(@"hard", nil);
-	labelTitleVeryHard.text = NSLocalizedString(@"very hard", nil);
-	labelTitleTotal.text = NSLocalizedString(@"total", nil);
-	labelTitleTotalScore.text = NSLocalizedString(@"point", nil);
-	labelTitleGames.text = NSLocalizedString(@"games", nil);
-	labelTitleClears.text = NSLocalizedString(@"clears", nil);
-	labelTitleBestTime.text = NSLocalizedString(@"best time", nil);
-	labelTitleAverage.text = NSLocalizedString(@"average", nil);
+	labelTitleVeryEasy.text = gettext(@"very easy", nil);
+	labelTitleEasy.text = gettext(@"easy", nil);
+	labelTitleNormal.text = gettext(@"normal", nil);
+	labelTitleHard.text = gettext(@"hard", nil);
+	labelTitleVeryHard.text = gettext(@"very hard", nil);
+	labelTitleTotal.text = gettext(@"total", nil);
+	labelTitleTotalScore.text = gettext(@"point", nil);
+	labelTitleGames.text = gettext(@"games", nil);
+	labelTitleClears.text = gettext(@"clears", nil);
+	labelTitleBestTime.text = gettext(@"best time", nil);
+	labelTitleAverage.text = gettext(@"average", nil);
 	
     [super viewDidLoad];
 }

@@ -210,7 +210,7 @@
 							<object class="IBUILabel" id="119359322">
 								<reference key="NSNextResponder" ref="166262565"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{150, 88}, {89, 14}}</string>
+								<string key="NSFrame">{{168, 88}, {89, 14}}</string>
 								<reference key="NSSuperview" ref="166262565"/>
 								<reference key="NSNextKeyView" ref="635448301"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -232,7 +232,7 @@
 							<object class="IBUIButton" id="635448301">
 								<reference key="NSNextResponder" ref="166262565"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{246, 76}, {36, 36}}</string>
+								<string key="NSFrame">{{264, 76}, {36, 36}}</string>
 								<reference key="NSSuperview" ref="166262565"/>
 								<reference key="NSNextKeyView" ref="1057663328"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -302,7 +302,7 @@
 							<object class="IBUILabel" id="823394192">
 								<reference key="NSNextResponder" ref="166262565"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{150, 130}, {89, 14}}</string>
+								<string key="NSFrame">{{158, 130}, {99, 14}}</string>
 								<reference key="NSSuperview" ref="166262565"/>
 								<reference key="NSNextKeyView" ref="765856191"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -324,7 +324,7 @@
 							<object class="IBUIButton" id="765856191">
 								<reference key="NSNextResponder" ref="166262565"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{246, 120}, {36, 36}}</string>
+								<string key="NSFrame">{{264, 120}, {36, 36}}</string>
 								<reference key="NSSuperview" ref="166262565"/>
 								<reference key="NSNextKeyView" ref="755842330"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -387,6 +387,51 @@
 								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">defmap_on.png</string>
+								</object>
+								<reference key="IBUIFontDescription" ref="430691013"/>
+								<reference key="IBUIFont" ref="684454769"/>
+							</object>
+							<object class="IBUILabel" id="435990225">
+								<reference key="NSNextResponder" ref="166262565"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{158, 174}, {99, 14}}</string>
+								<reference key="NSSuperview" ref="166262565"/>
+								<reference key="NSNextKeyView" ref="931393633"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<string key="IBUIText">language</string>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yMzAxMTE2NDU1IDAuMjc3MTc1NTcwOCAwLjQxODM2NzM0NjkAA</bytes>
+								</object>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUITextAlignment">2</int>
+								<reference key="IBUIFontDescription" ref="696877062"/>
+								<reference key="IBUIFont" ref="809869116"/>
+							</object>
+							<object class="IBUIButton" id="931393633">
+								<reference key="NSNextResponder" ref="166262565"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{264, 164}, {36, 36}}</string>
+								<reference key="NSSuperview" ref="166262565"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<int key="IBUIContentHorizontalAlignment">0</int>
+								<int key="IBUIContentVerticalAlignment">0</int>
+								<reference key="IBUIHighlightedTitleColor" ref="907046469"/>
+								<object class="NSColor" key="IBUINormalTitleColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
+								</object>
+								<reference key="IBUINormalTitleShadowColor" ref="738363130"/>
+								<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">locale_en.png</string>
 								</object>
 								<reference key="IBUIFontDescription" ref="430691013"/>
 								<reference key="IBUIFont" ref="684454769"/>
@@ -662,6 +707,22 @@
 					<int key="connectionID">174</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">buttonLocale</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="931393633"/>
+					</object>
+					<int key="connectionID">180</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">labelLocale</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="435990225"/>
+					</object>
+					<int key="connectionID">181</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">done</string>
 						<reference key="source" ref="854562692"/>
@@ -750,6 +811,15 @@
 					</object>
 					<int key="connectionID">169</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">setLocaleChange</string>
+						<reference key="source" ref="931393633"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">182</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -805,6 +875,8 @@
 							<reference ref="422600108"/>
 							<reference ref="283318693"/>
 							<reference ref="959244782"/>
+							<reference ref="931393633"/>
+							<reference ref="435990225"/>
 						</object>
 						<reference key="parent" ref="249263867"/>
 					</object>
@@ -912,6 +984,16 @@
 						<reference key="object" ref="959244782"/>
 						<reference key="parent" ref="166262565"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">177</int>
+						<reference key="object" ref="435990225"/>
+						<reference key="parent" ref="166262565"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">178</int>
+						<reference key="object" ref="931393633"/>
+						<reference key="parent" ref="166262565"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -937,6 +1019,8 @@
 					<string>141.IBPluginDependency</string>
 					<string>142.IBPluginDependency</string>
 					<string>172.IBPluginDependency</string>
+					<string>177.IBPluginDependency</string>
+					<string>178.IBPluginDependency</string>
 					<string>40.CustomClassName</string>
 					<string>40.IBPluginDependency</string>
 					<string>42.IBPluginDependency</string>
@@ -950,6 +1034,8 @@
 					<string>SettingViewController</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>UIResponder</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -987,7 +1073,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">175</int>
+			<int key="maxID">182</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
@@ -1009,6 +1095,7 @@
 				<string>gofacebook.png</string>
 				<string>gomoreapps.png</string>
 				<string>guideline_on.png</string>
+				<string>locale_en.png</string>
 				<string>markingequal_on.png</string>
 				<string>soundeffect_on.png</string>
 			</object>
@@ -1021,6 +1108,7 @@
 				<string>{600, 120}</string>
 				<string>{600, 120}</string>
 				<string>{200, 200}</string>
+				<string>{128, 128}</string>
 				<string>{200, 200}</string>
 				<string>{200, 200}</string>
 			</object>

@@ -10,6 +10,7 @@
 #import "MainView.h"
 #import "AppDelegate.h"
 #import "MainViewController.h"
+#import "Locale.h"
 
 @implementation MainView
 @synthesize tableBgColor;
@@ -1098,21 +1099,21 @@
 	NSInteger ret = [sudokuGame clearGame];
 	
 	if (ret == 0) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Conglaturations!", nil)
-														message:NSLocalizedString(@"You cleared this game.", nil)
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Conglaturations!", nil)
+														message:gettext(@"You cleared this game.", nil)
 													   delegate:self 
-											  cancelButtonTitle:NSLocalizedString(@"Ok", nil) 
+											  cancelButtonTitle:gettext(@"Ok", nil) 
 											  otherButtonTitles:nil];
 		[alert show];
 		[alert release];		
 	} else if (ret > 0) {
-		NSString *msg = [[NSString alloc] initWithFormat:NSLocalizedString(@"There are %d wrong cell(s)", nil), ret];
+		NSString *msg = [[NSString alloc] initWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
 		
 		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert!", nil)
+		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
 														message:msg
 													   delegate:self 
-											  cancelButtonTitle:NSLocalizedString(@"Ok", nil) 
+											  cancelButtonTitle:gettext(@"Ok", nil) 
 											  otherButtonTitles:nil];
 		[msg release];
 		[alert show];
@@ -1183,11 +1184,11 @@
 
 - (void) clearNumbers
 {
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Alert", nil)
-													message:NSLocalizedString(@"Do you want to delete all numbers?", nil)
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert", nil)
+													message:gettext(@"Do you want to delete all numbers?", nil)
 												   delegate:self 
-										  cancelButtonTitle:NSLocalizedString(@"No", nil) 
-										  otherButtonTitles:NSLocalizedString(@"Yes", nil), nil];
+										  cancelButtonTitle:gettext(@"No", nil) 
+										  otherButtonTitles:gettext(@"Yes", nil), nil];
 	[alert show];
 	[alert release];			
 }

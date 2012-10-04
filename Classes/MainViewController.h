@@ -17,6 +17,7 @@
 #import "MainView.h"
 
 
+
 @interface MainViewController : TPMultiLayoutViewController
 #ifdef ADMOB_FREEVERSION
     <GADBannerViewDelegate>
@@ -24,6 +25,7 @@
 {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
+//    enum LOCALE localeNow;
 
 	UILabel		*labelNewGame;
 	UILabel		*labelRights;
@@ -116,7 +118,6 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
 
 
-
 - (IBAction)showScoreView;
 - (IBAction)runUndo;
 - (IBAction)memoOnOff;
@@ -134,6 +135,8 @@
 - (IBAction)menuHard;
 - (IBAction)menuVeryHard;
 - (IBAction)menuCancel;
+
+- (void) setLocalizedMessage;
 
 - (void) showMenuView;
 - (void) hideMenuView;

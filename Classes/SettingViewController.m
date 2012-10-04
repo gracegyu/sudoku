@@ -6,10 +6,12 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
+#import "Locale.h"
 #import "SettingViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
+
 
 
 @implementation SettingViewController
@@ -22,11 +24,13 @@
 @synthesize labelDuplicationWarning;
 @synthesize labelMarkingEqual;
 @synthesize labelShapeOfMap;
+@synthesize labelLocale;
 @synthesize buttonSoundEffect;
 @synthesize buttonGuildeline;
 @synthesize buttonDuplicationWarning;
 @synthesize buttonMarkingEqual;
 @synthesize buttonShapeOfMap;
+@synthesize buttonLocale;
 
 @synthesize buttonFacebook;
 @synthesize buttonBugReport;
@@ -41,10 +45,21 @@
 
 
 - (void) viewWillAppear:(BOOL)animated {
-	self.navigationController.title = NSLocalizedString(@"Setting", nil);
+	self.navigationController.title = gettext(@"Setting", nil);
 }
 
-
+- (void) setLocalizedMessage
+{
+    naviItem.title = gettext(@"Setting", nil);
+	
+    lableTitle.text = gettext(@"Setting", nil);
+	labelSoundEffect.text = gettext(@"sound effect", nil);
+    labelGuildeline.text = gettext(@"guideline", nil);
+    labelDuplicationWarning.text = gettext(@"duplication warning", nil);
+    labelMarkingEqual.text = gettext(@"marking equal", nil);
+    labelShapeOfMap.text = gettext(@"shape of map", nil);
+    labelLocale.text = gettext(@"language", nil);
+}
 
 - (void) setImageSoundEffect
 {
@@ -89,28 +104,47 @@
     else
         [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_off"] forState:UIControlStateNormal];
 
+//    [Locale setLocale:@"ko"];
+//    [self setLocalizedMessage];
+//    [mainViewController setLocalizedMessage];
+    
 
 }
 
+- (void) setImageLocale
+{
+    NSString* strLocale = gettext(@"locale", nil); 
+    NSString* strIcon = nil;
+    
+    if ([strLocale compare:@"en"] == NSOrderedSame)
+        strIcon = @"locale_en";
+    else if ([strLocale compare:@"ko"] == NSOrderedSame)
+        strIcon = @"locale_ko";
+    else if ([strLocale compare:@"ja"] == NSOrderedSame)
+        strIcon = @"locale_ja";
+    else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
+        strIcon = @"locale_zh_CN";
+    else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
+        strIcon = @"locale_zh_TW";
+    else
+        return;
+    
+    [buttonLocale setBackgroundImage:[UIImage imageNamed:strIcon] forState:UIControlStateNormal];
+    
+}
 
 - (void) viewDidLoad {
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
 	
-	naviItem.title = NSLocalizedString(@"Setting", nil);
-	
-    lableTitle.text = NSLocalizedString(@"Setting", nil);
-	labelSoundEffect.text = NSLocalizedString(@"sound effect", nil);
-    labelGuildeline.text = NSLocalizedString(@"guideline", nil);
-    labelDuplicationWarning.text = NSLocalizedString(@"duplication warning", nil);
-    labelMarkingEqual.text = NSLocalizedString(@"marking equal", nil);
-    labelShapeOfMap.text = NSLocalizedString(@"shape of map", nil);
+    [self setLocalizedMessage];
 
     [self setImageSoundEffect];
     [self setImageGuideline];
     [self setImageDuplicationWarning];
     [self setImageMarkingEqual];
     [self setImageShapeOfMap];
-	
+	[self setImageLocale];
+    
     [super viewDidLoad];
 }
 
@@ -189,7 +223,28 @@
     // 게임을 새로 시작할까????
 }
 
-
+- (IBAction)setLocaleChange
+{
+    NSString* strLocale = gettext(@"locale", nil);
+//    NSString* strIcon = nil;
+    
+    if ([strLocale compare:@"en"] == NSOrderedSame)
+        [Locale setLocale:@"ko"];
+    else if ([strLocale compare:@"ko"] == NSOrderedSame)
+        [Locale setLocale:@"ja"];
+    else if ([strLocale compare:@"ja"] == NSOrderedSame)
+        [Locale setLocale:@"zh_CN"];
+    else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
+        [Locale setLocale:@"zh_TW"];
+    else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
+        [Locale setLocale:@"en"];
+    else
+        return;
+    
+    [self setLocalizedMessage];
+    [mainViewController setLocalizedMessage];
+    [self setImageLocale];
+}
 
 
 

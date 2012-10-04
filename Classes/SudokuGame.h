@@ -12,7 +12,7 @@
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
-	NSInteger		gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
+	enum GAMELEVEL	gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
@@ -29,8 +29,8 @@
 	NSInteger		countHint;			// Hint 가능 수
 }
 
-@property NSInteger		size;
-@property NSInteger		gameLevel;
+@property NSInteger         size;
+@property enum GAMELEVEL	gameLevel;
 @property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			

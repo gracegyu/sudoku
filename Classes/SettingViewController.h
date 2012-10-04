@@ -21,6 +21,7 @@
     UILabel	*labelDuplicationWarning;
     UILabel	*labelMarkingEqual;
     UILabel	*labelShapeOfMap;
+    UILabel	*labelLocale;
     
     
     UIButton *buttonSoundEffect;
@@ -28,6 +29,7 @@
     UIButton *buttonDuplicationWarning;
     UIButton *buttonMarkingEqual;
     UIButton *buttonShapeOfMap;
+    UIButton *buttonLocale;
 
 	
     UIButton *buttonFacebook;
@@ -46,12 +48,14 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelDuplicationWarning;
 @property (nonatomic, retain) IBOutlet UILabel	*labelMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelShapeOfMap;
+@property (nonatomic, retain) IBOutlet UILabel	*labelLocale;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonSoundEffect;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGuildeline;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDuplicationWarning;
 @property (nonatomic, retain) IBOutlet UIButton *buttonMarkingEqual;
 @property (nonatomic, retain) IBOutlet UIButton *buttonShapeOfMap;
+@property (nonatomic, retain) IBOutlet UIButton *buttonLocale;
 
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
@@ -65,6 +69,7 @@
 - (IBAction)setDuplicationWarning;
 - (IBAction)setMarkingEqual;
 - (IBAction)setShapeOfMap1;
+- (IBAction)setLocaleChange;
 
 
 - (IBAction)goFacebook;

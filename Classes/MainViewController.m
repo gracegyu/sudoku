@@ -10,7 +10,7 @@
 #import "SettingViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
-
+#import "Locale.h"
 
 
 
@@ -191,41 +191,58 @@
 
 - (void) setLocalizedMessage
 {
-    [buttonMemo setTitle:NSLocalizedString(@"memo", nil) forState:UIControlStateNormal];
-    [buttonDel setTitle:NSLocalizedString(@"del", nil) forState:UIControlStateNormal];
-    [buttonNew setTitle:NSLocalizedString(@"new", nil) forState:UIControlStateNormal];
-    [buttonReset setTitle:NSLocalizedString(@"reset", nil) forState:UIControlStateNormal];
-    [buttonScore setTitle:NSLocalizedString(@"score", nil) forState:UIControlStateNormal];
-    [buttonHint setTitle:NSLocalizedString(@"hint", nil) forState:UIControlStateNormal];
+    [buttonMemo setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
+    [buttonDel setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
+    [buttonNew setTitle:gettext(@"new", nil) forState:UIControlStateNormal];
+    [buttonReset setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+    [buttonScore setTitle:gettext(@"score", nil) forState:UIControlStateNormal];
+    [buttonHint setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
     [buttonSetting setTitle:@"" forState:UIControlStateNormal];
     [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
     [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];   
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
     [buttonUndo setImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
     [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
+    
+    labelTitleLevel.text = gettext(@"level", nil);
+    labelTitleGameTime.text = gettext(@"game time", nil);
+    labelTitleBlank.text = gettext(@"blank", nil);
+    labelTitleHint.text = gettext(@"hint", nil);
+    labelNewGame.text = gettext(@"New Game", nil);
+    
+    [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
+    [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+    [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
+    [buttonNewGameHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+    [buttonNewGameVeryHard setTitle:gettext(@"very hard", nil) forState:UIControlStateNormal];
+    [buttonNewGameCancel setTitle:gettext(@"cancel", nil) forState:UIControlStateNormal];
+
+    if (mainView.sudokuGame)
+        [self setGameLevel];
 
 }
 
 
-static NSBundle *bundle = nil;
-- (void) setLanguage:(NSString *)l {
-    NSLog(@"preferredLang: %@", l);
-    NSString *path = [[ NSBundle mainBundle ] pathForResource:l ofType:@"lproj" ];
-    bundle = [[NSBundle bundleWithPath:path] retain];
-}
+#define kLocale     @"locale"
 
 - (void) decideLocale
 {
-    NSUserDefaults* defs = [NSUserDefaults standardUserDefaults];
-    NSArray* languages = [defs objectForKey:@"AppleLanguages"];
-    NSInteger num = [languages count];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    for (int i=0; i<num; i++)
-        NSLog(@"lang(%@)", [languages objectAtIndex:i]);
-    
-    NSString *current = [[languages objectAtIndex:0] retain];
-    [self setLanguage:current];
+    NSString *strLocale = [defaults stringForKey:kLocale];  // 저장된 locale 가져오기
+                           
+    if (strLocale)
+    {
+        [Locale setLocale:strLocale];
+        return;
+    } else {    // 아직 Locale이 저장된 적이 없다. 여기서 최초로 저장한다.
+        strLocale = gettext(@"locale", nil);      // 현재 1st locale 가져오기
+        
+        [Locale setLocale:strLocale];
+    }
 }
+
+
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
  	NSLog(@"initWithNibName");	
@@ -285,18 +302,6 @@ static NSBundle *bundle = nil;
 
      
      
-	 labelTitleLevel.text = NSLocalizedString(@"level", nil);
-	 labelTitleGameTime.text = NSLocalizedString(@"game time", nil);
-	 labelTitleBlank.text = NSLocalizedString(@"blank", nil);
-	 labelTitleHint.text = NSLocalizedString(@"hint", nil);
-	 labelNewGame.text = NSLocalizedString(@"New Game", nil);
-	 
-	 [buttonNewGameVeryEasy setTitle:NSLocalizedString(@"very easy", nil) forState:UIControlStateNormal];
-	 [buttonNewGameEasy setTitle:NSLocalizedString(@"easy", nil) forState:UIControlStateNormal];
-	 [buttonNewGameNormal setTitle:NSLocalizedString(@"normal", nil) forState:UIControlStateNormal];
-	 [buttonNewGameHard setTitle:NSLocalizedString(@"hard", nil) forState:UIControlStateNormal];
-	 [buttonNewGameVeryHard setTitle:NSLocalizedString(@"very hard", nil) forState:UIControlStateNormal];
-	 [buttonNewGameCancel setTitle:NSLocalizedString(@"cancel", nil) forState:UIControlStateNormal];
 
      
 #ifdef ADMOB_FREEVERSION	 
@@ -366,14 +371,14 @@ static NSBundle *bundle = nil;
 										  @"ScoreView" bundle:nil];
     controller.mainViewController = self;
 	
-	controller.title = NSLocalizedString(@"Score", nil);
+	controller.title = gettext(@"Score", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
 	
-	controller.title = NSLocalizedString(@"Score", nil);
+	controller.title = gettext(@"Score", nil);
 
 	[self setInteger:controller.labelVeryHardGames num:scoreGames[0]];
 	[self setInteger:controller.labelVeryHardClears num:scoreClears[0]];
@@ -483,14 +488,14 @@ static NSBundle *bundle = nil;
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
                                        @"SettingView" bundle:nil];
     controller.mainViewController = self;
-	controller.title = NSLocalizedString(@"Setting", nil);
+	controller.title = gettext(@"Setting", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
 	
-	controller.title = NSLocalizedString(@"Setting", nil);
+	controller.title = gettext(@"Setting", nil);
     
 	
 	[controller release];
@@ -574,19 +579,19 @@ static NSBundle *bundle = nil;
 {
 	switch (mainView.sudokuGame.gameLevel) {
 		case GAMELEVEL_VERYEASY:
-			labelLevel.text = NSLocalizedString(@"very easy", nil);
+			labelLevel.text = gettext(@"very easy", nil);
 			break;
 		case GAMELEVEL_EASY:
-			labelLevel.text = NSLocalizedString(@"easy", nil);
+			labelLevel.text = gettext(@"easy", nil);
 			break;
 		case GAMELEVEL_NORMAL:
-			labelLevel.text = NSLocalizedString(@"normal", nil);
+			labelLevel.text = gettext(@"normal", nil);
 			break;
 		case GAMELEVEL_HARD:
-			labelLevel.text = NSLocalizedString(@"hard", nil);
+			labelLevel.text = gettext(@"hard", nil);
 			break;
 		case GAMELEVEL_VERYHARD:
-			labelLevel.text = NSLocalizedString(@"very hard", nil);
+			labelLevel.text = gettext(@"very hard", nil);
 			break;
 		default:
 			break;
