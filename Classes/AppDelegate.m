@@ -11,6 +11,7 @@
 #import "SudokuGame.h"
 #import "Constants.h"
 #import "Appirater.h"
+#import "JMC.h"
 
 @implementation AppDelegate
 
@@ -19,14 +20,35 @@
 @synthesize mainViewController;
 
 
+#ifdef SUDOKU9
+    #ifdef ADMOB_FREEVERSION
+    #define JMC_PRJKEY  @"SDSDKNINEF"
+    #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
+    #else
+    #define JMC_PRJKEY  @"SDSDKNINEP"
+    #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
+    #endif
+#else // DUDOKU6
+    #ifdef ADMOB_FREEVERSION
+    #define JMC_PRJKEY  @"SDSDKSIXF"
+    #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
+    #else
+    #define JMC_PRJKEY  @"SDSDKSIXP"
+    #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
+    #endif
+#endif
 
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-//Tall????
 
-//    NSInteger tall = [UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale];
-// 1136
+    [[JMC sharedInstance] configureJiraConnect:@"https://gracegyu.atlassian.net"
+                                    projectKey:JMC_PRJKEY
+                                        apiKey:JMC_APIKEY
+                                      location:YES
+                                    dataSource:mainViewController];
+    
+    
     
 	self.mainViewController = [[MainViewController alloc] initWithNibName:
 #ifdef ADMOB_FREEVERSION

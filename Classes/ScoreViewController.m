@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Locale.h"
+#import "GameCenterUtil.h"
 
 
 @implementation ScoreViewController
@@ -51,7 +52,7 @@
 @synthesize labelTitleClears;
 @synthesize labelTitleBestTime;
 @synthesize labelTitleAverage;
-
+@synthesize buttonGameCenterRanking;
 
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
@@ -118,6 +119,28 @@
     [mainViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)showGameCenterRanking
+{
+    NSLog(@"open leader board");
+    [self showLeaderboard]; // 실행~
+}
+
+- (void) showLeaderboard {
+    GKLeaderboardViewController *leaderboardController = [[[GKLeaderboardViewController alloc] init]autorelease];
+    if (leaderboardController != nil) {
+        // 레더보드 델리게이트는 나임
+        leaderboardController.leaderboardDelegate = self;
+        
+        // 레더보드를 현재 뷰에 모달로 띄운다.
+        [self presentModalViewController:leaderboardController animated: YES];
+    }
+}
+
+// 레더보드 델리게이트를 구현한 부분. 닫힐때 호출된다.
+- (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
+    [self dismissModalViewControllerAnimated:YES]; //점수판 모달뷰를 내림
+    // 추가적으로 자신의 어플에 맞게 구현해야할것이 있으면 한다.
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -140,12 +163,13 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-#ifdef ADMOB_FREEVERSION
+    return NO;
+/*#ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)
         return NO;
 #endif
     return YES;
-    
+*/    
 }
 
 - (NSUInteger)supportedInterfaceOrientations

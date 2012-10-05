@@ -11,6 +11,7 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
+#import "JMC.h"
 
 
 
@@ -264,9 +265,13 @@
 
 - (IBAction)goBugReport
 {
+    UIViewController *controller = [[JMC sharedInstance] viewController];
+    [self presentModalViewController:controller animated:YES];
+/*
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:
               @"http://code.google.com/p/gracegyu/issues/entry"]];
+*/
 }
 
 - (IBAction)goReview

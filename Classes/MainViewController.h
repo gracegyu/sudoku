@@ -6,8 +6,12 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
+
+
 #import <UIKit/UIKit.h>
 #import "TPMultiLayoutViewController.h"
+
+
 
 #ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
@@ -157,5 +161,8 @@
 //- (void) setOrientationReady;
 - (void) loadSetting;
 - (void) saveSetting;
+
+
+
 
 @end

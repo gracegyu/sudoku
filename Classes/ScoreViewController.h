@@ -9,7 +9,11 @@
 
 //@protocol ScoreViewControllerDelegate;
 
-@interface ScoreViewController : UIViewController {
+#import <GameKit/GameKit.h>
+
+@interface ScoreViewController : UIViewController
+<GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>
+{
     UIViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
@@ -51,6 +55,8 @@
 	UILabel *labelTitleClears;
 	UILabel *labelTitleBestTime;
 	UILabel *labelTitleAverage;
+    
+    UIButton *buttonGameCenterRanking;
 }
 
 
@@ -92,8 +98,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleClears;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleBestTime;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleAverage;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking;
 
 - (IBAction)done;
+- (IBAction)showGameCenterRanking;
+
+
+- (void) showLeaderboard; //실제로 점수판을 띄우는 부분 구현 메소드
+- (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;//점수판이 닫힐때 호출되는 메소드
 
 @end
 

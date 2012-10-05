@@ -3,7 +3,7 @@
 
 
 
-#define cDefaultHintCount       2 //
+#define cDefaultHintCount       50 //
 
 #define MY_BANNER_UNIT_ID_IPHONE  (@"a14ccfafd6895cb")
 #define MY_BANNER_UNIT_ID_IPAD  (@"a14fd69f029bc6d") 

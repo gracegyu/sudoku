@@ -11,6 +11,7 @@
 #import "MainViewController.h"
 #import "MainView.h"
 #import "Locale.h"
+#import "GameCenterUtil.h"
 
 
 
@@ -91,9 +92,8 @@
 		[defaults setInteger:scoreClears[i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreBestTime[i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreClearTimeSum[i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
-        
-        [defaults setInteger:scoreTotal forKey:kScoreTotal];
-	}	
+	}
+    [defaults setInteger:scoreTotal forKey:kScoreTotal];
 }
 
 - (NSInteger) getGameResultScore:(NSInteger)level sec:(NSInteger)sec
@@ -146,9 +146,9 @@
     // add current game score to Total Score
     scoreTotal += [self getGameResultScore:sudokuGame.gameLevel sec:sudokuGame.gameTime];
     
-    
-    
 	[self saveScoreData];
+    
+    [GameCenterUtil sendScoreToGameCenter:scoreTotal];
 }
 
 #define SETTING_VERSION                 1
@@ -277,24 +277,8 @@
     }
     return self;
 }
-/*
-- (void) showReviewAlert
-{
-    NSUserDefaults *prefs = [NSUserDefaults standardUserDefaults];
-    NSInteger launchCount = [prefs integerForKey:@"launchCount"];
-    if (launchCount == GAMECOUNTFORREVIEW) {
-        launchCount++;
-        [prefs setInteger:launchCount forKey:@"launchCount"];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"LIKE MY APP?"
-                                                        message:@"Please rate it on the App Store!"
-                                                       delegate:self
-                                              cancelButtonTitle:@"NO THANKS"
-                                              otherButtonTitles:@"RATE NOW", nil];
-        [alert show];
-        [alert release];
-    }
-}
-*/
+
+
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void) viewDidLoad {
 	 NSLog(@"viewDidLoad");	
@@ -316,6 +300,10 @@
      [bannerView_ loadRequest:[GADRequest request]];     
 #endif
 	 
+     
+     if ([GameCenterUtil isGameCenterAvailable]) { //게임센터가 가능한 단말이면...
+         [GameCenterUtil connectGameCenter];       //게임센터 접속~
+     }
 
 }
 
@@ -373,7 +361,7 @@
 	
 	controller.title = gettext(@"Score", nil);
 	
-	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
@@ -465,6 +453,12 @@
 - (IBAction) clearNumbers
 {
 	[mainView clearNumbers];
+
+//    int r = rand() % 1000;
+    //이렇게 보내면 점수판에 1000사이의 정수가 랜덤으로 기록되게 된다.
+//    [GameCenterUtil sendScoreToGameCenter:r];
+    
+//     [GameCenterUtil resetAchievements];
 }
 
 - (void)showHintButton
@@ -490,7 +484,7 @@
     controller.mainViewController = self;
 	controller.title = gettext(@"Setting", nil);
 	
-	controller.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	

@@ -59,9 +59,13 @@ static NSBundle *bundle = nil;
         return NSLocalizedString(msgid, comment);
 }
 
-
-
-
++ (NSString*) getTextTable_:(NSString*)msgid table:(NSString*)table
+{
+    if (bundle)
+        return [bundle localizedStringForKey:msgid value:msgid table:table];
+    else
+        return NSLocalizedStringFromTable(msgid, table, @"");
+}
 
 
 
