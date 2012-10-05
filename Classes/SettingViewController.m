@@ -26,6 +26,8 @@
 @synthesize labelMarkingEqual;
 @synthesize labelShapeOfMap;
 @synthesize labelLocale;
+
+@synthesize buttonDone;
 @synthesize buttonSoundEffect;
 @synthesize buttonGuildeline;
 @synthesize buttonDuplicationWarning;
@@ -53,6 +55,9 @@
 {
     naviItem.title = gettext(@"Setting", nil);
 	
+    [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
+
+    
     lableTitle.text = gettext(@"Setting", nil);
 	labelSoundEffect.text = gettext(@"sound effect", nil);
     labelGuildeline.text = gettext(@"guideline", nil);
@@ -134,7 +139,27 @@
     
 }
 
-- (void) viewDidLoad {
+- (void) viewDidLoad
+{
+/*    buttonDone = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 45.0f, 30.0f)];
+    
+    [buttonDone setBackgroundImage:[UIImage imageNamed:@"loclae_ja.png"] forState:UIControlStateNormal];
+    
+    [buttonDone addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchDown];
+    buttonDone.titleLabel.text = gettext(@"Done", nil);
+    buttonDone.titleLabel.font = [UIFont fontWithName:@"texgyreadventor-regular.otf" size:20.0f];
+    buttonDone.titleLabel.textColor = [UIColor whiteColor];
+    
+    naviItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonDone];
+  
+    self.navigationItem.rightBarButtonItem =
+        [[UIBarButtonItem alloc]
+         initWithTitle:gettext(@"Done", nil)
+         style:UIBarButtonItemStyleDone
+         target:self
+         action:@selector(done)];
+*/    
+    
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
 #ifdef SUDOKU9

@@ -18,6 +18,7 @@
 @synthesize mainViewController;
 @synthesize naviItem;
 @synthesize lableTitle;
+@synthesize buttonDone;
 @synthesize labelVeryEasyGames;
 @synthesize labelVeryEasyClears;
 @synthesize labelVeryEasyBestTime;
@@ -98,6 +99,7 @@
 	naviItem.title = gettext(@"Score", nil);
 	
     lableTitle.text = gettext(@"Score", nil);
+    [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
 
 	labelTitleVeryEasy.text = gettext(@"very easy", nil);
 	labelTitleEasy.text = gettext(@"easy", nil);
@@ -119,10 +121,16 @@
     [mainViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)showGameCenterRanking
+- (IBAction)showGameCenterLeaderboard
 {
     NSLog(@"open leader board");
     [self showLeaderboard]; // 실행~
+}
+
+- (IBAction)showGameCenterAchievement
+{
+    NSLog(@"open archivement board");
+    [self showArchboard];
 }
 
 - (void) showLeaderboard {
@@ -143,7 +151,23 @@
 }
 
 
-- (void)didReceiveMemoryWarning {
+- (void) showArchboard {
+    GKAchievementViewController *archiveController = [[[GKAchievementViewController alloc]init] autorelease];
+    
+    if (archiveController != nil) {
+        
+        archiveController.achievementDelegate = self;
+        
+        [self presentModalViewController:archiveController animated: YES];
+        
+    }
+}
+
+- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController{
+    [self dismissModalViewControllerAnimated:YES];
+}
+
+- (void) didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	

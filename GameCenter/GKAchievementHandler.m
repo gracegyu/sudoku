@@ -10,6 +10,10 @@
 #import "GKAchievementHandler.h"
 #import "GKAchievementNotification.h"
 
+#import "AppDelegate.h"
+#import "MainViewController.h"
+#import "MainView.h"
+
 static GKAchievementHandler *defaultHandler = nil;
 
 #pragma mark -
@@ -60,7 +64,12 @@ static GKAchievementHandler *defaultHandler = nil;
     self = [super init];
     if (self != nil)
     {
-        _topView = [[UIApplication sharedApplication] keyWindow];
+        //_topView = [[UIApplication sharedApplication] keyWindow];
+        
+        _topView = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController.mainView;
+
+        
+        
         _queue = [[NSMutableArray alloc] initWithCapacity:0];
         self.image = [UIImage imageNamed:@"gk-icon.png"];
     }
@@ -113,5 +122,7 @@ static GKAchievementHandler *defaultHandler = nil;
         [self displayNotification:(GKAchievementNotification *)[_queue objectAtIndex:0]];
     }
 }
+
+
 
 @end

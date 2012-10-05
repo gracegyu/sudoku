@@ -452,13 +452,15 @@
 
 - (IBAction) clearNumbers
 {
-	[mainView clearNumbers];
+	//[mainView clearNumbers];
 
 //    int r = rand() % 1000;
     //이렇게 보내면 점수판에 1000사이의 정수가 랜덤으로 기록되게 된다.
 //    [GameCenterUtil sendScoreToGameCenter:r];
     
 //     [GameCenterUtil resetAchievements];
+    
+    [GameCenterUtil sendScoreToGameCenter:scoreTotal];
 }
 
 - (void)showHintButton

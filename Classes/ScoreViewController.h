@@ -18,7 +18,7 @@
 	
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;
-	
+    UIButton *buttonDone;
 	UILabel	*labelVeryEasyGames;
 	UILabel	*labelVeryEasyClears;
 	UILabel	*labelVeryEasyBestTime;
@@ -63,6 +63,7 @@
 @property (nonatomic, retain) UIViewController	*mainViewController;
 @property (nonatomic, retain) IBOutlet UINavigationItem	*naviItem;
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
+@property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryEasyGames;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryEasyClears;
@@ -101,12 +102,14 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking;
 
 - (IBAction)done;
-- (IBAction)showGameCenterRanking;
+- (IBAction)showGameCenterLeaderboard;
+- (IBAction)showGameCenterAchievement;
 
 
 - (void) showLeaderboard; //실제로 점수판을 띄우는 부분 구현 메소드
 - (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;//점수판이 닫힐때 호출되는 메소드
-
+- (void) showArchboard; //목표달성판을 띄우는 부분 구현 메소드
+- (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
 @end
 
 

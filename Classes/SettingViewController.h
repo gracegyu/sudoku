@@ -23,6 +23,7 @@
     UILabel	*labelShapeOfMap;
     UILabel	*labelLocale;
     
+    UIButton *buttonDone;
     
     UIButton *buttonSoundEffect;
     UIButton *buttonGuildeline;
@@ -50,6 +51,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelShapeOfMap;
 @property (nonatomic, retain) IBOutlet UILabel	*labelLocale;
 
+@property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSoundEffect;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGuildeline;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDuplicationWarning;
