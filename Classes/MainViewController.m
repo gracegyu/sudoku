@@ -140,11 +140,12 @@
 	scoreClears[sudokuGame.gameLevel] += 1;
 	if (scoreBestTime[sudokuGame.gameLevel] == 0 || 
 		sudokuGame.gameTime < scoreBestTime[sudokuGame.gameLevel])
-		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;
+		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;      // best time 갱신
 	scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
 	
     // add current game score to Total Score
     scoreTotal += [self getGameResultScore:sudokuGame.gameLevel sec:sudokuGame.gameTime];
+    scoreTotal += sudokuGame.countHint*3;   // 남은 힌트 점수 추가
     
 	[self saveScoreData];
     
