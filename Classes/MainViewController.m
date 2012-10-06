@@ -320,9 +320,8 @@
 #endif
 	 
      
-     if ([GameCenterUtil isGameCenterAvailable]) { //게임센터가 가능한 단말이면...
-         [GameCenterUtil connectGameCenter];       //게임센터 접속~
-     }
+     [GameCenterUtil connectGameCenter];       //게임센터 접속~
+
 
 }
 

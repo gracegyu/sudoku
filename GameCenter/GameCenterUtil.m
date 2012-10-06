@@ -26,6 +26,14 @@
     return (gcClass && osVersionSupported);
 }
 
+
+static BOOL bLoginedGamecenter = NO;
+
++ (BOOL) isGameCenterLogined
+{
+    return bLoginedGamecenter;
+}
+
 //GameCenter 로그인
 + (void) connectGameCenter
 {
@@ -39,9 +47,15 @@
         {
             if(error == NULL)
             {
+                bLoginedGamecenter = YES;
                 NSLog(@"게임센터 로그인 성공~");
             } else {
+                NSLog(@"Error(%d):%@", error.code, [error localizedDescription]);
+                
+                
                 NSLog(@"게임센터 로그인 에러. 별다른 처리는 하지 않는다.");
+                
+                // 15:게임센터에서 이 게임을 인식할 수 없습니다.
             }
         }];
     }
@@ -50,7 +64,9 @@
 // 게임센터 서버로 점수를 보낸다.
 +(void) sendScoreToGameCenter:(int)_score
 {
-    if ([self isGameCenterAvailable] == NO)
+    _score = 1;
+    
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
     
@@ -72,12 +88,13 @@
             
         }
     }];
+    NSLog(@"rank=%d", score.rank);
 }
 
 // 게임센터 서버로 점수를 보낸다.
 +(void) sendBestTimeToGameCenter:(NSInteger)level besttime:(NSInteger)num
 {
-    if ([self isGameCenterAvailable] == NO)
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
     
@@ -151,7 +168,7 @@
 // 게임센터 서버로 목표달성도를 보낸다. 첫번째가 목표ID, 두번째가 달성도. 100%면 목표달성임
 + (void) sendAchievementWithIdentifier: (NSString*) identifier percentComplete: (float) percent
 {
-    if ([self isGameCenterAvailable] == NO)
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
     NSLog(@"--겜센터 : sendAchievementWithIdentifier %@ , %f",identifier,percent);
@@ -203,6 +220,9 @@
 
 + (void) sendAchievementClearGame:(NSInteger)cleargame
 {
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
+        return;
+    
     NSString* strCategory;
     float percent;
     
@@ -228,7 +248,7 @@
 // 테스트할때 현재까지 모든 진행도를 리셋하는 메소드.
 + (void) resetAchievements
 {
-    if ([self isGameCenterAvailable] == NO)
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
     

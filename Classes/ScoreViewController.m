@@ -123,17 +123,26 @@
 
 - (IBAction)showGameCenterLeaderboard
 {
+    if ([GameCenterUtil isGameCenterAvailable] == NO ||
+        [GameCenterUtil isGameCenterLogined] == NO)
+        return;
+
     NSLog(@"open leader board");
     [self showLeaderboard]; // 실행~
 }
 
 - (IBAction)showGameCenterAchievement
 {
+    if ([GameCenterUtil isGameCenterAvailable] == NO ||
+        [GameCenterUtil isGameCenterLogined] == NO)
+        return;
+
     NSLog(@"open archivement board");
     [self showArchboard];
 }
 
-- (void) showLeaderboard {
+- (void) showLeaderboard
+{
     GKLeaderboardViewController *leaderboardController = [[[GKLeaderboardViewController alloc] init]autorelease];
     if (leaderboardController != nil) {
         // 레더보드 델리게이트는 나임
@@ -151,7 +160,9 @@
 }
 
 
-- (void) showArchboard {
+- (void) showArchboard
+{
+    
     GKAchievementViewController *archiveController = [[[GKAchievementViewController alloc]init] autorelease];
     
     if (archiveController != nil) {
