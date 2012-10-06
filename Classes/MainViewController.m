@@ -133,15 +133,28 @@
     
 }
 
+
+
 - (void) writeScore:(SudokuGame*)sudokuGame
 {
 	NSLog(@"writeScore");	
 
 	scoreClears[sudokuGame.gameLevel] += 1;
-	if (scoreBestTime[sudokuGame.gameLevel] == 0 || 
+    
+	if (scoreBestTime[sudokuGame.gameLevel] == 0 ||                     // 최초는 무조건 Best time
 		sudokuGame.gameTime < scoreBestTime[sudokuGame.gameLevel])
+    {
+        if (scoreBestTime[sudokuGame.gameLevel] != 0)
+        {
+            // 기존 기록 돌파, 축하메시지
+        }
 		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;      // best time 갱신
-	scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
+        
+	}
+    // 하위 호환을 위해서 무조건 best time을 보내기
+    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
+    
+    scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
 	
     // add current game score to Total Score
     scoreTotal += [self getGameResultScore:sudokuGame.gameLevel sec:sudokuGame.gameTime];
@@ -149,7 +162,12 @@
     
 	[self saveScoreData];
     
-    [GameCenterUtil sendScoreToGameCenter:scoreTotal];
+    // 총점 보내기
+    [GameCenterUtil sendScoreToGameCenter:scoreTotal];      
+    // best time 보내기
+    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
+    // achievement 보내기
+    [GameCenterUtil sendAchievementClearGame:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
 }
 
 #define SETTING_VERSION                 1
@@ -454,14 +472,8 @@
 - (IBAction) clearNumbers
 {
 	//[mainView clearNumbers];
-
-//    int r = rand() % 1000;
-    //이렇게 보내면 점수판에 1000사이의 정수가 랜덤으로 기록되게 된다.
-//    [GameCenterUtil sendScoreToGameCenter:r];
+    [self writeScore:mainView.sudokuGame];
     
-//     [GameCenterUtil resetAchievements];
-    
-    [GameCenterUtil sendScoreToGameCenter:scoreTotal];
 }
 
 - (void)showHintButton
