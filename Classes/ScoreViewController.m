@@ -123,30 +123,50 @@
 
 - (IBAction)showGameCenterLeaderboard
 {
-    if ([GameCenterUtil isGameCenterAvailable] == NO ||
-        [GameCenterUtil isGameCenterLogined] == NO)
-        return;
-
-    NSLog(@"open leader board");
-    [self showLeaderboard]; // 실행~
+    [self showLeaderboard:@"grp.sudoku9.points"]; // 실행~
 }
+
+- (IBAction)showGameCenterLeaderboardVeryEasy
+{
+    [self showLeaderboard:@"grp.sudoku9.timerecord.veryeasy"]; // 실행~
+}
+
+- (IBAction)showGameCenterLeaderboardEasy
+{
+    [self showLeaderboard:@"grp.sudoku9.timerecord.easy"]; // 실행~
+}
+- (IBAction)showGameCenterLeaderboardNormal
+{
+    [self showLeaderboard:@"grp.sudoku9.timerecord.normal"]; // 실행~
+}
+- (IBAction)showGameCenterLeaderboardHard
+{
+    [self showLeaderboard:@"grp.sudoku9.timerecord.hard"]; // 실행~
+}
+- (IBAction)showGameCenterLeaderboardVeryHard
+{
+    [self showLeaderboard:@"grp.sudoku9.timerecord.veryhard"]; // 실행~
+}
+
 
 - (IBAction)showGameCenterAchievement
 {
-    if ([GameCenterUtil isGameCenterAvailable] == NO ||
-        [GameCenterUtil isGameCenterLogined] == NO)
-        return;
-
-    NSLog(@"open archivement board");
     [self showArchboard];
 }
 
-- (void) showLeaderboard
+- (void) showLeaderboard:(NSString*)category
+
 {
+    if ([GameCenterUtil isGameCenterAvailable] == NO ||
+        [GameCenterUtil isGameCenterLogined] == NO)
+        return;
+    
     GKLeaderboardViewController *leaderboardController = [[[GKLeaderboardViewController alloc] init]autorelease];
     if (leaderboardController != nil) {
         // 레더보드 델리게이트는 나임
         leaderboardController.leaderboardDelegate = self;
+        
+        leaderboardController.category = category;
         
         // 레더보드를 현재 뷰에 모달로 띄운다.
         [self presentModalViewController:leaderboardController animated: YES];
@@ -162,7 +182,10 @@
 
 - (void) showArchboard
 {
-    
+    if ([GameCenterUtil isGameCenterAvailable] == NO ||
+        [GameCenterUtil isGameCenterLogined] == NO)
+        return;
+
     GKAchievementViewController *archiveController = [[[GKAchievementViewController alloc]init] autorelease];
     
     if (archiveController != nil) {

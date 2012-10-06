@@ -64,8 +64,7 @@ static BOOL bLoginedGamecenter = NO;
 // 게임센터 서버로 점수를 보낸다.
 +(void) sendScoreToGameCenter:(int)_score
 {
-    _score = 1;
-    
+ 
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
@@ -79,7 +78,7 @@ static BOOL bLoginedGamecenter = NO;
         notifyAchievementTitle:@"SUDOKU Points"
         andMessage:[NSString stringWithFormat:gettext(@"You got %d points", nil),_score]];
     
-    // 실지로 게임센터 서버에 점수를 보낸다.
+    // 실제로 게임센터 서버에 점수를 보낸다.
     [score reportScoreWithCompletionHandler:^(NSError* error)
     {
         if(error != NULL){
@@ -88,7 +87,32 @@ static BOOL bLoginedGamecenter = NO;
             
         }
     }];
-    NSLog(@"rank=%d", score.rank);
+    
+    
+    // 보내기 직전의 점수가 나온다... 이유가 뭘까?
+    
+    if([GKLocalPlayer localPlayer].authenticated) {
+        NSArray *arr = [[NSArray alloc] initWithObjects:[GKLocalPlayer localPlayer].playerID, nil];
+        GKLeaderboard *board = [[GKLeaderboard alloc] initWithPlayerIDs:arr];
+        if(board != nil) {
+            board.timeScope = GKLeaderboardTimeScopeAllTime;
+            board.range = NSMakeRange(1, 1);
+            board.category = @"grp.sudoku9.points";
+            [board loadScoresWithCompletionHandler: ^(NSArray *scores, NSError *error) {
+                if (error != nil) {
+                    // handle the error.
+                    NSLog(@"Error retrieving score.", nil);
+                }
+                if (scores != nil) {
+                    NSLog(@"My Score: %lli", ((GKScore*)[scores objectAtIndex:0]).value);
+                }
+            }];
+        }
+        [board release];
+        [arr release];
+    }
+    
+
 }
 
 // 게임센터 서버로 점수를 보낸다.
