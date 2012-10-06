@@ -1421,6 +1421,11 @@ static int	HandyCount[][5] = {
 
 - (void)drawRect:(CGRect)rect
 {
+    
+    NSLog(@"self.bounds(%f,%f)",
+          self.bounds.size.width, self.bounds.size.height);
+
+    
     //	NSString* s;
 	
     //	NSLog(@"%@", [sudokuNum getNums]);

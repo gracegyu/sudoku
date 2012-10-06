@@ -9,6 +9,10 @@
 #import <GameKit/GameKit.h>
 #import "GKAchievementNotification.h"
 #import "Locale.h"
+#import "AppDelegate.h"
+#import "MainViewController.h"
+#import "MainView.h"
+
 
 #pragma mark -
 
@@ -176,6 +180,11 @@
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
     self.frame = kGKAchievementFrameEnd;
+    
+    NSLog(@"self.frame(%f,%f,%f,%f)",
+          self.frame.origin.x, self.frame.origin.y,
+          self.frame.size.width, self.frame.size.height);
+    
     [UIView commitAnimations];
 }
 
@@ -188,6 +197,9 @@
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationOutDidStop:finished:context:)];
     self.frame = kGKAchievementFrameStart;
+    NSLog(@"self.frame(%f,%f,%f,%f)",
+          self.frame.origin.x, self.frame.origin.y,
+          self.frame.size.width, self.frame.size.height);
     [UIView commitAnimations];
 }
 

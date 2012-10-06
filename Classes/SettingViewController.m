@@ -320,34 +320,41 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return NO;
-#endif
-    return YES;
-    
+    return NO;
+    /*#ifdef ADMOB_FREEVERSION
+     if (cDeviceType == DEVICETYPE_IPHONE)
+     return NO;
+     #endif
+     return YES;
+     */
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return UIInterfaceOrientationMaskPortrait;
-#endif
-    return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskPortrait;
+    /*
+     #ifdef ADMOB_FREEVERSION
+     if (cDeviceType == DEVICETYPE_IPHONE)
+     return UIInterfaceOrientationMaskPortrait;
+     #endif
+     return UIInterfaceOrientationMaskAll;
+     */
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    else
-        return YES;	
-#else	
-	return YES;
-#endif
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    /*
+     #ifdef ADMOB_FREEVERSION
+     if (cDeviceType == DEVICETYPE_IPHONE)
+     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+     else
+     return YES;
+     #else
+     return YES;
+     #endif
+     */
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

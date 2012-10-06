@@ -7,10 +7,7 @@
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" Sudoku9FreeIcon-1024.png -resize 114x114 Sudoku9FreeIcon@2x.png 
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" Sudoku9FreeIcon-1024.png -resize 144x144 Sudoku9FreeIcon@2x~ipad.png 
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" Sudoku9FreeIcon-1024.png -resize 512x512 Sudoku9FreeIcon-512.png 
-copy Sudoku9FreeIcon.png ..\..\ 
-copy Sudoku9FreeIcon@2x.png  ..\..\ 
-copy Sudoku9FreeIcon@2x~ipad.png  ..\..\ 
-copy Sudoku9FreeIcon~ipad.png  ..\..\ 
+ 
 
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" Sudoku9FreeDefault@2x.png -resize 320x480 Sudoku9FreeDefault.png
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" Sudoku9FreeDefault-Landscape@2x~ipad.png -resize 1024x748 Sudoku9FreeDefault-Landscape~ipad.png

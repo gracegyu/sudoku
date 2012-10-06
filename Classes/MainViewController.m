@@ -640,7 +640,7 @@
 #ifdef SUDOKU9
 #define DEFPUZZLESIZE   9
 #else
-#define DEFPUZZLESIZE   9
+#define DEFPUZZLESIZE   6
 #endif
 
 
@@ -651,6 +651,7 @@
 	
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
+    NSLog(@"DEFPUZZLESIZE=%d", DEFPUZZLESIZE);
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가

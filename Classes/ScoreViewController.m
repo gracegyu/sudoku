@@ -198,16 +198,21 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+     return UIInterfaceOrientationMaskPortrait;
+    /*
 #ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)
         return UIInterfaceOrientationMaskPortrait;
 #endif
     return UIInterfaceOrientationMaskAll;
+     */
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+/*
 #ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)
         return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -216,6 +221,7 @@
 #else	
 	return YES;
 #endif
+ */
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

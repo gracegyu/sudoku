@@ -452,7 +452,7 @@
                      size,                  // 9칸?
                      (char*)zStrMapNum];
 					 
-	NSLog(@"saveData(%@)", str);
+//	NSLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 	

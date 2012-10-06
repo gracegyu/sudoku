@@ -13,9 +13,17 @@
 #define kGKAchievementAnimeTime     0.4f
 #define kGKAchievementDisplayTime   1.75f
 
-#define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, 284.0f, 52.0f);
-#define kGKAchievementFrameStart    CGRectMake(18.0f, -53.0f, 284.0f, 52.0f);
-#define kGKAchievementFrameEnd      CGRectMake(18.0f, 10.0f, 284.0f, 52.0f);
+#define widthMV ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController.mainView.bounds.size.width
+#define widthFR 284.0f
+#define heightFR 52.0f
+
+#define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, widthFR, heightFR);
+#define kGKAchievementFrameStart    CGRectMake((widthMV-widthFR)/2, -1-heightFR, widthFR, heightFR)
+#define kGKAchievementFrameEnd      CGRectMake((widthMV-widthFR)/2, 10.0f, widthFR, heightFR)
+
+//#define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, 284.0f, 52.0f);
+//#define kGKAchievementFrameStart    CGRectMake(18.0f, -53.0f, 284.0f, 52.0f);
+//#define kGKAchievementFrameEnd      CGRectMake(18.0f, 10.0f, 284.0f, 52.0f);
 
 #define kGKAchievementText1         CGRectMake(10.0, 6.0f, 264.0f, 22.0f);
 #define kGKAchievementText2         CGRectMake(10.0, 20.0f, 264.0f, 22.0f);
