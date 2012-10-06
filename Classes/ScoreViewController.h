@@ -57,6 +57,11 @@
 	UILabel *labelTitleAverage;
     
     UIButton *buttonGameCenterRanking;
+    
+    NSInteger nTimer;
+    NSInteger rank;
+    NSInteger score;
+    NSTimer *timerScore;
 }
 
 
@@ -112,7 +117,7 @@
 - (IBAction)showGameCenterLeaderboardVeryHard;
 
 
-
+- (void) setTotalScoreRank:(NSInteger)score;
 - (void) showLeaderboard:(NSString*)category; //실제로 점수판을 띄우는 부분 구현 메소드
 - (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;//점수판이 닫힐때 호출되는 메소드
 - (void) showArchboard; //목표달성판을 띄우는 부분 구현 메소드

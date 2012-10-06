@@ -409,8 +409,10 @@
 	
 	[self setInteger:controller.labelTotalGames num:scoreGames[0]+scoreGames[1]+scoreGames[2]+scoreGames[3]+scoreGames[4]];
 	[self setInteger:controller.labelTotalClears num:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
-	[self setInteger:controller.labelTotalScore num:scoreTotal];
 	
+    
+    [controller setTotalScoreRank:scoreTotal];
+    
 	[controller release];
 
 }

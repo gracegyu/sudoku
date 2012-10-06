@@ -61,6 +61,48 @@ static BOOL bLoginedGamecenter = NO;
     }
 }
 
++ (NSInteger) getTotalScoreRanking:(NSInteger*)rank
+{
+    return [self getRanking:@"grp.sudoku9.points" rank:rank];
+}
+
+
+
++ (NSInteger) getRanking:(NSString*)category rank:(NSInteger*)rank
+{
+    //__block NSInteger nRank = -1;
+    
+    if([GKLocalPlayer localPlayer].authenticated) {
+        NSArray *arr = [[NSArray alloc] initWithObjects:[GKLocalPlayer localPlayer].playerID, nil];
+        GKLeaderboard *board = [[GKLeaderboard alloc] initWithPlayerIDs:arr];
+        if(board != nil) {
+            board.timeScope = GKLeaderboardTimeScopeAllTime;
+            board.range = NSMakeRange(1, 1);
+            board.category = category;
+            [board loadScoresWithCompletionHandler: ^(NSArray *scores, NSError *error)
+             {
+                 GKLocalPlayer *lp = [GKLocalPlayer localPlayer];
+                 for (GKScore* score in scores)
+                 {
+                     if ([score.playerID isEqualToString:lp.playerID])
+                     {
+                         NSLog(@"rank=%d", score.rank);
+                         
+                         //nRank = score.rank;
+                         *rank = score.rank;
+                     }
+                 }
+             }];
+        }
+        [board release];
+        [arr release];
+    }
+//    *rank = nRank;
+    
+    return *rank;
+    
+}
+
 // 게임센터 서버로 점수를 보낸다.
 +(void) sendScoreToGameCenter:(int)_score
 {
@@ -91,26 +133,7 @@ static BOOL bLoginedGamecenter = NO;
     
     // 보내기 직전의 점수가 나온다... 이유가 뭘까?
     
-    if([GKLocalPlayer localPlayer].authenticated) {
-        NSArray *arr = [[NSArray alloc] initWithObjects:[GKLocalPlayer localPlayer].playerID, nil];
-        GKLeaderboard *board = [[GKLeaderboard alloc] initWithPlayerIDs:arr];
-        if(board != nil) {
-            board.timeScope = GKLeaderboardTimeScopeAllTime;
-            board.range = NSMakeRange(1, 1);
-            board.category = @"grp.sudoku9.points";
-            [board loadScoresWithCompletionHandler: ^(NSArray *scores, NSError *error) {
-                if (error != nil) {
-                    // handle the error.
-                    NSLog(@"Error retrieving score.", nil);
-                }
-                if (scores != nil) {
-                    NSLog(@"My Score: %lli", ((GKScore*)[scores objectAtIndex:0]).value);
-                }
-            }];
-        }
-        [board release];
-        [arr release];
-    }
+
     
 
 }

@@ -154,6 +154,49 @@
     [self showArchboard];
 }
 
+
+
+- (void) setScoreText
+{
+    NSString* strScore = [[NSString alloc] initWithFormat:gettext(@"%d points", nil), score];
+    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
+    NSString* strTotalScore = [[NSString alloc] initWithFormat:@"%@ %@", strScore, rank>0 ? strRank : @""];
+    labelTotalScore.text = strTotalScore;
+    [strTotalScore release];
+    [strRank release];
+    [strScore release];
+}
+
+- (void) OnTimer:(NSTimer *)timer
+{
+    if (rank > 0)
+        [self setScoreText];
+
+    if (++nTimer > 10 || rank > 0)
+        [timerScore invalidate];
+}
+
+- (void) setTotalScoreRank:(NSInteger)nScore;
+{
+    
+    rank = [GameCenterUtil getTotalScoreRanking:&rank];
+    score = nScore;
+    
+    [self setScoreText];
+    
+    if (rank < 1)
+    {
+        nTimer = 0;
+        timerScore = [NSTimer scheduledTimerWithTimeInterval:1
+                                                     target:self
+                                                   selector:@selector(OnTimer:)
+                                                   userInfo:nil
+                                                    repeats:NO];
+        
+        
+    }    
+}
+
 - (void) showLeaderboard:(NSString*)category
 
 {
