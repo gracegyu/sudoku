@@ -5,9 +5,17 @@
 
 #define cDefaultHintCount       50 //
 
+#ifdef SUDOKU9
+#define MY_BANNER_UNIT_ID_IPHONE5  (@"a1506f9ab471950")
 #define MY_BANNER_UNIT_ID_IPHONE  (@"a14ccfafd6895cb")
 #define MY_BANNER_UNIT_ID_IPAD  (@"a14fd69f029bc6d") 
-#define MY_BANNER_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE)
+#else  // SUDOKU6
+#define MY_BANNER_UNIT_ID_IPHONE5  (@"a1506f9efd45635")
+#define MY_BANNER_UNIT_ID_IPHONE  (@"a1506f9e947e7b0")
+#define MY_BANNER_UNIT_ID_IPAD  (@"a1506f9f57f0075")
+#endif
+
+#define MY_BANNER_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_BANNER_UNIT_ID_IPAD : (isIphone5 ? MY_BANNER_UNIT_ID_IPHONE5 : MY_BANNER_UNIT_ID_IPHONE))
 
 #define IPHONE_GAD_H            GAD_SIZE_320x50.height
 #define IPHONE_GAD_W            GAD_SIZE_320x50.width
