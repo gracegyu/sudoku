@@ -40,6 +40,7 @@
 	BOOL bTouch;
 	BOOL bPressedInButton;
 	BOOL bPressedInCell;
+    NSInteger pressedButtonNum;
 	
 	
 	UIFont *cellOneSmallFont;
@@ -70,6 +71,9 @@
     BOOL bSettingDuplicationWarning;
     BOOL bSettingMarkingEqual;
     BOOL bSettingDefMap;
+
+    
+    NSTimer		*timerTouch;
 
 }
 

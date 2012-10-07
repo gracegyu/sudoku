@@ -1017,16 +1017,19 @@
 	CGFloat fX = firstTouch.x;
 	CGFloat fY = firstTouch.y;
 	
-	NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
-    if (bEnd && [touch tapCount] == 2) { 
-        [ctrl memoOnOff];   
+	NSInteger xPos = [self TouchToPosX:fX];
+	NSInteger yPos = [self TouchToPosY:fY];
+
+	
+    NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
+    if (bEnd && [touch tapCount] == 2 && xPos < sudokuGame.size && yPos < sudokuGame.size) {
+        [ctrl memoOnOff];
+        return;             // double tab 후에는 아무런 세팅을 하지 않는다.
     }
         
 		
-	NSInteger xPos = [self TouchToPosX:fX];
-	NSInteger yPos = [self TouchToPosY:fY];
     
-    if (xPos < sudokuGame.size && yPos < sudokuGame.size) {
+    if (xPos >= 0 && xPos < sudokuGame.size && yPos >= 0 && yPos < sudokuGame.size) {
         if ([sudokuGame isPuzzleNum:xPos y:yPos]) {
             // do nothing
         } else if (bPressedInCell) {
@@ -1284,20 +1287,59 @@ static int	HandyCount[][5] = {
 	[self setNeedsDisplay];
 }
 
+
+- (void) OnTimer:(NSTimer *)timer
+{
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+
+    
+    [sudokuGame setFixNums:pressedButtonNum x:selectedXPos y:selectedYPos];
+    [self checkClearGame];
+    
+    
+    
+    if ([self conflictCell:selectedXPos yPos:selectedYPos])
+        [self playSound:soundFailID];   // 강력한 기능이라서 Setting으로 빼야 한다.
+    else
+        [self playSound:soundClickID];
+
+    [ctrl updateBlankCellCount];
+    [ctrl updateHintCount];
+    [ctrl updateButtonUndo];
+    [ctrl updateButtonClear];
+    [ctrl updateButtonDel];
+    [ctrl updateButtonHint];
+
+    [self setNeedsDisplay];
+
+    timerTouch = nil;
+    bPressedInButton = NO;
+}
+
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
     NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
     
-	if (bMenuMode)
-		return;
 	if (sudokuGame.gameFinished)	// lock the screen
 		return;
-	
+    if (bMenuMode)
+        return;
+    
 	bTouch = YES;
-	NSInteger buttonNum = [self pressedButtonNum:touches];	
+	NSInteger buttonNum = [self pressedButtonNum:touches];
 	if (buttonNum >= 0) {
 		bPressedInButton = YES;
-
+        pressedButtonNum = buttonNum;
+        if (bMemoMode)
+        {
+            timerTouch = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                         target:self
+                                                       selector:@selector(OnTimer:)
+                                                       userInfo:nil
+                                                        repeats:NO];
+            return;
+        }
+        
 	} else {
 		UITouch *touch = [touches anyObject];
 		CGPoint	firstTouch = [touch locationInView:self];
@@ -1313,10 +1355,9 @@ static int	HandyCount[][5] = {
 	[self touchesDo:touches bEnd:NO];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event{
-	if (bMenuMode)
-		return;
-	if (sudokuGame.gameFinished)	// lock the screen
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
 		return;	
 	bTouch = NO;
 //    NSLog(@"Touches Cancelled");
@@ -1328,12 +1369,22 @@ static int	HandyCount[][5] = {
 	
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (bMenuMode)
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
 		return;
-	if (sudokuGame.gameFinished)	// lock the screen
-		return;
-	
+    
+	if (bMemoMode)
+    {
+        if (timerTouch)
+        {
+            NSLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            [timerTouch invalidate];
+//            [timerTouch release];
+            timerTouch = nil;
+        }
+    }
+
 	bTouch = NO;
 	
 	[self touchesDo:touches bEnd:YES];
@@ -1344,11 +1395,24 @@ static int	HandyCount[][5] = {
 	[self setNeedsDisplay];
 }	
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	if (bMenuMode)
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
 		return;
-	if (sudokuGame.gameFinished)	// lock the screen
+    
+	if (bMemoMode)
+    {
+        if (timerTouch)
+        {
+            NSLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+
+            [timerTouch invalidate];
+//            [timerTouch release];
+            timerTouch = nil;
+        }
 		return;
+    }
+
 	bTouch = YES;
 	
 	[self touchesDo:touches bEnd:NO];
