@@ -1102,13 +1102,8 @@
 	NSInteger ret = [sudokuGame clearGame];
 	
 	if (ret == 0) {
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Conglaturations!", nil)
-														message:gettext(@"You cleared this game.", nil)
-													   delegate:self 
-											  cancelButtonTitle:gettext(@"Ok", nil) 
-											  otherButtonTitles:nil];
-		[alert show];
-		[alert release];		
+        MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+        [ctrl writeScoreAfterFinishGame:sudokuGame];
 	} else if (ret > 0) {
 		NSString *msg = [[NSString alloc] initWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
 		

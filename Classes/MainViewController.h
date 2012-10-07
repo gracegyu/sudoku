@@ -155,7 +155,7 @@
 - (void) updateButtonDel;
 - (void) updateButtonHint;
 
-- (void) writeScore:(SudokuGame*)sudokuGame;
+- (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame;
 - (void) showMemoButton;
 - (void) showHintButton;
 //- (void) setOrientationReady;

@@ -186,8 +186,8 @@
 	gameFinished = YES;
 	// zzzzz    should lock the game
 	
-	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-	[ctrl writeScore:self];
+//	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+//	[ctrl writeScoreAfterFinishGame:self];
 
 	[self saveData];
 	return 0;	

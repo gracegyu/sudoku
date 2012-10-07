@@ -135,10 +135,11 @@
 
 
 
-- (void) writeScore:(SudokuGame*)sudokuGame
+- (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame
 {
 	NSLog(@"writeScore");	
-
+    BOOL bNewBest = NO;
+    
 	scoreClears[sudokuGame.gameLevel] += 1;
     
 	if (scoreBestTime[sudokuGame.gameLevel] == 0 ||                     // 최초는 무조건 Best time
@@ -146,11 +147,32 @@
     {
         if (scoreBestTime[sudokuGame.gameLevel] != 0)
         {
-            // 기존 기록 돌파, 축하메시지
+            bNewBest = YES;
         }
 		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;      // best time 갱신
         
 	}
+    
+    
+    
+    NSString* strMsg = [NSString stringWithString:gettext(@"You cleared this game.", nil)];
+    if (bNewBest)
+    {
+        strMsg = [strMsg stringByAppendingString:@"\n"];
+        strMsg = [strMsg stringByAppendingString:gettext(@"You broke your best time.", nil)];
+    }
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Conglaturations!", nil)
+                                                    message:strMsg
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+
+    
+    
+    
+
     // 하위 호환을 위해서 무조건 best time을 보내기
     [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
     
@@ -473,7 +495,7 @@
 - (IBAction) clearNumbers
 {
 	//[mainView clearNumbers];
-    [self writeScore:mainView.sudokuGame];
+    [self writeScoreAfterFinishGame:mainView.sudokuGame];
     
 }
 
