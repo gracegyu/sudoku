@@ -820,7 +820,15 @@
 	}
 }
 
+- (NSInteger) getBestTime:(NSInteger)level
+{
+    return scoreBestTime[level];
+}
 
+- (NSInteger) getTotalScore
+{
+    return scoreTotal;
+}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 
 { 

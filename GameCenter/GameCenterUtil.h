@@ -16,6 +16,7 @@
 
 
 
+
 /////////////////Geunwon,Mo : GameCenter 추가 start /////////////
 + (BOOL) isGameCenterAvailable ; //게임센터가 사용가능하지 알아보는 메소드
 + (BOOL) isGameCenterLogined;
@@ -28,6 +29,6 @@
 + (void) sendAchievementClearGame:(NSInteger)cleargame;
 + (void) resetAchievements; //테스트용으로 목표달성도를 리셋하는 메소드
 /////////////////Geunwon,Mo : GameCenter 추가 end   /////////////
-
++ (NSString*) getLevelCategory:(NSInteger)level;
 
 @end

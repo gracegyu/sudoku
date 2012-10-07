@@ -12,6 +12,13 @@
 
 @implementation GameCenterUtil
 
+NSString* strLevel[5] = {
+    @"grp.sudoku9.timerecord.veryhard"
+    @"grp.sudoku9.timerecord.hard",
+    @"grp.sudoku9.timerecord.normal",
+    @"grp.sudoku9.timerecord.easy",
+    @"grp.sudoku9.timerecord.veryeasy",
+};
 
 
 //GameCenter 사용 가능 단말인지 확인
@@ -63,6 +70,10 @@ static BOOL bLoginedGamecenter = NO;
 
 + (NSInteger) getTotalScoreRanking:(NSInteger*)rank
 {
+    NSLog(@"getTotalScoreRanking");
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
+        return 0;
+
     return [self getRanking:@"grp.sudoku9.points" rank:rank];
 }
 
@@ -70,6 +81,11 @@ static BOOL bLoginedGamecenter = NO;
 
 + (NSInteger) getRanking:(NSString*)category rank:(NSInteger*)rank
 {
+    NSLog(@"getRanking(%@)", category);
+    
+    if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
+        return 0;
+
     //__block NSInteger nRank = -1;
     
     if([GKLocalPlayer localPlayer].authenticated) {
@@ -107,6 +123,8 @@ static BOOL bLoginedGamecenter = NO;
 +(void) sendScoreToGameCenter:(int)_score
 {
  
+    NSLog(@"sendScoreToGameCenter");
+    
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
@@ -138,36 +156,39 @@ static BOOL bLoginedGamecenter = NO;
 
 }
 
+
+
++ (NSString*) getLevelCategory:(NSInteger)level
+{
+    NSLog(@"getLevelCategory(%d)", level);
+    
+    static NSString* strLevel[5] = {
+        @"grp.sudoku9.timerecord.veryhard",
+        @"grp.sudoku9.timerecord.hard",
+        @"grp.sudoku9.timerecord.normal",
+        @"grp.sudoku9.timerecord.easy",
+        @"grp.sudoku9.timerecord.veryeasy"
+    };
+
+    if (level >= 0 && level < 5)
+		return strLevel[level];
+    else
+        return @"";
+}
+
 // 게임센터 서버로 점수를 보낸다.
 +(void) sendBestTimeToGameCenter:(NSInteger)level besttime:(NSInteger)num
 {
+    NSLog(@"sendBestTimeToGameCenter(%d)", level);
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
     
     NSString* strCategory;
-    
-    switch(level)
-    {
-		case GAMELEVEL_VERYEASY:
-			strCategory = @"grp.sudoku9.timerecord.veryeasy";
-			break;
-		case GAMELEVEL_EASY:
-			strCategory = @"grp.sudoku9.timerecord.easy";
-			break;
-		case GAMELEVEL_NORMAL:
-			strCategory = @"grp.sudoku9.timerecord.normal";
-			break;
-		case GAMELEVEL_HARD:
-			strCategory = @"grp.sudoku9.timerecord.hard";
-			break;
-		case GAMELEVEL_VERYHARD:
-			strCategory = @"grp.sudoku9.timerecord.veryhard";
-			break;
-		default:
-			return;
-
-    }
+    if (level >= 0 && level < 5)
+		strCategory = [self getLevelCategory:level];
+    else
+        return;
 		
     
     
@@ -215,10 +236,10 @@ static BOOL bLoginedGamecenter = NO;
 // 게임센터 서버로 목표달성도를 보낸다. 첫번째가 목표ID, 두번째가 달성도. 100%면 목표달성임
 + (void) sendAchievementWithIdentifier: (NSString*) identifier percentComplete: (float) percent
 {
+    NSLog(@"--겜센터 : sendAchievementWithIdentifier %@ , %f",identifier,percent);
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
-    NSLog(@"--겜센터 : sendAchievementWithIdentifier %@ , %f",identifier,percent);
     GKAchievement *achievement = [[[GKAchievement alloc] initWithIdentifier: identifier]autorelease];
     if (achievement)
     {
@@ -267,6 +288,7 @@ static BOOL bLoginedGamecenter = NO;
 
 + (void) sendAchievementClearGame:(NSInteger)cleargame
 {
+    NSLog(@"sendAchievementClearGame");
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
     

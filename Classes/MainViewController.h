@@ -161,6 +161,9 @@
 //- (void) setOrientationReady;
 - (void) loadSetting;
 - (void) saveSetting;
+- (NSInteger) getBestTime:(NSInteger)level;
+- (NSInteger) getTotalScore;
+
 
 
 

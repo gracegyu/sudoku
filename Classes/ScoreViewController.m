@@ -54,6 +54,12 @@
 @synthesize labelTitleBestTime;
 @synthesize labelTitleAverage;
 @synthesize buttonGameCenterRanking;
+@synthesize labelRankVeryEasy;
+@synthesize labelRankEasy;
+@synthesize labelRankNormal;
+@synthesize labelRankHard;
+@synthesize labelRankVeryHard;
+
 
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
@@ -112,6 +118,23 @@
 	labelTitleClears.text = gettext(@"clears", nil);
 	labelTitleBestTime.text = gettext(@"best time", nil);
 	labelTitleAverage.text = gettext(@"average", nil);
+    
+    labelRankArray[GAMELEVEL_VERYHARD] = labelRankVeryHard;
+    labelRankArray[GAMELEVEL_HARD] = labelRankHard;
+    labelRankArray[GAMELEVEL_NORMAL] = labelRankNormal;
+    labelRankArray[GAMELEVEL_EASY] = labelRankEasy;
+    labelRankArray[GAMELEVEL_VERYEASY] = labelRankVeryEasy;
+
+    MainViewController *ctrl = (MainViewController*)mainViewController;
+    // Gamecenter와 sync맞추기
+    for (int level=0; level<5; level++)
+    {
+        if ([ctrl getBestTime:level] > 0)
+            [GameCenterUtil sendBestTimeToGameCenter:level besttime:[ctrl getBestTime:level]];
+    }
+    // 총점 보내기
+    [GameCenterUtil sendScoreToGameCenter:[ctrl getTotalScore]];
+    
 	
     [super viewDidLoad];
 }
@@ -128,24 +151,24 @@
 
 - (IBAction)showGameCenterLeaderboardVeryEasy
 {
-    [self showLeaderboard:@"grp.sudoku9.timerecord.veryeasy"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYEASY]]; // 실행~
 }
 
 - (IBAction)showGameCenterLeaderboardEasy
 {
-    [self showLeaderboard:@"grp.sudoku9.timerecord.easy"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_EASY]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardNormal
 {
-    [self showLeaderboard:@"grp.sudoku9.timerecord.normal"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_NORMAL]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardHard
 {
-    [self showLeaderboard:@"grp.sudoku9.timerecord.hard"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_HARD]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardVeryHard
 {
-    [self showLeaderboard:@"grp.sudoku9.timerecord.veryhard"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYHARD]]; // 실행~
 }
 
 
@@ -159,32 +182,77 @@
 - (void) setScoreText
 {
     NSString* strScore = [[NSString alloc] initWithFormat:gettext(@"%d points", nil), score];
-    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
-    NSString* strTotalScore = [[NSString alloc] initWithFormat:@"%@ %@", strScore, rank>0 ? strRank : @""];
+    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rankTotal];
+    NSString* strTotalScore = [[NSString alloc] initWithFormat:@"%@ %@", strScore, rankTotal>0 ? strRank : @""];
     labelTotalScore.text = strTotalScore;
     [strTotalScore release];
     [strRank release];
     [strScore release];
 }
 
+- (void) setLableRank:(UILabel*)label rank:(NSInteger)rank
+{
+    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
+    label.text = strRank;
+    [strRank release];
+}
+
+
 - (void) OnTimer:(NSTimer *)timer
 {
-    if (rank > 0)
+    BOOL bWait = NO;
+    
+    NSLog(@"OnTimer");
+    
+    
+    if (rankTotal > 0)
         [self setScoreText];
+    else
+        bWait = YES;
+    
+    for (int level=0; level<5; level++)
+    {
+        NSLog(@"level=%d", level);
+        if (rankLevel[level] > 0)
+            [self setLableRank:labelRankArray[level] rank:rankLevel[level]];
+        else if (rankLevel[level] == -1)
+            bWait = YES;
+    }
+    
 
-    if (++nTimer > 10 || rank > 0)
-        [timerScore invalidate];
+    if (++nTimer > 10 || bWait == NO)
+       [timerScore invalidate];
 }
 
 - (void) setTotalScoreRank:(NSInteger)nScore;
 {
+    NSLog(@"setTotalScoreRank(%d)", nScore);
     
-    rank = [GameCenterUtil getTotalScoreRanking:&rank];
+    rankTotal = -1;
+    
+    [GameCenterUtil getTotalScoreRanking:&rankTotal];
+    
+    MainViewController *ctrl = (MainViewController*)mainViewController;
+    
+
+    for (int level=0; level<5; level++)
+    {
+        if ([ctrl getBestTime:level] > 0)
+        {
+            rankLevel[level] = -1;
+            [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:level] rank:&(rankLevel[level])];
+        } else {
+            rankLevel[level] = 0;  // best time이 없음
+        }
+        labelRankArray[level].text = @"";
+    }
+    
+    
     score = nScore;
     
     [self setScoreText];
     
-    if (rank < 1)
+    if (rankTotal < 1)
     {
         nTimer = 0;
         timerScore = [NSTimer scheduledTimerWithTimeInterval:1

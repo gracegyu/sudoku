@@ -59,9 +59,18 @@
     UIButton *buttonGameCenterRanking;
     
     NSInteger nTimer;
-    NSInteger rank;
+    NSInteger rankTotal;
+    NSInteger rankLevel[5];
     NSInteger score;
     NSTimer *timerScore;
+    
+    UILabel *labelRankVeryEasy;
+	UILabel *labelRankEasy;
+	UILabel *labelRankNormal;
+	UILabel *labelRankHard;
+	UILabel *labelRankVeryHard;
+
+    UILabel *labelRankArray[5];
 }
 
 
@@ -105,6 +114,13 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleBestTime;
 @property (nonatomic, retain) IBOutlet UILabel *labelTitleAverage;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking;
+
+@property (nonatomic, retain) IBOutlet UILabel *labelRankVeryEasy;
+@property (nonatomic, retain) IBOutlet UILabel *labelRankEasy;
+@property (nonatomic, retain) IBOutlet UILabel *labelRankNormal;
+@property (nonatomic, retain) IBOutlet UILabel *labelRankHard;
+@property (nonatomic, retain) IBOutlet UILabel *labelRankVeryHard;
+
 
 - (IBAction)done;
 - (IBAction)showGameCenterAchievement;
