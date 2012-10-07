@@ -145,7 +145,11 @@
     self.bSettingGuideline = YES;
     self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
+#ifdef SUDOKU6
     self.bSettingDefMap = NO;
+#else
+    self.bSettingDefMap = YES;
+#endif
 	
 //	self.fPress = 1.f;
 	

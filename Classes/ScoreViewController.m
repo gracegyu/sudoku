@@ -146,7 +146,7 @@
 
 - (IBAction)showGameCenterLeaderboard
 {
-    [self showLeaderboard:@"grp.sudoku9.points"]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getPointCategory]]; // 실행~
 }
 
 - (IBAction)showGameCenterLeaderboardVeryEasy

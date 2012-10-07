@@ -162,7 +162,7 @@
     
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
-#ifdef SUDOKU9
+#ifndef SUDOKU6
     labelShapeOfMap.hidden = YES;
     buttonShapeOfMap.hidden = YES;
 #endif

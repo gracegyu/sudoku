@@ -14,7 +14,27 @@
 
 @interface GameCenterUtil : NSObject
 
-
+#ifdef SUDOKU9
+#define GK_CATEGORY_POINT       @"grp.sudoku9.points"
+#define GK_CATEGORY_VERYHARD    @"grp.sudoku9.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.sudoku9.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.sudoku9.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.sudoku9.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.sudoku9.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.sudoku9.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.sudoku9.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.sudoku9.clear.1000"
+#else // SODKU6
+#define GK_CATEGORY_POINT       @"grp.sudoku6.points"
+#define GK_CATEGORY_VERYHARD    @"grp.sudoku6.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.sudoku6.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.sudoku6.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.sudoku6.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.sudoku6.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.sudoku6.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.sudoku6.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.sudoku6.clear.1000"
+#endif
 
 
 /////////////////Geunwon,Mo : GameCenter 추가 start /////////////
@@ -30,5 +50,7 @@
 + (void) resetAchievements; //테스트용으로 목표달성도를 리셋하는 메소드
 /////////////////Geunwon,Mo : GameCenter 추가 end   /////////////
 + (NSString*) getLevelCategory:(NSInteger)level;
++ (NSString*) getPointCategory;
+
 
 @end

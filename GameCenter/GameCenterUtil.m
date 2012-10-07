@@ -12,14 +12,6 @@
 
 @implementation GameCenterUtil
 
-NSString* strLevel[5] = {
-    @"grp.sudoku9.timerecord.veryhard"
-    @"grp.sudoku9.timerecord.hard",
-    @"grp.sudoku9.timerecord.normal",
-    @"grp.sudoku9.timerecord.easy",
-    @"grp.sudoku9.timerecord.veryeasy",
-};
-
 
 //GameCenter 사용 가능 단말인지 확인
 + (BOOL) isGameCenterAvailable
@@ -74,7 +66,7 @@ static BOOL bLoginedGamecenter = NO;
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return 0;
 
-    return [self getRanking:@"grp.sudoku9.points" rank:rank];
+    return [self getRanking:[self getPointCategory] rank:rank];
 }
 
 
@@ -129,7 +121,7 @@ static BOOL bLoginedGamecenter = NO;
         return;
 
     
-    GKScore* score = [[[GKScore alloc] initWithCategory:@"grp.sudoku9.points"]autorelease];
+    GKScore* score = [[[GKScore alloc] initWithCategory:[self getPointCategory]]autorelease];
     // 위에서 kPoint 가 게임센터에서 설정한 Leaderboard ID
     score.value = _score;
     
@@ -156,18 +148,21 @@ static BOOL bLoginedGamecenter = NO;
 
 }
 
-
++ (NSString*) getPointCategory
+{
+    return GK_CATEGORY_POINT;
+}
 
 + (NSString*) getLevelCategory:(NSInteger)level
 {
     NSLog(@"getLevelCategory(%d)", level);
     
     static NSString* strLevel[5] = {
-        @"grp.sudoku9.timerecord.veryhard",
-        @"grp.sudoku9.timerecord.hard",
-        @"grp.sudoku9.timerecord.normal",
-        @"grp.sudoku9.timerecord.easy",
-        @"grp.sudoku9.timerecord.veryeasy"
+        GK_CATEGORY_VERYHARD,
+        GK_CATEGORY_HARD,
+        GK_CATEGORY_NORMAL,
+        GK_CATEGORY_EASY,
+        GK_CATEGORY_VERYEASY
     };
 
     if (level >= 0 && level < 5)
@@ -296,14 +291,14 @@ static BOOL bLoginedGamecenter = NO;
     float percent;
     
     if (cleargame <= 10) {
-        strCategory = @"grp.sudoku9.clear.10";
+        strCategory = GK_CATEGORY_CLEAR10;
         percent = (float)cleargame*100/10;
     } else if (cleargame <= 100) {
         percent = (float)cleargame*100/100;
-        strCategory = @"grp.sudoku9.clear.100";
+        strCategory = GK_CATEGORY_CLEAR100;
     } else if (cleargame <= 1000) {
         percent = (float)cleargame*100/1000;
-        strCategory = @"grp.sudoku9.clear.1000";
+        strCategory = GK_CATEGORY_CLEAR1000;
     } else {
         // 1000 게임 이상은 목표가 없음...
         return;
