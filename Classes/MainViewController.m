@@ -68,11 +68,19 @@
     scoreTotal = 0;
 }
 
+#ifdef SUDOKU9
 #define kScoreGames			@"scoreGames"
 #define kScoreClears		@"scoreClears"
 #define kScoreBestTime		@"scoreBestTime"
 #define kScoreClearTimeSum	@"scoreClearTimeSum"
 #define kScoreTotal         @"scoreTotal"
+#else   // SUDOKU6
+#define kScoreGames			@"score6Games"
+#define kScoreClears		@"score6Clears"
+#define kScoreBestTime		@"score6BestTime"
+#define kScoreClearTimeSum	@"score6ClearTimeSum"
+#define kScoreTotal         @"score6Total"
+#endif
 
 - (void) saveScoreData
 {
@@ -494,8 +502,8 @@
 
 - (IBAction) clearNumbers
 {
-	//[mainView clearNumbers];
-    [self writeScoreAfterFinishGame:mainView.sudokuGame];
+	[mainView clearNumbers];
+    //[self writeScoreAfterFinishGame:mainView.sudokuGame];
     
 }
 

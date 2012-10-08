@@ -40,7 +40,10 @@
 @synthesize buttonReview;
 @synthesize buttonNewApp;
 
-
+@synthesize labelRuleTitle;
+@synthesize labelRuleDesc;
+@synthesize labelTipTitle;
+@synthesize labelTipDesc;
 
 
 
@@ -65,6 +68,17 @@
     labelMarkingEqual.text = gettext(@"marking equal", nil);
     labelShapeOfMap.text = gettext(@"shape of map", nil);
     labelLocale.text = gettext(@"language", nil);
+    
+    labelRuleTitle.text = gettext(@"ruletitle", nil);
+#ifdef SUDOKU9
+    labelRuleDesc.text = gettext(@"ruledesc9", nil);
+#else
+    labelRuleDesc.text = gettext(@"ruledesc6", nil);
+#endif
+    labelTipTitle.text = gettext(@"tiptitle", nil);
+    labelTipDesc.text = gettext(@"tipdesc", nil);
+    
+    
 }
 
 - (void) setImageSoundEffect

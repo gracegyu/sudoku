@@ -3,7 +3,11 @@
 
 
 
-#define cDefaultHintCount       50 //
+#ifdef SUDOKU9
+#define cDefaultHintCount       2 //
+#else
+#define cDefaultHintCount       1 //
+#endif
 
 #ifdef SUDOKU9
 #define MY_BANNER_UNIT_ID_IPHONE5  (@"a1506f9ab471950")
