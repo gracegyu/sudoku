@@ -314,12 +314,13 @@
 			[self updateButtonClear];
 			[self updateButtonDel];
 			[self updateButtonHint];
+            [self startTimer];          // load 했을 때만 Timer를 시작한다.
 		} else { 
 			[self showMenu];
 		}
 		[self initScore];
 		[self loadScoreData];
-		[self startTimer];
+		//[self startTimer];
 		[self showMemoButton];
 	    [self showHintButton];
 

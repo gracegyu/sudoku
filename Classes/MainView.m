@@ -85,9 +85,9 @@
 #define cCellWidth				(cTableWidth/sudokuGame.size) 
 #define cCellHeight				(cTableHeight/sudokuGame.size) 
 
-#define cLineWidth				1.f*cResizeRatioW
+#define cLineWidth				1.0f*cResizeRatioW
 #define cLineDrawWidth			0.5f*cResizeRatioW
-#define cBoldLine				4.f*cResizeRatioW
+#define cBoldLine				4.0f*cResizeRatioW
 //#define cBorderButton			5
 
 /*
@@ -115,8 +115,8 @@
 	self.tableBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
 	self.selectedTableBgColor = [UIColor whiteColor];
 	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
-	self.HintBgColor = [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:0.2f];
-	self.MemoModeHintBgColor = [UIColor colorWithRed:0.0f green:1.0f blue:0.2f alpha:0.2f];
+	self.HintBgColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:1.0f];
+	self.MemoModeHintBgColor = [UIColor colorWithRed:192.0/256.0 green:243.0/256.0 blue:202.0/256 alpha:1.0f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
 	self.choosingNoColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
 	self.tableLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
