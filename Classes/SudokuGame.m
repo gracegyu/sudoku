@@ -35,6 +35,17 @@
 }
 
 
+- (NSInteger) getDefHintCount:(NSInteger)sizeTable
+{
+#ifdef GTSUDOKU
+    return sizeTable > 6 ? 3 : 2;
+#else
+    return sizeTable > 6 ? 2 : 1;
+#endif
+    
+}
+
+
 
 - (id)initWithSudokuNum:(SudokuNum*)sudoku
 {
@@ -47,7 +58,7 @@
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
-	countHint = cDefaultHintCount;
+	countHint = [self getDefHintCount:size];
 
 	NSInteger num;
     for (int y=0; y<size; y++) {
@@ -97,7 +108,7 @@
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
 	} else {
-		countHint = cDefaultHintCount;
+		countHint = [self getDefHintCount:9];
 	}
 	if ([listItems count] > 11) {
         size = [[listItems objectAtIndex:11] integerValue];

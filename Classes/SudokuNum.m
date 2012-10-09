@@ -78,6 +78,13 @@
     
     [self initMap:defmap];
     [self initNumsUndo];
+    
+#ifdef GTSUDOKU
+    
+    [self initGTSudoku];
+    
+#endif
+    
 }
 
 - (id) init {
@@ -1045,5 +1052,144 @@
 					  
 }
 
+
+#ifdef GTSUDOKU
+
+- (NSInteger) randNum:(NSInteger) num
+{
+    return ((unsigned int)arc4random()) % num;
+}
+
+- (BOOL) isContacted:(NSInteger)x y:(NSInteger)y w:(NSInteger)w h:(NSInteger)h
+{
+    if (arrGT[x][y] != 0)
+        return NO;    
+    
+    if (x > 0 && arrGT[x-1][y] != 0)
+        return YES;
+    if (x < w-1 && arrGT[x+1][y] != 0)
+        return YES;
+    if (y > 0 && arrGT[x][y-1] != 0)
+        return YES;
+    if (y < h-1 && arrGT[x][y+1] != 0)
+        return YES;
+
+    return NO;
+}
+
+
+- (void) setGTNum:(NSInteger)num
+{
+    NSInteger max = wGT*hGT;
+    NSInteger setNum = max - num;
+    NSInteger i;
+    NSInteger x, y;
+    
+    if (num == 0)
+    {
+        arrGT[[self randNum:wGT]][[self randNum:hGT]] = setNum;
+    } else {
+        i = [self randNum:max]+max;
+        
+        for (y=0; i>0;y=(++y % hGT))
+        {
+            for (x=0; x<wGT && i>0;x++)
+            {                
+                if ([self isContacted:x y:y w:wGT h:hGT])
+                {
+                    //NSLog(@"Contacted(%d)(%d)", x, y);
+                    if (--i <= 0)
+                    {
+                        arrGT[x][y] = setNum;
+                    }
+                } else {
+                   // NSLog(@"Not contacted(%d)(%d)", x, y);
+                }
+            }
+        }
+        
+    }
+    
+    
+    
+    NSString *str = [[NSString alloc] init];
+
+    str = [str stringByAppendingString:@"\n----------\n"];
+    for (y=0; y<hGT; y++)
+    {
+        for (x=0; x<wGT; x++)
+        {
+            str = [str stringByAppendingString:@"|"];
+            str = [str stringByAppendingFormat:@"%d", arrGT[x][y]];
+        }
+        str = [str stringByAppendingString:@"|\n"];
+        str = [str stringByAppendingString:@"----------\n"];
+    }
+    NSLog(@"%@", str);
+}
+
+
+- (void) getGTBase
+{
+    memset(&arrGT, 0, sizeof(arrGT));
+    if (size == SIZE_9)
+    {
+        wGT = 3;
+        hGT = 3;
+    } else {    // SIZE_6
+        wGT = 3;
+        hGT = 2;
+    }
+    
+    for (int i=0; i<wGT*hGT; i++)
+    {
+        [self setGTNum:i];
+    }
+}
+
+// Greater than sudoku를 위한 초기화
+NSInteger Rand123[6][3] = {
+    {0,1,2},
+    {0,2,1},
+    {1,0,2},
+    {1,2,0},
+    {2,0,1},
+    {2,1,0}
+};
+
+NSInteger Rand12[2][3] = {
+    {0,1,2},
+    {1,0,2}
+};
+
+
+//- (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+
+- (void) initGTSudoku
+{
+    
+    NSInteger baseCount = (size == SIZE_9) ? 3 : 2; // very hard는 2:1로?
+    
+    NSInteger* arrX = Rand123[[self randNum:6]];
+    NSInteger* arrY = (size == SIZE_9) ?
+                        Rand123[[self randNum:6]]:
+                        Rand12[[self randNum:2]];
+    
+    for (int i=0; i<baseCount; i++)
+    {
+        [self getGTBase];
+        for (int y=0; y<hGT; y++)
+        {
+            for (int x=0; x<wGT; x++)
+            {
+                [self setCell:arrGT[x][y] xPos:arrX[i]*wGT+x yPos:arrY[i]*hGT+y];
+                [self printNums];
+            }
+        }
+    }
+}
+
+
+#endif
 
 @end

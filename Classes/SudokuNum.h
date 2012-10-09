@@ -30,6 +30,12 @@
     NSInteger       numBackTracking;
 	
 	// 숫자 array 로 변환
+#ifdef GTSUDOKU
+    NSInteger       arrGT[3][3];
+    NSInteger       wGT;
+    NSInteger       hGT;
+#endif
+    
 }
 
 @property (nonatomic, assign) NSMutableArray	*nums;
@@ -60,5 +66,6 @@
 - (void) loadData;
 - (CGPoint) undoSet:(NSInteger)num;
 - (void) countCell;
+- (void) initGTSudoku;
    
 @end
