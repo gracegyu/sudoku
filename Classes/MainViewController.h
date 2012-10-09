@@ -56,6 +56,7 @@
 	
 	UIButton	*buttonNew;
 	UIButton	*buttonUndo;
+	UIButton	*buttonRedo;
 	UIButton	*buttonMemo;
 	UIButton	*buttonDel;
 	UIButton	*buttonReset;
@@ -104,6 +105,7 @@
 
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNew;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonUndo;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonRedo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMemo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonScore;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
@@ -124,6 +126,7 @@
 
 - (IBAction)showScoreView;
 - (IBAction)runUndo;
+- (IBAction)runRedo;
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;

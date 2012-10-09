@@ -25,7 +25,8 @@
 - (void)dealloc {
 	[strUndo release];
     [map release];
-	
+// zzz release nums
+    
 	[super dealloc];
 }
 
@@ -683,6 +684,18 @@
 	return bRet;
 }
 
+- (void) setCellAutoFixedForced:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+    
+	NSMutableArray *array = self.nums;
+	
+	NSString *str = [[NSString alloc] initWithFormat:@"%d~", num];
+	[[array objectAtIndex:xPos] replaceObjectAtIndex:yPos withObject:str];
+	[str release];
+}
+
+
+
 - (BOOL) setCellAuto:(NSInteger)handy;
 {
 	NSMutableArray *array = self.nums;	
@@ -695,7 +708,24 @@
 	
     
     // Handy 적용하다가 무한루프에 빠질 수 있음... 
-	if (countNotFixed == 0) {	// last time
+	if (countNotFixed == 0) {	// last time, Handy 적용한다.
+#ifdef GTSUDOKU 
+        // 일단 여기서 모든 셀을 AutoCell로 지정한다.
+        for (int y=0; y<size; y++)
+        {
+            for (int x=0; x<size; x++)
+            {
+                str = [[array objectAtIndex:x] objectAtIndex:y];
+                if ([SudokuNum fixedByUser:str] == YES)
+                {
+                    unichar c = [str characterAtIndex:0];
+                    [self setCellAutoFixedForced:(NSInteger)(c - '0') xPos:x yPos:y];
+                }
+            }
+        }	
+        
+        
+#endif
 		for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++) {
 			valRand = arc4random();	
 			numRandom = valRand % countAutoFixed;
@@ -723,8 +753,9 @@
 			[self countCell];
             if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
                 NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
-		}		
-		return NO;
+
+		}
+		return NO;  // 게임 생성 완성
 	}	
 	bOkAutoSet = YES;
 	numSetCell = 0;
@@ -794,6 +825,7 @@
 	
 	return YES;
 }
+
 
 
 

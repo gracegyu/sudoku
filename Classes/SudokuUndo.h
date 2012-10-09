@@ -1,0 +1,56 @@
+//
+//  SudokuUndo.h
+//  sudokuall
+//
+//  Created by Raymond on 10/9/12.
+//
+//
+
+#import <Foundation/Foundation.h>
+
+enum UNDOMODE {
+    UNDOMODE_NUM_ADD = 0,   // 숫자 입력
+    UNDOMODE_NUM_DEL,       // 숫자 삭제
+    UNDOMODE_MEMO_ADD,      // 메모 입력
+    UNDOMODE_MEMO_DEL       // 메모 입력
+};
+
+@interface UndoData : NSObject
+{
+    enum UNDOMODE mode;
+    NSInteger x;
+    NSInteger y;
+    NSInteger oldnum;       // 숫자 입력에만 쓰임
+    NSInteger num;          // 4가지 모드에서 모두 쓰임
+}
+
+@property enum UNDOMODE mode;
+@property NSInteger x;
+@property NSInteger y;
+@property NSInteger oldnum;
+@property NSInteger num;
+
+@end
+
+
+@interface SudokuUndo : NSObject
+{
+    NSInteger       indexUndo;
+    NSInteger       count;
+	NSMutableArray	*arrayUndo;
+}
+
+@property NSInteger       count;
+
+
+- (NSInteger) countUndo;    // undo 가능 수
+- (NSInteger) countRedo;    // redo 가능 수
+- (void) addNum:(NSInteger)num oldnum:(NSInteger)oldnum x:(NSInteger)x y:(NSInteger)y;
+- (void) delNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) getUndo:(UndoData*)undo;
+- (BOOL) getRedo:(UndoData*)undo;
+- (void) clear;
+
+@end

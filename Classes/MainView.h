@@ -14,7 +14,8 @@
 @interface MainView : UIView {
     UIColor	*tableBgColor;
     UIColor	*selectedTableBgColor;
-	UIColor *selectedTableBorderColor;
+	UIColor *selectedCellBorderColor;
+	UIColor *selectedMemoModeCellBorderColor;
     UIColor	*HintBgColor;
     UIColor	*MemoModeHintBgColor;
 	UIColor *choosingOkColor;
@@ -65,6 +66,7 @@
 	BOOL bMemoMode;
 	BOOL bMenuMode;
 	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
+    BOOL bHoldAndChoice;
 
 	BOOL bSettingSoundOff;						// 소리를 켤까요?
     BOOL bSettingGuideline;
@@ -80,7 +82,9 @@
 
 @property (nonatomic, retain) UIColor *tableBgColor;
 @property (nonatomic, retain) UIColor *selectedTableBgColor;
-@property (nonatomic, retain) UIColor *selectedTableBorderColor;
+@property (nonatomic, retain) UIColor *selectedCellBorderColor;
+@property (nonatomic, retain) UIColor *selectedMemoModeCellBorderColor;
+
 @property (nonatomic, retain) UIColor *HintBgColor;
 @property (nonatomic, retain) UIColor *MemoModeHintBgColor;
 @property (nonatomic, retain) UIColor *choosingOkColor;
@@ -131,6 +135,7 @@
 //@property UIInterfaceOrientation	lastOrientation;
 
 - (void) runUndo;
+- (void) runRedo;
 - (BOOL) memoOnOff;
 - (void) delNumber;
 - (void) clearNumbers;

@@ -15,7 +15,8 @@
 @implementation MainView
 @synthesize tableBgColor;
 @synthesize selectedTableBgColor;
-@synthesize selectedTableBorderColor;
+@synthesize selectedCellBorderColor;
+@synthesize selectedMemoModeCellBorderColor;
 @synthesize HintBgColor;
 @synthesize MemoModeHintBgColor;
 @synthesize choosingOkColor;
@@ -88,25 +89,12 @@
 #define cLineWidth				1.0f*cResizeRatioW
 #define cLineDrawWidth			0.5f*cResizeRatioW
 #define cBoldLine				4.0f*cResizeRatioW
-//#define cBorderButton			5
 
-/*
-#define cButtonSmallFontSize        30*cResizeRatioW
-#define cButtonBigFontSize          40*cResizeRatioW
-#define cButtonTextFontSize         20*cResizeRatioW
-#define cButtonMemoSmallFontSize	25*cResizeRatioW
-#define cButtonMemoBigFontSize		35*cResizeRatioW
-#define cButtonMemoTextFontSize		17*cResizeRatioW
-
-#define cCellOneSmallFontSize       27*cResizeRatioW
-#define cCellOneBigFontSize         36*cResizeRatioW
-#define cCellTwoFontSize            20*cResizeRatioW
-#define cCellFourFontSize           15*cResizeRatioW
-#define cCellNineFontSize           11*cResizeRatioW
-*/
 #define fontAdjust   0.60
 
-
+#define bSettingCompareWarning      bSettingDuplicationWarning
+#define GTDEPTH 0.10
+#define GTWIDTH 0.30
 
 - (void)initData
 {
@@ -114,7 +102,9 @@
 	
 	self.tableBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
 	self.selectedTableBgColor = [UIColor whiteColor];
-	self.selectedTableBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
+	self.selectedCellBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
+	self.selectedMemoModeCellBorderColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:0.8f];
+    
 	self.HintBgColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:1.0f];
 	self.MemoModeHintBgColor = [UIColor colorWithRed:192.0/256.0 green:243.0/256.0 blue:202.0/256 alpha:1.0f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
@@ -145,10 +135,14 @@
     self.bSettingGuideline = YES;
     self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
+#ifdef GTSUDOKU
+    self.bSettingDefMap = YES;
+#else
 #ifdef SUDOKU6
     self.bSettingDefMap = NO;
-#else
+#else  // SODUKU9
     self.bSettingDefMap = YES;
+#endif
 #endif
 	
 //	self.fPress = 1.f;
@@ -313,13 +307,14 @@
 }
 
 
+
 - (void)drawRectTableLine:(CGContextRef) context
 {
 	int x,y,i,j;
-	
-    CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
-    CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
-
+#ifdef GTSUDOKU
+    BOOL bGT, bUserGT;
+#endif
+    
     CGContextSetLineCap(context, kCGLineCapRound);
     
     // 수직선
@@ -328,11 +323,46 @@
 		x = cTableStartX + i*cCellWidth;
         for (j=0; j<sudokuGame.size; j++)
         {
+            CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
+            CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
+
             y = cTableStartY + j*cCellHeight;
 			CGContextMoveToPoint(context, x, y);
-            CGContextAddLineToPoint(context, x, y+cCellHeight);
-            CGContextSetLineWidth(context, [sudokuGame isSameMap:i-1 y:j x2:i y2:j] ? cLineDrawWidth : cBoldLine);
-            CGContextStrokePath(context);
+            if ([sudokuGame isSameMap:i-1 y:j x2:i y2:j])
+            {
+#ifdef GTSUDOKU
+
+                bGT = [sudokuGame getAnswerNums:i-1 y:j] > [sudokuGame getAnswerNums:i y:j];
+                
+                
+                // 부등호 오류 표시
+                if (bSettingCompareWarning)
+                {
+                    if ([sudokuGame getDisplayNum:i-1 y:j] && [sudokuGame getDisplayNum:i y:j])
+                    {
+                        bUserGT = [sudokuGame getDisplayNum:i-1 y:j] > [sudokuGame getDisplayNum:i y:j];
+                        if (bGT != bUserGT)
+                        {
+                            CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
+                            CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
+                        }
+                        
+                    }
+                }
+                CGContextAddLineToPoint(context, x, y+cCellHeight*GTWIDTH);
+                CGContextAddLineToPoint(context, x+(bGT?GTDEPTH:-GTDEPTH)*cCellWidth, y+cCellHeight*0.5);
+                CGContextAddLineToPoint(context, x, y+cCellHeight*(1-GTWIDTH));
+#endif
+                CGContextAddLineToPoint(context, x, y+cCellHeight);
+                CGContextSetLineWidth(context, cLineDrawWidth);
+                CGContextStrokePath(context);
+                
+                
+            } else {
+                CGContextAddLineToPoint(context, x, y+cCellHeight);
+                CGContextSetLineWidth(context, cBoldLine);
+                CGContextStrokePath(context);
+            }
 		}
 	}
 
@@ -342,11 +372,38 @@
 		y = cTableStartY + i*cCellHeight;
         for (j=0; j<sudokuGame.size; j++)
         {
+            CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
+            CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
+
             x = cTableStartX + j*cCellWidth;
 			CGContextMoveToPoint(context, x, y);
-            CGContextAddLineToPoint(context, x+cCellWidth, y);
-            CGContextSetLineWidth(context, [sudokuGame isSameMap:j y:i-1 x2:j y2:i] ? cLineDrawWidth : cBoldLine);
-            CGContextStrokePath(context);
+            if ([sudokuGame isSameMap:j y:i-1 x2:j y2:i])
+            {
+#ifdef GTSUDOKU
+                bGT = [sudokuGame getAnswerNums:j y:i-1] > [sudokuGame getAnswerNums:j y:i];
+                if ([sudokuGame getDisplayNum:j y:i-1] && [sudokuGame getDisplayNum:j y:i])
+                {
+                    bUserGT = [sudokuGame getDisplayNum:j y:i-1] > [sudokuGame getDisplayNum:j y:i];
+                    if (bGT != bUserGT)
+                    {
+                        CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
+                        CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
+                    }
+                    
+                }
+
+                CGContextAddLineToPoint(context, x+cCellWidth*GTWIDTH, y);
+                CGContextAddLineToPoint(context, x+cCellWidth*0.5, y+(bGT?GTDEPTH:-GTDEPTH)*cCellHeight);
+                CGContextAddLineToPoint(context, x+cCellWidth*(1-GTWIDTH), y);
+#endif
+                CGContextAddLineToPoint(context, x+cCellWidth, y);
+                CGContextSetLineWidth(context, cLineDrawWidth);
+                CGContextStrokePath(context);
+            } else {
+                CGContextAddLineToPoint(context, x+cCellWidth, y);
+                CGContextSetLineWidth(context, cBoldLine);
+                CGContextStrokePath(context);
+            }
 		}
 	}
 	
@@ -424,22 +481,26 @@
     int len = strlen(memo);
 	int i = 0;
 	int x, y;
-    int count = (len <= 4 ? 2 : 3);
-    CGFloat margin = 0.05f;
-    
+    int countW = (len <= 4 ? 2 : 3);
+    int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
+#ifdef GTSUDOKU
+    CGFloat margin = 0.15f;
+#else
+    CGFloat margin = 0.10f;
+#endif
 	
-	for (y=0; y<count; y++)
+	for (y=0; y<countH; y++)
 	{
-		for (x=0; x<count; x++)
+		for (x=0; x<countW; x++)
 		{
 			if (i < len)
 			{
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
-                             rect:CGRectMake(rect.origin.x+rect.size.width*margin+(rect.size.width*(1-2*margin))*x/count,
-                                             rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/count,
-                                             (rect.size.width*(1-2*margin))/count,
-                                             (rect.size.height*(1-2*margin))/count)
+                             rect:CGRectMake(rect.origin.x+rect.size.width*margin+(rect.size.width*(1-2*margin))*x/countW,
+                                             rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/countH,
+                                             (rect.size.width*(1-2*margin))/countW,
+                                             (rect.size.height*(1-2*margin))/countH)
                             color:candidateColor.CGColor
                              font:len <= 4 ? cellFourFont : cellNineFont];
                 i++;
@@ -458,12 +519,12 @@
     int x, y;
     for (x = 0, y = yPos; x < sudokuGame.size; x++)
     {
-        if (x != xPos && [sudokuGame getDisplayNums:x y:y] == fixNum) 
+        if (x != xPos && [sudokuGame getDisplayNum:x y:y] == fixNum) 
             return true;
     }
     for (x = xPos, y = 0; y < sudokuGame.size; y++)
     {
-        if (y != yPos && [sudokuGame getDisplayNums:x y:y] == fixNum) 
+        if (y != yPos && [sudokuGame getDisplayNum:x y:y] == fixNum) 
             return true;
     }
     
@@ -474,7 +535,7 @@
         {
             if ((x != xPos || y != yPos) &&
                 [sudokuGame isSameMap:x y:y x2:xPos y2:yPos] == YES &&
-                [sudokuGame getDisplayNums:x y:y] == fixNum)
+                [sudokuGame getDisplayNum:x y:y] == fixNum)
             {
                 return true;
             }
@@ -528,6 +589,9 @@
 	} else if (fixNum > 0)	{		// 사용자가 입력해 넣은 번호
         BOOL bConflict = bSettingDuplicationWarning == YES && [self conflictCell:xPos yPos:yPos];
         
+//        if ([sudokuGame checkGreatThan:xPos y:yPos] == NO)  // 부등호 오류 표시
+//            bConflict = YES;
+        
 		[self drawRectCellOneUserFixed:context num:fixNum rect:rect dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
 	} else if (pMemo) {
 		// 메모 중인 번호 
@@ -578,18 +642,72 @@
 
 
 - (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
-{
-    CGRect currentRect;
+{    
+    NSLog(@"drawOneCellBackground(%d,%d)", x, y);
+    
     NSInteger xPos = cTableStartX + x*cCellWidth;
     NSInteger yPos = cTableStartY + y*cCellHeight;
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, color.CGColor);
     CGContextSetFillColorWithColor(context, color.CGColor);
-    currentRect = CGRectMake (xPos,yPos,cCellWidth-1,cCellHeight-1);
     
+    CGContextBeginPath(context);
+
+#ifdef GTSUDOKU
+    BOOL bGT;
+    
+//    if (x != 4 || y != 3) return;
+    CGContextMoveToPoint(context, xPos, yPos);
+    // 시계 방향으로 회전
+    
+    if (y > 0 && [sudokuGame isSameMap:x y:y x2:x y2:y-1])
+    {
+        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y-1];
+        CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos);
+        CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? 0-GTDEPTH : GTDEPTH));
+        CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos);
+    }
+    CGContextAddLineToPoint(context, xPos+cCellWidth, yPos);
+    
+    if (x < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x+1 y2:y])
+    {
+        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x+1 y:y];
+        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*GTWIDTH);
+        CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)), yPos+cCellHeight*0.5);
+        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*(1-GTWIDTH));
+    }
+    CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight);
+    
+    if (y < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x y2:y+1])
+    {
+        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y+1];
+        CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos+cCellHeight);
+        CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)));
+        CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos+cCellHeight);
+    }
+    CGContextAddLineToPoint(context, xPos, yPos+cCellHeight);
+    
+    if (x > 0 && [sudokuGame isSameMap:x y:y x2:x-1 y2:y])
+    {
+        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x-1 y:y];
+        CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*(1-GTWIDTH));
+        CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? 0-GTDEPTH : GTDEPTH), yPos+cCellHeight*0.5);
+        CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*GTWIDTH);
+    }
+    CGContextAddLineToPoint(context, xPos, yPos);
+    
+    CGContextClosePath(context);
+    CGContextDrawPath(context, kCGPathFillStroke);
+
+#else
+    CGRect currentRect;
+    currentRect = CGRectMake(xPos,yPos,cCellWidth-1,cCellHeight-1);
     CGContextAddRect(context, currentRect);
     CGContextDrawPath(context, kCGPathFillStroke);
+#endif
+
+
 }
 
 - (BOOL) isSameMapWithSelectedCell:(NSInteger)x y:(NSInteger)y
@@ -607,7 +725,7 @@
 
 
 
-- (void) drawHintBackground:(CGContextRef)context
+- (void) drawGuidelineBackground:(CGContextRef)context
 {
     if (bSettingGuideline == NO)
         return;
@@ -616,9 +734,9 @@
         selectedYPos < 0 || selectedYPos >= sudokuGame.size)	// no selectec cell
 		return;
     
-	for (int x=0; x<sudokuGame.size; x++)
+    for (int y=0; y<sudokuGame.size; y++)
     {
-        for (int y=0; y<sudokuGame.size; y++)
+        for (int x=0; x<sudokuGame.size; x++)
         {
             // 같은 맵 영역 같은 색으로 칠하기
             if (selectedXPos == x ||
@@ -645,9 +763,9 @@
         for (int y=0; y<sudokuGame.size; y++)
         {
             // 같은 숫자는 충돌이 되므로 바탕을 다르게 표시하기
-            if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] > 0)
+            if ([sudokuGame getDisplayNum:selectedXPos y:selectedYPos] > 0)
             {
-                if ([sudokuGame getDisplayNums:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNums:x y:y])
+                if ([sudokuGame getDisplayNum:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNum:x y:y])
                 {
                     [self drawOneCellBackground:context color:selectedTableBgColor x:x y:y];
                 }
@@ -661,7 +779,8 @@
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
-		CGRect currentRect;
+        [self drawOneCellBackground:context color:selectedTableBgColor x:selectedXPos y:selectedYPos];
+/*		CGRect currentRect;
 		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;
 		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
         
@@ -672,6 +791,7 @@
 		
 		CGContextAddRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);
+*/ 
 	}
 	
 }
@@ -687,7 +807,10 @@
 		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
 		
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
-		CGContextSetStrokeColorWithColor(context, selectedTableBorderColor.CGColor);
+		CGContextSetStrokeColorWithColor(context,
+                                         bMemoMode ?
+                                         selectedMemoModeCellBorderColor.CGColor :
+                                         selectedCellBorderColor.CGColor);
 		currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
                                   cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
 		
@@ -702,8 +825,14 @@
     return [self getNumButtonAreaX]/[self getNumButtonAreaY] > 1.5;
 }
 
+#ifdef SUDOKU9
 #define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
 #define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
+#else // SUDOKU6
+#define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/4.3:[self getNumButtonAreaW]/3.1)
+#define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.9:[self getNumButtonAreaH]/3.1)
+#endif
+
 #define cDistXButton cButtonWidth/2
 #define cDistYButton cButtonHeight
 
@@ -863,7 +992,7 @@
 		y = [self buttonYCenter:i] - cButtonHeight/2; 
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
-		if (bMemoNum && i>0 && i<10 && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
+		if (bMemoNum && i>0 && i<=sudokuGame.size && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
 		{
 			CGContextSetStrokeColorWithColor(context, pressedButtonColor.CGColor);
 			CGContextSetFillColorWithColor(context, pressedButtonColor.CGColor);
@@ -878,10 +1007,10 @@
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
 
-		if ((bPuzzleNum && pushedButton != 10) || i != pushedButton)
+		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
             CGColorRef color;
-            if (bPuzzleNum && i < 10)	{
+            if (bPuzzleNum && i <= sudokuGame.size)	{
 				color = bgButtonColor.CGColor;
 			} else {
 				color = bMemoMode ? memoButtonColor.CGColor : numButtonColor.CGColor;
@@ -897,7 +1026,7 @@
 	}
 
 	if ((bPuzzleNum == NO) &&
-		pushedButton > 0 && pushedButton < 10)
+		pushedButton > 0 && pushedButton <= sudokuGame.size)
 	{
 		i = pushedButton;
 		x = [self buttonXCenter:i] - cButtonWidth/2; 
@@ -1062,8 +1191,14 @@
                     } else {
                         if (bMemoMode) {
                             if (buttonNum > 0) {
-                                [sudokuGame cancelFixNums:selectedXPos y:selectedYPos];
-                                [sudokuGame revertMemoNums:buttonNum x:selectedXPos y:selectedYPos];
+                                if ([sudokuGame getFixNums:selectedXPos y:selectedYPos] > 0)
+                                {
+                                    [sudokuGame cancelFixNums:selectedXPos y:selectedYPos];
+                                    [sudokuGame addMemoNums:buttonNum x:selectedXPos y:selectedYPos];
+                                } else {
+                                    [sudokuGame revertMemoNums:buttonNum x:selectedXPos y:selectedYPos];
+                            
+                                }
                             }
                         } else {
                             NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
@@ -1126,9 +1261,9 @@
 
 - (void) runUndo
 { 
-	NSLog(@"sudokuGame.strUndo.length = %d", sudokuGame.strUndo.length);
+	NSLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
 	
-	if (sudokuGame.gameFinished || sudokuGame.strUndo.length == 0)
+	if (sudokuGame.gameFinished || [sudokuGame.sudokuUndo countUndo] == 0)
 		return;
 	
 	
@@ -1139,12 +1274,35 @@
 	{
 		selectedXPos = (NSInteger) pointLastUndoPos.x;
 		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        [self playSound:soundClickID];
 	}
 
-	[self playSound:soundClickID];
 	
 	[self setNeedsDisplay];
 }
+
+- (void) runRedo
+{
+	NSLog(@"[sudokuGame.sudokuUndo countRddo] = %d", [sudokuGame.sudokuUndo countRedo]);
+	
+	if (sudokuGame.gameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
+		return;
+	
+	
+	CGPoint pointLastUndoPos = [sudokuGame runRedo];
+    
+	
+	if (pointLastUndoPos.x >= 0 && pointLastUndoPos.y >= 0)
+	{
+		selectedXPos = (NSInteger) pointLastUndoPos.x;
+		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        [self playSound:soundClickID];
+	}
+    
+	
+	[self setNeedsDisplay];
+}
+
 
 - (BOOL) memoOnOff
 {
@@ -1225,6 +1383,20 @@
 }
 
 
+#ifdef GTSUDOKU
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 2, 4, 7, 10 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 4, 15, 24, 45 }  // 9
+};
+#else
 static int	HandyCount[][5] = {
     { 0, 0, 0, 0, 0 },   // 0
     { 0, 0, 0, 0, 0 },   // 1
@@ -1237,6 +1409,7 @@ static int	HandyCount[][5] = {
     { 0, 4, 9, 18, 25 }, // 8
     { 0, 5, 10, 24, 37 } // 9
 };
+#endif
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
@@ -1309,10 +1482,14 @@ static int	HandyCount[][5] = {
     [ctrl updateButtonDel];
     [ctrl updateButtonHint];
 
-    [self setNeedsDisplay];
 
     timerTouch = nil;
     bPressedInButton = NO;
+    bHoldAndChoice = YES;       // 누르고 있는 버튼을 크게 표시한다.
+    pushedButton = pressedButtonNum;
+
+    [self setNeedsDisplay];
+
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -1331,7 +1508,7 @@ static int	HandyCount[][5] = {
         pressedButtonNum = buttonNum;
         if (bMemoMode)
         {
-            timerTouch = [NSTimer scheduledTimerWithTimeInterval:0.5
+            timerTouch = [NSTimer scheduledTimerWithTimeInterval:TIME_HOLDANDCHOICE
                                                          target:self
                                                        selector:@selector(OnTimer:)
                                                        userInfo:nil
@@ -1385,6 +1562,7 @@ static int	HandyCount[][5] = {
     }
 
 	bTouch = NO;
+    bHoldAndChoice = NO;
 	
 	[self touchesDo:touches bEnd:YES];
 	bPressedInButton = NO;
@@ -1449,8 +1627,8 @@ static int	HandyCount[][5] = {
 #define cCellOneBigFontSize         (1.0f * MINWHT) //36*cResizeRatioW
 #define cCellOneSmallFontSize       (0.8f * MINWHT) //27*cResizeRatioW
 #define cCellTwoFontSize            (0.9f * MINWHT / 2) //20*cResizeRatioW
-#define cCellFourFontSize           (0.8f * MINWHT / 2) //15*cResizeRatioW
-#define cCellNineFontSize           (1.0f * MINWHT / 3) //11*cResizeRatioW
+#define cCellFourFontSize           (0.9f * MINWHT / 2) //15*cResizeRatioW
+#define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
@@ -1500,7 +1678,7 @@ static int	HandyCount[][5] = {
     [self setFont];
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
-	[self drawHintBackground:context];          // 힌트 바탕 색
+	[self drawGuidelineBackground:context];          // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
 	[self drawRectTableLine:context];           // 테이블 라인 긎기

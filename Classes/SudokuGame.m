@@ -12,7 +12,8 @@
 
 @implementation SudokuGame
 
-@synthesize strUndo;
+//@synthesize strUndo;
+@synthesize sudokuUndo;
 @synthesize size;
 @synthesize gameLevel;
 @synthesize startTime;
@@ -23,6 +24,17 @@
 @synthesize countFixNums;
 @synthesize countHint;
 
+- (void)dealloc
+{
+    
+    [sudokuUndo release];
+//	[strUndo release];
+    
+	
+	[super dealloc];
+}
+
+
 
 - (id)initWithSudokuNum:(SudokuNum*)sudoku
 {
@@ -30,7 +42,7 @@
 		return nil;
 	
     size = [sudoku getCellSize];
-	gameLevel = GAMELEVEL_NORMAL;
+	gameLevel = GAMELEVEL_NORMAL;       // default
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
@@ -45,18 +57,21 @@
             
             if ([sudoku fixedByUser:x y:y]) {		// fixed cell
 				puzzleNums[x][y] = num;
-				answerNums[x][y] = 0;
+				answerNums[x][y] = num; // 0
 			} else {
                 NSAssert(num > 0, @"Puzzlenum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
+            
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
 		}
 	}		
 	
-	strUndo = [[NSString alloc] initWithString:@""];
+//	strUndo = [[NSString alloc] initWithString:@""];
+    sudokuUndo = [[SudokuUndo alloc] init];
+    
 	[self saveData];
 	
 	return self;
@@ -77,7 +92,8 @@
 	gameTime = [[listItems objectAtIndex:3] floatValue];
 	gameFinished = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
 
-	strUndo = [[NSString alloc] initWithString:[listItems objectAtIndex:9]];
+//	strUndo = [[NSString alloc] initWithString:[listItems objectAtIndex:9]];
+    sudokuUndo = [[SudokuUndo alloc] init];
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
 	} else {
@@ -121,9 +137,11 @@
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
 		}
-	}		
-	[strUndo release];
-	strUndo = [[NSString alloc] initWithString:@""];
+	}
+    [sudokuUndo clear];
+
+//	[strUndo release];
+//	strUndo = [[NSString alloc] initWithString:@""];
 	[self saveData];
 }
 
@@ -132,7 +150,7 @@
 	NSInteger num = 0;
 	for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
-			if (answerNums[x][y] > 0 && fixNums[x][y] == 0)
+			if (puzzleNums[x][y] == 0 && fixNums[x][y] == 0)
 				num++;
 		}
 	}	
@@ -158,48 +176,165 @@
 }
 
 
+#ifdef GTSUDOKU
+
+- (BOOL) checkGreatThan:(NSInteger)xPos y:(NSInteger)yPos
+{
+    NSInteger numCheck = fixNums[xPos][yPos];
+    NSInteger numCompare;
+    int x, y;
+    BOOL bCheck;
+    BOOL bCompare;
+    
+    x = xPos;
+    y = yPos;
+    if (x > 0 && [self isSameMap:xPos y:yPos x2:x-1 y2:y])  // 왼쪽
+    {
+        bCheck = answerNums[x][y] > answerNums[x-1][y];     // 문제로 제시한 부등호
+        numCompare = [self getDisplayNum:x-1 y:y];
+        bCompare = numCheck > numCompare;
+        if (numCompare && bCheck != bCompare)
+        {
+            return NO;  // 부등호가 안맞다.
+        }
+    }
+    if (x < size-1 && [self isSameMap:xPos y:yPos x2:x+1 y2:y])  // 오른쪽
+    {
+        bCheck = answerNums[x][y] > answerNums[x+1][y];     // 문제로 제시한 부등호
+        numCompare = [self getDisplayNum:x+1 y:y];    // 화면의 숫자
+        bCompare = numCheck > numCompare;
+        if (numCompare && bCheck != bCompare)
+            return NO;  // 부등호가 안맞다.
+    }
+    if (y > 0 && [self isSameMap:xPos y:yPos x2:x y2:y-1])  // 위쪽
+    {
+        bCheck = answerNums[x][y] > answerNums[x][y-1];     // 문제로 제시한 부등호
+        numCompare = [self getDisplayNum:x y:y-1];    // 화면의 숫자
+        bCompare = numCheck > numCompare;
+        if (numCompare && bCheck != bCompare)
+            return NO;  // 부등호가 안맞다.
+    }
+    if (y < size-1 && [self isSameMap:xPos y:yPos x2:x y2:y+1])  // 아래쪽
+    {
+        bCheck = answerNums[x][y] > answerNums[x][y+1];     // 문제로 제시한 부등호
+        numCompare = [self getDisplayNum:x y:y+1];    // 화면의 숫자
+        bCompare = numCheck > numCompare;
+        if (numCompare && bCheck != bCompare)
+            return NO;  // 부등호가 안맞다.
+    }
+
+    return YES;
+}
+
+    
+- (BOOL) checkCorrect:(NSInteger)xPos y:(NSInteger)yPos
+{
+    NSInteger numCheck = fixNums[xPos][yPos];
+    NSInteger numCompare;
+    int x, y;
+
+    
+    if (puzzleNums[xPos][yPos] > 0)
+        return YES; // 문제는 언제나 참
+    
+    if (numCheck == 0)
+        return YES; // 아직 끝난 게임이 아님
+    
+    //가로,세로,Map 같은 숫자 비교
+    for (y=0; y<size; y++) {
+		for (x=0; x<size; x++) {
+            if (x == xPos && y == yPos)
+                continue;   // 같은 셀은 비교할 필요가 없음
+            if (x == xPos || y == yPos || [self isSameMap:xPos y:yPos x2:x y2:y])   // 중복되면 안되는 셀
+            {
+                numCompare = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
+                if (numCheck == numCompare)
+                    return NO;  // 중복된 셀이 출현했다.
+            }
+        }
+    }
+
+    if ([self checkGreatThan:xPos y:yPos] == NO)
+        return NO;
+    
+    return YES;
+}
+#endif
+
+
 - (NSInteger) clearGame
 {
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
-	
-	for (int y=0; y<size; y++) {
+#ifdef GTSUDOKU
+    NSInteger strangeCells = 0;
+#endif
+    
+    for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
-			if (fixNums[x][y] == 0 && answerNums[x][y] != 0) {
+			if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0) {
 				NSLog(@"unFixedCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				unfixedCells++;
 			}
-			
-			if (answerNums[x][y] > 0 && answerNums[x][y] !=	fixNums[x][y]) {
+        }
+    }
+    if (unfixedCells > 0)
+		return -1; // not fixed yet;
+    
+	for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
+#ifdef GTSUDOKU // 답이 2개일지도 모르니
+			if (puzzleNums[x][y] == 0)
+            {
+                if ([self checkCorrect:x y:y] == NO)
+                {
+                    NSLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                    wrongCells++;
+                } else {
+                    if (answerNums[x][y] != fixNums[x][y])
+                    {
+                        strangeCells++;
+                        NSLog(@"StangeCell 발견");
+                        
+                        NSString *msg = [[NSString alloc] initWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
+                                         x, y, answerNums[x][y], fixNums[x][y]];
+
+                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert!"
+                                                                        message:msg
+                                                                       delegate:self
+                                                              cancelButtonTitle:@"Ok"
+                                                              otherButtonTitles:nil];
+                        [msg release];
+                        [alert show];
+                        [alert release];
+                        
+                        
+                        
+                    }
+                }
+                
+			}
+#else
+			if (puzzleNums[x][y] == 0 && answerNums[x][y] != fixNums[x][y]) {
 				NSLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				wrongCells++;
 			}
+#endif
 		}
 	}	
 	
-	if (unfixedCells > 0)
-		return -1; // not fixed yet;
-	else if (wrongCells > 0)
+
+	if (wrongCells > 0)
 		return wrongCells;	// You've finisehd but You have wrong cell;
 	
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameFinished = YES;
-	// zzzzz    should lock the game
-	
-//	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-//	[ctrl writeScoreAfterFinishGame:self];
 
 	[self saveData];
 	return 0;	
 }
 
 
-- (void)dealloc {
-
-	[strUndo release];
-	
-	[super dealloc];
-}
 
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 {
@@ -216,6 +351,22 @@
 	return puzzleNums[x][y];
 }
 
+- (NSInteger) getAnswerNums:(NSInteger)x y:(NSInteger)y
+{
+    return answerNums[x][y];
+}
+
+- (NSInteger) getDisplayNum:(NSInteger)x y:(NSInteger)y
+{
+    if (puzzleNums[x][y])
+        return puzzleNums[x][y];
+    else if (fixNums[x][y])
+        return fixNums[x][y];
+    else
+        return 0;
+
+}
+
 - (BOOL) isPuzzleNum:(NSInteger)x y:(NSInteger)y
 {
 	return puzzleNums[x][y] > 0;
@@ -226,18 +377,15 @@
 	return fixNums[x][y];	
 }
 
-- (NSInteger) getDisplayNums:(NSInteger)x y:(NSInteger)y
-{
-	return fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];	
-}
 
 
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y
 {
 	if (puzzleNums[x][y] == 0)
 	{
-		puzzleNums[x][y] = answerNums[x][y];
-		answerNums[x][y] = 0;		
+		fixNums[x][y] = answerNums[x][y];
+//		puzzleNums[x][y] = answerNums[x][y];
+		//answerNums[x][y] = 0;
 	}	
 }
 
@@ -251,12 +399,16 @@
 	if (fixNums[x][y] == num)
 		return;
 
+    if (num == 0)   // del num
+    {
+        [sudokuUndo delNum:fixNums[x][y] x:x y:y];
+    } else {
+        [sudokuUndo addNum:num oldnum:fixNums[x][y] x:x y:y];
+    }
 	fixNums[x][y] = num;
-//	if (num > 0)							// 숫자를 지정했으니 후보 숫자는 제거?
-//		[self clearMemoNums:x y:y];
-	// 주변 후보 자동으로 뺴기 기능 ? 옵션 처리
+
 	
-	[self addUndoLog:num xPos:x yPos:y];
+//	[self addUndoLog:num xPos:x yPos:y];
 	
 	[self saveData];
 }
@@ -303,6 +455,9 @@
 	char c = num + '0';
 	char cTemp;
 	
+    if (strchr(s, c))
+        return;         // 이미 있는 번호
+    
 	for (p = s; *p && *p < c; p++) {}
 	
 	do {
@@ -340,8 +495,10 @@
 	
 	if (strchr(s, c)) {
 		[self delMemoNums:num x:x y:y];
+        [sudokuUndo delMemo:num x:x y:y];;
 	} else {
 		[self addMemoNums:num x:x y:y];
+        [sudokuUndo addMemo:num x:x y:y];;
 	}
 }
 
@@ -447,7 +604,7 @@
 					 (char*)zStrAnswerNum,
 					 (char*)zStrFixNum,
 					 (char*)zStrMemoNum,
-					 strUndo,
+					 @"",//strUndo,
 					 countHint,
                      size,                  // 9칸?
                      (char*)zStrMapNum];
@@ -487,12 +644,13 @@
 
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	NSString *str = [strUndo stringByAppendingFormat:@"%d%d%d", xPos, yPos, num];
+/*	NSString *str = [strUndo stringByAppendingFormat:@"%d%d%d", xPos, yPos, num];
 
 	[strUndo release];
 	strUndo = str;
 	
 	[strUndo retain];	// zzzzzzzzzzzzzzzzzzz
+ */
 }
 
 - (NSInteger) getIntegerAtIndexFromString:(NSString *)str index:(NSUInteger)index
@@ -506,42 +664,78 @@
 
 - (CGPoint) runUndo
 {
-	NSInteger len = strUndo.length;
-	NSInteger count = len/3;
-	CGPoint pointLastUndoPos;
-	NSInteger num, prevnum=0, tempnum, x, y;
-	
-	
-	pointLastUndoPos.x = -1;
-	pointLastUndoPos.y = -1;
+    CGPoint pointLastUndoPos;
+    
+    UndoData *undoData = [[UndoData alloc] init];
+    
+    if ([sudokuUndo getUndo:undoData] == NO)
+    {
+        // undo failure
+        pointLastUndoPos.x = -1;
+        pointLastUndoPos.y = -1;
+    } else {
+        pointLastUndoPos.x = (CGFloat)undoData.x;
+        pointLastUndoPos.y = (CGFloat)undoData.y;
+        
+        switch (undoData.mode) {
+            case UNDOMODE_NUM_ADD:
+                fixNums[undoData.x][undoData.y] = undoData.oldnum;
+                break;
+            case UNDOMODE_NUM_DEL:
+                fixNums[undoData.x][undoData.y] = undoData.oldnum;
+                break;
+            case UNDOMODE_MEMO_ADD:
+                [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+                break;
+            case UNDOMODE_MEMO_DEL:
+                [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return pointLastUndoPos;
+    
 
-	if (count > 0) {
-		pointLastUndoPos.x = [self getIntegerAtIndexFromString:strUndo index:(count-1)*3+0];
-		pointLastUndoPos.y = [self getIntegerAtIndexFromString:strUndo index:(count-1)*3+1];
-		num = [self getIntegerAtIndexFromString:strUndo index:(count-1)*3+2];
+}
 
-		for (int i=0; i<count-1; i++) {
-			x = [self getIntegerAtIndexFromString:strUndo index:i*3+0];
-			y = [self getIntegerAtIndexFromString:strUndo index:i*3+1];
-			tempnum = [self getIntegerAtIndexFromString:strUndo index:i*3+2];
-			if (x == pointLastUndoPos.x && y == pointLastUndoPos.y)
-			{
-				prevnum = tempnum;
-			}
-		}
-		fixNums[(NSInteger)pointLastUndoPos.x][(NSInteger)pointLastUndoPos.y] = prevnum;
-		
-		NSString *str;
-		
-		str = [strUndo substringToIndex:(count-1)*3];
-		[strUndo release];	
-		strUndo = str;
-		[strUndo retain];
-
-		[self saveData];
-
-	}
-	return pointLastUndoPos;
+- (CGPoint) runRedo
+{
+    CGPoint pointLastUndoPos;
+    
+    UndoData *undoData = [[UndoData alloc] init];
+    
+    if ([sudokuUndo getRedo:undoData] == NO)
+    {
+        // undo failure
+        pointLastUndoPos.x = -1;
+        pointLastUndoPos.y = -1;
+    } else {
+        pointLastUndoPos.x = (CGFloat)undoData.x;
+        pointLastUndoPos.y = (CGFloat)undoData.y;
+        
+        switch (undoData.mode) {
+            case UNDOMODE_NUM_ADD:
+                fixNums[undoData.x][undoData.y] = undoData.num;
+                break;
+            case UNDOMODE_NUM_DEL:
+                fixNums[undoData.x][undoData.y] = 0;
+                break;
+            case UNDOMODE_MEMO_ADD:
+                [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
+                break;
+            case UNDOMODE_MEMO_DEL:
+                [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return pointLastUndoPos;
+    
+    
 }
 
 

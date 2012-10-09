@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SudokuNum.h"
 #import "Constants.h"
+#import "SudokuUndo.h"
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
@@ -22,7 +23,9 @@
 	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
 	NSInteger		fixNums[9][9];		// User decided num (9x9 1~9, beside Puzzle num) 
 	char			memoNums[9][9][9+1];// 
-	NSString*		strUndo;			// x,y,num(0~9) (3bytes), 0 is del
+//	NSString*		strUndo;			// x,y,num(0~9) (3bytes), 0 is del
+    SudokuUndo      *sudokuUndo;
+
 
 	NSInteger		countBlank;
 	NSInteger		countFixNums;
@@ -35,7 +38,8 @@
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			
 @property BOOL			gameFinished;
-@property (nonatomic, retain) NSString*		strUndo;
+//@property (nonatomic, retain) NSString*		strUndo;
+@property (nonatomic, retain) SudokuUndo      *sudokuUndo;
 @property NSInteger		countBlank;
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
@@ -47,9 +51,10 @@
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getAnswerNums:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getDisplayNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isPuzzleNum:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
-- (NSInteger) getDisplayNums:(NSInteger)x y:(NSInteger)y;
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y;
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y;
@@ -76,5 +81,8 @@
 
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (CGPoint) runUndo;
-
+- (CGPoint) runRedo;
+#ifdef GTSUDOKU
+- (BOOL) checkGreatThan:(NSInteger)xPos y:(NSInteger)yPos;
+#endif
 @end

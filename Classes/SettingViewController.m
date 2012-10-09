@@ -180,7 +180,11 @@
     labelShapeOfMap.hidden = YES;
     buttonShapeOfMap.hidden = YES;
 #endif
-	
+#ifdef GTSUDOKU
+    labelShapeOfMap.hidden = YES;
+    buttonShapeOfMap.hidden = YES;
+#endif
+    
     [self setLocalizedMessage];
 
     [self setImageSoundEffect];
@@ -214,8 +218,19 @@
 }
 
 
-- (IBAction)done {
-    [mainViewController dismissViewControllerAnimated:YES completion:nil];
+
+
+
+
+
+- (IBAction)done
+{
+    if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
+    {
+        [mainViewController dismissModalViewControllerAnimated:YES];
+    } else {
+        [mainViewController dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 

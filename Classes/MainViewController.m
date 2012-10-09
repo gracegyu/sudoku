@@ -35,6 +35,7 @@
 @synthesize buttonNewGameCancel;
 @synthesize buttonNew;
 @synthesize buttonUndo;
+@synthesize buttonRedo;
 @synthesize buttonMemo;
 @synthesize buttonScore;
 @synthesize buttonDel;
@@ -250,8 +251,11 @@
     [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
     [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];   
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
-    [buttonUndo setImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
-    [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
+    [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
+    [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
+    [buttonRedo setTitle:@"" forState:UIControlStateNormal];
+    [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
+    [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
     
     labelTitleLevel.text = gettext(@"level", nil);
     labelTitleGameTime.text = gettext(@"game time", nil);
@@ -450,25 +454,33 @@
 
 - (void) updateButtonUndo
 {
-	if (mainView.sudokuGame.strUndo.length > 0 && mainView.sudokuGame.gameFinished == NO) {
-        [buttonUndo setImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
-        [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-
-//		buttonUndo.alpha = 1.0f;
+	if ([mainView.sudokuGame.sudokuUndo countUndo] > 0 && mainView.sudokuGame.gameFinished == NO)
+    {
+        [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
+        [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
 		buttonUndo.enabled = YES;
 	} else {
-        [buttonUndo setImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
-        [buttonUndo setImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-        
-//		buttonUndo.alpha = 0.5f;
-        
+        [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
+        [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
 		buttonUndo.enabled = NO;
+	}
+    
+	if ([mainView.sudokuGame.sudokuUndo countRedo] > 0 && mainView.sudokuGame.gameFinished == NO)
+    {
+        [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
+        [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
+		buttonRedo.enabled = YES;
+	} else {
+        [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_d"] forState:UIControlStateNormal];
+        [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
+		buttonRedo.enabled = NO;
 	}
     
 
 }
 
-- (IBAction)runUndo {    
+- (IBAction)runUndo
+{
 	[mainView runUndo];
 	
 	[self updateBlankCellCount];
@@ -479,6 +491,19 @@
 	[self updateButtonHint];
 	
 }
+
+- (IBAction)runRedo
+{
+	[mainView runRedo];
+	
+	[self updateBlankCellCount];
+	[self updateHintCount];
+	[self updateButtonUndo];
+	[self updateButtonClear];
+	[self updateButtonDel];
+	[self updateButtonHint];
+}
+
 
 
 - (void)showMemoButton
