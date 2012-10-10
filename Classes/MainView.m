@@ -58,6 +58,7 @@
 @synthesize cellFailFont;
 @synthesize cellTwoFont;
 @synthesize cellFourFont;
+@synthesize cellSixFont;
 @synthesize cellNineFont;
 @synthesize buttonSmallFont;
 @synthesize buttonBigFont;
@@ -502,7 +503,7 @@
                                              (rect.size.width*(1-2*margin))/countW,
                                              (rect.size.height*(1-2*margin))/countH)
                             color:candidateColor.CGColor
-                             font:len <= 4 ? cellFourFont : cellNineFont];
+                             font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
 		}
@@ -643,7 +644,7 @@
 
 - (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
 {    
-    NSLog(@"drawOneCellBackground(%d,%d)", x, y);
+    //NSLog(@"drawOneCellBackground(%d,%d)", x, y);
     
     NSInteger xPos = cTableStartX + x*cCellWidth;
     NSInteger yPos = cTableStartY + y*cCellHeight;
@@ -1628,6 +1629,7 @@ static int	HandyCount[][5] = {
 #define cCellOneSmallFontSize       (0.8f * MINWHT) //27*cResizeRatioW
 #define cCellTwoFontSize            (0.9f * MINWHT / 2) //20*cResizeRatioW
 #define cCellFourFontSize           (0.9f * MINWHT / 2) //15*cResizeRatioW
+#define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
@@ -1648,6 +1650,7 @@ static int	HandyCount[][5] = {
 	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];
 	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];
 	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];
+	self.cellSixFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSixFontSize];
 	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
 	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];

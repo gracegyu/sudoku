@@ -22,11 +22,11 @@ static NSBundle *bundle = nil;
     NSString* strResource;
     
     if ([strLocale compare:@"en"] == NSOrderedSame)
-        strResource = @"English";
+        strResource = @"en";
     else if ([strLocale compare:@"ko"] == NSOrderedSame)
-        strResource = @"Korean";
+        strResource = @"ko";
     else if ([strLocale compare:@"ja"] == NSOrderedSame)
-        strResource = @"Japanese";
+        strResource = @"ja";
     else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
         strResource = @"zh_CN";
     else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)

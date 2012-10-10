@@ -49,6 +49,7 @@
 	UIFont *cellFailFont;
 	UIFont *cellTwoFont;
 	UIFont *cellFourFont;
+	UIFont *cellSixFont;
 	UIFont *cellNineFont;
 	UIFont *buttonSmallFont;
 	UIFont *buttonBigFont;
@@ -124,6 +125,7 @@
 @property (nonatomic, retain) UIFont *cellTwoFont;
 @property (nonatomic, retain) UIFont *cellFailFont;
 @property (nonatomic, retain) UIFont *cellFourFont;
+@property (nonatomic, retain) UIFont *cellSixFont;
 @property (nonatomic, retain) UIFont *cellNineFont;
 @property (nonatomic, retain) UIFont *buttonSmallFont;
 @property (nonatomic, retain) UIFont *buttonBigFont;
