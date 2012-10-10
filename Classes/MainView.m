@@ -89,6 +89,7 @@
 
 #define cLineWidth				1.0f*cResizeRatioW
 #define cLineDrawWidth			0.5f*cResizeRatioW
+#define cConflictLineWidth		1.5f*cResizeRatioW
 #define cBoldLine				4.0f*cResizeRatioW
 
 #define fontAdjust   0.60
@@ -324,6 +325,7 @@
 		x = cTableStartX + i*cCellWidth;
         for (j=0; j<sudokuGame.size; j++)
         {
+            CGContextSetLineWidth(context, cLineDrawWidth);
             CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
             CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
 
@@ -344,6 +346,7 @@
                         bUserGT = [sudokuGame getDisplayNum:i-1 y:j] > [sudokuGame getDisplayNum:i y:j];
                         if (bGT != bUserGT)
                         {
+                            CGContextSetLineWidth(context, cConflictLineWidth);
                             CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
                             CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
                         }
@@ -355,7 +358,6 @@
                 CGContextAddLineToPoint(context, x, y+cCellHeight*(1-GTWIDTH));
 #endif
                 CGContextAddLineToPoint(context, x, y+cCellHeight);
-                CGContextSetLineWidth(context, cLineDrawWidth);
                 CGContextStrokePath(context);
                 
                 
@@ -373,6 +375,7 @@
 		y = cTableStartY + i*cCellHeight;
         for (j=0; j<sudokuGame.size; j++)
         {
+            CGContextSetLineWidth(context, cLineDrawWidth);
             CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
             CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
 
@@ -387,6 +390,7 @@
                     bUserGT = [sudokuGame getDisplayNum:j y:i-1] > [sudokuGame getDisplayNum:j y:i];
                     if (bGT != bUserGT)
                     {
+                        CGContextSetLineWidth(context, cConflictLineWidth);
                         CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
                         CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
                     }
@@ -398,7 +402,6 @@
                 CGContextAddLineToPoint(context, x+cCellWidth*(1-GTWIDTH), y);
 #endif
                 CGContextAddLineToPoint(context, x+cCellWidth, y);
-                CGContextSetLineWidth(context, cLineDrawWidth);
                 CGContextStrokePath(context);
             } else {
                 CGContextAddLineToPoint(context, x+cCellWidth, y);
@@ -1174,7 +1177,8 @@
 				[self playSound:soundClickID];	// drag
 				[self setNeedsDisplay];
 			}
-		}	
+		}
+        pushedButton = -1; // button을 누른 것이 아니다.
 	} else if (bPressedInButton == YES) {
 //		NSLog(@"pressedInButton => YES");		
 		
