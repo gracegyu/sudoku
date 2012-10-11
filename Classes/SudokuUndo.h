@@ -35,12 +35,17 @@ enum UNDOMODE {
 
 @interface SudokuUndo : NSObject
 {
+    NSInteger       bookmark;
+    NSInteger       bookmarkX;
+    NSInteger       bookmarkY;
     NSInteger       indexUndo;
     NSInteger       count;
 	NSMutableArray	*arrayUndo;
 }
 
 @property NSInteger       count;
+@property NSInteger       bookmarkX;
+@property NSInteger       bookmarkY;
 
 
 - (NSInteger) countUndo;    // undo 가능 수
@@ -52,5 +57,13 @@ enum UNDOMODE {
 - (BOOL) getUndo:(UndoData*)undo;
 - (BOOL) getRedo:(UndoData*)undo;
 - (void) clear;
+
+- (BOOL) addBookmark;   // include modify
+- (void) delBookmark;   
+- (BOOL) isBookmarked;
+- (NSInteger) canGoBookmark;    // -1:undo, 0:can't +1:redo
+- (NSInteger) countGoBookmark;  // 몇번 undo, redo를 해야 하나?
+
+
 
 @end

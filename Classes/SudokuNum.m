@@ -839,6 +839,7 @@
 // clear를 제외한 모든 셀의 값 세팅을 여기로 와야 한다.
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+    NSLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
 	bOkSetCell = NO;
 	
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
@@ -1078,12 +1079,12 @@
 }
 
 
-- (void) setGTNum:(NSInteger)num
+- (void) setGTNum:(NSInteger)num inc:(BOOL)inc
 {
     NSInteger max = wGT*hGT;
-    NSInteger setNum = max - num;
     NSInteger i;
     NSInteger x, y;
+    NSInteger setNum = inc ? num + 1 : max - num;
     
     if (num == 0)
     {
@@ -1141,9 +1142,11 @@
         hGT = 2;
     }
     
+    BOOL bInc = [self randNum:2] == 1 ? YES : NO;
+    
     for (int i=0; i<wGT*hGT; i++)
     {
-        [self setGTNum:i];
+        [self setGTNum:i inc:bInc];
     }
 }
 
@@ -1170,10 +1173,10 @@ NSInteger Rand12[2][3] = {
     
     NSInteger baseCount = (size == SIZE_9) ? 3 : 2; // very hard는 2:1로?
     
-    NSInteger* arrX = Rand123[[self randNum:6]];
-    NSInteger* arrY = (size == SIZE_9) ?
-                        Rand123[[self randNum:6]]:
-                        Rand12[[self randNum:2]];
+    NSInteger* arrX = (size == SIZE_9) ?
+                    Rand123[[self randNum:6]]:
+                    Rand12[[self randNum:2]];
+    NSInteger* arrY = Rand123[[self randNum:6]];
     
     for (int i=0; i<baseCount; i++)
     {

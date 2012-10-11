@@ -19,25 +19,47 @@
 @synthesize window;
 @synthesize mainViewController;
 
+#ifdef GTSUDOKU
 
 #ifdef SUDOKU9
     #ifdef ADMOB_FREEVERSION
-    #define JMC_PRJKEY  @"SDSDKNINEF"
-    #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
+    #define JMC_PRJKEY  @"SDGTSNINEF"
+    #define JMC_APIKEY  @"7e35de83-0ce1-4f69-b30b-ca4c08269299"
     #else
-    #define JMC_PRJKEY  @"SDSDKNINEP"
-    #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
+    #define JMC_PRJKEY  @"SDGTSNINEF"
+    #define JMC_APIKEY  @"7e35de83-0ce1-4f69-b30b-ca4c08269299"
     #endif
 #else // DUDOKU6
     #ifdef ADMOB_FREEVERSION
-    #define JMC_PRJKEY  @"SDSDKSIXF"
-    #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
+    #define JMC_PRJKEY  @"SDGTSSIXF"
+    #define JMC_APIKEY  @"f40f6440-259a-4c81-a878-569453fe7fe4"
     #else
-    #define JMC_PRJKEY  @"SDSDKSIXP"
-    #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
+    #define JMC_PRJKEY  @"SDGTSSIXF"
+    #define JMC_APIKEY  @"f40f6440-259a-4c81-a878-569453fe7fe4"
     #endif
 #endif
 
+#else // GTSUDOKU
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDSDKNINEF"
+#define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
+#else
+#define JMC_PRJKEY  @"SDSDKNINEP"
+#define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
+#endif
+#else // DUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDSDKSIXF"
+#define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
+#else
+#define JMC_PRJKEY  @"SDSDKSIXP"
+#define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
+#endif
+#endif
+
+#endif // GTSUDOKU
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {

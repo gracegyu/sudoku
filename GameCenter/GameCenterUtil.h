@@ -14,6 +14,29 @@
 
 @interface GameCenterUtil : NSObject
 
+#ifdef GTSUDOKU
+#ifdef SUDOKU9
+#define GK_CATEGORY_POINT       @"grp.gtsudoku9.points"
+#define GK_CATEGORY_VERYHARD    @"grp.gtsudoku9.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.gtsudoku9.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.gtsudoku9.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.gtsudoku9.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.gtsudoku9.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.gtsudoku9.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.gtsudoku9.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.gtsudoku9.clear.1000"
+#else // SODKU6
+#define GK_CATEGORY_POINT       @"grp.gtsudoku6.points"
+#define GK_CATEGORY_VERYHARD    @"grp.gtsudoku6.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.gtsudoku6.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.gtsudoku6.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.gtsudoku6.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.gtsudoku6.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.gtsudoku6.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.gtsudoku6.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.gtsudoku6.clear.1000"
+#endif
+#else // GTSUDOKU
 #ifdef SUDOKU9
 #define GK_CATEGORY_POINT       @"grp.sudoku9.points"
 #define GK_CATEGORY_VERYHARD    @"grp.sudoku9.timerecord.veryhard"
@@ -35,7 +58,7 @@
 #define GK_CATEGORY_CLEAR100    @"grp.sudoku6.clear.100"
 #define GK_CATEGORY_CLEAR1000   @"grp.sudoku6.clear.1000"
 #endif
-
+#endif // GTSUDOKU
 
 /////////////////Geunwon,Mo : GameCenter 추가 start /////////////
 + (BOOL) isGameCenterAvailable ; //게임센터가 사용가능하지 알아보는 메소드

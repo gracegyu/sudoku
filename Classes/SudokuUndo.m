@@ -21,6 +21,8 @@
 @implementation SudokuUndo
 
 @synthesize  count;
+@synthesize  bookmarkX;
+@synthesize  bookmarkY;
 
 #define DEFMAXUNDO 300
 
@@ -30,6 +32,9 @@
 		NSLog(@"init");
         
         arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
+        bookmark = -1;  // no bookmark
+        bookmarkX = -1;
+        bookmarkY = -1;
         
 	}
 	return self;
@@ -63,6 +68,11 @@
         }
         count = [arrayUndo count];
         NSAssert(indexUndo == count, @"indexUndo(%d) != count(%d)", indexUndo, count);
+    }
+    if (bookmark > 0 && bookmark > count)
+    {
+        bookmark = -1;
+        NSLog(@"delete bookmark");
     }
 }
 
@@ -178,6 +188,63 @@
     return YES;
 }
 
+- (BOOL) addBookmark
+{
+    bookmark = indexUndo;
+    NSLog(@"bookmark = %d", bookmark);
+    
+    if (bookmark > 0)
+    {
+        UndoData* undoBookmark = [arrayUndo objectAtIndex:indexUndo-1];
+        if (undoBookmark)
+        {
+            bookmarkX = undoBookmark.x;
+            bookmarkY = undoBookmark.y;
+
+            return YES;
+        }
+    }
+    bookmarkX = -1;
+    bookmarkY = -1;
+    return YES;
+}
+
+- (void) delBookmark
+{
+    bookmark = -1;
+    bookmarkX = -1;
+    bookmarkY = -1;
+    NSLog(@"bookmark = %d", bookmark);
+}
+
+- (BOOL) isBookmarked
+{
+    NSLog(@"bookmark = %d", bookmark);
+    return bookmark >= 0;
+}
+
+- (NSInteger) canGoBookmark    // -1:undo, 0:can't +1:redo
+{
+    NSLog(@"bookmark = %d", bookmark);
+    if (bookmark >= count)
+        return 0;
+    if (bookmark < indexUndo)
+        return -1;
+    if (bookmark > indexUndo)
+        return +1;
+
+    return 0;
+}
+
+- (NSInteger) countGoBookmark  // 몇번 undo, redo를 해야 하나?
+{
+    NSLog(@"bookmark = %d", bookmark);
+
+    if (bookmark < 0 || bookmark > count)
+        return 0;
+    
+    return (bookmark - indexUndo);
+}
 
 - (void) clear
 {

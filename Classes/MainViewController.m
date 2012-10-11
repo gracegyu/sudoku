@@ -36,6 +36,7 @@
 @synthesize buttonNew;
 @synthesize buttonUndo;
 @synthesize buttonRedo;
+@synthesize buttonBookmark;
 @synthesize buttonMemo;
 @synthesize buttonScore;
 @synthesize buttonDel;
@@ -256,6 +257,9 @@
     [buttonRedo setTitle:@"" forState:UIControlStateNormal];
     [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
     [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
+    [buttonBookmark setTitle:@"" forState:UIControlStateNormal];
+    [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_n"] forState:UIControlStateNormal];
+    [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
     
     labelTitleLevel.text = gettext(@"level", nil);
     labelTitleGameTime.text = gettext(@"game time", nil);
@@ -333,10 +337,30 @@
 }
 
 
+-(void)Swipe4ScrollViews:(UIPanGestureRecognizer *)sender
+{
+   
+}
+- (void)handleLeftSwipe:(UISwipeGestureRecognizer *)recognizer
+{
+    NSLog(@"handleLeftSwipe called");
+}
+
+- (void)handleRightSwipe:(UISwipeGestureRecognizer *)recognizer
+{
+    NSLog(@"handleRightSwipe called");
+}
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UISlider class]]) {
+        // prevent recognizing touches on the slider
+        return NO;
+    }
+    return YES;
+}
+
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void) viewDidLoad {
 	 NSLog(@"viewDidLoad");	
-	 [super viewDidLoad];
 
      
      
@@ -356,6 +380,33 @@
 	 
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
+     
+     
+     
+     UIPanGestureRecognizer *pan;
+     pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(Swipe4ScrollViews:)];
+     [pan setMinimumNumberOfTouches:2];
+     [mainView  addGestureRecognizer:pan];
+     [pan release];
+
+     
+     
+     
+     UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc]  initWithTarget:self action:@selector(handleLeftSwipe:)];
+     leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
+     leftSwipeRecognizer.numberOfTouchesRequired = 1;
+     [mainView addGestureRecognizer:leftSwipeRecognizer];
+     leftSwipeRecognizer.delegate = self;
+     [leftSwipeRecognizer release];
+     
+     UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightSwipe:)];
+     rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
+     rightSwipeRecognizer.numberOfTouchesRequired = 1;
+     [mainView addGestureRecognizer:rightSwipeRecognizer];
+     rightSwipeRecognizer.delegate = self;
+     [rightSwipeRecognizer release];
+
+     [super viewDidLoad];
 
 
 }
@@ -475,6 +526,23 @@
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
 		buttonRedo.enabled = NO;
 	}
+
+    if (mainView.sudokuGame.gameFinished == YES)
+    {
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateNormal];
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateHighlighted];
+		buttonBookmark.enabled = NO;
+	} else if ([mainView.sudokuGame.sudokuUndo isBookmarked])
+    {
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_n"] forState:UIControlStateNormal];
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_h"] forState:UIControlStateHighlighted];
+		buttonBookmark.enabled = YES;
+	} else {
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_n"] forState:UIControlStateNormal];
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
+		buttonBookmark.enabled = YES;
+	}
+    
     
 
 }
@@ -504,6 +572,17 @@
 	[self updateButtonHint];
 }
 
+- (IBAction)runBookmark
+{
+	[mainView runBookmark];
+	
+	[self updateBlankCellCount];
+	[self updateHintCount];
+	[self updateButtonUndo];
+	[self updateButtonClear];
+	[self updateButtonDel];
+	[self updateButtonHint];
+}
 
 
 - (void)showMemoButton
@@ -886,7 +965,10 @@
     return scoreTotal;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration 
+
+
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 { 
 	NSLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
@@ -991,4 +1073,9 @@
 
 #endif
 
+- (IBAction)LeftSwipe:(id)sender
+{
+    NSLog(@"handleLeftSwipe called");
+    
+}
 @end

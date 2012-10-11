@@ -11,6 +11,12 @@
 #import "SudokuNum.h"
 #import "SudokuGame.h"
 
+enum ALERT_MODE {
+    ALELRT_INIT = 0,
+    ALELRT_BOOKMARK
+};
+
+
 @interface MainView : UIView {
     UIColor	*tableBgColor;
     UIColor	*selectedTableBgColor;
@@ -78,6 +84,7 @@
     
     NSTimer		*timerTouch;
 
+    enum ALERT_MODE alertMode;
 }
 
 
@@ -138,6 +145,7 @@
 
 - (void) runUndo;
 - (void) runRedo;
+- (void) runBookmark;
 - (BOOL) memoOnOff;
 - (void) delNumber;
 - (void) clearNumbers;

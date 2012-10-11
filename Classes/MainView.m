@@ -162,6 +162,9 @@
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundFailID);
 	
 	bMemoMode = NO;
+    
+
+    
 }
 
 
@@ -784,22 +787,27 @@
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
         [self drawOneCellBackground:context color:selectedTableBgColor x:selectedXPos y:selectedYPos];
-/*		CGRect currentRect;
-		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;
-		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
-        
-		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, selectedTableBgColor.CGColor);
-		CGContextSetFillColorWithColor(context, selectedTableBgColor.CGColor);
-		currentRect = CGRectMake (xPos,yPos,cCellWidth,cCellHeight);
-		
-		CGContextAddRect(context, currentRect);
-		CGContextDrawPath(context, kCGPathFillStroke);
-*/ 
 	}
-	
 }
 
+- (void)drawBookmarkInCell:(CGContextRef)context
+{
+    NSInteger x = sudokuGame.sudokuUndo.bookmarkX;
+    NSInteger y = sudokuGame.sudokuUndo.bookmarkY;
+    
+    if (x >= 0 && x < sudokuGame.size &&
+        y >= 0 && y < sudokuGame.size)
+	{
+        NSInteger xPos = cTableStartX + x*cCellWidth;
+        NSInteger yPos = cTableStartY + y*cCellHeight;
+        
+        UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
+        CGRect rect = CGRectMake(xPos+cCellWidth*0.1f, yPos, cCellWidth*0.2f, cCellHeight*0.3f);
+        
+        [imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.3f];
+    }
+
+}
 
 - (void)drawHighlightCell:(CGContextRef)context
 {
@@ -1288,7 +1296,7 @@
 
 - (void) runRedo
 {
-	NSLog(@"[sudokuGame.sudokuUndo countRddo] = %d", [sudokuGame.sudokuUndo countRedo]);
+	NSLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
 	
 	if (sudokuGame.gameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
 		return;
@@ -1304,6 +1312,38 @@
         [self playSound:soundClickID];
 	}
     
+	
+	[self setNeedsDisplay];
+}
+
+- (void) runBookmark
+{
+	NSLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %d", [sudokuGame.sudokuUndo countGoBookmark]);
+
+    if ([sudokuGame.sudokuUndo isBookmarked] == NO)
+    {
+        [sudokuGame.sudokuUndo addBookmark];
+        [self playSound:soundClickID];
+    } else {
+        
+        alertMode = ALELRT_BOOKMARK;
+        
+        UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setTitle:gettext(@"Confirm", nil)];
+        //[alert setMessage:@"Do you pick Yes or No?"];
+        [alert setDelegate:self];
+        [alert addButtonWithTitle:gettext(@"Go to bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Reset bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Delete bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Cancel", nil)];
+        [alert show];
+        [alert release];
+        [self playSound:soundClickID];
+        
+        
+    }
+    
+
 	
 	[self setNeedsDisplay];
 }
@@ -1349,6 +1389,7 @@
 
 - (void) clearNumbers
 {
+    alertMode = ALELRT_INIT;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert", nil)
 													message:gettext(@"Do you want to delete all numbers?", nil)
 												   delegate:self 
@@ -1450,17 +1491,60 @@ static int	HandyCount[][5] = {
 #pragma mark -
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) // "확인" 버튼
+    switch (alertMode)
     {
-		[sudokuGame clearAllNums];
-		
-		MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-		[ctrl updateBlankCellCount];
-        [ctrl updateHintCount];
+        case ALELRT_INIT :
+            if (buttonIndex == 1) // "확인" 버튼
+            {
+                [sudokuGame clearAllNums];
+                
+                MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+                [ctrl updateBlankCellCount];
+                [ctrl updateHintCount];
+                
+                
+                [self playSound:soundClearID];	
+            }
+            break;
+        case ALELRT_BOOKMARK :
+            if (buttonIndex == 0)
+            {
+                NSInteger countBookmark = [sudokuGame.sudokuUndo countGoBookmark];
+                
+                if (countBookmark)
+                {
+                    CGPoint pointLastUndoPos;
+                    selectedXPos = sudokuGame.sudokuUndo.bookmarkX;
+                    selectedYPos = sudokuGame.sudokuUndo.bookmarkY;
+                    
+                    for (int i=0; i<ABS(countBookmark); i++)
+                    {
+                        if (countBookmark < 0)
+                        {
+                            pointLastUndoPos = [sudokuGame runUndo];
+                        } else {
+                            pointLastUndoPos = [sudokuGame runRedo];
+                        }
+                    }
+                }
+                [sudokuGame.sudokuUndo delBookmark];
+                [self playSound:soundClickID];
+            } else if (buttonIndex == 1) {
+                [sudokuGame.sudokuUndo addBookmark];
+                [self playSound:soundClickID];
+            } else if (buttonIndex == 2) {
+                [sudokuGame.sudokuUndo delBookmark];
+                [self playSound:soundClearID];	
+            } else if (buttonIndex == 3) {              // cancel
+                
+            }
+            MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+            [ctrl updateButtonUndo];
 
-
-		[self playSound:soundClearID];	
-	}
+            break;
+        default:
+            break;
+    }
 	[self setNeedsDisplay];
 }
 
@@ -1688,6 +1772,7 @@ static int	HandyCount[][5] = {
 	[self drawGuidelineBackground:context];          // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
+    [self drawBookmarkInCell:context];          // 북마크 표시
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
 	[self drawHighlightCell:context];           // 선택된 셀 표시

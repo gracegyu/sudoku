@@ -22,10 +22,11 @@
 
 
 
-@interface MainViewController : TPMultiLayoutViewController
+@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate 
 #ifdef ADMOB_FREEVERSION
-    <GADBannerViewDelegate>
+    ,GADBannerViewDelegate
 #endif
+    >
 {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
@@ -57,6 +58,7 @@
 	UIButton	*buttonNew;
 	UIButton	*buttonUndo;
 	UIButton	*buttonRedo;
+	UIButton	*buttonBookmark;
 	UIButton	*buttonMemo;
 	UIButton	*buttonDel;
 	UIButton	*buttonReset;
@@ -86,6 +88,7 @@
 #endif
 }
 
+
 @property (nonatomic, retain) MainView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel	*labelNewGame;
 @property (nonatomic, retain) IBOutlet UILabel	*labelRights;
@@ -106,6 +109,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNew;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonUndo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonRedo;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonBookmark;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMemo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonScore;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
@@ -127,6 +131,7 @@
 - (IBAction)showScoreView;
 - (IBAction)runUndo;
 - (IBAction)runRedo;
+- (IBAction)runBookmark;
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
@@ -166,8 +171,6 @@
 - (void) saveSetting;
 - (NSInteger) getBestTime:(NSInteger)level;
 - (NSInteger) getTotalScore;
-
-
 
 
 
