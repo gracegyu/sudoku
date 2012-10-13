@@ -20,6 +20,7 @@
     NSInteger       memo[9][9];  // bit 연산
     NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *
     NSInteger       answer[9][9];   // 0, 1~9 (Auto fix) ~
+	/////////// 메모 개수 처리..........
     
     
     SudokuMap       *map;
@@ -55,7 +56,7 @@
 - (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap;
 - (NSInteger) getCellSize;
 - (SudokuMap*) getMap;
-
+- (NSInteger) randNum:(NSInteger) num;
 //////////////////////////////////////////////////////////////////////////
 - (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y;
 - (void) setPuzzleNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
@@ -63,22 +64,24 @@
 - (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isMemoed:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) isEmptyMemo:(NSInteger)x y:(NSInteger)y;
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
-- (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y;
 //////////////////////////////////////////////////////////////////////////
 
-// deprecated
-- (NSInteger) getCellNum:(NSInteger)x y:(NSInteger)y;
-- (BOOL) fixedByUser:(NSInteger)x y:(NSInteger)y;
+
+
 - (BOOL) setCellAuto:(NSInteger)handy;
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
-- (BOOL) setCellCheck:(NSString*)str xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
+- (BOOL) setCellPuzzleCheck:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) setCellAnswerCheck:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) setCellCheck:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (BOOL) setCellUserFixed:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
-- (NSString*) strDelNum:(NSString*)str ucNum:(unichar)ucNum;
-- (NSString*) getCellNumX:(NSInteger)xPos yPos:(NSInteger)yPos;
-+ (BOOL) fixedByUser:(NSString*)str;
-+ (BOOL) fixedByAuto:(NSString*)str;
+
+
+
 - (void) clearCell;
 - (void) editCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (void) printNums;

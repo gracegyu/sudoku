@@ -32,9 +32,9 @@
 #define IPAD_GAD_H              GAD_SIZE_728x90.height
 #define IPAD_GAD_W              GAD_SIZE_728x90.width
 
-#define BACKTRACKING_START      3
-#define BACKTRACKING_INTERVAL    3
-#define BACKTRACKING_MAX        15
+#define BACKTRACKING_START      1
+#define BACKTRACKING_INTERVAL   1
+#define BACKTRACKING_MAX        7
 #define MAX_HANDYTRAYFAIL       30
 
 #define GAMECOUNTFORREVIEW        20

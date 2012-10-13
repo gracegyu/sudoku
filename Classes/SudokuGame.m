@@ -64,12 +64,13 @@
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
             mapNums[x][y] = [[sudoku getMap] getMapNum:x y:y];
-            num = [sudoku getCellNum:x y:y];
+            num = [sudoku getPuzzleNum:x y:y];
             
-            if ([sudoku fixedByUser:x y:y]) {		// fixed cell
+            if (num > 0) {		// fixed cell
 				puzzleNums[x][y] = num;
 				answerNums[x][y] = num; // 0
 			} else {
+				num = [sudoku getAnswerNum:x y:y];
                 NSAssert(num > 0, @"Puzzlenum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;

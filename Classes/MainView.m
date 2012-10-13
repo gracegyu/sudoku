@@ -1485,6 +1485,7 @@ static int	HandyCount[][5] = {
 
 	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
 	[sudokuNum countCell];
+	[sudokuNum printNums];
 	NSInteger i = 0;
 	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 	{
