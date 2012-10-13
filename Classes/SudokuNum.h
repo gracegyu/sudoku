@@ -16,6 +16,12 @@
 {
     NSInteger       size;
 	NSMutableArray	*nums;
+    
+    NSInteger       memo[9][9];  // bit 연산
+    NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *
+    NSInteger       answer[9][9];   // 0, 1~9 (Auto fix) ~
+    
+    
     SudokuMap       *map;
 	NSString		*strUndo;
 	BOOL			bOkSetCell;
@@ -49,6 +55,20 @@
 - (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap;
 - (NSInteger) getCellSize;
 - (SudokuMap*) getMap;
+
+//////////////////////////////////////////////////////////////////////////
+- (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y;
+- (void) setPuzzleNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getAnswerNum:(NSInteger)x y:(NSInteger)y;
+- (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y;
+- (BOOL) isMemoed:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y;
+//////////////////////////////////////////////////////////////////////////
+
+// deprecated
 - (NSInteger) getCellNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) fixedByUser:(NSInteger)x y:(NSInteger)y;
 - (BOOL) setCellAuto:(NSInteger)handy;

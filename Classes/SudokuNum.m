@@ -100,6 +100,126 @@
     return map;
 }
 
+
+
+- (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(x >= 1 && x <= size, @"getPuzzleNum x");
+    NSAssert(y >= 1 && y <= size, @"getPuzzleNum y");
+    
+    return puzzle[x][y];
+}
+
+- (void) setPuzzleNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(num <= size, @"setPuzzleNum num");
+    NSAssert(x >= 1 && x <= size, @"setPuzzleNum x");
+    NSAssert(y >= 1 && y <= size, @"setPuzzleNum y");
+    
+    puzzle[x][y] = num;
+}
+
+- (NSInteger) getAnswerNum:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(x >= 1 && x <= size, @"getAnswerNum x");
+    NSAssert(y >= 1 && y <= size, @"getAnswerNum y");
+    
+    return answer[x][y];
+    
+}
+
+- (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(num <= size, @"setAnswerNum num");
+    NSAssert(x >= 1 && x <= size, @"setAnswerNum x");
+    NSAssert(y >= 1 && y <= size, @"setAnswerNum y");
+    
+    answer[x][y] = num;
+}
+
+- (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
+{
+    
+    NSAssert(x >= 1 && x <= size, @"setDefaultMemo x");
+    NSAssert(y >= 1 && y <= size, @"setDefaultMemo y");
+    
+    memo[x][y] = 1;
+    for (int i=0; i<size-1; i++)
+    {
+        memo[x][y] <<= 1;
+        memo[x][y] |= 1;
+    }
+}
+
+- (BOOL) isMemoed:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(num >= 1 && num <= size, @"isMemoed num");
+    NSAssert(x >= 1 && x <= size, @"isMemoed x");
+    NSAssert(y >= 1 && y <= size, @"isMemoed y");
+    
+    
+    int n = (1 <= (num-1));
+    
+    return (memo[x][y] & n) != 0;
+}
+
+- (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(num >= 1 && num <= size, @"addMemo num");
+    NSAssert(x >= 1 && x <= size, @"addMemo x");
+    NSAssert(y >= 1 && y <= size, @"addMemo y");
+    
+    
+    int n = (1 <= (num-1));
+    
+    memo[x][y] |= n;
+    
+}
+
+- (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(num >= 1 && num <= size, @"delMemo num");
+    NSAssert(x >= 1 && x <= size, @"delMemo x");
+    NSAssert(y >= 1 && y <= size, @"delMemo y");
+    
+    
+    int n = (1 <= (num-1));
+    
+    n = ~n;
+    memo[x][y] &= n;
+}
+
+- (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y
+{
+    NSAssert(x >= 1 && x <= size, @"getUniqueMemo x");
+    NSAssert(y >= 1 && y <= size, @"getUniqueMemo y");
+    
+    NSInteger num = 1;
+    NSInteger found = 0;
+    
+    for (int i=1; i<size; i++, num <<= 1)
+    {
+        if ((memo[x][y] & num) != 0)
+        {
+            if (found > 0)
+                return 0;
+            found = i;
+        }
+    }
+    
+    return found;
+}
+
+
+
+
+
+
+
+
+
+
+// deprecated
 - (NSInteger) getCellNum:(NSInteger)x y:(NSInteger)y
 {
     NSMutableArray *array = self.nums;
