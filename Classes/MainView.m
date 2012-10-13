@@ -483,13 +483,15 @@
 
 
 
-- (void)drawRectCellOneMemo:(CGContextRef)context memo:(char*)memo rect:(CGRect)rect
+- (void)drawRectCellOneMemo:(CGContextRef)context memo:(char*)memo rect:(CGRect)rect xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
     int len = strlen(memo);
 	int i = 0;
 	int x, y;
     int countW = (len <= 4 ? 2 : 3);
     int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
+    BOOL bConflict;
+    
 #ifdef GTSUDOKU
     CGFloat margin = 0.15f;
 #else
@@ -502,13 +504,15 @@
 		{
 			if (i < len)
 			{
+                bConflict = [self conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+                
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
                              rect:CGRectMake(rect.origin.x+rect.size.width*margin+(rect.size.width*(1-2*margin))*x/countW,
                                              rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/countH,
                                              (rect.size.width*(1-2*margin))/countW,
                                              (rect.size.height*(1-2*margin))/countH)
-                            color:candidateColor.CGColor
+                            color:bConflict? cellConflictColor.CGColor : candidateColor.CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
@@ -516,23 +520,18 @@
 	}
 }
 
-- (BOOL)conflictCell:(NSInteger)xPos yPos:(NSInteger)yPos
+- (BOOL)conflictNumber:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-    NSInteger fixNum = [sudokuGame getFixNums:xPos y:yPos];
-    
-    if (fixNum == 0)
-        return false;
-    
     int x, y;
     for (x = 0, y = yPos; x < sudokuGame.size; x++)
     {
-        if (x != xPos && [sudokuGame getDisplayNum:x y:y] == fixNum) 
-            return true;
+        if (x != xPos && [sudokuGame getDisplayNum:x y:y] == num)
+            return YES;
     }
     for (x = xPos, y = 0; y < sudokuGame.size; y++)
     {
-        if (y != yPos && [sudokuGame getDisplayNum:x y:y] == fixNum) 
-            return true;
+        if (y != yPos && [sudokuGame getDisplayNum:x y:y] == num)
+            return YES;
     }
     
     
@@ -542,15 +541,25 @@
         {
             if ((x != xPos || y != yPos) &&
                 [sudokuGame isSameMap:x y:y x2:xPos y2:yPos] == YES &&
-                [sudokuGame getDisplayNum:x y:y] == fixNum)
+                [sudokuGame getDisplayNum:x y:y] == num)
             {
-                return true;
+                return YES;
             }
         }
     }
     
-    return false;
+    return NO;
     
+}
+
+- (BOOL)conflictCell:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+    NSInteger fixNum = [sudokuGame getFixNums:xPos y:yPos];
+    
+    if (fixNum == 0)
+        return NO;
+    
+    return [self conflictNumber:fixNum xPos:xPos yPos:yPos];
 }
 
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
@@ -602,7 +611,7 @@
 		[self drawRectCellOneUserFixed:context num:fixNum rect:rect dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
 	} else if (pMemo) {
 		// 메모 중인 번호 
-		[self drawRectCellOneMemo:context memo:pMemo rect:rect];
+		[self drawRectCellOneMemo:context memo:pMemo rect:rect xPos:xPos yPos:yPos];
 	}
 		
 
@@ -1351,6 +1360,9 @@
 
 - (BOOL) memoOnOff
 {
+    if (sudokuGame.gameFinished)
+        return bMemoMode;
+    
 	if (bMemoMode) {
 		bMemoMode = NO;
 	} else {
@@ -1382,6 +1394,9 @@
 
 - (void) delNumber
 {
+    if (sudokuGame.gameFinished)
+        return;
+    
 	[sudokuGame setFixNums:0 x:selectedXPos y:selectedYPos];
 	[self checkClearAndUpdateButton];
 
@@ -1389,6 +1404,9 @@
 
 - (void) clearNumbers
 {
+    if (sudokuGame.gameFinished)
+        return;
+    
     alertMode = ALELRT_INIT;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert", nil)
 													message:gettext(@"Do you want to delete all numbers?", nil)
@@ -1401,6 +1419,9 @@
 
 - (void) doHint
 {
+    if (sudokuGame.gameFinished)
+        return;
+    
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;
 		[sudokuGame setHintNum:selectedXPos y:selectedYPos];

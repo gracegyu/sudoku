@@ -2,25 +2,25 @@
 #ifdef GTSUDOKU
 
 #ifdef SUDOKU9
-#define MY_BANNER_UNIT_ID_IPHONE5  (@"a150765b79bf648")
-#define MY_BANNER_UNIT_ID_IPHONE  (@"a150765af719cb3")
-#define MY_BANNER_UNIT_ID_IPAD  (@"a150765bbea49a7")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a150765b79bf648")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a150765af719cb3")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a150765bbea49a7")
 #else  // SUDOKU6
-#define MY_BANNER_UNIT_ID_IPHONE5  (@"a1507644eca74b4")
-#define MY_BANNER_UNIT_ID_IPHONE  (@"a15076456849bb3")
-#define MY_BANNER_UNIT_ID_IPAD  (@"1507645bce8c4c")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1507644eca74b4")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a15076456849bb3")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1507645bce8c4c")
 #endif
 
 #else
 
 #ifdef SUDOKU9
-#define MY_BANNER_UNIT_ID_IPHONE5  (@"a1506f9ab471950")
-#define MY_BANNER_UNIT_ID_IPHONE  (@"a14ccfafd6895cb")
-#define MY_BANNER_UNIT_ID_IPAD  (@"a14fd69f029bc6d") 
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d") 
 #else  // SUDOKU6
-#define MY_BANNER_UNIT_ID_IPHONE5  (@"a1506f9efd45635")
-#define MY_BANNER_UNIT_ID_IPHONE  (@"a1506f9e947e7b0")
-#define MY_BANNER_UNIT_ID_IPAD  (@"a1506f9f57f0075")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1506f9f57f0075")
 #endif
 
 #endif

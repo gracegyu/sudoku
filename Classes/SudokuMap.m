@@ -112,6 +112,7 @@ static int defaultMap[][16*16] = {
                 Map = setMap6[numRandom+1];
             }
             break;
+
         default :
             Map = defaultMap[sizeMap];
             break;

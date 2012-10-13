@@ -76,6 +76,12 @@
 #define kScoreBestTime		@"scoreBestTime"
 #define kScoreClearTimeSum	@"scoreClearTimeSum"
 #define kScoreTotal         @"scoreTotal"
+#elif SUDOKU7  
+#define kScoreGames			@"score7Games"
+#define kScoreClears		@"score7Clears"
+#define kScoreBestTime		@"score7BestTime"
+#define kScoreClearTimeSum	@"score7ClearTimeSum"
+#define kScoreTotal         @"score7Total"
 #else   // SUDOKU6
 #define kScoreGames			@"score6Games"
 #define kScoreClears		@"score6Clears"
@@ -112,7 +118,16 @@
     
     NSLog(@"getGameResultScore(%d,%d) => %d", level, sec, (5-level) * (10 - score + 1));
     
-    return (5-level) * (10 - score + 1);
+    score = (5-level) * (10 - score + 1);
+    
+#ifdef SUDOKU9  // zzz 나중에는 size 넘겨줘서 계산 해야 한다.
+    score = score * (SIZE_9*SIZE_9)/100;
+#else
+    score = score * (SIZE_6*SIZE_6)/100;
+#endif
+    score = MAX(score, 1);
+    
+    return score;
 }
 
 - (void) loadScoreData
@@ -787,9 +802,15 @@
 }
 
 #ifdef SUDOKU9
-#define DEFPUZZLESIZE   9
+#define DEFPUZZLESIZE   SIZE_9
+#elif SUDOKU8
+#define DEFPUZZLESIZE   SIZE_8
+#elif SUDOKU7
+#define DEFPUZZLESIZE   SIZE_7
+#elif SUDOKU6
+#define DEFPUZZLESIZE   SIZE_6
 #else
-#define DEFPUZZLESIZE   6
+#define DEFPUZZLESIZE   SIZE_9
 #endif
 
 
