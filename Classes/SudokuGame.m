@@ -71,7 +71,7 @@
 				answerNums[x][y] = num; // 0
 			} else {
 				num = [sudoku getAnswerNum:x y:y];
-                NSAssert(num > 0, @"Puzzlenum(%d) should be bigger than 0", num);
+                NSAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -535,7 +535,7 @@
     {
         for (x=0; x<size; x++)     // 호환을 위해서 순서를 맞춘다.
         {
-            *str++ = ('0' + nums[x + y*MAXMAPSIZE]);
+            *str++ = ('0' + nums[x + y*SIZE_9]);
         }
     }
     
@@ -552,7 +552,7 @@
     {
         for (x=0; x<size; x++)
         {
-            nums[x + y*MAXMAPSIZE] = *s++ - '0';
+            nums[x + y*SIZE_9] = *s++ - '0';
         }
     }
 
@@ -572,7 +572,7 @@
 			strcpy(str, strs);
 		strcat(str, "|");
 		str += len+1;
-		strs += MAXMAPSIZE+1;
+		strs += SIZE_9+1;
 	}
 	*str = '\0';
 }
@@ -584,7 +584,7 @@
 	for (int i=0; i<size*size; i++)
 	{
 		strcpy(strs, [[listItems objectAtIndex:i] cStringUsingEncoding:NSASCIIStringEncoding]);
-		strs += MAXMAPSIZE+1;
+		strs += SIZE_9+1;
 	}
 }
 

@@ -15,7 +15,7 @@
 @interface SudokuNum : NSObject 
 {
     NSInteger       size;
-	NSMutableArray	*nums;
+//	NSMutableArray	*nums;
     
     NSInteger       memo[9][9];  // bit 연산
     NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *

@@ -142,7 +142,7 @@ static int defaultMap[][16*16] = {
 
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%d,%d/Max = %d)", x, y, MAXMAPSIZE);
+    NSAssert3(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%d,%d/Max = %d)", x, y, MAXMAPSIZE);
 
     return map[x][y];
 }

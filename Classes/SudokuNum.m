@@ -44,9 +44,9 @@
 {
 	NSLog(@"initNums");
 	
-	for (int i=0; i<MAXMAPSIZE; i++)
+	for (int i=0; i<size; i++)
 	{
-		for (int j=0; j<MAXMAPSIZE; j++)
+		for (int j=0; j<size; j++)
 		{
 			[self setDefaultMemo:i y:j];
 		}
@@ -128,9 +128,9 @@
 
 - (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(num <= size, @"setAnswerNum num");
-    NSAssert(x >= 0 && x < size, @"setAnswerNum x");
-    NSAssert(y >= 0 && y < size, @"setAnswerNum y");
+    NSAssert1(num <= size, @"setAnswerNum num = %d", num);
+    NSAssert1(x >= 0 && x < size, @"setAnswerNum x = %d", x);
+    NSAssert1(y >= 0 && y < size, @"setAnswerNum y = %d", y);
     
 	answer[x][y] = num;
 	puzzle[x][y] = 0;
@@ -139,9 +139,9 @@
 
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
 {
-    
-    NSAssert(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
-    NSAssert(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
+    NSLog(@"setDefaultMemo(%d,%d)", x, y);
+    NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
+    NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
     memo[x][y] = 1;
     for (int i=0; i<size-1; i++)
@@ -156,6 +156,9 @@
 
 - (BOOL) isMemoed:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+	if (num > size || x >= size || y >= size)
+		NSLog(@"isMemoed(%d,%d,%d)", num, x, y);
+	
     NSAssert(num >= 1 && num <= size, @"isMemoed num");
     NSAssert(x >= 0 && x < size, @"isMemoed x");
     NSAssert(y >= 0 && y < size, @"isMemoed y");
@@ -706,7 +709,6 @@
 
 - (BOOL) setCellAuto:(NSInteger)handy;
 {
-	unsigned int valRand;
 	int numRandom;
 	int num, answerNum;
 
@@ -720,11 +722,10 @@
 		{
 			for (int x=0; x<size; x++)
 			{
-				num = [self getPuzzle:x y:y];
+				num = [self getPuzzleNum:x y:y];
 				if (num > 0)
 				{
-					[self setAnswer:num x:x y:y];
-					[self setPuzzle:0 x:x y:y];
+					[self setAnswerNum:num x:x y:y];
 				}
 			}
 		}
@@ -822,13 +823,7 @@
 		return NO;
 	}
 	
-	NSMutableArray *array = self.nums;	
-	
-	NSString *str = [[NSString alloc] initWithFormat:@"%d*", num];
-// only one cell check
-	[[array objectAtIndex:xPos] replaceObjectAtIndex:yPos withObject:str];	
-
-	[str release];
+	[self setPuzzleNum:num x:xPos y:yPos];
 	
 	return YES;
 }
@@ -977,11 +972,11 @@
 				for (int l=0; l<3; l++)
 				{
 					int pos = k*3 + l;
-					if ([self isMemoed:pos+1 x:x y:y])
+					if (pos < size && x < size && y < size && [self isMemoed:pos+1 x:x y:y])
 					{
 						str = [str stringByAppendingFormat:@"%d", pos+1];
 					} else {
-						if ([self getPuzzleNum:x y:y] > 0)
+						if (x < size && y < size && [self getPuzzleNum:x y:y] > 0)
 						{
 							if (pos == 3)
 								str = [str stringByAppendingString:@"["];
@@ -992,7 +987,7 @@
 							else
 								str = [str stringByAppendingString:@" "];
 						}
-						else if ([self getAnswerNum:x y:y] > 0)
+						else if (x < size && y < size && [self getAnswerNum:x y:y] > 0)
 						{
 							if (pos == 3)
 								str = [str stringByAppendingString:@"-"];
