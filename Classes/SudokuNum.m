@@ -337,7 +337,7 @@
 
 	
 	for (x=0; x<size && bOkAutoSet; x++)
-	{
+	{	//k = num;
 		for (k=1; k<=size && bOkAutoSet; k++)
 		{
 			countFound = 0;
@@ -376,7 +376,7 @@
 
 	
 	for (y=0; y<size && bOkAutoSet; y++)
-	{
+	{	//k = num;
 		for (k=1; k<=size && bOkAutoSet; k++)
 		{
 			countFound = 0;
@@ -421,6 +421,7 @@
 
 	for (numMap = 0; numMap < size; numMap++)
 	{
+		//k = num;
 		for (k=1; k<=size && bOkAutoSet; k++)
 		{
 			countFound = 0;

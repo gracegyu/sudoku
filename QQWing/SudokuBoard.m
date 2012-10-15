@@ -415,6 +415,18 @@ bool readPuzzleFromStdIn(int* puzzle)
 	[solveHistory removeAllObjects];
 	[solveInstructions removeAllObjects];
 	
+/*	solution[0]=1;
+	solution[1]=2;
+	solution[2]=3;
+	solution[9]=4;
+	solution[10]=5;
+	solution[11]=6;
+	solution[18]=7;
+	solution[19]=8;
+	solution[20]=9;
+	[self printSolution];
+*/
+	
     int round = 1;
     for (int position=0; position<BOARD_SIZE; position++)
 	{
@@ -432,7 +444,7 @@ bool readPuzzleFromStdIn(int* puzzle)
 			}
         }
     }
-	
+
     return true;
 }
 
@@ -574,23 +586,32 @@ bool readPuzzleFromStdIn(int* puzzle)
     // uses random algorithms, so we should have a
     // really randomly totally filled sudoku
     // Even when starting from an empty grid
+	
+
+	
     [self solve];
+//	[self printSolution];
+
 	
     // Rollback any square for which it is obvious that
     // the square doesn't contribute to a unique solution
     // (ie, squares that were filled by logic rather
     // than by guess)
     [self rollbackNonGuesses];
+
+
 	
     // Record all marked squares as the puzzle so
     // that we can call countSolutions without losing it.
     {for (int i=0; i<BOARD_SIZE; i++){
         puzzle[i] = solution[i];
     }}
+
 	
     // Rerandomize everything so that we test squares
     // in a different order than they were added.
     [self shuffleRandomArrays];
+
 	
     // Remove one value at a time and see if
     // the puzzle still has only one solution.
@@ -611,9 +632,11 @@ bool readPuzzleFromStdIn(int* puzzle)
             }
         }
     }}
+
 	
     // Clear all solution info, leaving just the puzzle.
     [self reset];
+
 	
     // Restore recording history.
     [self setRecordHistory:recHistory];
@@ -693,12 +716,17 @@ bool readPuzzleFromStdIn(int* puzzle)
 - (bool) solve
 {
     [self reset];
+	
+
+	
     [self shuffleRandomArrays];
     return [self solve:2];
 }
 
 - (bool) solve:(int)round
 {
+
+
     lastSolveRound = round;
 	
     while ([self singleSolveMove:round])
@@ -707,9 +735,35 @@ bool readPuzzleFromStdIn(int* puzzle)
         if ([self isImpossible]) return false;
     }
 	
+	//[self printSolution];
+
+	
+/*	solution[0]=1;
+	solution[1]=2;
+	solution[2]=3;
+	solution[9]=4;
+	solution[10]=5;
+	solution[11]=6;
+	solution[18]=7;
+	solution[19]=8;
+	solution[20]=9;
+	solution[30]=1;
+	solution[31]=2;
+	solution[32]=3;
+	solution[39]=4;
+	solution[40]=5;
+	solution[41]=6;
+	solution[48]=7;
+	solution[49]=8;
+	solution[50]=9;
+	[self printSolution];
+*/
+	
     int nextGuessRound = round+1;
     int nextRound = round+2;
-    for (int guessNumber=0; [self guess:nextGuessRound guessNumber:guessNumber]; guessNumber++){
+    for (int guessNumber=0; [self guess:nextGuessRound guessNumber:guessNumber]; guessNumber++)
+	{
+		//[self printSolution];
         if ([self isImpossible] || ![self solve:nextRound]){
             [self rollbackRound:nextRound];
             [self rollbackRound:nextGuessRound];
