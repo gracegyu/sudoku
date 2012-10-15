@@ -32,9 +32,9 @@
 #define IPAD_GAD_H              GAD_SIZE_728x90.height
 #define IPAD_GAD_W              GAD_SIZE_728x90.width
 
-#define BACKTRACKING_START      1
+#define BACKTRACKING_START      3
 #define BACKTRACKING_INTERVAL   1
-#define BACKTRACKING_MAX        7
+#define BACKTRACKING_MAX        10
 #define MAX_HANDYTRAYFAIL       30
 
 #define GAMECOUNTFORREVIEW        20
@@ -54,7 +54,9 @@ enum GAMELEVEL {
 	GAMELEVEL_VERYEASY
 };
 
-enum {
+typedef enum GAMELEVEL GAMELEVEL;
+
+enum DEVICETYPE {
 	DEVICETYPE_UNKNOWN = 0,
 	DEVICETYPE_ANDROID,
 	DEVICETYPE_IPHONE,
@@ -62,6 +64,8 @@ enum {
 	DEVICETYPE_BLACKBERRY,
 	DEVICETYPE_WINDOWPHONE7
 };
+
+typedef enum DEVICETYPE DEVICETYPE;
 
 #define cTableXMargine              60
 #define cTableYMargine              33
@@ -82,4 +86,40 @@ enum {
 
 
 #define TIME_HOLDANDCHOICE 0.35
+
+
+#ifdef _DEBUG
+#define NSLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+#define NSLog(format, ...)
+#endif
+
+
+#ifdef GTSUDOKU
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 2, 4, 7, 10 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 4, 15, 24, 45 }  // 9
+};
+#else
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 1, 2, 3, 4 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 5, 10, 24, 37 } // 9
+};
+#endif
 

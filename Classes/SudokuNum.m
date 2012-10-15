@@ -43,6 +43,13 @@
 - (void) initNums
 {
 	NSLog(@"initNums");
+	defaultMemo = 1;
+
+    for (int i=0; i<size-1; i++)
+    {
+        defaultMemo = defaultMemo << 1;
+        defaultMemo |= 1;
+    }
 	
 	for (int i=0; i<size; i++)
 	{
@@ -65,6 +72,12 @@
     numBackTracking = BACKTRACKING_START;
     countHandyTryFailed = 0;
     size = sizePuzzle;
+	foundSingle = 0;
+	foundUnique = 0;
+	foundLoop = 0;
+	foundFail = 0;
+	countBack = 0;
+	sumBack = 0;
     
     [self initMap:defmap];
     [self initNumsUndo];
@@ -114,6 +127,7 @@
     puzzle[x][y] = num;
     answer[x][y] = 0;
     memo[x][y] = 0;
+	memonum[x][y] = 0;
 	
 }
 
@@ -135,6 +149,8 @@
 	answer[x][y] = num;
 	puzzle[x][y] = 0;
 	memo[x][y] = 0;
+	memonum[x][y] = 0;
+
 }
 
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
@@ -143,12 +159,9 @@
     NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
-    memo[x][y] = 1;
-    for (int i=0; i<size-1; i++)
-    {
-        memo[x][y] = memo[x][y] << 1;
-        memo[x][y] |= 1;
-    }
+    memo[x][y] = defaultMemo;
+	memonum[x][y] = size;
+
 	puzzle[x][y] = 0;
 	answer[x][y] = 0;
 
@@ -183,8 +196,10 @@
     NSAssert(x >= 0 && x < size, @"addMemo x");
     NSAssert(y >= 0 && y < size, @"addMemo y");
     
-    
     NSUInteger n = (1 << (num-1));
+	
+	if (memo[x][y] != (memo[x][y] | n))
+		memonum[x][y] += 1;
     
     memo[x][y] |= n;
     
@@ -213,6 +228,8 @@
 
 	if (temp != 0)
 	{
+		if (memo[x][y] != temp)
+			memonum[x][y] -= 1;
 		memo[x][y] = temp;
 		return YES;
 	} else {
@@ -232,23 +249,30 @@
 
 - (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y
 {
+//	NSLog(@"getUniqueMemo(%d,%d)", x, y);
+	
     NSAssert(x >= 0 && x < size, @"getUniqueMemo x");
     NSAssert(y >= 0 && y < size, @"getUniqueMemo y");
     
     NSInteger num = 1;
     NSInteger found = 0;
     
+	if (memonum[x][y] != 1)
+		return 0;
+	
     for (int i=0; i<size; i++, num = num << 1)
     {
         if ((memo[x][y] & num) != 0)
         {
-            if (found > 0)
-                return 0;
+			
             found = i+1;
+			return found;
         }
     }
     
-    return found;
+	NSAssert(NO, @"getUniqueMemo NOTFOUND");
+	
+    return 0;
 }
 
 - (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y
@@ -257,17 +281,9 @@
     NSAssert(y >= 0 && y < size, @"getRandomMemo y");
     
     NSInteger num = 1;
-    NSInteger count = 0;
+    NSInteger count = memonum[x][y];
 	NSInteger rand;
-    
-    for (int i=0; i<size; i++, num = num << 1)
-    {
-        if ((memo[x][y] & num) != 0)
-        {
-            count++;
-        }
-    }
-	
+ 
 	rand = [self randNum:count];
 	num = 1;
     for (int i=0; i<size; i++, num = num << 1)
@@ -290,7 +306,7 @@
 - (void) findFixedNum
 {
 	if (bOkAutoSet == NO)
-		return;	
+		return;
 	
 	int x,y;
 	NSInteger num;
@@ -302,6 +318,7 @@
 			num = [self getUniqueMemo:x y:y];
 			if (num > 0)
 			{
+				foundSingle++;
 				[self setCellAnswerCheck:num x:x y:y];
 				if (bOkAutoSet == NO)
 					return;
@@ -327,7 +344,7 @@
 			posFirstFound = -1;
 			for (y=0; y<size && bOkAutoSet; y++)
 			{
-				if ([self isMemoed:num x:x y:y] > 0)
+				if ([self isMemoed:k x:x y:y] > 0)
 				{
 					countFound++;
 					if (countFound == 1)
@@ -343,7 +360,8 @@
 				// * ~는 아니어야 함
 				if ([self isEmptyMemo:x y:y] == NO)
 				{
-					[self setCellAnswerCheck:num x:x y:y];
+					foundUnique++;
+					[self setCellAnswerCheck:k x:x y:y];
 				}
 			}
 		}		
@@ -366,7 +384,7 @@
 			
 			for (x=0; x<size && bOkAutoSet; x++)
 			{
-				if ([self isMemoed:num x:x y:y] > 0)
+				if ([self isMemoed:k x:x y:y] > 0)
 				{
 					countFound++;
 					if (countFound == 1)
@@ -381,7 +399,8 @@
 				// * ~는 아니어야 함
 				if ([self isEmptyMemo:x y:y] == NO)
 				{
-					[self setCellAnswerCheck:num x:x y:y];
+					foundUnique++;
+					[self setCellAnswerCheck:k x:x y:y];
 				}
 			}
 		}		
@@ -392,50 +411,51 @@
 - (void) findUniqueNumXY:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
 
-	int x,y,k;//,i,j;
+	int x,y,k,i,numMap;//,i,j;
 	int	countFound;
 	int posXFirstFound;
 	int posYFirstFound;
+	sXY* sub;
 
-    NSInteger numMap = [map getMapNum:xPos y:yPos];
+    //NSInteger numMap = [map getMapNum:xPos y:yPos];
 
-	for (k=1; k<=size && bOkAutoSet; k++)
+	for (numMap = 0; numMap < size; numMap++)
 	{
-		countFound = 0;
-		posXFirstFound = -1;
-		posYFirstFound = -1;
-
-		for (x=0; x<size && bOkAutoSet; x++)
+		for (k=1; k<=size && bOkAutoSet; k++)
 		{
-			for (y=0; y<size && bOkAutoSet; y++)
+			countFound = 0;
+			posXFirstFound = -1;
+			posYFirstFound = -1;
+			
+			sub = [map getSub:numMap];
+			
+			for (i=0; i<size && bOkAutoSet; i++)
 			{
-                if (numMap == [map getMapNum:x y:y]) // 작은 블록 내의 칸인가?
-                {
-                    if ([self isMemoed:num x:x y:y] > 0)
-                    {
-                        countFound++;
-                        if (countFound == 1)
-                        {
-                            posXFirstFound = x;
-                            posYFirstFound = y;
-                        }
-                    }
-                }
+				if ([self isMemoed:k x:sub[i].x y:sub[i].y] > 0)
+				{
+					countFound++;
+					if (countFound == 1)
+					{
+						posXFirstFound = sub[i].x;
+						posYFirstFound = sub[i].y;
+					}
+				}
 			}
-		}
-		if (countFound == 1)
-		{
-			x = posXFirstFound;
-			y = posYFirstFound;
-			// * ~는 아니어야 함
-			if ([self isEmptyMemo:x y:y] == NO)
+			
+			if (countFound == 1)
 			{
-				[self setCellAnswerCheck:num x:x y:y];
+				x = posXFirstFound;
+				y = posYFirstFound;
+				// * ~는 아니어야 함
+				if ([self isEmptyMemo:x y:y] == NO)
+				{
+					foundUnique++;
+					[self setCellAnswerCheck:k x:x y:y];
+				}
 			}
 		}
 	}
 }
-
 
 - (void) findUniqueNum:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
@@ -502,6 +522,10 @@
 			
 }
 
+- (void) findLoopNum
+{
+	
+}
 
 - (BOOL) setCellCheck:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
@@ -518,6 +542,7 @@
 			if ([self delMemo:num x:x y:y] == NO)
 			{
 				NSLog(@"Failed");
+				foundFail++;
 				bOkAutoSet = NO;
 				return NO;
 			}
@@ -531,6 +556,7 @@
 			if ([self delMemo:num x:x y:y] == NO)
 			{
 				NSLog(@"Failed");
+				foundFail++;
 				bOkAutoSet = NO;
 				return NO;
 			}
@@ -550,6 +576,7 @@
 					if ([self delMemo:num x:x y:y] == NO)
 					{
 						NSLog(@"Failed");
+						foundFail++;
 						bOkAutoSet = NO;
 						return NO;
 					}
@@ -561,6 +588,7 @@
 	
 	[self findFixedNum];
 	[self findUniqueNum:num xPos:xPos yPos:yPos];
+	[self findLoopNum];
 	
 	// http://blog.daum.net/bonwon/13666388
 	
@@ -616,7 +644,7 @@
 		// 이전에 지정한 셀에 다른 값(0~size)을 설정하려고 함
 		[self editCell:num xPos:xPos yPos:yPos];
 		
-		return NO;	
+		return NO;
 	}
 		
 	if ([self isMemoed:num x:xPos y:yPos] == NO) // 후보군의 숫자가 아님, 설정 불가능
@@ -707,63 +735,74 @@
 
 
 
-- (BOOL) setCellAuto:(NSInteger)handy;
+- (void) setCellApplyHandy:(NSInteger)handy
 {
 	int numRandom;
 	int num, answerNum;
 
-	
-    
-    // Handy 적용하다가 무한루프에 빠질 수 있음... 
-	if (countNotFixed == 0) {	// last time, Handy 적용한다.
-#ifdef GTSUDOKU 
-		// 일단 여기서 모든 셀을 AutoCell로 지정한다.
-		for (int y=0; y<size; y++)
+#ifdef GTSUDOKU
+	// 일단 여기서 모든 셀을 AutoCell로 지정한다.
+	for (int y=0; y<size; y++)
+	{
+		for (int x=0; x<size; x++)
 		{
-			for (int x=0; x<size; x++)
+			num = [self getPuzzleNum:x y:y];
+			if (num > 0)
 			{
-				num = [self getPuzzleNum:x y:y];
-				if (num > 0)
+				[self setAnswerNum:num x:x y:y];
+			}
+		}
+	}
+	
+	
+#endif
+	for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
+	{
+		numRandom = [self randNum:countAutoFixed];
+		num = 0;
+		
+		// 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
+		for (int y=0; y<size && num <= numRandom; y++)
+		{
+			for (int x=0; x<size && num <= numRandom; x++)
+			{
+				answerNum = [self getAnswerNum:x y:y];
+				
+				if (answerNum > 0)
 				{
-					[self setAnswerNum:num x:x y:y];
+					if (num == numRandom)
+					{
+						if ([self setCellUserFixed:answerNum xPos:x yPos:y] == NO)
+						{
+							i--;
+							countHandyTryFailed += 1;
+						}
+					}
+					num += 1;
 				}
 			}
 		}
-        
-        
-#endif
-		for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
-		{
-			numRandom = [self randNum:countAutoFixed];
-			num = 0;
-            
-            // 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
-			for (int y=0; y<size && num <= numRandom; y++)
-			{
-				for (int x=0; x<size && num <= numRandom; x++)
-				{
-					answerNum = [self getAnswerNum:x y:y];
-					
-					if (answerNum > 0)
-					{
-						if (num == numRandom)
-						{							
-							if ([self setCellUserFixed:answerNum xPos:x yPos:y] == NO)
-							{
-								i--;
-								countHandyTryFailed += 1;
-							}
-						}
-						num += 1;
-					}			
-				}
-			}	
-//			[self printNums];
-			[self countCell];
-            if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
-                NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+		//			[self printNums];
+		[self countCell];
+		if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
+			NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+		
+	}
 
-		}
+}
+
+
+
+- (BOOL) setCellAuto:(NSInteger)handy
+{
+	int numRandom;
+	int num;
+
+	
+    
+    // Handy 적용하다가 무한루프에 빠질 수 있음...
+	if (countNotFixed == 0) {	// last time, Handy 적용한다.
+		[self setCellApplyHandy:handy];
 		return NO;  // 게임 생성 완성
 	}	
 	bOkAutoSet = YES;
@@ -806,7 +845,10 @@
         if (numBackTracking > BACKTRACKING_MAX)
             numBackTracking = BACKTRACKING_MAX;
 	}
+	[self countCell];
 
+	if (countNotFixed == 0)
+		return NO;	// Handy는 나중에 적용한다.
 	
 	return YES;
 }
@@ -923,6 +965,9 @@
 	NSInteger iNum, x, y;
 	CGPoint pointLastUndoPos;
 	
+	countBack++;
+	sumBack += num;
+	
 	pointLastUndoPos.x = -1;
 	pointLastUndoPos.y = -1;
 	
@@ -1019,7 +1064,10 @@
 		}
 		
 	}
+	str = [str stringByAppendingFormat:@"Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
+		   foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
 	NSLog(@"str = %@", str);
+
 	
 	//	[str release];
 }
@@ -1029,15 +1077,11 @@
 	countUserFixed = 0;
 	countAutoFixed = 0;	
 	countNotFixed = 0;
-	
-	NSMutableArray *array = self.nums;
-	NSString *str;
 
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)
 		{
-			str = [[array objectAtIndex:x] objectAtIndex:y];
 			if ([self getPuzzleNum:x y:y] > 0)
 				countUserFixed += 1;	
 			else if ([self getAnswerNum:x y:y] > 0)
@@ -1189,3 +1233,26 @@ NSInteger Rand12[2][3] = {
 #endif
 
 @end
+
+SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap)
+{
+	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
+	
+	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
+	[sudokuNum countCell];
+	[sudokuNum printNums];
+	NSInteger i = 0;
+	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+	{
+		i++;
+        //NSLog(@"############### i = %d", i);
+		[sudokuNum printNums];
+	}
+	NSLog(@"%d times loop", i);
+	[sudokuNum printNums];
+	
+	return sudokuNum;
+}
+
+
+

@@ -13,7 +13,7 @@
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
-	enum GAMELEVEL	gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
+	GAMELEVEL		gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
@@ -33,7 +33,7 @@
 }
 
 @property NSInteger         size;
-@property enum GAMELEVEL	gameLevel;
+@property GAMELEVEL			gameLevel;
 @property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			
@@ -47,7 +47,7 @@
 // Create Game : Level
 // 
 
-- (id)initWithSudokuNum:(SudokuNum*)sudoku;
+- (id)initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;

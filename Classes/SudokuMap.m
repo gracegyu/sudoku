@@ -7,6 +7,7 @@
 //
 
 #import "SudokuMap.h"
+#import "Constants.h"
 
 @implementation SudokuMap
 
@@ -118,7 +119,8 @@ static int defaultMap[][16*16] = {
             break;
     }
     
-    
+    NSInteger countSub[MAXMAPSIZE+1];
+	memset(countSub, 0, sizeof(countSub));
     
     for (y = 0; y < sizeMap; y++) {
         for (x = 0; x < sizeMap; x++) {
@@ -126,8 +128,12 @@ static int defaultMap[][16*16] = {
             map[x][y] = Map[i];
             NSAssert(Map[i] <= sizeMap, @"Map[%d](%d) > %d", i, Map[i], sizeMap);
             NSAssert(++countMap[Map[i]] <= sizeMap, @"countMap[%d] > %d", Map[i], sizeMap);
-            NSLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
+            //NSLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
             
+			sub[Map[i]][countSub[Map[i]]].x = x;
+			sub[Map[i]][countSub[Map[i]]].y = y;
+			countSub[Map[i]] += 1;			
+			
             i++;
         }
     }
@@ -138,6 +144,11 @@ static int defaultMap[][16*16] = {
 - (NSInteger*) getMap
 {
     return (NSInteger*) map;
+}
+
+- (sXY*) getSub:(NSInteger)num
+{
+	return (sXY*) (sub[num]);
 }
 
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y

@@ -16,16 +16,24 @@
 #define SIZE_8      8
 #define SIZE_9      9
 
+typedef struct 
+{
+	NSInteger x;
+	NSInteger y;
+} sXY;
+
 @interface SudokuMap : NSObject
 {
     NSInteger   size;                   // 4,5,6,7,8,9
     NSInteger	map[MAXMAPSIZE][MAXMAPSIZE];
+	sXY			sub[MAXMAPSIZE+1][MAXMAPSIZE];	// 1~9, 0~8, x,y
 }
 
 @property NSInteger     size;
 
 - (SudokuMap*) initWithSize:(NSInteger)size defmap:(BOOL)defmap;
 - (NSInteger*) getMap;
+- (sXY*) getSub:(NSInteger)num;
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 

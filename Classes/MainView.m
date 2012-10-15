@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "Locale.h"
+#import "SudokuBoard.h"
 
 @implementation MainView
 @synthesize tableBgColor;
@@ -1450,63 +1451,30 @@
 }
 
 
-#ifdef GTSUDOKU
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 4, 15, 24, 45 }  // 9
-};
-#else
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 1, 2, 3, 4 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 5, 10, 24, 37 } // 9
-};
-#endif
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
-    
-	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
+	BOOL bUseQQ=NO;
+#ifdef SUDOKU9
+#ifndef GTSUDOKU
+	bUseQQ = YES;
+#endif
+#endif
+	
 
-	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
-	[sudokuNum countCell];
-	[sudokuNum printNums];
-	NSInteger i = 0;
-	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+	if (bUseQQ)
 	{
-		i++;
-        //NSLog(@"############### i = %d", i);
-		[sudokuNum printNums];
-		[sudokuNum countCell];
-	}	
-	NSLog(@"%d times loop", i);
-	[sudokuNum printNums];
-    
+		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT);
+		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level];
+		[board release];
+	} else {
+		SudokuNum *sudokuNum = sudokuNumGenerate(level, sizePuzzle, bSettingDefMap);
+		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level];
+		[sudokuNum release];
+	}
 	
-	// zzzz release previous game
-	sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum];
-	sudokuGame.gameLevel = level;
-    [sudokuGame saveData];          // save Sudoku data as soon as making new game
-	
-	[sudokuNum release];
-
 	// zzz turn off activityIndicator
-	
+    //[sudokuGame saveData];          // save Sudoku data as soon as making new game
 	[self setNeedsDisplay];
 }
 

@@ -17,10 +17,18 @@
     NSInteger       size;
 //	NSMutableArray	*nums;
     
+	NSInteger		defaultMemo;
     NSInteger       memo[9][9];  // bit 연산
+	NSInteger		memonum[9][9];
     NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *
     NSInteger       answer[9][9];   // 0, 1~9 (Auto fix) ~
 	/////////// 메모 개수 처리..........
+	NSInteger		foundSingle;
+	NSInteger		foundUnique;
+	NSInteger		foundLoop;
+	NSInteger		foundFail;
+	NSInteger		countBack;
+	NSInteger		sumBack;
     
     
     SudokuMap       *map;
@@ -92,3 +100,7 @@
 - (void) initGTSudoku;
    
 @end
+
+
+SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap);
+

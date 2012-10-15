@@ -7,6 +7,7 @@
 //
 
 #import "SudokuUndo.h"
+#import "Constants.h"
 
 @implementation UndoData
 

@@ -9,6 +9,7 @@
 #import "SudokuGame.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
+#import "SudokuBoard.h"
 
 @implementation SudokuGame
 
@@ -34,6 +35,11 @@
 	[super dealloc];
 }
 
+- (NSInteger) randNum:(NSInteger) num
+{
+    return ((unsigned int)arc4random()) % num;
+}
+
 
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
@@ -45,20 +51,221 @@
     
 }
 
-
-
-- (id)initWithSudokuNum:(SudokuNum*)sudoku
+- (NSInteger) countPuzzleNum
 {
-	if ((super.init) == nil) 
-		return nil;
+	NSInteger num = 0;
 	
-    size = [sudoku getCellSize];
+	for (int y=0; y<size; y++)
+	{
+		for (int x=0; x<size; x++)
+		{
+			if (puzzleNums[x][y] > 0)
+				num += 1;
+		}
+	}
+	return num;
+}
+
+- (NSInteger) countUserFixedNumX:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	int x = xPos;
+	int y = yPos;
+	NSInteger count = 0;
+	
+	for (y=0; y<size; y++)
+	{
+		if (puzzleNums[x][y] > 0)
+			count++;
+	}
+	NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
+	return count;
+}
+
+- (NSInteger) countUserFixedNumY:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	int x = xPos;
+	int y = yPos;
+	NSInteger count = 0;
+	
+	for (x=0; x<size; x++)
+	{
+		if (puzzleNums[x][y] > 0)
+			count++;
+	}
+	NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
+	return count;
+	
+}
+
+- (NSInteger) countUserFixedNumXY:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	int x = xPos;
+	int y = yPos;
+	NSInteger count = 0;
+	
+	int mapNum = mapNums[xPos][yPos];
+	
+	for (x=0; x<size; x++)
+	{
+		for (y=0; y<size; y++)
+		{
+			if (mapNum == mapNums[x][y])
+			{
+				if (puzzleNums[x][y] > 0)
+					count++;
+            }
+        }
+	}
+	NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
+	return count;
+	
+}
+
+- (BOOL) setCellUserFixed:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	if ([self countUserFixedNumX:xPos yPos:yPos] >= size-1 ||
+		[self countUserFixedNumY:xPos yPos:yPos] >= size-1 ||
+		[self countUserFixedNumXY:xPos yPos:yPos] >= size-1)
+	{
+		
+		return NO;
+	}
+	
+	puzzleNums[xPos][yPos] = num;
+	
+	return YES;
+}
+
+- (void) applyHandy
+{
+	int numRandom;
+	int num;
+	int handy = HandyCount[size][gameLevel];
+	
+	NSInteger countPuzzle = [self countPuzzleNum];
+	NSInteger countBlankCell = size*size - countPuzzle;
+	NSInteger countHandyTryFailed=0;
+	
+#ifdef GTSUDOKU
+	memset(puzzleNums, 0, sizeof(puzzleNums));
+	// 일단 여기서 모든 셀을 AutoCell로 지정한다.
+/*	for (int y=0; y<size; y++)
+	{
+		for (int x=0; x<size; x++)
+		{
+			num = [self getPuzzleNum:x y:y];
+			if (puzzleNums[x][y] != 0)
+			{
+				puzzleNums[x][y] = 0;
+			}
+		}
+	}
+*/	
+	
+#endif
+	for (int i=0; i<handy && countBlankCell>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
+	{
+		numRandom = [self randNum:countBlankCell];
+		num = 0;
+		
+		// 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
+		for (int y=0; y<size && num <= numRandom; y++)
+		{
+			for (int x=0; x<size && num <= numRandom; x++)
+			{
+				if (puzzleNums[x][y] == 0)
+				{
+					if (num == numRandom)
+					{
+						if ([self setCellUserFixed:answerNums[x][y] xPos:x yPos:y] == YES)
+						{
+							countPuzzle++;
+							countBlankCell--;
+						} else {
+							i--;
+							countHandyTryFailed += 1;
+						}
+					}
+					num += 1;
+				}
+			}
+		}
+		//			[self printNums];
+
+		if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
+			NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+		
+	}
+	
+}
+
+- (void) initData:(GAMELEVEL)level
+{
 	gameLevel = GAMELEVEL_NORMAL;       // default
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
 	gameFinished = NO;
 	countHint = [self getDefHintCount:size];
+	gameLevel = level;
+}
+
+- (void) postData
+{
+	[self applyHandy];
+    sudokuUndo = [[SudokuUndo alloc] init];
+    
+	[self saveData];
+
+}
+
+- (id) initWithSudokuBoard:(SudokuBoard*)sudoku level:(GAMELEVEL)level
+{
+	if ((super.init) == nil)
+		return nil;
+	
+
+	
+	size = SIZE_9;
+	[self initData:level];
+	SudokuMap* map = [[SudokuMap alloc] initWithSize:size defmap:YES];
+	
+	NSInteger num;
+    for (int y=0; y<size; y++) {
+		for (int x=0; x<size; x++) {
+            mapNums[x][y] = [map getMapNum:x y:y];
+            num = ((int*)[sudoku getPuzzle])[y*size+x];
+            
+            if (num > 0) {		// fixed cell
+				puzzleNums[x][y] = num;
+				answerNums[x][y] = num; // 0
+			} else {
+				num = ((int*)[sudoku getSolution])[y*size+x];
+                NSAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
+				puzzleNums[x][y] = 0;				// blank
+				answerNums[x][y] = num;
+			}
+            
+			fixNums[x][y] = 0;
+			memoNums[x][y][0] = '\0';
+		}
+	}
+	[map release];
+	[self postData];
+	
+	
+	return self;
+	
+}
+
+
+- (id) initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level
+{
+	if ((super.init) == nil) 
+		return nil;
+	
+    size = [sudoku getCellSize];
+	[self initData:level];
 
 	NSInteger num;
     for (int y=0; y<size; y++) {
@@ -79,13 +286,9 @@
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
 		}
-	}		
+	}
 	
-//	strUndo = [[NSString alloc] initWithString:@""];
-    sudokuUndo = [[SudokuUndo alloc] init];
-    
-	[self saveData];
-	
+	[self postData];
 	return self;
 
 }
