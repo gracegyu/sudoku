@@ -25,6 +25,14 @@ static int setMap6[][16*16] = {
     {   1,2,2,2,2,3,1,1,1,2,3,3,5,6,1,2,4,3,5,6,1,6,4,3,5,6,6,6,4,3,5,5,5,4,4,4 },
     {   0   }
 };
+static int setMap7[][16*16] = {
+	{   1,1,2,2,2,2,3,1,1,1,2,2,2,3,4,1,1,5,5,3,3,4,4,5,5,5,3,3,4,4,5,5,6,6,3,4,7,7,7,6,6,6,4,7,7,7,7,6,6 },
+	{   1,1,1,3,3,3,3,1,1,5,6,3,3,3,1,1,5,6,6,6,6,5,5,5,7,7,6,6,5,5,7,7,7,2,2,4,4,4,7,7,2,2,4,4,4,4,2,2,2 },
+	{   1,1,1,4,4,4,5,1,1,1,4,4,5,5,2,1,4,4,5,5,5,2,2,2,2,7,5,6,3,2,2,7,7,6,6,3,3,7,7,7,6,6,3,3,3,3,7,6,6 },
+	{   1,1,2,2,2,2,3,1,1,1,2,2,3,3,4,1,5,2,5,3,3,4,1,5,5,5,5,3,4,4,4,5,7,7,3,4,4,6,6,7,7,7,6,6,6,6,6,7,7 },
+    {   0   }
+};
+
 
 
 static int defaultMap[][16*16] = {
@@ -113,12 +121,25 @@ static int defaultMap[][16*16] = {
                 Map = setMap6[numRandom+1];
             }
             break;
+        case SIZE_7 :
+			{
+				NSInteger countDefMap = 0;
+				for (int i=0; setMap7[i][0]>0; i++)
+					countDefMap++;
+				
+				unsigned int valRand = arc4random();
+				NSInteger numRandom = valRand % (countDefMap-1);
+				NSLog(@"numRandom = %d", numRandom);
+				
+				Map = setMap7[numRandom+1];
+			}
+            break;
 
         default :
             Map = defaultMap[sizeMap];
             break;
     }
-    
+
     NSInteger countSub[MAXMAPSIZE+1];
 	memset(countSub, 0, sizeof(countSub));
     

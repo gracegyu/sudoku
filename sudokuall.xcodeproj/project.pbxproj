@@ -18,6 +18,7 @@
 		CF3ACEC5161D558100ADD12B /* locale_ja.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3ACEC0161D558000ADD12B /* locale_ja.png */; };
 		CF3ACEC6161D558100ADD12B /* locale_ko.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3ACEC1161D558000ADD12B /* locale_ko.png */; };
 		CF3ACEC7161D558100ADD12B /* locale_zh_CN.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3ACEC2161D558000ADD12B /* locale_zh_CN.png */; };
+		CF3BDCA5162D068F00C8FB9B /* Sudoku7Free.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF3BDCA4162D068F00C8FB9B /* Sudoku7Free.plist */; };
 		CF3F3348161E79AD00D52A43 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF3F3347161E79AD00D52A43 /* CoreLocation.framework */; };
 		CF3F334A161E79C000D52A43 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF3F3349161E79C000D52A43 /* MobileCoreServices.framework */; };
 		CF3F334C161E79CC00D52A43 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF3F334B161E79CC00D52A43 /* AVFoundation.framework */; };
@@ -2334,6 +2335,7 @@
 		CF3ACEC0161D558000ADD12B /* locale_ja.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locale_ja.png; path = resource/Images/locale_ja.png; sourceTree = "<group>"; };
 		CF3ACEC1161D558000ADD12B /* locale_ko.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locale_ko.png; path = resource/Images/locale_ko.png; sourceTree = "<group>"; };
 		CF3ACEC2161D558000ADD12B /* locale_zh_CN.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = locale_zh_CN.png; path = resource/Images/locale_zh_CN.png; sourceTree = "<group>"; };
+		CF3BDCA4162D068F00C8FB9B /* Sudoku7Free.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Sudoku7Free.plist; path = resource/Sudoku7Free/Sudoku7Free.plist; sourceTree = "<group>"; };
 		CF3F3347161E79AD00D52A43 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		CF3F3349161E79C000D52A43 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		CF3F334B161E79CC00D52A43 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -3132,6 +3134,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CF3BDCA3162D068000C8FB9B /* Sudoku7Free */,
 				CF71211C161C7FF9001FB734 /* Xibs */,
 				CFF600B71622F176008966E6 /* GTSudoku6Free */,
 				CF639C771626FDFD000C643B /* GTSudoku6Paid */,
@@ -3172,6 +3175,14 @@
 				CF6FF9261288F19200587748 /* iAd.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CF3BDCA3162D068000C8FB9B /* Sudoku7Free */ = {
+			isa = PBXGroup;
+			children = (
+				CF3BDCA4162D068F00C8FB9B /* Sudoku7Free.plist */,
+			);
+			name = Sudoku7Free;
 			sourceTree = "<group>";
 		};
 		CF4896D3160EEDC80076D28E /* TPMultiLayout */ = {
@@ -3845,9 +3856,9 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* SUDOKU9Free.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF4EF00616286ED400E72561 /* ~sudoku7free */ = {
+		CF4EF00616286ED400E72561 /* sudoku7free */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF4EF10516286ED400E72561 /* Build configuration list for PBXNativeTarget "~sudoku7free" */;
+			buildConfigurationList = CF4EF10516286ED400E72561 /* Build configuration list for PBXNativeTarget "sudoku7free" */;
 			buildPhases = (
 				CF4EF00716286ED400E72561 /* Resources */,
 				CF4EF0AE16286ED400E72561 /* Sources */,
@@ -3857,7 +3868,7 @@
 			);
 			dependencies = (
 			);
-			name = "~sudoku7free";
+			name = sudoku7free;
 			productName = SudokuHelper;
 			productReference = CF4EF10916286ED400E72561 /* sudoku6free copy.app */;
 			productType = "com.apple.product-type.application";
@@ -4010,9 +4021,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF4EF00616286ED400E72561 /* ~sudoku7free */,
 				CF6E3D85161FC48C000DD7D7 /* sudoku6free */,
 				CF9B66EB1622487E00EFD0B0 /* sudoku6paid */,
+				CF4EF00616286ED400E72561 /* sudoku7free */,
 				1D6058900D05DD3D006BFB54 /* sudoku9free */,
 				CF6BCCD9161D70AB00879F6E /* sudoku9paid */,
 				CFF6FFDF1622F100008966E6 /* gtsudoku6free */,
@@ -4366,6 +4377,7 @@
 				CF4EF0AB16286ED400E72561 /* bookmarkon_h.png in Resources */,
 				CF4EF0AC16286ED400E72561 /* bookmarkon_n.png in Resources */,
 				CF4EF0AD16286ED400E72561 /* bookmark.png in Resources */,
+				CF3BDCA5162D068F00C8FB9B /* Sudoku7Free.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6508,7 +6520,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ADMOB_FREEVERSION,
 					SUDOKU9,
-					_DEBUG,
+					DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -6593,8 +6605,9 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU7,
 					ADMOB_FREEVERSION,
+					DEBUG,
 				);
-				INFOPLIST_FILE = "sudoku6free copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku7Free/Sudoku7Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6627,7 +6640,7 @@
 					SUDOKU7,
 					ADMOB_FREEVERSION,
 				);
-				INFOPLIST_FILE = "sudoku6free copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku7Free/Sudoku7Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6659,7 +6672,7 @@
 					SUDOKU7,
 					ADMOB_FREEVERSION,
 				);
-				INFOPLIST_FILE = "sudoku6free copy-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku7Free/Sudoku7Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6692,8 +6705,8 @@
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU6,
+					DEBUG,
 					GTSUDOKU,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/GTSudoku6Paid/GTSudoku6Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -6793,8 +6806,8 @@
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU9,
+					DEBUG,
 					GTSUDOKU,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/GTSudoku9Paid/GTSudoku9Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -6893,8 +6906,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
 					SUDOKU9,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -6988,8 +7001,8 @@
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU6,
+					DEBUG,
 					ADMOB_FREEVERSION,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -7088,8 +7101,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
+					DEBUG,
 					SUDOKU6,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -7184,8 +7197,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU6,
 					GTSUDOKU,
+					DEBUG,
 					ADMOB_FREEVERSION,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/GTSudoku6Free/GTSudoku6Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -7288,8 +7301,8 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU9,
 					GTSUDOKU,
+					DEBUG,
 					ADMOB_FREEVERSION,
-					_DEBUG,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/GTSudoku9Free/GTSudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -7397,7 +7410,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF4EF10516286ED400E72561 /* Build configuration list for PBXNativeTarget "~sudoku7free" */ = {
+		CF4EF10516286ED400E72561 /* Build configuration list for PBXNativeTarget "sudoku7free" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF4EF10616286ED400E72561 /* Debug */,
