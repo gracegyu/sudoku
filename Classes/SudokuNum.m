@@ -156,7 +156,7 @@
 
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
 {
-    NSLog(@"setDefaultMemo(%d,%d)", x, y);
+    //NSLog(@"setDefaultMemo(%d,%d)", x, y);
     NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
@@ -489,7 +489,7 @@
 		if ([self getPuzzleNum:x y:y] > 0)
 			count++;
 	}
-	NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);	
+	//NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
 	return count;
 }
 
@@ -528,7 +528,7 @@
             }
         }
 	}
-	NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
+	//NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 			
 }

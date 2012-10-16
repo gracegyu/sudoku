@@ -87,13 +87,14 @@ typedef enum DEVICETYPE DEVICETYPE;
 
 #define TIME_HOLDANDCHOICE 0.35
 
-/*
+
 #ifdef DEBUG
 #define NSLog(format, ...) NSLog(format, ## __VA_ARGS__)
+//#define NSLog(format, ...) NSLog(@"###############################")
 #else
 #define NSLog(format, ...)
 #endif
-*/
+
 
 #ifdef GTSUDOKU
 static int	HandyCount[][5] = {

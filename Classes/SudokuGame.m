@@ -77,7 +77,7 @@
 		if (puzzleNums[x][y] > 0)
 			count++;
 	}
-	NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
+	//NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
 	return count;
 }
 
@@ -116,7 +116,7 @@
             }
         }
 	}
-	NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
+	//NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 	
 }
@@ -681,7 +681,8 @@
 	char *s = memoNums[x][y];
 	char *p = strchr(s, num+'0');
 	
-	strcpy(p, p+1);
+	if (p)
+		strcpy(p, p+1);
 	[self saveData];
 }
 
