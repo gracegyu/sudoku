@@ -92,7 +92,7 @@
 		if (puzzleNums[x][y] > 0)
 			count++;
 	}
-	NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
+	//NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 	
 }
@@ -650,7 +650,8 @@
     if ([self isPuzzleNum:x y:y])           // 문제칸은 Memo 할 수 없다.
         return;
     
-    
+    [SudokuNum insertNumToStr:memoNums[x][y] num:num];
+/*
 	char *s = memoNums[x][y];
 	NSLog(@"addMemoNums => org num : '%s'", s);
 	char *p;
@@ -668,7 +669,7 @@
 		*p = cTemp;
 	} while (*p++);
 	NSLog(@"addMemoNums => '%s'", s);
-	
+*/	
 	[self saveData];
 }
 
@@ -677,12 +678,16 @@
     if ([self isPuzzleNum:x y:y])               // 문제칸은 Memo를 지울 수 없다.
         return;
     
+	[SudokuNum deleteNumFromStr:memoNums[x][y] num:num];
+	
+/*
     
 	char *s = memoNums[x][y];
 	char *p = strchr(s, num+'0');
 	
 	if (p)
 		strcpy(p, p+1);
+*/
 	[self saveData];
 }
 

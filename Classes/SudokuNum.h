@@ -17,8 +17,9 @@
     NSInteger       size;
 //	NSMutableArray	*nums;
     
-	NSInteger		defaultMemo;
-    NSInteger       memo[9][9];		// bit 연산
+	char			defaultMemo[9+1];
+	char			memo[9][9][9+1];//
+//    NSInteger       memo[9][9];		// bit 연산
 	NSInteger		memonum[9][9];	// 메모 갯수
     NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *
     NSInteger       answer[9][9];   // 0, 1~9 (Auto fix) ~
@@ -99,9 +100,13 @@
 - (CGPoint) undoSet:(NSInteger)num;
 - (void) countCell;
 - (void) initGTSudoku;
-   
+
++ (BOOL) insertNumToStr:(char*)str num:(NSInteger)num;
++ (BOOL) deleteNumFromStr:(char*)str num:(NSInteger)num;
+
 @end
 
 
 SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap);
+
 

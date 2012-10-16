@@ -1,11 +1,11 @@
 #!/bin/sh
 
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku6free" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku6paid" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku9free" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku9paid" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6free" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6paid" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9free" archive
-xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9paid" archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku6free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku6paid" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku9free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "sudoku9paid" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6paid" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9paid" clean archive
 

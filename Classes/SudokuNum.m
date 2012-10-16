@@ -42,14 +42,15 @@
 
 - (void) initNums
 {
-	NSLog(@"initNums");
-	defaultMemo = 1;
+	//NSLog(@"initNums");
 
-    for (int i=0; i<size-1; i++)
+	int i;
+	
+    for (i=0; i<size; i++)
     {
-        defaultMemo = defaultMemo << 1;
-        defaultMemo |= 1;
+		defaultMemo[i] = '1'+i;
     }
+	defaultMemo[i] = '\0';
 	
 	for (int i=0; i<size; i++)
 	{
@@ -127,7 +128,7 @@
     
     puzzle[x][y] = num;
     answer[x][y] = 0;
-    memo[x][y] = 0;
+    memo[x][y][0] = '\0';
 	memonum[x][y] = 0;
 	
 }
@@ -149,7 +150,7 @@
     
 	answer[x][y] = num;
 	puzzle[x][y] = 0;
-	memo[x][y] = 0;
+	memo[x][y][0] = '\0';
 	memonum[x][y] = 0;
 
 }
@@ -160,8 +161,8 @@
     NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
-    memo[x][y] = defaultMemo;
-	memonum[x][y] = size;
+	strcpy(memo[x][y], defaultMemo);
+	memonum[x][y] = strlen(memo[x][y]);
 
 	puzzle[x][y] = 0;
 	answer[x][y] = 0;
@@ -171,16 +172,15 @@
 - (BOOL) isMemoed:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
 	if (num > size || x >= size || y >= size)
-		NSLog(@"isMemoed(%d,%d,%d)", num, x, y);
+	{
+		//NSLog(@"isMemoed(%d,%d,%d)", num, x, y);
+	}
 	
     NSAssert(num >= 1 && num <= size, @"isMemoed num");
     NSAssert(x >= 0 && x < size, @"isMemoed x");
     NSAssert(y >= 0 && y < size, @"isMemoed y");
     
-    
-    NSUInteger n = (1 << (num-1));
-    
-    return (memo[x][y] & n) != 0;
+    return (strchr(memo[x][y], '0'+num) != NULL);
 }
 
 - (BOOL) isEmptyMemo:(NSInteger)x y:(NSInteger)y
@@ -188,117 +188,117 @@
     NSAssert(x >= 0 && x < size, @"isEmptyMemo x");
     NSAssert(y >= 0 && y < size, @"isEmptyMemo y");
     
-    return memo[x][y] == 0;
+    return memo[x][y][0] == '\0';
 }
+
++ (BOOL) insertNumToStr:(char*)str num:(NSInteger)num
+{
+	char *s = str;
+	char *p;
+	char c = num + '0';
+	char cTemp;
+	
+    if (strchr(s, c))
+        return NO;         // 이미 있는 번호
+    
+	for (p = s; *p && *p < c; p++) {}
+	
+	do {
+		cTemp = c;
+		c = *p;
+		*p = cTemp;
+	} while (*p++);
+	
+	return YES;
+}
+
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(num >= 1 && num <= size, @"addMemo num");
-    NSAssert(x >= 0 && x < size, @"addMemo x");
-    NSAssert(y >= 0 && y < size, @"addMemo y");
+    NSAssert1(num >= 1 && num <= size, @"addMemo num=%d", num);
+    NSAssert1(x >= 0 && x < size, @"addMemo x=%d", x);
+    NSAssert1(y >= 0 && y < size, @"addMemo y=%d", y);
+
     
-    NSUInteger n = (1 << (num-1));
-	
-	if (memo[x][y] != (memo[x][y] | n))
+	if ([SudokuNum insertNumToStr:memo[x][y] num:num] == YES)
 		memonum[x][y] += 1;
-    
-    memo[x][y] |= n;
-    
+}
+
+
++ (BOOL) deleteNumFromStr:(char*)str num:(NSInteger)num
+{
+	char *s = str;
+	char *p = strchr(s, num+'0');
+	
+	if (p)
+	{
+		strcpy(p, p+1);
+		return YES;
+	} else {
+		return NO;
+	}
 }
 
 
 - (BOOL) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(num >= 1 && num <= size, @"delMemo num");
-    NSAssert(x >= 0 && x < size, @"delMemo x");
-    NSAssert(y >= 0 && y < size, @"delMemo y");
-    
+    NSAssert1(num >= 1 && num <= size, @"delMemo num=%d", num);
+    NSAssert1(x >= 0 && x < size, @"delMemo x=%d", x);
+    NSAssert1(y >= 0 && y < size, @"delMemo y=%d", y);
 
 	
 	if (puzzle[x][y] || answer[x][y])
 		return YES;	// 삭제할 필요가 없음
 	
-	if (memo[x][y] == 0)
-		return NO;			// memo 오류
-    
-    NSUInteger n = (1 << (num-1));
-	NSUInteger temp = memo[x][y];
-    
-    n = ~n;
-    temp = (temp & n);
-
-	if (temp != 0)
+	if ([self isEmptyMemo:x y:y] == YES)
 	{
-		if (memo[x][y] != temp)
-			memonum[x][y] -= 1;
-		memo[x][y] = temp;
-		return YES;
-	} else {
-		NSLog(@"delMemo(%d,%d - %d) memo=%d(%@%@%@%@%@%@%@%@%@)", x, y, num, memo[x][y],
-			  memo[x][y]&(1)?@"1":@"",
-			  memo[x][y]&(1<<1)?@"2":@"",
-			  memo[x][y]&(1<<2)?@"3":@"",
-			  memo[x][y]&(1<<3)?@"4":@"",
-			  memo[x][y]&(1<<4)?@"5":@"",
-			  memo[x][y]&(1<<5)?@"6":@"",
-			  memo[x][y]&(1<<6)?@"7":@"",
-			  memo[x][y]&(1<<7)?@"8":@"",
-			  memo[x][y]&(1<<8)?@"9":@"");
-		return NO;
+		NSLog(@"EmptyMemo(%d,%d)", x, y);
+		return NO;			// memo 오류
 	}
+    if ([SudokuNum deleteNumFromStr:memo[x][y] num:num] == NO)
+	{
+		//NSLog(@"delMemo(%d,%d - %d) memo=%s", x, y, num, memo[x][y]);
+	} else {
+		memonum[x][y] -= 1;
+
+	}
+	return YES;
 }
 
 - (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y
 {
 //	NSLog(@"getUniqueMemo(%d,%d)", x, y);
 	
-    NSAssert(x >= 0 && x < size, @"getUniqueMemo x");
-    NSAssert(y >= 0 && y < size, @"getUniqueMemo y");
+    NSAssert1(x >= 0 && x < size, @"getUniqueMemo x=%d", x);
+    NSAssert1(y >= 0 && y < size, @"getUniqueMemo y=%d", y);
     
-    NSInteger num = 1;
-    NSInteger found = 0;
     
 	if (memonum[x][y] != 1)
 		return 0;
+
+	NSAssert(strlen(memo[x][y]) == 1 && memo[x][y][0] >= '1' && memo[x][y][0] <= size+'0', @"getUniqueMemo(%d,%d) %s", x, y, memo[x][y]);
+		return 0;
 	
-    for (int i=0; i<size; i++, num = num << 1)
-    {
-        if ((memo[x][y] & num) != 0)
-        {
-			
-            found = i+1;
-			return found;
-        }
-    }
-    
-	NSAssert(NO, @"getUniqueMemo NOTFOUND");
 	
-    return 0;
+	return (NSInteger) memo[x][y][0]-'0';
 }
 
 - (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(x >= 0 && x < size, @"getRandomMemo x");
-    NSAssert(y >= 0 && y < size, @"getRandomMemo y");
+	//NSLog(@"getRandomMemo(%d,%d)", x, y);
+    NSAssert1(x >= 0 && x < size, @"getRandomMemo x=%d", x);
+    NSAssert1(y >= 0 && y < size, @"getRandomMemo y=%d", y);
+
     
-    NSInteger num = 1;
     NSInteger count = memonum[x][y];
 	NSInteger rand;
  
-	rand = [self randNum:count];
-	num = 1;
-    for (int i=0; i<size; i++, num = num << 1)
-    {
-        if ((memo[x][y] & num) != 0)
-        {
-			if (rand-- <= 0)
-			{
-				return i+1;
-			}
-        }
-    }
-    return 0;
+	//NSLog(@"getRandomMemo(%d,%d) %dvs.%s", x, y, count, memo[x][y]);
+	NSAssert4(count == strlen(memo[x][y]), @"getRandomMemo(%d,%d) %dvs%s", x, y, count, memo[x][y]);
 	
+	rand = [self randNum:count];
+	
+	return (NSInteger) memo[x][y][rand]-'0';
 }
 
 
@@ -499,12 +499,12 @@
 	int y = yPos;
 	NSInteger count = 0;
 	
-	for (x=0; x<size; x++) 
+	for (x=0; x<size; x++)
 	{
 		if ([self getPuzzleNum:x y:y] > 0)
 			count++;
 	}
-	NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
+	//NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 
 }
@@ -643,6 +643,7 @@
 	countFunc++;
 	if ([self getAnswerNum:xPos y:yPos] > 0)
 	{
+		NSLog(@"validNumInCell(%d,%d,%d)answerNum", num, xPos, yPos);
 		return NO;		// 이미 자동세팅 값이 채워져 있어서 수정할 수 없음
 	}
 	
@@ -652,18 +653,20 @@
 	{
 		if (puzzleNum == num)
 		{
+			NSLog(@"validNumInCell(%d,%d,%d)puzzleNum", num, xPos, yPos);
 			return NO;	// 이미 같은 값이 설정 되어 있어서 아무 일도 할 것이 없음
 			
 		}
 
 		// 이전에 지정한 셀에 다른 값(0~size)을 설정하려고 함
 		[self editCell:num xPos:xPos yPos:yPos];
-		
+		NSLog(@"validNumInCell(%d,%d,%d)editCell", num, xPos, yPos);
 		return NO;
 	}
 		
 	if ([self isMemoed:num x:xPos y:yPos] == NO) // 후보군의 숫자가 아님, 설정 불가능
 	{
+		NSLog(@"validNumInCell(%d,%d,%d)isMemoed", num, xPos, yPos);
 		return NO;	// 세팅 불가능한 숫자임
 	}
 	
@@ -680,10 +683,12 @@
 				{
 					if ([self getPuzzleNum:x y:y] == num)		// 이미 세팅했던 것들임
 					{
+						NSLog(@"validNumInCell(%d,%d,%d)puzzleNum(map)", num, xPos, yPos);
 						return NO;
 					}				
 					if ([self getAnswerNum:x y:y] == num)		// 자동 계산 값과 같음
 					{
+						NSLog(@"validNumInCell(%d,%d,%d)answerNum(map)", num, xPos, yPos);
 						return NO;
 					}
 				}
@@ -797,10 +802,12 @@
 				}
 			}
 		}
-		//			[self printNums];
+		//[self printNums];
 		[self countCell];
 		if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
+		{
 			NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+		}
 		
 	}
 
@@ -892,7 +899,7 @@
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
 	countFunc++;
-    NSLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
+    //NSLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
 	bOkSetCell = NO;
 	
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
@@ -973,7 +980,7 @@
 
 - (CGPoint) undoSet:(NSInteger)num
 {
-	NSLog(@"undoSet");
+	//NSLog(@"undoSet");
 	NSMutableArray *array = self.nums;	
 	NSString *oldStrUndo = [[NSString alloc] initWithString:strUndo];
 	int len = oldStrUndo.length;
@@ -1107,7 +1114,7 @@
 
 		}
 	}
-	NSLog(@"countCell (U:%d,A:%d,N:%d)", countUserFixed, countAutoFixed, countNotFixed); 				  
+	//NSLog(@"countCell (U:%d,A:%d,N:%d)", countUserFixed, countAutoFixed, countNotFixed);
 					  
 }
 
@@ -1164,7 +1171,7 @@
         
     }
     
-    
+    /*
     
     NSString *str = [[NSString alloc] init];
 
@@ -1180,6 +1187,7 @@
         str = [str stringByAppendingString:@"----------\n"];
     }
     NSLog(@"%@", str);
+	 */
 }
 
 
@@ -1256,7 +1264,7 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 	
 	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
 	[sudokuNum countCell];
-	[sudokuNum printNums];
+	//[sudokuNum printNums];
 	NSInteger i = 0;
 	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 	{
