@@ -78,6 +78,7 @@
 	foundFail = 0;
 	countBack = 0;
 	sumBack = 0;
+	countFunc = 0;
     
     [self initMap:defmap];
     [self initNumsUndo];
@@ -305,9 +306,11 @@
 
 - (void) findFixedNum
 {
+	
 	if (bOkAutoSet == NO)
 		return;
 	
+	countFunc++;
 	int x,y;
 	NSInteger num;
 	
@@ -325,12 +328,14 @@
 			}
 		}		
 	}
-	[self printNums];
+	//[self printNums];
 }
 
 
 - (void) findUniqueNumX:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+	countFunc++;
+	
 	int x,y,k;
 	int	countFound;
 	int posFirstFound;
@@ -370,6 +375,8 @@
 
 - (void) findUniqueNumY:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+	countFunc++;
+	
 	int x,y,k;
 	int	countFound;
 	int posFirstFound;
@@ -410,7 +417,8 @@
 
 - (void) findUniqueNumXY:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-
+	countFunc++;
+	
 	int x,y,k,i,numMap;//,i,j;
 	int	countFound;
 	int posXFirstFound;
@@ -460,6 +468,8 @@
 
 - (void) findUniqueNum:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+	countFunc++;
+	
 	if (bOkAutoSet == NO)
 		return;	
 	
@@ -532,6 +542,8 @@
 {
 	int x,y;
 
+	countFunc++;
+	
 	bOkSetCell = YES;	
 	numSetCell += 1;
 
@@ -585,7 +597,7 @@
 			}
 		}
 	}
-	[self printNums];
+	//[self printNums];
 	
 	[self findFixedNum];
 	[self findUniqueNum:num xPos:xPos yPos:yPos];
@@ -613,6 +625,7 @@
 
 - (BOOL) setCellPuzzleCheck:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+	
 	[self setPuzzleNum:num x:x y:y];
 	return [self setCellCheck:num xPos:x yPos:y];
 
@@ -626,7 +639,8 @@
 
 
 - (BOOL) validNumInCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
-{	
+{
+	countFunc++;
 	if ([self getAnswerNum:xPos y:yPos] > 0)
 	{
 		return NO;		// 이미 자동세팅 값이 채워져 있어서 수정할 수 없음
@@ -799,7 +813,7 @@
 	int numRandom;
 	int num;
 
-	
+	countFunc++;
     
     // Handy 적용하다가 무한루프에 빠질 수 있음...
 	if (countNotFixed == 0) {	// last time, Handy 적용한다.
@@ -877,6 +891,7 @@
 // clear를 제외한 모든 셀의 값 세팅을 여기로 와야 한다.
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+	countFunc++;
     NSLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
 	bOkSetCell = NO;
 	
@@ -1065,8 +1080,8 @@
 		}
 		
 	}
-	str = [str stringByAppendingFormat:@"Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
-		   foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
+	str = [str stringByAppendingFormat:@"%d:Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
+		   countFunc, foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
 	NSLog(@"str = %@", str);
 
 	
@@ -1224,7 +1239,7 @@ NSInteger Rand12[2][3] = {
             for (int x=0; x<wGT; x++)
             {
                 [self setCell:arrGT[x][y] xPos:arrX[i]*wGT+x yPos:arrY[i]*hGT+y];
-                [self printNums];
+                //[self printNums];
             }
         }
     }
@@ -1247,7 +1262,7 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 	{
 		i++;
         //NSLog(@"############### i = %d", i);
-		[sudokuNum printNums];
+		//[sudokuNum printNums];
 	}
 	NSLog(@"%d times loop", i);
 	[sudokuNum printNums];

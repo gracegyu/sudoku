@@ -142,27 +142,14 @@
 	int num;
 	int handy = HandyCount[size][gameLevel];
 	
-	NSInteger countPuzzle = [self countPuzzleNum];
-	NSInteger countBlankCell = size*size - countPuzzle;
-	NSInteger countHandyTryFailed=0;
 	
 #ifdef GTSUDOKU
 	memset(puzzleNums, 0, sizeof(puzzleNums));
-	// 일단 여기서 모든 셀을 AutoCell로 지정한다.
-/*	for (int y=0; y<size; y++)
-	{
-		for (int x=0; x<size; x++)
-		{
-			num = [self getPuzzleNum:x y:y];
-			if (puzzleNums[x][y] != 0)
-			{
-				puzzleNums[x][y] = 0;
-			}
-		}
-	}
-*/	
-	
 #endif
+	NSInteger countPuzzle = [self countPuzzleNum];
+	NSInteger countBlankCell = size*size - countPuzzle;
+	NSInteger countHandyTryFailed=0;
+
 	for (int i=0; i<handy && countBlankCell>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
 	{
 		numRandom = [self randNum:countBlankCell];

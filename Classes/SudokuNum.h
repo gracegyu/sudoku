@@ -29,6 +29,7 @@
 	NSInteger		foundFail;
 	NSInteger		countBack;
 	NSInteger		sumBack;
+	NSInteger		countFunc;
     
     
     SudokuMap       *map;
