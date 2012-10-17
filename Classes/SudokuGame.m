@@ -614,6 +614,7 @@
 	} else {
 		bAutoMemo = NO;
 	}
+	bAutoMemoUndoLog = YES;
 
 	return self;
 	
@@ -787,7 +788,7 @@
                     {
                         strangeCells++;
                         NSLog(@"StangeCell 발견");
-                        
+/*
                         NSString *msg = [[NSString alloc] initWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
                                          x, y, answerNums[x][y], fixNums[x][y]];
 
@@ -799,7 +800,7 @@
                         [msg release];
                         [alert show];
                         [alert release];
-                        
+*/                        
                         
                         
                     }
@@ -835,6 +836,11 @@
 
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2
 {
+	if (x < 0 || x >= size) return NO;
+	if (y < 0 || y >= size) return NO;
+	if (x2 < 0 || x2 >= size) return NO;
+	if (y2 < 0 || y2 >= size) return NO;
+	
     return mapNums[x][y] == mapNums[x2][y2];
 }
 
@@ -875,9 +881,8 @@
 {
 	if (puzzleNums[x][y] == 0)
 	{
-		fixNums[x][y] = answerNums[x][y];
-//		puzzleNums[x][y] = answerNums[x][y];
-		//answerNums[x][y] = 0;
+		//fixNums[x][y] = answerNums[x][y];
+		[self setFixNums:answerNums[x][y] x:x y:y];
 	}	
 }
 
@@ -940,6 +945,23 @@
 {
 	[self setFixNums:0 x:x y:y];
 	[self saveData];
+}
+
+- (BOOL) emptyMemo:(NSInteger)x y:(NSInteger)y
+{
+	return memoNums[x][y][0] == '\0';
+}
+
+- (NSInteger) smallestMemo:(NSInteger)x y:(NSInteger)y
+{
+	return memoNums[x][y][0] - '0';
+}
+
+- (NSInteger) biggestMemo:(NSInteger)x y:(NSInteger)y
+{
+	NSInteger len = strlen(memoNums[x][y]);
+	
+	return memoNums[x][y][MAX(len-1, 0)]  - '0';
 }
 
 - (char*) getMemoNums:(NSInteger)x y:(NSInteger)y
@@ -1173,7 +1195,7 @@
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0];
 					 
-	NSLog(@"saveData(%@)", str);
+	//NSLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 	
@@ -1301,7 +1323,7 @@
         switch (undoData.mode) {
             case UNDOMODE_NUM_ADD:
                 fixNums[undoData.x][undoData.y] = undoData.num;
-				[self updateAutoMemo:undoData.num xPos:undoData.x yPos:undoData.y];
+				//[self updateAutoMemo:undoData.num xPos:undoData.x yPos:undoData.y];
 				bAutoCheck = YES;
                 break;
             case UNDOMODE_NUM_DEL:
@@ -1344,13 +1366,13 @@
 				switch (undoData.mode) {
 					case UNDOMODE_AUTOMEMO_ADD:
 						[self addMemoNums:undoData.num x:undoData.x y:undoData.y];
-						pointLastUndoPos.x = (CGFloat)undoData.x;
-						pointLastUndoPos.y = (CGFloat)undoData.y;
+						//pointLastUndoPos.x = (CGFloat)undoData.x;
+						//pointLastUndoPos.y = (CGFloat)undoData.y;
 						break;
 					case UNDOMODE_AUTOMEMO_DEL:
 						[self delMemoNums:undoData.num x:undoData.x y:undoData.y];
-						pointLastUndoPos.x = (CGFloat)undoData.x;
-						pointLastUndoPos.y = (CGFloat)undoData.y;
+						//pointLastUndoPos.x = (CGFloat)undoData.x;
+						//pointLastUndoPos.y = (CGFloat)undoData.y;
 						break;
 					default:
 						[sudokuUndo getUndo:undoData];	// 마지막 redo 되돌리기

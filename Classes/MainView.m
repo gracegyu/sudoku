@@ -90,7 +90,7 @@
 #define cCellHeight				(cTableHeight/sudokuGame.size) 
 
 #define cLineWidth				1.0f*cResizeRatioW
-#define cLineDrawWidth			0.5f*cResizeRatioW
+#define cLineDrawWidth			0.8f*cResizeRatioW
 #define cConflictLineWidth		1.5f*cResizeRatioW
 #define cBoldLine				4.0f*cResizeRatioW
 
@@ -497,7 +497,7 @@
     BOOL bConflict;
     
 #ifdef GTSUDOKU
-    CGFloat margin = 0.15f;
+    CGFloat margin = 0.12f;
 #else
     CGFloat margin = 0.10f;
 #endif
@@ -509,6 +509,12 @@
 			if (i < len)
 			{
                 bConflict = [self conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+#ifdef GTSUDOKU
+				if (!bConflict)
+				{
+					bConflict = [self conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+				}
+#endif
                 
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
@@ -553,8 +559,55 @@
     }
     
     return NO;
-    
 }
+
+- (BOOL) conflictMemoCompare:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	sXY	xy2[4];
+	BOOL bComapare0, bComapare1;
+	NSInteger numDispaly;
+	
+	if (xPos == 0 && yPos == 0)
+	{
+		NSLog(@"");
+	}
+	
+	xy2[0].x = xPos-1;	xy2[0].y = yPos;
+	xy2[1].x = xPos+1;	xy2[1].y = yPos;
+	xy2[2].x = xPos;	xy2[2].y = yPos+1;
+	xy2[3].x = xPos;	xy2[3].y = yPos-1;
+
+	for (int i=0; i<4; i++)
+	{
+		if ([sudokuGame isSameMap:xPos y:yPos x2:xy2[i].x y2:xy2[i].y] == NO)
+			continue;
+		
+		bComapare0 = [sudokuGame getAnswerNums:xPos y:yPos] >
+					 [sudokuGame getAnswerNums:xy2[i].x y:xy2[i].y];
+		numDispaly = [sudokuGame getDisplayNum:xy2[i].x y:xy2[i].y];
+		if (numDispaly > 0)	// 고정된 번호와는 메모를 비교한다. (자동 삭제 시도?)
+		{
+			bComapare1 = num > numDispaly;
+			
+			if (bComapare0 != bComapare1)
+				return YES;
+		/*} else if ([sudokuGame emptyMemo:xy2[i].x y:xy2[i].y] == NO) {	// 메모와 비교
+			if (bComapare0)	// 원래 위치가 큰 것
+			{
+				if (num <= [sudokuGame smallestMemo:xy2[i].x y:xy2[i].y])
+					return YES;
+			} else {
+				if (num >= [sudokuGame biggestMemo:xy2[i].x y:xy2[i].y])
+					return YES;
+			}	*/	
+		} else {
+			// empty memo
+		}
+
+	}
+	return NO;
+}
+
 
 - (BOOL)conflictCell:(NSInteger)xPos yPos:(NSInteger)yPos
 {
@@ -813,6 +866,9 @@
 
 - (void)drawBookmarkInCell:(CGContextRef)context
 {
+	if ([sudokuGame.sudokuUndo isBookmarked] == NO)	// 북마크가 -1이면 좌표가 있어도 표시를 하지 않는다.
+		return;
+	
     NSInteger x = sudokuGame.sudokuUndo.bookmarkX;
     NSInteger y = sudokuGame.sudokuUndo.bookmarkY;
     

@@ -64,6 +64,9 @@
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y;
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y;
+- (BOOL) emptyMemo:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) smallestMemo:(NSInteger)x y:(NSInteger)y;
+- (NSInteger) biggestMemo:(NSInteger)x y:(NSInteger)y;
 - (char*) getMemoNums:(NSInteger)x y:(NSInteger)y;
 - (BOOL) beMemoNums:(NSInteger)num  x:(NSInteger)x y:(NSInteger)y;
 - (void) addMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;

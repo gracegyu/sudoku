@@ -50,23 +50,29 @@
 
 - (NSInteger) getIndex
 {
+	NSLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 
 - (NSInteger) countUndo
 {
+	NSLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 - (NSInteger) countRedo
 {
+	NSLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	
     count = [arrayUndo count];
     return count - indexUndo;
 }
 
 - (void) flushUndo
 {
+	//NSLog(@"flushUndo(count:%d, indexUndo:%d)", count, indexUndo);
+
     if (indexUndo < count)
     {
         for (int i = count-1; i >=indexUndo; i--)
@@ -199,6 +205,9 @@
 {
     if (indexUndo < 1)
         return NO;
+	
+	NSLog(@"getUndo(count:%d, indexUndo:%d)", count, indexUndo);
+
     
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo-1];
     
@@ -221,6 +230,8 @@
     if (indexUndo >= count)
         return NO;
     
+	NSLog(@"getRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo];
     
     if (undoPop)

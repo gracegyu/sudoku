@@ -159,6 +159,8 @@
 
 - (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame
 {
+	// button diable
+	
 	NSLog(@"writeScore");	
     BOOL bNewBest = NO;
 	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);

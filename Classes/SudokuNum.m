@@ -37,6 +37,9 @@
 
 - (void) initMap:(BOOL)defmap
 {
+	if (map)
+		[map release];
+	
     map = [[SudokuMap alloc] initWithSize:size defmap:defmap];
 }
 
@@ -63,6 +66,8 @@
 
 - (void) initNumsUndo {
     [self initNums];
+	if (strUndo)
+		[strUndo release];
     strUndo = [[NSString alloc] initWithString:@""];
     bOkSetCell = NO;
 }
@@ -83,12 +88,10 @@
     
     [self initMap:defmap];
     [self initNumsUndo];
-    
 #ifdef GTSUDOKU
-    
     [self initGTSudoku];
-    
 #endif
+	
     
 }
 
@@ -824,10 +827,11 @@
 	countFunc++;
     
     // Handy 적용하다가 무한루프에 빠질 수 있음...
-	if (countNotFixed == 0) {	// last time, Handy 적용한다.
+/*	if (countNotFixed == 0) {	// last time, Handy 적용한다.
 		[self setCellApplyHandy:handy];
 		return NO;  // 게임 생성 완성
 	}	
+*/
 	bOkAutoSet = YES;
 	numSetCell = 0;
 	// countNotFixed -> Random 값 만들기
@@ -862,6 +866,7 @@
 	}	
 	
 	if (bOkAutoSet == NO) {
+		return NO;
 		[self undoSet:numBackTracking];
         
         numBackTracking += BACKTRACKING_INTERVAL;   // 잘못되면 Backtracking 깊이를 점점 증가시킨다.
@@ -1263,19 +1268,23 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 {
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 	
-	[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
-	[sudokuNum countCell];
-	//[sudokuNum printNums];
-	NSInteger i = 0;
-	while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+	do
 	{
-		i++;
-        //NSLog(@"############### i = %d", i);
+		[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
+		[sudokuNum countCell];
 		//[sudokuNum printNums];
-	}
-	NSLog(@"%d times loop", i);
-	[sudokuNum printNums];
-	
+		NSInteger i = 0;
+		while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+		{
+			i++;
+			//NSLog(@"############### i = %d", i);
+			//[sudokuNum printNums];
+		}
+		
+		NSLog(@"%d times loop", i);
+		[sudokuNum printNums];
+	} while (sudokuNum.bOkAutoSet == NO);
+			 
 	return sudokuNum;
 }
 
