@@ -52,6 +52,7 @@
 @synthesize bSettingDuplicationWarning;
 @synthesize bSettingMarkingEqual;
 @synthesize bSettingDefMap;
+@synthesize bSettingAutoMemo;
 
 
 @synthesize cellOneSmallFont;
@@ -147,6 +148,8 @@
     self.bSettingDefMap = YES;
 #endif
 #endif
+	
+	self.bSettingAutoMemo = NO;
 	
 //	self.fPress = 1.f;
 	
@@ -1461,7 +1464,7 @@
 
 
 
-- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle automemo:(BOOL)automemo
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
 	BOOL bUseQQ=NO;
 #ifdef SUDOKU9
@@ -1474,11 +1477,11 @@
 	if (bUseQQ)
 	{
 		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT); 
-		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level automemo:automemo];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level automemo:bSettingAutoMemo];
 		[board release];
 	} else {
 		SudokuNum *sudokuNum = sudokuNumGenerate(level, sizePuzzle, bSettingDefMap);
-		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level automemo:automemo];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level automemo:bSettingAutoMemo];
 		[sudokuNum release];
 	}
 	

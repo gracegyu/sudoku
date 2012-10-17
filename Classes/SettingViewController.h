@@ -42,6 +42,8 @@
     UILabel	*labelRuleDesc;
     UILabel	*labelTipTitle;
     UILabel	*labelTipDesc;
+	
+
 }
 
 
@@ -74,6 +76,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelRuleDesc;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTipTitle;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
+
 
 
 

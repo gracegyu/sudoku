@@ -60,7 +60,7 @@
 	NSLog(@"initScore");	
 	
 	
-	for (int i=0; i<5; i++)
+	for (int i=0; i<10; i++)
 	{
 		scoreGames[i] = 0;
 		scoreClears[i] = 0;
@@ -96,14 +96,8 @@
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	for (int i=0; i<5; i++)
+	for (int i=0; i<10; i++)
 	{
-// set default for test
-/*        scoreGames[i] = 100 + i;
-        scoreClears[i] = 90 + i;
-        scoreBestTime[i] = 150 +i;
-        scoreClearTimeSum[i] = scoreClears[i] * scoreBestTime[i] * 1.7;
-*/
 		[defaults setInteger:scoreGames[i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreClears[i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
 		[defaults setInteger:scoreBestTime[i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
@@ -116,16 +110,19 @@
 {
     NSInteger score = MIN(sec/60+1, 10);
     
-    NSLog(@"getGameResultScore(%d,%d) => %d", level, sec, (5-level) * (10 - score + 1));
-    
-    score = (5-level) * (10 - score + 1);
-    
+	if (score < 5)
+		score = (5-level) * (10 - score + 1) * 3;	// Original은 3배의 점수를 준다.
+    else
+		score = (10-level) * (10 - score + 1);
+		
 #ifdef SUDOKU9  // zzz 나중에는 size 넘겨줘서 계산 해야 한다.
     score = score * (SIZE_9*SIZE_9)/100;
 #else
     score = score * (SIZE_6*SIZE_6)/100;
 #endif
     score = MAX(score, 1);
+
+    NSLog(@"getGameResultScore(%d,%d) => %d", level, sec, score);
     
     return score;
 }
@@ -135,7 +132,7 @@
 	NSLog(@"loadScoreData");	
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	for (int i=0; i<5; i++)
+	for (int i=0; i<10; i++)
 	{
 		scoreGames[i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
 		scoreClears[i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
@@ -147,7 +144,7 @@
 	if (scoreTotal == 0)
     {
         // need to migration
-        for (int i=0; i<5; i++)
+        for (int i=0; i<10; i++)
         {
             scoreTotal += scoreGames[i];    // 게임 시작하면 무조건 1점씩 추가 됨
             if (scoreClears[i] > 0)
@@ -164,17 +161,18 @@
 {
 	NSLog(@"writeScore");	
     BOOL bNewBest = NO;
+	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
     
-	scoreClears[sudokuGame.gameLevel] += 1;
+	scoreClears[level] += 1;
     
-	if (scoreBestTime[sudokuGame.gameLevel] == 0 ||                     // 최초는 무조건 Best time
-		sudokuGame.gameTime < scoreBestTime[sudokuGame.gameLevel])
+	if (scoreBestTime[level] == 0 ||                     // 최초는 무조건 Best time
+		sudokuGame.gameTime < scoreBestTime[level])
     {
-        if (scoreBestTime[sudokuGame.gameLevel] != 0)
+        if (scoreBestTime[level] != 0)
         {
             bNewBest = YES;
         }
-		scoreBestTime[sudokuGame.gameLevel] = sudokuGame.gameTime;      // best time 갱신
+		scoreBestTime[level] = sudokuGame.gameTime;      // best time 갱신
         
 	}
     
@@ -197,24 +195,29 @@
     
     
     
-
-    // 하위 호환을 위해서 무조건 best time을 보내기
-    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
-    
-    scoreClearTimeSum[sudokuGame.gameLevel] += sudokuGame.gameTime;
+	if (sudokuGame.bAutoMemo == NO)
+	{
+		// 하위 호환을 위해서 무조건 best time을 보내기
+		[GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
+    }
+	
+    scoreClearTimeSum[level] += sudokuGame.gameTime;
 	
     // add current game score to Total Score
-    scoreTotal += [self getGameResultScore:sudokuGame.gameLevel sec:sudokuGame.gameTime];
+    scoreTotal += [self getGameResultScore:level sec:sudokuGame.gameTime];
     scoreTotal += sudokuGame.countHint*3;   // 남은 힌트 점수 추가
     
 	[self saveScoreData];
     
-    // 총점 보내기
-    [GameCenterUtil sendScoreToGameCenter:scoreTotal];      
-    // best time 보내기
-    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
-    // achievement 보내기
-    [GameCenterUtil sendAchievementClearGame:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
+	if (sudokuGame.bAutoMemo == NO)
+	{
+		// 총점 보내기
+		[GameCenterUtil sendScoreToGameCenter:scoreTotal];
+		// best time 보내기
+		[GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
+		// achievement 보내기
+		[GameCenterUtil sendAchievementClearGame:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
+	}
 }
 
 #define SETTING_VERSION                 1
@@ -224,6 +227,7 @@
 #define kSettingDuplicationWarning      @"settingDuplicationWarning"
 #define kSettingMarkingEqual            @"settingMarkingEqual"
 #define kSettingDefMap                  @"settingDefMap"
+#define kSettingAutoMemo                @"settingAutoMemo"
 
 - (void) loadSetting
 {
@@ -241,6 +245,10 @@
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
     mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
+    mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
+#ifdef SUDOKU6
+	mainView.bSettingAutoMemo = NO;
+#endif
 }
 
 - (void) saveSetting
@@ -253,6 +261,7 @@
     [defaults setBool:mainView.bSettingDuplicationWarning forKey:kSettingDuplicationWarning];
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
     [defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
+    [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
 }
 
 - (void) setLocalizedMessage
@@ -484,36 +493,14 @@
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
-	
 	controller.title = gettext(@"Score", nil);
-
-	[self setInteger:controller.labelVeryHardGames num:scoreGames[0]];
-	[self setInteger:controller.labelVeryHardClears num:scoreClears[0]];
-	[self setTime:controller.labelVeryHardBestTime num:scoreBestTime[0]];
-	[self setTime:controller.labelVeryHardAverage num:scoreClears[0] ? scoreClearTimeSum[0]/scoreClears[0] : 0];	
-	[self setInteger:controller.labelHardGames num:scoreGames[1]];
-	[self setInteger:controller.labelHardClears num:scoreClears[1]];
-	[self setTime:controller.labelHardBestTime num:scoreBestTime[1]];
-	[self setTime:controller.labelHardAverage num:scoreClears[1] ? scoreClearTimeSum[1]/scoreClears[1] : 0];
-	[self setInteger:controller.labelNormalGames num:scoreGames[2]];
-	[self setInteger:controller.labelNormalClears num:scoreClears[2]];
-	[self setTime:controller.labelNormalBestTime num:scoreBestTime[2]];
-	[self setTime:controller.labelNormalAverage num:scoreClears[2] ? scoreClearTimeSum[2]/scoreClears[2] : 0];
-	[self setInteger:controller.labelEasyGames num:scoreGames[3]];
-	[self setInteger:controller.labelEasyClears num:scoreClears[3]];
-	[self setTime:controller.labelEasyBestTime num:scoreBestTime[3]];
-	[self setTime:controller.labelEasyAverage num:scoreClears[3] ? scoreClearTimeSum[3]/scoreClears[3] : 0];
-	[self setInteger:controller.labelVeryEasyGames num:scoreGames[4]];
-	[self setInteger:controller.labelVeryEasyClears num:scoreClears[4]];
-	[self setTime:controller.labelVeryEasyBestTime num:scoreBestTime[4]];
-	[self setTime:controller.labelVeryEasyAverage num:scoreClears[4] ? scoreClearTimeSum[4]/scoreClears[4] : 0];
+	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
+	[controller setAutoSegment];	
 	
-	[self setInteger:controller.labelTotalGames num:scoreGames[0]+scoreGames[1]+scoreGames[2]+scoreGames[3]+scoreGames[4]];
-	[self setInteger:controller.labelTotalClears num:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
-	
-    
+	[controller setScoreData:scoreTotal g:scoreGames c:scoreClears b:scoreBestTime s:scoreClearTimeSum];
+	[controller displayScore];
     [controller setTotalScoreRank:scoreTotal];
-    
+	
 	[controller release];
 
 }
@@ -823,7 +810,7 @@
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
     NSLog(@"DEFPUZZLESIZE=%d", DEFPUZZLESIZE);
-	[mainView newGame:levelNewGame size:DEFPUZZLESIZE automemo:NO];
+	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
     scoreTotal += 1;                                    // 1게임 시도당 1점 추가
@@ -918,8 +905,8 @@
 	NSInteger time = [mainView.sudokuGame add1sec];
 	
 	[self updateGameTime:time];	
-	if (!mainView.sudokuGame.gameFinished)	// lock the screen
-		[mainView.sudokuGame saveData];
+//	if (!mainView.sudokuGame.gameFinished)	// lock the screen
+//		[mainView.sudokuGame saveData];
 }
 
 - (void) updateBlankCellCount

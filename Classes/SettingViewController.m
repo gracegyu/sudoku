@@ -66,7 +66,11 @@
     labelGuildeline.text = gettext(@"guideline", nil);
     labelDuplicationWarning.text = gettext(@"duplication warning", nil);
     labelMarkingEqual.text = gettext(@"marking equal", nil);
+#ifdef SUDOKU6
     labelShapeOfMap.text = gettext(@"shape of map", nil);
+#else
+    labelShapeOfMap.text = gettext(@"auto memo", nil);
+#endif
     labelLocale.text = gettext(@"language", nil);
     
     labelRuleTitle.text = gettext(@"ruletitle", nil);
@@ -123,13 +127,16 @@
         [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_on"] forState:UIControlStateNormal];
     else
         [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_off"] forState:UIControlStateNormal];
-
-//    [Locale setLocale:@"ko"];
-//    [self setLocalizedMessage];
-//    [mainViewController setLocalizedMessage];
-    
-
 }
+
+- (void) setImageAutoMemo
+{
+    if (mainViewController.mainView.bSettingAutoMemo == YES)
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"markingequal_on"] forState:UIControlStateNormal];
+    else
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"markingequal_off"] forState:UIControlStateNormal];
+}
+
 
 - (void) setImageLocale
 {
@@ -176,6 +183,7 @@
     
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
+/*
 #ifndef SUDOKU6
     labelShapeOfMap.hidden = YES;
     buttonShapeOfMap.hidden = YES;
@@ -184,6 +192,7 @@
     labelShapeOfMap.hidden = YES;
     buttonShapeOfMap.hidden = YES;
 #endif
+ */
     
     [self setLocalizedMessage];
 
@@ -191,7 +200,11 @@
     [self setImageGuideline];
     [self setImageDuplicationWarning];
     [self setImageMarkingEqual];
+#ifdef SUDOKU6
     [self setImageShapeOfMap];
+#else
+    [self setImageAutoMemo];
+#endif
 	[self setImageLocale];
     
     [super viewDidLoad];
@@ -274,9 +287,13 @@
 
 - (IBAction)setShapeOfMap1
 {
+#ifdef SUDOKU6
     mainViewController.mainView.bSettingDefMap = !mainViewController.mainView.bSettingDefMap;
-    
     [self setImageShapeOfMap];
+#else
+    mainViewController.mainView.bSettingAutoMemo = !mainViewController.mainView.bSettingAutoMemo;
+    [self setImageAutoMemo];
+#endif
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     

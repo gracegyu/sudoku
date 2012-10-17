@@ -59,7 +59,13 @@
 @synthesize labelRankNormal;
 @synthesize labelRankHard;
 @synthesize labelRankVeryHard;
-
+@synthesize segmentAuto;
+@synthesize bAuto;
+@synthesize buttonGameCenterRanking1;
+@synthesize buttonGameCenterRanking2;
+@synthesize buttonGameCenterRanking3;
+@synthesize buttonGameCenterRanking4;
+@synthesize buttonGameCenterRanking5;
 
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
@@ -134,6 +140,9 @@
     }
     // 총점 보내기
     [GameCenterUtil sendScoreToGameCenter:[ctrl getTotalScore]];
+	
+	
+	
     
 	
     [super viewDidLoad];
@@ -184,6 +193,71 @@
 }
 
 
+- (IBAction)setAuto
+{
+	if ([segmentAuto selectedSegmentIndex] == 0)
+		bAuto = NO;
+	else
+		bAuto = YES;		
+	
+	
+	[self setAutoSegment];
+	[self displayScore];
+}
+
+- (void) setAutoSegment
+{
+	// change segment by bAuto
+	if (bAuto)
+	{
+		segmentAuto.selectedSegmentIndex = 1;
+	} else {
+		segmentAuto.selectedSegmentIndex = 0;
+	}
+}
+
+
+- (void) setScoreData:(NSInteger)t g:(NSInteger*)g c:(NSInteger*)c b:(NSInteger*)b s:(NSInteger*)s
+{
+	scoreGames = g;
+	scoreClears = c;
+	scoreBestTime = b;
+	scoreClearTimeSum = s;
+	scoreTotal = t;
+}
+
+
+- (void) displayScore
+{
+	NSInteger n = bAuto?5:0;
+	
+	[self setInteger:labelVeryHardGames num:scoreGames[0+n]];
+	[self setInteger:labelVeryHardClears num:scoreClears[0+n]];
+	[self setTime:labelVeryHardBestTime num:scoreBestTime[0+n]];
+	[self setTime:labelVeryHardAverage num:scoreClears[0+n] ? scoreClearTimeSum[0+n]/scoreClears[0+n] : 0];
+	[self setInteger:labelHardGames num:scoreGames[1+n]];
+	[self setInteger:labelHardClears num:scoreClears[1+n]];
+	[self setTime:labelHardBestTime num:scoreBestTime[1+n]];
+	[self setTime:labelHardAverage num:scoreClears[1+n] ? scoreClearTimeSum[1+n]/scoreClears[1+n] : 0];
+	[self setInteger:labelNormalGames num:scoreGames[2+n]];
+	[self setInteger:labelNormalClears num:scoreClears[2+n]];
+	[self setTime:labelNormalBestTime num:scoreBestTime[2+n]];
+	[self setTime:labelNormalAverage num:scoreClears[2+n] ? scoreClearTimeSum[2+n]/scoreClears[2+n] : 0];
+	[self setInteger:labelEasyGames num:scoreGames[3+n]];
+	[self setInteger:labelEasyClears num:scoreClears[3+n]];
+	[self setTime:labelEasyBestTime num:scoreBestTime[3+n]];
+	[self setTime:labelEasyAverage num:scoreClears[3+n] ? scoreClearTimeSum[3+n]/scoreClears[3+n] : 0];
+	[self setInteger:labelVeryEasyGames num:scoreGames[4+n]];
+	[self setInteger:labelVeryEasyClears num:scoreClears[4+n]];
+	[self setTime:labelVeryEasyBestTime num:scoreBestTime[4+n]];
+	[self setTime:labelVeryEasyAverage num:scoreClears[4+n] ? scoreClearTimeSum[4+n]/scoreClears[4+n] : 0];
+	
+	[self setInteger:labelTotalGames num:scoreGames[0+n]+scoreGames[1+n]+scoreGames[2+n]+scoreGames[3+n]+scoreGames[4+n]];
+	[self setInteger:labelTotalClears num:scoreClears[0+n]+scoreClears[1+n]+scoreClears[2+n]+scoreClears[3+n]+scoreClears[4+n]];
+	
+	[self displayRank];
+}
+
 
 - (void) setScoreText
 {
@@ -198,45 +272,77 @@
 
 - (void) setLableRank:(UILabel*)label rank:(NSInteger)rank
 {
-    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
-    label.text = strRank;
-    [strRank release];
+	if (rank > 0)
+	{
+		NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
+		label.text = strRank;
+		[strRank release];
+	} else {
+		label.text = @"";
+	}
 }
 
+- (void) displayRank
+{
+	NSLog(@"displayRank");
+	
+	if (rankTotal > 0)
+		[self setScoreText];
+	
+	NSInteger rank;
+	
+	for (int level=0; level<5; level++)
+	{
+		NSLog(@"level=%d", level);
+		if (bAuto)
+			rank = -1;
+		else
+			rank = rankLevel[level];
+
+		[self setLableRank:labelRankArray[level] rank:rank];
+	}
+	buttonGameCenterRanking1.hidden = bAuto ? YES: NO;
+	buttonGameCenterRanking2.hidden = bAuto ? YES: NO;
+	buttonGameCenterRanking3.hidden = bAuto ? YES: NO;
+	buttonGameCenterRanking4.hidden = bAuto ? YES: NO;
+	buttonGameCenterRanking5.hidden = bAuto ? YES: NO;
+}
 
 - (void) OnTimer:(NSTimer *)timer
 {
     BOOL bWait = NO;
-    
+	
     NSLog(@"OnTimer");
     
-    
-    if (rankTotal > 0)
-        [self setScoreText];
-    else
-        bWait = YES;
-    
-    for (int level=0; level<5; level++)
-    {
-        NSLog(@"level=%d", level);
-        if (rankLevel[level] > 0)
-            [self setLableRank:labelRankArray[level] rank:rankLevel[level]];
-        else if (rankLevel[level] == -1)
-            bWait = YES;
-    }
-    
+	if (rankTotal <= 0)
+		bWait = YES;
+	
+	for (int level=0; level<5; level++)
+	{
+		if (rankLevel[level] == -1)
+			bWait = YES;
+	}
+	
+	
+	if (++nTimer > 10 || bWait == NO)
+		[timerScore invalidate];
+	
+	[self displayRank];
 
-    if (++nTimer > 10 || bWait == NO)
-       [timerScore invalidate];
 }
 
 - (void) setTotalScoreRank:(NSInteger)nScore;
 {
     NSLog(@"setTotalScoreRank(%d)", nScore);
+
     
     rankTotal = -1;
     
-    [GameCenterUtil getTotalScoreRanking:&rankTotal];
+	for (int level=0; level<5; level++)
+		labelRankArray[level].text = @"";
+
+    
+	[GameCenterUtil getTotalScoreRanking:&rankTotal];
     
     MainViewController *ctrl = (MainViewController*)mainViewController;
     
@@ -250,8 +356,7 @@
         } else {
             rankLevel[level] = 0;  // best time이 없음
         }
-        labelRankArray[level].text = @"";
-    }
+	}
     
     
     score = nScore;
@@ -265,7 +370,7 @@
                                                      target:self
                                                    selector:@selector(OnTimer:)
                                                    userInfo:nil
-                                                    repeats:NO];
+                                                    repeats:YES];
         
         
     }    

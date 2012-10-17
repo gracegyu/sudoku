@@ -74,10 +74,10 @@
 	NSTimer		*timerNewGame;
 	UIActivityIndicatorView	*activityIndicator;
 	
-	NSInteger	scoreGames[5];
-	NSInteger	scoreClears[5];
-	NSInteger	scoreBestTime[5];
-	NSInteger	scoreClearTimeSum[5];
+	NSInteger	scoreGames[10];					// original:5 automemo:5
+	NSInteger	scoreClears[10];
+	NSInteger	scoreBestTime[10];
+	NSInteger	scoreClearTimeSum[10];
     NSInteger   scoreTotal;
 	NSInteger	levelNewGame;
 	NSInteger	countHint;

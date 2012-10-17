@@ -1173,7 +1173,7 @@
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0];
 					 
-//	NSLog(@"saveData(%@)", str);
+	NSLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 	
@@ -1195,7 +1195,7 @@
 	
 	SudokuGame* sudokuGame = [[SudokuGame alloc] initWithSavedString:str];
 	
-	sudokuGame.bAutoMemo = YES;
+	// sudokuGame.bAutoMemo = YES;
 	//[sudokuGame initAutoMemo]; 메모를 그대로 읽어들여야 한다.
 	
 	return sudokuGame;

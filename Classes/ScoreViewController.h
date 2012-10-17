@@ -56,7 +56,11 @@
 	UILabel *labelTitleBestTime;
 	UILabel *labelTitleAverage;
     
-    UIButton *buttonGameCenterRanking;
+    UIButton *buttonGameCenterRanking1;
+    UIButton *buttonGameCenterRanking2;
+    UIButton *buttonGameCenterRanking3;
+    UIButton *buttonGameCenterRanking4;
+    UIButton *buttonGameCenterRanking5;
     
     NSInteger nTimer;
     NSInteger rankTotal;
@@ -71,6 +75,15 @@
 	UILabel *labelRankVeryHard;
 
     UILabel *labelRankArray[5];
+	
+	UISegmentedControl *segmentAuto;
+	BOOL		bAuto;
+	
+	NSInteger	*scoreGames;					// original:5 automemo:5
+	NSInteger	*scoreClears;
+	NSInteger	*scoreBestTime;
+	NSInteger	*scoreClearTimeSum;
+    NSInteger   scoreTotal;
 }
 
 
@@ -121,6 +134,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelRankHard;
 @property (nonatomic, retain) IBOutlet UILabel *labelRankVeryHard;
 
+@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentAuto;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking1;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking2;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking3;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking4;
+@property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking5;
+
+@property BOOL		bAuto;
 
 - (IBAction)done;
 - (IBAction)showGameCenterAchievement;
@@ -131,6 +152,11 @@
 - (IBAction)showGameCenterLeaderboardNormal;
 - (IBAction)showGameCenterLeaderboardHard;
 - (IBAction)showGameCenterLeaderboardVeryHard;
+- (IBAction)setAuto;
+- (void) setAutoSegment;
+
+- (void) displayScore;
+- (void) setScoreData:(NSInteger)t g:(NSInteger*)g c:(NSInteger*)c b:(NSInteger*)b s:(NSInteger*)s;
 
 
 - (void) setTotalScoreRank:(NSInteger)score;
@@ -138,6 +164,7 @@
 - (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;//점수판이 닫힐때 호출되는 메소드
 - (void) showArchboard; //목표달성판을 띄우는 부분 구현 메소드
 - (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController;
+
 @end
 
 

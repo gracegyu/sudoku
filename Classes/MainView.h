@@ -80,6 +80,7 @@ enum ALERT_MODE {
     BOOL bSettingDuplicationWarning;
     BOOL bSettingMarkingEqual;
     BOOL bSettingDefMap;
+    BOOL bSettingAutoMemo;
 
     
     NSTimer		*timerTouch;
@@ -126,6 +127,7 @@ enum ALERT_MODE {
 @property BOOL bSettingDuplicationWarning;
 @property BOOL bSettingMarkingEqual;
 @property BOOL bSettingDefMap;
+@property BOOL bSettingAutoMemo;
 
 @property (nonatomic, retain) UIFont *cellOneSmallFont;
 @property (nonatomic, retain) UIFont *cellOneBigFont;
@@ -153,7 +155,7 @@ enum ALERT_MODE {
 
 
 
-- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle automemo:(BOOL)automemo;
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
 
 - (BOOL) loadGame;
 - (void) checkClearGame;
