@@ -153,7 +153,8 @@ enum ALERT_MODE {
 
 
 
-- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle automemo:(BOOL)automemo;
+
 - (BOOL) loadGame;
 - (void) checkClearGame;
 - (BOOL) isSelectedCellisFixed;

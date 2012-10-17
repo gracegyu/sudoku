@@ -436,7 +436,8 @@
 			posXFirstFound = -1;
 			posYFirstFound = -1;
 			
-			sub = [map getSub:numMap];
+			sub = [map getSubNum:numMap];
+			
 			
 			for (i=0; i<size && bOkAutoSet; i++)
 			{

@@ -31,9 +31,13 @@ typedef struct
 
 @property NSInteger     size;
 
+- (SudokuMap*) initWithMap:(SudokuMap*)source;
+- (SudokuMap*) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap;
 - (SudokuMap*) initWithSize:(NSInteger)size defmap:(BOOL)defmap;
+- (void) initSXY;
 - (NSInteger*) getMap;
-- (sXY*) getSub:(NSInteger)num;
+- (sXY*) getSub;
+- (sXY*) getSubNum:(NSInteger)num;
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 

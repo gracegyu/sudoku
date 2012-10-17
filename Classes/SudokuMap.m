@@ -89,17 +89,34 @@ static int defaultMap[][16*16] = {
 };
 
 
+- (SudokuMap*) initWithMap:(SudokuMap*)source
+{
+	size = source.size;
+	memcpy(map, [source getMap], sizeof(map));
+	memcpy(sub, [source getSub], sizeof(sub));
+
+	return self;
+}
+
+- (SudokuMap*) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap
+{
+	size = sizeMap;
+	memcpy(map, arrayMap, sizeof(map));
+	[self initSXY];
+	
+	return self;
+}
+
 
 - (SudokuMap*) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
 {
     NSAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
-    NSInteger countMap[MAXMAPSIZE+10] = {0};
     
     if (sizeMap > MAXMAPSIZE)
         return nil;
 
-    memset(&countMap, 0, sizeof(countMap));
-    
+    size = sizeMap;
+	
     int x, y, i=0;
     int *Map = nil;
     
@@ -140,34 +157,54 @@ static int defaultMap[][16*16] = {
             break;
     }
 
-    NSInteger countSub[MAXMAPSIZE+1];
-	memset(countSub, 0, sizeof(countSub));
-    
-    for (y = 0; y < sizeMap; y++) {
-        for (x = 0; x < sizeMap; x++) {
-
-            map[x][y] = Map[i];
-            NSAssert(Map[i] <= sizeMap, @"Map[%d](%d) > %d", i, Map[i], sizeMap);
-            NSAssert(++countMap[Map[i]] <= sizeMap, @"countMap[%d] > %d", Map[i], sizeMap);
-            //NSLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
-            
-			sub[Map[i]][countSub[Map[i]]].x = x;
-			sub[Map[i]][countSub[Map[i]]].y = y;
-			countSub[Map[i]] += 1;			
+	for (y = 0; y < size; y++) {
+        for (x = 0; x < size; x++) {
 			
-            i++;
-        }
-    }
+            map[x][y] = Map[i];
+			i++;
+		}
+	}
+	
+	[self initSXY];
+	
     return self;
 }
 
+- (void) initSXY
+{
+	NSInteger countMap[MAXMAPSIZE+10] = {0};
+    memset(&countMap, 0, sizeof(countMap));
+
+	NSInteger countSub[MAXMAPSIZE+1];
+	memset(countSub, 0, sizeof(countSub));
+	
+	for (int y = 0; y < size; y++) {
+		for (int x = 0; x < size; x++) {
+			
+			NSAssert(map[x][y] <= size, @"map[%d,%d](%d) > %d", x, y, map[x][y], size);
+			NSAssert(++countMap[map[x][y]] <= size, @"countMap[%d] > %d", map[x][y], size);
+			//NSLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
+			
+			sub[map[x][y]][countSub[map[x][y]]].x = x;
+			sub[map[x][y]][countSub[map[x][y]]].y = y;
+			NSLog(@"sub[%d][%d](%d,%d)", map[x][y],countSub[map[x][y]], x, y);
+			countSub[map[x][y]] += 1;
+			
+
+		}
+	}
+}
 
 - (NSInteger*) getMap
 {
     return (NSInteger*) map;
 }
+- (sXY*) getSub
+{
+	return (sXY*) sub;
+}
 
-- (sXY*) getSub:(NSInteger)num
+- (sXY*) getSubNum:(NSInteger)num
 {
 	return (sXY*) (sub[num]);
 }

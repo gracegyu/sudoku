@@ -48,6 +48,12 @@
 	[super dealloc];
 }
 
+- (NSInteger) getIndex
+{
+    return indexUndo;
+}
+
+
 - (NSInteger) countUndo
 {
     return indexUndo;
@@ -79,6 +85,7 @@
 
 - (void) addNum:(NSInteger)num oldnum:(NSInteger)oldnum x:(NSInteger)x y:(NSInteger)y
 {
+	NSLog(@"Undo:addNum(%d,%d)%d,%d", x, y, num, oldnum);
     [self flushUndo];
     
     UndoData *undo = [[UndoData alloc] init];
@@ -98,6 +105,7 @@
 
 - (void) delNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+	NSLog(@"Undo:delNum(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -116,6 +124,7 @@
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+	NSLog(@"Undo:addMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -133,6 +142,7 @@
 
 - (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
+	NSLog(@"Undo:delMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -147,6 +157,42 @@
     [undo release];
     indexUndo = count = [arrayUndo count];
 
+}
+- (void) addAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+ 	NSLog(@"Undo:addAutoMemo(%d,%d)%d", x, y, num);
+   [self flushUndo];
+	
+    UndoData *undo = [[UndoData alloc] init];
+    
+    undo.mode = UNDOMODE_AUTOMEMO_ADD;
+    undo.x = x;
+    undo.y = y;
+    undo.num = num;
+    
+    [arrayUndo addObject:undo];
+    
+    [undo release];
+    indexUndo = count = [arrayUndo count];
+}
+
+- (void) delAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+ 	NSLog(@"Undo:delAutoMemo(%d,%d)%d", x, y, num);
+    [self flushUndo];
+	
+    UndoData *undo = [[UndoData alloc] init];
+    
+    undo.mode = UNDOMODE_AUTOMEMO_DEL;
+    undo.x = x;
+    undo.y = y;
+    undo.num = num;
+    
+    [arrayUndo addObject:undo];
+    
+    [undo release];
+    indexUndo = count = [arrayUndo count];
+	
 }
 
 - (BOOL) getUndo:(UndoData*)undo
@@ -163,6 +209,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
+		NSLog(@"Undo:getUndo(%d,%d)%d<-%d,M:%d", undo.x, undo.y, undo.num, undo.oldnum, undo.mode);
     }
     indexUndo--;
     
@@ -183,6 +230,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
+		NSLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.x, undo.mode, undo.oldnum, undo.num);
     }
     indexUndo++;
     
@@ -192,11 +240,29 @@
 - (BOOL) addBookmark
 {
     bookmark = indexUndo;
-    NSLog(@"bookmark = %d", bookmark);
+    //NSLog(@"bookmark = %d", bookmark);
     
+	// autoMemo skip
+	UndoData* data;
+	
+	NSInteger i = indexUndo;
+	while (i>0)
+	{
+		data = [arrayUndo objectAtIndex:i-1];
+		if (data.mode == UNDOMODE_AUTOMEMO_ADD || data.mode == UNDOMODE_AUTOMEMO_DEL)
+		{
+			i--;
+		} else {
+			bookmark = i;
+			break;
+		}
+	}
+	bookmark = i;
+	
+	
     if (bookmark > 0)
     {
-        UndoData* undoBookmark = [arrayUndo objectAtIndex:indexUndo-1];
+        UndoData* undoBookmark = [arrayUndo objectAtIndex:bookmark-1];
         if (undoBookmark)
         {
             bookmarkX = undoBookmark.x;
@@ -215,18 +281,24 @@
     bookmark = -1;
     bookmarkX = -1;
     bookmarkY = -1;
-    NSLog(@"bookmark = %d", bookmark);
+    //NSLog(@"bookmark = %d", bookmark);
 }
 
 - (BOOL) isBookmarked
 {
-    NSLog(@"bookmark = %d", bookmark);
+    //NSLog(@"bookmark = %d", bookmark);
     return bookmark >= 0;
 }
 
+- (NSInteger) getBookmark
+{
+	return bookmark;
+}
+
+
 - (NSInteger) canGoBookmark    // -1:undo, 0:can't +1:redo
 {
-    NSLog(@"bookmark = %d", bookmark);
+    //NSLog(@"bookmark = %d", bookmark);
     if (bookmark >= count)
         return 0;
     if (bookmark < indexUndo)
@@ -239,7 +311,7 @@
 
 - (NSInteger) countGoBookmark  // 몇번 undo, redo를 해야 하나?
 {
-    NSLog(@"bookmark = %d", bookmark);
+    //NSLog(@"bookmark = %d", bookmark);
 
     if (bookmark < 0 || bookmark > count)
         return 0;
@@ -252,5 +324,48 @@
     [arrayUndo removeAllObjects];
     indexUndo = count = [arrayUndo count];
 }
+
+- (NSMutableArray*) getAutoUndo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+{
+	NSInteger i;
+	UndoData *data;
+	
+	i = indexUndo;
+	
+	while (i>0)
+	{
+		data = [arrayUndo objectAtIndex:i-1];
+		if (data.mode == UNDOMODE_NUM_ADD &&
+			data.num == num &&
+			data.x == x &&
+			data.y == y)
+		{
+			// found
+			break;
+		}
+		i--;
+	}
+	
+	if (i>0)
+	{
+		NSMutableArray* array = [[NSMutableArray alloc] init];
+		while (i < indexUndo)
+		{
+			data = [arrayUndo objectAtIndex:i];	// 첫번째는 무시
+			if (data.mode == UNDOMODE_AUTOMEMO_DEL)
+			{
+				[array addObject:data];
+			} else {
+				break;
+			}
+			i++;
+		}
+		return array;
+		
+	}
+
+	return nil;
+}
+
 
 @end

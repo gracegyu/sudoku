@@ -10,6 +10,7 @@
 #import "SudokuNum.h"
 #import "Constants.h"
 #import "SudokuUndo.h"
+#import "SudokuBoard.h"
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
@@ -18,18 +19,21 @@
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
 	BOOL			gameFinished;		// 0, 1
-    NSInteger       mapNums[9][9]; // Map num (9x9 1~9
+    NSInteger       mapNums[9][9];		// Map num (9x9 1~9
 	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
 	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
 	NSInteger		fixNums[9][9];		// User decided num (9x9 1~9, beside Puzzle num) 
 	char			memoNums[9][9][9+1];// 
-//	NSString*		strUndo;			// x,y,num(0~9) (3bytes), 0 is del
     SudokuUndo      *sudokuUndo;
+	SudokuMap       *map;
 
 
 	NSInteger		countBlank;
 	NSInteger		countFixNums;
 	NSInteger		countHint;			// Hint 가능 수
+	
+	BOOL			bAutoMemo;			// AutoMemoMode;
+	BOOL			bAutoMemoUndoLog;
 }
 
 @property NSInteger         size;
@@ -43,11 +47,13 @@
 @property NSInteger		countBlank;
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
+@property BOOL			bAutoMemo;
 
 // Create Game : Level
 // 
 
-- (id)initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level;
+- (id) initWithSudokuBoard:(SudokuBoard*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
+- (id)initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
@@ -61,7 +67,9 @@
 - (char*) getMemoNums:(NSInteger)x y:(NSInteger)y;
 - (BOOL) beMemoNums:(NSInteger)num  x:(NSInteger)x y:(NSInteger)y;
 - (void) addMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (BOOL) setMemoNumsForAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) delMemoNumsForAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) revertMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) clearMemoNums:(NSInteger)x y:(NSInteger)y;
 - (void) clearAllNums;

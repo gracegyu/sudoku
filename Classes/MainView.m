@@ -423,7 +423,7 @@
 // what color?
 - (void)drawRectCellOneChoosing:(CGContextRef)context rect:(CGRect)rect
 {
-	NSLog(@"drawRectCellOneChoosing");
+	//NSLog(@"drawRectCellOneChoosing");
 	if (pushedButton == 0)
 	{
 		NSLog(@"pushedButton == 0");
@@ -489,7 +489,7 @@
     int len = strlen(memo);
 	int i = 0;
 	int x, y;
-    int countW = (len <= 4 ? 2 : 3);
+    int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
     int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
     BOOL bConflict;
     
@@ -591,6 +591,10 @@
 	NSInteger puzzleNum = [sudokuGame getPuzzleNums:xPos y:yPos];
 	NSInteger fixNum = [sudokuGame getFixNums:xPos y:yPos];
 	char *pMemo = [sudokuGame getMemoNums:xPos y:yPos];
+	if (xPos==0 && yPos==0)
+	{
+		//NSLog(@"pMemo=%s", pMemo);
+	}
 	
 	if (puzzleNum > 0)	{
 		// 원래 문제에 있던 번호 
@@ -610,7 +614,11 @@
 //            bConflict = YES;
         
 		[self drawRectCellOneUserFixed:context num:fixNum rect:rect dupwarn:bDupWarnArea&&(fixNum==pushedButton) conflict:bConflict];
-	} else if (pMemo) {
+	}
+#ifndef VERBOSE	// 숫자와 메모도 같이 출력하기 위한 장치
+	else
+#endif
+	if (pMemo) {
 		// 메모 중인 번호 
 		[self drawRectCellOneMemo:context memo:pMemo rect:rect xPos:xPos yPos:yPos];
 	}
@@ -1095,7 +1103,7 @@
 */	
 	NSInteger pos = floatTouch/(cCellWidth);// + cLineWidth);
  	
-	NSLog(@"TouchToPosX(%f) -> %d", floatTouch, pos);
+	//NSLog(@"TouchToPosX(%f) -> %d", floatTouch, pos);
 	
 	return pos;
 }
@@ -1111,7 +1119,7 @@
 */	
 	NSInteger pos = floatTouch/(cCellHeight);// + cLineWidth);
  	
-	NSLog(@"TouchToPosY(%f) -> %d", floatTouch, pos);
+	//NSLog(@"TouchToPosY(%f) -> %d", floatTouch, pos);
 	
 	return pos;
 	
@@ -1155,7 +1163,7 @@
 				}
 			}
 			
-			NSLog(@"ButtonChoose(%d)", i);
+			//NSLog(@"ButtonChoose(%d)", i);
 			return i;
 		}
 	}
@@ -1176,7 +1184,7 @@
 	NSInteger yPos = [self TouchToPosY:fY];
 
 	
-    NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
+    //NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
     if (bEnd && [touch tapCount] == 2 && xPos < sudokuGame.size && yPos < sudokuGame.size) {
         [ctrl memoOnOff];
         return;             // double tab 후에는 아무런 세팅을 하지 않는다.
@@ -1224,7 +1232,7 @@
                                 }
                             }
                         } else {
-                            NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
+                            //NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
                             [sudokuGame setFixNums:buttonNum x:selectedXPos y:selectedYPos];
                             [self checkClearGame];
                         }
@@ -1255,6 +1263,7 @@
 
 	[ctrl updateButtonDel];
 	[ctrl updateButtonHint];
+	[sudokuGame saveData];
 
 }
 
@@ -1299,8 +1308,7 @@
 		selectedYPos = (NSInteger) pointLastUndoPos.y;
         [self playSound:soundClickID];
 	}
-
-	
+	[sudokuGame saveData];	
 	[self setNeedsDisplay];
 }
 
@@ -1322,7 +1330,7 @@
         [self playSound:soundClickID];
 	}
     
-	
+	[sudokuGame saveData];
 	[self setNeedsDisplay];
 }
 
@@ -1349,10 +1357,8 @@
         [alert show];
         [alert release];
         [self playSound:soundClickID];
-        
-        
     }
-    
+	[sudokuGame saveData];
 
 	
 	[self setNeedsDisplay];
@@ -1401,6 +1407,7 @@
 	[sudokuGame setFixNums:0 x:selectedXPos y:selectedYPos];
 	[self checkClearAndUpdateButton];
 
+	[sudokuGame saveData];
 }
 
 - (void) clearNumbers
@@ -1415,7 +1422,8 @@
 										  cancelButtonTitle:gettext(@"No", nil) 
 										  otherButtonTitles:gettext(@"Yes", nil), nil];
 	[alert show];
-	[alert release];			
+	[alert release];
+	[sudokuGame saveData];
 }
 
 - (void) doHint
@@ -1429,7 +1437,7 @@
 	}
 
 	[self checkClearAndUpdateButton];
-
+	[sudokuGame saveData];
 }
 
 
@@ -1440,9 +1448,10 @@
 	NSLog(@"loadGame");
 	sudokuGame = [SudokuGame loadData];
 	
-	if (sudokuGame != NULL) {
+	if (sudokuGame != NULL)
+	{
         
-//        [self setFont];
+		[sudokuGame saveData];
         
 		[self setNeedsDisplay];
 		return YES;
@@ -1452,7 +1461,7 @@
 
 
 
-- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
+- (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle automemo:(BOOL)automemo
 {
 	BOOL bUseQQ=NO;
 #ifdef SUDOKU9
@@ -1464,17 +1473,17 @@
 
 	if (bUseQQ)
 	{
-		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT);
-		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level];
+		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT); 
+		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level automemo:automemo];
 		[board release];
 	} else {
 		SudokuNum *sudokuNum = sudokuNumGenerate(level, sizePuzzle, bSettingDefMap);
-		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level automemo:automemo];
 		[sudokuNum release];
 	}
 	
 	// zzz turn off activityIndicator
-    //[sudokuGame saveData];          // save Sudoku data as soon as making new game
+    [sudokuGame saveData];          // save Sudoku data as soon as making new game
 	[self setNeedsDisplay];
 }
 
@@ -1493,7 +1502,8 @@
                 [ctrl updateHintCount];
                 
                 
-                [self playSound:soundClearID];	
+                [self playSound:soundClearID];
+				[sudokuGame saveData];
             }
             break;
         case ALELRT_BOOKMARK :
@@ -1507,15 +1517,14 @@
                     selectedXPos = sudokuGame.sudokuUndo.bookmarkX;
                     selectedYPos = sudokuGame.sudokuUndo.bookmarkY;
                     
-                    for (int i=0; i<ABS(countBookmark); i++)
-                    {
-                        if (countBookmark < 0)
-                        {
-                            pointLastUndoPos = [sudokuGame runUndo];
-                        } else {
-                            pointLastUndoPos = [sudokuGame runRedo];
-                        }
-                    }
+					if (countBookmark < 0)
+					{
+						while ([sudokuGame.sudokuUndo getIndex] > [sudokuGame.sudokuUndo getBookmark])
+							pointLastUndoPos = [sudokuGame runUndo];
+					} else {
+						while ([sudokuGame.sudokuUndo getIndex] <= [sudokuGame.sudokuUndo getBookmark])
+							pointLastUndoPos = [sudokuGame runRedo];
+					}
                 }
                 [sudokuGame.sudokuUndo delBookmark];
                 [self playSound:soundClickID];
@@ -1530,6 +1539,7 @@
             }
             MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
             [ctrl updateButtonUndo];
+			[sudokuGame saveData];
 
             break;
         default:
@@ -1566,6 +1576,8 @@
     bPressedInButton = NO;
     bHoldAndChoice = YES;       // 누르고 있는 버튼을 크게 표시한다.
     pushedButton = pressedButtonNum;
+	
+	[sudokuGame saveData];
 
     [self setNeedsDisplay];
 
@@ -1573,7 +1585,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
+    //NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
     
 	if (sudokuGame.gameFinished)	// lock the screen
 		return;
@@ -1723,7 +1735,7 @@
 
 - (void) setFont
 {
-	NSLog(@"setFont(%f)", cCellWidth);
+	//NSLog(@"setFont(%f)", cCellWidth);
 	self.cellOneSmallFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
 	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];
 	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];
@@ -1744,8 +1756,7 @@
 - (void)drawRect:(CGRect)rect
 {
     
-    NSLog(@"self.bounds(%f,%f)",
-          self.bounds.size.width, self.bounds.size.height);
+    //NSLog(@"self.bounds(%f,%f)",          self.bounds.size.width, self.bounds.size.height);
 
     
     //	NSString* s;
@@ -1754,7 +1765,7 @@
     
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	NSLog(@"drawRect ---------- refresh");
+	//NSLog(@"drawRect ---------- refresh");
     
     [self setFont];
     

@@ -602,7 +602,8 @@
 
 - (void)showMemoButton
 {
-	if (mainView.bMemoMode) {
+	if (mainView.bMemoMode)
+	{
 		buttonMemo.alpha = 1.f;	
 	} else {
 		buttonMemo.alpha = 0.5f;	
@@ -822,7 +823,7 @@
 	//	[self allButtonLock];
 	[mainView.sudokuGame release];
     NSLog(@"DEFPUZZLESIZE=%d", DEFPUZZLESIZE);
-	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
+	[mainView newGame:levelNewGame size:DEFPUZZLESIZE automemo:NO];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
     scoreTotal += 1;                                    // 1게임 시도당 1점 추가
@@ -833,6 +834,7 @@
 	[activityIndicator stopAnimating];
 	// all button unlock
 	
+	[self showMemoButton];		// for auto memo
 	[self updateButtonUndo];
 	[self updateButtonClear];
 	[self updateButtonDel];
