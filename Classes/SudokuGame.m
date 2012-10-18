@@ -431,10 +431,12 @@
 		[self deleteAutoMemoY:num xPos:xPos yPos:yPos];
 		[self deleteAutoMemoXY:num xPos:xPos yPos:yPos];
 	}
+#ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
 	while ([self deleteAutoMemoUniqueNum:num xPos:xPos yPos:yPos] == YES)
 	{
 		
 	}
+#endif
 	// [self deleteAutoMemoSingleNum:]
 	// Single num은 굳이 처리하지 않아도 사용자가 입력할 것이다.
 }
@@ -1138,14 +1140,14 @@
 {
 	int len;
 	
-	for (int i=0; i<size*size; i++)
+	for (int i=0; i<SIZE_9*SIZE_9; i++)	// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		len = strlen(strs);
 		if (len)
 			strcpy(str, strs);
 		strcat(str, "|");
 		str += len+1;
-		strs += SIZE_9+1;
+		strs += SIZE_9+1;	// 메모의 최대 길이
 	}
 	*str = '\0';
 }
@@ -1154,7 +1156,7 @@
 {
 	NSArray *listItems = [str componentsSeparatedByString:@"|"];
 
-	for (int i=0; i<size*size; i++)
+	for (int i=0; i<SIZE_9*SIZE_9 && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		strcpy(strs, [[listItems objectAtIndex:i] cStringUsingEncoding:NSASCIIStringEncoding]);
 		strs += SIZE_9+1;

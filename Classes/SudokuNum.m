@@ -265,6 +265,12 @@
 		memonum[x][y] -= 1;
 
 	}
+	if ([self isEmptyMemo:x y:y] == YES)
+	{
+		NSAssert(memonum[x][y]==0, @"delMemo(%d,%d)-%d, empty", x, y, num);
+		NSLog(@"EmptyMemo(%d,%d)", x, y);
+		return NO;			// memo 오류
+	}
 	return YES;
 }
 
@@ -865,7 +871,7 @@
 		}
 	}	
 	
-	if (bOkAutoSet == NO) {
+	if (bOkAutoSet == NO) {		// 실패 했음, Back tracking에서 완전히 새로 생성하는 것으로 수정
 		return NO;
 		[self undoSet:numBackTracking];
         
@@ -1107,6 +1113,7 @@
 	countAutoFixed = 0;	
 	countNotFixed = 0;
 
+	//[self printNums];
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)
@@ -1115,9 +1122,11 @@
 				countUserFixed += 1;	
 			else if ([self getAnswerNum:x y:y] > 0)
 				countAutoFixed += 1;
-			else 
-				countNotFixed += 1;
-
+			else if (memonum[x][y] == 0 || memo[x][y][0] == '\0')
+				bOkAutoSet = NO;		// 실패
+			else
+				countNotFixed += 1;		// 메모 셀
+			
 		}
 	}
 	//NSLog(@"countCell (U:%d,A:%d,N:%d)", countUserFixed, countAutoFixed, countNotFixed);
@@ -1267,24 +1276,32 @@ NSInteger Rand12[2][3] = {
 SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap)
 {
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
+	NSInteger nTry=0;
 	
 	do
 	{
+		nTry++;
 		[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
 		[sudokuNum countCell];
 		//[sudokuNum printNums];
 		NSInteger i = 0;
 		while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 		{
-			i++;
-			//NSLog(@"############### i = %d", i);
-			//[sudokuNum printNums];
+			if (++i > sizePuzzle*sizePuzzle)
+			{
+				NSLog(@"############### i = %d", i);
+				[sudokuNum printNums];
+				
+				break;
+			}
 		}
 		
 		NSLog(@"%d times loop", i);
 		[sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
+	NSLog(@"sudokuNumGenerate: %d tried", nTry);
+	
 	return sudokuNum;
 }
 

@@ -1241,6 +1241,8 @@
 	
 	NSInteger xPos = [self TouchToPosX:fX];
 	NSInteger yPos = [self TouchToPosY:fY];
+	
+	BOOL bShouldSave = NO;
 
 	
     //NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
@@ -1289,11 +1291,13 @@
                                     [sudokuGame revertMemoNums:buttonNum x:selectedXPos y:selectedYPos];
                             
                                 }
+								bShouldSave = YES;
                             }
                         } else {
                             //NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
                             [sudokuGame setFixNums:buttonNum x:selectedXPos y:selectedYPos];
                             [self checkClearGame];
+							bShouldSave = YES;
                         }
                         pushedButton = -1;
                         
@@ -1322,7 +1326,8 @@
 
 	[ctrl updateButtonDel];
 	[ctrl updateButtonHint];
-	[sudokuGame saveData];
+	if (bShouldSave)
+		[sudokuGame saveData];
 
 }
 

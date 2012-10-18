@@ -91,6 +91,9 @@ static int defaultMap[][16*16] = {
 
 - (SudokuMap*) initWithMap:(SudokuMap*)source
 {
+	if ((super.init) == nil)
+		return nil;
+	
 	size = source.size;
 	memcpy(map, [source getMap], sizeof(map));
 	memcpy(sub, [source getSub], sizeof(sub));
@@ -100,6 +103,9 @@ static int defaultMap[][16*16] = {
 
 - (SudokuMap*) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap
 {
+	if ((super.init) == nil)
+		return nil;
+
 	size = sizeMap;
 	memcpy(map, arrayMap, sizeof(map));
 	[self initSXY];
@@ -110,6 +116,9 @@ static int defaultMap[][16*16] = {
 
 - (SudokuMap*) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
 {
+	if ((super.init) == nil)
+		return nil;
+	
     NSAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
     
     if (sizeMap > MAXMAPSIZE)
@@ -187,7 +196,7 @@ static int defaultMap[][16*16] = {
 			
 			sub[map[x][y]][countSub[map[x][y]]].x = x;
 			sub[map[x][y]][countSub[map[x][y]]].y = y;
-			NSLog(@"sub[%d][%d](%d,%d)", map[x][y],countSub[map[x][y]], x, y);
+			//NSLog(@"sub[%d][%d](%d,%d)", map[x][y],countSub[map[x][y]], x, y);
 			countSub[map[x][y]] += 1;
 			
 
