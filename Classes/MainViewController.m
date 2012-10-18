@@ -45,6 +45,7 @@
 @synthesize buttonSetting;
 
 @synthesize viewMenu;
+@synthesize viewNewGame;
 @synthesize labelLevel;
 @synthesize labelGameTime;
 @synthesize labelBlank;
@@ -270,13 +271,13 @@
 {
     [buttonMemo setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
-    [buttonNew setTitle:gettext(@"new", nil) forState:UIControlStateNormal];
+    [buttonNew setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
     [buttonReset setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
     [buttonScore setTitle:gettext(@"score", nil) forState:UIControlStateNormal];
     [buttonHint setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
-    [buttonSetting setTitle:@"" forState:UIControlStateNormal];
-    [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
-    [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];   
+    [buttonSetting setTitle:gettext(@"setting", nil) forState:UIControlStateNormal];
+//    [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
+//    [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
     [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
     [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
@@ -334,7 +335,11 @@
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 
-       
+	   
+	   [mainView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
+
+	   
+	   
        [self decideLocale];
        
        [self loadSetting];
@@ -348,15 +353,16 @@
 			[self updateButtonClear];
 			[self updateButtonDel];
 			[self updateButtonHint];
-            [self startTimer];          // load 했을 때만 Timer를 시작한다.
+            [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
 		} else { 
 			[self showMenu];
 		}
 		[self initScore];
 		[self loadScoreData];
-		//[self startTimer];
+		//[self startGameTimer];
 		[self showMemoButton];
 	    [self showHintButton];
+	   
 
     }
     return self;
@@ -387,9 +393,15 @@
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void) viewDidLoad {
 	 NSLog(@"viewDidLoad");	
+     [super viewDidLoad];
 
-     
-     
+
+	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
+	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
+	 [self readySlideView:viewMenu];
+	 [self readySlideView:viewNewGame];
+
+
 
      
 #ifdef ADMOB_FREEVERSION	 
@@ -407,7 +419,7 @@
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
-     
+ /*
      
      UIPanGestureRecognizer *pan;
      pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(Swipe4ScrollViews:)];
@@ -431,8 +443,9 @@
      [mainView addGestureRecognizer:rightSwipeRecognizer];
      rightSwipeRecognizer.delegate = self;
      [rightSwipeRecognizer release];
+*/
+	 
 
-     [super viewDidLoad];
 
 
 }
@@ -484,6 +497,8 @@
 
 - (IBAction) showScoreView
 {
+	[self hideMenuView];
+
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
 										  @"ScoreView" bundle:nil];
@@ -504,6 +519,8 @@
     [controller setTotalScoreRank:scoreTotal];
 	
 	[controller release];
+
+
 
 }
 
@@ -553,6 +570,9 @@
 
 - (IBAction)runUndo
 {
+	if (mainView.bMenuMode)
+		return;
+	
 	[mainView runUndo];
 	
 	[self updateBlankCellCount];
@@ -566,6 +586,9 @@
 
 - (IBAction)runRedo
 {
+	if (mainView.bMenuMode)
+		return;
+
 	[mainView runRedo];
 	
 	[self updateBlankCellCount];
@@ -578,6 +601,9 @@
 
 - (IBAction)runBookmark
 {
+	if (mainView.bMenuMode)
+		return;
+
 	[mainView runBookmark];
 	
 	[self updateBlankCellCount];
@@ -600,20 +626,29 @@
 	
 }
 
-- (IBAction) memoOnOff {
+- (IBAction) memoOnOff
+{
+	if (mainView.bMenuMode)
+		return;
+
 	[mainView memoOnOff];
 	[self showMemoButton];
 }
 
 - (IBAction) delNumber
 {
+	if (mainView.bMenuMode)
+		return;
+
+	
 	[mainView delNumber];
 }
 
 - (IBAction) clearNumbers
 {
-	[mainView clearNumbers];
-    //[self writeScoreAfterFinishGame:mainView.sudokuGame];
+	[self hideMenuView];	
+	
+	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     
 }
 
@@ -625,6 +660,10 @@
 
 - (IBAction) doHint
 {
+	if (mainView.bMenuMode)
+		return;
+
+	
 	[mainView doHint];
 }
 
@@ -632,6 +671,7 @@
 
 - (IBAction)showSettingView
 {
+	[self hideMenuView];
 
     NSLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
@@ -708,23 +748,6 @@
 	buttonNewGameCancel.enabled = YES;	
 }
 
-
-- (void) showMenuView
-{
-	[activityIndicator stopAnimating];
-	viewMenu.hidden = NO;
-    
-    
-    CGRect frameOld = viewMenu.frame;
-    frameOld.origin.x = 0;
-    frameOld.origin.y = 0;
-    viewMenu.frame = frameOld;
-	viewMenu.alpha = 0.8f;
-	mainView.bMenuMode = YES;
-	
-	buttonNewGameCancel.hidden = (mainView.sudokuGame == nil);	
-}
-
 - (void) setGameLevel
 {
 	switch (mainView.sudokuGame.gameLevel) {
@@ -748,17 +771,144 @@
 	}
 }
 
+
+
+
+
+- (void)OnTimerShowMenu:(NSTimer *)timer
+{
+	CGRect frameOld = viewMenu.frame;
+    frameOld.origin.x -= intervalX;
+    viewMenu.frame = frameOld;
+	
+	if (viewMenu.frame.origin.x-intervalX > 0)
+		[timer invalidate];
+}
+
+- (void) readySlideView:(UIView*) v
+{
+	CGRect frameOld = v.frame;
+    frameOld.origin.x = 0 - v.frame.size.width;
+    v.frame = frameOld;
+	
+	if (mainView.bMenuMode)
+	{
+		mainView.bMenuMode = NO;
+		[self startGameTimer];
+	}
+}
+
+- (void) showMenuView
+{
+	if (mainView.bMenuMode)
+		return;
+	
+	[self readySlideView:viewMenu];
+	mainView.bMenuMode = YES;
+	[self stopGameTimer];
+	intervalX = (viewMenu.frame.origin.x)/25;
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerShowMenu:)
+								   userInfo:nil
+									repeats:YES];
+	// 버튼 enable
+}
+
+- (void)OnTimerHideMenu:(NSTimer *)timer
+{
+	CGRect frameOld = viewMenu.frame;
+    frameOld.origin.x -= intervalX;
+    viewMenu.frame = frameOld;
+	
+	if ((viewMenu.frame.origin.x + viewMenu.frame.size.width) <= 0)
+	{
+		[timer invalidate];
+	}
+}
+
 - (void) hideMenuView
 {
-	viewMenu.hidden = YES;
-	mainView.bMenuMode = NO;
 	
+	
+	intervalX = (viewMenu.frame.origin.x + viewMenu.frame.size.width)/25;
+	// 버튼 disable
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerHideMenu:)
+								   userInfo:nil
+									repeats:YES];
+
+	mainView.bMenuMode = NO;
+	[self startGameTimer];
+}
+
+
+- (void)OnTimerShowNewGame:(NSTimer *)timer
+{
+	CGRect frameOld = viewNewGame.frame;
+    frameOld.origin.x -= intervalX2;
+    viewNewGame.frame = frameOld;
+	
+	if (viewNewGame.frame.origin.x-intervalX2 > 0)
+		[timer invalidate];
+}
+
+
+
+- (void) showNewGameView
+{
+	if (mainView.bMenuMode)
+		return;
+
+	[self readySlideView:viewNewGame];
+	mainView.bMenuMode = YES;
+	[self stopGameTimer];
+	intervalX2 = (viewNewGame.frame.origin.x)/25;
+	buttonNewGameCancel.hidden = (mainView.sudokuGame == nil);
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerShowNewGame:)
+								   userInfo:nil
+									repeats:YES];
+	// 버튼 enable
+}
+
+- (void) OnTimerHideNewGame:(NSTimer *)timer
+{
+	CGRect frameOld = viewNewGame.frame;
+    frameOld.origin.x -= intervalX2;
+    viewNewGame.frame = frameOld;
+	
+	if ((viewNewGame.frame.origin.x + viewNewGame.frame.size.width) <= 0)
+	{
+		[timer invalidate];
+	}
+}
+
+- (void) hideNewGameView
+{
+	intervalX2 = (viewNewGame.frame.origin.x + viewNewGame.frame.size.width)/25;
+	// 버튼 disable
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerHideNewGame:)
+								   userInfo:nil
+									repeats:YES];
+	
+	mainView.bMenuMode = NO;
+	[self startGameTimer];
 	[self setGameLevel];
 	[self updateBlankCellCount];
     [self updateHintCount];
-	[self startTimer];
 
+	
 }
+
 - (void) updateGameTime:(NSInteger) time
 {
 	NSString *str;
@@ -787,7 +937,7 @@
 {
 //	[self allButtonUnLock];
 	[self showMenuView];
-	[self stopTimer];
+//	[self stopGameTimer];
 
 }
 
@@ -829,7 +979,8 @@
 	[self updateButtonDel];
 	[self updateButtonHint];
 	
-	[self hideMenuView];	
+	
+	[self hideNewGameView];	// 
 	
 }
 
@@ -849,44 +1000,58 @@
 	
 }	
 
-
-
-- (IBAction)menuVeryEasy
-{
-	[self makeNewGame:GAMELEVEL_VERYEASY];
-
-}
-
-- (IBAction)menuEasy
-{
-	[self makeNewGame:GAMELEVEL_EASY];
-
-}
-
-- (IBAction)menuNormal
-{
-	[self makeNewGame:GAMELEVEL_NORMAL];
-
-}
-
-- (IBAction)menuHard
-{
-	[self makeNewGame:GAMELEVEL_HARD];
-
-}
-
-- (IBAction)menuVeryHard
-{
-	[self makeNewGame:GAMELEVEL_VERYHARD];
-
-}
-
 - (IBAction)menuCancel
 {
 	[self hideMenuView];
 }
 
-- (void) startTimer
+- (IBAction)showNewGame
+{
+	[self hideMenuView];	// 메뉴가 사라지고, newgame이 나온다.
+	[self showNewGameView];
+	
+}
+
+
+- (IBAction)newgameVeryEasy
+{
+	[self makeNewGame:GAMELEVEL_VERYEASY];
+
+}
+
+- (IBAction)newgameEasy
+{
+	[self makeNewGame:GAMELEVEL_EASY];
+
+}
+
+- (IBAction)newgameNormal
+{
+	[self makeNewGame:GAMELEVEL_NORMAL];
+
+}
+
+- (IBAction)newgameHard
+{
+	[self makeNewGame:GAMELEVEL_HARD];
+
+}
+
+- (IBAction)newgameVeryHard
+{
+	[self makeNewGame:GAMELEVEL_VERYHARD];
+
+}
+
+
+- (IBAction)newgameCancel
+{
+	// newgameview가 조용히 물러난다.
+	[self hideNewGameView];
+}
+
+
+- (void) startGameTimer
 {
 	timerGame = [NSTimer scheduledTimerWithTimeInterval:1 
 												 target:self
@@ -895,9 +1060,10 @@
 												repeats:YES];
 }
 
-- (void) stopTimer
+- (void) stopGameTimer
 {
-	[timerGame invalidate];	
+	if ([timerGame isValid])
+		[timerGame invalidate];	
 }
 
 
@@ -987,11 +1153,13 @@
 #ifdef ADMOB_FREEVERSION
     bannerView_.hidden = YES;
 #endif
-    CGRect frameOld = viewMenu.frame;
+	[self readySlideView:viewMenu];
+	[self readySlideView:viewNewGame];
+/*    CGRect frameOld = viewMenu.frame;
     frameOld.origin.x = 0;
     frameOld.origin.y = 0;
     viewMenu.frame = frameOld;
-
+*/
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
@@ -1000,6 +1168,7 @@
     bannerView_.frame = areaAdBanner.frame;
     bannerView_.hidden = NO;
 #endif
+
     [mainView setNeedsDisplay];
 
 }
@@ -1007,6 +1176,9 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
+	if (mainView.bMenuMode)
+		return NO;
+	
 #ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)
         return NO;
@@ -1065,12 +1237,12 @@
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView
 {
-    [self stopTimer];
+    [self stopGameTimer];
 }
 
 - (void)adViewDidDismissScreen:(GADBannerView *)bannerView
 {
-    [self startTimer];
+    [self startGameTimer];
 }
 
 - (void)adViewWillDismissScreen:(GADBannerView *)bannerView

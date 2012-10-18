@@ -23,8 +23,8 @@
 @synthesize choosingOkColor;
 @synthesize choosingNoColor;
 @synthesize tableLineColor;
-@synthesize fixedByUserColor;
-@synthesize fixedByAutoColor;
+@synthesize puzzleNumColor;
+@synthesize userInputNumColor;
 @synthesize candidateColor;
 @synthesize candidateTwoColor;
 @synthesize cellFailColor;
@@ -104,7 +104,7 @@
 {
 	NSLog(@"initData");
 	
-	self.tableBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
+	self.tableBgColor = [UIColor colorWithRed:246.f/255 green:244.f/255 blue:235.f/255 alpha:1.f];
 	self.selectedTableBgColor = [UIColor whiteColor];
 	self.selectedCellBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
 	self.selectedMemoModeCellBorderColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:0.8f];
@@ -113,15 +113,15 @@
 	self.MemoModeHintBgColor = [UIColor colorWithRed:192.0/256.0 green:243.0/256.0 blue:202.0/256 alpha:1.0f];
 	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
 	self.choosingNoColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
-	self.tableLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
+	self.tableLineColor = [UIColor colorWithRed:0.14f green:0.34f blue:0.7f alpha:1.f];
 	
-	self.fixedByUserColor = [UIColor colorWithRed:0.5f green:0.5f blue:0.6f alpha:1.f];
-	self.fixedByAutoColor = [UIColor colorWithRed:0.5f green:0.7f blue:0.5f alpha:1.f];
-	self.candidateColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
-	self.candidateTwoColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
-	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:0.8f];
-	self.cellWarnColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:0.9f];
-	self.cellConflictColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:0.9f];
+	self.puzzleNumColor = [UIColor colorWithRed:95.f/255 green:0.5f blue:145.f/255 alpha:1.f];
+	self.userInputNumColor = [UIColor colorWithRed:0.5f green:0.7f blue:0.5f alpha:1.f];
+	self.candidateColor = [UIColor colorWithRed:0.4f green:0.5f blue:0.7f alpha:1.f];
+	self.candidateTwoColor = [UIColor colorWithRed:0.3f green:0.4f blue:0.5f alpha:1.f];
+	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:1.f];
+	self.cellWarnColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:1.f];
+	self.cellConflictColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:1.f];
 	
 	self.bgButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
 	self.pressedButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
@@ -446,7 +446,7 @@
     [self drawNumRect:context
                   num:num
                  rect:rect
-                color:bDupWarnArea ? cellWarnColor.CGColor : fixedByUserColor.CGColor
+                color:bDupWarnArea ? cellWarnColor.CGColor : puzzleNumColor.CGColor
                  font:cellOneSmallFont];
     
     if (bDupWarnArea)
@@ -466,7 +466,7 @@
 	} else if (bConflict) {     // conflict number 처리
 		color = cellConflictColor.CGColor;
     } else {
-        color = fixedByAutoColor.CGColor;
+        color = userInputNumColor.CGColor;
 	}
 
     [self drawNumRect:context
@@ -1411,7 +1411,7 @@
         alertMode = ALELRT_BOOKMARK;
         
         UIAlertView *alert = [[UIAlertView alloc] init];
-        [alert setTitle:gettext(@"Confirm", nil)];
+        [alert setTitle:gettext(@"", nil)];
         //[alert setMessage:@"Do you pick Yes or No?"];
         [alert setDelegate:self];
         [alert addButtonWithTitle:gettext(@"Go to bookmark", nil)];

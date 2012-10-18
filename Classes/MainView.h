@@ -27,8 +27,8 @@ enum ALERT_MODE {
 	UIColor *choosingOkColor;
 	UIColor *choosingNoColor;
 	UIColor *tableLineColor;
-	UIColor *fixedByUserColor;
-	UIColor *fixedByAutoColor;
+	UIColor *puzzleNumColor;
+	UIColor *userInputNumColor;
 	UIColor *candidateColor;
 	UIColor *candidateTwoColor;
 	UIColor *cellFailColor;
@@ -100,8 +100,8 @@ enum ALERT_MODE {
 @property (nonatomic, retain) UIColor *choosingNoColor;
 
 @property (nonatomic, retain) UIColor *tableLineColor;
-@property (nonatomic, retain) UIColor *fixedByUserColor;
-@property (nonatomic, retain) UIColor *fixedByAutoColor;
+@property (nonatomic, retain) UIColor *puzzleNumColor;
+@property (nonatomic, retain) UIColor *userInputNumColor;
 @property (nonatomic, retain) UIColor *candidateColor;
 @property (nonatomic, retain) UIColor *candidateTwoColor;
 @property (nonatomic, retain) UIColor *cellFailColor;

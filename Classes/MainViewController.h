@@ -68,6 +68,7 @@
 	
 	
 	UIView		*viewMenu;
+	UIView		*viewNewGame;
 
 	
 	NSTimer		*timerGame;
@@ -86,6 +87,9 @@
     GADBannerView *bannerView_;
 
 #endif
+	CGFloat		intervalX;
+	CGFloat		intervalX2;
+	
 }
 
 
@@ -119,6 +123,7 @@
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
+@property (nonatomic, retain) IBOutlet UIView		*viewNewGame;
 @property (nonatomic, retain) IBOutlet UILabel		*labelLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelGameTime;
 @property (nonatomic, retain) IBOutlet UILabel		*labelBlank;
@@ -141,20 +146,27 @@
 
 
 - (IBAction)showMenu;
-- (IBAction)menuVeryEasy;
-- (IBAction)menuEasy;
-- (IBAction)menuNormal;
-- (IBAction)menuHard;
-- (IBAction)menuVeryHard;
 - (IBAction)menuCancel;
+
+- (IBAction)showNewGame;
+- (IBAction)newgameVeryEasy;
+- (IBAction)newgameEasy;
+- (IBAction)newgameNormal;
+- (IBAction)newgameHard;
+- (IBAction)newgameVeryHard;
+- (IBAction)newgameCancel;
+
 
 - (void) setLocalizedMessage;
 
 - (void) showMenuView;
 - (void) hideMenuView;
+- (void) hideMenuView;
+- (void) showNewGameView;
+- (void) hideNewGameView;
 - (void) setGameLevel;
-- (void) startTimer;
-- (void) stopTimer;
+- (void) startGameTimer;
+- (void) stopGameTimer;
 - (void) OnTimer:(NSTimer *)timer;
 - (void) updateBlankCellCount;
 - (void) updateHintCount;

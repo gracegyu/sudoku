@@ -432,9 +432,12 @@
 		[self deleteAutoMemoXY:num xPos:xPos yPos:yPos];
 	}
 #ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
-	while ([self deleteAutoMemoUniqueNum:num xPos:xPos yPos:yPos] == YES)
+	if (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD)
 	{
-		
+		while ([self deleteAutoMemoUniqueNum:num xPos:xPos yPos:yPos] == YES)
+		{
+			
+		}
 	}
 #endif
 	// [self deleteAutoMemoSingleNum:]
@@ -633,11 +636,10 @@
 			memoNums[x][y][0] = '\0';
 		}
 	}
+	[self initAutoMemo];
     [sudokuUndo clear];
 
-//	[strUndo release];
-//	strUndo = [[NSString alloc] initWithString:@""];
-	//[self saveData];
+
 }
 
 - (NSInteger) countBlankCells
