@@ -17,6 +17,28 @@
 @synthesize oldnum;
 @synthesize num;
 
+- (id)initWithCoder:(NSCoder *)decoder
+{
+    if (self = [super init])
+	{
+        self.mode = [decoder decodeIntegerForKey:@"mode"];
+        self.x = [decoder decodeIntegerForKey:@"x"];
+        self.y = [decoder decodeIntegerForKey:@"y"];
+        self.oldnum = [decoder decodeIntegerForKey:@"oldnum"];
+        self.num = [decoder decodeIntegerForKey:@"num"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+    [encoder encodeInteger:mode forKey:@"mode"];
+    [encoder encodeInteger:x forKey:@"x"];
+    [encoder encodeInteger:y forKey:@"y"];
+    [encoder encodeInteger:oldnum forKey:@"oldnum"];
+    [encoder encodeInteger:num forKey:@"num"];
+}
+
 @end
 
 @implementation SudokuUndo
@@ -376,6 +398,55 @@
 	}
 
 	return nil;
+}
+
+#define kbookmark		@"kbookmark"
+#define kbookmarkX		@"kbookmarkX"
+#define kbookmarkY		@"kbookmarkY"
+#define kindexUndo		@"kindexUndo"
+#define kcount			@"kcount"
+#define karrayUndo		@"karrayUndo"
+
+- (void) saveData
+{
+	
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	[defaults setInteger:bookmark forKey:kbookmark];
+	[defaults setInteger:bookmarkX forKey:kbookmarkX];
+	[defaults setInteger:bookmarkY forKey:kbookmarkY];
+	[defaults setInteger:indexUndo forKey:kindexUndo];
+	[defaults setInteger:count forKey:kcount];
+	
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:arrayUndo];
+	[defaults setObject:data forKey:karrayUndo];
+}
+
+- (id) initWithSaveData
+{	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	bookmark = [defaults integerForKey:kbookmark];
+    bookmarkX = [defaults integerForKey:kbookmarkX];
+    bookmarkY = [defaults integerForKey:kbookmarkY];
+    indexUndo = [defaults integerForKey:kindexUndo];
+    count = [defaults integerForKey:kcount];
+
+	NSData *data = [defaults objectForKey:karrayUndo];
+	if (data)
+	{
+		NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+		if (array)
+		{
+			arrayUndo = [[NSMutableArray alloc] initWithArray:array];
+			
+			return self;
+		}
+	}
+	arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
+	
+	return self;
 }
 
 

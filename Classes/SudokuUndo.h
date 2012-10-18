@@ -17,7 +17,7 @@ enum UNDOMODE {
     UNDOMODE_AUTOMEMO_DEL   // Auto메모 삭제
 };
 
-@interface UndoData : NSObject
+@interface UndoData : NSObject <NSCoding>
 {
     enum UNDOMODE mode;
     NSInteger x;
@@ -71,6 +71,7 @@ enum UNDOMODE {
 - (NSInteger) countGoBookmark;  // 몇번 undo, redo를 해야 하나?
 
 - (NSMutableArray*) getAutoUndo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
-
+- (void) saveData;
+- (id) initWithSaveData;
 
 @end

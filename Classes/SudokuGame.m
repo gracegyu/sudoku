@@ -582,8 +582,6 @@
 	gameTime = [[listItems objectAtIndex:3] floatValue];
 	gameFinished = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
 
-//	strUndo = [[NSString alloc] initWithString:[listItems objectAtIndex:9]];
-    sudokuUndo = [[SudokuUndo alloc] init];
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
 	} else {
@@ -617,6 +615,8 @@
 		bAutoMemo = NO;
 	}
 	bAutoMemoUndoLog = YES;
+	
+	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
 
 	return self;
 	
@@ -1200,6 +1200,7 @@
 	//NSLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
+	[sudokuUndo saveData];
 	
 	[str release];
 }
