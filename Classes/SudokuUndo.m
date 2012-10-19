@@ -409,8 +409,6 @@
 
 - (void) saveData
 {
-	
-	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	[defaults setInteger:bookmark forKey:kbookmark];

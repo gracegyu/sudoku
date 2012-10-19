@@ -125,7 +125,13 @@
 {
 	NSLog(@"applicationWillResignActive");
 	if (mainViewController.mainView.sudokuGame)
+	{
 		[mainViewController.mainView.sudokuGame saveData];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		
+		[defaults synchronize];
+	}
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -137,6 +143,18 @@
 -(void)applicationWillEnterForeground:(UIApplication*)application
 {
     [Appirater appEnteredForeground:YES];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	if (mainViewController.mainView.sudokuGame)
+	{
+		[mainViewController.mainView.sudokuGame saveData];
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		
+		[defaults synchronize];
+	}
 }
 
 - (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window

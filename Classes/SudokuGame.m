@@ -1202,6 +1202,7 @@
 	//NSLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
+
 	[sudokuUndo saveData];
 	
 	[str release];

@@ -105,6 +105,7 @@
 		[defaults setInteger:scoreClearTimeSum[i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
 	}
     [defaults setInteger:scoreTotal forKey:kScoreTotal];
+	[defaults synchronize];
 }
 
 - (NSInteger) getGameResultScore:(NSInteger)level sec:(NSInteger)sec
@@ -265,6 +266,8 @@
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
     [defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
     [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
+	
+	[defaults synchronize];
 }
 
 - (void) setLocalizedMessage
