@@ -132,9 +132,9 @@
 - (void) setImageAutoMemo
 {
     if (mainViewController.mainView.bSettingAutoMemo == YES)
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"markingequal_on"] forState:UIControlStateNormal];
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_on"] forState:UIControlStateNormal];
     else
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"markingequal_off"] forState:UIControlStateNormal];
+        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_off"] forState:UIControlStateNormal];
 }
 
 
