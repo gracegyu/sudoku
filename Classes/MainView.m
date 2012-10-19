@@ -14,27 +14,28 @@
 #import "SudokuBoard.h"
 
 @implementation MainView
-@synthesize tableBgColor;
-@synthesize selectedTableBgColor;
-@synthesize selectedCellBorderColor;
-@synthesize selectedMemoModeCellBorderColor;
-@synthesize HintBgColor;
-@synthesize MemoModeHintBgColor;
-@synthesize choosingOkColor;
-@synthesize choosingNoColor;
-@synthesize tableLineColor;
-@synthesize puzzleNumColor;
-@synthesize userInputNumColor;
-@synthesize candidateColor;
+@synthesize normalCellBgColor;
+@synthesize selectedCellBgColor;
+@synthesize normalModeSelectedCellLineColor;
+@synthesize memoModeSelectedCellLineColor;
+@synthesize normalModeGuidelineBgColor;
+@synthesize memoModeGuidelineBgColor;
+@synthesize choosingOkCellTextColor;
+@synthesize choosingNoCellTextColor;
+@synthesize normalCellLineColor;
+@synthesize wrongCellLineColor;
+@synthesize puzzleCellTextColor;
+@synthesize inputCellTextColor;
+@synthesize normalMemoCellTextColor;
 @synthesize candidateTwoColor;
 @synthesize cellFailColor;
-@synthesize cellWarnColor;
-@synthesize cellConflictColor;
+@synthesize warnMemoCellTextColor;
+@synthesize conflictMemoCellTextColor;
 
-@synthesize numButtonColor;
-@synthesize memoButtonColor;
-@synthesize bgButtonColor;
-@synthesize pressedButtonColor;
+@synthesize numberButtonTextColor;
+@synthesize memoButtonTextColor;
+@synthesize normalButtonBgColor;
+@synthesize pressedButtonBgColor;
 
 
 @synthesize sudokuGame;
@@ -70,7 +71,6 @@
 @synthesize buttonMemoTextFont;
 
 
-//@synthesize lastOrientation;
 
 
 
@@ -100,33 +100,67 @@
 #define GTDEPTH 0.10
 #define GTWIDTH 0.30
 
+
+enum SKINCOLOR
+{
+	SC_BACKGROUND_VIEW = 0,
+	SC_BACKGROUND_NORMAL_CELL,
+	SC_BACKGROUND_SELECTED_CELL,
+	SC_BACKGROUND_GUIDELINE_NORMAL,
+	SC_BACKGROUND_GUIDELINE_MEMO,
+
+	SC_LINE_CELL_NORMAL,
+	SC_LINE_CELL_WRONG,
+	SC_LINE_SECLECTED_CELL_NORMAL,
+	SC_LINE_SECLECTED_CELL_MEMO,
+	
+	SC_TEXT_CELL_PUZZLE,
+	SC_TEXT_CELL_INPUT,
+	SC_TEXT_CELL_CHOOSING_OK,
+	SC_TEXT_CELL_MEMO_OK,
+	SC_TEXT_CELL_MEMO_WARN,
+	SC_TEXT_CELL_MEMO_CONFLICT,
+	
+	SC_BACKGROUND_BUTTON_NORMAL,
+	SC_BACKGROUND_BUTTON_PRESSED,
+	SC_TEXT_BUTTON_NUMBER,
+	SC_TEXT_BUTTON_MEMO,
+};
+
+typedef enum SKINCOLOR SKINCOLOR;
+
 - (void)initData
 {
 	NSLog(@"initData");
-	
-	self.tableBgColor = [UIColor colorWithRed:246.f/255 green:244.f/255 blue:235.f/255 alpha:1.f];
-	self.selectedTableBgColor = [UIColor whiteColor];
-	self.selectedCellBorderColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
-	self.selectedMemoModeCellBorderColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:0.8f];
+	// view color
+	self.normalCellBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
+	self.selectedCellBgColor = [UIColor whiteColor];
+	self.normalModeGuidelineBgColor = [UIColor colorWithRed:243.0/255.0 green:243.0/255.0 blue:192.0/255.0 alpha:1.0f];
+	self.memoModeGuidelineBgColor = [UIColor colorWithRed:192.0/255.0 green:243.0/255.0 blue:202.0/256 alpha:1.0f];
+
+	self.normalCellLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
+	self.wrongCellLineColor = [UIColor colorWithRed:0.7f green:0.1f blue:0.5f alpha:1.f];
+
+	self.normalModeSelectedCellLineColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
+	self.memoModeSelectedCellLineColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:0.8f];
     
-	self.HintBgColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:1.0f];
-	self.MemoModeHintBgColor = [UIColor colorWithRed:192.0/256.0 green:243.0/256.0 blue:202.0/256 alpha:1.0f];
-	self.choosingOkColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
-	self.choosingNoColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
-	self.tableLineColor = [UIColor colorWithRed:0.14f green:0.34f blue:0.7f alpha:1.f];
-	
-	self.puzzleNumColor = [UIColor colorWithRed:95.f/255 green:0.5f blue:145.f/255 alpha:1.f];
-	self.userInputNumColor = [UIColor colorWithRed:0.5f green:0.7f blue:0.5f alpha:1.f];
-	self.candidateColor = [UIColor colorWithRed:0.4f green:0.5f blue:0.7f alpha:1.f];
+	self.puzzleCellTextColor = [UIColor colorWithRed:0.5f green:0.5f blue:0.6f alpha:1.f];
+	self.inputCellTextColor = [UIColor colorWithRed:0.5f green:0.7f blue:0.5f alpha:1.f];
+	self.choosingOkCellTextColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
+	self.normalMemoCellTextColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
+	self.warnMemoCellTextColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:0.9f];
+	self.conflictMemoCellTextColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:0.9f];
+
+	self.normalButtonBgColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
+	self.pressedButtonBgColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
+	self.numberButtonTextColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
+	self.memoButtonTextColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
+
+	// deprecated
+	self.choosingNoCellTextColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
 	self.candidateTwoColor = [UIColor colorWithRed:0.3f green:0.4f blue:0.5f alpha:1.f];
 	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:1.f];
-	self.cellWarnColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:1.f];
-	self.cellConflictColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:1.f];
-	
-	self.bgButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
-	self.pressedButtonColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
-	self.numButtonColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
-	self.memoButtonColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
+
 	
 	self.selectedXPos = 0;
 	self.selectedYPos = 0;
@@ -307,8 +341,8 @@
 	CGRect currentRect;
     
     CGContextSetLineWidth(context, cLineDrawWidth);
-    CGContextSetStrokeColorWithColor(context, tableBgColor.CGColor);
-    CGContextSetFillColorWithColor(context, tableBgColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, normalCellBgColor.CGColor);
+    CGContextSetFillColorWithColor(context, normalCellBgColor.CGColor);
 	currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
 	
 	CGContextAddRect(context, currentRect);
@@ -333,8 +367,8 @@
         for (j=0; j<sudokuGame.size; j++)
         {
             CGContextSetLineWidth(context, cLineDrawWidth);
-            CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
-            CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
+            CGContextSetStrokeColorWithColor(context, normalCellLineColor.CGColor);
+            CGContextSetFillColorWithColor(context, normalCellLineColor.CGColor);
 
             y = cTableStartY + j*cCellHeight;
 			CGContextMoveToPoint(context, x, y);
@@ -354,8 +388,8 @@
                         if (bGT != bUserGT)
                         {
                             CGContextSetLineWidth(context, cConflictLineWidth);
-                            CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
-                            CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
+                            CGContextSetStrokeColorWithColor(context, wrongCellLineColor.CGColor);
+                            CGContextSetFillColorWithColor(context, wrongCellLineColor.CGColor);
                         }
                         
                     }
@@ -383,8 +417,8 @@
         for (j=0; j<sudokuGame.size; j++)
         {
             CGContextSetLineWidth(context, cLineDrawWidth);
-            CGContextSetStrokeColorWithColor(context, tableLineColor.CGColor);
-            CGContextSetFillColorWithColor(context, tableLineColor.CGColor);
+            CGContextSetStrokeColorWithColor(context, normalCellLineColor.CGColor);
+            CGContextSetFillColorWithColor(context, normalCellLineColor.CGColor);
 
             x = cTableStartX + j*cCellWidth;
 			CGContextMoveToPoint(context, x, y);
@@ -398,8 +432,8 @@
                     if (bGT != bUserGT)
                     {
                         CGContextSetLineWidth(context, cConflictLineWidth);
-                        CGContextSetStrokeColorWithColor(context, cellConflictColor.CGColor);
-                        CGContextSetFillColorWithColor(context, cellConflictColor.CGColor);
+                        CGContextSetStrokeColorWithColor(context, wrongCellLineColor.CGColor);
+                        CGContextSetFillColorWithColor(context, wrongCellLineColor.CGColor);
                     }
                     
                 }
@@ -436,7 +470,7 @@
     [self drawNumRect:context
                   num:pushedButton
                  rect:rect
-                color:choosingOkColor.CGColor
+                color:choosingOkCellTextColor.CGColor
                  font:cellOneBigFont];
 }
 
@@ -446,7 +480,7 @@
     [self drawNumRect:context
                   num:num
                  rect:rect
-                color:bDupWarnArea ? cellWarnColor.CGColor : puzzleNumColor.CGColor
+                color:bDupWarnArea ? warnMemoCellTextColor.CGColor : puzzleCellTextColor.CGColor
                  font:cellOneSmallFont];
     
     if (bDupWarnArea)
@@ -462,11 +496,11 @@
 	if (bDupWarnArea)
 	{
         bFailCell = YES;
-		color = cellWarnColor.CGColor;
+		color = warnMemoCellTextColor.CGColor;
 	} else if (bConflict) {     // conflict number 처리
-		color = cellConflictColor.CGColor;
+		color = conflictMemoCellTextColor.CGColor;
     } else {
-        color = userInputNumColor.CGColor;
+        color = inputCellTextColor.CGColor;
 	}
 
     [self drawNumRect:context
@@ -522,7 +556,7 @@
                                              rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/countH,
                                              (rect.size.width*(1-2*margin))/countW,
                                              (rect.size.height*(1-2*margin))/countH)
-                            color:bConflict? cellConflictColor.CGColor : candidateColor.CGColor
+                            color:bConflict? conflictMemoCellTextColor.CGColor : normalMemoCellTextColor.CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
@@ -824,7 +858,7 @@
                 selectedYPos == y ||
                 [self isSameMapWithSelectedCell:x y:y])
             {
-                [self drawOneCellBackground:context color:(bMemoMode ? MemoModeHintBgColor : HintBgColor) x:x y:y];
+                [self drawOneCellBackground:context color:(bMemoMode ? memoModeGuidelineBgColor : normalModeGuidelineBgColor) x:x y:y];
             }            
         } //y
 	} //x
@@ -848,7 +882,7 @@
             {
                 if ([sudokuGame getDisplayNum:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNum:x y:y])
                 {
-                    [self drawOneCellBackground:context color:selectedTableBgColor x:x y:y];
+                    [self drawOneCellBackground:context color:selectedCellBgColor x:x y:y];
                 }
             }
         } //y
@@ -860,7 +894,7 @@
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
-        [self drawOneCellBackground:context color:selectedTableBgColor x:selectedXPos y:selectedYPos];
+        [self drawOneCellBackground:context color:selectedCellBgColor x:selectedXPos y:selectedYPos];
 	}
 }
 
@@ -898,8 +932,8 @@
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
 		CGContextSetStrokeColorWithColor(context,
                                          bMemoMode ?
-                                         selectedMemoModeCellBorderColor.CGColor :
-                                         selectedCellBorderColor.CGColor);
+                                         memoModeSelectedCellLineColor.CGColor :
+                                         normalModeSelectedCellLineColor.CGColor);
 		currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
                                   cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
 		
@@ -1083,11 +1117,11 @@
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		if (bMemoNum && i>0 && i<=sudokuGame.size && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
 		{
-			CGContextSetStrokeColorWithColor(context, pressedButtonColor.CGColor);
-			CGContextSetFillColorWithColor(context, pressedButtonColor.CGColor);
+			CGContextSetStrokeColorWithColor(context, pressedButtonBgColor.CGColor);
+			CGContextSetFillColorWithColor(context, pressedButtonBgColor.CGColor);
 		} else {
-			CGContextSetStrokeColorWithColor(context, bgButtonColor.CGColor);
-			CGContextSetFillColorWithColor(context, bgButtonColor.CGColor);
+			CGContextSetStrokeColorWithColor(context, normalButtonBgColor.CGColor);
+			CGContextSetFillColorWithColor(context, normalButtonBgColor.CGColor);
 		}	
 
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
@@ -1100,9 +1134,9 @@
 		{
             CGColorRef color;
             if (bPuzzleNum && i <= sudokuGame.size)	{
-				color = bgButtonColor.CGColor;
+				color = normalButtonBgColor.CGColor;
 			} else {
-				color = bMemoMode ? memoButtonColor.CGColor : numButtonColor.CGColor;
+				color = bMemoMode ? memoButtonTextColor.CGColor : numberButtonTextColor.CGColor;
 			}
             
             // 버튼에 숫자를 적기
@@ -1123,8 +1157,8 @@
 		
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, pressedButtonColor.CGColor);
-		CGContextSetFillColorWithColor(context, pressedButtonColor.CGColor);
+		CGContextSetStrokeColorWithColor(context, pressedButtonBgColor.CGColor);
+		CGContextSetFillColorWithColor(context, pressedButtonBgColor.CGColor);
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		
 		CGContextAddEllipseInRect(context, currentRect);
@@ -1135,7 +1169,7 @@
         [self drawNumRect:context
                       num:i
                      rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
-                    color:numButtonColor.CGColor
+                    color:numberButtonTextColor.CGColor
                      font:bMemoMode ? buttonMemoBigFont : buttonBigFont];
 
 	}
