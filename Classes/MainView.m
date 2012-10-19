@@ -1273,8 +1273,8 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 		
     
     if (xPos >= 0 && xPos < sudokuGame.size && yPos >= 0 && yPos < sudokuGame.size) {
-        if ([sudokuGame isPuzzleNum:xPos y:yPos]) {
-            // do nothing
+        if (0){//[sudokuGame isPuzzleNum:xPos y:yPos]) {
+            // puzzle cell도 선택할 수 있도록 수정
         } else if (bPressedInCell) {
 			if (xPos != selectedXPos || yPos != selectedYPos)
 			{
