@@ -639,7 +639,6 @@
 	[self initAutoMemo];
     [sudokuUndo clear];
 
-
 }
 
 - (NSInteger) countBlankCells

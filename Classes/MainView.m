@@ -1583,6 +1583,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
                 MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
                 [ctrl updateBlankCellCount];
                 [ctrl updateHintCount];
+				[ctrl updateButtonUndo];
                 
                 
                 [self playSound:soundClearID];
