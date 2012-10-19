@@ -13,29 +13,9 @@
 #import "Locale.h"
 #import "SudokuBoard.h"
 
-@implementation MainView
-@synthesize normalCellBgColor;
-@synthesize selectedCellBgColor;
-@synthesize normalModeSelectedCellLineColor;
-@synthesize memoModeSelectedCellLineColor;
-@synthesize normalModeGuidelineBgColor;
-@synthesize memoModeGuidelineBgColor;
-@synthesize choosingOkCellTextColor;
-@synthesize choosingNoCellTextColor;
-@synthesize normalCellLineColor;
-@synthesize wrongCellLineColor;
-@synthesize puzzleCellTextColor;
-@synthesize inputCellTextColor;
-@synthesize normalMemoCellTextColor;
-@synthesize candidateTwoColor;
-@synthesize cellFailColor;
-@synthesize warnMemoCellTextColor;
-@synthesize conflictMemoCellTextColor;
 
-@synthesize numberButtonTextColor;
-@synthesize memoButtonTextColor;
-@synthesize normalButtonBgColor;
-@synthesize pressedButtonBgColor;
+
+@implementation MainView
 
 
 @synthesize sudokuGame;
@@ -101,65 +81,70 @@
 #define GTWIDTH 0.30
 
 
-enum SKINCOLOR
-{
-	SC_BACKGROUND_VIEW = 0,
-	SC_BACKGROUND_NORMAL_CELL,
-	SC_BACKGROUND_SELECTED_CELL,
-	SC_BACKGROUND_GUIDELINE_NORMAL,
-	SC_BACKGROUND_GUIDELINE_MEMO,
 
-	SC_LINE_CELL_NORMAL,
-	SC_LINE_CELL_WRONG,
-	SC_LINE_SECLECTED_CELL_NORMAL,
-	SC_LINE_SECLECTED_CELL_MEMO,
-	
-	SC_TEXT_CELL_PUZZLE,
-	SC_TEXT_CELL_INPUT,
-	SC_TEXT_CELL_CHOOSING_OK,
-	SC_TEXT_CELL_MEMO_OK,
-	SC_TEXT_CELL_MEMO_WARN,
-	SC_TEXT_CELL_MEMO_CONFLICT,
-	
-	SC_BACKGROUND_BUTTON_NORMAL,
-	SC_BACKGROUND_BUTTON_PRESSED,
-	SC_TEXT_BUTTON_NUMBER,
-	SC_TEXT_BUTTON_MEMO,
+
+static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
+	{	0x809AE0FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+		0x809AE0FF,0xFF0C59FF,0x99E6B3B3,0xF3F3C0CC,
+		0x808099FF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,
+		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
+	 },
+	{0}
 };
 
-typedef enum SKINCOLOR SKINCOLOR;
+
+#define GETR(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0xFF000000) >> 8*3))
+#define GETG(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x00FF0000) >> 8*2))
+#define GETB(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x0000FF00) >> 8*1))
+#define GETA(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x000000FF) >> 8*0))
+
+
+
+#define GETCOLOR(num)	[UIColor colorWithRed:GETR(num)/255.f \
+										green:GETG(num)/255.f \
+										 blue:GETB(num)/255.f \
+										alpha:GETA(num)/255.f].CGColor
+
+
++ (UIColor*) getUIColorFromRGBA:(NSUInteger) RGBA
+{
+	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
+	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
+	CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
+	CGFloat A = ((CGFloat)((RGBA & 0x000000FF) >> 8*0))/255.f;
+	
+	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
+}
+
+- (CGColorRef) getColor:(SKINCOLOR)num
+{
+	UIColor *color = skincolor[num];
+	
+	return color.CGColor;
+}
+
+
+- (void)initColorData
+{
+
+	for (int i=0; i<COUNT_SKINCOLOR; i++)
+	{
+		skincolor[i] = [MainView getUIColorFromRGBA:SkinColorTemplate[skin][i]];
+	}	
+	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
+	
+}
+
 
 - (void)initData
 {
 	NSLog(@"initData");
-	// view color
-	self.normalCellBgColor = [UIColor colorWithWhite:240.f/255.f alpha:1.f];
-	self.selectedCellBgColor = [UIColor whiteColor];
-	self.normalModeGuidelineBgColor = [UIColor colorWithRed:243.0/255.0 green:243.0/255.0 blue:192.0/255.0 alpha:1.0f];
-	self.memoModeGuidelineBgColor = [UIColor colorWithRed:192.0/255.0 green:243.0/255.0 blue:202.0/256 alpha:1.0f];
+	
+	[self initColorData];
+	
+	skin = 0;
 
-	self.normalCellLineColor = [UIColor colorWithRed:128.f/255.f green:154.f/255.f blue:224.f/255.f alpha:1.f];
-	self.wrongCellLineColor = [UIColor colorWithRed:0.7f green:0.1f blue:0.5f alpha:1.f];
 
-	self.normalModeSelectedCellLineColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.7f];
-	self.memoModeSelectedCellLineColor = [UIColor colorWithRed:243.0/256.0 green:243.0/256.0 blue:192.0/256.0 alpha:0.8f];
-    
-	self.puzzleCellTextColor = [UIColor colorWithRed:0.5f green:0.5f blue:0.6f alpha:1.f];
-	self.inputCellTextColor = [UIColor colorWithRed:0.5f green:0.7f blue:0.5f alpha:1.f];
-	self.choosingOkCellTextColor = [UIColor colorWithRed:0.5f green:0.8f blue:0.6f alpha:1.f];
-	self.normalMemoCellTextColor = [UIColor colorWithRed:0.5f green:0.6f blue:0.7f alpha:1.f];
-	self.warnMemoCellTextColor = [UIColor colorWithRed:1.f green:0.3f blue:0.0f alpha:0.9f];
-	self.conflictMemoCellTextColor = [UIColor colorWithRed:0.7f green:0.0f blue:0.5f alpha:0.9f];
-
-	self.normalButtonBgColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.5f];
-	self.pressedButtonBgColor = [UIColor colorWithRed:0.9f green:0.9f blue:0.9f alpha:0.9f];
-	self.numberButtonTextColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
-	self.memoButtonTextColor = [UIColor colorWithRed:0.1f green:0.1f blue:0.4f alpha:0.7f];
-
-	// deprecated
-	self.choosingNoCellTextColor = [UIColor colorWithRed:0.6f green:0.9f blue:0.7f alpha:0.2f];
-	self.candidateTwoColor = [UIColor colorWithRed:0.3f green:0.4f blue:0.5f alpha:1.f];
-	self.cellFailColor = [UIColor colorWithRed:1.f green:0.0f blue:0.0f alpha:1.f];
 
 	
 	self.selectedXPos = 0;
@@ -341,8 +326,8 @@ typedef enum SKINCOLOR SKINCOLOR;
 	CGRect currentRect;
     
     CGContextSetLineWidth(context, cLineDrawWidth);
-    CGContextSetStrokeColorWithColor(context, normalCellBgColor.CGColor);
-    CGContextSetFillColorWithColor(context, normalCellBgColor.CGColor);
+    CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
+    CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
 	currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
 	
 	CGContextAddRect(context, currentRect);
@@ -367,8 +352,8 @@ typedef enum SKINCOLOR SKINCOLOR;
         for (j=0; j<sudokuGame.size; j++)
         {
             CGContextSetLineWidth(context, cLineDrawWidth);
-            CGContextSetStrokeColorWithColor(context, normalCellLineColor.CGColor);
-            CGContextSetFillColorWithColor(context, normalCellLineColor.CGColor);
+            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
+            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
 
             y = cTableStartY + j*cCellHeight;
 			CGContextMoveToPoint(context, x, y);
@@ -388,8 +373,8 @@ typedef enum SKINCOLOR SKINCOLOR;
                         if (bGT != bUserGT)
                         {
                             CGContextSetLineWidth(context, cConflictLineWidth);
-                            CGContextSetStrokeColorWithColor(context, wrongCellLineColor.CGColor);
-                            CGContextSetFillColorWithColor(context, wrongCellLineColor.CGColor);
+                            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
                         }
                         
                     }
@@ -417,8 +402,8 @@ typedef enum SKINCOLOR SKINCOLOR;
         for (j=0; j<sudokuGame.size; j++)
         {
             CGContextSetLineWidth(context, cLineDrawWidth);
-            CGContextSetStrokeColorWithColor(context, normalCellLineColor.CGColor);
-            CGContextSetFillColorWithColor(context, normalCellLineColor.CGColor);
+            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
+            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
 
             x = cTableStartX + j*cCellWidth;
 			CGContextMoveToPoint(context, x, y);
@@ -432,8 +417,8 @@ typedef enum SKINCOLOR SKINCOLOR;
                     if (bGT != bUserGT)
                     {
                         CGContextSetLineWidth(context, cConflictLineWidth);
-                        CGContextSetStrokeColorWithColor(context, wrongCellLineColor.CGColor);
-                        CGContextSetFillColorWithColor(context, wrongCellLineColor.CGColor);
+                        CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                        CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
                     }
                     
                 }
@@ -470,7 +455,7 @@ typedef enum SKINCOLOR SKINCOLOR;
     [self drawNumRect:context
                   num:pushedButton
                  rect:rect
-                color:choosingOkCellTextColor.CGColor
+                color:skincolor[SC_TEXT_CELL_CHOOSING_OK].CGColor
                  font:cellOneBigFont];
 }
 
@@ -480,7 +465,7 @@ typedef enum SKINCOLOR SKINCOLOR;
     [self drawNumRect:context
                   num:num
                  rect:rect
-                color:bDupWarnArea ? warnMemoCellTextColor.CGColor : puzzleCellTextColor.CGColor
+                color:bDupWarnArea ? skincolor[SC_TEXT_CELL_MEMO_WARN].CGColor : skincolor[SC_TEXT_CELL_PUZZLE].CGColor
                  font:cellOneSmallFont];
     
     if (bDupWarnArea)
@@ -496,11 +481,11 @@ typedef enum SKINCOLOR SKINCOLOR;
 	if (bDupWarnArea)
 	{
         bFailCell = YES;
-		color = warnMemoCellTextColor.CGColor;
+		color = skincolor[SC_TEXT_CELL_MEMO_WARN].CGColor;
 	} else if (bConflict) {     // conflict number 처리
-		color = conflictMemoCellTextColor.CGColor;
+		color = skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor;
     } else {
-        color = inputCellTextColor.CGColor;
+        color = skincolor[SC_TEXT_CELL_INPUT].CGColor;
 	}
 
     [self drawNumRect:context
@@ -556,7 +541,7 @@ typedef enum SKINCOLOR SKINCOLOR;
                                              rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/countH,
                                              (rect.size.width*(1-2*margin))/countW,
                                              (rect.size.height*(1-2*margin))/countH)
-                            color:bConflict? conflictMemoCellTextColor.CGColor : normalMemoCellTextColor.CGColor
+                            color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor : skincolor[SC_TEXT_CELL_MEMO_OK].CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
@@ -858,7 +843,7 @@ typedef enum SKINCOLOR SKINCOLOR;
                 selectedYPos == y ||
                 [self isSameMapWithSelectedCell:x y:y])
             {
-                [self drawOneCellBackground:context color:(bMemoMode ? memoModeGuidelineBgColor : normalModeGuidelineBgColor) x:x y:y];
+                [self drawOneCellBackground:context color:(bMemoMode ? skincolor[SC_BACKGROUND_GUIDELINE_MEMO] : skincolor[SC_BACKGROUND_GUIDELINE_NORMAL]) x:x y:y];
             }            
         } //y
 	} //x
@@ -882,7 +867,7 @@ typedef enum SKINCOLOR SKINCOLOR;
             {
                 if ([sudokuGame getDisplayNum:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNum:x y:y])
                 {
-                    [self drawOneCellBackground:context color:selectedCellBgColor x:x y:y];
+                    [self drawOneCellBackground:context color:skincolor[SC_BACKGROUND_SELECTED_CELL] x:x y:y];
                 }
             }
         } //y
@@ -894,7 +879,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
-        [self drawOneCellBackground:context color:selectedCellBgColor x:selectedXPos y:selectedYPos];
+        [self drawOneCellBackground:context color:skincolor[SC_BACKGROUND_SELECTED_CELL] x:selectedXPos y:selectedYPos];
 	}
 }
 
@@ -932,8 +917,8 @@ typedef enum SKINCOLOR SKINCOLOR;
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
 		CGContextSetStrokeColorWithColor(context,
                                          bMemoMode ?
-                                         memoModeSelectedCellLineColor.CGColor :
-                                         normalModeSelectedCellLineColor.CGColor);
+                                         skincolor[SC_LINE_SECLECTED_CELL_MEMO].CGColor :
+                                         skincolor[SC_LINE_SECLECTED_CELL_NORMAL].CGColor);
 		currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
                                   cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
 		
@@ -1117,11 +1102,11 @@ typedef enum SKINCOLOR SKINCOLOR;
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		if (bMemoNum && i>0 && i<=sudokuGame.size && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
 		{
-			CGContextSetStrokeColorWithColor(context, pressedButtonBgColor.CGColor);
-			CGContextSetFillColorWithColor(context, pressedButtonBgColor.CGColor);
+			CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
+			CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
 		} else {
-			CGContextSetStrokeColorWithColor(context, normalButtonBgColor.CGColor);
-			CGContextSetFillColorWithColor(context, normalButtonBgColor.CGColor);
+			CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor);
+			CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor);
 		}	
 
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
@@ -1134,9 +1119,9 @@ typedef enum SKINCOLOR SKINCOLOR;
 		{
             CGColorRef color;
             if (bPuzzleNum && i <= sudokuGame.size)	{
-				color = normalButtonBgColor.CGColor;
+				color = skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor;
 			} else {
-				color = bMemoMode ? memoButtonTextColor.CGColor : numberButtonTextColor.CGColor;
+				color = bMemoMode ? skincolor[SC_TEXT_BUTTON_MEMO].CGColor : skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
 			}
             
             // 버튼에 숫자를 적기
@@ -1157,8 +1142,8 @@ typedef enum SKINCOLOR SKINCOLOR;
 		
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, pressedButtonBgColor.CGColor);
-		CGContextSetFillColorWithColor(context, pressedButtonBgColor.CGColor);
+		CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
+		CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		
 		CGContextAddEllipseInRect(context, currentRect);
@@ -1169,7 +1154,7 @@ typedef enum SKINCOLOR SKINCOLOR;
         [self drawNumRect:context
                       num:i
                      rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
-                    color:numberButtonTextColor.CGColor
+                    color:skincolor[SC_TEXT_BUTTON_NUMBER].CGColor
                      font:bMemoMode ? buttonMemoBigFont : buttonBigFont];
 
 	}

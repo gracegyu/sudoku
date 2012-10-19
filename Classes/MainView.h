@@ -16,29 +16,42 @@ enum ALERT_MODE {
     ALELRT_BOOKMARK
 };
 
+typedef enum ALERT_MODE ALERT_MODE;
+
+enum SKINCOLOR
+{
+	SC_BACKGROUND_VIEW = 0,
+	SC_BACKGROUND_NORMAL_CELL,
+	SC_BACKGROUND_SELECTED_CELL,
+	SC_BACKGROUND_GUIDELINE_NORMAL,
+	SC_BACKGROUND_GUIDELINE_MEMO,
+	
+	SC_LINE_CELL_NORMAL,
+	SC_LINE_CELL_WRONG,
+	SC_LINE_SECLECTED_CELL_NORMAL,
+	SC_LINE_SECLECTED_CELL_MEMO,
+	
+	SC_TEXT_CELL_PUZZLE,
+	SC_TEXT_CELL_INPUT,
+	SC_TEXT_CELL_CHOOSING_OK,
+	SC_TEXT_CELL_MEMO_OK,
+	SC_TEXT_CELL_MEMO_WARN,
+	SC_TEXT_CELL_MEMO_CONFLICT,
+	
+	SC_BACKGROUND_BUTTON_NORMAL,
+	SC_BACKGROUND_BUTTON_PRESSED,
+	SC_TEXT_BUTTON_NUMBER,
+	SC_TEXT_BUTTON_MEMO,
+	
+	COUNT_SKINCOLOR,
+};
+
+
+typedef enum SKINCOLOR SKINCOLOR;
 
 @interface MainView : UIView {
-    UIColor	*normalCellBgColor;
-    UIColor	*selectedCellBgColor;
-	UIColor *normalModeSelectedCellLineColor;
-	UIColor *memoModeSelectedCellLineColor;
-    UIColor	*normalModeGuidelineBgColor;
-    UIColor	*memoModeGuidelineBgColor;
-	UIColor *choosingOkCellTextColor;
-	UIColor *choosingNoCellTextColor;
-	UIColor *normalCellLineColor;
-	UIColor *wrongCellLineColor;
-	UIColor *puzzleCellTextColor;
-	UIColor *inputCellTextColor;
-	UIColor *normalMemoCellTextColor;
-	UIColor *candidateTwoColor;
-	UIColor *cellFailColor;
-	UIColor *warnMemoCellTextColor;
-	UIColor *conflictMemoCellTextColor;
-	UIColor *numberButtonTextColor;
-	UIColor *memoButtonTextColor;
-	UIColor *normalButtonBgColor;
-	UIColor *pressedButtonBgColor;
+	NSInteger skin;
+	UIColor *skincolor[COUNT_SKINCOLOR];
 	
 	SudokuGame* sudokuGame;
 	
@@ -90,31 +103,7 @@ enum ALERT_MODE {
 }
 
 
-@property (nonatomic, retain) UIColor *normalCellBgColor;
-@property (nonatomic, retain) UIColor *selectedCellBgColor;
-@property (nonatomic, retain) UIColor *normalModeSelectedCellLineColor;
-@property (nonatomic, retain) UIColor *memoModeSelectedCellLineColor;
-
-@property (nonatomic, retain) UIColor *normalModeGuidelineBgColor;
-@property (nonatomic, retain) UIColor *memoModeGuidelineBgColor;
-@property (nonatomic, retain) UIColor *choosingOkCellTextColor;
-@property (nonatomic, retain) UIColor *choosingNoCellTextColor;
-
-@property (nonatomic, retain) UIColor *normalCellLineColor;
-@property (nonatomic, retain) UIColor *wrongCellLineColor;
-@property (nonatomic, retain) UIColor *puzzleCellTextColor;
-@property (nonatomic, retain) UIColor *inputCellTextColor;
-@property (nonatomic, retain) UIColor *normalMemoCellTextColor;
-@property (nonatomic, retain) UIColor *candidateTwoColor;
-@property (nonatomic, retain) UIColor *cellFailColor;
-@property (nonatomic, retain) UIColor *warnMemoCellTextColor;
-@property (nonatomic, retain) UIColor *conflictMemoCellTextColor;
-
 @property (nonatomic, retain) SudokuGame* sudokuGame;
-@property (nonatomic, retain) UIColor *numberButtonTextColor;
-@property (nonatomic, retain) UIColor *memoButtonTextColor;
-@property (nonatomic, retain) UIColor *normalButtonBgColor;
-@property (nonatomic, retain) UIColor *pressedButtonBgColor;
 @property NSInteger selectedXPos;
 @property NSInteger selectedYPos;
 @property NSInteger pushedButton;
