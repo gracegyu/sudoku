@@ -55,7 +55,8 @@
 	UIButton	*buttonNewGameCancel;
 
 	
-	UIButton	*buttonNew;
+	UIButton	*buttonNewGame;
+	UIButton	*buttonMenu;
 	UIButton	*buttonUndo;
 	UIButton	*buttonRedo;
 	UIButton	*buttonBookmark;
@@ -110,7 +111,8 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryHard;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameCancel;
 
-@property (nonatomic, retain) IBOutlet UIButton	*buttonNew;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGame;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonMenu;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonUndo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonRedo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonBookmark;

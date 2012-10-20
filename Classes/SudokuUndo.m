@@ -400,6 +400,7 @@
 	return nil;
 }
 
+#define kundosaved		@"kundosaved"
 #define kbookmark		@"kbookmark"
 #define kbookmarkX		@"kbookmarkX"
 #define kbookmarkY		@"kbookmarkY"
@@ -411,6 +412,7 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
+	[defaults setInteger:1 forKey:kundosaved];
 	[defaults setInteger:bookmark forKey:kbookmark];
 	[defaults setInteger:bookmarkX forKey:kbookmarkX];
 	[defaults setInteger:bookmarkY forKey:kbookmarkY];
@@ -425,12 +427,14 @@
 {	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	bookmark = [defaults integerForKey:kbookmark];
-    bookmarkX = [defaults integerForKey:kbookmarkX];
-    bookmarkY = [defaults integerForKey:kbookmarkY];
-    indexUndo = [defaults integerForKey:kindexUndo];
-    count = [defaults integerForKey:kcount];
-
+	if ([defaults integerForKey:kundosaved] == 1)
+	{
+		bookmark = [defaults integerForKey:kbookmark];
+		bookmarkX = [defaults integerForKey:kbookmarkX];
+		bookmarkY = [defaults integerForKey:kbookmarkY];
+		indexUndo = [defaults integerForKey:kindexUndo];
+		count = [defaults integerForKey:kcount];
+	}
 	NSData *data = [defaults objectForKey:karrayUndo];
 	if (data)
 	{

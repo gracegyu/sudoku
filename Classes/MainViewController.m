@@ -34,7 +34,8 @@
 @synthesize buttonNewGameHard;
 @synthesize buttonNewGameVeryHard;
 @synthesize buttonNewGameCancel;
-@synthesize buttonNew;
+@synthesize buttonNewGame;
+@synthesize buttonMenu;
 @synthesize buttonUndo;
 @synthesize buttonRedo;
 @synthesize buttonBookmark;
@@ -273,13 +274,15 @@
 
 - (void) setLocalizedMessage
 {
+    [buttonNewGame setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
+    [buttonScore setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
+    [buttonSetting setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
+    [buttonReset setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+
     [buttonMemo setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
-    [buttonNew setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
-    [buttonReset setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
-    [buttonScore setTitle:gettext(@"score", nil) forState:UIControlStateNormal];
+    [buttonMenu setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
     [buttonHint setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
-    [buttonSetting setTitle:gettext(@"setting", nil) forState:UIControlStateNormal];
 //    [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
 //    [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -296,7 +299,7 @@
     labelTitleGameTime.text = gettext(@"game time", nil);
     labelTitleBlank.text = gettext(@"blank", nil);
     labelTitleHint.text = gettext(@"hint", nil);
-    labelNewGame.text = gettext(@"New Game", nil);
+    //labelNewGame.text = gettext(@"New Game", nil);
     
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
