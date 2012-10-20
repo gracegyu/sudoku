@@ -1706,6 +1706,10 @@ bool readPuzzleFromStdIn(int* puzzle)
 
 SudokuBoard* GenerateSudoku(Difficulty level)
 {
+	// Initialize the random number generator
+	int timeSeed = time(NULL);
+	srand(timeSeed);
+	
 	SudokuBoard* _sb = [[SudokuBoard alloc] init];
 	
     
