@@ -511,6 +511,7 @@
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
 										  @"ScoreView" bundle:nil];
     controller.mainViewController = self;
+	[controller setScoreData:scoreTotal g:scoreGames c:scoreClears b:scoreBestTime s:scoreClearTimeSum];
 	
 	controller.title = gettext(@"Score", nil);
 	
@@ -522,7 +523,6 @@
 	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
 	[controller setAutoSegment];	
 	
-	[controller setScoreData:scoreTotal g:scoreGames c:scoreClears b:scoreBestTime s:scoreClearTimeSum];
 	[controller displayScore];
     [controller setTotalScoreRank:scoreTotal];
 	
