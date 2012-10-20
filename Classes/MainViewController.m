@@ -6,6 +6,7 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
 #import "ScoreViewController.h"
 #import "SettingViewController.h"
 #import "MainViewController.h"
@@ -399,8 +400,12 @@
      [super viewDidLoad];
 
 
-	 //[viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
-	 //[viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
+	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
+	 viewMenu.layer.cornerRadius = 10;
+	 viewMenu.layer.masksToBounds = YES;
+	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
+	 viewNewGame.layer.cornerRadius = 10;
+	 viewNewGame.layer.masksToBounds = YES;
 	 [self readySlideView:viewMenu];
 	 [self readySlideView:viewNewGame];
 
