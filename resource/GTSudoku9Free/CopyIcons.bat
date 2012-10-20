@@ -8,7 +8,3 @@
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" GTSudoku9FreeIcon-1024.png -resize 144x144 GTSudoku9FreeIcon@2x~ipad.png 
 "C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" GTSudoku9FreeIcon-1024.png -resize 512x512 GTSudoku9FreeIcon-512.png 
  
-
-"C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" GTSudoku9FreeDefault@2x.png -resize 320x480 GTSudoku9FreeDefault.png
-"C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" GTSudoku9FreeDefault-Landscape@2x~ipad.png -resize 1024x748 GTSudoku9FreeDefault-Landscape~ipad.png
-"C:\Program Files\ImageMagick-6.7.9-Q16\convert.exe" GTSudoku9FreeDefault-Portrait@2x~ipad.png -resize 768x1004 GTSudoku9FreeDefault-Portrait~ipad.png
