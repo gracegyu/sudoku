@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ScoreViewController.h"
 #import "SettingViewController.h"
+#import "HelpViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
 #import "Locale.h"
@@ -516,13 +517,13 @@
     controller.mainViewController = self;
 	[controller setScoreData:scoreTotal g:scoreGames c:scoreClears b:scoreBestTime s:scoreClearTimeSum];
 	
-	controller.title = gettext(@"Score", nil);
+//	controller.title = gettext(@"Score", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
-	controller.title = gettext(@"Score", nil);
+//	controller.title = gettext(@"Score", nil);
 	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
 	[controller setAutoSegment];	
 	
@@ -689,20 +690,45 @@
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
                                        @"SettingView" bundle:nil];
     controller.mainViewController = self;
-	controller.title = gettext(@"Setting", nil);
+//	controller.title = gettext(@"Setting", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
 	
-	controller.title = gettext(@"Setting", nil);
+//	controller.title = gettext(@"Setting", nil);
     
 	
 	[controller release];
 
     
 }
+
+- (IBAction)showHelpView
+{
+	[self hideMenuView];
+	
+    NSLog(@"showSettingView");
+    HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
+										 cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
+										 @"HelpView" bundle:nil];
+    controller.mainViewController = self;
+//	controller.title = gettext(@"Help", nil);
+	
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
+	[self presentModalViewController:controller animated:YES];
+    // UIModalTransitionStyleCrossDissolve for newgame
+	
+	
+//	controller.title = gettext(@"Help", nil);
+    
+	
+	[controller release];
+	
+    
+}
+
 
 /*
  // Override to allow orientations other than the default portrait orientation.

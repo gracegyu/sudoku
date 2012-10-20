@@ -135,7 +135,6 @@
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
 
 
-- (IBAction)showScoreView;
 - (IBAction)runUndo;
 - (IBAction)runRedo;
 - (IBAction)runBookmark;
@@ -143,7 +142,9 @@
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
 - (IBAction)doHint;
+- (IBAction)showScoreView;
 - (IBAction)showSettingView;
+- (IBAction)showHelpView;
 
 
 
