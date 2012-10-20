@@ -14,6 +14,7 @@
 #import "MainView.h"
 #import "Locale.h"
 #import "GameCenterUtil.h"
+#import "JMC.h"
 
 
 
@@ -46,6 +47,10 @@
 @synthesize buttonReset;
 @synthesize buttonHint;
 @synthesize buttonSetting;
+@synthesize buttonMenuClose;
+@synthesize buttonHelp;
+@synthesize buttonHistory;
+@synthesize buttonFeedback;
 
 @synthesize viewMenu;
 @synthesize viewNewGame;
@@ -275,17 +280,21 @@
 
 - (void) setLocalizedMessage
 {
-    [buttonNewGame setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
-    [buttonScore setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
-    [buttonSetting setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
-    [buttonReset setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
+	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
+	[buttonHistory		setTitle:gettext(@"History", nil) forState:UIControlStateNormal];
+	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+	
+    [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
+    [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
+    [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
+    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
 
-    [buttonMemo setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
-    [buttonDel setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
-    [buttonMenu setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
-    [buttonHint setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
-//    [buttonSetting setImage:[UIImage imageNamed:@"setting_n"] forState:UIControlStateNormal];
-//    [buttonSetting setImage:[UIImage imageNamed:@"setting_h"] forState:UIControlStateHighlighted];
+    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
+    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
+    [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
+    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
     [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
     [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
@@ -727,6 +736,14 @@
 	[controller release];
 	
     
+}
+
+- (IBAction)showFeedbackView
+{
+	[self hideMenuView];
+	
+	UIViewController *controller = [[JMC sharedInstance] viewController];
+    [self presentModalViewController:controller animated:YES];
 }
 
 

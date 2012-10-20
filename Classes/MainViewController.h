@@ -67,6 +67,11 @@
 	UIButton	*buttonHint;
     UIButton    *buttonSetting;
 	
+	UIButton	*buttonMenuClose;
+	UIButton	*buttonHelp;
+	UIButton	*buttonHistory;
+	UIButton	*buttonFeedback;
+	
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
@@ -122,6 +127,11 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonReset;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHint;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonSetting;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonMenuClose;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonHelp;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
+
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
@@ -145,6 +155,7 @@
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;
 - (IBAction)showHelpView;
+- (IBAction)showFeedbackView;
 
 
 
