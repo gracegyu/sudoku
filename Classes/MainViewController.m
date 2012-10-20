@@ -972,7 +972,7 @@
 
 - (IBAction)showMenu
 {
-//	[self allButtonUnLock];
+	[self allButtonUnLock];
 	[self showMenuView];
 //	[self stopGameTimer];
 
@@ -1023,7 +1023,10 @@
 
 - (void) makeNewGame:(NSInteger)level
 {
-	NSLog(@"makeNewGame");	
+	NSLog(@"makeNewGame");
+	
+	[self allButtonLock];
+
 //	[self startIndicator];
 	[activityIndicator startAnimating];
 	levelNewGame = level;
@@ -1044,6 +1047,7 @@
 
 - (IBAction)showNewGame
 {
+	[self allButtonUnLock];
 	[self hideMenuView];	// 메뉴가 사라지고, newgame이 나온다.
 	[self showNewGameView];
 	
