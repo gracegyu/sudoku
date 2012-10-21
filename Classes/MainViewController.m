@@ -348,9 +348,15 @@
 
 
 
-- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+	BOOL firstRun = NO;
+	
  	NSLog(@"initWithNibName");	
-   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+   {
+	   
+	   
         mainView = (MainView*) self.view;
  	    frameMainViewOrg = mainView.frame;
 	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
@@ -367,20 +373,31 @@
        [self loadSetting];
        [self setLocalizedMessage];
 
-		if ([mainView loadGame] == YES) {
+	   if (0) { //[mainView loadGame] == YES) {
 			[self setGameLevel];
 			[self updateBlankCellCount];
 			[self updateHintCount];
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
-		} else { 
-			[self showMenu];
+		} else {
+			levelNewGame = GAMELEVEL_NORMAL;	// normal로 새로운 게임을 무조건 생성한다.
+			[self makeNewGameData];
+			
+			[self setGameLevel];
+			[self updateBlankCellCount];
+			[self updateHintCount];
+            [self startGameTimer];
+
+			firstRun = YES;
 		}
 		[self initScore];
 		[self loadScoreData];
 	    [self updateButtons];
 	    [self showHintButton];
 	   
-
+	   if (firstRun)
+	   {
+		 //  [self showHelpView];
+	   }
     }
     return self;
 }
@@ -631,7 +648,7 @@
 
 - (IBAction) memoOnOff
 {
-	if (mainView.bMenuMode)
+	if (mainView.bMenuMode || !mainView.sudokuGame)
 		return;
 
 	[mainView memoOnOff];
@@ -1009,15 +1026,11 @@
 #define DEFPUZZLESIZE   SIZE_9
 #endif
 
-
-
-- (void)OnTimerNewGame:(NSTimer *)timer
+- (void) makeNewGameData
 {
-	NSLog(@"OnTimerNewGame");	
-	
-	//	[self allButtonLock];
-	[mainView.sudokuGame release];
-    NSLog(@"DEFPUZZLESIZE=%d", DEFPUZZLESIZE);
+	if (mainView.sudokuGame)
+		[mainView.sudokuGame release];
+
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
 	
 	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
@@ -1026,10 +1039,17 @@
 	[self saveScoreData];
 	
 	[self updateGameTime:0];
-	[activityIndicator stopAnimating];
-	// all button unlock
-	
 	[self updateButtons];
+}
+
+
+- (void)OnTimerNewGame:(NSTimer *)timer
+{
+	NSLog(@"OnTimerNewGame");	
+	
+	[self makeNewGameData];
+	
+	[activityIndicator stopAnimating];
 	
 	[self hideNewGameView];	// 
 	
@@ -1108,6 +1128,11 @@
 
 - (void) startGameTimer
 {
+	if ([timerGame isValid])
+	{
+		//NSAssert(0, @"Duplicated game timer");
+		return;
+	}
 	timerGame = [NSTimer scheduledTimerWithTimeInterval:1 
 												 target:self
 											   selector:@selector(OnTimer:)
@@ -1118,7 +1143,10 @@
 - (void) stopGameTimer
 {
 	if ([timerGame isValid])
-		[timerGame invalidate];	
+	{
+		[timerGame invalidate];
+		timerGame = nil;
+	}
 }
 
 
@@ -1197,10 +1225,13 @@
 		buttonHint.alpha = 0.5f;
 		buttonHint.enabled = NO;		
 	}
-	
-
-
 }
+
+- (void) updateButtonMenu
+{
+	buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
+}
+
 
 - (NSInteger) getBestTime:(NSInteger)level
 {
@@ -1215,6 +1246,7 @@
 
 - (void) updateButtons
 {
+	[self updateButtonMenu];
 	[self updateButtonHint];
 	[self updateButtonClear];
 	[self updateButtonUndo];
@@ -1233,11 +1265,12 @@
 #endif
 	[self readySlideView:viewMenu];
 	[self readySlideView:viewNewGame];
-/*    CGRect frameOld = viewMenu.frame;
-    frameOld.origin.x = 0;
-    frameOld.origin.y = 0;
-    viewMenu.frame = frameOld;
-*/
+	[self updateButtons];
+	[mainView setBlur:NO];
+	
+
+	
+
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
