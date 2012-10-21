@@ -143,7 +143,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)initData
 {
-	NSLog(@"MainView initData");
+	DLog(@"MainView initData");
 	
 	skin = DEFAULT_SKIN_NUM;
 	bBlur = NO;
@@ -199,7 +199,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-	NSLog(@"initWithCoder");	
+	DLog(@"initWithCoder");	
 	
     if ( (self = [super initWithCoder:coder] ) ) {
 		[self initData];		
@@ -210,7 +210,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 /*
 - (id)initWithFrame:(CGRect)frame {
-	NSLog(@"initWithFrame");	
+	DLog(@"initWithFrame");	
 	
     if (self = [super initWithFrame:frame]) {
 
@@ -249,7 +249,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 - (CGRect) getNumButtonAreaRect
 {
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-/*    NSLog(@"ctrl.areaNumButton.frame = %f,%f,%f,%f\n",
+/*    DLog(@"ctrl.areaNumButton.frame = %f,%f,%f,%f\n",
           ctrl.areaNumButton.frame.origin.x,
           ctrl.areaNumButton.frame.origin.y,
           ctrl.areaNumButton.frame.size.width,
@@ -458,10 +458,10 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 // what color?
 - (void)drawRectCellOneChoosing:(CGContextRef)context rect:(CGRect)rect
 {
-	//NSLog(@"drawRectCellOneChoosing");
+	//DLog(@"drawRectCellOneChoosing");
 	if (pushedButton == 0)
 	{
-		NSLog(@"pushedButton == 0");
+		DLog(@"pushedButton == 0");
 		return;					// delete cell
 	}
 		
@@ -601,7 +601,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	
 	if (xPos == 0 && yPos == 0)
 	{
-		NSLog(@"");
+		DLog(@"");
 	}
 	
 	xy2[0].x = xPos-1;	xy2[0].y = yPos;
@@ -681,7 +681,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	char *pMemo = [sudokuGame getMemoNums:xPos y:yPos];
 	if (xPos==0 && yPos==0)
 	{
-		//NSLog(@"pMemo=%s", pMemo);
+		//DLog(@"pMemo=%s", pMemo);
 	}
 	
 	if (puzzleNum > 0)	{
@@ -756,7 +756,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
 {    
-    //NSLog(@"drawOneCellBackground(%d,%d)", x, y);
+    //DLog(@"drawOneCellBackground(%d,%d)", x, y);
     
     NSInteger xPos = cTableStartX + x*cCellWidth;
     NSInteger yPos = cTableStartY + y*cCellHeight;
@@ -1082,7 +1082,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
         y = [self getNumButtonAreaY] + cButtonHeight/2 +
             (([self getNumButtonAreaH] - cButtonHeight) / (numY-1)) * ((i-1)%numY);   // 교대로 나옴 %
     }
-//   	NSLog(@"buttonYCenter(%d) -> %f", i, y);
+//   	DLog(@"buttonYCenter(%d) -> %f", i, y);
 	return y;
 }
 
@@ -1123,7 +1123,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 		}	
 
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
-		//NSLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
+		//DLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
@@ -1194,7 +1194,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 */	
 	NSInteger pos = floatTouch/(cCellWidth);// + cLineWidth);
  	
-	//NSLog(@"TouchToPosX(%f) -> %d", floatTouch, pos);
+	//DLog(@"TouchToPosX(%f) -> %d", floatTouch, pos);
 	
 	return pos;
 }
@@ -1210,7 +1210,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 */	
 	NSInteger pos = floatTouch/(cCellHeight);// + cLineWidth);
  	
-	//NSLog(@"TouchToPosY(%f) -> %d", floatTouch, pos);
+	//DLog(@"TouchToPosY(%f) -> %d", floatTouch, pos);
 	
 	return pos;
 	
@@ -1254,7 +1254,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 				}
 			}
 			
-			//NSLog(@"ButtonChoose(%d)", i);
+			//DLog(@"ButtonChoose(%d)", i);
 			return i;
 		}
 	}
@@ -1277,7 +1277,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	BOOL bShouldSave = NO;
 
 	
-    //NSLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
+    //DLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
     if (bEnd && [touch tapCount] == 2 && xPos < sudokuGame.size && yPos < sudokuGame.size) {
         [ctrl memoOnOff];
         return;             // double tab 후에는 아무런 세팅을 하지 않는다.
@@ -1293,21 +1293,21 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 			{
 				selectedXPos = xPos;	
 				selectedYPos = yPos;
-				[self playSound:soundClickID];	// drag
+				[self playSoundClick];	// drag
 				[self setNeedsDisplay];
 			}
 		}
         pushedButton = -1; // button을 누른 것이 아니다.
 	} else if (bPressedInButton == YES) {
-//		NSLog(@"pressedInButton => YES");		
+//		DLog(@"pressedInButton => YES");		
 		
 		NSInteger buttonNum = [self pressedButtonNum:touches];
 		if (bEnd || pushedButton != buttonNum)
 		{
 			pushedButton = buttonNum;
-//			NSLog(@"pushedButton = %d", pushedButton);
+//			DLog(@"pushedButton = %d", pushedButton);
                 if (buttonNum > 0) {	// button chose
-//				NSLog(@"bEnd=%d", bEnd);
+//				DLog(@"bEnd=%d", bEnd);
 				if (bEnd && selectedXPos >=0 && selectedYPos >=0)
 				{
                     if ([sudokuGame isPuzzleNum:selectedXPos y:selectedYPos]) {
@@ -1326,7 +1326,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 								bShouldSave = YES;
                             }
                         } else {
-                            //NSLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
+                            //DLog(@"CellNumChoose(%d,%d <= %d)", selectedXPos, selectedYPos, buttonNum);
                             [sudokuGame setFixNums:buttonNum x:selectedXPos y:selectedYPos];
                             [self checkClearGame];
 							bShouldSave = YES;
@@ -1336,7 +1336,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
                         if (bFailCell)
                             [self playSound:soundFailID];   // 강력한 기능이라서 Setting으로 빼야 한다.
                         else
-                            [self playSound:soundClickID];
+                            [self playSoundClick];
                         
                         [ctrl updateBlankCellCount];
                         [ctrl updateHintCount];
@@ -1388,7 +1388,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) runUndo
 { 
-	NSLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
+	DLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
 	
 	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countUndo] == 0)
 		return;
@@ -1401,7 +1401,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	{
 		selectedXPos = (NSInteger) pointLastUndoPos.x;
 		selectedYPos = (NSInteger) pointLastUndoPos.y;
-        [self playSound:soundClickID];
+       // [self playSoundClick];
 	}
 	[sudokuGame saveData];	
 	[self setNeedsDisplay];
@@ -1409,7 +1409,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) runRedo
 {
-	NSLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
+	DLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
 	
 	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
 		return;
@@ -1422,7 +1422,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	{
 		selectedXPos = (NSInteger) pointLastUndoPos.x;
 		selectedYPos = (NSInteger) pointLastUndoPos.y;
-        [self playSound:soundClickID];
+        //[self playSoundClick];
 	}
     
 	[sudokuGame saveData];
@@ -1431,12 +1431,12 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) runBookmark
 {
-	NSLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %d", [sudokuGame.sudokuUndo countGoBookmark]);
+	DLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %d", [sudokuGame.sudokuUndo countGoBookmark]);
 
     if ([sudokuGame.sudokuUndo isBookmarked] == NO)
     {
         [sudokuGame.sudokuUndo addBookmark];
-        [self playSound:soundClickID];
+        [self playSoundClick];
     } else {
         
         alertMode = ALELRT_BOOKMARK;
@@ -1451,7 +1451,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
         [alert addButtonWithTitle:gettext(@"Cancel", nil)];
         [alert show];
         [alert release];
-        [self playSound:soundClickID];
+        [self playSoundClick];
     }
 	[sudokuGame saveData];
 
@@ -1481,7 +1481,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 {
 	[self checkClearGame];	
 	
-	[self playSound:soundClickID];
+	[self playSoundClick];
 	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 	[ctrl updateBlankCellCount];
     [ctrl updateHintCount];
@@ -1540,7 +1540,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (BOOL) loadGame
 {
-	NSLog(@"loadGame");
+	DLog(@"loadGame");
 	sudokuGame = [SudokuGame loadData];
 	
 	if (sudokuGame != NULL)
@@ -1623,10 +1623,10 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 					}
                 }
                 [sudokuGame.sudokuUndo delBookmark];
-                [self playSound:soundClickID];
+                [self playSoundClick];
             } else if (buttonIndex == 1) {
                 [sudokuGame.sudokuUndo addBookmark];
-                [self playSound:soundClickID];
+                [self playSoundClick];
             } else if (buttonIndex == 2) {
                 [sudokuGame.sudokuUndo delBookmark];
                 [self playSound:soundClearID];	
@@ -1658,7 +1658,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     if ([self conflictCell:selectedXPos yPos:selectedYPos])
         [self playSound:soundFailID];   // 강력한 기능이라서 Setting으로 빼야 한다.
     else
-        [self playSound:soundClickID];
+        [self playSoundClick];
 
     [ctrl updateBlankCellCount];
     [ctrl updateHintCount];
@@ -1681,7 +1681,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     
-    //NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
+    //DLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
     
 	if (sudokuGame.isGameFinished)	// lock the screen
 		return;
@@ -1723,10 +1723,10 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	if (bMenuMode || sudokuGame.isGameFinished)	// lock the screen
 		return;	
 	bTouch = NO;
-//    NSLog(@"Touches Cancelled");
+//    DLog(@"Touches Cancelled");
 	bPressedInButton = NO;
 	bPressedInCell = NO;
-//	NSLog(@"pressedInButton = NO");
+//	DLog(@"pressedInButton = NO");
 	
 	[self setNeedsDisplay];
 	
@@ -1741,7 +1741,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     {
         if (timerTouch)
         {
-            NSLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
             [timerTouch invalidate];
 //            [timerTouch release];
             timerTouch = nil;
@@ -1754,7 +1754,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	[self touchesDo:touches bEnd:YES];
 	bPressedInButton = NO;
 	bPressedInCell = NO;
-//	NSLog(@"pressedInButton = NO");
+//	DLog(@"pressedInButton = NO");
 	
 	[self setNeedsDisplay];
 }	
@@ -1768,7 +1768,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     {
         if (timerTouch)
         {
-            NSLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
 
             [timerTouch invalidate];
 //            [timerTouch release];
@@ -1831,7 +1831,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) setFont
 {
-	//NSLog(@"setFont(%f)", cCellWidth);
+	//DLog(@"setFont(%f)", cCellWidth);
 	self.cellOneSmallFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneSmallFontSize];
 	self.cellOneBigFont         = [UIFont fontWithName:@"Trebuchet MS" size:cCellOneBigFontSize];
 	self.cellTwoFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellTwoFontSize];
@@ -1854,16 +1854,16 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 - (void)drawRect:(CGRect)rect
 {
     
-    //NSLog(@"self.bounds(%f,%f)",          self.bounds.size.width, self.bounds.size.height);
+    //DLog(@"self.bounds(%f,%f)",          self.bounds.size.width, self.bounds.size.height);
 
     
     //	NSString* s;
 	
-    //	NSLog(@"%@", [sudokuNum getNums]);
+    //	DLog(@"%@", [sudokuNum getNums]);
     
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	//NSLog(@"drawRect ---------- refresh");
+	//DLog(@"drawRect ---------- refresh");
     
     [self setFont];
     

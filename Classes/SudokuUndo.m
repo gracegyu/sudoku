@@ -52,7 +52,7 @@
 - (id) init {
     
 	if((self = [super init])) {
-		NSLog(@"init");
+		DLog(@"init");
         
         arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
         bookmark = -1;  // no bookmark
@@ -72,20 +72,20 @@
 
 - (NSInteger) getIndex
 {
-	NSLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 
 - (NSInteger) countUndo
 {
-	NSLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 - (NSInteger) countRedo
 {
-	NSLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
 	
     count = [arrayUndo count];
     return count - indexUndo;
@@ -93,7 +93,7 @@
 
 - (void) flushUndo
 {
-	//NSLog(@"flushUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	//DLog(@"flushUndo(count:%d, indexUndo:%d)", count, indexUndo);
 
     if (indexUndo < count)
     {
@@ -107,13 +107,13 @@
     if (bookmark > 0 && bookmark > count)
     {
         bookmark = -1;
-        NSLog(@"delete bookmark");
+        DLog(@"delete bookmark");
     }
 }
 
 - (void) addNum:(NSInteger)num oldnum:(NSInteger)oldnum x:(NSInteger)x y:(NSInteger)y
 {
-	NSLog(@"Undo:addNum(%d,%d)%d,%d", x, y, num, oldnum);
+	DLog(@"Undo:addNum(%d,%d)%d,%d", x, y, num, oldnum);
     [self flushUndo];
     
     UndoData *undo = [[UndoData alloc] init];
@@ -133,7 +133,7 @@
 
 - (void) delNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	NSLog(@"Undo:delNum(%d,%d)%d", x, y, num);
+	DLog(@"Undo:delNum(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -152,7 +152,7 @@
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	NSLog(@"Undo:addMemo(%d,%d)%d", x, y, num);
+	DLog(@"Undo:addMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -170,7 +170,7 @@
 
 - (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	NSLog(@"Undo:delMemo(%d,%d)%d", x, y, num);
+	DLog(@"Undo:delMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -188,7 +188,7 @@
 }
 - (void) addAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
- 	NSLog(@"Undo:addAutoMemo(%d,%d)%d", x, y, num);
+ 	DLog(@"Undo:addAutoMemo(%d,%d)%d", x, y, num);
    [self flushUndo];
 	
     UndoData *undo = [[UndoData alloc] init];
@@ -206,7 +206,7 @@
 
 - (void) delAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
- 	NSLog(@"Undo:delAutoMemo(%d,%d)%d", x, y, num);
+ 	DLog(@"Undo:delAutoMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 	
     UndoData *undo = [[UndoData alloc] init];
@@ -228,7 +228,7 @@
     if (indexUndo < 1)
         return NO;
 	
-	NSLog(@"getUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getUndo(count:%d, indexUndo:%d)", count, indexUndo);
 
     
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo-1];
@@ -240,7 +240,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
-		NSLog(@"Undo:getUndo(%d,%d)%d<-%d,M:%d", undo.x, undo.y, undo.num, undo.oldnum, undo.mode);
+		DLog(@"Undo:getUndo(%d,%d)%d<-%d,M:%d", undo.x, undo.y, undo.num, undo.oldnum, undo.mode);
     }
     indexUndo--;
     
@@ -252,7 +252,7 @@
     if (indexUndo >= count)
         return NO;
     
-	NSLog(@"getRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getRedo(count:%d, indexUndo:%d)", count, indexUndo);
 	
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo];
     
@@ -263,7 +263,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
-		NSLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.x, undo.mode, undo.oldnum, undo.num);
+		DLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.x, undo.mode, undo.oldnum, undo.num);
     }
     indexUndo++;
     
@@ -273,7 +273,7 @@
 - (BOOL) addBookmark
 {
     bookmark = indexUndo;
-    //NSLog(@"bookmark = %d", bookmark);
+    //DLog(@"bookmark = %d", bookmark);
     
 	// autoMemo skip
 	UndoData* data;
@@ -314,12 +314,12 @@
     bookmark = -1;
     bookmarkX = -1;
     bookmarkY = -1;
-    //NSLog(@"bookmark = %d", bookmark);
+    //DLog(@"bookmark = %d", bookmark);
 }
 
 - (BOOL) isBookmarked
 {
-    //NSLog(@"bookmark = %d", bookmark);
+    //DLog(@"bookmark = %d", bookmark);
     return bookmark >= 0;
 }
 
@@ -331,7 +331,7 @@
 
 - (NSInteger) canGoBookmark    // -1:undo, 0:can't +1:redo
 {
-    //NSLog(@"bookmark = %d", bookmark);
+    //DLog(@"bookmark = %d", bookmark);
     if (bookmark >= count)
         return 0;
     if (bookmark < indexUndo)
@@ -344,7 +344,7 @@
 
 - (NSInteger) countGoBookmark  // 몇번 undo, redo를 해야 하나?
 {
-    //NSLog(@"bookmark = %d", bookmark);
+    //DLog(@"bookmark = %d", bookmark);
 
     if (bookmark < 0 || bookmark > count)
         return 0;
@@ -447,7 +447,7 @@
 		}
 		arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
 	} else {
-		NSLog(@"Never saved Undo data");
+		DLog(@"Never saved Undo data");
 		bookmark = -1;  // no bookmark
         bookmarkX = -1;
         bookmarkY = -1;

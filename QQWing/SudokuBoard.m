@@ -205,7 +205,7 @@ bool readPuzzleFromStdIn(int* puzzle)
     self = [super init];
     if (self) {
 		puzzle = malloc(sizeof(int)*BOARD_SIZE);
-		NSLog(@"init(puzzle = %p)", puzzle);
+		DLog(@"init(puzzle = %p)", puzzle);
 		solution = malloc(sizeof(int)*BOARD_SIZE);
 		solutionRound = malloc(sizeof(int)*BOARD_SIZE);
 		possibilities = malloc(sizeof(int)*POSSIBILITY_SIZE);
@@ -397,7 +397,7 @@ bool readPuzzleFromStdIn(int* puzzle)
 */
 - (bool) reset
 {
-	//NSLog(@"reset(puzzle = %p)", puzzle);
+	//DLog(@"reset(puzzle = %p)", puzzle);
 	
     for (int i=0; i<BOARD_SIZE; i++)
 	{
@@ -454,7 +454,7 @@ bool readPuzzleFromStdIn(int* puzzle)
     if (logHistory)
 	{
         [l print];
-        NSLog(@"");
+        DLog(@"");
     }
     if (recordHistory)
 	{
@@ -559,7 +559,7 @@ bool readPuzzleFromStdIn(int* puzzle)
 - (void) clearPuzzle
 {
     // Clear any existing puzzle
-	//NSLog(@"clearPuzzle(puzzle = %p)", puzzle);
+	//DLog(@"clearPuzzle(puzzle = %p)", puzzle);
     {for (int i=0; i<BOARD_SIZE; i++){
         puzzle[i] = 0;
     }}
@@ -568,7 +568,7 @@ bool readPuzzleFromStdIn(int* puzzle)
 
 - (bool) generatePuzzle
 {
-	NSLog(@"generatePuzzle");
+	DLog(@"generatePuzzle");
 	
     // Don't record history while generating.
     bool recHistory = recordHistory;
@@ -1612,15 +1612,15 @@ bool readPuzzleFromStdIn(int* puzzle)
 {
 	
 	if (solution[position] != 0)
-		NSLog(@"Marking position that already has been marked.");
+		DLog(@"Marking position that already has been marked.");
 	if (solutionRound[position] !=0)
-		NSLog(@"Marking position that was marked another round.");
+		DLog(@"Marking position that was marked another round.");
 	int valIndex = value-1;
 	solution[position] = value;
 	
 	int possInd = getPossibilityIndex(valIndex,position);
 	if (possibilities[possInd] != 0)
-		NSLog(@"Marking impossible position.");
+		DLog(@"Marking impossible position.");
 	
 	// Take this value out of the possibilities for everything in the row
 	solutionRound[position] = round;
@@ -1717,7 +1717,7 @@ SudokuBoard* GenerateSudoku(Difficulty level)
     
     bool haveLevelPuzzle = false;
     
-    NSLog(@"Generating Sudoku (level=%d)...",level);
+    DLog(@"Generating Sudoku (level=%d)...",level);
     
     while (haveLevelPuzzle == false)
     {
@@ -1734,7 +1734,7 @@ SudokuBoard* GenerateSudoku(Difficulty level)
         }
     }
     
-    NSLog(@"...done!");
+    DLog(@"...done!");
     
     
     [_sb printSolution];

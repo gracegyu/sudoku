@@ -85,17 +85,17 @@
     [window setRootViewController:self.mainViewController];
 
 
-	NSLog(@"model=%@(%d)", [UIDevice currentDevice].model, cDeviceType);
+	DLog(@"model=%@(%d)", [UIDevice currentDevice].model, cDeviceType);
 	
 	
 	
     mainViewController.mainView.frame = [UIScreen mainScreen].applicationFrame;
 //    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
-	NSLog(@"mainViewController.view.frame size = %f,%f", mainViewController.mainView.frame.size.width, mainViewController.mainView.frame.size.height);
+	DLog(@"mainViewController.view.frame size = %f,%f", mainViewController.mainView.frame.size.width, mainViewController.mainView.frame.size.height);
 	[window addSubview:[mainViewController mainView]];
 //	[window addSubview:[mainViewController view]];
-	NSLog(@"window.screen = %@", window.screen);
-	NSLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
+	DLog(@"window.screen = %@", window.screen);
+	DLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
 
     [window makeKeyAndVisible];
     
@@ -123,7 +123,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-	NSLog(@"applicationWillResignActive");
+	DLog(@"applicationWillResignActive");
 	if (mainViewController.mainView.sudokuGame)
 	{
 		[mainViewController.mainView.sudokuGame saveData];
@@ -136,7 +136,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-	NSLog(@"applicationDidBecomeActive");
+	DLog(@"applicationDidBecomeActive");
 }
 
 
@@ -159,7 +159,7 @@
 
 - (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    NSLog(@"supportedInterfaceOrientationsForWindow");
+    DLog(@"supportedInterfaceOrientationsForWindow");
     return UIInterfaceOrientationMaskAll;
 }
 

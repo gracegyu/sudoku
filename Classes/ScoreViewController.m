@@ -272,7 +272,7 @@
 
 - (void) displayRank
 {
-	NSLog(@"displayRank");
+	DLog(@"displayRank");
 	
 	if (rankTotal > 0)
 		[self setScoreText];
@@ -281,7 +281,7 @@
 	
 	for (int level=0; level<5; level++)
 	{
-		NSLog(@"level=%d", level);
+		DLog(@"level=%d", level);
 		if (bAuto)
 			rank = -1;
 		else
@@ -300,7 +300,7 @@
 {
     BOOL bWait = NO;
 	
-    NSLog(@"OnTimer");
+    DLog(@"OnTimer");
     
 	if (rankTotal <= 0)
 		bWait = YES;
@@ -321,7 +321,7 @@
 
 - (void) setTotalScoreRank:(NSInteger)nScore;
 {
-    NSLog(@"setTotalScoreRank(%d)", nScore);
+    DLog(@"setTotalScoreRank(%d)", nScore);
 
     
     rankTotal = -1;

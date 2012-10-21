@@ -142,7 +142,7 @@ static int defaultMap[][16*16] = {
                 
                 unsigned int valRand = arc4random();
                 NSInteger numRandom = valRand % (countDefMap-1);
-                NSLog(@"numRandom = %d", numRandom);
+                DLog(@"numRandom = %d", numRandom);
                 
                 Map = setMap6[numRandom+1];
             }
@@ -155,7 +155,7 @@ static int defaultMap[][16*16] = {
 				
 				unsigned int valRand = arc4random();
 				NSInteger numRandom = valRand % (countDefMap-1);
-				NSLog(@"numRandom = %d", numRandom);
+				DLog(@"numRandom = %d", numRandom);
 				
 				Map = setMap7[numRandom+1];
 			}
@@ -192,11 +192,11 @@ static int defaultMap[][16*16] = {
 			
 			NSAssert(map[x][y] <= size, @"map[%d,%d](%d) > %d", x, y, map[x][y], size);
 			NSAssert(++countMap[map[x][y]] <= size, @"countMap[%d] > %d", map[x][y], size);
-			//NSLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
+			//DLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
 			
 			sub[map[x][y]][countSub[map[x][y]]].x = x;
 			sub[map[x][y]][countSub[map[x][y]]].y = y;
-			//NSLog(@"sub[%d][%d](%d,%d)", map[x][y],countSub[map[x][y]], x, y);
+			//DLog(@"sub[%d][%d](%d,%d)", map[x][y],countSub[map[x][y]], x, y);
 			countSub[map[x][y]] += 1;
 			
 

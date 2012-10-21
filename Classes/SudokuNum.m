@@ -45,7 +45,7 @@
 
 - (void) initNums
 {
-	//NSLog(@"initNums");
+	//DLog(@"initNums");
 
 	int i;
 	
@@ -98,7 +98,7 @@
 - (id) init {
 
 	if((self = [super init])) {
-		NSLog(@"init");
+		DLog(@"init");
 	}
 	return self;
 }
@@ -160,7 +160,7 @@
 
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
 {
-    //NSLog(@"setDefaultMemo(%d,%d)", x, y);
+    //DLog(@"setDefaultMemo(%d,%d)", x, y);
     NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
@@ -176,7 +176,7 @@
 {
 	if (num > size || x >= size || y >= size)
 	{
-		//NSLog(@"isMemoed(%d,%d,%d)", num, x, y);
+		//DLog(@"isMemoed(%d,%d,%d)", num, x, y);
 	}
 	
     NSAssert(num >= 1 && num <= size, @"isMemoed num");
@@ -255,12 +255,12 @@
 	
 	if ([self isEmptyMemo:x y:y] == YES)
 	{
-		NSLog(@"EmptyMemo(%d,%d)", x, y);
+		DLog(@"EmptyMemo(%d,%d)", x, y);
 		return NO;			// memo 오류
 	}
     if ([SudokuNum deleteNumFromStr:memo[x][y] num:num] == NO)
 	{
-		//NSLog(@"delMemo(%d,%d - %d) memo=%s", x, y, num, memo[x][y]);
+		//DLog(@"delMemo(%d,%d - %d) memo=%s", x, y, num, memo[x][y]);
 	} else {
 		memonum[x][y] -= 1;
 
@@ -268,7 +268,7 @@
 	if ([self isEmptyMemo:x y:y] == YES)
 	{
 		NSAssert(memonum[x][y]==0, @"delMemo(%d,%d)-%d, empty", x, y, num);
-		NSLog(@"EmptyMemo(%d,%d)", x, y);
+		DLog(@"EmptyMemo(%d,%d)", x, y);
 		return NO;			// memo 오류
 	}
 	return YES;
@@ -276,7 +276,7 @@
 
 - (NSInteger) getUniqueMemo:(NSInteger)x y:(NSInteger)y
 {
-//	NSLog(@"getUniqueMemo(%d,%d)", x, y);
+//	DLog(@"getUniqueMemo(%d,%d)", x, y);
 	
     NSAssert1(x >= 0 && x < size, @"getUniqueMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"getUniqueMemo y=%d", y);
@@ -294,7 +294,7 @@
 
 - (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y
 {
-	//NSLog(@"getRandomMemo(%d,%d)", x, y);
+	//DLog(@"getRandomMemo(%d,%d)", x, y);
     NSAssert1(x >= 0 && x < size, @"getRandomMemo x=%d", x);
     NSAssert1(y >= 0 && y < size, @"getRandomMemo y=%d", y);
 
@@ -302,7 +302,7 @@
     NSInteger count = memonum[x][y];
 	NSInteger rand;
  
-	//NSLog(@"getRandomMemo(%d,%d) %dvs.%s", x, y, count, memo[x][y]);
+	//DLog(@"getRandomMemo(%d,%d) %dvs.%s", x, y, count, memo[x][y]);
 	NSAssert4(count == strlen(memo[x][y]), @"getRandomMemo(%d,%d) %dvs%s", x, y, count, memo[x][y]);
 	
 	rand = [self randNum:count];
@@ -499,7 +499,7 @@
 		if ([self getPuzzleNum:x y:y] > 0)
 			count++;
 	}
-	//NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
 	return count;
 }
 
@@ -514,7 +514,7 @@
 		if ([self getPuzzleNum:x y:y] > 0)
 			count++;
 	}
-	//NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 
 }
@@ -538,7 +538,7 @@
             }
         }
 	}
-	//NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 			
 }
@@ -564,7 +564,7 @@
 		{
 			if ([self delMemo:num x:x y:y] == NO)
 			{
-				NSLog(@"Failed");
+				DLog(@"Failed");
 				foundFail++;
 				bOkAutoSet = NO;
 				return NO;
@@ -578,7 +578,7 @@
 		{
 			if ([self delMemo:num x:x y:y] == NO)
 			{
-				NSLog(@"Failed");
+				DLog(@"Failed");
 				foundFail++;
 				bOkAutoSet = NO;
 				return NO;
@@ -598,7 +598,7 @@
 				{
 					if ([self delMemo:num x:x y:y] == NO)
 					{
-						NSLog(@"Failed");
+						DLog(@"Failed");
 						foundFail++;
 						bOkAutoSet = NO;
 						return NO;
@@ -653,7 +653,7 @@
 	countFunc++;
 	if ([self getAnswerNum:xPos y:yPos] > 0)
 	{
-		NSLog(@"validNumInCell(%d,%d,%d)answerNum", num, xPos, yPos);
+		DLog(@"validNumInCell(%d,%d,%d)answerNum", num, xPos, yPos);
 		return NO;		// 이미 자동세팅 값이 채워져 있어서 수정할 수 없음
 	}
 	
@@ -663,20 +663,20 @@
 	{
 		if (puzzleNum == num)
 		{
-			NSLog(@"validNumInCell(%d,%d,%d)puzzleNum", num, xPos, yPos);
+			DLog(@"validNumInCell(%d,%d,%d)puzzleNum", num, xPos, yPos);
 			return NO;	// 이미 같은 값이 설정 되어 있어서 아무 일도 할 것이 없음
 			
 		}
 
 		// 이전에 지정한 셀에 다른 값(0~size)을 설정하려고 함
 		[self editCell:num xPos:xPos yPos:yPos];
-		NSLog(@"validNumInCell(%d,%d,%d)editCell", num, xPos, yPos);
+		DLog(@"validNumInCell(%d,%d,%d)editCell", num, xPos, yPos);
 		return NO;
 	}
 		
 	if ([self isMemoed:num x:xPos y:yPos] == NO) // 후보군의 숫자가 아님, 설정 불가능
 	{
-		NSLog(@"validNumInCell(%d,%d,%d)isMemoed", num, xPos, yPos);
+		DLog(@"validNumInCell(%d,%d,%d)isMemoed", num, xPos, yPos);
 		return NO;	// 세팅 불가능한 숫자임
 	}
 	
@@ -693,12 +693,12 @@
 				{
 					if ([self getPuzzleNum:x y:y] == num)		// 이미 세팅했던 것들임
 					{
-						NSLog(@"validNumInCell(%d,%d,%d)puzzleNum(map)", num, xPos, yPos);
+						DLog(@"validNumInCell(%d,%d,%d)puzzleNum(map)", num, xPos, yPos);
 						return NO;
 					}				
 					if ([self getAnswerNum:x y:y] == num)		// 자동 계산 값과 같음
 					{
-						NSLog(@"validNumInCell(%d,%d,%d)answerNum(map)", num, xPos, yPos);
+						DLog(@"validNumInCell(%d,%d,%d)answerNum(map)", num, xPos, yPos);
 						return NO;
 					}
 				}
@@ -710,7 +710,7 @@
 
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-//	NSLog(@"Undo Log = %@", strUndo);
+//	DLog(@"Undo Log = %@", strUndo);
 //  이미 기존의 데이터를 수정하는 것이라면 그부분은 제거
 
 	int len = strUndo.length;
@@ -728,7 +728,7 @@
 			chNum = [strUndo characterAtIndex:i*3];
 			// 같은 위치 발견, 앞에서 설정한 값은 제거해야 함
 			str = [NSString stringWithFormat:@"%d%d%d", chNum-'0', xPos, yPos];
-			NSLog(@"Undo Log remove = %@", str);
+			DLog(@"Undo Log remove = %@", str);
 			strUndo = [strUndo stringByReplacingOccurrencesOfString:str withString: @""];
 
 			break;
@@ -745,7 +745,7 @@
 	str = [strUndo stringByAppendingFormat:@"%d%d%d", num, xPos, yPos];
 	[strUndo release];
 	strUndo = str; 
-//	NSLog(@"Undo Log = %@", strUndo);
+//	DLog(@"Undo Log = %@", strUndo);
 	[strUndo retain];
 	
 }
@@ -754,7 +754,7 @@
 {
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		NSLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
 		return NO;
 	} 	
 		
@@ -815,7 +815,7 @@
 		[self countCell];
 		if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
 		{
-			NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+			DLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
 		}
 		
 	}
@@ -910,12 +910,12 @@
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
 	countFunc++;
-    //NSLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
+    //DLog(@"setCell(%d)(%d,%d)", num, xPos, yPos);
 	bOkSetCell = NO;
 	
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		NSLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
 	} else {
 		[self setCellPuzzleCheck:num x:xPos y:yPos];
 		[self addUndoLog:num xPos:xPos yPos:yPos];		// set undo data
@@ -938,7 +938,7 @@
 			[[array objectAtIndex:x] replaceObjectAtIndex:y withObject:strInit];
 		}
 	}
-	NSLog(@"clearCell");
+	DLog(@"clearCell");
 //	[strUndo stringWithString:@""];
 	strUndo = @"";
 }
@@ -991,7 +991,7 @@
 
 - (CGPoint) undoSet:(NSInteger)num
 {
-	//NSLog(@"undoSet");
+	//DLog(@"undoSet");
 	NSMutableArray *array = self.nums;	
 	NSString *oldStrUndo = [[NSString alloc] initWithString:strUndo];
 	int len = oldStrUndo.length;
@@ -1100,7 +1100,7 @@
 	}
 	str = [str stringByAppendingFormat:@"%d:Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
 		   countFunc, foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
-	NSLog(@"str = %@", str);
+	DLog(@"str = %@", str);
 
 	
 	//	[str release];
@@ -1128,7 +1128,7 @@
 			
 		}
 	}
-	//NSLog(@"countCell (U:%d,A:%d,N:%d)", countUserFixed, countAutoFixed, countNotFixed);
+	//DLog(@"countCell (U:%d,A:%d,N:%d)", countUserFixed, countAutoFixed, countNotFixed);
 					  
 }
 
@@ -1172,13 +1172,13 @@
             {                
                 if ([self isContacted:x y:y w:wGT h:hGT])
                 {
-                    //NSLog(@"Contacted(%d)(%d)", x, y);
+                    //DLog(@"Contacted(%d)(%d)", x, y);
                     if (--i <= 0)
                     {
                         arrGT[x][y] = setNum;
                     }
                 } else {
-                   // NSLog(@"Not contacted(%d)(%d)", x, y);
+                   // DLog(@"Not contacted(%d)(%d)", x, y);
                 }
             }
         }
@@ -1200,7 +1200,7 @@
         str = [str stringByAppendingString:@"|\n"];
         str = [str stringByAppendingString:@"----------\n"];
     }
-    NSLog(@"%@", str);
+    DLog(@"%@", str);
 	 */
 }
 
@@ -1288,18 +1288,18 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 		{
 			if (++i > sizePuzzle*sizePuzzle)
 			{
-				NSLog(@"############### i = %d", i);
+				DLog(@"############### i = %d", i);
 				[sudokuNum printNums];
 				
 				break;
 			}
 		}
 		
-		NSLog(@"%d times loop", i);
+		DLog(@"%d times loop", i);
 		[sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
-	NSLog(@"sudokuNumGenerate: %d tried", nTry);
+	DLog(@"sudokuNumGenerate: %d tried", nTry);
 	
 	return sudokuNum;
 }

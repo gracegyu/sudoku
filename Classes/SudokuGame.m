@@ -81,7 +81,7 @@
 		if (puzzleNums[x][y] > 0)
 			count++;
 	}
-	//NSLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumX(%d,%d) => %d", xPos, yPos, count);
 	return count;
 }
 
@@ -96,7 +96,7 @@
 		if (puzzleNums[x][y] > 0)
 			count++;
 	}
-	//NSLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 	
 }
@@ -120,7 +120,7 @@
             }
         }
 	}
-	//NSLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
+	//DLog(@"countUserFixedNumXY(%d,%d) => %d", xPos, yPos, count);
 	return count;
 	
 }
@@ -184,7 +184,7 @@
 		//			[self printNums];
 
 		if (countHandyTryFailed >= MAX_HANDYTRAYFAIL)
-			NSLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
+			DLog(@"countHandyTryFailed == MAX_HANDYTRAYFAIL");
 		
 	}
 	
@@ -211,7 +211,7 @@
 		if (y != yPos)
 		{
 			[self delMemoNumsForAutoMemo:num x:x y:y];
-			//NSLog(@"deleteAutoMemoX(%d,%d)->%d", x, y, num);
+			//DLog(@"deleteAutoMemoX(%d,%d)->%d", x, y, num);
 		}
 	}
 }
@@ -224,7 +224,7 @@
 		if (x != xPos)
 		{
 			[self delMemoNumsForAutoMemo:num x:x y:y];
-			//NSLog(@"deleteAutoMemoY(%d,%d)->%d", x, y, num);
+			//DLog(@"deleteAutoMemoY(%d,%d)->%d", x, y, num);
 
 		}
 	}
@@ -245,7 +245,7 @@
 				if (x != xPos && y != yPos)
 				{
 					[self delMemoNumsForAutoMemo:num x:x y:y];
-					//NSLog(@"deleteAutoMemoXY(%d,%d)->%d", x, y, num);
+					//DLog(@"deleteAutoMemoXY(%d,%d)->%d", x, y, num);
 				}
 			}
 		}
@@ -288,7 +288,7 @@
 				y = posFirstFound;
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					NSLog(@"deleteAutoMemoUniqueNumX(%d,%d)->%d", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumX(%d,%d)->%d", x, y, k);
 					bRet = YES;
 				}
 			}
@@ -333,7 +333,7 @@
 				x = posFirstFound;
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					NSLog(@"deleteAutoMemoUniqueNumY(%d,%d)->%d", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumY(%d,%d)->%d", x, y, k);
 					bRet = YES;
 				}
 			}
@@ -397,10 +397,10 @@
 
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					NSLog(@"deleteAutoMemoUniqueNumXY(%d,%d)->%d", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumXY(%d,%d)->%d", x, y, k);
 					bRet = YES;
 				} else {
-					//NSLog(@"[self setMemoNumsForAutoMemo:%d x:%d y:%d] == NO", k, x, y);
+					//DLog(@"[self setMemoNumsForAutoMemo:%d x:%d y:%d] == NO", k, x, y);
 				}
 			}
 		}
@@ -769,7 +769,7 @@
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
 			if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0) {
-				//NSLog(@"unFixedCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+				//DLog(@"unFixedCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				unfixedCells++;
 			}
         }
@@ -784,13 +784,13 @@
             {
                 if ([self checkCorrect:x y:y] == NO)
                 {
-                    NSLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                    DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
                     wrongCells++;
                 } else {
                     if (answerNums[x][y] != fixNums[x][y])
                     {
                         strangeCells++;
-                        NSLog(@"StangeCell 발견");
+                        DLog(@"StangeCell 발견");
 /*
                         NSString *msg = [NSString stringWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
                                          x, y, answerNums[x][y], fixNums[x][y]];
@@ -811,7 +811,7 @@
 			}
 #else
 			if (puzzleNums[x][y] == 0 && answerNums[x][y] != fixNums[x][y]) {
-				NSLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+				DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				wrongCells++;
 			}
 #endif
@@ -891,7 +891,7 @@
 
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	NSLog(@"### setFixNums(%d,%d)->%d", x, y, num);
+	DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
 	
     if (puzzleNums[x][y] > 0)               // 문제칸은 Set할 수 없다.
         return;
@@ -1059,12 +1059,12 @@
     
 	if (strlen(memoNums[x][y]) <= 1)
 	{
-		NSLog(@"############(%d,%d,%s)", x, y, memoNums[x][y]);
+		DLog(@"############(%d,%d,%s)", x, y, memoNums[x][y]);
 	}
 	
-	//NSLog(@"delMemoNums(%d-%d,%d)%s", num, x, y, memoNums[x][y]);
+	//DLog(@"delMemoNums(%d-%d,%d)%s", num, x, y, memoNums[x][y]);
 	[SudokuNum deleteNumFromStr:memoNums[x][y] num:num];
-	//NSLog(@"	=> %s", memoNums[x][y]);
+	//DLog(@"	=> %s", memoNums[x][y]);
 	
 
 	//[self saveData];
@@ -1197,7 +1197,7 @@
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0];
 					 
-	//NSLog(@"saveData(%@)", str);
+	//DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 
@@ -1212,11 +1212,11 @@
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kSudokuGame];	
 	if (str == nil) {
-		NSLog(@"loadData Failed");
+		DLog(@"loadData Failed");
 		return nil;
 	}
 	
-	NSLog(@"loadData(%@)", str);
+	DLog(@"loadData(%@)", str);
 	
 	SudokuGame* sudokuGame = [[SudokuGame alloc] initWithSavedString:str];
 	

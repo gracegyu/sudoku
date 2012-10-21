@@ -66,7 +66,7 @@
 
 - (void) initScore
 {
-	NSLog(@"initScore");	
+	DLog(@"initScore");	
 	
 	
 	for (int i=0; i<10; i++)
@@ -101,7 +101,7 @@
 
 - (void) saveScoreData
 {
-	NSLog(@"saveScoreData");	
+	DLog(@"saveScoreData");	
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
@@ -132,14 +132,14 @@
 #endif
     score = MAX(score, 1);
 
-    NSLog(@"getGameResultScore(%d,%d) => %d", level, sec, score);
+    DLog(@"getGameResultScore(%d,%d) => %d", level, sec, score);
     
     return score;
 }
 
 - (void) loadScoreData
 {
-	NSLog(@"loadScoreData");	
+	DLog(@"loadScoreData");	
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	for (int i=0; i<10; i++)
@@ -161,7 +161,7 @@
                 scoreTotal += scoreClears[i] * [self getGameResultScore:i sec:scoreClearTimeSum[i]/scoreClears[i]];
         }
 	}
-    NSLog(@"scoreTotal = %d", scoreTotal);
+    DLog(@"scoreTotal = %d", scoreTotal);
     
 }
 
@@ -171,7 +171,7 @@
 {
 	// button diable
 	
-	NSLog(@"writeScore");	
+	DLog(@"writeScore");	
     BOOL bNewBest = NO;
 	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
     
@@ -245,7 +245,7 @@
 
 - (void) loadSetting
 {
-	NSLog(@"loadSetting");
+	DLog(@"loadSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSInteger settingVersion = [defaults integerForKey:kSettingSavedVersion];
@@ -268,7 +268,7 @@
 
 - (void) saveSetting
 {
-	NSLog(@"saveSetting");
+	DLog(@"saveSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     [defaults setInteger:SETTING_VERSION forKey:kSettingSavedVersion];
@@ -284,7 +284,7 @@
 
 - (void) setLocalizedMessage
 {
-	NSLog(@"setLocalizedMessage");
+	DLog(@"setLocalizedMessage");
 	
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
@@ -332,7 +332,7 @@
 
 - (void) decideLocale
 {
-	NSLog(@"decideLocale");
+	DLog(@"decideLocale");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSString *strLocale = [defaults stringForKey:kLocale];  // 저장된 locale 가져오기
@@ -354,14 +354,14 @@
 {
 	BOOL firstRun = NO;
 	
- 	NSLog(@"initWithNibName");	
+ 	DLog(@"initWithNibName");	
    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
    {
 	   
 	   
         mainView = (MainView*) self.view;
  	    frameMainViewOrg = mainView.frame;
-	   NSLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
+	   DLog(@"frameMainViewOrg = %f,%f", frameMainViewOrg.size.width, frameMainViewOrg.size.height);
 
 	   
 	   //[mainView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
@@ -411,12 +411,12 @@
 }
 - (void)handleLeftSwipe:(UISwipeGestureRecognizer *)recognizer
 {
-    NSLog(@"handleLeftSwipe called");
+    DLog(@"handleLeftSwipe called");
 }
 
 - (void)handleRightSwipe:(UISwipeGestureRecognizer *)recognizer
 {
-    NSLog(@"handleRightSwipe called");
+    DLog(@"handleRightSwipe called");
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([touch.view isKindOfClass:[UISlider class]]) {
@@ -428,7 +428,7 @@
 
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void) viewDidLoad {
-	 NSLog(@"viewDidLoad");	
+	 DLog(@"viewDidLoad");	
      [super viewDidLoad];
 
 
@@ -600,6 +600,7 @@
 	{
 		[timerUndoRepeat invalidate];
 		timerUndoRepeat = nil;
+		[mainView playSoundClick];
 	}
 }
 
@@ -616,9 +617,10 @@
 	if ((bUndoRepeat && [mainView.sudokuGame.sudokuUndo countUndo] <=0) ||
 		(!bUndoRepeat && [mainView.sudokuGame.sudokuUndo countRedo] <=0))
 	{
-		NSLog(@"####### Finish OnTimerUndoRepeat");
+		DLog(@"####### Finish OnTimerUndoRepeat");
 		[timerUndoRepeat invalidate];
 		timerUndoRepeat = nil;
+		[mainView playSoundClick];
 	} else {
 		timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 														   target:self
@@ -630,6 +632,7 @@
 
 - (void) OnTimerStartUndoRepeat:(NSTimer *)timer
 {
+
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 													   target:self
 													 selector:@selector(OnTimerUndoRepeat:)
@@ -642,6 +645,7 @@
 	if (mainView.bMenuMode)
 		return;
 
+	[mainView playSoundClick];
 	[mainView runUndo];
 	[self updateBlankCellCount];
 	[self updateHintCount];
@@ -660,8 +664,8 @@
 	if (mainView.bMenuMode)
 		return;
 
+	[mainView playSoundClick];
 	[mainView runRedo];
-	
 	[self updateBlankCellCount];
 	[self updateHintCount];
 	[self updateButtons];
@@ -749,7 +753,7 @@
 {
 	[self hideMenuView:NO];
 
-    NSLog(@"showSettingView");
+    DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
                                        @"SettingView" bundle:nil];
@@ -773,7 +777,7 @@
 {
 	[self hideMenuView:NO];
 	
-    NSLog(@"showSettingView");
+    DLog(@"showSettingView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
 										 cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
 										 @"HelpView" bundle:nil];
@@ -818,7 +822,7 @@
 }
 
 - (void)viewDidUnload {
-	NSLog(@"viewDidUnload");	
+	DLog(@"viewDidUnload");	
     
 #ifdef ADMOB_FREEVERSION
     [bannerView_ release];
@@ -829,7 +833,7 @@
 
 
 - (void)dealloc {
-	NSLog(@"dealloc");
+	DLog(@"dealloc");
 #ifdef ADMOB_FREEVERSION
     bannerView_.delegate = nil;
     [bannerView_ release];
@@ -1106,7 +1110,7 @@
 
 - (void)OnTimerNewGame:(NSTimer *)timer
 {
-	NSLog(@"OnTimerNewGame");	
+	DLog(@"OnTimerNewGame");	
 	
 	[self makeNewGameData];
 	
@@ -1118,7 +1122,7 @@
 
 - (void) makeNewGame:(NSInteger)level
 {
-	NSLog(@"makeNewGame");
+	DLog(@"makeNewGame");
 	
 	[self allButtonLock];
 
@@ -1325,7 +1329,7 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 { 
-	NSLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
+	DLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 #ifdef ADMOB_FREEVERSION
     bannerView_.hidden = YES;
@@ -1376,7 +1380,7 @@
 // Deprecated
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	NSLog(@"shouldAutorotateToInterfaceOrientation");	
+	DLog(@"shouldAutorotateToInterfaceOrientation");	
 
 	
 	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
@@ -1437,7 +1441,7 @@
 
 - (IBAction)LeftSwipe:(id)sender
 {
-    NSLog(@"handleLeftSwipe called");
+    DLog(@"handleLeftSwipe called");
     
 }
 @end

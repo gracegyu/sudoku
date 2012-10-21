@@ -91,10 +91,9 @@ typedef enum DEVICETYPE DEVICETYPE;
 
 
 #ifdef DEBUG
-//#define NSLog(format, ...) NSLog(format, ## __VA_ARGS__)
-//#define NSLog(format, ...) NSLog(@"###############################")
+#define DLog(format, ...) //NSLog(format, ## __VA_ARGS__)
 #else
-//#define NSLog(format, ...)
+#define DLog(format, ...)
 #endif
 
 
