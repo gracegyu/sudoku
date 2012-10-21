@@ -373,7 +373,7 @@
        [self loadSetting];
        [self setLocalizedMessage];
 
-	   if (0) { //[mainView loadGame] == YES) {
+	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
 			[self updateBlankCellCount];
 			[self updateHintCount];
@@ -430,10 +430,10 @@
      [super viewDidLoad];
 
 
-	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
+	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
 	 viewMenu.layer.masksToBounds = YES;
-	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
+	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
 	 [self hideAwaryView:viewMenu];
@@ -845,13 +845,13 @@
 	CGRect frameOld = v.frame;
     frameOld.origin.x = 0 - v.frame.size.width*3;
     v.frame = frameOld;
-	v.hidden = YES;
+//	v.hidden = YES;
 }
 
 
 - (void) readySlideView:(UIView*) v
 {
-	v.hidden = NO;
+//	v.hidden = NO;
 
 	CGRect frameOld = v.frame;
     frameOld.origin.x = 0 - v.frame.size.width;
@@ -1008,10 +1008,15 @@
 
 - (IBAction)showMenu
 {
-	[self allButtonUnLock];
-	[self showMenuView];
-//	[self stopGameTimer];
-
+	[mainView playSoundClick];
+	
+	if (mainView.bMenuMode)
+	{
+		[self hideMenuView:NO];
+	} else {
+		[self allButtonUnLock];
+		[self showMenuView];
+	}
 }
 
 #ifdef SUDOKU9
@@ -1229,7 +1234,7 @@
 
 - (void) updateButtonMenu
 {
-	buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
+	//buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
 }
 
 

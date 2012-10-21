@@ -81,7 +81,7 @@
 #define GTWIDTH 0.30
 
 
-
+#define DEFAULT_SKIN_NUM 0
 
 static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	{	0x809AE0FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
@@ -89,6 +89,11 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 		0x808099FF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,
 		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
 	 },
+	{	0x3F83BFFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+		0x3F83BFFF,0xFF0C59FF,0x99E6B3B3,0xF3F3C0CC,
+		0x808099FF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,
+		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
+	},
 	{0}
 };
 
@@ -140,10 +145,10 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 {
 	NSLog(@"MainView initData");
 	
-	[self initColorData];
-	
-	skin = 0;
+	skin = DEFAULT_SKIN_NUM;
 	bBlur = NO;
+	
+	[self initColorData];
 	
 	self.selectedXPos = 0;
 	self.selectedYPos = 0;
@@ -327,7 +332,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	
 	CGRect currentRect;
 	
-	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.95f];
+	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.7f];
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, colorBlur.CGColor);
