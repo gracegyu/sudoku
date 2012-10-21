@@ -511,7 +511,7 @@
 
 - (IBAction) showScoreView
 {
-	[self hideMenuView];
+	[self hideMenuView:NO];
 
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
@@ -660,7 +660,7 @@
 
 - (IBAction) clearNumbers
 {
-	[self hideMenuView];	
+	[self hideMenuView:NO];	
 	
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     
@@ -685,7 +685,7 @@
 
 - (IBAction)showSettingView
 {
-	[self hideMenuView];
+	[self hideMenuView:NO];
 
     NSLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
@@ -709,7 +709,7 @@
 
 - (IBAction)showHelpView
 {
-	[self hideMenuView];
+	[self hideMenuView:NO];
 	
     NSLog(@"showSettingView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
@@ -733,7 +733,7 @@
 
 - (IBAction)showFeedbackView
 {
-	[self hideMenuView];
+	[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
     [self presentModalViewController:controller animated:YES];
@@ -863,6 +863,7 @@
 	if (mainView.bMenuMode)
 		return;
 	
+	[mainView setBlur:YES];
 	[self readySlideView:viewMenu];
 	mainView.bMenuMode = YES;
 	[self stopGameTimer];
@@ -889,9 +890,10 @@
 	}
 }
 
-- (void) hideMenuView
+- (void) hideMenuView:(BOOL) blur
 {
-	
+	if (blur == NO)
+		[mainView setBlur:blur];
 	
 	intervalX = (viewMenu.frame.origin.x + viewMenu.frame.size.width)/25;
 	// 버튼 disable
@@ -954,6 +956,7 @@
 
 - (void) hideNewGameView
 {
+	[mainView setBlur:NO];
 	intervalX2 = (viewNewGame.frame.origin.x + viewNewGame.frame.size.width)/25;
 	// 버튼 disable
 	
@@ -1066,13 +1069,13 @@
 
 - (IBAction)menuCancel
 {
-	[self hideMenuView];
+	[self hideMenuView:NO];
 }
 
 - (IBAction)showNewGame
 {
 	[self allButtonUnLock];
-	[self hideMenuView];	// 메뉴가 사라지고, newgame이 나온다.
+	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
 	[self showNewGameView];
 	
 }

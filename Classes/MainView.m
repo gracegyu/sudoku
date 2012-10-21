@@ -143,9 +143,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	[self initColorData];
 	
 	skin = 0;
-
-
-
+	bBlur = NO;
 	
 	self.selectedXPos = 0;
 	self.selectedYPos = 0;
@@ -199,13 +197,13 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	NSLog(@"initWithCoder");	
 	
     if ( (self = [super initWithCoder:coder] ) ) {
-		[self initData];
+		[self initData];		
     }
 
     return self;
 }
 
-
+/*
 - (id)initWithFrame:(CGRect)frame {
 	NSLog(@"initWithFrame");	
 	
@@ -214,7 +212,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     }
     return self;
 }
-
+*/
 - (CGRect) getTableRect
 {
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
@@ -311,9 +309,6 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)drawRectTableBackground:(CGContextRef) context
 {
-//	NSLog(@"drawRectTable(%f, cTableWidth=%f)", self.fPress, cTableWidth);
-	
-	
 	CGRect currentRect;
     
     CGContextSetLineWidth(context, cLineDrawWidth);
@@ -325,7 +320,29 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	CGContextDrawPath(context, kCGPathFillStroke);
 }
 
+- (void)drawBlurTable:(CGContextRef) context
+{
+	if (!bBlur)
+		return;
+	
+	CGRect currentRect;
+	
+	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.95f];
+    
+    CGContextSetLineWidth(context, cLineDrawWidth);
+    CGContextSetStrokeColorWithColor(context, colorBlur.CGColor);
+    CGContextSetFillColorWithColor(context, colorBlur.CGColor);
+	currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
+	
+	CGContextAddRect(context, currentRect);
+	CGContextDrawPath(context, kCGPathFillStroke);
+}
 
+- (void) setBlur:(BOOL)blur
+{
+	bBlur =  blur;
+	[self setNeedsDisplay];
+}
 
 - (void)drawRectTableLine:(CGContextRef) context
 {
@@ -1825,6 +1842,8 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     
 }
 
+
+
 // Draw screen again
 
 - (void)drawRect:(CGRect)rect
@@ -1852,6 +1871,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
 	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawNumButton:context];
+	[self drawBlurTable:context];     // 기본 테이블 바탕 색
     
 
 }

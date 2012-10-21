@@ -100,6 +100,7 @@ typedef enum SKINCOLOR SKINCOLOR;
     NSTimer		*timerTouch;
 
     enum ALERT_MODE alertMode;
+	BOOL bBlur;
 }
 
 
@@ -155,4 +156,5 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) setFont;
 - (void) playSound:(SystemSoundID) inSystemSoundID;
 - (void) playSoundClick;
+- (void) setBlur:(BOOL)blur;
 @end

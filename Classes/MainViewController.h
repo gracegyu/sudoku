@@ -75,6 +75,7 @@
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
+	UIView		*viewGlass;
 
 	
 	NSTimer		*timerGame;
