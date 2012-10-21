@@ -1490,7 +1490,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     
     alertMode = ALELRT_INIT;
 	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert", nil)
-													message:gettext(@"Do you want to delete all numbers?", nil)
+													message:gettext(@"Do you want to initialize the puzzle?", nil)
 												   delegate:self 
 										  cancelButtonTitle:gettext(@"No", nil) 
 										  otherButtonTitles:gettext(@"Yes", nil), nil];
