@@ -419,13 +419,13 @@
 
 
 	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
-	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/10;
+	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
 	 viewMenu.layer.masksToBounds = YES;
 	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
-	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/10;
+	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
-	 [self readySlideView:viewMenu];
-	 [self readySlideView:viewNewGame];
+	 [self hideAwaryView:viewMenu];
+	 [self hideAwaryView:viewNewGame];
 
 
 
@@ -829,11 +829,24 @@
     viewMenu.frame = frameOld;
 	
 	if (viewMenu.frame.origin.x-intervalX > 0)
+	{
 		[timer invalidate];
+	}
 }
+
+- (void) hideAwaryView:(UIView*) v
+{
+	CGRect frameOld = v.frame;
+    frameOld.origin.x = 0 - v.frame.size.width*3;
+    v.frame = frameOld;
+	v.hidden = YES;
+}
+
 
 - (void) readySlideView:(UIView*) v
 {
+	v.hidden = NO;
+
 	CGRect frameOld = v.frame;
     frameOld.origin.x = 0 - v.frame.size.width;
     v.frame = frameOld;
@@ -872,6 +885,7 @@
 	if ((viewMenu.frame.origin.x + viewMenu.frame.size.width) <= 0)
 	{
 		[timer invalidate];
+		[self hideAwaryView:viewMenu];
 	}
 }
 
@@ -900,9 +914,10 @@
     viewNewGame.frame = frameOld;
 	
 	if (viewNewGame.frame.origin.x-intervalX2 > 0)
+	{
 		[timer invalidate];
+	}
 }
-
 
 
 - (void) showNewGameView
@@ -933,6 +948,7 @@
 	if ((viewNewGame.frame.origin.x + viewNewGame.frame.size.width) <= 0)
 	{
 		[timer invalidate];
+		[self hideAwaryView:viewNewGame];
 	}
 }
 
