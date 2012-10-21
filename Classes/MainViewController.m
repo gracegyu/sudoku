@@ -600,7 +600,7 @@
 	{
 		[timerUndoRepeat invalidate];
 		timerUndoRepeat = nil;
-		[mainView playSoundClick];
+		//[mainView playSoundClick];
 	}
 }
 
@@ -620,7 +620,7 @@
 		DLog(@"####### Finish OnTimerUndoRepeat");
 		[timerUndoRepeat invalidate];
 		timerUndoRepeat = nil;
-		[mainView playSoundClick];
+		//[mainView playSoundClick];
 	} else {
 		timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 														   target:self

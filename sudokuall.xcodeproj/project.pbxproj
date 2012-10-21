@@ -1625,6 +1625,7 @@
 		CF7D79B81623EB1400F87361 /* redo_n.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7D79A71623EB1400F87361 /* redo_n.png */; };
 		CF7D79B91623EB1400F87361 /* redo_n.png in Resources */ = {isa = PBXBuildFile; fileRef = CF7D79A71623EB1400F87361 /* redo_n.png */; };
 		CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF80599F1155213300AE3DB5 /* AudioToolbox.framework */; };
+		CF85A741163415E000CBC9EF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF85A73F163415E000CBC9EF /* InfoPlist.strings */; };
 		CF88A9B016303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
 		CF88A9B116303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
 		CF88A9B216303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
@@ -2791,6 +2792,11 @@
 		CF7D79A61623EB1300F87361 /* redo_h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redo_h.png; path = resource/Images/redo_h.png; sourceTree = "<group>"; };
 		CF7D79A71623EB1400F87361 /* redo_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = redo_n.png; path = resource/Images/redo_n.png; sourceTree = "<group>"; };
 		CF80599F1155213300AE3DB5 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CF85A740163415E000CBC9EF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = resource/Sudoku7Free/en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CF85A742163415EA00CBC9EF /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = resource/Sudoku7Free/ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CF85A743163415F100CBC9EF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = resource/Sudoku7Free/ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CF85A744163415FC00CBC9EF /* zh_CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_CN; path = resource/Sudoku7Free/zh_CN.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CF85A7451634160200CBC9EF /* zh_TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh_TW; path = resource/Sudoku7Free/zh_TW.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CF88A9AC16303E81006A3A6C /* bg2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg2.png; path = resource/Images/bg2.png; sourceTree = "<group>"; };
 		CF88A9AD16303E81006A3A6C /* bg3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg3.png; path = resource/Images/bg3.png; sourceTree = "<group>"; };
 		CF88A9AE16303E81006A3A6C /* bg4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg4.png; path = resource/Images/bg4.png; sourceTree = "<group>"; };
@@ -3220,13 +3226,13 @@
 			isa = PBXGroup;
 			children = (
 				CF71211C161C7FF9001FB734 /* Xibs */,
-				CF3BDCA3162D068000C8FB9B /* Sudoku7Free */,
 				CFF600B71622F176008966E6 /* GTSudoku6Free */,
 				CF639C771626FDFD000C643B /* GTSudoku6Paid */,
 				CFF600DC1622F2F4008966E6 /* GTSudoku9Free */,
 				CF639C781626FE11000C643B /* GTSudoku9Paid */,
 				CF6E3E6E161FC92E000DD7D7 /* Sudoku6Free */,
 				CF6BCDCF161DAA9C00879F6E /* Sudoku6Paid */,
+				CF3BDCA3162D068000C8FB9B /* Sudoku7Free */,
 				CF6BCDB1161D88CF00879F6E /* Sudoku9Free */,
 				CF6BCDB2161D88DD00879F6E /* Sudoku9Paid */,
 				CF71211D161C8001001FB734 /* Sounds */,
@@ -3265,6 +3271,7 @@
 		CF3BDCA3162D068000C8FB9B /* Sudoku7Free */ = {
 			isa = PBXGroup;
 			children = (
+				CF85A73F163415E000CBC9EF /* InfoPlist.strings */,
 				CF3BDCA4162D068F00C8FB9B /* Sudoku7Free.plist */,
 			);
 			name = Sudoku7Free;
@@ -4468,6 +4475,7 @@
 				CF566A541633F203008BB41B /* bg8.png in Resources */,
 				CF566A601633F42D008BB41B /* bg9.png in Resources */,
 				CFE094DD1633F77F00B5EEA6 /* bg10.png in Resources */,
+				CF85A741163415E000CBC9EF /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6614,6 +6622,18 @@
 				CF639DD216270022000C643B /* ko */,
 				CF639DD316270028000C643B /* zh_CN */,
 				CF639DD41627002E000C643B /* zh_TW */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		CF85A73F163415E000CBC9EF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CF85A740163415E000CBC9EF /* en */,
+				CF85A742163415EA00CBC9EF /* ja */,
+				CF85A743163415F100CBC9EF /* ko */,
+				CF85A744163415FC00CBC9EF /* zh_CN */,
+				CF85A7451634160200CBC9EF /* zh_TW */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
