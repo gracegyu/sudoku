@@ -97,6 +97,9 @@
 	CGFloat		intervalX;
 	CGFloat		intervalX2;
 	
+	NSTimer		*timerUndoRepeat;
+	NSTimer		*timerRedoRepeat;
+	BOOL		bUndoRepeat;
 }
 
 
@@ -148,6 +151,8 @@
 
 - (IBAction)runUndo;
 - (IBAction)runRedo;
+- (IBAction)stopUndoRedoRepeat;
+
 - (IBAction)runBookmark;
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;

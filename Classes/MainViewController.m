@@ -594,17 +594,66 @@
 
 }
 
+- (IBAction)stopUndoRedoRepeat
+{
+	if (timerUndoRepeat)
+	{
+		[timerUndoRepeat invalidate];
+		timerUndoRepeat = nil;
+	}
+}
+
+- (void) OnTimerUndoRepeat:(NSTimer *)timer
+{
+	if (bUndoRepeat)
+		[mainView runUndo];
+	else
+		[mainView runRedo];
+	[self updateBlankCellCount];
+	[self updateHintCount];
+	[self updateButtons];
+	
+	if ((bUndoRepeat && [mainView.sudokuGame.sudokuUndo countUndo] <=0) ||
+		(!bUndoRepeat && [mainView.sudokuGame.sudokuUndo countRedo] <=0))
+	{
+		NSLog(@"####### Finish OnTimerUndoRepeat");
+		[timerUndoRepeat invalidate];
+		timerUndoRepeat = nil;
+	} else {
+		timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
+														   target:self
+														 selector:@selector(OnTimerUndoRepeat:)
+														 userInfo:nil
+														  repeats:NO];
+	}
+}
+
+- (void) OnTimerStartUndoRepeat:(NSTimer *)timer
+{
+	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
+													   target:self
+													 selector:@selector(OnTimerUndoRepeat:)
+													 userInfo:nil
+													  repeats:NO];
+}
+
 - (IBAction)runUndo
 {
 	if (mainView.bMenuMode)
 		return;
-	
+
 	[mainView runUndo];
-	
 	[self updateBlankCellCount];
 	[self updateHintCount];
 	[self updateButtons];	
+	bUndoRepeat = TRUE;
+	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOREPEATE
+													   target:self
+													 selector:@selector(OnTimerStartUndoRepeat:)
+													 userInfo:nil
+													  repeats:NO];
 }
+
 
 - (IBAction)runRedo
 {
@@ -616,6 +665,12 @@
 	[self updateBlankCellCount];
 	[self updateHintCount];
 	[self updateButtons];
+	bUndoRepeat = FALSE;
+	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOREPEATE
+													   target:self
+													 selector:@selector(OnTimerStartUndoRepeat:)
+													 userInfo:nil
+													  repeats:NO];
 
 }
 
