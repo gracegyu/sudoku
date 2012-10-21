@@ -20,7 +20,7 @@
 @synthesize startTime;
 @synthesize lastTime;
 @synthesize gameTime;
-@synthesize gameFinished;
+@synthesize isGameFinished;
 @synthesize countBlank;
 @synthesize countFixNums;
 @synthesize countHint;
@@ -196,7 +196,7 @@
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
-	gameFinished = NO;
+	isGameFinished = NO;
 	countHint = [self getDefHintCount:size];
 	gameLevel = level;
 	
@@ -583,7 +583,7 @@
 	startTime = [[listItems objectAtIndex:1] floatValue];
 	lastTime = [[listItems objectAtIndex:2] floatValue];
 	gameTime = [[listItems objectAtIndex:3] floatValue];
-	gameFinished = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
+	isGameFinished = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
 
 	if ([listItems count] > 10) {
 		countHint = [[listItems objectAtIndex:10] integerValue];
@@ -823,7 +823,7 @@
 		return wrongCells;	// You've finisehd but You have wrong cell;
 	
 	lastTime = [[NSDate date]timeIntervalSince1970];
-	gameFinished = YES;
+	isGameFinished = YES;
 
 	[self saveData];
 	return 0;	
@@ -1186,7 +1186,7 @@
 					 startTime,	
 					 lastTime,	
 					 gameTime,	
-					 gameFinished ? 1 : 0,
+					 isGameFinished ? 1 : 0,
 					 (char*)zStrPuzzleNum,
 					 (char*)zStrAnswerNum,
 					 (char*)zStrFixNum,
@@ -1228,7 +1228,7 @@
 
 - (NSInteger) add1sec
 {
-	if (!gameFinished)
+	if (!isGameFinished)
 		gameTime += 1;
 	
 	return (NSInteger) gameTime;

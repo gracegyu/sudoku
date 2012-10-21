@@ -230,6 +230,8 @@
 		// achievement 보내기
 		[GameCenterUtil sendAchievementClearGame:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
 	}
+	
+	[self updateButtons];
 }
 
 #define SETTING_VERSION                 1
@@ -552,42 +554,39 @@
 
 - (void) updateButtonUndo
 {
-	if ([mainView.sudokuGame.sudokuUndo countUndo] > 0 && mainView.sudokuGame.gameFinished == NO)
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+	
+	if ([mainView.sudokuGame.sudokuUndo countUndo] > 0 && mainView.sudokuGame.isGameFinished == NO)
     {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-		buttonUndo.enabled = mainView.bMenuMode ? NO : YES;
+		buttonUndo.enabled = bLock ? NO : YES;
 	} else {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
 		buttonUndo.enabled = NO;
 	}
     
-	if ([mainView.sudokuGame.sudokuUndo countRedo] > 0 && mainView.sudokuGame.gameFinished == NO)
+	if ([mainView.sudokuGame.sudokuUndo countRedo] > 0 && mainView.sudokuGame.isGameFinished == NO)
     {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
-		buttonRedo.enabled = mainView.bMenuMode ? NO : YES;
+		buttonRedo.enabled = bLock ? NO : YES;
 	} else {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_d"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
 		buttonRedo.enabled = NO;
 	}
 
-    if (mainView.sudokuGame.gameFinished == YES)
-    {
-        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateNormal];
-        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateHighlighted];
-		buttonBookmark.enabled = NO;
-	} else if ([mainView.sudokuGame.sudokuUndo isBookmarked])
+    if ([mainView.sudokuGame.sudokuUndo isBookmarked])
     {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_h"] forState:UIControlStateHighlighted];
-		buttonBookmark.enabled = mainView.bMenuMode ? NO : YES;
+		buttonBookmark.enabled = bLock ? NO : YES;
 	} else {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
-		buttonBookmark.enabled = mainView.bMenuMode ? NO : YES;
+		buttonBookmark.enabled = bLock ? NO : YES;
 	}
     
 	
@@ -643,7 +642,9 @@
 		buttonMemo.alpha = 0.5f;	
 	}
 	
-	buttonMemo.enabled = !mainView.bMenuMode;
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+	
+	buttonMemo.enabled = bLock ? NO : YES;
 }
 
 - (IBAction) memoOnOff
@@ -1164,7 +1165,7 @@
 	NSInteger time = [mainView.sudokuGame add1sec];
 	
 	[self updateGameTime:time];	
-//	if (!mainView.sudokuGame.gameFinished)	// lock the screen
+//	if (!mainView.sudokuGame.isGameFinished)	// lock the screen
 //		[mainView.sudokuGame saveData];
 }
 
@@ -1199,11 +1200,12 @@
 	if (!mainView.sudokuGame)
 		return;
 	
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
 	if (count > 0)	{
 		buttonReset.alpha = 1.0f;
-		buttonReset.enabled = mainView.bMenuMode ? NO : YES;
+		buttonReset.enabled = bLock ? NO : YES;
 	} else {
 		buttonReset.alpha = 0.5f;
 		buttonReset.enabled = NO;		
@@ -1212,9 +1214,11 @@
 
 - (void) updateButtonDel
 {
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+
 	if ([mainView isSelectedCellisFixed])	{
 		buttonDel.alpha = 1.0f;
-		buttonDel.enabled = mainView.bMenuMode ? NO : YES;
+		buttonDel.enabled = bLock ? NO : YES;
 	} else {
 		buttonDel.alpha = 0.5f;
 		buttonDel.enabled = NO;		
@@ -1223,9 +1227,11 @@
 
 - (void) updateButtonHint	// TODO Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
 {
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+	
 	if ([mainView isSelectedCellisableHint])	{	// AND Hint item > 0
 		buttonHint.alpha = 1.0f;
-		buttonHint.enabled = mainView.bMenuMode ? NO : YES;
+		buttonHint.enabled = bLock ? NO : YES;
 	} else {
 		buttonHint.alpha = 0.5f;
 		buttonHint.enabled = NO;		
@@ -1234,6 +1240,7 @@
 
 - (void) updateButtonMenu
 {
+	// 메뉴는 항상 눌릴 수 있어야 한다.
 	//buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
 }
 

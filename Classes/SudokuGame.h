@@ -18,7 +18,7 @@
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
-	BOOL			gameFinished;		// 0, 1
+	BOOL			isGameFinished;		// 0, 1
     NSInteger       mapNums[9][9];		// Map num (9x9 1~9
 	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
 	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
@@ -41,7 +41,7 @@
 @property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			
-@property BOOL			gameFinished;
+@property BOOL			isGameFinished;
 //@property (nonatomic, retain) NSString*		strUndo;
 @property (nonatomic, retain) SudokuUndo      *sudokuUndo;
 @property NSInteger		countBlank;

@@ -1390,7 +1390,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 { 
 	NSLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
 	
-	if (sudokuGame.gameFinished || [sudokuGame.sudokuUndo countUndo] == 0)
+	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countUndo] == 0)
 		return;
 	
 	
@@ -1411,7 +1411,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 {
 	NSLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
 	
-	if (sudokuGame.gameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
+	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
 		return;
 	
 	
@@ -1462,7 +1462,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (BOOL) memoOnOff
 {
-    if (sudokuGame.gameFinished)
+    if (sudokuGame.isGameFinished)
         return bMemoMode;
     
 	if (bMemoMode) {
@@ -1496,7 +1496,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) delNumber
 {
-    if (sudokuGame.gameFinished)
+    if (sudokuGame.isGameFinished)
         return;
     
 	[sudokuGame setFixNums:0 x:selectedXPos y:selectedYPos];
@@ -1507,7 +1507,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) clearNumbers
 {
-    if (sudokuGame.gameFinished)
+    if (sudokuGame.isGameFinished)
         return;
     
     alertMode = ALELRT_INIT;
@@ -1523,7 +1523,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) doHint
 {
-    if (sudokuGame.gameFinished)
+    if (sudokuGame.isGameFinished)
         return;
     
 	if (sudokuGame.countHint > 0) {
@@ -1683,7 +1683,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     
     //NSLog(@"touchesBegan(cTableWidth=%f)", cTableWidth);
     
-	if (sudokuGame.gameFinished)	// lock the screen
+	if (sudokuGame.isGameFinished)	// lock the screen
 		return;
     if (bMenuMode)
         return;
@@ -1720,7 +1720,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
+	if (bMenuMode || sudokuGame.isGameFinished)	// lock the screen
 		return;	
 	bTouch = NO;
 //    NSLog(@"Touches Cancelled");
@@ -1734,7 +1734,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
+    if (bMenuMode || sudokuGame.isGameFinished)	// lock the screen
 		return;
     
 	if (bMemoMode)
@@ -1761,7 +1761,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    if (bMenuMode || sudokuGame.gameFinished)	// lock the screen
+    if (bMenuMode || sudokuGame.isGameFinished)	// lock the screen
 		return;
     
 	if (bMemoMode)
