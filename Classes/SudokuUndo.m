@@ -434,19 +434,24 @@
 		bookmarkY = [defaults integerForKey:kbookmarkY];
 		indexUndo = [defaults integerForKey:kindexUndo];
 		count = [defaults integerForKey:kcount];
-	}
-	NSData *data = [defaults objectForKey:karrayUndo];
-	if (data)
-	{
-		NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-		if (array)
+		NSData *data = [defaults objectForKey:karrayUndo];
+		if (data)
 		{
-			arrayUndo = [[NSMutableArray alloc] initWithArray:array];
-			
-			return self;
+			NSArray *array = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+			if (array)
+			{
+				arrayUndo = [[NSMutableArray alloc] initWithArray:array];
+				
+				return self;
+			}
 		}
+		arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
+	} else {
+		NSLog(@"Never saved Undo data");
+		bookmark = -1;  // no bookmark
+        bookmarkX = -1;
+        bookmarkY = -1;
 	}
-	arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
 	
 	return self;
 }

@@ -70,12 +70,7 @@
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
-	NSString* str;
-	
-	str = [[NSString alloc] initWithFormat:@"%d", num];
-	label.text = str;
-	
-	[str release];
+	label.text = [NSString stringWithFormat:@"%d", num];
 }
 
 - (void) setTime:(UILabel*)label num:(NSInteger)num
@@ -86,19 +81,16 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [[NSString alloc] initWithFormat:@"%d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%d:%02d:%02d",
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
 	else 
-		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02d:%02d",
 			   num / (60),
 			   num % (60)];
 	
-	label.text = str; 
-	
-	[str release];
-	
+	label.text = str;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
@@ -261,22 +253,18 @@
 
 - (void) setScoreText
 {
-    NSString* strScore = [[NSString alloc] initWithFormat:gettext(@"%d points", nil), score];
-    NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rankTotal];
-    NSString* strTotalScore = [[NSString alloc] initWithFormat:@"%@ %@", strScore, rankTotal>0 ? strRank : @""];
+    NSString* strScore = [NSString stringWithFormat:gettext(@"%d points", nil), score];
+    NSString* strRank = [NSString stringWithFormat:gettext(@"(# %d)", nil), rankTotal];
+    NSString* strTotalScore = [NSString stringWithFormat:@"%@ %@", strScore, rankTotal>0 ? strRank : @""];
     labelTotalScore.text = strTotalScore;
-    [strTotalScore release];
-    [strRank release];
-    [strScore release];
+
 }
 
 - (void) setLableRank:(UILabel*)label rank:(NSInteger)rank
 {
 	if (rank > 0)
 	{
-		NSString* strRank = [[NSString alloc] initWithFormat:gettext(@"(# %d)", nil), rank];
-		label.text = strRank;
-		[strRank release];
+		label.text = [NSString stringWithFormat:gettext(@"(# %d)", nil), rank];
 	} else {
 		label.text = @"";
 	}

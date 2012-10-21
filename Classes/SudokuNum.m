@@ -727,19 +727,18 @@
 		{
 			chNum = [strUndo characterAtIndex:i*3];
 			// 같은 위치 발견, 앞에서 설정한 값은 제거해야 함
-			str = [[NSString alloc] initWithFormat:@"%d%d%d", chNum-'0', xPos, yPos];
+			str = [NSString stringWithFormat:@"%d%d%d", chNum-'0', xPos, yPos];
 			NSLog(@"Undo Log remove = %@", str);
 			strUndo = [strUndo stringByReplacingOccurrencesOfString:str withString: @""];
-			[str release];
+
 			break;
 		}
 	}	
 	
 /*	
-	str = [[NSString alloc] initWithFormat:@"%@%d%d%d", strUndo, num, xPos, yPos];
+	str = [NSString stringWithFormat:@"%@%d%d%d", strUndo, num, xPos, yPos];
 	[strUndo release];
 	strUndo = str;
-	[str release];
 	
 */
 

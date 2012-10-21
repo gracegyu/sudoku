@@ -191,29 +191,6 @@ static BOOL bLoginedGamecenter = NO;
     // 위에서 kPoint 가 게임센터에서 설정한 Leaderboard ID
     score.value = num;
     
-    // best time은 창을 보여주지 않는다.
-    /*
-	NSString *str;
-	
-	if (num >= 60*60*100)
-		num = 60*60*100 - 1;
-	
-	if (num >= 60*60)
-		str = [[NSString alloc] initWithFormat:@"%d:%02d:%02d",
-			   num / (60*60),
-			   num / (60) % (60),
-			   num % (60)];
-	else
-		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
-			   num / (60),
-			   num % (60)];
-    // 아래는 겜센터 스타일의 노티를 보여준다. 첫번째가 타이틀, 두번째가 표시할 메세지
-    [[GKAchievementHandler defaultHandler]
-        notifyAchievementTitle:@"SUDOKU Best time"
-        andMessage:[NSString stringWithFormat:gettext(@"You got best time (%@)", nil), str]];
-    
-    [str release];
-    */
     
     // 실지로 게임센터 서버에 점수를 보낸다.
     [score reportScoreWithCompletionHandler:^(NSError* error){

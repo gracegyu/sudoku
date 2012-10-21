@@ -243,6 +243,7 @@
 
 - (void) loadSetting
 {
+	NSLog(@"loadSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSInteger settingVersion = [defaults integerForKey:kSettingSavedVersion];
@@ -265,6 +266,7 @@
 
 - (void) saveSetting
 {
+	NSLog(@"saveSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     [defaults setInteger:SETTING_VERSION forKey:kSettingSavedVersion];
@@ -280,19 +282,19 @@
 
 - (void) setLocalizedMessage
 {
-	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
-	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
-	[buttonHistory		setTitle:gettext(@"History", nil) forState:UIControlStateNormal];
-	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+	NSLog(@"setLocalizedMessage");
 	
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
+	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
+    [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
-    [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -328,6 +330,7 @@
 
 - (void) decideLocale
 {
+	NSLog(@"decideLocale");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSString *strLocale = [defaults stringForKey:kLocale];  // 저장된 locale 가져오기
@@ -355,7 +358,9 @@
 	   
 	   //[mainView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
 
-	   
+	   areaPuzzleTable.hidden = YES;
+	   areaNumButton.hidden = YES;
+	   areaAdBanner.hidden = YES;
 	   
        [self decideLocale];
        
@@ -414,10 +419,10 @@
 
 
 	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
-	 viewMenu.layer.cornerRadius = 10;
+	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/10;
 	 viewMenu.layer.masksToBounds = YES;
 	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg1.png"]]];
-	 viewNewGame.layer.cornerRadius = 10;
+	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/10;
 	 viewNewGame.layer.masksToBounds = YES;
 	 [self readySlideView:viewMenu];
 	 [self readySlideView:viewNewGame];
@@ -482,38 +487,26 @@
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
-	NSString* str;
-	
-	str = [[NSString alloc] initWithFormat:@"%d", num];
-	label.text = str;
-	
-	[str release];
+	label.text = [NSString stringWithFormat:@"%d", num];
 }
 
 - (void) setTime:(UILabel*)label num:(NSInteger)num
 {
-	NSString *str;
-	
 	if (num >= 60*60*100)
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [[NSString alloc] initWithFormat:@"%2d:%02d:%02d",
+		label.text = [NSString stringWithFormat:@"%2d:%02d:%02d",
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
 	else if (num > 0) 
-		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
+		label.text = [NSString stringWithFormat:@"%02d:%02d",
 			   num / (60),
 			   num % (60)];
 	else 
-		str = [[NSString alloc] initWithString:@"-"];
+		label.text = [NSString stringWithFormat:@"-"];
 
-	
-	label.text = str; 
-	
-	[str release];
-	
 }
 
 - (IBAction) showScoreView
@@ -971,18 +964,16 @@
 		time = 60*60*100 - 1;
 	
 	if (time >= 60*60)
-		str = [[NSString alloc] initWithFormat:@"%d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%d:%02d:%02d",
 			   time / (60*60),
 			   time / (60) % (60),
 			   time % (60)];
 	else 
-		str = [[NSString alloc] initWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02d:%02d",
 			   time / (60),
 			   time % (60)];
 	
 	labelGameTime.text = str; 
-	
-	[str release];
 	
 }
 
@@ -1139,20 +1130,19 @@
 {
 	NSInteger count = [mainView.sudokuGame countBlankCells];
 	NSString *str;
-	str = [[NSString alloc] initWithFormat:@"%d", count];
+	str = [NSString stringWithFormat:@"%d", count];
 	
 	labelBlank.text =str;
-	[str release];
 }
 
 - (void) updateHintCount
 {
 	NSInteger count = mainView.sudokuGame.countHint;
 	NSString *str;
-	str = [[NSString alloc] initWithFormat:@"%d", count];
+	str = [NSString stringWithFormat:@"%d", count];
 	
 	labelHint.text =str;
-	[str release];
+
 }
 
 
@@ -1234,8 +1224,6 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-	if (mainView.bMenuMode)
-		return NO;
 	
 #ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)

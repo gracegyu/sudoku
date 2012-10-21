@@ -792,7 +792,7 @@
                         strangeCells++;
                         NSLog(@"StangeCell 발견");
 /*
-                        NSString *msg = [[NSString alloc] initWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
+                        NSString *msg = [NSString stringWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
                                          x, y, answerNums[x][y], fixNums[x][y]];
 
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert!"
@@ -800,7 +800,6 @@
                                                                        delegate:self
                                                               cancelButtonTitle:@"Ok"
                                                               otherButtonTitles:nil];
-                        [msg release];
                         [alert show];
                         [alert release];
 */                        
@@ -1181,7 +1180,7 @@
 	[SudokuGame get9x9Nums:zStrFixNum		size:size   nums:&fixNums[0][0]];
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
-	NSString *str = [[NSString alloc] initWithFormat:
+	NSString *str = [NSString stringWithFormat:
 					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d",
 					 gameLevel,	
 					 startTime,	
@@ -1203,8 +1202,7 @@
 	[defaults setObject:str forKey:kSudokuGame];
 
 	[sudokuUndo saveData];
-	
-	[str release];
+
 }
 
 + (SudokuGame*) loadData

@@ -138,7 +138,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)initData
 {
-	NSLog(@"initData");
+	NSLog(@"MainView initData");
 	
 	[self initColorData];
 	
@@ -300,21 +300,12 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 {
     NSAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
 
-    NSString *str = [[NSString alloc] initWithFormat:@"%d", num];
-    [self drawStrRect:context
-                  str:str
-                 rect:rect
-                color:color
-                 font:font];
-//    NSLog(@"str.retainCount = %d", str.retainCount);
-    [str release];
-/*
     [self drawStrRect:context
                   str:[NSString stringWithFormat:@"%d", num]
                  rect:rect
                 color:color
                  font:font];
-*/
+
 }
 
 
@@ -1359,7 +1350,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
         MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
         [ctrl writeScoreAfterFinishGame:sudokuGame];
 	} else if (ret > 0) {
-		NSString *msg = [[NSString alloc] initWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
+		NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
 		
 		
 		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
@@ -1367,7 +1358,6 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 													   delegate:self 
 											  cancelButtonTitle:gettext(@"Ok", nil) 
 											  otherButtonTitles:nil];
-		[msg release];
 		[alert show];
 		[alert release];		
 	}
