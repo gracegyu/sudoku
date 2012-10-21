@@ -371,18 +371,13 @@
 			[self setGameLevel];
 			[self updateBlankCellCount];
 			[self updateHintCount];
-			[self updateButtonUndo];
-			[self updateButtonClear];
-			[self updateButtonDel];
-			[self updateButtonHint];
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
 		} else { 
 			[self showMenu];
 		}
 		[self initScore];
 		[self loadScoreData];
-		//[self startGameTimer];
-		[self showMemoButton];
+	    [self updateButtons];
 	    [self showHintButton];
 	   
 
@@ -544,7 +539,7 @@
     {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-		buttonUndo.enabled = YES;
+		buttonUndo.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
@@ -555,7 +550,7 @@
     {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
-		buttonRedo.enabled = YES;
+		buttonRedo.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_d"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
@@ -571,13 +566,14 @@
     {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_h"] forState:UIControlStateHighlighted];
-		buttonBookmark.enabled = YES;
+		buttonBookmark.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
-		buttonBookmark.enabled = YES;
+		buttonBookmark.enabled = mainView.bMenuMode ? NO : YES;
 	}
     
+	
     
 
 }
@@ -591,11 +587,7 @@
 	
 	[self updateBlankCellCount];
 	[self updateHintCount];
-	[self updateButtonUndo];
-	[self updateButtonClear];
-	[self updateButtonDel];
-	[self updateButtonHint];
-	
+	[self updateButtons];	
 }
 
 - (IBAction)runRedo
@@ -607,10 +599,8 @@
 	
 	[self updateBlankCellCount];
 	[self updateHintCount];
-	[self updateButtonUndo];
-	[self updateButtonClear];
-	[self updateButtonDel];
-	[self updateButtonHint];
+	[self updateButtons];
+
 }
 
 - (IBAction)runBookmark
@@ -622,14 +612,12 @@
 	
 	[self updateBlankCellCount];
 	[self updateHintCount];
-	[self updateButtonUndo];
-	[self updateButtonClear];
-	[self updateButtonDel];
-	[self updateButtonHint];
+	[self updateButtons];
+
 }
 
 
-- (void)showMemoButton
+- (void)updateButtonMemo
 {
 	if (mainView.bMemoMode)
 	{
@@ -638,6 +626,7 @@
 		buttonMemo.alpha = 0.5f;	
 	}
 	
+	buttonMemo.enabled = !mainView.bMenuMode;
 }
 
 - (IBAction) memoOnOff
@@ -646,7 +635,7 @@
 		return;
 
 	[mainView memoOnOff];
-	[self showMemoButton];
+	[self updateButtonMemo];
 }
 
 - (IBAction) delNumber
@@ -874,7 +863,7 @@
 								   selector:@selector(OnTimerShowMenu:)
 								   userInfo:nil
 									repeats:YES];
-	// 버튼 enable
+	[self updateButtons];
 }
 
 - (void)OnTimerHideMenu:(NSTimer *)timer
@@ -893,7 +882,9 @@
 - (void) hideMenuView:(BOOL) blur
 {
 	if (blur == NO)
+	{
 		[mainView setBlur:blur];
+	}
 	
 	intervalX = (viewMenu.frame.origin.x + viewMenu.frame.size.width)/25;
 	// 버튼 disable
@@ -906,6 +897,7 @@
 
 	mainView.bMenuMode = NO;
 	[self startGameTimer];
+	[self updateButtons];
 }
 
 
@@ -938,7 +930,7 @@
 								   selector:@selector(OnTimerShowNewGame:)
 								   userInfo:nil
 									repeats:YES];
-	// 버튼 enable
+	[self updateButtons];
 }
 
 - (void) OnTimerHideNewGame:(NSTimer *)timer
@@ -971,7 +963,7 @@
 	[self setGameLevel];
 	[self updateBlankCellCount];
     [self updateHintCount];
-
+	[self updateButtons];
 	
 }
 
@@ -1037,12 +1029,7 @@
 	[activityIndicator stopAnimating];
 	// all button unlock
 	
-	[self showMemoButton];		// for auto memo
-	[self updateButtonUndo];
-	[self updateButtonClear];
-	[self updateButtonDel];
-	[self updateButtonHint];
-	
+	[self updateButtons];
 	
 	[self hideNewGameView];	// 
 	
@@ -1138,6 +1125,9 @@
 
 - (void) OnTimer:(NSTimer *)timer
 {
+	if (!mainView.sudokuGame)
+		return;
+	
 	NSInteger time = [mainView.sudokuGame add1sec];
 	
 	[self updateGameTime:time];	
@@ -1147,6 +1137,9 @@
 
 - (void) updateBlankCellCount
 {
+	if (!mainView.sudokuGame)
+		return;
+	
 	NSInteger count = [mainView.sudokuGame countBlankCells];
 	NSString *str;
 	str = [NSString stringWithFormat:@"%d", count];
@@ -1156,6 +1149,9 @@
 
 - (void) updateHintCount
 {
+	if (!mainView.sudokuGame)
+		return;
+	
 	NSInteger count = mainView.sudokuGame.countHint;
 	NSString *str;
 	str = [NSString stringWithFormat:@"%d", count];
@@ -1167,11 +1163,14 @@
 
 - (void) updateButtonClear
 {
+	if (!mainView.sudokuGame)
+		return;
+	
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
 	if (count > 0)	{
 		buttonReset.alpha = 1.0f;
-		buttonReset.enabled = YES;
+		buttonReset.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
 		buttonReset.alpha = 0.5f;
 		buttonReset.enabled = NO;		
@@ -1182,7 +1181,7 @@
 {
 	if ([mainView isSelectedCellisFixed])	{
 		buttonDel.alpha = 1.0f;
-		buttonDel.enabled = YES;
+		buttonDel.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
 		buttonDel.alpha = 0.5f;
 		buttonDel.enabled = NO;		
@@ -1193,11 +1192,14 @@
 {
 	if ([mainView isSelectedCellisableHint])	{	// AND Hint item > 0
 		buttonHint.alpha = 1.0f;
-		buttonHint.enabled = YES;
+		buttonHint.enabled = mainView.bMenuMode ? NO : YES;
 	} else {
 		buttonHint.alpha = 0.5f;
 		buttonHint.enabled = NO;		
 	}
+	
+
+
 }
 
 - (NSInteger) getBestTime:(NSInteger)level
@@ -1210,6 +1212,15 @@
     return scoreTotal;
 }
 
+
+- (void) updateButtons
+{
+	[self updateButtonHint];
+	[self updateButtonClear];
+	[self updateButtonUndo];
+	[self updateButtonDel];
+	[self updateButtonMemo];
+}
 
 
 
@@ -1319,6 +1330,8 @@
 {
     
 }
+
+
 
 #endif
 

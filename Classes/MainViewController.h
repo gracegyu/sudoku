@@ -191,7 +191,7 @@
 - (void) updateButtonHint;
 
 - (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame;
-- (void) showMemoButton;
+- (void) updateButtonMemo;
 - (void) showHintButton;
 //- (void) setOrientationReady;
 - (void) loadSetting;
@@ -199,6 +199,6 @@
 - (NSInteger) getBestTime:(NSInteger)level;
 - (NSInteger) getTotalScore;
 
-
+- (void) updateButtons;
 
 @end
