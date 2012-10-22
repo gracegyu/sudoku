@@ -128,6 +128,7 @@
 						<string key="NSFrame">{{443, 954}, {325, 18}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -240,7 +241,10 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">00:00</string>
-						<reference key="IBUITextColor" ref="582816217"/>
+						<object class="NSColor" key="IBUITextColor" id="916821444">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC45OTk4OTg5NzAxIDEgMC45OTk4NDE4MDkzAA</bytes>
+						</object>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
@@ -283,7 +287,7 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">{blank}</string>
-						<reference key="IBUITextColor" ref="582816217"/>
+						<reference key="IBUITextColor" ref="916821444"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
@@ -326,7 +330,7 @@
 						</object>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<string key="IBUIText">{hint}</string>
-						<reference key="IBUITextColor" ref="582816217"/>
+						<reference key="IBUITextColor" ref="916821444"/>
 						<nil key="IBUIHighlightedColor"/>
 						<int key="IBUIBaselineAdjustment">1</int>
 						<float key="IBUIMinimumFontSize">10</float>
@@ -358,7 +362,7 @@
 							<bytes key="NSRGB">MC4wNTQ5MDE5NjQ5NiAwLjI3MDU4ODI0OSAwLjUzMzMzMzM2MTEAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="291805023">
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="819296457">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">buttonbg.png</string>
 						</object>
@@ -395,7 +399,7 @@
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="370707644"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<reference key="IBUIFontDescription" ref="623301782"/>
 						<reference key="IBUIFont" ref="400870177"/>
 					</object>
@@ -442,7 +446,7 @@
 					<object class="IBUIButton" id="632429445">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{11, 716}, {64, 64}}</string>
+						<string key="NSFrame">{{11, 726}, {64, 64}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384283118"/>
@@ -473,7 +477,7 @@
 					<object class="IBUIButton" id="257472884">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{697, 716}, {64, 64}}</string>
+						<string key="NSFrame">{{697, 726}, {64, 64}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="855429850"/>
@@ -504,7 +508,7 @@
 					<object class="IBUIButton" id="855429850">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{5, 826}, {100, 70}}</string>
+						<string key="NSFrame">{{5, 823}, {120, 80}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="503801616"/>
@@ -522,7 +526,7 @@
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="370707644"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<string key="name">TrebuchetMS-Bold</string>
 							<string key="family">Trebuchet MS</string>
@@ -538,7 +542,7 @@
 					<object class="IBUIButton" id="503801616">
 						<reference key="NSNextResponder" ref="883825266"/>
 						<int key="NSvFlags">301</int>
-						<string key="NSFrame">{{663, 826}, {100, 70}}</string>
+						<string key="NSFrame">{{643, 823}, {120, 80}}</string>
 						<reference key="NSSuperview" ref="883825266"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="673976021"/>
@@ -556,7 +560,7 @@
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="370707644"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<int key="type">2</int>
 							<double key="pointSize">28</double>
@@ -1249,7 +1253,7 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<reference key="IBUIFontDescription" ref="677184500"/>
 						<reference key="IBUIFont" ref="929289613"/>
 					</object>
@@ -1305,7 +1309,7 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<reference key="IBUIFontDescription" ref="677184500"/>
 						<reference key="IBUIFont" ref="929289613"/>
 					</object>
@@ -1389,7 +1393,7 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<string key="name">TrebuchetMS-Bold</string>
 							<string key="family">Trebuchet MS</string>
@@ -1408,6 +1412,7 @@
 						<string key="NSFrame">{{906, 668}, {100, 70}}</string>
 						<reference key="NSSuperview" ref="865956028"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC40NjgwMzg4MjQyIDAuNTY2NDIwNzgxIDAuOTQ4OTc5NTkxOCAwAA</bytes>
@@ -1425,7 +1430,7 @@
 							<bytes key="NSRGB">MC4xOTYwNzg0MzE0IDAuMzA5ODAzOTIxNiAwLjUyMTU2ODYyNzUAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
-						<reference key="IBUINormalBackgroundImage" ref="291805023"/>
+						<reference key="IBUINormalBackgroundImage" ref="819296457"/>
 						<reference key="IBUIFontDescription" ref="327722886"/>
 						<reference key="IBUIFont" ref="476965402"/>
 					</object>
