@@ -20,25 +20,7 @@
 @synthesize mainViewController;
 @synthesize naviItem;
 @synthesize lableTitle;
-@synthesize labelSoundEffect;
-@synthesize labelGuildeline;
-@synthesize labelDuplicationWarning;
-@synthesize labelMarkingEqual;
-@synthesize labelShapeOfMap;
-@synthesize labelLocale;
-
 @synthesize buttonDone;
-@synthesize buttonSoundEffect;
-@synthesize buttonGuildeline;
-@synthesize buttonDuplicationWarning;
-@synthesize buttonMarkingEqual;
-@synthesize buttonShapeOfMap;
-@synthesize buttonLocale;
-
-@synthesize buttonFacebook;
-@synthesize buttonBugReport;
-@synthesize buttonReview;
-@synthesize buttonNewApp;
 
 @synthesize labelRuleTitle;
 @synthesize labelRuleDesc;
@@ -56,109 +38,40 @@
 
 - (void) setLocalizedMessage
 {
+	NSString* str;
+	
     naviItem.title = gettext(@"Help", nil);
 	
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
 
     
     lableTitle.text = gettext(@"Help", nil);
-	labelSoundEffect.text = gettext(@"sound effect", nil);
-    labelGuildeline.text = gettext(@"guideline", nil);
-    labelDuplicationWarning.text = gettext(@"duplication warning", nil);
-    labelMarkingEqual.text = gettext(@"marking equal", nil);
-#ifdef SUDOKU6
-    labelShapeOfMap.text = gettext(@"shape of map", nil);
-#else
-    labelShapeOfMap.text = gettext(@"auto memo", nil);
-#endif
-    labelLocale.text = gettext(@"language", nil);
+
     
     labelRuleTitle.text = gettext(@"ruletitle", nil);
 #ifdef SUDOKU9
-    labelRuleDesc.text = gettext(@"ruledesc9", nil);
+    str = [NSString stringWithString:gettext(@"ruledesc9", nil)];
 #else
-    labelRuleDesc.text = gettext(@"ruledesc6", nil);
+    str = [NSString stringWithString:gettext(@"ruledesc6", nil)];
 #endif
+#ifdef GTSUDOKU
+	str = [str stringByAppendingString:@"\n"];
+	str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
+#endif
+	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
+	
+	labelRuleDesc.text = str;
+	
+	
     labelTipTitle.text = gettext(@"tiptitle", nil);
-    labelTipDesc.text = gettext(@"tipdesc", nil);
+	str = [NSString stringWithString:gettext(@"tipdesc", nil)];
+	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
+    labelTipDesc.text = str;
     
     
 }
 
-- (void) setImageSoundEffect
-{
-    if (mainViewController.mainView.bSettingSoundOff == YES)
-        [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_on"] forState:UIControlStateNormal];
-    else
-        [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_off"] forState:UIControlStateNormal];
-//    [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_h"] forState:UIControlStateHighlighted];
-}
 
-- (void) setImageGuideline
-{
-    if (mainViewController.mainView.bSettingGuideline == YES)
-        [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_on"] forState:UIControlStateNormal];
-    else
-        [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_off"] forState:UIControlStateNormal];
-//    [buttonGuildeline setBackgroundImage:[UIImage imageNamed:@"guideline_h"] forState:UIControlStateHighlighted];
-}
-
-- (void) setImageDuplicationWarning
-{
-    if (mainViewController.mainView.bSettingDuplicationWarning == YES)
-        [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_on"] forState:UIControlStateNormal];
-    else
-        [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_off"] forState:UIControlStateNormal];
-//    [buttonDuplicationWarning setBackgroundImage:[UIImage imageNamed:@"dupwan_h"] forState:UIControlStateHighlighted];
-}
-
-- (void) setImageMarkingEqual
-{
-    if (mainViewController.mainView.bSettingMarkingEqual == YES)
-        [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_on"] forState:UIControlStateNormal];
-    else
-        [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_off"] forState:UIControlStateNormal];
-//    [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_h"] forState:UIControlStateHighlighted];
-}
-
-- (void) setImageShapeOfMap
-{
-    if (mainViewController.mainView.bSettingDefMap == YES)
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_on"] forState:UIControlStateNormal];
-    else
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_off"] forState:UIControlStateNormal];
-}
-
-- (void) setImageAutoMemo
-{
-    if (mainViewController.mainView.bSettingAutoMemo == YES)
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_on"] forState:UIControlStateNormal];
-    else
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_off"] forState:UIControlStateNormal];
-}
-
-
-- (void) setImageLocale
-{
-    NSString* strLocale = gettext(@"locale", nil); 
-    NSString* strIcon = nil;
-    
-    if ([strLocale compare:@"en"] == NSOrderedSame)
-        strIcon = @"locale_en";
-    else if ([strLocale compare:@"ko"] == NSOrderedSame)
-        strIcon = @"locale_ko";
-    else if ([strLocale compare:@"ja"] == NSOrderedSame)
-        strIcon = @"locale_ja";
-    else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
-        strIcon = @"locale_zh_CN";
-    else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
-        strIcon = @"locale_zh_TW";
-    else
-        return;
-    
-    [buttonLocale setBackgroundImage:[UIImage imageNamed:strIcon] forState:UIControlStateNormal];
-    
-}
 
 - (void) viewDidLoad
 {
@@ -196,16 +109,6 @@
     
     [self setLocalizedMessage];
 
-    [self setImageSoundEffect];
-    [self setImageGuideline];
-    [self setImageDuplicationWarning];
-    [self setImageMarkingEqual];
-#ifdef SUDOKU6
-    [self setImageShapeOfMap];
-#else
-    [self setImageAutoMemo];
-#endif
-	[self setImageLocale];
     
     [super viewDidLoad];
 }
@@ -245,122 +148,6 @@
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
-
-
-- (IBAction)setSoundEffect
-{
-    mainViewController.mainView.bSettingSoundOff = !mainViewController.mainView.bSettingSoundOff;
-    [self setImageSoundEffect];
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-}
-
-- (IBAction)setGuideline
-{
-    mainViewController.mainView.bSettingGuideline = !mainViewController.mainView.bSettingGuideline;
-    [self setImageGuideline];
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-    
-    [mainViewController.mainView setNeedsDisplay];
-}
-
-- (IBAction)setDuplicationWarning
-{    
-    mainViewController.mainView.bSettingDuplicationWarning = !mainViewController.mainView.bSettingDuplicationWarning;
-    [self setImageDuplicationWarning];
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-    
-    [mainViewController.mainView setNeedsDisplay];
-}
-
-- (IBAction)setMarkingEqual
-{
-    mainViewController.mainView.bSettingMarkingEqual = !mainViewController.mainView.bSettingMarkingEqual;
-    [self setImageMarkingEqual];
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-
-    [mainViewController.mainView setNeedsDisplay];
-}
-
-- (IBAction)setShapeOfMap1
-{
-#ifdef SUDOKU6
-    mainViewController.mainView.bSettingDefMap = !mainViewController.mainView.bSettingDefMap;
-    [self setImageShapeOfMap];
-#else
-    mainViewController.mainView.bSettingAutoMemo = !mainViewController.mainView.bSettingAutoMemo;
-    [self setImageAutoMemo];
-#endif
-    [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-    
-    // 게임을 새로 시작할까????
-}
-
-- (IBAction)setLocaleChange
-{
-    NSString* strLocale = gettext(@"locale", nil);
-//    NSString* strIcon = nil;
-    
-    if ([strLocale compare:@"en"] == NSOrderedSame)
-        [Locale setLocale:@"ko"];
-    else if ([strLocale compare:@"ko"] == NSOrderedSame)
-        [Locale setLocale:@"ja"];
-    else if ([strLocale compare:@"ja"] == NSOrderedSame)
-        [Locale setLocale:@"zh_CN"];
-    else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
-        [Locale setLocale:@"zh_TW"];
-    else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
-        [Locale setLocale:@"en"];
-    else
-        return;
-    
-    [self setLocalizedMessage];
-    [mainViewController setLocalizedMessage];
-    [self setImageLocale];
-}
-
-
-
-- (IBAction)goFacebook
-{
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-              @"http://m.facebook.com/pages/smartoneapp/291656217607690?id=291656217607690&_rdr"]];
-    
-
-}
-
-- (IBAction)goBugReport
-{
-    UIViewController *controller = [[JMC sharedInstance] viewController];
-    [self presentModalViewController:controller animated:YES];
-/*
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-              @"http://code.google.com/p/gracegyu/issues/entry"]];
-*/
-}
-
-- (IBAction)goReview
-{
-    [Appirater rateApp];
-}
-
-- (IBAction)goNewApps
-{
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-    @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
-
-}
-
-
-
-
 
 
 // Override to allow orientations other than the default portrait orientation.

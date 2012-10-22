@@ -38,10 +38,7 @@
     UIButton *buttonReview;
     UIButton *buttonNewApp;
     
-    UILabel	*labelRuleTitle;
-    UILabel	*labelRuleDesc;
-    UILabel	*labelTipTitle;
-    UILabel	*labelTipDesc;
+
 	
 
 }
@@ -72,10 +69,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonReview;
 @property (nonatomic, retain) IBOutlet UIButton *buttonNewApp;
 
-@property (nonatomic, retain) IBOutlet UILabel	*labelRuleTitle;
-@property (nonatomic, retain) IBOutlet UILabel	*labelRuleDesc;
-@property (nonatomic, retain) IBOutlet UILabel	*labelTipTitle;
-@property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
+
 
 
 
