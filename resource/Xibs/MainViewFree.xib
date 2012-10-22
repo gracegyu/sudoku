@@ -328,8 +328,6 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
-						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
 						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">menu</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
@@ -338,6 +336,10 @@
 							<bytes key="NSRGB">MC4wNTQ5MDE5NjQ5NiAwLjI3MDU4ODI0OSAwLjUzMzMzMzM2MTEAA</bytes>
 						</object>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
+						<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="368280652">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">buttonbg.png</string>
+						</object>
 						<object class="IBUIFontDescription" key="IBUIFontDescription" id="677184500">
 							<string key="name">TrebuchetMS</string>
 							<string key="family">Trebuchet MS</string>
@@ -395,13 +397,12 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
-						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
 						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">hint</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="725653933"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
+						<reference key="IBUINormalBackgroundImage" ref="368280652"/>
 						<reference key="IBUIFontDescription" ref="677184500"/>
 						<reference key="IBUIFont" ref="314075388"/>
 					</object>
@@ -480,13 +481,12 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
-						<bool key="IBUIShowsTouchWhenHighlighted">YES</bool>
 						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">del</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="725653933"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
+						<reference key="IBUINormalBackgroundImage" ref="368280652"/>
 						<object class="IBUIFontDescription" key="IBUIFontDescription">
 							<string key="name">TrebuchetMS-Bold</string>
 							<string key="family">Trebuchet MS</string>
@@ -514,12 +514,12 @@
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
 						<int key="IBUILineBreakMode">1</int>
 						<string key="IBUINormalTitle">memo</string>
 						<reference key="IBUIHighlightedTitleColor" ref="19800699"/>
 						<reference key="IBUINormalTitleColor" ref="725653933"/>
 						<reference key="IBUINormalTitleShadowColor" ref="716683848"/>
+						<reference key="IBUINormalBackgroundImage" ref="368280652"/>
 						<reference key="IBUIFontDescription" ref="327722886"/>
 						<reference key="IBUIFont" ref="120325678"/>
 					</object>
@@ -1697,6 +1697,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="bookmarkoff_n.png">{64, 64}</string>
+			<string key="buttonbg.png">{100, 64}</string>
 			<string key="redo_d.png">{64, 64}</string>
 			<string key="undo_d.png">{64, 64}</string>
 		</dictionary>
