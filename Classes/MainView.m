@@ -74,7 +74,7 @@
 #define cConflictLineWidth		1.5f*cResizeRatioW
 #define cBoldLine				4.0f*cResizeRatioW
 
-#define fontAdjust   0.60
+#define fontAdjust   0//0.60
 
 #define bSettingCompareWarning      bSettingDuplicationWarning
 #define GTDEPTH 0.10
@@ -292,7 +292,12 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 {
     CGContextSetFillColorWithColor(context, color);
     
-    [str drawInRect:CGRectMake(rect.origin.x, rect.origin.y + rect.size.height/2 - font.pointSize*fontAdjust, rect.size.width, font.pointSize)
+	CGSize sizeText = [str sizeWithFont:font forWidth:rect.size.width lineBreakMode:NSLineBreakByClipping];
+	
+    [str drawInRect:CGRectMake(rect.origin.x,
+							   rect.origin.y + (rect.size.height - sizeText.height)/2,
+							   rect.size.width,
+							   sizeText.height)
            withFont:font
       lineBreakMode:NSLineBreakByClipping
           alignment:UITextAlignmentCenter];
@@ -302,7 +307,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 - (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
     NSAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
-
+	
     [self drawStrRect:context
                   str:[NSString stringWithFormat:@"%d", num]
                  rect:rect
@@ -1827,7 +1832,9 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 
 
-
+// Trebuchet MS
+// Helvetica
+// Chalkboard SE
 
 - (void) setFont
 {
