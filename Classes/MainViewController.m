@@ -261,9 +261,6 @@
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
     //mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
-#ifdef SUDOKU6
-	mainView.bSettingAutoMemo = NO;
-#endif
 }
 
 - (void) saveSetting
