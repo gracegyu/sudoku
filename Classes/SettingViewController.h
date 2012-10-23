@@ -22,6 +22,12 @@
     UILabel	*labelMarkingEqual;
     UILabel	*labelShapeOfMap;
     UILabel	*labelLocale;
+    UILabel	*labelDescSoundEffect;
+    UILabel	*labelDescGuildeline;
+    UILabel	*labelDescDuplicationWarning;
+    UILabel	*labelDescMarkingEqual;
+    UILabel	*labelDescShapeOfMap;
+    UILabel	*labelDescLocale;
     
     UIButton *buttonDone;
     
@@ -54,6 +60,13 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelShapeOfMap;
 @property (nonatomic, retain) IBOutlet UILabel	*labelLocale;
+
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescSoundEffect;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescGuildeline;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescDuplicationWarning;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescMarkingEqual;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescShapeOfMap;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescLocale;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSoundEffect;

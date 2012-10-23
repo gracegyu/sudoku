@@ -123,7 +123,7 @@
 
 - (void)handleObjectStart {
 	if (depth >= maxDepth) {
-		self.error = [NSString stringWithFormat:@"Parser exceeded max depth of %lu", maxDepth];
+		self.error = [NSString stringWithFormat:@"Parser exceeded max depth of %u", maxDepth];
 		states[depth] = kSBJsonStreamParserStateError;
 		
 	} else {
@@ -134,7 +134,7 @@
 }
 - (void)handleArrayStart {
 	if (depth >= maxDepth) {
-		self.error = [NSString stringWithFormat:@"Parser exceeded max depth of %lu", maxDepth];
+		self.error = [NSString stringWithFormat:@"Parser exceeded max depth of %u", maxDepth];
 		states[depth] = kSBJsonStreamParserStateError;
 	} else {
 		[delegate parserFoundArrayStart:self];

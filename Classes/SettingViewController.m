@@ -26,6 +26,12 @@
 @synthesize labelMarkingEqual;
 @synthesize labelShapeOfMap;
 @synthesize labelLocale;
+@synthesize labelDescSoundEffect;
+@synthesize labelDescGuildeline;
+@synthesize labelDescDuplicationWarning;
+@synthesize labelDescMarkingEqual;
+@synthesize labelDescShapeOfMap;
+@synthesize labelDescLocale;
 
 @synthesize buttonDone;
 @synthesize buttonSoundEffect;
@@ -53,6 +59,7 @@
 
 - (void) setLocalizedMessage
 {
+	NSString* str;
     naviItem.title = gettext(@"Setting", nil);
 	
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
@@ -63,14 +70,23 @@
     labelGuildeline.text = gettext(@"guideline", nil);
     labelDuplicationWarning.text = gettext(@"duplication warning", nil);
     labelMarkingEqual.text = gettext(@"marking equal", nil);
-#ifdef SUDOKU6
-    labelShapeOfMap.text = gettext(@"shape of map", nil);
-#else
     labelShapeOfMap.text = gettext(@"auto memo", nil);
-#endif
     labelLocale.text = gettext(@"language", nil);
     
-    
+    str = gettext(@"desc sound effect", nil);
+	labelDescSoundEffect.text = [str stringByAppendingString:@"\n\n\n"];
+    str = gettext(@"desc guideline", nil);
+	labelDescGuildeline.text = [str stringByAppendingString:@"\n\n\n"];
+	str = gettext(@"desc duplication warning", nil);
+    labelDescDuplicationWarning.text = [str stringByAppendingString:@"\n\n\n"];
+	str = gettext(@"desc marking equal", nil);
+    labelDescMarkingEqual.text = [str stringByAppendingString:@"\n\n\n"];
+	str = gettext(@"desc auto memo", nil);
+    labelDescShapeOfMap.text = [str stringByAppendingString:@"\n\n\n"];
+	str = gettext(@"desc language", nil);
+    labelDescLocale.text = [str stringByAppendingString:@"\n\n\n"];
+	
+	
     
 }
 
@@ -172,16 +188,6 @@
     
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
-/*
-#ifndef SUDOKU6
-    labelShapeOfMap.hidden = YES;
-    buttonShapeOfMap.hidden = YES;
-#endif
-#ifdef GTSUDOKU
-    labelShapeOfMap.hidden = YES;
-    buttonShapeOfMap.hidden = YES;
-#endif
- */
     
     [self setLocalizedMessage];
 
@@ -189,11 +195,7 @@
     [self setImageGuideline];
     [self setImageDuplicationWarning];
     [self setImageMarkingEqual];
-#ifdef SUDOKU6
-    [self setImageShapeOfMap];
-#else
     [self setImageAutoMemo];
-#endif
 	[self setImageLocale];
     
     [super viewDidLoad];
@@ -276,13 +278,8 @@
 
 - (IBAction)setShapeOfMap1
 {
-#ifdef SUDOKU6
-    mainViewController.mainView.bSettingDefMap = !mainViewController.mainView.bSettingDefMap;
-    [self setImageShapeOfMap];
-#else
     mainViewController.mainView.bSettingAutoMemo = !mainViewController.mainView.bSettingAutoMemo;
     [self setImageAutoMemo];
-#endif
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     

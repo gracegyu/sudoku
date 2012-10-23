@@ -259,7 +259,7 @@
     mainView.bSettingGuideline = [defaults boolForKey:kSettingGuideline];
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
-    mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
+    //mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
 #ifdef SUDOKU6
 	mainView.bSettingAutoMemo = NO;
@@ -276,7 +276,7 @@
     [defaults setBool:mainView.bSettingGuideline forKey:kSettingGuideline];
     [defaults setBool:mainView.bSettingDuplicationWarning forKey:kSettingDuplicationWarning];
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
-    [defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
+    //[defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
     [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
 	
 	[defaults synchronize];
