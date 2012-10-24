@@ -1920,8 +1920,8 @@ static NSUInteger RainbowColorTemplate[7] = {
             [timerTouch invalidate];
 //            [timerTouch release];
             timerTouch = nil;
+			return;
         }
-		return;
     }
 
 	bTouch = YES;
