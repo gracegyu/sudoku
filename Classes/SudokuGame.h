@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import "SudokuUndo.h"
 #import "SudokuBoard.h"
+#import "KillerMap.h"
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
@@ -26,6 +27,7 @@
 	char			memoNums[9][9][9+1];// 
     SudokuUndo      *sudokuUndo;
 	SudokuMap       *map;
+	KillerMap		*kmap;
 
 
 	NSInteger		countBlank;
@@ -42,12 +44,12 @@
 @property NSTimeInterval	lastTime;			
 @property NSTimeInterval	gameTime;			
 @property BOOL			isGameFinished;
-//@property (nonatomic, retain) NSString*		strUndo;
 @property (nonatomic, retain) SudokuUndo      *sudokuUndo;
 @property NSInteger		countBlank;
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
 @property BOOL			bAutoMemo;
+@property (nonatomic, retain) KillerMap		*kmap;
 
 // Create Game : Level
 // 
@@ -55,6 +57,9 @@
 - (id) initWithSudokuBoard:(SudokuBoard*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (id)initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
+#ifdef KILLERSUDOKU
+- (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
+#endif
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getAnswerNums:(NSInteger)x y:(NSInteger)y;

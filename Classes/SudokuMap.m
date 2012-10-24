@@ -89,7 +89,7 @@ static int defaultMap[][16*16] = {
 };
 
 
-- (SudokuMap*) initWithMap:(SudokuMap*)source
+- (id) initWithMap:(SudokuMap*)source
 {
 	if ((super.init) == nil)
 		return nil;
@@ -101,7 +101,7 @@ static int defaultMap[][16*16] = {
 	return self;
 }
 
-- (SudokuMap*) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap
+- (id) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap
 {
 	if ((super.init) == nil)
 		return nil;
@@ -114,7 +114,7 @@ static int defaultMap[][16*16] = {
 }
 
 
-- (SudokuMap*) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
+- (id) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
 {
 	if ((super.init) == nil)
 		return nil;

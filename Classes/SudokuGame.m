@@ -25,6 +25,7 @@
 @synthesize countFixNums;
 @synthesize countHint;
 @synthesize bAutoMemo;
+@synthesize kmap;
 
 
 
@@ -34,6 +35,7 @@
     
     [sudokuUndo release];
     [map release];
+	[kmap release];
     
 	
 	[super dealloc];
@@ -50,7 +52,11 @@
 #ifdef GTSUDOKU
     return sizeTable > 6 ? 3 : 2;
 #else
+#ifdef KILLERSUDOKU
+    return sizeTable > 6 ? 3 : 2;
+#else
     return sizeTable > 6 ? 2 : 1;
+#endif
 #endif
     
 }
@@ -147,7 +153,7 @@
 	int handy = HandyCount[size][gameLevel];
 	
 	
-#ifdef GTSUDOKU
+#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
 	memset(puzzleNums, 0, sizeof(puzzleNums));
 #endif
 	NSInteger countPuzzle = [self countPuzzleNum];
@@ -489,6 +495,28 @@
 	[self applyHandy];
     sudokuUndo = [[SudokuUndo alloc] init];
     
+#ifdef KILLERSUDOKU
+	kmap = [[KillerMap alloc] initWithSize:size];
+	KillerCell *cell;
+	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	{
+		cell->sum = 0;
+		
+		for (int y=0; y<size; y++)
+		{
+			for (int x=0; x<size; x++)
+			{
+				if ([kmap getCellNum:x yPos:y] == i)
+				{
+					cell->sum += answerNums[x][y];
+				}
+			}
+		}
+	}
+	
+#endif
+	
+	
 	[self initAutoMemo];
 	
 	
@@ -620,6 +648,9 @@
 	bAutoMemoUndoLog = YES;
 	
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
+#ifdef KILLERSUDOKU
+	kmap = [[KillerMap alloc] initWithSaveData];
+#endif
 
 	return self;
 	
@@ -845,6 +876,17 @@
 	
     return mapNums[x][y] == mapNums[x2][y2];
 }
+#ifdef KILLERSUDOKU
+- (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2
+{
+	if (x < 0 || x >= size) return NO;
+	if (y < 0 || y >= size) return NO;
+	if (x2 < 0 || x2 >= size) return NO;
+	if (y2 < 0 || y2 >= size) return NO;
+	
+    return [kmap getColor:x yPos:y] == [kmap getColor:x2 yPos:y2];
+}
+#endif
 
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y
 {
@@ -1202,6 +1244,9 @@
 	[defaults setObject:str forKey:kSudokuGame];
 
 	[sudokuUndo saveData];
+#ifdef KILLERSUDOKU
+	[kmap saveData];
+#endif
 
 }
 

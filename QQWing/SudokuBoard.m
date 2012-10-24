@@ -229,9 +229,6 @@ bool readPuzzleFromStdIn(int* puzzle)
 
 - (void)dealloc
 {
-	
-	[super dealloc];
-	
     [self clearPuzzle];
     free(puzzle);
     free(solution);
@@ -241,6 +238,7 @@ bool readPuzzleFromStdIn(int* puzzle)
     free(randomPossibilityArray);
     free(solveHistory);
     free(solveInstructions);
+	[super dealloc];
 }
 
 /**

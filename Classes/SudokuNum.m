@@ -763,7 +763,7 @@
 }
 
 
-
+// deprecated
 - (void) setCellApplyHandy:(NSInteger)handy
 {
 	int numRandom;

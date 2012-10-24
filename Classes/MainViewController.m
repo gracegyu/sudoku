@@ -15,6 +15,7 @@
 #import "Locale.h"
 #import "GameCenterUtil.h"
 #import "JMC.h"
+#import "KillerMap.h"
 
 
 
@@ -923,6 +924,8 @@
 
 - (void) showMenuView
 {
+
+	
 	if (mainView.bMenuMode)
 		return;
 	
@@ -1377,7 +1380,7 @@
 // Deprecated
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	DLog(@"shouldAutorotateToInterfaceOrientation");	
+	//DLog(@"shouldAutorotateToInterfaceOrientation");
 
 	
 	if (interfaceOrientation == UIInterfaceOrientationPortrait ||

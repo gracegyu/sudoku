@@ -43,6 +43,7 @@
 @synthesize cellFourFont;
 @synthesize cellSixFont;
 @synthesize cellNineFont;
+@synthesize cellSumFont;
 @synthesize buttonSmallFont;
 @synthesize buttonBigFont;
 @synthesize buttonTextFont;
@@ -71,8 +72,9 @@
 
 #define cLineWidth				1.0f*cResizeRatioW
 #define cLineDrawWidth			0.8f*cResizeRatioW
-#define cConflictLineWidth		1.5f*cResizeRatioW
-#define cBoldLine				4.0f*cResizeRatioW
+#define cConflictLineWidth		1.0f*cResizeRatioW
+#define cBoldLine				3.0f*cResizeRatioW
+#define cKillerBoldLine			5.0f*cResizeRatioW
 
 #define fontAdjust   0//0.60
 
@@ -85,34 +87,49 @@
 
 static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	{	0x809AE0FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
-		0x809AE0FF,0xFF0C59FF,0x99E6B3B3,0xF3F3C0CC,
-		0x808099FF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,
+		0x809AE0FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3B3,0xF3F3C0CC,
+		0x68687CFF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
 	 },
 	{	0x3F83BFFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
-		0x3F83BFFF,0xFF0C59FF,0x99E6B3B3,0xF3F3C0CC,
-		0x808099FF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,
+		0x3F83BFFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3B3,0xF3F3C0CC,
+		0x68687CFF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
 	},
 	{0}
 };
 
-
-#define GETR(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0xFF000000) >> 8*3))
-#define GETG(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x00FF0000) >> 8*2))
-#define GETB(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x0000FF00) >> 8*1))
-#define GETA(num)	((CGFloat)((SkinColorTemplate[skin][num] & 0x000000FF) >> 8*0))
+static NSUInteger RainbowColorTemplate[7] = {
+		0xFDE1DCFF,0xF4E7CEFF,0xF3FCDDFF,0xD2F5E0FF,0xDBE6F0FF,0xE6DDEAFF, 0xD1FFECFF
+};
 
 
 
-#define GETCOLOR(num)	[UIColor colorWithRed:GETR(num)/255.f \
-										green:GETG(num)/255.f \
-										 blue:GETB(num)/255.f \
-										alpha:GETA(num)/255.f].CGColor
 
 
-+ (UIColor*) getUIColorFromRGBA:(NSUInteger) RGBA
+- (UIColor*) getUIColorFromRGBA:(NSUInteger) num
 {
+	NSInteger RGBA = SkinColorTemplate[skin][num];
+	CGFloat fAlpha = 1.f;
+#ifdef KILLERSUDOKU
+	if (num == SC_BACKGROUND_GUIDELINE_NORMAL ||
+		num == SC_BACKGROUND_GUIDELINE_MEMO)
+		fAlpha = 0.0f;
+#endif
+	
+	
+	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
+	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
+	CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
+	CGFloat A = ((CGFloat)((RGBA & 0x000000FF) >> 8*0))/255.f*fAlpha;
+	
+	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
+}
+
+- (UIColor*) getRainbowColorFromRGBA:(NSUInteger) num
+{
+	NSInteger RGBA = RainbowColorTemplate[num];
+	
 	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
 	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
 	CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
@@ -120,6 +137,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	
 	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
 }
+
 
 - (CGColorRef) getColor:(SKINCOLOR)num
 {
@@ -134,8 +152,14 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 	for (int i=0; i<COUNT_SKINCOLOR; i++)
 	{
-		skincolor[i] = [MainView getUIColorFromRGBA:SkinColorTemplate[skin][i]];
+		skincolor[i] = [self getUIColorFromRGBA:i];
 	}	
+
+	for (int i=0; i<7; i++)
+	{
+		rainbowcolor[i] = [self getRainbowColorFromRGBA:i];
+	}
+	
 	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
 	
 }
@@ -288,7 +312,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     return [self getNumButtonAreaY] + [self getNumButtonAreaH]/2;
 }
 
-- (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+- (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font align:(UITextAlignment)align
 {
     CGContextSetFillColorWithColor(context, color);
     
@@ -300,7 +324,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 							   sizeText.height)
            withFont:font
       lineBreakMode:NSLineBreakByClipping
-          alignment:UITextAlignmentCenter];
+          alignment:align];
 }
 
 
@@ -312,9 +336,23 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
                   str:[NSString stringWithFormat:@"%d", num]
                  rect:rect
                 color:color
-                 font:font];
+                 font:font
+				align:UITextAlignmentCenter];
 
 }
+
+- (void) drawNumRectLeft:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+{
+
+    [self drawStrRect:context
+                  str:[NSString stringWithFormat:@"%d", num]
+                 rect:rect
+                color:color
+                 font:font
+				align:UITextAlignmentLeft];
+	
+}
+
 
 
 - (void)drawRectTableBackground:(CGContextRef) context
@@ -353,6 +391,59 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	bBlur =  blur;
 	[self setNeedsDisplay];
 }
+#ifdef KILLERSUDOKU
+- (void)drawKillerLine:(CGContextRef) context
+{
+	int x,y,i,j;
+
+    CGContextSetLineCap(context, kCGLineCapRound);
+    
+    // 수직선
+	for (i=1; i<sudokuGame.size; i++)
+	{
+		x = cTableStartX + i*cCellWidth;
+        for (j=0; j<sudokuGame.size; j++)
+        {
+            CGContextSetLineWidth(context, cLineDrawWidth);
+            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_KILLER].CGColor);
+            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_KILLER].CGColor);
+			
+            y = cTableStartY + j*cCellHeight;
+			CGContextMoveToPoint(context, x, y);
+            if ([sudokuGame isSameColor:i-1 y:j x2:i y2:j] == NO)
+            {
+                CGContextAddLineToPoint(context, x, y+cCellHeight);
+                CGContextSetLineWidth(context, cKillerBoldLine);
+                CGContextStrokePath(context);
+            }
+		}
+	}
+	
+    // 수평선
+	for (i=1; i<sudokuGame.size; i++)
+	{
+		y = cTableStartY + i*cCellHeight;
+        for (j=0; j<sudokuGame.size; j++)
+        {
+            CGContextSetLineWidth(context, cLineDrawWidth);
+            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_KILLER].CGColor);
+            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_KILLER].CGColor);
+			
+            x = cTableStartX + j*cCellWidth;
+			CGContextMoveToPoint(context, x, y);
+            if ([sudokuGame isSameColor:j y:i-1 x2:j y2:i] == NO)
+            {
+                CGContextAddLineToPoint(context, x+cCellWidth, y);
+                CGContextSetLineWidth(context, cKillerBoldLine);
+                CGContextStrokePath(context);
+            }
+		}
+	}
+	
+	
+}
+#endif
+
 
 - (void)drawRectTableLine:(CGContextRef) context
 {
@@ -538,6 +629,16 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 #else
     CGFloat margin = 0.10f;
 #endif
+
+#ifdef KILLERSUDOKU
+	CGFloat topmargin = 0.1f;
+#else
+	CGFloat topmargin = 0.0f;
+#endif
+	CGFloat x0 = rect.origin.x+rect.size.width*margin;
+	CGFloat y0 = rect.origin.y+rect.size.height*(margin+topmargin);
+	CGFloat width = rect.size.width*(1-2*margin);
+	CGFloat height = rect.size.width*(1-2*margin-topmargin);
 	
 	for (y=0; y<countH; y++)
 	{
@@ -555,10 +656,10 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
                 
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
-                             rect:CGRectMake(rect.origin.x+rect.size.width*margin+(rect.size.width*(1-2*margin))*x/countW,
-                                             rect.origin.y+rect.size.height*margin+(rect.size.height*(1-2*margin))*y/countH,
-                                             (rect.size.width*(1-2*margin))/countW,
-                                             (rect.size.height*(1-2*margin))/countH)
+                             rect:CGRectMake(x0+width*x/countW,
+                                             y0+height*y/countH,
+                                             width/countW,
+                                             height/countH)
                             color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor : skincolor[SC_TEXT_CELL_MEMO_OK].CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
@@ -658,9 +759,6 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-
-
-    
 	BOOL bDupWarnArea = NO;
 	if (bSettingDuplicationWarning == YES)
 	{	// zzz 사용자가 누를 수 있는 버튼인 경우도 조건에 추가를 해야 한다.
@@ -755,12 +853,40 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	
 	bSetThisTime = NO;
 }
+#ifdef KILLERSUDOKU
+- (void)drawKillerSumNum:(CGContextRef)context
+{
+	KillerMap *kmap = sudokuGame.kmap;
+	KillerCell *cell;
+	NSInteger x, y, sum;
+	CGRect rect;
+
+	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	{
+		x = cell->x0;
+		y = cell->y0;
+		sum = cell->sum;
+		if (sum == 0)
+			break;
+		rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.03,
+						  cTableStartY + y*cCellHeight + cCellHeight*0.03,
+						  cCellWidth/2,
+						  cCellHeight/4);
+		[self drawNumRectLeft:context
+						  num:sum
+						 rect:rect
+						color:skincolor[SC_TEXT_CELL_KILLER_SUM].CGColor
+						 font:cellSumFont];
+	}
+
+}
+#endif
 
 // 숫자가 중복되면 안되는 바닥을 보여줌
 
 
 - (void)drawOneCellBackground:(CGContextRef)context color:(UIColor*)color x:(NSInteger)x y:(NSInteger)y
-{    
+{
     //DLog(@"drawOneCellBackground(%d,%d)", x, y);
     
     NSInteger xPos = cTableStartX + x*cCellWidth;
@@ -840,8 +966,22 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     return i>0 && j>0 && i == j;
 }
 
+#ifdef KILLERSUDOKU
+- (void) drawKillerBackground:(CGContextRef)context
+{
+    for (int y=0; y<sudokuGame.size; y++)
+    {
+        for (int x=0; x<sudokuGame.size; x++)
+        {
+			NSInteger colorCell = [sudokuGame.kmap getColor:x yPos:y];
+			[self drawOneCellBackground:context color:rainbowcolor[colorCell] x:x y:y];
 
-
+        } //y
+	} //x
+	
+	
+}
+#endif
 
 - (void) drawGuidelineBackground:(CGContextRef)context
 {
@@ -1393,7 +1533,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) runUndo
 { 
-	DLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
+	//DLog(@"[sudokuGame.sudokuUndo countUndo] = %d", [sudokuGame.sudokuUndo countUndo]);
 	
 	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countUndo] == 0)
 		return;
@@ -1414,7 +1554,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 
 - (void) runRedo
 {
-	DLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
+	//DLog(@"[sudokuGame.sudokuUndo countRedo] = %d", [sudokuGame.sudokuUndo countRedo]);
 	
 	if (sudokuGame.isGameFinished || [sudokuGame.sudokuUndo countRedo] == 0)
 		return;
@@ -1566,7 +1706,9 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	BOOL bUseQQ=NO;
 #ifdef SUDOKU9
 #ifndef GTSUDOKU
+#ifndef KILLERSUDOKU
 	bUseQQ = YES;
+#endif
 #endif
 #endif
 	
@@ -1822,6 +1964,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 #define cCellFourFontSize           (0.9f * MINWHT / 2) //15*cResizeRatioW
 #define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
+#define cCellSumFontSize            (1.1f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
@@ -1845,6 +1988,7 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];
 	self.cellSixFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSixFontSize];
 	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
+	self.cellSumFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSumFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
 	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];
 	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
@@ -1875,12 +2019,22 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
     [self setFont];
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
+#ifdef KILLERSUDOKU
+	[self drawKillerBackground:context];		// killer sudoku의 바탕색
+#endif
 	[self drawGuidelineBackground:context];          // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
     [self drawBookmarkInCell:context];          // 북마크 표시
+#ifdef KILLERSUDOKU
+	[self drawKillerLine:context];				// 테이블 라인 긎기
+#endif
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
+#ifdef KILLERSUDOKU
+	[self drawKillerSumNum:context];			// 합계 표시하기
+#endif
+	
 	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawNumButton:context];
 	[self drawBlurTable:context];     // 기본 테이블 바탕 색

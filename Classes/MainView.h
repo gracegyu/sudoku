@@ -28,6 +28,7 @@ enum SKINCOLOR
 	
 	SC_LINE_CELL_NORMAL,
 	SC_LINE_CELL_WRONG,
+	SC_LINE_CELL_KILLER,
 	SC_LINE_SECLECTED_CELL_NORMAL,
 	SC_LINE_SECLECTED_CELL_MEMO,
 	
@@ -37,6 +38,7 @@ enum SKINCOLOR
 	SC_TEXT_CELL_MEMO_OK,
 	SC_TEXT_CELL_MEMO_WARN,
 	SC_TEXT_CELL_MEMO_CONFLICT,
+	SC_TEXT_CELL_KILLER_SUM,
 	
 	SC_BACKGROUND_BUTTON_NORMAL,
 	SC_BACKGROUND_BUTTON_PRESSED,
@@ -52,6 +54,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @interface MainView : UIView {
 	NSInteger skin;
 	UIColor *skincolor[COUNT_SKINCOLOR];
+	UIColor *rainbowcolor[7];
 	
 	SudokuGame* sudokuGame;
 	
@@ -71,6 +74,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 	UIFont *cellFourFont;
 	UIFont *cellSixFont;
 	UIFont *cellNineFont;
+	UIFont *cellSumFont;
 	UIFont *buttonSmallFont;
 	UIFont *buttonBigFont;
 	UIFont *buttonTextFont;
@@ -128,6 +132,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property (nonatomic, retain) UIFont *cellFourFont;
 @property (nonatomic, retain) UIFont *cellSixFont;
 @property (nonatomic, retain) UIFont *cellNineFont;
+@property (nonatomic, retain) UIFont *cellSumFont;
 @property (nonatomic, retain) UIFont *buttonSmallFont;
 @property (nonatomic, retain) UIFont *buttonBigFont;
 @property (nonatomic, retain) UIFont *buttonTextFont;
