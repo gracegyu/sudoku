@@ -1056,7 +1056,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         NSInteger yPos = cTableStartY + y*cCellHeight;
         
         UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
-        CGRect rect = CGRectMake(xPos+cCellWidth*0.1f, yPos, cCellWidth*0.2f, cCellHeight*0.3f);
+        CGRect rect = CGRectMake(xPos+cCellWidth*0.7f, yPos, cCellWidth*0.2f, cCellHeight*0.3f);
         
         [imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.3f];
     }
