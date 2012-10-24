@@ -631,20 +631,31 @@ static NSUInteger RainbowColorTemplate[7] = {
 #endif
 
 #ifdef KILLERSUDOKU
-	CGFloat topmargin = 0.1f;
+	CGFloat topmargin = 0.0f;
+	CGFloat leftmargin = 0.2f;
 #else
 	CGFloat topmargin = 0.0f;
+	CGFloat leftmargin = 0.0f;
 #endif
-	CGFloat x0 = rect.origin.x+rect.size.width*margin;
+	CGFloat x0 = rect.origin.x+rect.size.width*(margin+leftmargin);
 	CGFloat y0 = rect.origin.y+rect.size.height*(margin+topmargin);
-	CGFloat width = rect.size.width*(1-2*margin);
+	CGFloat width = rect.size.width*(1-2*margin-leftmargin);
 	CGFloat height = rect.size.width*(1-2*margin-topmargin);
+	
+#ifdef KILLERSUDOKU
+	if (len == 8)
+		i = -1;
+	else if (len == 7)
+		i = -2;
+	else if (len == 5)
+		i = -1;
+#endif
 	
 	for (y=0; y<countH; y++)
 	{
 		for (x=0; x<countW; x++)
 		{
-			if (i < len)
+			if (i >= 0 && i < len)
 			{
                 bConflict = [self conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
 #ifdef GTSUDOKU
@@ -663,6 +674,10 @@ static NSUInteger RainbowColorTemplate[7] = {
                             color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor : skincolor[SC_TEXT_CELL_MEMO_OK].CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
+			}
+			else if (i < 0)
+			{
+				i++;
 			}
 		}
 	}
@@ -1964,7 +1979,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 #define cCellFourFontSize           (0.9f * MINWHT / 2) //15*cResizeRatioW
 #define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
-#define cCellSumFontSize            (1.1f * MINWHT / 3) //11*cResizeRatioW
+#define cCellSumFontSize            (0.9f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
