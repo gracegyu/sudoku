@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SudokuMap.h"
+#import "KillerMap.h"
 
 #define kSudokuNum		@"sudokunum"
 #define kSudokuTrack	@"sudokutrack"
@@ -34,6 +35,9 @@
     
     
     SudokuMap       *map;
+#ifdef KILLERSUDOKU
+	KillerMap		*kmap;
+#endif
 	NSString		*strUndo;
 	BOOL			bOkSetCell;
 	BOOL			bOkAutoSet;
@@ -67,6 +71,9 @@
 - (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap;
 - (NSInteger) getCellSize;
 - (SudokuMap*) getMap;
+#ifdef KILLERSUDOKU
+- (KillerMap*) getKillerMap;
+#endif
 - (NSInteger) randNum:(NSInteger) num;
 //////////////////////////////////////////////////////////////////////////
 - (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y;

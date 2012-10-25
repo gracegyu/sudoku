@@ -509,9 +509,9 @@
     sudokuUndo = [[SudokuUndo alloc] init];
     
 #ifdef KILLERSUDOKU
-	kmap = [[KillerMap alloc] initWithSize:size];
-	KillerCell *cell;
-	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	//kmap = [[KillerMap alloc] initWithSize:size];
+	KillerCage *cell;
+	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
 		cell->sum = 0;
 		
@@ -519,7 +519,7 @@
 		{
 			for (int x=0; x<size; x++)
 			{
-				if ([kmap getCellNum:x yPos:y] == i)
+				if ([kmap getCageNumber:x yPos:y] == i)
 				{
 					cell->sum += answerNums[x][y];
 				}
@@ -585,6 +585,7 @@
 	[self initData:level];
 	bAutoMemo = automemo;
 	map = [[SudokuMap alloc] initWithMap:[sudoku getMap]];
+	kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
 
 	NSInteger num;
     for (int y=0; y<size; y++) {
@@ -832,15 +833,15 @@
 
 - (BOOL) isWrongSumCell:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	NSInteger num = [kmap getCellNum:xPos yPos:yPos];
-	KillerCell *cell = [kmap getCellData:num];
+	NSInteger num = [kmap getCageNumber:xPos yPos:yPos];
+	KillerCage *cell = [kmap getCageData:num];
 	NSInteger sum = 0;
 	
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)
 		{
-			if ([kmap getCellNum:x yPos:y] == num)
+			if ([kmap getCageNumber:x yPos:y] == num)
 			{
 				if (fixNums[x][y] == 0)
 					return NO;
@@ -857,14 +858,14 @@
 // 나중에 셀의 후보 숫자를 보기 위해서 사용한다.
 - (NSInteger) countCellInSum:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	NSInteger num = [kmap getCellNum:xPos yPos:yPos];
+	NSInteger num = [kmap getCageNumber:xPos yPos:yPos];
 	NSInteger count = 0;
 	
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)
 		{
-			if ([kmap getCellNum:x yPos:y] == num)
+			if ([kmap getCageNumber:x yPos:y] == num)
 			{
 				count++;
 			}
@@ -875,17 +876,17 @@
 
 - (NSInteger) countUncorrectSum
 {
-	KillerCell *cell;
+	KillerCage *cell;
 	NSInteger sum, uncorrect=0;
 	
-	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
 		sum = 0;
 		for (int y=0; y<size; y++)
 		{
 			for (int x=0; x<size; x++)
 			{
-				if ([kmap getCellNum:x yPos:y] == i)
+				if ([kmap getCageNumber:x yPos:y] == i)
 				{
 					sum += fixNums[x][y] ? fixNums[x][y] : answerNums[x][y];	// 사용자가 입력한 숫자 합계
 				}

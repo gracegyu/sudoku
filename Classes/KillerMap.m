@@ -19,7 +19,18 @@
 	[super dealloc];
 }
 
-
+- (id) initWithMap:(KillerMap*)source
+{
+	if ((super.init) == nil)
+		return nil;
+	
+	size = source.size;
+	memcpy(map,		[source getMapArray],	sizeof(map));
+	memcpy(color,	[source getColorArray], sizeof(color));
+	memcpy(cage,	[source getCageArray],	sizeof(cage));
+	
+	return self;
+}
 
 - (id) initWithSize:(NSInteger)sizeMap
 {
@@ -34,15 +45,15 @@
 	
 	memset(map, -1, sizeof(map));
 	memset(color, -1, sizeof(color));
-	memset(cell, -1, sizeof(cell));
+	memset(cage, -1, sizeof(cage));
 	NSInteger num=0;
 	
 	while ([self FillRandomMap:num] == YES)
 	{
 		num++;
 	}
-	cell[num].x0 = -1;
-	cell[num].y0 = -1;
+	cage[num].x0 = -1;
+	cage[num].y0 = -1;
 	[self printMap];
 	
 	return self;
@@ -120,8 +131,8 @@
 	NSInteger sizeBlock = [self GetRandomBlockSize];	// 2~4
 	memset(tempColor, 0, sizeof(tempColor));
 	
-	cell[num].x0 = xPos;
-	cell[num].y0 = yPos;
+	cage[num].x0 = xPos;
+	cage[num].y0 = yPos;
 	
 	//DLog(@"sizeBlock=%d", sizeBlock);
 	
@@ -137,7 +148,7 @@
 		}
 	}
 	
-	[self SetCellColor:num];
+	[self SetCageColor:num];
 	
 	
 	return YES;
@@ -211,7 +222,7 @@
 	return YES;	
 }
 
-- (void) SetCellColor:(NSInteger)num
+- (void) SetCageColor:(NSInteger)num
 {
 	NSInteger countNeighborColor=0;
 	NSInteger countAvailColor=0;
@@ -265,7 +276,7 @@
 	}
 }
 
-- (NSInteger) getCellNum:(NSInteger)x yPos:(NSInteger)y
+- (NSInteger) getCageNumber:(NSInteger)x yPos:(NSInteger)y
 {
 	return map[x][y];
 }	// from map
@@ -274,16 +285,16 @@
 {
 	return color[x][y];
 }	// from color
-- (KillerCell*) getCellData:(NSInteger)num
+- (KillerCage*) getCageData:(NSInteger)num
 {
-	return cell[num].x0 >= 0 ? &(cell[num]) : NULL;
+	return cage[num].x0 >= 0 ? &(cage[num]) : NULL;
 }	// from cell
 
 
-- (NSInteger) getCellCount
+- (NSInteger) getCageCount
 {
 	int num = 0;
-	while (cell[num].x0 >= 0)
+	while (cage[num].x0 >= 0)
 	{
 		num++;
 	}
@@ -295,7 +306,7 @@
 NSInteger   size;							// 6,9
 NSInteger	map[MAXMAPSIZE][MAXMAPSIZE];
 NSInteger	color[MAXMAPSIZE][MAXMAPSIZE];	// 0~7
-KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
+KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 
 - (void) saveData
 {
@@ -303,20 +314,20 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 	
 	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*3+1] = "";
 	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*3+1] = "";
-	char zStrCell[MAXMAPSIZE*MAXMAPSIZE*3] = "";
+	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*3] = "";
 	
 	[KillerMap getNumsPipe:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap getNumsPipe:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
-	[KillerMap getNumsPipe:zStrCell		size:[self getCellCount]*sizeof(KillerCell)/sizeof(NSInteger)
-										nums:(NSInteger*)&cell[0]];
-	//DLog(@"zStrCell(%s)", zStrCell);
+	[KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
+										nums:(NSInteger*)&cage[0]];
+	//DLog(@"zStrCage(%s)", zStrCage);
 	
 	NSString *str = [NSString stringWithFormat:
 					 @"%d,%s,%s,%s",
 					 size,
 					 zStrMap,
 					 zStrColor,
-					 zStrCell];
+					 zStrCage];
 	
 	//DLog(@"saveData(%@)", str);
 	
@@ -330,7 +341,7 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 	
 	memset(map, -1, sizeof(map));
 	memset(color, -1, sizeof(color));
-	memset(cell, -1, sizeof(cell));
+	memset(cage, -1, sizeof(cage));
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kKillerMap];
@@ -345,7 +356,7 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 	size = [[listItems objectAtIndex:0] integerValue];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:1] size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
-	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCell)	nums:(NSInteger*)&cell[0]];
+	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)&cage[0]];
 	
 	return self;
 }
@@ -377,6 +388,20 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 		nums[i] = [[listItems objectAtIndex:i] integerValue];
 	}
 }
+
+- (NSInteger*) getMapArray
+{
+	return (NSInteger*) map;
+}
+- (NSInteger*) getColorArray
+{
+	return (NSInteger*) color;
+}
+- (KillerCage*) getCageArray
+{
+	return (KillerCage*) cage;
+}
+
 
 
 @end

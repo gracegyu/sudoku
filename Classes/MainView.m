@@ -874,13 +874,13 @@ static NSUInteger RainbowColorTemplate[7] = {
 - (void)drawKillerSumNum:(CGContextRef)context
 {
 	KillerMap *kmap = sudokuGame.kmap;
-	KillerCell *cell;
+	KillerCage *cell;
 	NSInteger x, y, sum;
 	CGRect rect;
 	BOOL isWrongSum;
 
 
-	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
 		x = cell->x0;
 		y = cell->y0;

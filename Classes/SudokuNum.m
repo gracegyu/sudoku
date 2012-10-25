@@ -25,8 +25,10 @@
 - (void)dealloc {
 	[strUndo release];
     [map release];
-// zzz release nums
-    
+#ifdef KILLERSUDOKU
+	[kmap release];
+#endif
+	
 	[super dealloc];
 }
 
@@ -87,6 +89,10 @@
 	countFunc = 0;
     
     [self initMap:defmap];
+#ifdef KILLERSUDOKU
+	kmap = [[KillerMap alloc] initWithSize:size];
+#endif
+	
     [self initNumsUndo];
 #ifdef GTSUDOKU
     [self initGTSudoku];
@@ -107,6 +113,14 @@
 {
     return map;
 }
+
+#ifdef KILLERSUDOKU
+
+- (KillerMap*) getKillerMap
+{
+    return kmap;
+}
+#endif
 
 - (NSInteger) randNum:(NSInteger) num
 {
@@ -607,6 +621,32 @@
 			}
 		}
 	}
+	
+#ifdef KILLERSUDOKU
+    int cageNum = [kmap getCageNumber:xPos yPos:yPos];
+	
+    for (x=0; x<size; x++)
+    {
+		for (y=0; y<size; y++)
+		{
+			if (cageNum == [kmap getCageNumber:x yPos:y])		// 케이지 안에서는 숫자가 중복되면 안된다.
+			{
+				if (x != xPos && y != yPos)
+				{
+					if ([self delMemo:num x:x y:y] == NO)
+					{
+						DLog(@"Failed");
+						foundFail++;
+						bOkAutoSet = NO;
+						return NO;
+					}
+				}
+			}
+		}
+	}
+#endif
+	
+	
 	//[self printNums];
 	
 	[self findFixedNum];
@@ -824,19 +864,12 @@
 
 
 
-- (BOOL) setCellAuto:(NSInteger)handy
+- (BOOL) setCellAuto
 {
 	int numRandom;
 	int num;
 
 	countFunc++;
-    
-    // Handy 적용하다가 무한루프에 빠질 수 있음...
-/*	if (countNotFixed == 0) {	// last time, Handy 적용한다.
-		[self setCellApplyHandy:handy];
-		return NO;  // 게임 생성 완성
-	}	
-*/
 	bOkAutoSet = YES;
 	numSetCell = 0;
 	// countNotFixed -> Random 값 만들기
@@ -1284,7 +1317,7 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 		[sudokuNum countCell];
 		//[sudokuNum printNums];
 		NSInteger i = 0;
-		while ([sudokuNum setCellAuto:HandyCount[sizePuzzle][level]])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+		while ([sudokuNum setCellAuto])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 		{
 			if (++i > sizePuzzle*sizePuzzle)
 			{
