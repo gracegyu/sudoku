@@ -1221,11 +1221,20 @@
 	if (!mainView.sudokuGame)
 		return;
 	
-	NSInteger time = [mainView.sudokuGame add1sec];
+	NSInteger time;
 	
-	[self updateGameTime:time];	
-//	if (!mainView.sudokuGame.isGameFinished)	// lock the screen
-//		[mainView.sudokuGame saveData];
+	time = [mainView.sudokuGame updateGameElapsedTime];
+	[self updateGameTime:time];
+
+	time = [mainView.sudokuGame updateHintElapsedTime];
+	[self updateHintCount];
+	
+	if (time <= 0)
+	{
+		[mainView.sudokuGame resetHintTime];
+	}
+
+	
 }
 
 - (void) updateBlankCellCount
@@ -1240,16 +1249,17 @@
 	labelBlank.text =str;
 }
 
+
+
 - (void) updateHintCount
 {
 	if (!mainView.sudokuGame)
 		return;
 	
 	NSInteger count = mainView.sudokuGame.countHint;
-	NSString *str;
-	str = [NSString stringWithFormat:@"%d", count];
-	
-	labelHint.text =str;
+	NSInteger time = (NSInteger)mainView.sudokuGame.hintTime;
+	labelHint.text =[NSString stringWithFormat:@"%d(%d:%02d)", count, time/60, time%60];
+
 
 }
 

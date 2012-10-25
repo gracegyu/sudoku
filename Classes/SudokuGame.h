@@ -19,6 +19,8 @@
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)
 	NSTimeInterval	gameTime;			// Game time (seconds)
+	NSTimeInterval	hintTime;			// Hint add time (seconds)
+	
 	BOOL			isGameFinished;		// 0, 1
     NSInteger       mapNums[9][9];		// Map num (9x9 1~9
 	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
@@ -42,7 +44,8 @@
 @property GAMELEVEL			gameLevel;
 @property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
-@property NSTimeInterval	gameTime;			
+@property NSTimeInterval	gameTime;
+@property NSTimeInterval	hintTime;
 @property BOOL			isGameFinished;
 @property (nonatomic, retain) SudokuUndo      *sudokuUndo;
 @property NSInteger		countBlank;
@@ -96,7 +99,9 @@
 + (void) get9x9Strs:(char*)str	size:(NSInteger)size    strs:(char*)strs;
 + (void) set9x9Strs:(NSString *)str	size:(NSInteger)size strs:(char*)strs;
 
-- (NSInteger) add1sec;
+- (NSInteger) updateGameElapsedTime;
+- (NSInteger) updateHintElapsedTime;
+- (void) resetHintTime;
 - (NSInteger) countBlankCells;
 - (NSInteger) countFixCells;
 

@@ -20,6 +20,7 @@
 @synthesize startTime;
 @synthesize lastTime;
 @synthesize gameTime;
+@synthesize hintTime;
 @synthesize isGameFinished;
 @synthesize countBlank;
 @synthesize countFixNums;
@@ -49,6 +50,9 @@
 
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
+    return 1;
+/*
+
 #ifdef GTSUDOKU
     return sizeTable > 6 ? 3 : 2;
 #else
@@ -58,7 +62,7 @@
     return sizeTable > 6 ? 2 : 1;
 #endif
 #endif
-    
+*/
 }
 
 - (NSInteger) countPuzzleNum
@@ -202,6 +206,7 @@
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
 	gameTime = 0;
+	hintTime = SECONDSFORFREEHINT;
 	isGameFinished = NO;
 	countHint = [self getDefHintCount:size];
 	gameLevel = level;
@@ -660,6 +665,16 @@
 		bAutoMemo = NO;
 	}
 	bAutoMemoUndoLog = YES;
+	
+	if ([listItems count] > 14)	// hint counter
+	{
+		hintTime = [[listItems objectAtIndex:14] floatValue];
+	} else {
+		hintTime = SECONDSFORFREEHINT;
+	}
+	
+	
+
 	
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
 #ifdef KILLERSUDOKU
@@ -1331,7 +1346,7 @@
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -1345,7 +1360,8 @@
 					 countHint,
                      size,                  // 9칸?
                      (char*)zStrMapNum,
-					 bAutoMemo?1:0];
+					 bAutoMemo?1:0,
+					 hintTime];
 					 
 	//DLog(@"saveData(%@)", str);
 	
@@ -1379,12 +1395,27 @@
 	return sudokuGame;
 }
 
-- (NSInteger) add1sec
+- (NSInteger) updateGameElapsedTime
 {
 	if (!isGameFinished)
 		gameTime += 1;
 	
 	return (NSInteger) gameTime;
+}
+
+- (NSInteger) updateHintElapsedTime
+{
+	if (!isGameFinished)
+		hintTime -= 1;
+	
+	return (NSInteger) hintTime;
+}
+
+- (void) resetHintTime
+{
+	hintTime = SECONDSFORFREEHINT;
+	countHint += 1;
+	[self saveData];
 }
 
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos

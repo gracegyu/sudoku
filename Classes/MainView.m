@@ -891,7 +891,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 						  cCellWidth/2,
 						  cCellHeight/4);
 		isWrongSum = [sudokuGame isWrongSumCell:x yPos:y];
-		if (isWrongSum)
+		if (isWrongSum && bSettingDuplicationWarning)
 		{
 			[self drawNumRectLeft:context
 							  num:sum
