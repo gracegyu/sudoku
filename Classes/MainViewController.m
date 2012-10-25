@@ -1259,14 +1259,14 @@
 	if (!mainView.sudokuGame)
 		return;
 	
-	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+	BOOL bLock = (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
 	if (count > 0)	{
 		buttonReset.alpha = 1.0f;
 		buttonReset.enabled = bLock ? NO : YES;
 	} else {
-		buttonReset.alpha = 0.5f;
+		buttonReset.alpha = 0.3f;
 		buttonReset.enabled = NO;		
 	}
 }
