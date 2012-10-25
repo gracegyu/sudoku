@@ -42,6 +42,8 @@ enum SKINCOLOR
 	
 	SC_BACKGROUND_BUTTON_NORMAL,
 	SC_BACKGROUND_BUTTON_PRESSED,
+	SC_BACKGROUND_BUTTON_MEMO_NORMAL,
+	SC_BACKGROUND_BUTTON_MEMO_PRESSED,
 	SC_TEXT_BUTTON_NUMBER,
 	SC_TEXT_BUTTON_MEMO,
 	
@@ -78,10 +80,10 @@ typedef enum SKINCOLOR SKINCOLOR;
 	UIFont *cellWrongSumFont;
 	UIFont *buttonSmallFont;
 	UIFont *buttonBigFont;
-	UIFont *buttonTextFont;
+	//UIFont *buttonTextFont;
 	UIFont *buttonMemoSmallFont;
 	UIFont *buttonMemoBigFont;
-	UIFont *buttonMemoTextFont;
+	//UIFont *buttonMemoTextFont;
 	
     SystemSoundID   soundClickID;	
     SystemSoundID   soundClearID;	
@@ -137,10 +139,10 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property (nonatomic, retain) UIFont *cellWrongSumFont;
 @property (nonatomic, retain) UIFont *buttonSmallFont;
 @property (nonatomic, retain) UIFont *buttonBigFont;
-@property (nonatomic, retain) UIFont *buttonTextFont;
+//@property (nonatomic, retain) UIFont *buttonTextFont;
 @property (nonatomic, retain) UIFont *buttonMemoSmallFont;
 @property (nonatomic, retain) UIFont *buttonMemoBigFont;
-@property (nonatomic, retain) UIFont *buttonMemoTextFont;
+//@property (nonatomic, retain) UIFont *buttonMemoTextFont;
 
 //@property UIInterfaceOrientation	lastOrientation;
 

@@ -47,10 +47,10 @@
 @synthesize cellWrongSumFont;
 @synthesize buttonSmallFont;
 @synthesize buttonBigFont;
-@synthesize buttonTextFont;
+//@synthesize buttonTextFont;
 @synthesize buttonMemoSmallFont;
 @synthesize buttonMemoBigFont;
-@synthesize buttonMemoTextFont;
+//@synthesize buttonMemoTextFont;
 
 
 
@@ -90,12 +90,12 @@ static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
 	{	0x809AE0FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x809AE0FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3B3,0xF3F3C0CC,
 		0x68687CFF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,0x000000FF,
-		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
+		0xE6E6E680,0xE6E6E6E6,0xBBE6BB80,0xBBE6BBE6,0x1A1A66B3,0x1A1A66B3
 	 },
 	{	0x3F83BFFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x3F83BFFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3B3,0xF3F3C0CC,
 		0x68687CFF,0x80B380FF,0x80CC99FF,0x8099B3FF,0xFF4D00E6,0xB30080E6,0x000000FF,
-		0xE6E6E680,0xE6E6E6E6,0x1A1A66B3,0x1A1A66B3
+		0xE6E6E680,0xE6E6E6E6,0xBBE6BB80,0xBBE6BBE6,0x1A1A66B3,0x1A1A66B3
 	},
 	{0}
 };
@@ -1267,6 +1267,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	BOOL bPuzzleNum = NO;
 	BOOL bMemoNum = NO;
 	CGFloat x, y;
+	NSInteger numColor;
 	
 	
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
@@ -1283,18 +1284,20 @@ static NSUInteger RainbowColorTemplate[7] = {
 	for (i=1; i<=sudokuGame.size; i++)    // 버튼 모양 그리기
 	{
 		x = [self buttonXCenter:i] - cButtonWidth/2;
-		y = [self buttonYCenter:i] - cButtonHeight/2; 
+		y = [self buttonYCenter:i] - cButtonHeight/2;
+		
 		
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		if (bMemoNum && i>0 && i<=sudokuGame.size && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
 		{
-			CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
-			CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
+			numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_PRESSED : SC_BACKGROUND_BUTTON_PRESSED;
 		} else {
-			CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor);
-			CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor);
+			numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_NORMAL: SC_BACKGROUND_BUTTON_NORMAL;
 		}	
 
+		CGContextSetStrokeColorWithColor(context, skincolor[numColor].CGColor);
+		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
+		
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		//DLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
@@ -1304,8 +1307,10 @@ static NSUInteger RainbowColorTemplate[7] = {
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
             CGColorRef color;
-            if (bPuzzleNum && i <= sudokuGame.size)	{
-				color = skincolor[SC_BACKGROUND_BUTTON_NORMAL].CGColor;
+            if (bPuzzleNum && i <= sudokuGame.size)
+			{
+				numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_NORMAL: SC_BACKGROUND_BUTTON_NORMAL;
+				color = skincolor[numColor].CGColor;
 			} else {
 				color = bMemoMode ? skincolor[SC_TEXT_BUTTON_MEMO].CGColor : skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
 			}
@@ -1327,9 +1332,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 		y = [self buttonYCenter:i] - cButtonHeight/2; 
 		
 		
+		numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_PRESSED : SC_BACKGROUND_BUTTON_PRESSED;
+		
 		CGContextSetLineWidth(context, cLineDrawWidth);
-		CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
-		CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_BUTTON_PRESSED].CGColor);
+		CGContextSetStrokeColorWithColor(context, skincolor[numColor].CGColor);
+		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		
 		CGContextAddEllipseInRect(context, currentRect);
@@ -2031,10 +2038,10 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
-#define cButtonTextFontSize         (0.8f * MINWHB) //20*cResizeRatioW
-#define cButtonMemoBigFontSize		(0.8f * MINWHB) //35*cResizeRatioW
-#define cButtonMemoSmallFontSize	(0.7f * MINWHB) //25*cResizeRatioW
-#define cButtonMemoTextFontSize		(0.7f * MINWHB) //17*cResizeRatioW
+//#define cButtonTextFontSize         (0.8f * MINWHB) //20*cResizeRatioW
+#define cButtonMemoBigFontSize		(0.7f * MINWHB) //35*cResizeRatioW
+#define cButtonMemoSmallFontSize	(0.6f * MINWHB) //25*cResizeRatioW
+//#define cButtonMemoTextFontSize		(0.7f * MINWHB) //17*cResizeRatioW
 
 
 
@@ -2055,10 +2062,10 @@ static NSUInteger RainbowColorTemplate[7] = {
 	self.cellWrongSumFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellWrongSumFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
 	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];
-	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
+//	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
 	self.buttonMemoSmallFont	= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoSmallFontSize];
 	self.buttonMemoBigFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoBigFontSize];
-	self.buttonMemoTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoTextFontSize];
+//	self.buttonMemoTextFont		= [UIFont fontWithName:@"Trebuchet MS" size:cButtonMemoTextFontSize];
     
 }
 
