@@ -50,7 +50,7 @@
 
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
-    return 1;
+    return sizeTable > 6 ? 2 : 1;
 /*
 
 #ifdef GTSUDOKU
