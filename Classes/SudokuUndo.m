@@ -72,20 +72,20 @@
 
 - (NSInteger) getIndex
 {
-	//DLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 
 - (NSInteger) countUndo
 {
-	//DLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 - (NSInteger) countRedo
 {
-	//DLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
 	
     count = [arrayUndo count];
     return count - indexUndo;

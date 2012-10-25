@@ -636,11 +636,17 @@
 	[SudokuGame set9x9Nums:[listItems objectAtIndex:5] size:size nums:&puzzleNums[0][0]];
 	[SudokuGame set9x9Nums:[listItems objectAtIndex:6] size:size nums:&answerNums[0][0]];
 	[SudokuGame set9x9Nums:[listItems objectAtIndex:7] size:size nums:&fixNums[0][0]];
+/*
+#ifdef DEBUG
+	isGameFinished = NO;
+	fixNums[0][0] = 0;
+#endif
+*/
 	[SudokuGame set9x9Strs:[listItems objectAtIndex:8] size:size strs:&memoNums[0][0][0]];
 	
     if ([listItems count] > 12) {
         [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	size:size nums:&mapNums[0][0]];
-    } else {
+    } else {	// 하위호환을 위해서 default map을 제공한다.
         NSString *default9x9Map = @"111222333111222333111222333444555666444555666444555666777888999777888999777888999";
         [SudokuGame set9x9Nums:default9x9Map size:size nums:&mapNums[0][0]];
     }
@@ -866,7 +872,7 @@
 			{
 				if ([kmap getCellNum:x yPos:y] == i)
 				{
-					sum += answerNums[x][y] ? answerNums[x][y] : fixNums[x][y];	// 사용자가 입력한 숫자 합계
+					sum += fixNums[x][y] ? fixNums[x][y] : answerNums[x][y];	// 사용자가 입력한 숫자 합계
 				}
 			}
 		}
@@ -947,6 +953,8 @@
 	if (wrongCells == 0)
 	{
 		*wrongSums = [self countUncorrectSum];
+		if (*wrongSums > 0)
+			return 0;		// wrong sum갯수는 paprameter로 넘겨준다.
 	}
 #endif
 

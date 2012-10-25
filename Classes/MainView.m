@@ -1938,7 +1938,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     {
         if (timerTouch)
         {
-            DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            //DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
             [timerTouch invalidate];
 //            [timerTouch release];
             timerTouch = nil;
@@ -1965,7 +1965,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     {
         if (timerTouch)
         {
-            DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            //DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
 
             [timerTouch invalidate];
 //            [timerTouch release];

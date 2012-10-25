@@ -18,6 +18,7 @@
 			<string>IBUILabel</string>
 			<string>IBUINavigationBar</string>
 			<string>IBUINavigationItem</string>
+			<string>IBUISegmentedControl</string>
 			<string>IBUIView</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -48,11 +49,55 @@
 						<int key="NSvFlags">290</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUISegmentedControl" id="614211658">
+								<reference key="NSNextResponder" ref="1043233709"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{7, 7}, {170, 30}}</string>
+								<reference key="NSSuperview" ref="1043233709"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="914673188"/>
+								<string key="NSReuseIdentifierKey">_NS:9</string>
+								<bool key="IBUIOpaque">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<int key="IBSegmentControlStyle">2</int>
+								<int key="IBNumberOfSegments">2</int>
+								<int key="IBSelectedSegmentIndex">0</int>
+								<object class="NSArray" key="IBSegmentTitles">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>Original</string>
+									<string>Auto</string>
+								</object>
+								<object class="NSMutableArray" key="IBSegmentWidths">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<real value="0.0"/>
+									<real value="0.0"/>
+								</object>
+								<object class="NSMutableArray" key="IBSegmentEnabledStates">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<boolean value="YES"/>
+									<boolean value="YES"/>
+								</object>
+								<object class="NSMutableArray" key="IBSegmentContentOffsets">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>{0, 0}</string>
+									<string>{0, 0}</string>
+								</object>
+								<object class="NSMutableArray" key="IBSegmentImages">
+									<bool key="EncodedWithXMLCoder">YES</bool>
+									<object class="NSNull" id="4"/>
+									<reference ref="4"/>
+								</object>
+								<object class="NSColor" key="IBTintColor" id="204414172">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC41MDE5NjA3ODQzIDAuNjAzOTIxNTY4NiAwLjg3ODQzMTM3MjUAA</bytes>
+								</object>
+							</object>
 							<object class="IBUIButton" id="914673188">
 								<reference key="NSNextResponder" ref="1043233709"/>
 								<int key="NSvFlags">292</int>
 								<string key="NSFrame">{{704, 7}, {57, 30}}</string>
 								<reference key="NSSuperview" ref="1043233709"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="16723326"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -86,11 +131,9 @@
 						</object>
 						<string key="NSFrameSize">{768, 44}</string>
 						<reference key="NSSuperview" ref="643985334"/>
-						<reference key="NSNextKeyView" ref="914673188"/>
-						<object class="NSColor" key="IBUIBackgroundColor" id="204414172">
-							<int key="NSColorSpace">1</int>
-							<bytes key="NSRGB">MC41MDE5NjA3ODQzIDAuNjAzOTIxNTY4NiAwLjg3ODQzMTM3MjUAA</bytes>
-						</object>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="614211658"/>
+						<reference key="IBUIBackgroundColor" ref="204414172"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -101,6 +144,11 @@
 							<object class="IBUINavigationItem" id="268076962">
 								<reference key="IBUINavigationBar" ref="1043233709"/>
 								<string key="IBUITitle">Score</string>
+								<object class="IBUIBarButtonItem" key="IBUILeftBarButtonItem" id="226555819">
+									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+									<reference key="IBUICustomView" ref="614211658"/>
+									<reference key="IBUINavigationItem" ref="268076962"/>
+								</object>
 								<object class="IBUIBarButtonItem" key="IBUIRightBarButtonItem" id="662469018">
 									<string key="IBUITitle">Item</string>
 									<string key="targetRuntimeIdentifier">IBIPadFramework</string>
@@ -122,6 +170,8 @@
 								<int key="NSvFlags">271</int>
 								<string key="NSFrame">{{0, 889}, {780, 42}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -152,6 +202,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 155}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="110205476"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -177,6 +228,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 165}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1004943947"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -204,6 +256,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 165}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="265121036"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -228,6 +281,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{442, 165}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="882164849"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -252,6 +306,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 165}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="252544046"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -276,6 +331,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 228}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="563749475"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -298,6 +354,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 238}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="971227837"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -322,6 +379,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 238}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="227449784"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -346,6 +404,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{442, 238}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="756984620"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -370,6 +429,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 238}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="283025851"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -394,6 +454,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 302}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="949560282"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -416,6 +477,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 312}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1003388132"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -440,6 +502,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 312}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="545888258"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -464,6 +527,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{442, 312}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="107237868"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -488,6 +552,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 312}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="125516902"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -512,6 +577,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 376}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="515058276"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -534,6 +600,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 386}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="770150741"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -558,6 +625,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 386}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="218873573"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -582,6 +650,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{442, 386}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="85299788"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -606,6 +675,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 386}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="135554419"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -630,6 +700,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 449}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="423284748"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -652,6 +723,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 459}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="54789674"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -676,6 +748,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 459}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="617790551"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -700,6 +773,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{442, 459}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="440007074"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -724,6 +798,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 459}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="979443222"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -748,6 +823,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 186}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="745941231"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -784,6 +860,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 259}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="989313406"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -808,6 +885,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 333}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="15710508"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -832,6 +910,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 407}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1019553483"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -856,6 +935,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{585, 480}, {103, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="259946486"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -880,6 +960,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 523}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="881624558"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -902,6 +983,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{232, 533}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="476759968"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -926,6 +1008,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{342, 533}, {66, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="34743061"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -950,6 +1033,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{2, 602}, {189, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="899513173"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -975,6 +1059,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{258, 610}, {430, 30}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="848644502"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1001,6 +1086,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{210, 90}, {110, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="754685698"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1025,6 +1111,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{321, 90}, {109, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="172947730"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1049,6 +1136,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{424, 90}, {139, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="276704568"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1073,6 +1161,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{577, 90}, {127, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="622513496"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -1097,6 +1186,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{719, 454}, {43, 43}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="747355524"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1131,6 +1221,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{719, 379}, {43, 43}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="349714588"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1152,6 +1243,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{719, 306}, {43, 43}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="368387159"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1173,6 +1265,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{719, 232}, {43, 43}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="880203945"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1194,6 +1287,7 @@
 								<int key="NSvFlags">290</int>
 								<string key="NSFrame">{{719, 156}, {43, 43}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="935039098"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1215,6 +1309,7 @@
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{62, 806}, {300, 60}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="63428584"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1239,6 +1334,7 @@
 								<int key="NSvFlags">266</int>
 								<string key="NSFrame">{{394, 806}, {300, 60}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="864890174"/>
 								<string key="NSReuseIdentifierKey">_NS:9</string>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1261,6 +1357,7 @@
 						</object>
 						<string key="NSFrame">{{0, 44}, {768, 960}}</string>
 						<reference key="NSSuperview" ref="643985334"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="727934895"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
@@ -1272,6 +1369,7 @@
 				</object>
 				<string key="NSFrame">{{0, 20}, {768, 1004}}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="1043233709"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
@@ -1632,6 +1730,14 @@
 					<int key="connectionID">127</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">segmentAuto</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="614211658"/>
+					</object>
+					<int key="connectionID">134</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showGameCenterLeaderboard</string>
 						<reference key="source" ref="848644502"/>
@@ -1702,6 +1808,15 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">112</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">setAuto</string>
+						<reference key="source" ref="614211658"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">13</int>
+					</object>
+					<int key="connectionID">135</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1972,6 +2087,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="662469018"/>
+							<reference ref="226555819"/>
 						</object>
 						<reference key="parent" ref="1043233709"/>
 					</object>
@@ -1989,20 +2105,6 @@
 						<int key="objectID">96</int>
 						<reference key="object" ref="848644502"/>
 						<reference key="parent" ref="16723326"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">99</int>
-						<reference key="object" ref="662469018"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="914673188"/>
-						</object>
-						<reference key="parent" ref="268076962"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">100</int>
-						<reference key="object" ref="914673188"/>
-						<reference key="parent" ref="662469018"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">103</int>
@@ -2059,6 +2161,34 @@
 						<reference key="object" ref="979443222"/>
 						<reference key="parent" ref="16723326"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">99</int>
+						<reference key="object" ref="662469018"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="914673188"/>
+						</object>
+						<reference key="parent" ref="268076962"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">100</int>
+						<reference key="object" ref="914673188"/>
+						<reference key="parent" ref="662469018"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">133</int>
+						<reference key="object" ref="226555819"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="614211658"/>
+						</object>
+						<reference key="parent" ref="268076962"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">132</int>
+						<reference key="object" ref="614211658"/>
+						<reference key="parent" ref="226555819"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2086,6 +2216,9 @@
 					<string>121.IBPluginDependency</string>
 					<string>122.IBPluginDependency</string>
 					<string>13.IBPluginDependency</string>
+					<string>132.IBPluginDependency</string>
+					<string>132.IUISegmentedControlInspectorSelectedSegmentMetadataKey</string>
+					<string>133.IBPluginDependency</string>
 					<string>14.IBPluginDependency</string>
 					<string>15.IBPluginDependency</string>
 					<string>16.IBPluginDependency</string>
@@ -2149,6 +2282,9 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<integer value="1"/>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2200,9 +2336,471 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">127</int>
+			<int key="maxID">135</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">ScoreView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ScoreView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">ScoreViewController</string>
+					<string key="superclassName">UIViewController</string>
+					<object class="NSMutableDictionary" key="actions">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>done</string>
+							<string>setAuto</string>
+							<string>showGameCenterAchievement</string>
+							<string>showGameCenterLeaderboard</string>
+							<string>showGameCenterLeaderboardEasy</string>
+							<string>showGameCenterLeaderboardHard</string>
+							<string>showGameCenterLeaderboardNormal</string>
+							<string>showGameCenterLeaderboardVeryEasy</string>
+							<string>showGameCenterLeaderboardVeryHard</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="actionInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>done</string>
+							<string>setAuto</string>
+							<string>showGameCenterAchievement</string>
+							<string>showGameCenterLeaderboard</string>
+							<string>showGameCenterLeaderboardEasy</string>
+							<string>showGameCenterLeaderboardHard</string>
+							<string>showGameCenterLeaderboardNormal</string>
+							<string>showGameCenterLeaderboardVeryEasy</string>
+							<string>showGameCenterLeaderboardVeryHard</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">done</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">setAuto</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterAchievement</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboard</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboardEasy</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboardHard</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboardNormal</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboardVeryEasy</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">showGameCenterLeaderboardVeryHard</string>
+								<string key="candidateClassName">id</string>
+							</object>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="outlets">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>buttonDone</string>
+							<string>buttonGameCenterRanking</string>
+							<string>buttonGameCenterRanking1</string>
+							<string>buttonGameCenterRanking2</string>
+							<string>buttonGameCenterRanking3</string>
+							<string>buttonGameCenterRanking4</string>
+							<string>buttonGameCenterRanking5</string>
+							<string>labelEasyAverage</string>
+							<string>labelEasyBestTime</string>
+							<string>labelEasyClears</string>
+							<string>labelEasyGames</string>
+							<string>labelHardAverage</string>
+							<string>labelHardBestTime</string>
+							<string>labelHardClears</string>
+							<string>labelHardGames</string>
+							<string>labelNormalAverage</string>
+							<string>labelNormalBestTime</string>
+							<string>labelNormalClears</string>
+							<string>labelNormalGames</string>
+							<string>labelRankEasy</string>
+							<string>labelRankHard</string>
+							<string>labelRankNormal</string>
+							<string>labelRankVeryEasy</string>
+							<string>labelRankVeryHard</string>
+							<string>labelTitleAverage</string>
+							<string>labelTitleBestTime</string>
+							<string>labelTitleClears</string>
+							<string>labelTitleEasy</string>
+							<string>labelTitleGames</string>
+							<string>labelTitleHard</string>
+							<string>labelTitleNormal</string>
+							<string>labelTitleTotal</string>
+							<string>labelTitleTotalScore</string>
+							<string>labelTitleVeryEasy</string>
+							<string>labelTitleVeryHard</string>
+							<string>labelTotalClears</string>
+							<string>labelTotalGames</string>
+							<string>labelTotalScore</string>
+							<string>labelVeryEasyAverage</string>
+							<string>labelVeryEasyBestTime</string>
+							<string>labelVeryEasyClears</string>
+							<string>labelVeryEasyGames</string>
+							<string>labelVeryHardAverage</string>
+							<string>labelVeryHardBestTime</string>
+							<string>labelVeryHardClears</string>
+							<string>labelVeryHardGames</string>
+							<string>lableTitle</string>
+							<string>naviItem</string>
+							<string>segmentAuto</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UIButton</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UILabel</string>
+							<string>UINavigationItem</string>
+							<string>UISegmentedControl</string>
+						</object>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>buttonDone</string>
+							<string>buttonGameCenterRanking</string>
+							<string>buttonGameCenterRanking1</string>
+							<string>buttonGameCenterRanking2</string>
+							<string>buttonGameCenterRanking3</string>
+							<string>buttonGameCenterRanking4</string>
+							<string>buttonGameCenterRanking5</string>
+							<string>labelEasyAverage</string>
+							<string>labelEasyBestTime</string>
+							<string>labelEasyClears</string>
+							<string>labelEasyGames</string>
+							<string>labelHardAverage</string>
+							<string>labelHardBestTime</string>
+							<string>labelHardClears</string>
+							<string>labelHardGames</string>
+							<string>labelNormalAverage</string>
+							<string>labelNormalBestTime</string>
+							<string>labelNormalClears</string>
+							<string>labelNormalGames</string>
+							<string>labelRankEasy</string>
+							<string>labelRankHard</string>
+							<string>labelRankNormal</string>
+							<string>labelRankVeryEasy</string>
+							<string>labelRankVeryHard</string>
+							<string>labelTitleAverage</string>
+							<string>labelTitleBestTime</string>
+							<string>labelTitleClears</string>
+							<string>labelTitleEasy</string>
+							<string>labelTitleGames</string>
+							<string>labelTitleHard</string>
+							<string>labelTitleNormal</string>
+							<string>labelTitleTotal</string>
+							<string>labelTitleTotalScore</string>
+							<string>labelTitleVeryEasy</string>
+							<string>labelTitleVeryHard</string>
+							<string>labelTotalClears</string>
+							<string>labelTotalGames</string>
+							<string>labelTotalScore</string>
+							<string>labelVeryEasyAverage</string>
+							<string>labelVeryEasyBestTime</string>
+							<string>labelVeryEasyClears</string>
+							<string>labelVeryEasyGames</string>
+							<string>labelVeryHardAverage</string>
+							<string>labelVeryHardBestTime</string>
+							<string>labelVeryHardClears</string>
+							<string>labelVeryHardGames</string>
+							<string>lableTitle</string>
+							<string>naviItem</string>
+							<string>segmentAuto</string>
+						</object>
+						<object class="NSArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonDone</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking1</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking2</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking3</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking4</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">buttonGameCenterRanking5</string>
+								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelEasyAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelEasyBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelEasyClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelEasyGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelHardAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelHardBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelHardClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelHardGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelNormalAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelNormalBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelNormalClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelNormalGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelRankEasy</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelRankHard</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelRankNormal</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelRankVeryEasy</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelRankVeryHard</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleEasy</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleHard</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleNormal</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleTotal</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleTotalScore</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleVeryEasy</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTitleVeryHard</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTotalClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTotalGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelTotalScore</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryEasyAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryEasyBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryEasyClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryEasyGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryHardAverage</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryHardBestTime</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryHardClears</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">labelVeryHardGames</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">lableTitle</string>
+								<string key="candidateClassName">UILabel</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">naviItem</string>
+								<string key="candidateClassName">UINavigationItem</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">segmentAuto</string>
+								<string key="candidateClassName">UISegmentedControl</string>
+							</object>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/ScoreViewController.h</string>
+					</object>
+				</object>
+			</object>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBIPadFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
