@@ -44,6 +44,7 @@
 @synthesize cellSixFont;
 @synthesize cellNineFont;
 @synthesize cellSumFont;
+@synthesize cellWrongSumFont;
 @synthesize buttonSmallFont;
 @synthesize buttonBigFont;
 @synthesize buttonTextFont;
@@ -875,6 +876,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 	KillerCell *cell;
 	NSInteger x, y, sum;
 	CGRect rect;
+	BOOL isWrongSum;
+
 
 	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
 	{
@@ -887,11 +890,21 @@ static NSUInteger RainbowColorTemplate[7] = {
 						  cTableStartY + y*cCellHeight + cCellHeight*0.03,
 						  cCellWidth/2,
 						  cCellHeight/4);
-		[self drawNumRectLeft:context
-						  num:sum
-						 rect:rect
-						color:skincolor[SC_TEXT_CELL_KILLER_SUM].CGColor
-						 font:cellSumFont];
+		isWrongSum = [sudokuGame isWrongSumCell:x yPos:y];
+		if (isWrongSum)
+		{
+			[self drawNumRectLeft:context
+							  num:sum
+							 rect:rect
+							color:skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor
+							 font:cellWrongSumFont];
+		} else {
+			[self drawNumRectLeft:context
+							  num:sum
+							 rect:rect
+							color:skincolor[SC_TEXT_CELL_KILLER_SUM].CGColor
+							 font:cellSumFont];
+		}
 	}
 
 }
@@ -1526,9 +1539,31 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) checkClearGame
 {
-	NSInteger ret = [sudokuGame clearGame];
-	
+#ifdef KILLERSUDOKU
+	NSInteger wrongSums = 0;
+	NSInteger ret = [sudokuGame clearGameCheckAllCells:&wrongSums];
+#else
+	NSInteger ret = [sudokuGame clearGameCheckAllCells];
+#endif
 	if (ret == 0) {
+#ifdef KILLERSUDOKU
+		if (wrongSums > 0)
+		{
+			NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong sum(s)", nil), wrongSums];
+			
+			
+			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
+															message:msg
+														   delegate:self
+												  cancelButtonTitle:gettext(@"Ok", nil)
+												  otherButtonTitles:nil];
+			[alert show];
+			[alert release];
+			
+			return;
+		}
+
+#endif
         MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
         [ctrl writeScoreAfterFinishGame:sudokuGame];
 	} else if (ret > 0) {
@@ -1980,6 +2015,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 #define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
 #define cCellSumFontSize            (0.9f * MINWHT / 3) //11*cResizeRatioW
+#define cCellWrongSumFontSize       (1.0f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
@@ -2004,6 +2040,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	self.cellSixFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSixFontSize];
 	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
 	self.cellSumFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSumFontSize];
+	self.cellWrongSumFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellWrongSumFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
 	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];
 	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];

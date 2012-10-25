@@ -448,6 +448,10 @@
 #endif
 	// [self deleteAutoMemoSingleNum:]
 	// Single num은 굳이 처리하지 않아도 사용자가 입력할 것이다.
+#ifdef KILLERSUDOKU
+	// zzz 합계상 나올 수 없는 숫자는 지우기....
+#endif
+	
 }
 
 - (void) initAutoMemo
@@ -702,6 +706,28 @@
 	return num;
 }
 
+- (BOOL) checkUniqueNumXYAndMap:(NSInteger)xPos y:(NSInteger)yPos
+{
+	NSInteger numCheck = fixNums[xPos][yPos];
+    NSInteger numCompare;
+    int x, y;
+	
+	//가로,세로,Map 같은 숫자 비교
+	
+	for (y=0; y<size; y++) {
+		for (x=0; x<size; x++) {
+			if (x == xPos && y == yPos)
+				continue;   // 같은 셀은 비교할 필요가 없음
+			if (x == xPos || y == yPos || [self isSameMap:xPos y:yPos x2:x y2:y])   // 중복되면 안되는 셀
+			{
+				numCompare = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
+				if (numCheck == numCompare)
+					return NO;  // 중복된 셀이 출현했다.
+			}
+		}
+	}
+	return YES;
+}
 
 #ifdef GTSUDOKU
 
@@ -754,12 +780,9 @@
 }
 
     
-- (BOOL) checkCorrect:(NSInteger)xPos y:(NSInteger)yPos
+- (BOOL) checkGreatThanCorrect:(NSInteger)xPos y:(NSInteger)yPos
 {
     NSInteger numCheck = fixNums[xPos][yPos];
-    NSInteger numCompare;
-    int x, y;
-
     
     if (puzzleNums[xPos][yPos] > 0)
         return YES; // 문제는 언제나 참
@@ -767,19 +790,10 @@
     if (numCheck == 0)
         return YES; // 아직 끝난 게임이 아님
     
-    //가로,세로,Map 같은 숫자 비교
-    for (y=0; y<size; y++) {
-		for (x=0; x<size; x++) {
-            if (x == xPos && y == yPos)
-                continue;   // 같은 셀은 비교할 필요가 없음
-            if (x == xPos || y == yPos || [self isSameMap:xPos y:yPos x2:x y2:y])   // 중복되면 안되는 셀
-            {
-                numCompare = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
-                if (numCheck == numCompare)
-                    return NO;  // 중복된 셀이 출현했다.
-            }
-        }
-    }
+	
+	if ([self checkUniqueNumXYAndMap:xPos y:yPos] == NO)
+		return NO;
+	
 
     if ([self checkGreatThan:xPos y:yPos] == NO)
         return NO;
@@ -789,13 +803,73 @@
 #endif
 
 
-- (NSInteger) clearGame
+#ifdef KILLERSUDOKU
+
+- (BOOL) isWrongSumCell:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	NSInteger num = [kmap getCellNum:xPos yPos:yPos];
+	KillerCell *cell = [kmap getCellData:num];
+	NSInteger sum = 0;
+	
+	for (int y=0; y<size; y++)
+	{
+		for (int x=0; x<size; x++)
+		{
+			if ([kmap getCellNum:x yPos:y] == num)
+			{
+				if (fixNums[x][y] == 0)
+					return NO;
+				sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
+			}
+		}
+	}
+	if (cell->sum != sum)
+		return YES;
+	
+	return NO;	
+}
+
+- (NSInteger) countUncorrectSum
+{
+	KillerCell *cell;
+	NSInteger sum, uncorrect=0;
+	
+	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
+	{
+		cell->sum = 0;
+		for (int y=0; y<size; y++)
+		{
+			for (int x=0; x<size; x++)
+			{
+				if ([kmap getCellNum:x yPos:y] == i)
+				{
+					sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
+				}
+			}
+		}
+		if (cell->sum != sum)	// 제시된 합계와 사용자가 입력한 합계가 다름
+		{
+			uncorrect++;
+		}
+	}
+	
+	return uncorrect;
+}
+
+#endif
+
+
+
+#ifdef KILLERSUDOKU
+- (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums
+#else
+- (NSInteger) clearGameCheckAllCells
+#endif
 {
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
-#ifdef GTSUDOKU
     NSInteger strangeCells = 0;
-#endif
+
     
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
@@ -810,10 +884,10 @@
     
 	for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
-#ifdef GTSUDOKU // 답이 2개일지도 모르니
 			if (puzzleNums[x][y] == 0)
             {
-                if ([self checkCorrect:x y:y] == NO)
+#ifdef GTSUDOKU // 답이 2개일지도 모르니
+                if ([self checkGreatThanCorrect:x y:y] == NO)
                 {
                     DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
                     wrongCells++;
@@ -822,33 +896,36 @@
                     {
                         strangeCells++;
                         DLog(@"StangeCell 발견");
-/*
-                        NSString *msg = [NSString stringWithFormat:@"Strange Cell(%d,%d)Answer(%d)fix(%d)",
-                                         x, y, answerNums[x][y], fixNums[x][y]];
-
-                        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Alert!"
-                                                                        message:msg
-                                                                       delegate:self
-                                                              cancelButtonTitle:@"Ok"
-                                                              otherButtonTitles:nil];
-                        [alert show];
-                        [alert release];
-*/                        
-                        
-                        
                     }
                 }
-                
-			}
+#elifdef KILLERSUDOKU
+                if ([self checkUniqueNumXYAndMap:x y:y] == NO)
+                {
+                    DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                    wrongCells++;
+                } else {
+                    if (answerNums[x][y] != fixNums[x][y])
+                    {
+                        strangeCells++;
+                        DLog(@"StangeCell 발견");
+                    }
+                }
 #else
-			if (puzzleNums[x][y] == 0 && answerNums[x][y] != fixNums[x][y]) {
-				DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
-				wrongCells++;
-			}
+				if (answerNums[x][y] != fixNums[x][y]) {
+					DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+					wrongCells++;
+				}
 #endif
+			}
 		}
-	}	
+	}
 	
+#ifdef KILLERSUDOKU
+	if (wrongCells == 0)
+	{
+		*wrongSums = [self countUncorrectSum];
+	}
+#endif
 
 	if (wrongCells > 0)
 		return wrongCells;	// You've finisehd but You have wrong cell;

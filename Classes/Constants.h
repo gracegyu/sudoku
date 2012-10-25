@@ -87,7 +87,7 @@ typedef enum DEVICETYPE DEVICETYPE;
 
 #define TIME_HOLDANDCHOICE	0.35
 #define TIME_UNDOREPEATE	0.5
-#define TIME_UNDOINTERVAL	0.15
+#define TIME_UNDOINTERVAL	0.05	// undo가 느리게 진행될 수 있으므로... 짧게 설정
 
 
 #ifdef DEBUG

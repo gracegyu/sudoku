@@ -92,9 +92,9 @@
 {
 	NSInteger Rand = ((unsigned int)arc4random()) % 100;
 	
-	if (Rand < 50)
+	if (Rand < 60)
 		return 2;
-	if (Rand < 80)
+	if (Rand < 93)
 		return 3;
 	return 4;
 }
