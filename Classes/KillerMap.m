@@ -329,7 +329,7 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 					 zStrColor,
 					 zStrCage];
 	
-	//DLog(@"saveData(%@)", str);
+	DLog(@"saveData KillerMap(%@)", str);
 	
 	[defaults setObject:str forKey:kKillerMap];
 }
@@ -349,7 +349,7 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 		DLog(@"loadData Failed");
 		return nil;
 	}
-	//DLog(@"initWithSaveData(%@)", str);
+	DLog(@"initWithSaveData KillerMap(%@)", str);
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 

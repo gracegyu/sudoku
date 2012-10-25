@@ -263,6 +263,29 @@
 	}
 }
 
+#ifdef KILLERSUDOKU
+- (void) deleteAutoMemoCage:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	int x, y;
+	NSInteger cageNum = [kmap getCageNumber:xPos yPos:yPos];
+	
+    for (x=0; x<size; x++)
+    {
+		for (y=0; y<size; y++)
+		{
+			if (cageNum == [kmap getCageNumber:x yPos:y])
+			{
+				if (x != xPos && y != yPos)
+				{
+					[self delMemoNumsForAutoMemo:num x:x y:y];
+					//DLog(@"deleteAutoMemoXY(%d,%d)->%d", x, y, num);
+				}
+			}
+		}
+	}
+}
+#endif
+
 - (BOOL) deleteAutoMemoUniqueNumX
 {
 	int x,y,k;
@@ -344,7 +367,7 @@
 				x = posFirstFound;
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					DLog(@"deleteAutoMemoUniqueNumY(%d,%d)->%d", x, y, k);
+					//DLog(@"deleteAutoMemoUniqueNumY(%d,%d)->%d", x, y, k);
 					bRet = YES;
 				}
 			}
@@ -419,7 +442,7 @@
 	return bRet;
 }
 
-- (BOOL) deleteAutoMemoUniqueNum:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+- (BOOL) deleteAutoMemoUniqueNum
 {
 	BOOL bRetX, bRetY, bRetXY;
 	
@@ -427,9 +450,25 @@
 	bRetY =	[self deleteAutoMemoUniqueNumY];
 	bRetXY = [self deleteAutoMemoUniqueNumXY];
 	
-	return bRetX || bRetY; ///|| bRetXY;
+	return bRetX || bRetY || bRetXY;
 }
 
+- (void) updateAutoMemoOnlyUnique
+{
+#ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
+#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
+	if (1)	// GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
+#else
+		if (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD)
+#endif
+		{
+			while ([self deleteAutoMemoUniqueNum] == YES)
+			{
+				
+			}
+		}
+#endif
+}
 
 - (void) updateAutoMemo:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
@@ -441,20 +480,14 @@
 		[self deleteAutoMemoX:num xPos:xPos yPos:yPos];
 		[self deleteAutoMemoY:num xPos:xPos yPos:yPos];
 		[self deleteAutoMemoXY:num xPos:xPos yPos:yPos];
-	}
-#ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
-#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
-	if (1)	// GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
-#else
-	if (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD)
+#ifdef KILLERSUDOKU
+		[self deleteAutoMemoCage:num xPos:xPos yPos:yPos];
 #endif
-	{
-		while ([self deleteAutoMemoUniqueNum:num xPos:xPos yPos:yPos] == YES)
-		{
-			
-		}
+		
 	}
-#endif
+	
+	[self updateAutoMemoOnlyUnique];
+
 	// [self deleteAutoMemoSingleNum:]
 	// Single num은 굳이 처리하지 않아도 사용자가 입력할 것이다.
 #ifdef KILLERSUDOKU
@@ -1232,6 +1265,8 @@
 	[SudokuNum deleteNumFromStr:memoNums[x][y] num:num];
 	//DLog(@"	=> %s", memoNums[x][y]);
 	
+	[self updateAutoMemoOnlyUnique];	// 메모를 삭제할 때만 자동으로 삭제할 메모가 생긴다.
+
 
 	//[self saveData];
 }
@@ -1492,6 +1527,8 @@
 
 }
 
+
+
 - (CGPoint) runRedo
 {
 	BOOL bAutoCheck = NO;
@@ -1511,12 +1548,10 @@
         switch (undoData.mode) {
             case UNDOMODE_NUM_ADD:
                 fixNums[undoData.x][undoData.y] = undoData.num;
-				//[self updateAutoMemo:undoData.num xPos:undoData.x yPos:undoData.y];
 				bAutoCheck = YES;
                 break;
             case UNDOMODE_NUM_DEL:
                 fixNums[undoData.x][undoData.y] = 0;
-				//[self initAutoMemo];
 				// automemo 일괄 redo를 해야 한다.
 				bAutoCheck = YES;
                 break;
@@ -1527,12 +1562,12 @@
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
                 break;
             case UNDOMODE_AUTOMEMO_ADD:
-				NSAssert(0, @"runRedo");
+				//NSAssert(0, @"runRedo");
                 [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;
             case UNDOMODE_AUTOMEMO_DEL:
-				NSAssert(0, @"runRedo");
+				//NSAssert(0, @"runRedo");
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;

@@ -240,7 +240,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
-		DLog(@"Undo:getUndo(%d,%d)%d<-%d,M:%d", undo.x, undo.y, undo.num, undo.oldnum, undo.mode);
+		//DLog(@"Undo:getUndo(%d,%d)%d<-%d,M:%d", undo.x, undo.y, undo.num, undo.oldnum, undo.mode);
     }
     indexUndo--;
     
