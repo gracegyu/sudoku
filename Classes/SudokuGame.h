@@ -84,6 +84,7 @@
 #ifdef KILLERSUDOKU
 - (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums;
 - (BOOL) isWrongSumCell:(NSInteger)xPos yPos:(NSInteger)yPos;
+- (NSInteger) countCellInSum:(NSInteger)xPos yPos:(NSInteger)yPos;
 #else
 - (NSInteger) clearGameCheckAllCells;
 #endif

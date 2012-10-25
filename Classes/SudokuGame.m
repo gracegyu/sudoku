@@ -438,7 +438,11 @@
 		[self deleteAutoMemoXY:num xPos:xPos yPos:yPos];
 	}
 #ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
+#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
+	if (1)	// GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
+#else
 	if (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD)
+#endif
 	{
 		while ([self deleteAutoMemoUniqueNum:num xPos:xPos yPos:yPos] == YES)
 		{
@@ -829,6 +833,25 @@
 	return NO;	
 }
 
+// 나중에 셀의 후보 숫자를 보기 위해서 사용한다.
+- (NSInteger) countCellInSum:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	NSInteger num = [kmap getCellNum:xPos yPos:yPos];
+	NSInteger count = 0;
+	
+	for (int y=0; y<size; y++)
+	{
+		for (int x=0; x<size; x++)
+		{
+			if ([kmap getCellNum:x yPos:y] == num)
+			{
+				count++;
+			}
+		}
+	}
+	return count;
+}
+
 - (NSInteger) countUncorrectSum
 {
 	KillerCell *cell;
@@ -836,14 +859,14 @@
 	
 	for (int i=0; (cell = [kmap getCellData:i]) != NULL; i++)
 	{
-		cell->sum = 0;
+		sum = 0;
 		for (int y=0; y<size; y++)
 		{
 			for (int x=0; x<size; x++)
 			{
 				if ([kmap getCellNum:x yPos:y] == i)
 				{
-					sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
+					sum += answerNums[x][y] ? answerNums[x][y] : fixNums[x][y];	// 사용자가 입력한 숫자 합계
 				}
 			}
 		}
@@ -898,7 +921,7 @@
                         DLog(@"StangeCell 발견");
                     }
                 }
-#elifdef KILLERSUDOKU
+#elif (defined KILLERSUDOKU)
                 if ([self checkUniqueNumXYAndMap:x y:y] == NO)
                 {
                     DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);

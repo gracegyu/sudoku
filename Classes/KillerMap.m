@@ -309,7 +309,7 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 	[KillerMap getNumsPipe:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap getNumsPipe:zStrCell		size:[self getCellCount]*sizeof(KillerCell)/sizeof(NSInteger)
 										nums:(NSInteger*)&cell[0]];
-	DLog(@"zStrCell(%s)", zStrCell);
+	//DLog(@"zStrCell(%s)", zStrCell);
 	
 	NSString *str = [NSString stringWithFormat:
 					 @"%d,%s,%s,%s",
@@ -318,7 +318,7 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 					 zStrColor,
 					 zStrCell];
 	
-	DLog(@"saveData(%@)", str);
+	//DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kKillerMap];
 }
@@ -338,7 +338,7 @@ KillerCell	cell[MAXMAPSIZE*MAXMAPSIZE/2];
 		DLog(@"loadData Failed");
 		return nil;
 	}
-	DLog(@"initWithSaveData(%@)", str);
+	//DLog(@"initWithSaveData(%@)", str);
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 
