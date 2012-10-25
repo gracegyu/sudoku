@@ -624,6 +624,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
     int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
     BOOL bConflict;
+	CGRect rectNum;
     
 #ifdef GTSUDOKU
     CGFloat margin = 0.12f;
@@ -641,7 +642,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	CGFloat x0 = rect.origin.x+rect.size.width*(margin+leftmargin);
 	CGFloat y0 = rect.origin.y+rect.size.height*(margin+topmargin);
 	CGFloat width = rect.size.width*(1-2*margin-leftmargin);
-	CGFloat height = rect.size.width*(1-2*margin-topmargin);
+	CGFloat height = rect.size.height*(1-2*margin-topmargin);
 	
 #ifdef KILLERSUDOKU
 	if (len == 8)
@@ -665,13 +666,13 @@ static NSUInteger RainbowColorTemplate[7] = {
 					bConflict = [self conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
 				}
 #endif
-                
+                rectNum = CGRectMake(x0+width*x/countW,
+									 y0+height*y/countH,
+									 width/countW,
+									 height/countH);
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
-                             rect:CGRectMake(x0+width*x/countW,
-                                             y0+height*y/countH,
-                                             width/countW,
-                                             height/countH)
+                             rect:rectNum
                             color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor : skincolor[SC_TEXT_CELL_MEMO_OK].CGColor
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;

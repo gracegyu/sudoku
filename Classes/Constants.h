@@ -11,7 +11,7 @@
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1507645bce8c4c")
 #endif
 
-#elif (defined KILLERSUDOKU)	// killersudoku9
+#elif defined(KILLERSUDOKU)	// killersudoku9
 
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a15088f9e25e0fa")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a15088f9935ab96")

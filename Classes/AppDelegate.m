@@ -71,16 +71,17 @@
                                     dataSource:mainViewController];
     
     
-    
-	self.mainViewController = [[MainViewController alloc] initWithNibName:
+	NSString *strNib = [NSString stringWithString:
 #ifdef ADMOB_FREEVERSION
-							    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" :
-                               (isIphone5 ? @"MainView4iPhone5" : @"MainViewFree")
+	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" :
+						(isIphone5 ? @"MainView4iPhone5" : @"MainViewFree")];
 #else
-                               cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
-                               (isIphone5 ? @"MainView4iPhone5" : @"MainView")
+	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
+					    (isIphone5 ? @"MainView4iPhone5" : @"MainView") ];
 #endif
-								bundle:nil];
+	
+    DLog(@"Nibname = %@", strNib);
+	self.mainViewController = [[MainViewController alloc] initWithNibName:strNib	bundle:nil];
 	// xxx for autorotate
     [window setRootViewController:self.mainViewController];
 

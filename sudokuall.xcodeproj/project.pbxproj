@@ -584,17 +584,6 @@
 		CF5C268A163932440051A025 /* bg9.png in Resources */ = {isa = PBXBuildFile; fileRef = CF566A5C1633F42D008BB41B /* bg9.png */; };
 		CF5C268B163932440051A025 /* bg10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE094DA1633F77F00B5EEA6 /* bg10.png */; };
 		CF5C268C163932440051A025 /* buttonbg.png in Resources */ = {isa = PBXBuildFile; fileRef = CF2022A716356C7700B9937E /* buttonbg.png */; };
-		CF5C268D163932440051A025 /* KillerSudoku9Paid.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB311637A7B900965E23 /* KillerSudoku9Paid.plist */; };
-		CF5C268E163932440051A025 /* KillerSudoku9PaidIcon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB321637A7B900965E23 /* KillerSudoku9PaidIcon-72.png */; };
-		CF5C268F163932440051A025 /* KillerSudoku9PaidIcon-512.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB331637A7B900965E23 /* KillerSudoku9PaidIcon-512.png */; };
-		CF5C2690163932440051A025 /* KillerSudoku9PaidIcon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB341637A7B900965E23 /* KillerSudoku9PaidIcon-1024.png */; };
-		CF5C2691163932440051A025 /* KillerSudoku9PaidIcon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB351637A7B900965E23 /* KillerSudoku9PaidIcon-Small-50.png */; };
-		CF5C2692163932440051A025 /* KillerSudoku9PaidIcon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB361637A7B900965E23 /* KillerSudoku9PaidIcon-Small.png */; };
-		CF5C2693163932440051A025 /* KillerSudoku9PaidIcon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB371637A7B900965E23 /* KillerSudoku9PaidIcon-Small@2x.png */; };
-		CF5C2694163932440051A025 /* KillerSudoku9PaidIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB381637A7B900965E23 /* KillerSudoku9PaidIcon.png */; };
-		CF5C2695163932440051A025 /* KillerSudoku9PaidIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB391637A7B900965E23 /* KillerSudoku9PaidIcon@2x.png */; };
-		CF5C2696163932440051A025 /* KillerSudoku9PaidIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB3A1637A7B900965E23 /* KillerSudoku9PaidIcon@2x~ipad.png */; };
-		CF5C2697163932440051A025 /* KillerSudoku9PaidIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB3B1637A7B900965E23 /* KillerSudoku9PaidIcon~ipad.png */; };
 		CF5C269A163932440051A025 /* Locale.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6BCCCA161D6F7F00879F6E /* Locale.m */; };
 		CF5C269B163932440051A025 /* SettingView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF712116161C7FC6001FB734 /* SettingView.m */; };
 		CF5C269C163932440051A025 /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF712118161C7FC6001FB734 /* SettingViewController.m */; };
@@ -5058,17 +5047,6 @@
 				CF5C268A163932440051A025 /* bg9.png in Resources */,
 				CF5C268B163932440051A025 /* bg10.png in Resources */,
 				CF5C268C163932440051A025 /* buttonbg.png in Resources */,
-				CF5C268D163932440051A025 /* KillerSudoku9Paid.plist in Resources */,
-				CF5C268E163932440051A025 /* KillerSudoku9PaidIcon-72.png in Resources */,
-				CF5C268F163932440051A025 /* KillerSudoku9PaidIcon-512.png in Resources */,
-				CF5C2690163932440051A025 /* KillerSudoku9PaidIcon-1024.png in Resources */,
-				CF5C2691163932440051A025 /* KillerSudoku9PaidIcon-Small-50.png in Resources */,
-				CF5C2692163932440051A025 /* KillerSudoku9PaidIcon-Small.png in Resources */,
-				CF5C2693163932440051A025 /* KillerSudoku9PaidIcon-Small@2x.png in Resources */,
-				CF5C2694163932440051A025 /* KillerSudoku9PaidIcon.png in Resources */,
-				CF5C2695163932440051A025 /* KillerSudoku9PaidIcon@2x.png in Resources */,
-				CF5C2696163932440051A025 /* KillerSudoku9PaidIcon@2x~ipad.png in Resources */,
-				CF5C2697163932440051A025 /* KillerSudoku9PaidIcon~ipad.png in Resources */,
 				CF5C2708163932C60051A025 /* KillerSudoku9Free.plist in Resources */,
 				CF5C270B163932D10051A025 /* InfoPlist.strings in Resources */,
 				CF5C272A1639355B0051A025 /* KillerSudoku9FreeIcon-72.png in Resources */,
@@ -7700,10 +7678,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					ADMOB_FREEVERSION,
 					SUDOKU9,
 					KILLERSUDOKU,
 					DEBUG,
+					ADMOB_FREEVERSION,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/KillerSudoku9Free/KillerSudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
@@ -7768,9 +7746,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					ADMOB_FREEVERSION,
 					SUDOKU9,
 					KILLERSUDOKU,
+					ADMOB_FREEVERSION,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/KillerSudoku9Free/KillerSudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;

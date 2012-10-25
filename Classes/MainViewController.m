@@ -1370,7 +1370,7 @@
 {
 	
 #ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
+    if (cDeviceType != DEVICETYPE_IPAD)
         return NO;
 #endif
     return YES;
@@ -1380,7 +1380,7 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
 #ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
+    if (cDeviceType != DEVICETYPE_IPAD)
         return UIInterfaceOrientationMaskPortrait;
 #endif
     return UIInterfaceOrientationMaskAll;
