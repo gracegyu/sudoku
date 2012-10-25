@@ -79,13 +79,13 @@
 
 - (NSInteger) countUndo
 {
-	DLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	//DLog(@"countUndo(count:%d, indexUndo:%d)", count, indexUndo);
     return indexUndo;
 }
 
 - (NSInteger) countRedo
 {
-	DLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	//DLog(@"countRedo(count:%d, indexUndo:%d)", count, indexUndo);
 	
     count = [arrayUndo count];
     return count - indexUndo;
@@ -113,7 +113,7 @@
 
 - (void) addNum:(NSInteger)num oldnum:(NSInteger)oldnum x:(NSInteger)x y:(NSInteger)y
 {
-	DLog(@"Undo:addNum(%d,%d)%d,%d", x, y, num, oldnum);
+	//DLog(@"Undo:addNum(%d,%d)%d,%d", x, y, num, oldnum);
     [self flushUndo];
     
     UndoData *undo = [[UndoData alloc] init];
@@ -133,7 +133,7 @@
 
 - (void) delNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	DLog(@"Undo:delNum(%d,%d)%d", x, y, num);
+	//DLog(@"Undo:delNum(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -152,7 +152,7 @@
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	DLog(@"Undo:addMemo(%d,%d)%d", x, y, num);
+	//DLog(@"Undo:addMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -170,7 +170,7 @@
 
 - (void) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	DLog(@"Undo:delMemo(%d,%d)%d", x, y, num);
+	//DLog(@"Undo:delMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 
     UndoData *undo = [[UndoData alloc] init];
@@ -188,7 +188,7 @@
 }
 - (void) addAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
- 	DLog(@"Undo:addAutoMemo(%d,%d)%d", x, y, num);
+ 	//DLog(@"Undo:addAutoMemo(%d,%d)%d", x, y, num);
    [self flushUndo];
 	
     UndoData *undo = [[UndoData alloc] init];
@@ -206,7 +206,7 @@
 
 - (void) delAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
- 	DLog(@"Undo:delAutoMemo(%d,%d)%d", x, y, num);
+ 	//DLog(@"Undo:delAutoMemo(%d,%d)%d", x, y, num);
     [self flushUndo];
 	
     UndoData *undo = [[UndoData alloc] init];

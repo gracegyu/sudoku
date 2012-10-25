@@ -1041,7 +1041,7 @@
 
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
+	//DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
 	
     if (puzzleNums[x][y] > 0)               // 문제칸은 Set할 수 없다.
         return;

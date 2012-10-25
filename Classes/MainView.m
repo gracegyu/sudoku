@@ -1844,6 +1844,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) OnTimer:(NSTimer *)timer
 {
+	DLog(@"OnTimger");
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 
     
@@ -1892,6 +1893,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         pressedButtonNum = buttonNum;
         if (bMemoMode)
         {
+			DLog(@"touchesBegan-MemoMode timerTouch(%f)", TIME_HOLDANDCHOICE);
             timerTouch = [NSTimer scheduledTimerWithTimeInterval:TIME_HOLDANDCHOICE
                                                          target:self
                                                        selector:@selector(OnTimer:)
@@ -1938,9 +1940,8 @@ static NSUInteger RainbowColorTemplate[7] = {
     {
         if (timerTouch)
         {
-            //DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
+            DLog(@"[timerTouch invalidate] <= touchesEnded");
             [timerTouch invalidate];
-//            [timerTouch release];
             timerTouch = nil;
         }
     }
@@ -1965,12 +1966,23 @@ static NSUInteger RainbowColorTemplate[7] = {
     {
         if (timerTouch)
         {
-            //DLog(@"@@@@@@@@@@@@@@@@ Cancell timer");
-
-            [timerTouch invalidate];
-//            [timerTouch release];
-            timerTouch = nil;
-			return;
+			UITouch *touch = [touches anyObject];
+			CGPoint	firstTouch = [touch previousLocationInView:self];
+			CGPoint	secodTouch = [touch locationInView:self];
+			
+			if (ABS(firstTouch.x-secodTouch.x) >= 3 ||
+				ABS(firstTouch.y-secodTouch.y) >= 3)
+			{
+				DLog(@"[timerTouch invalidate] <= touchesMoved");
+				
+				[timerTouch invalidate];
+				timerTouch = nil;
+				return;
+			} else {
+				DLog(@"small move (%f,%f)",
+					 ABS(firstTouch.x-secodTouch.x),
+					 ABS(firstTouch.y-secodTouch.y));
+			}
         }
     }
 
