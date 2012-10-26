@@ -11,7 +11,9 @@
 #import "Constants.h"
 #import "SudokuUndo.h"
 #import "SudokuBoard.h"
+#ifdef KILLSERSUDOKU
 #import "KillerMap.h"
+#endif
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
@@ -29,8 +31,9 @@
 	char			memoNums[9][9][9+1];// 
     SudokuUndo      *sudokuUndo;
 	SudokuMap       *map;
+#ifdef KILLSERSUDOKU
 	KillerMap		*kmap;
-
+#endif
 
 	NSInteger		countBlank;
 	NSInteger		countFixNums;
@@ -52,7 +55,9 @@
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
 @property BOOL			bAutoMemo;
+#ifdef KILLSERSUDOKU
 @property (nonatomic, retain) KillerMap		*kmap;
+#endif
 
 // Create Game : Level
 // 

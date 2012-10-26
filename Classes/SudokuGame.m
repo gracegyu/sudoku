@@ -26,8 +26,9 @@
 @synthesize countFixNums;
 @synthesize countHint;
 @synthesize bAutoMemo;
+#ifdef KILLERSUDOKU
 @synthesize kmap;
-
+#endif
 
 
 
@@ -36,8 +37,9 @@
     
     [sudokuUndo release];
     [map release];
+#ifdef KILLERSUDOKU
 	[kmap release];
-    
+#endif
 	
 	[super dealloc];
 }
@@ -648,8 +650,9 @@ static int	HandyCount[][5] = {
 	[self initData:level];
 	bAutoMemo = automemo;
 	map = [[SudokuMap alloc] initWithMap:[sudoku getMap]];
+#ifdef KILLSERSUDOKU
 	kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
-
+#endif
 	NSInteger num;
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
