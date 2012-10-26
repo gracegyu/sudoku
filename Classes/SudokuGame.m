@@ -650,7 +650,7 @@ static int	HandyCount[][5] = {
 	[self initData:level];
 	bAutoMemo = automemo;
 	map = [[SudokuMap alloc] initWithMap:[sudoku getMap]];
-#ifdef KILLSERSUDOKU
+#ifdef KILLERSUDOKU
 	kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
 #endif
 	NSInteger num;
@@ -679,15 +679,49 @@ static int	HandyCount[][5] = {
 
 }
 
+- (void) printNums
+{
+	NSString *str = [[NSString alloc] init];
+	
+	str = [str stringByAppendingString:@"\n"];
+	str = [str stringByAppendingString:@"-------------------------------------\n"];
+	for (int y=0; y<size; y++)
+	{
+		str = [str stringByAppendingString:@"|"];
+		for (int x=0; x<size; x++)
+		{
+			if (puzzleNums[x][y] > 0)
+				str = [str stringByAppendingFormat:@"[%d]", puzzleNums[x][y]];
+			else
+				str = [str stringByAppendingFormat:@"-%d-", answerNums[x][y]];
+			str = [str stringByAppendingString:x%3 == 2?@"|":@" "];
+			
+		}
+		str = [str stringByAppendingString:@"\n"];
+		
+		if ((y%3) == 2)
+			str = [str stringByAppendingString:@"-------------------------------------\n"];
+		
+	}
+	DLog(@"puzzle & answer = %@", str);
+}
+
 
 - (id)initWithSavedString:(NSString *)str
 {
+	NSString *strTemp;
+	
 	if ((super.init) == nil) 
 		return nil;
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 	
 	gameLevel = [[listItems objectAtIndex:0] integerValue];
+	if (gameLevel < GAMELEVEL_VERYHARD || gameLevel > GAMELEVEL_VERYEASY)
+	{
+		DAssert(gameLevel >= GAMELEVEL_VERYHARD && gameLevel <= GAMELEVEL_VERYEASY, @"initWithSavedString:gameLevel = %d", gameLevel);
+		return nil;
+	}
 	startTime = [[listItems objectAtIndex:1] floatValue];
 	lastTime = [[listItems objectAtIndex:2] floatValue];
 	gameTime = [[listItems objectAtIndex:3] floatValue];
@@ -700,21 +734,47 @@ static int	HandyCount[][5] = {
 	}
 	if ([listItems count] > 11) {
         size = [[listItems objectAtIndex:11] integerValue];
+		if (size < SIZE_6 || size > SIZE_9)
+		{
+			DAssert(size >= SIZE_6 && size <= SIZE_9, @"initWithSavedString:size = %d", size);
+			return nil;
+		}
     } else {
         size = 9;
     }
-    
 	
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:5] size:size nums:&puzzleNums[0][0]];
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:6] size:size nums:&answerNums[0][0]];
-	[SudokuGame set9x9Nums:[listItems objectAtIndex:7] size:size nums:&fixNums[0][0]];
+	strTemp = [listItems objectAtIndex:5];
+	if ([strTemp length] != size*size)
+	{
+		DAssert([strTemp length] == size*size, @"initWithSavedString:puzzleNums length=%d", [strTemp length]);
+		return nil;
+	}
+	[SudokuGame set9x9Nums:strTemp size:size nums:&puzzleNums[0][0]];
+	strTemp = [listItems objectAtIndex:6];
+	if ([strTemp length] != size*size)
+	{
+		DAssert([strTemp length] == size*size, @"initWithSavedString:answerNums length=%d", [strTemp length]);
+		return nil;
+	}
+	[SudokuGame set9x9Nums:strTemp size:size nums:&answerNums[0][0]];
+	strTemp = [listItems objectAtIndex:7];
+	if ([strTemp length] != size*size)
+	{
+		DAssert([strTemp length] == size*size, @"initWithSavedString:fixNums length=%d", [strTemp length]);
+		return nil;
+	}
+	[SudokuGame set9x9Nums:strTemp size:size nums:&fixNums[0][0]];
+	
+	[self printNums];
 /*
 #ifdef DEBUG
 	isGameFinished = NO;
 	fixNums[0][0] = 0;
 #endif
 */
-	[SudokuGame set9x9Strs:[listItems objectAtIndex:8] size:size strs:&memoNums[0][0][0]];
+	
+	strTemp = [listItems objectAtIndex:8];
+	[SudokuGame set9x9Strs:strTemp size:size strs:&memoNums[0][0][0]];
 	
     if ([listItems count] > 12) {
         [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	size:size nums:&mapNums[0][0]];
@@ -1344,7 +1404,7 @@ static int	HandyCount[][5] = {
     {
         for (x=0; x<size; x++)     // 호환을 위해서 순서를 맞춘다.
         {
-            *str++ = ('0' + nums[x + y*SIZE_9]);
+            *str++ = ('0' + nums[x + y*MAXMAPSIZE]);
         }
     }
     
@@ -1361,7 +1421,7 @@ static int	HandyCount[][5] = {
     {
         for (x=0; x<size; x++)
         {
-            nums[x + y*SIZE_9] = *s++ - '0';
+            nums[x + y*MAXMAPSIZE] = *s++ - '0';
         }
     }
 
@@ -1374,14 +1434,14 @@ static int	HandyCount[][5] = {
 {
 	int len;
 	
-	for (int i=0; i<SIZE_9*SIZE_9; i++)	// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
+	for (int i=0; i<MAXMAPSIZE*MAXMAPSIZE; i++)	// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		len = strlen(strs);
 		if (len)
 			strcpy(str, strs);
 		strcat(str, "|");
 		str += len+1;
-		strs += SIZE_9+1;	// 메모의 최대 길이
+		strs += MAXMAPSIZE+1;	// 메모의 최대 길이
 	}
 	*str = '\0';
 }
@@ -1390,10 +1450,10 @@ static int	HandyCount[][5] = {
 {
 	NSArray *listItems = [str componentsSeparatedByString:@"|"];
 
-	for (int i=0; i<SIZE_9*SIZE_9 && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
+	for (int i=0; i<MAXMAPSIZE*MAXMAPSIZE && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		strcpy(strs, [[listItems objectAtIndex:i] cStringUsingEncoding:NSASCIIStringEncoding]);
-		strs += SIZE_9+1;
+		strs += MAXMAPSIZE+1;
 	}
 }
 
@@ -1595,12 +1655,13 @@ static int	HandyCount[][5] = {
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
                 break;
             case UNDOMODE_AUTOMEMO_ADD:
-				//DAssert(0, @"runRedo");
+				
+				DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
                 [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;
             case UNDOMODE_AUTOMEMO_DEL:
-				//DAssert(0, @"runRedo");
+				DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;

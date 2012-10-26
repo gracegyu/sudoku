@@ -11,7 +11,7 @@
 #import "Constants.h"
 #import "SudokuUndo.h"
 #import "SudokuBoard.h"
-#ifdef KILLSERSUDOKU
+#ifdef KILLERSUDOKU
 #import "KillerMap.h"
 #endif
 
@@ -24,14 +24,14 @@
 	NSTimeInterval	hintTime;			// Hint add time (seconds)
 	
 	BOOL			isGameFinished;		// 0, 1
-    NSInteger       mapNums[9][9];		// Map num (9x9 1~9
-	NSInteger		puzzleNums[9][9];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
-	NSInteger		answerNums[9][9];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
-	NSInteger		fixNums[9][9];		// User decided num (9x9 1~9, beside Puzzle num) 
-	char			memoNums[9][9][9+1];// 
+    NSInteger       mapNums[MAXMAPSIZE][MAXMAPSIZE];		// Map num (9x9 1~9
+	NSInteger		puzzleNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
+	NSInteger		answerNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
+	NSInteger		fixNums[MAXMAPSIZE][MAXMAPSIZE];		// User decided num (9x9 1~9, beside Puzzle num) 
+	char			memoNums[MAXMAPSIZE][MAXMAPSIZE][MAXMAPSIZE+1];// 
     SudokuUndo      *sudokuUndo;
 	SudokuMap       *map;
-#ifdef KILLSERSUDOKU
+#ifdef KILLERSUDOKU
 	KillerMap		*kmap;
 #endif
 
@@ -55,7 +55,7 @@
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
 @property BOOL			bAutoMemo;
-#ifdef KILLSERSUDOKU
+#ifdef KILLERSUDOKU
 @property (nonatomic, retain) KillerMap		*kmap;
 #endif
 

@@ -1002,10 +1002,16 @@ static NSUInteger RainbowColorTemplate[7] = {
     {
         for (int x=0; x<sudokuGame.size; x++)
         {
-			NSLog(@"%d,%d", x, y);
+			//NSLog(@"%d,%d", x, y);
 			NSInteger colorCell = [sudokuGame.kmap getColor:x yPos:y];
 			if (colorCell >= 0 && colorCell < 7)
+			{
 				[self drawOneCellBackground:context color:rainbowcolor[colorCell] x:x y:y];
+			} else {
+				DLog(@"colorCell(%d,%d):%d", x, y, colorCell);
+				//DAssert(colorCell >= 0 && colorCell < 7, @"colorCell(%d,%d):%d", x, y, colorCell);
+			}
+				
 
         } //y
 	} //x
@@ -2088,7 +2094,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     
 	CGContextRef context = UIGraphicsGetCurrentContext();
     
-	DLog(@"drawRect ---------- refresh");
+	//DLog(@"drawRect ---------- refresh");
     
     [self setFont];
     

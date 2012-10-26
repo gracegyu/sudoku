@@ -23,7 +23,7 @@ typedef struct KillerCage
 {
     NSInteger   size;							// 6,9
     NSInteger	map[MAXMAPSIZE][MAXMAPSIZE];
-    NSInteger	color[MAXMAPSIZE][MAXMAPSIZE];	// 0~7
+    NSInteger	color[MAXMAPSIZE][MAXMAPSIZE];	// 0~6
 	KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	
 	BOOL		tempColor[7];

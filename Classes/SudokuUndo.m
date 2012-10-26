@@ -441,7 +441,10 @@
 			if (array)
 			{
 				arrayUndo = [[NSMutableArray alloc] initWithArray:array];
-				
+				DAssert(count == [arrayUndo count], @"Undo:initWithSaveData:count(%d)!=ArrayUndoCount(%d)",
+						count, [arrayUndo count]);
+				[self printData];
+
 				return self;
 			}
 		}
@@ -452,9 +455,28 @@
         bookmarkX = -1;
         bookmarkY = -1;
 	}
+	[self printData];
 	
 	return self;
 }
 
+- (void) printData
+{
+	DLog(@"UndoLog:XY(%d,%d) bookmark(%d) indexUndo(%d) count(%d)",
+		 bookmarkX, bookmarkY, bookmark, indexUndo, count);
+	
+	for (int i=0; i<count; i++)
+	{
+		UndoData* undoTemp = [arrayUndo objectAtIndex:i];
+    
+		if (undoTemp)
+		{
+			DLog(@"  %d:M%d XY%d%d O%d N%d", i, undoTemp.mode, undoTemp.x, undoTemp.y, undoTemp.oldnum, undoTemp.num);
+		} else {
+			DAssert(undoTemp, @"[arrayUndo objectAtIndex:%d]==NULL;count=%d", i, count);
+		}
+	}
+	
+}
 
 @end

@@ -54,7 +54,7 @@
 	}
 	cage[num].x0 = -1;
 	cage[num].y0 = -1;
-	[self printMap];
+//	[self printMap];
 	
 	return self;
 }
@@ -97,6 +97,20 @@
 		LogIt(@"\n");
 	}
 	LogIt(@"---------------------------  -------------------\n");
+	
+	int num = 0;
+	if (cage[0].sum < 0)
+	{
+		DLog(@"cage[0].sum = %d", cage[0].sum);
+	}
+	while (cage[num].x0 >= 0 && cage[num].y0 >= 0)
+	{
+		LogIt(@"(#%d:%d,%d=%d) ", num, cage[num].x0, cage[num].y0, cage[num].sum);
+		num++;
+	}
+	LogIt(@"\n");
+	
+	
 }
 
 - (NSInteger) GetRandomBlockSize
@@ -285,16 +299,17 @@
 {
 	return color[x][y];
 }	// from color
+
 - (KillerCage*) getCageData:(NSInteger)num
 {
-	return cage[num].x0 >= 0 ? &(cage[num]) : NULL;
+	return cage[num].x0 >= 0 && cage[num].y0 >= 0 ? &(cage[num]) : NULL;
 }	// from cell
 
 
 - (NSInteger) getCageCount
 {
 	int num = 0;
-	while (cage[num].x0 >= 0)
+	while (cage[num].x0 >= 0 && cage[num].y0 >= 0)
 	{
 		num++;
 	}
@@ -316,6 +331,8 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*3+1] = "";
 	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*3] = "";
 	
+	DAssert([self getCageCount] > 20, @"[self getCageCount]=%d", [self getCageCount]);
+	
 	[KillerMap getNumsPipe:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap getNumsPipe:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
@@ -330,6 +347,9 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 					 zStrCage];
 	
 	DLog(@"saveData KillerMap(%@)", str);
+	[self printMap];
+
+
 	
 	[defaults setObject:str forKey:kKillerMap];
 }
@@ -358,6 +378,8 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)&cage[0]];
 	
+	[self printMap];
+
 	return self;
 }
 
