@@ -327,9 +327,9 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*3+1] = "";
-	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*3+1] = "";
-	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*3] = "";
+	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
+	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
+	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
 	
 	DAssert([self getCageCount] > 20, @"[self getCageCount]=%d", [self getCageCount]);
 	
@@ -338,6 +338,10 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	[KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
 										nums:(NSInteger*)&cage[0]];
 	//DLog(@"zStrCage(%s)", zStrCage);
+	
+	DAssert(strlen(zStrMap) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrMap)=%zd", strlen(zStrMap));
+	DAssert(strlen(zStrColor) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrColor)=%zd", strlen(zStrColor));
+	DAssert(strlen(zStrCage) >= [self getCageCount]*3*2, @"strlen(zStrCage)=%zd", strlen(zStrCage));
 	
 	NSString *str = [NSString stringWithFormat:
 					 @"%d,%s,%s,%s",

@@ -73,5 +73,6 @@ enum UNDOMODE {
 - (NSMutableArray*) getAutoUndo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) saveData;
 - (id) initWithSaveData;
+- (void) printData;
 
 @end
