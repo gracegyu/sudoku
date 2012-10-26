@@ -37,7 +37,7 @@
 	if ((super.init) == nil)
 		return nil;
 	
-    NSAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_6, @"sizeMap=%d", sizeMap);
+    DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_6, @"sizeMap=%d", sizeMap);
     
 	size = sizeMap;
     if (size > MAXMAPSIZE)
@@ -241,7 +241,7 @@
 	if (countAvailColor < 0)
 	{
 		//DLog(@"###########");
-		//NSAssert(countAvailColor>0, @"##########");
+		//DAssert(countAvailColor>0, @"##########");
 		nowColor = 6;
 	} else {
 		
@@ -262,7 +262,7 @@
 		}
 	}
 	
-	NSAssert(nowColor >= 0, @"##########");
+	DAssert(nowColor >= 0, @"##########");
 	
 	for (int y=0; y<size; y++)
 	{

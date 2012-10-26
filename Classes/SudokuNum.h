@@ -91,7 +91,7 @@
 
 
 
-- (BOOL) setCellAuto:(NSInteger)handy;
+
 - (BOOL) setCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (BOOL) setCellPuzzleCheck:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (BOOL) setCellAnswerCheck:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
@@ -107,7 +107,7 @@
 - (void) loadData;
 - (CGPoint) undoSet:(NSInteger)num;
 - (void) countCell;
-- (void) initGTSudoku;
+
 
 + (BOOL) insertNumToStr:(char*)str num:(NSInteger)num;
 + (BOOL) deleteNumFromStr:(char*)str num:(NSInteger)num;

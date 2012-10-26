@@ -32,7 +32,7 @@ static NSOperationQueue *sharedOperationQueue = nil;
 
 - (NSMutableDictionary *)getQueueList;
 
-- (void) doFlushQueue;
+//- (void) doFlushQueue;
 
 @end
 

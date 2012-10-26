@@ -331,7 +331,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
-    NSAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
+    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
 	
     [self drawStrRect:context
                   str:[NSString stringWithFormat:@"%d", num]

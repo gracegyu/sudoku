@@ -102,7 +102,7 @@
             [arrayUndo removeObjectAtIndex:i];
         }
         count = [arrayUndo count];
-        NSAssert(indexUndo == count, @"indexUndo(%d) != count(%d)", indexUndo, count);
+        DAssert(indexUndo == count, @"indexUndo(%d) != count(%d)", indexUndo, count);
     }
     if (bookmark > 0 && bookmark > count)
     {

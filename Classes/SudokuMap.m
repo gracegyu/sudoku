@@ -119,7 +119,7 @@ static int defaultMap[][16*16] = {
 	if ((super.init) == nil)
 		return nil;
 	
-    NSAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
+    DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
     
     if (sizeMap > MAXMAPSIZE)
         return nil;
@@ -190,8 +190,8 @@ static int defaultMap[][16*16] = {
 	for (int y = 0; y < size; y++) {
 		for (int x = 0; x < size; x++) {
 			
-			NSAssert(map[x][y] <= size, @"map[%d,%d](%d) > %d", x, y, map[x][y], size);
-			NSAssert(++countMap[map[x][y]] <= size, @"countMap[%d] > %d", map[x][y], size);
+			DAssert(map[x][y] <= size, @"map[%d,%d](%d) > %d", x, y, map[x][y], size);
+			DAssert(++countMap[map[x][y]] <= size, @"countMap[%d] > %d", map[x][y], size);
 			//DLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
 			
 			sub[map[x][y]][countSub[map[x][y]]].x = x;
@@ -220,7 +220,7 @@ static int defaultMap[][16*16] = {
 
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert3(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%d,%d/Max = %d)", x, y, MAXMAPSIZE);
+    DAssert(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%d,%d/Max = %d)", x, y, MAXMAPSIZE);
 
     return map[x][y];
 }

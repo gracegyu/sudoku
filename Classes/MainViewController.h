@@ -180,8 +180,6 @@
 - (void) setLocalizedMessage;
 
 - (void) showMenuView;
-- (void) hideMenuView;
-- (void) hideMenuView;
 - (void) showNewGameView;
 - (void) hideNewGameView;
 - (void) setGameLevel;

@@ -31,6 +31,7 @@
  */
 
 #import "SBJsonTokeniser.h"
+#import "Constants.h"
 
 
 #define isDigit(x) (*x >= '0' && *x <= '9')
@@ -158,7 +159,7 @@ again: while (i < len) {
 					}
 						
 					default:
-						NSAssert(NO, @"Should never get here");
+						DAssert(NO, @"Should never get here");
 						break;
 				}
 				break;

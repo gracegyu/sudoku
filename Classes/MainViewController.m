@@ -1195,7 +1195,7 @@
 {
 	if ([timerGame isValid])
 	{
-		//NSAssert(0, @"Duplicated game timer");
+		//DAssert(0, @"Duplicated game timer");
 		return;
 	}
 	timerGame = [NSTimer scheduledTimerWithTimeInterval:1 

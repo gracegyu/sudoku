@@ -2,6 +2,7 @@
 
 #import "JMCDatabase.h"
 #import "unistd.h"
+#import "Constants.h"
 
 @implementation JMCDatabase
 
@@ -210,7 +211,7 @@
     
 #ifndef NS_BLOCK_ASSERTIONS
     if (crashOnErrors) {
-        NSAssert1(false, @"The FMDatabase %@ is currently in use.", self);
+        DAssert(false, @"The FMDatabase %@ is currently in use.", self);
     }
 #endif
 }
@@ -458,7 +459,7 @@
                     NSLog(@"DB Query: %@", sql);
 #ifndef NS_BLOCK_ASSERTIONS
                     if (crashOnErrors) {
-                        NSAssert2(false, @"DB Error: %d \"%@\"", [self lastErrorCode], [self lastErrorMessage]);
+                        DAssert(false, @"DB Error: %d \"%@\"", [self lastErrorCode], [self lastErrorMessage]);
                     }
 #endif
                 }
@@ -604,7 +605,7 @@
                     NSLog(@"DB Query: %@", sql);
 #ifndef NS_BLOCK_ASSERTIONS
                     if (crashOnErrors) {
-                        NSAssert2(false, @"DB Error: %d \"%@\"", [self lastErrorCode], [self lastErrorMessage]);
+                        DAssert(false, @"DB Error: %d \"%@\"", [self lastErrorCode], [self lastErrorMessage]);
                     }
 #endif
                 }

@@ -33,6 +33,7 @@
 #import "SBJsonStreamParser.h"
 #import "SBJsonTokeniser.h"
 #import "SBJsonStreamParserState.h"
+#import "Constants.h"
 
 
 @implementation SBJsonStreamParser
@@ -52,7 +53,7 @@
 		tokeniser = [SBJsonTokeniser new];
 		maxDepth = 512;
 		states = calloc(maxDepth, sizeof(SBJsonStreamParserState*));
-		NSAssert(states, @"States not initialised");
+		DAssert(states, @"States not initialised");
 		states[0] = [SBJsonStreamParserStateStart sharedInstance];
 	}
 	return self;
@@ -116,7 +117,7 @@
 		case sbjson_token_error:
 			break;
 	}
-	NSAssert(NO, @"Should not get here");
+	DAssert(NO, @"Should not get here");
 	return @"<aaiiie!>";
 }
 
@@ -152,13 +153,13 @@
 		if (tok == sbjson_token_integer && len < 12) {
 			char *e = NULL;
 			long l = strtol(buf, &e, 0);
-			NSAssert((e-buf) == len, @"unexpected length");
+			DAssert((e-buf) == len, @"unexpected length");
 			number = [NSNumber numberWithLong:l];
 			
 		} else if (tok == sbjson_token_double && len < 7) {
 			char *e = NULL;
 			double d = strtod(buf, &e);
-			NSAssert((e-buf) == len, @"unexpected length");
+			DAssert((e-buf) == len, @"unexpected length");
 			number = [NSNumber numberWithDouble:d];
 			
 		} else {
@@ -285,10 +286,10 @@
 #pragma mark Private methods
 
 - (void)setMaxDepth:(NSUInteger)x {
-	NSAssert(x, @"maxDepth must be greater than 0");
+	DAssert(x, @"maxDepth must be greater than 0");
 	maxDepth = x;
 	states = realloc(states, x);
-	NSAssert(states, @"Failed to reallocate more memory for states");
+	DAssert(states, @"Failed to reallocate more memory for states");
 }
 
 @end

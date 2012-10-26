@@ -131,17 +131,17 @@
 
 - (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(x >= 0 && x < size, @"getPuzzleNum x");
-    NSAssert(y >= 0 && y < size, @"getPuzzleNum y");
+    DAssert(x >= 0 && x < size, @"getPuzzleNum x");
+    DAssert(y >= 0 && y < size, @"getPuzzleNum y");
     
     return puzzle[x][y];
 }
 
 - (void) setPuzzleNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(num <= size, @"setPuzzleNum num");
-    NSAssert(x >= 0 && x < size, @"setPuzzleNum x");
-    NSAssert(y >= 0 && y < size, @"setPuzzleNum y");
+    DAssert(num <= size, @"setPuzzleNum num");
+    DAssert(x >= 0 && x < size, @"setPuzzleNum x");
+    DAssert(y >= 0 && y < size, @"setPuzzleNum y");
     
     puzzle[x][y] = num;
     answer[x][y] = 0;
@@ -152,8 +152,8 @@
 
 - (NSInteger) getAnswerNum:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(x >= 0 && x < size, @"getAnswerNum x");
-    NSAssert(y >= 0 && y < size, @"getAnswerNum y");
+    DAssert(x >= 0 && x < size, @"getAnswerNum x");
+    DAssert(y >= 0 && y < size, @"getAnswerNum y");
     
     return answer[x][y];
     
@@ -161,9 +161,9 @@
 
 - (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert1(num <= size, @"setAnswerNum num = %d", num);
-    NSAssert1(x >= 0 && x < size, @"setAnswerNum x = %d", x);
-    NSAssert1(y >= 0 && y < size, @"setAnswerNum y = %d", y);
+    DAssert(num <= size, @"setAnswerNum num = %d", num);
+    DAssert(x >= 0 && x < size, @"setAnswerNum x = %d", x);
+    DAssert(y >= 0 && y < size, @"setAnswerNum y = %d", y);
     
 	answer[x][y] = num;
 	puzzle[x][y] = 0;
@@ -175,8 +175,8 @@
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
 {
     //DLog(@"setDefaultMemo(%d,%d)", x, y);
-    NSAssert1(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
-    NSAssert1(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
+    DAssert(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
     
 	strcpy(memo[x][y], defaultMemo);
 	memonum[x][y] = strlen(memo[x][y]);
@@ -193,17 +193,17 @@
 		//DLog(@"isMemoed(%d,%d,%d)", num, x, y);
 	}
 	
-    NSAssert(num >= 1 && num <= size, @"isMemoed num");
-    NSAssert(x >= 0 && x < size, @"isMemoed x");
-    NSAssert(y >= 0 && y < size, @"isMemoed y");
+    DAssert(num >= 1 && num <= size, @"isMemoed num");
+    DAssert(x >= 0 && x < size, @"isMemoed x");
+    DAssert(y >= 0 && y < size, @"isMemoed y");
     
     return (strchr(memo[x][y], '0'+num) != NULL);
 }
 
 - (BOOL) isEmptyMemo:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert(x >= 0 && x < size, @"isEmptyMemo x");
-    NSAssert(y >= 0 && y < size, @"isEmptyMemo y");
+    DAssert(x >= 0 && x < size, @"isEmptyMemo x");
+    DAssert(y >= 0 && y < size, @"isEmptyMemo y");
     
     return memo[x][y][0] == '\0';
 }
@@ -232,9 +232,9 @@
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert1(num >= 1 && num <= size, @"addMemo num=%d", num);
-    NSAssert1(x >= 0 && x < size, @"addMemo x=%d", x);
-    NSAssert1(y >= 0 && y < size, @"addMemo y=%d", y);
+    DAssert(num >= 1 && num <= size, @"addMemo num=%d", num);
+    DAssert(x >= 0 && x < size, @"addMemo x=%d", x);
+    DAssert(y >= 0 && y < size, @"addMemo y=%d", y);
 
     
 	if ([SudokuNum insertNumToStr:memo[x][y] num:num] == YES)
@@ -259,9 +259,9 @@
 
 - (BOOL) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    NSAssert1(num >= 1 && num <= size, @"delMemo num=%d", num);
-    NSAssert1(x >= 0 && x < size, @"delMemo x=%d", x);
-    NSAssert1(y >= 0 && y < size, @"delMemo y=%d", y);
+    DAssert(num >= 1 && num <= size, @"delMemo num=%d", num);
+    DAssert(x >= 0 && x < size, @"delMemo x=%d", x);
+    DAssert(y >= 0 && y < size, @"delMemo y=%d", y);
 
 	
 	if (puzzle[x][y] || answer[x][y])
@@ -281,7 +281,7 @@
 	}
 	if ([self isEmptyMemo:x y:y] == YES)
 	{
-		NSAssert(memonum[x][y]==0, @"delMemo(%d,%d)-%d, empty", x, y, num);
+		DAssert(memonum[x][y]==0, @"delMemo(%d,%d)-%d, empty", x, y, num);
 		DLog(@"EmptyMemo(%d,%d)", x, y);
 		return NO;			// memo 오류
 	}
@@ -292,14 +292,14 @@
 {
 //	DLog(@"getUniqueMemo(%d,%d)", x, y);
 	
-    NSAssert1(x >= 0 && x < size, @"getUniqueMemo x=%d", x);
-    NSAssert1(y >= 0 && y < size, @"getUniqueMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"getUniqueMemo x=%d", x);
+    DAssert(y >= 0 && y < size, @"getUniqueMemo y=%d", y);
     
     
 	if (memonum[x][y] != 1)
 		return 0;
 
-	NSAssert(strlen(memo[x][y]) == 1 && memo[x][y][0] >= '1' && memo[x][y][0] <= size+'0', @"getUniqueMemo(%d,%d) %s", x, y, memo[x][y]);
+	DAssert(strlen(memo[x][y]) == 1 && memo[x][y][0] >= '1' && memo[x][y][0] <= size+'0', @"getUniqueMemo(%d,%d) %s", x, y, memo[x][y]);
 		return 0;
 	
 	
@@ -309,15 +309,15 @@
 - (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y
 {
 	//DLog(@"getRandomMemo(%d,%d)", x, y);
-    NSAssert1(x >= 0 && x < size, @"getRandomMemo x=%d", x);
-    NSAssert1(y >= 0 && y < size, @"getRandomMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"getRandomMemo x=%d", x);
+    DAssert(y >= 0 && y < size, @"getRandomMemo y=%d", y);
 
     
     NSInteger count = memonum[x][y];
 	NSInteger rand;
  
 	//DLog(@"getRandomMemo(%d,%d) %dvs.%s", x, y, count, memo[x][y]);
-	NSAssert4(count == strlen(memo[x][y]), @"getRandomMemo(%d,%d) %dvs%s", x, y, count, memo[x][y]);
+	DAssert(count == strlen(memo[x][y]), @"getRandomMemo(%d,%d) %dvs%s", x, y, count, memo[x][y]);
 	
 	rand = [self randNum:count];
 	

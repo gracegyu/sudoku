@@ -98,37 +98,12 @@ typedef enum DEVICETYPE DEVICETYPE;
 
 
 #ifdef DEBUG
-#define DLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#define DLog(format, ...)				NSLog(format, ## __VA_ARGS__)
+#define DAssert(condition, desc, ...)	NSAssert(condition, desc, ## __VA_ARGS__)
 #else
 #define DLog(format, ...)
+#define DAssert(condition, desc, ...)
 #endif
 
 
-#ifdef GTSUDOKU
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 4, 15, 24, 45 }  // 9
-};
-#else
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 1, 2, 3, 4 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 5, 10, 20, 30 } // 9
-};
-#endif
 

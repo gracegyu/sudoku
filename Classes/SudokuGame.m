@@ -150,6 +150,36 @@
 	return YES;
 }
 
+
+
+#ifdef GTSUDOKU
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 2, 4, 7, 10 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 4, 15, 24, 45 }  // 9
+};
+#else
+static int	HandyCount[][5] = {
+    { 0, 0, 0, 0, 0 },   // 0
+    { 0, 0, 0, 0, 0 },   // 1
+    { 0, 0, 0, 0, 0 },   // 2
+    { 0, 0, 0, 0, 0 },   // 3
+    { 0, 1, 2, 3, 4 },   // 4
+    { 0, 2, 4, 10, 15 }, // 5
+    { 0, 2, 6, 13, 20 }, // 6
+    { 0, 3, 8, 16, 22 }, // 7
+    { 0, 4, 9, 18, 25 }, // 8
+    { 0, 5, 10, 20, 30 } // 9
+};
+#endif
+
 - (void) applyHandy
 {
 	int numRandom;
@@ -591,7 +621,7 @@
 				answerNums[x][y] = num; // 0
 			} else {
 				num = ((int*)[sudoku getSolution])[y*size+x];
-                NSAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -631,7 +661,7 @@
 				answerNums[x][y] = num; // 0
 			} else {
 				num = [sudoku getAnswerNum:x y:y];
-                NSAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -1562,12 +1592,12 @@
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
                 break;
             case UNDOMODE_AUTOMEMO_ADD:
-				//NSAssert(0, @"runRedo");
+				//DAssert(0, @"runRedo");
                 [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;
             case UNDOMODE_AUTOMEMO_DEL:
-				//NSAssert(0, @"runRedo");
+				//DAssert(0, @"runRedo");
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;
