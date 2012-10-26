@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#import "JMCCustomDataSource.h"
 #import "SudokuNum.h"
 #import "SudokuGame.h"
 
@@ -53,7 +54,7 @@ enum SKINCOLOR
 
 typedef enum SKINCOLOR SKINCOLOR;
 
-@interface MainView : UIView {
+@interface MainView : UIView  {
 	NSInteger skin;
 	UIColor *skincolor[COUNT_SKINCOLOR];
 	UIColor *rainbowcolor[7];
