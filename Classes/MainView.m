@@ -1079,6 +1079,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 	}
 }
 
+#define BM_LEFTMARGIN	0.05f
+#define BM_W			0.2f
+#define BM_H			0.25f
+#define BM_H_TEXT		0.20f
+
 - (void)drawBookmarkInCell:(CGContextRef)context
 {
 	NSInteger count = [sudokuGame.sudokuUndo countBookmarked];
@@ -1103,14 +1108,18 @@ static NSUInteger RainbowColorTemplate[7] = {
 			
 #ifdef KILLERSUDOKU
 			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark2"];
-			CGRect rect = CGRectMake(xPos+cCellWidth*0.05f, yPos+cCellHeight*0.75f, cCellWidth*0.2f, cCellHeight*0.25f);
+			CGRect rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H), cCellWidth*BM_W, cCellHeight*BM_H);
 #else
 			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
-			CGRect rect = CGRectMake(xPos+cCellWidth*0.05f, yPos, cCellWidth*0.2f, cCellHeight*0.25f);
+			CGRect rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H);
 #endif
 			[imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.5f];
 			// 북마크 번호(i+1)를 적어야 한다.
-			
+#ifdef KILLERSUDOKU
+			rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H_TEXT), cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
+#else
+			rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
+#endif
 			[self drawNumRect:context num:i+1 rect:rect color:[UIColor colorWithWhite:1.0f alpha:1.0f].CGColor font:cellBookmarkFont];
 
 		}

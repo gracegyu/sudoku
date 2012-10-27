@@ -421,14 +421,16 @@
 {
 	for (int i=0; i<MAXBOOKMARK; i++)
 	{
-		if (i != 0 && arrayBookmark[i].pos == 0)
+		if (arrayBookmark[i].pos == 0)
 		{
-			arrayBookmark[i].pos = -1;
+			if (i != 0 || arrayBookmark[i].pos != 0)
+				arrayBookmark[i].pos = -1;
 			arrayBookmark[i].x = -1;
 			arrayBookmark[i].y = -1;
 			return;
 		}
-		if (i > 0 && arrayBookmark[i].pos < arrayBookmark[i+1].pos)
+		// 순서가 뒤바뀐 북마크의 뒤는 지운다.
+		if (i > 0 && arrayBookmark[i].pos > 0 && arrayBookmark[i].pos < arrayBookmark[i-1].pos)
 		{
 			arrayBookmark[i].pos = -1;
 			arrayBookmark[i].x = -1;
