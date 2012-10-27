@@ -57,6 +57,9 @@
 #ifdef GTSUDOKU
 	str = [str stringByAppendingString:@"\n"];
 	str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
+#elif (defined KILLERSUDOKU)
+	str = [str stringByAppendingString:@"\n"];
+	str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
 #endif
 	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
 	
@@ -75,37 +78,10 @@
 
 - (void) viewDidLoad
 {
-/*    buttonDone = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 100.0f, 45.0f, 30.0f)];
-    
-    [buttonDone setBackgroundImage:[UIImage imageNamed:@"loclae_ja.png"] forState:UIControlStateNormal];
-    
-    [buttonDone addTarget:self action:@selector(done) forControlEvents:UIControlEventTouchDown];
-    buttonDone.titleLabel.text = gettext(@"Done", nil);
-    buttonDone.titleLabel.font = [UIFont fontWithName:@"texgyreadventor-regular.otf" size:20.0f];
-    buttonDone.titleLabel.textColor = [UIColor whiteColor];
-    
-    naviItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonDone];
-  
-    self.navigationItem.rightBarButtonItem =
-        [[UIBarButtonItem alloc]
-         initWithTitle:gettext(@"Done", nil)
-         style:UIBarButtonItemStyleDone
-         target:self
-         action:@selector(done)];
-*/    
+
     
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-    
-/*
-#ifndef SUDOKU6
-    labelShapeOfMap.hidden = YES;
-    buttonShapeOfMap.hidden = YES;
-#endif
-#ifdef GTSUDOKU
-    labelShapeOfMap.hidden = YES;
-    buttonShapeOfMap.hidden = YES;
-#endif
- */
+
     
     [self setLocalizedMessage];
 
