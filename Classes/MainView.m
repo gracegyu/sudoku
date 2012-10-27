@@ -187,7 +187,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     self.bSettingGuideline = YES;
     self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
-#ifdef GTSUDOKU
+#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
     self.bSettingDefMap = YES;
 #else
 #ifdef SUDOKU6

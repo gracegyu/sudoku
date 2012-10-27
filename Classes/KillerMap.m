@@ -331,10 +331,10 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
 	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
 	
-	DAssert([self getCageCount] > 20, @"[self getCageCount]=%d", [self getCageCount]);
+	DAssert([self getCageCount] > 10, @"[self getCageCount]=%d", [self getCageCount]);
 	
-	[KillerMap getNumsPipe:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
-	[KillerMap getNumsPipe:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
+	[KillerMap getNumsPipeSize:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
+	[KillerMap getNumsPipeSize:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
 										nums:(NSInteger*)&cage[0]];
 	//DLog(@"zStrCage(%s)", zStrCage);
@@ -378,8 +378,8 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 
 	size = [[listItems objectAtIndex:0] integerValue];
-	[KillerMap setNumsPipe:[listItems objectAtIndex:1] size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
-	[KillerMap setNumsPipe:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
+	[KillerMap setNumsPipeSize:[listItems objectAtIndex:1] size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
+	[KillerMap setNumsPipeSize:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)&cage[0]];
 	
 	[self printMap];
@@ -387,13 +387,53 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 	return self;
 }
 
+// size만큼 무조건 세팅
++ (void) getNumsPipeSize:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
+{
+	NSInteger num;
+	
+    for (int i=0; i<size; i++)
+    {
+		num = nums[i];
+		if (num < 0)
+		{
+			*str++ = '-';
+			num = -num;
+		}
+		if (num >= 10)
+			*str++ = ('0' + num/10);
+		*str++ = ('0' + num%10);
+		if (i+1 < size)
+			*str++ = '|';
+    }
+    
+    
+	*str = '\0';
+}
+
+// size만큼 무조건 세팅
++ (void) setNumsPipeSize:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums
+{
+	NSArray *listItems = [str componentsSeparatedByString:@"|"];
+	
+	for (int i=0; i<size && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
+	{
+		nums[i] = [[listItems objectAtIndex:i] integerValue];
+	}
+}
+
+
 
 + (void) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
     for (int i=0; i<size; i++)
     {
 		if (nums[i] < 0)
+		{
+			if (i>0)
+				*(str-1) = '\0';
 			break;
+		}
 		if (nums[i] >= 10)
 			*str++ = ('0' + nums[i]/10);
 		*str++ = ('0' + nums[i]%10);
