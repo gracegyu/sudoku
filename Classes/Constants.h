@@ -13,9 +13,15 @@
 
 #elif defined(KILLERSUDOKU)	// killersudoku9
 
+#ifdef SUDOKU9
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a15088f9e25e0fa")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a15088f9935ab96")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a15088fa20ad7d8")
+#else  // SUDOKU6
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1508bd6c300c4e")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1508bd679e3282")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1508bd70d7fe12")
+#endif
 
 #else
 
