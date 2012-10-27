@@ -1097,15 +1097,23 @@
 #define DEFPUZZLESIZE   SIZE_9
 #endif
 
+- (void) increaseScoreGames
+{
+	if (mainView.sudokuGame)
+	{
+		scoreGames[mainView.sudokuGame.gameLevel + (mainView.sudokuGame.bAutoMemo ? 5 : 0)] += 1;     // 게임 수 1 증가
+		scoreTotal += 1;                                    // 1게임 시도당 1점 추가
+	}
+}
+
 - (void) makeNewGameData
 {
 	if (mainView.sudokuGame)
 		[mainView.sudokuGame release];
 
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
+	[self increaseScoreGames];
 	
-	scoreGames[mainView.sudokuGame.gameLevel] += 1;     // 게임 수 1 증가
-    scoreTotal += 1;                                    // 1게임 시도당 1점 추가
     
 	[self saveScoreData];
 	
