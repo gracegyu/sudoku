@@ -35,19 +35,29 @@ enum UNDOMODE {
 @end
 
 
+typedef struct Bookmark
+{
+	NSInteger pos;	// undo array 상의 북마크 위치
+	NSInteger x;	// 북마크 지정 셀의 X
+	NSInteger y;	// 북마크 지정 셀의 Y
+} Bookmark;
+
+#define MAXBOOKMARK	5
+
 @interface SudokuUndo : NSObject
 {
-    NSInteger       bookmark;
-    NSInteger       bookmarkX;
-    NSInteger       bookmarkY;
+//    NSInteger       bookmark;
+//    NSInteger       bookmarkX;
+//    NSInteger       bookmarkY;
     NSInteger       indexUndo;
     NSInteger       count;
 	NSMutableArray	*arrayUndo;
+	Bookmark		arrayBookmark[MAXBOOKMARK+1];	// +1은 삽입을 위해서 
 }
 
 @property NSInteger       count;
-@property NSInteger       bookmarkX;
-@property NSInteger       bookmarkY;
+//@property NSInteger       bookmarkX;
+//@property NSInteger       bookmarkY;
 
 
 - (NSInteger) getIndex;
@@ -64,11 +74,14 @@ enum UNDOMODE {
 - (void) clear;
 
 - (BOOL) addBookmark;   // include modify
-- (void) delBookmark;   
-- (BOOL) isBookmarked;
-- (NSInteger) getBookmark;
-- (NSInteger) canGoBookmark;    // -1:undo, 0:can't +1:redo
+- (void) delAllBookmarks;
+- (void) delLastBookmark;
+- (NSInteger) countBookmarked;
+- (Bookmark*) getBookmark:(NSInteger)num;
+- (Bookmark*) getLastBookmark;
+//- (NSInteger) canGoBookmark;    // -1:undo, 0:can't +1:redo
 - (NSInteger) countGoBookmark;  // 몇번 undo, redo를 해야 하나?
+- (void) validateBookmark;
 
 - (NSMutableArray*) getAutoUndo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) saveData;

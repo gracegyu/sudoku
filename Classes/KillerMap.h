@@ -42,5 +42,7 @@ typedef struct KillerCage
 - (KillerCage*) getCageData:(NSInteger)num;				// from cell
 - (void) saveData;
 - (id) initWithSaveData;
++ (void) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums;
++ (void) setNumsPipe:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums;
 
 @end

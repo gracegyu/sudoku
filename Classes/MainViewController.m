@@ -576,7 +576,7 @@
 		buttonRedo.enabled = NO;
 	}
 
-    if ([mainView.sudokuGame.sudokuUndo isBookmarked])
+    if ([mainView.sudokuGame.sudokuUndo countBookmarked] > 0)
     {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_h"] forState:UIControlStateHighlighted];

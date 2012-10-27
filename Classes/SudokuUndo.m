@@ -8,6 +8,7 @@
 
 #import "SudokuUndo.h"
 #import "Constants.h"
+#import "KillerMap.h"
 
 @implementation UndoData
 
@@ -44,10 +45,10 @@
 @implementation SudokuUndo
 
 @synthesize  count;
-@synthesize  bookmarkX;
-@synthesize  bookmarkY;
+//@synthesize  bookmarkX;
+//@synthesize  bookmarkY;
 
-#define DEFMAXUNDO 300
+#define DEFMAXUNDO 1000
 
 - (id) init {
     
@@ -55,9 +56,10 @@
 		DLog(@"init");
         
         arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
-        bookmark = -1;  // no bookmark
-        bookmarkX = -1;
-        bookmarkY = -1;
+		memset(arrayBookmark, -1, sizeof(arrayBookmark));
+//        bookmark = -1;  // no bookmark
+//        bookmarkX = -1;
+//        bookmarkY = -1;
         
 	}
 	return self;
@@ -104,12 +106,29 @@
         count = [arrayUndo count];
         DAssert(indexUndo == count, @"indexUndo(%d) != count(%d)", indexUndo, count);
     }
-    if (bookmark > 0 && bookmark > count)
-    {
-        bookmark = -1;
-        DLog(@"delete bookmark");
-    }
+	// count보다 큰 위치의 bookmark는 모두 삭제한다.
+	
+	[self delBookmarkBiggerThan:count];
 }
+
+// pos보다 큰 위치의 bookmark는 모두 삭제한다.
+- (void) delBookmarkBiggerThan:(NSInteger)pos
+{
+	for (int i=0; i<MAXBOOKMARK; i++)
+	{
+		if (arrayBookmark[i].pos > pos)
+		{
+			arrayBookmark[i].pos = -1;
+			arrayBookmark[i].x = -1;
+			arrayBookmark[i].y = -1;
+		}
+		else if (arrayBookmark[i].pos < 0)
+		{
+			return;	
+		}
+	}
+}
+
 
 - (void) addNum:(NSInteger)num oldnum:(NSInteger)oldnum x:(NSInteger)x y:(NSInteger)y
 {
@@ -270,11 +289,24 @@
     return YES;
 }
 
-- (BOOL) addBookmark
+- (BOOL) isBookmarkedPos:(NSInteger)pos
 {
-    bookmark = indexUndo;
-    //DLog(@"bookmark = %d", bookmark);
-    
+	for (int i=0; i<MAXBOOKMARK; i++)
+	{
+		if (arrayBookmark[i].pos == pos)
+		{
+			return YES;
+		}
+		else if (arrayBookmark[i].pos < 0)
+		{
+			return NO;
+		}
+	}
+	return NO;
+}
+
+- (BOOL) addBookmark
+{    
 	// autoMemo skip
 	UndoData* data;
 	
@@ -286,49 +318,147 @@
 		{
 			i--;
 		} else {
-			bookmark = i;
 			break;
 		}
 	}
-	bookmark = i;
 	
+	// 중복된 bookmark는 추가 할 수 없음
+	if ([self isBookmarkedPos:i] == YES)
+	{
+		return NO;	// 이미 추가된 북마크 위치
+	}
 	
-    if (bookmark > 0)
+	Bookmark bmTemp, bm;
+	
+	bm.pos = i;
+	bm.x = -1;
+	bm.y = -1;
+    if (bm.pos > 0)
     {
-        UndoData* undoBookmark = [arrayUndo objectAtIndex:bookmark-1];
+        UndoData* undoBookmark = [arrayUndo objectAtIndex:bm.pos-1];
         if (undoBookmark)
         {
-            bookmarkX = undoBookmark.x;
-            bookmarkY = undoBookmark.y;
-
-            return YES;
+            bm.x = undoBookmark.x;
+            bm.y = undoBookmark.y;
         }
     }
-    bookmarkX = -1;
-    bookmarkY = -1;
-    return YES;
+
+    // 북마크 삽입하기
+	for (int i=0; i<=MAXBOOKMARK; i++)
+	{
+		if (arrayBookmark[i].pos == -1 || bm.pos < arrayBookmark[i].pos)
+		{
+			memcpy(&bmTemp, &arrayBookmark[i], sizeof(Bookmark));
+			memcpy(&arrayBookmark[i], &bm, sizeof(Bookmark));
+			memcpy(&bm, &bmTemp, sizeof(Bookmark));
+		}
+	}
+	
+	if (arrayBookmark[MAXBOOKMARK].pos != -1)	// bookmark가 넘쳤으므로 매 앞으로 북마크를 제거해야 한다.
+	{
+		for (int i=0; i<MAXBOOKMARK; i++)
+		{
+			memcpy(&arrayBookmark[i], &arrayBookmark[i+1], sizeof(Bookmark));
+		}
+		// 마지막은 -1로 채운다.
+		arrayBookmark[MAXBOOKMARK].pos = -1;
+		arrayBookmark[MAXBOOKMARK].x = -1;
+		arrayBookmark[MAXBOOKMARK].y = -1;
+	}
+	//[self saveData];
+	for (int i=0; i<=MAXBOOKMARK; i++)
+	{
+		DLog(@"bookmark(%d)P:%d XY:%d,%d", i, arrayBookmark[i].pos, arrayBookmark[i].x, arrayBookmark[i].y);
+	}
+	
+	return YES;
 }
 
-- (void) delBookmark
+- (void) delAllBookmarks
 {
-    bookmark = -1;
-    bookmarkX = -1;
-    bookmarkY = -1;
+	memset(arrayBookmark, -1, sizeof(arrayBookmark));
+//    bookmark = -1;
+//    bookmarkX = -1;
+//    bookmarkY = -1;
     //DLog(@"bookmark = %d", bookmark);
 }
 
-- (BOOL) isBookmarked
+- (void) delLastBookmark
 {
-    //DLog(@"bookmark = %d", bookmark);
-    return bookmark >= 0;
+	for (int i=0; i<=MAXBOOKMARK; i++)
+	{
+		if (arrayBookmark[i].pos < 0)
+		{
+			if (i > 0)
+			{
+				arrayBookmark[i-1].pos = -1;
+				arrayBookmark[i-1].x = -1;
+				arrayBookmark[i-1].y = -1;
+			} else {
+				DLog(@"Can't delete bookmark, there is no bookmark");
+			}
+			return;
+		}
+	}
+	for (int i=0; i<=MAXBOOKMARK; i++)
+	{
+		DLog(@"bookmark(%d)P:%d XY:%d,%d", i, arrayBookmark[i].pos, arrayBookmark[i].x, arrayBookmark[i].y);
+	}
 }
 
-- (NSInteger) getBookmark
+
+- (NSInteger) countBookmarked
 {
-	return bookmark;
+	for (int i=0; i<MAXBOOKMARK; i++)
+	{
+		if (arrayBookmark[i].pos < 0)
+			return i;
+	}
+	return MAXBOOKMARK;
+}
+
+- (void) validateBookmark
+{
+	for (int i=0; i<MAXBOOKMARK; i++)
+	{
+		if (i != 0 && arrayBookmark[i].pos == 0)
+		{
+			arrayBookmark[i].pos = -1;
+			arrayBookmark[i].x = -1;
+			arrayBookmark[i].y = -1;
+			return;
+		}
+		if (i > 0 && arrayBookmark[i].pos < arrayBookmark[i+1].pos)
+		{
+			arrayBookmark[i].pos = -1;
+			arrayBookmark[i].x = -1;
+			arrayBookmark[i].y = -1;
+			return;
+		}
+	}
+	arrayBookmark[MAXBOOKMARK].pos = -1;
+	arrayBookmark[MAXBOOKMARK].x = -1;
+	arrayBookmark[MAXBOOKMARK].y = -1;
 }
 
 
+- (Bookmark*) getBookmark:(NSInteger)num;
+{
+	DAssert(num>=0 && num<MAXBOOKMARK, @"getBookmark(%d)", num);
+	
+	return &arrayBookmark[num];
+}
+
+- (Bookmark*) getLastBookmark
+{
+	NSInteger countBM = [self countBookmarked];
+	if (countBM == 0)
+		return NULL;
+	
+	return [self getBookmark:countBM-1];	
+}
+
+/*
 - (NSInteger) canGoBookmark    // -1:undo, 0:can't +1:redo
 {
     //DLog(@"bookmark = %d", bookmark);
@@ -341,15 +471,22 @@
 
     return 0;
 }
+*/
 
+// 마지막 북마크로 이동하기
 - (NSInteger) countGoBookmark  // 몇번 undo, redo를 해야 하나?
 {
     //DLog(@"bookmark = %d", bookmark);
-
-    if (bookmark < 0 || bookmark > count)
+	Bookmark* bm = [self getLastBookmark];
+	if (!bm)
+	{
+		// no bookmark
+		return 0;
+	}
+    if (bm->pos < 0 || bm->pos > count)
         return 0;
     
-    return (bookmark - indexUndo);
+    return (bm->pos - indexUndo);
 }
 
 - (void) clear
@@ -407,18 +544,26 @@
 #define kindexUndo		@"kindexUndo"
 #define kcount			@"kcount"
 #define karrayUndo		@"karrayUndo"
+#define karrayBookmark	@"karrayBookmark"
+
 
 - (void) saveData
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	char zStrBookmark[MAXBOOKMARK*20] = "";
 	
 	[defaults setInteger:1 forKey:kundosaved];
-	[defaults setInteger:bookmark forKey:kbookmark];
-	[defaults setInteger:bookmarkX forKey:kbookmarkX];
-	[defaults setInteger:bookmarkY forKey:kbookmarkY];
 	[defaults setInteger:indexUndo forKey:kindexUndo];
 	[defaults setInteger:count forKey:kcount];
+
+	// bookmark array save
 	
+	[KillerMap getNumsPipe:zStrBookmark	size:[self countBookmarked]*sizeof(Bookmark)/sizeof(NSInteger) nums:(NSInteger*)&arrayBookmark[0]];
+	NSString* str = [NSString stringWithFormat:@"%s", zStrBookmark];
+	DLog(@"bookmark(%@)", str);
+	[defaults setObject:str forKey:karrayBookmark];
+	
+	// undo array save
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:arrayUndo];
 	[defaults setObject:data forKey:karrayUndo];
 }
@@ -427,13 +572,24 @@
 {	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
+	memset(arrayBookmark, -1, sizeof(arrayBookmark));
+	
 	if ([defaults integerForKey:kundosaved] == 1)
 	{
-		bookmark = [defaults integerForKey:kbookmark];
-		bookmarkX = [defaults integerForKey:kbookmarkX];
-		bookmarkY = [defaults integerForKey:kbookmarkY];
 		indexUndo = [defaults integerForKey:kindexUndo];
 		count = [defaults integerForKey:kcount];
+		
+		NSString *str = (NSString*)[defaults stringForKey:karrayBookmark];
+		if (str != nil)
+		{
+			DLog(@"bookmark(%@)", str);
+			[KillerMap setNumsPipe:str size:MAXBOOKMARK*sizeof(Bookmark)/sizeof(NSInteger)	nums:(NSInteger*)&arrayBookmark[0]];
+			[self validateBookmark];
+		} else {
+			// Never been saved
+		}
+
+		
 		NSData *data = [defaults objectForKey:karrayUndo];
 		if (data)
 		{
@@ -451,10 +607,9 @@
 		arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
 	} else {
 		DLog(@"Never saved Undo data");
-		bookmark = -1;  // no bookmark
-        bookmarkX = -1;
-        bookmarkY = -1;
+		arrayUndo = [[NSMutableArray alloc] initWithCapacity:DEFMAXUNDO];
 	}
+	
 	[self printData];
 	
 	return self;
@@ -462,8 +617,8 @@
 
 - (void) printData
 {
-	DLog(@"UndoLog:XY(%d,%d) bookmark(%d) indexUndo(%d) count(%d)",
-		 bookmarkX, bookmarkY, bookmark, indexUndo, count);
+	DLog(@"UndoLog: indexUndo(%d) count(%d)",
+		 indexUndo, count);
 	
 	for (int i=0; i<count; i++)
 	{

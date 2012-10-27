@@ -963,6 +963,11 @@ static int	HandyCount[][5] = {
 	KillerCage *cell = [kmap getCageData:num];
 	NSInteger sum = 0;
 	
+	if (cell == NULL)
+	{
+		DAssert(cell, @"[kmap getCageData:%d] => NULL", num);
+		return NO;
+	}
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)

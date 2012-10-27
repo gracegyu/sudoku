@@ -43,6 +43,7 @@
 @synthesize cellFourFont;
 @synthesize cellSixFont;
 @synthesize cellNineFont;
+@synthesize cellBookmarkFont;
 @synthesize cellSumFont;
 @synthesize cellWrongSumFont;
 @synthesize buttonSmallFont;
@@ -1080,24 +1081,40 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void)drawBookmarkInCell:(CGContextRef)context
 {
-	if ([sudokuGame.sudokuUndo isBookmarked] == NO)	// 북마크가 -1이면 좌표가 있어도 표시를 하지 않는다.
-		return;
+	NSInteger count = [sudokuGame.sudokuUndo countBookmarked];
+	NSInteger x, y;
 	
-    NSInteger x = sudokuGame.sudokuUndo.bookmarkX;
-    NSInteger y = sudokuGame.sudokuUndo.bookmarkY;
-    
-    if (x >= 0 && x < sudokuGame.size &&
-        y >= 0 && y < sudokuGame.size)
+	for (int i=0; i<count; i++)
 	{
-        NSInteger xPos = cTableStartX + x*cCellWidth;
-        NSInteger yPos = cTableStartY + y*cCellHeight;
-        
-        UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
-        CGRect rect = CGRectMake(xPos+cCellWidth*0.7f, yPos, cCellWidth*0.2f, cCellHeight*0.3f);
-        
-        [imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.3f];
-    }
+		Bookmark* bm = [sudokuGame.sudokuUndo getBookmark:i];
+		if (bm == NULL)
+		{
+			DAssert(bm, @"[sudokuGame.sudokuUndo getBookmark:%d]", i);
+			continue;
+		}
+			
+		x = bm->x;
+		y = bm->y;
+		if (x >= 0 && x < sudokuGame.size &&
+			y >= 0 && y < sudokuGame.size)
+		{
+			NSInteger xPos = cTableStartX + x*cCellWidth;
+			NSInteger yPos = cTableStartY + y*cCellHeight;
+			
+#ifdef KILLERSUDOKU
+			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark2"];
+			CGRect rect = CGRectMake(xPos+cCellWidth*0.05f, yPos+cCellHeight*0.75f, cCellWidth*0.2f, cCellHeight*0.25f);
+#else
+			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
+			CGRect rect = CGRectMake(xPos+cCellWidth*0.05f, yPos, cCellWidth*0.2f, cCellHeight*0.25f);
+#endif
+			[imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.5f];
+			// 북마크 번호(i+1)를 적어야 한다.
+			
+			[self drawNumRect:context num:i+1 rect:rect color:[UIColor colorWithWhite:1.0f alpha:1.0f].CGColor font:cellBookmarkFont];
 
+		}
+	}
 }
 
 - (void)drawHighlightCell:(CGContextRef)context
@@ -1644,7 +1661,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
 	DLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %d", [sudokuGame.sudokuUndo countGoBookmark]);
 
-    if ([sudokuGame.sudokuUndo isBookmarked] == NO)
+	
+    if ([sudokuGame.sudokuUndo countBookmarked] == 0)	// 아직 북마크가 추가된 것이 하나도 없다면 무조건 북마크를 추가한다.
     {
         [sudokuGame.sudokuUndo addBookmark];
         [self playSoundClick];
@@ -1656,15 +1674,15 @@ static NSUInteger RainbowColorTemplate[7] = {
         [alert setTitle:gettext(@"", nil)];
         //[alert setMessage:@"Do you pick Yes or No?"];
         [alert setDelegate:self];
-        [alert addButtonWithTitle:gettext(@"Go to bookmark", nil)];
-        [alert addButtonWithTitle:gettext(@"Reset bookmark", nil)];
-        [alert addButtonWithTitle:gettext(@"Delete bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Go back last bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Add bookmark", nil)];
+        [alert addButtonWithTitle:gettext(@"Delete all bookmarks", nil)];
         [alert addButtonWithTitle:gettext(@"Cancel", nil)];
         [alert show];
         [alert release];
         [self playSoundClick];
     }
-	[sudokuGame saveData];
+	//[sudokuGame saveData];
 
 	
 	[self setNeedsDisplay];
@@ -1816,32 +1834,38 @@ static NSUInteger RainbowColorTemplate[7] = {
             }
             break;
         case ALELRT_BOOKMARK :
-            if (buttonIndex == 0)
+            if (buttonIndex == 0)		// goto last bookmark
             {
                 NSInteger countBookmark = [sudokuGame.sudokuUndo countGoBookmark];
                 
                 if (countBookmark)
                 {
                     CGPoint pointLastUndoPos;
-                    selectedXPos = sudokuGame.sudokuUndo.bookmarkX;
-                    selectedYPos = sudokuGame.sudokuUndo.bookmarkY;
-                    
-					if (countBookmark < 0)
+					Bookmark *bm = [sudokuGame.sudokuUndo getLastBookmark];
+					
+					if (bm)
 					{
-						while ([sudokuGame.sudokuUndo getIndex] > [sudokuGame.sudokuUndo getBookmark])
-							pointLastUndoPos = [sudokuGame runUndo];
-					} else {
-						while ([sudokuGame.sudokuUndo getIndex] <= [sudokuGame.sudokuUndo getBookmark])
-							pointLastUndoPos = [sudokuGame runRedo];
+						selectedXPos = bm->x;
+						selectedYPos = bm->y;
+						
+						if (countBookmark < 0)
+						{
+							while ([sudokuGame.sudokuUndo getIndex] > bm->pos)
+								pointLastUndoPos = [sudokuGame runUndo];
+						} else {
+							while ([sudokuGame.sudokuUndo getIndex] <= bm->pos)
+								pointLastUndoPos = [sudokuGame runRedo];
+						}
 					}
                 }
-                [sudokuGame.sudokuUndo delBookmark];
+				// delete last bookmark;
+                [sudokuGame.sudokuUndo delLastBookmark];
                 [self playSoundClick];
             } else if (buttonIndex == 1) {
                 [sudokuGame.sudokuUndo addBookmark];
                 [self playSoundClick];
             } else if (buttonIndex == 2) {
-                [sudokuGame.sudokuUndo delBookmark];
+                [sudokuGame.sudokuUndo delAllBookmarks];
                 [self playSound:soundClearID];	
             } else if (buttonIndex == 3) {              // cancel
                 
@@ -2042,6 +2066,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 #define cCellFourFontSize           (0.9f * MINWHT / 2) //15*cResizeRatioW
 #define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
+#define cCellBookmarkFontSize       (0.6f * MINWHT / 3) //11*cResizeRatioW
 #define cCellSumFontSize            (0.9f * MINWHT / 3) //11*cResizeRatioW
 #define cCellWrongSumFontSize       (1.0f * MINWHT / 3) //11*cResizeRatioW
 
@@ -2067,6 +2092,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	self.cellFourFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellFourFontSize];
 	self.cellSixFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSixFontSize];
 	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
+	self.cellBookmarkFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellBookmarkFontSize];
 	self.cellSumFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSumFontSize];
 	self.cellWrongSumFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellWrongSumFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
@@ -2105,11 +2131,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 	[self drawGuidelineBackground:context];          // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
-    [self drawBookmarkInCell:context];          // 북마크 표시
 #ifdef KILLERSUDOKU
 	[self drawKillerLine:context];				// 테이블 라인 긎기
 #endif
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
+    [self drawBookmarkInCell:context];          // 북마크 표시
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
 #ifdef KILLERSUDOKU
 	[self drawKillerSumNum:context];			// 합계 표시하기
