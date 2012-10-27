@@ -1661,13 +1661,13 @@ static int	HandyCount[][5] = {
                 break;
             case UNDOMODE_AUTOMEMO_ADD:
 				[sudokuUndo printData];
-				DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
+				//DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
                 [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;
             case UNDOMODE_AUTOMEMO_DEL:
 				[sudokuUndo printData];
-				DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
+				//DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
                 [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
 				bAutoCheck = YES; // ???
                 break;

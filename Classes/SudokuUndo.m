@@ -421,10 +421,9 @@
 {
 	for (int i=0; i<MAXBOOKMARK; i++)
 	{
-		if (arrayBookmark[i].pos == 0)
+		if (arrayBookmark[i].pos == 0)	// pos 0은 북마크를 할 수 없다.
 		{
-			if (i != 0 || arrayBookmark[i].pos != 0)
-				arrayBookmark[i].pos = -1;
+			arrayBookmark[i].pos = -1;
 			arrayBookmark[i].x = -1;
 			arrayBookmark[i].y = -1;
 			return;
@@ -559,8 +558,8 @@
 	[defaults setInteger:count forKey:kcount];
 
 	// bookmark array save
-	
-	[KillerMap getNumsPipe:zStrBookmark	size:[self countBookmarked]*sizeof(Bookmark)/sizeof(NSInteger) nums:(NSInteger*)&arrayBookmark[0]];
+	if ([self countBookmarked] > 0)
+		[KillerMap getNumsPipe:zStrBookmark	size:[self countBookmarked]*sizeof(Bookmark)/sizeof(NSInteger) nums:(NSInteger*)&arrayBookmark[0]];
 	NSString* str = [NSString stringWithFormat:@"%s", zStrBookmark];
 	DLog(@"bookmark(%@)", str);
 	[defaults setObject:str forKey:karrayBookmark];
