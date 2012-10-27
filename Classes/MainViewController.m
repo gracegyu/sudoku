@@ -575,8 +575,14 @@
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
 		buttonRedo.enabled = NO;
 	}
-
-    if ([mainView.sudokuGame.sudokuUndo countBookmarked] > 0)
+	
+	if ([mainView.sudokuGame.sudokuUndo getIndex] <= 0)		// 맨 앞에 위치해 있을 때는 bookmark를 잠근다.
+	{
+		[buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateNormal];
+        [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateHighlighted];
+		buttonBookmark.enabled = NO;
+	}
+    else if ([mainView.sudokuGame.sudokuUndo countBookmarked] > 0)
     {
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_n"] forState:UIControlStateNormal];
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkon_h"] forState:UIControlStateHighlighted];

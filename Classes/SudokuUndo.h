@@ -46,9 +46,7 @@ typedef struct Bookmark
 
 @interface SudokuUndo : NSObject
 {
-//    NSInteger       bookmark;
-//    NSInteger       bookmarkX;
-//    NSInteger       bookmarkY;
+
     NSInteger       indexUndo;
     NSInteger       count;
 	NSMutableArray	*arrayUndo;
@@ -56,8 +54,6 @@ typedef struct Bookmark
 }
 
 @property NSInteger       count;
-//@property NSInteger       bookmarkX;
-//@property NSInteger       bookmarkY;
 
 
 - (NSInteger) getIndex;
