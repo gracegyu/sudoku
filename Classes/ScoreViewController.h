@@ -64,7 +64,7 @@
     
     NSInteger nTimer;
     NSInteger rankTotal;
-    NSInteger rankLevel[5];
+    NSInteger rankLevel[10];
     NSInteger score;
     NSTimer *timerScore;
     

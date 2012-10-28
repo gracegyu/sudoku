@@ -68,6 +68,8 @@
 @synthesize buttonGameCenterRanking5;
 
 
+#define NUM_RANK_BESTTIME	10
+
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
 	label.text = [NSString stringWithFormat:@"%d", num];
@@ -125,7 +127,7 @@
 
     MainViewController *ctrl = (MainViewController*)mainViewController;
     // Gamecenter와 sync맞추기
-    for (int level=0; level<5; level++)
+    for (int level=0; level<NUM_RANK_BESTTIME; level++)
     {
         if ([ctrl getBestTime:level] > 0)
             [GameCenterUtil sendBestTimeToGameCenter:level besttime:[ctrl getBestTime:level]];
@@ -158,24 +160,24 @@
 
 - (IBAction)showGameCenterLeaderboardVeryEasy
 {
-    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYEASY]]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYEASY + (bAuto?5:0)]]; // 실행~
 }
 
 - (IBAction)showGameCenterLeaderboardEasy
 {
-    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_EASY]]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_EASY + (bAuto?5:0)]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardNormal
 {
-    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_NORMAL]]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_NORMAL + (bAuto?5:0)]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardHard
 {
-    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_HARD]]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_HARD + (bAuto?5:0)]]; // 실행~
 }
 - (IBAction)showGameCenterLeaderboardVeryHard
 {
-    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYHARD]]; // 실행~
+    [self showLeaderboard:[GameCenterUtil getLevelCategory:GAMELEVEL_VERYHARD + (bAuto?5:0)]]; // 실행~
 }
 
 
@@ -283,17 +285,13 @@
 	{
 		DLog(@"level=%d", level);
 		if (bAuto)
-			rank = -1;
+			rank = rankLevel[level+5];
 		else
 			rank = rankLevel[level];
 
 		[self setLableRank:labelRankArray[level] rank:rank];
 	}
-	buttonGameCenterRanking1.hidden = bAuto ? YES: NO;
-	buttonGameCenterRanking2.hidden = bAuto ? YES: NO;
-	buttonGameCenterRanking3.hidden = bAuto ? YES: NO;
-	buttonGameCenterRanking4.hidden = bAuto ? YES: NO;
-	buttonGameCenterRanking5.hidden = bAuto ? YES: NO;
+
 }
 
 - (void) OnTimer:(NSTimer *)timer
@@ -305,7 +303,7 @@
 	if (rankTotal <= 0)
 		bWait = YES;
 	
-	for (int level=0; level<5; level++)
+	for (int level=0; level<NUM_RANK_BESTTIME; level++)
 	{
 		if (rankLevel[level] == -1)
 			bWait = YES;
@@ -335,7 +333,7 @@
     MainViewController *ctrl = (MainViewController*)mainViewController;
     
 
-    for (int level=0; level<5; level++)
+    for (int level=0; level<NUM_RANK_BESTTIME; level++)
     {
         if ([ctrl getBestTime:level] > 0)
         {

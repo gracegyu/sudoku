@@ -157,18 +157,25 @@ static BOOL bLoginedGamecenter = NO;
 {
     NSLog(@"getLevelCategory(%d)", level);
     
-    static NSString* strLevel[5] = {
+    static NSString* strLevel[10] = {
         GK_CATEGORY_VERYHARD,
         GK_CATEGORY_HARD,
         GK_CATEGORY_NORMAL,
         GK_CATEGORY_EASY,
-        GK_CATEGORY_VERYEASY
+        GK_CATEGORY_VERYEASY,
+        GK_CATEGORY_VERYHARD_A,
+        GK_CATEGORY_HARD_A,
+        GK_CATEGORY_NORMAL_A,
+        GK_CATEGORY_EASY_A,
+        GK_CATEGORY_VERYEASY_A
     };
 
-    if (level >= 0 && level < 5)
+    if (level >= 0 && level < 10)
+	{
 		return strLevel[level];
-    else
-        return @"";
+	} else {
+		return @"";
+	}
 }
 
 // 게임센터 서버로 점수를 보낸다.
@@ -180,11 +187,13 @@ static BOOL bLoginedGamecenter = NO;
 
     
     NSString* strCategory;
-    if (level >= 0 && level < 5)
+
+    if (level >= 0 && level < 10)
+	{
 		strCategory = [self getLevelCategory:level];
-    else
+    } else {
         return;
-		
+	}
     
     
     GKScore* score = [[[GKScore alloc] initWithCategory:strCategory] autorelease];
