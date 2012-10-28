@@ -36,6 +36,32 @@
 #define GK_CATEGORY_CLEAR100    @"grp.gtsudoku6.clear.100"
 #define GK_CATEGORY_CLEAR1000   @"grp.gtsudoku6.clear.1000"
 #endif
+
+#elif (defined KILLERSUDOKU)
+
+#ifdef SUDOKU9
+#define GK_CATEGORY_POINT       @"grp.ksudoku9.points"
+#define GK_CATEGORY_VERYHARD    @"grp.ksudoku9.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.ksudoku9.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.ksudoku9.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.ksudoku9.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.ksudoku9.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.ksudoku9.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.ksudoku9.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.ksudoku9.clear.1000"
+#else // SUDOKU6
+#define GK_CATEGORY_POINT       @"grp.ksudoku9.points"
+#define GK_CATEGORY_VERYHARD    @"grp.ksudoku6.timerecord.veryhard"
+#define GK_CATEGORY_HARD        @"grp.ksudoku6.timerecord.hard"
+#define GK_CATEGORY_NORMAL      @"grp.ksudoku6.timerecord.normal"
+#define GK_CATEGORY_EASY        @"grp.ksudoku6.timerecord.easy"
+#define GK_CATEGORY_VERYEASY    @"grp.ksudoku6.timerecord.veryeasy"
+#define GK_CATEGORY_CLEAR10     @"grp.ksudoku9.clear.10"
+#define GK_CATEGORY_CLEAR100    @"grp.ksudoku9.clear.100"
+#define GK_CATEGORY_CLEAR1000   @"grp.ksudoku9.clear.1000"
+#endif
+
+
 #else // Sudoku
 #ifdef SUDOKU9
 #define GK_CATEGORY_POINT       @"grp.sudoku9.points"
