@@ -26,20 +26,40 @@
     #define JMC_PRJKEY  @"SDGTSNINEF"
     #define JMC_APIKEY  @"7e35de83-0ce1-4f69-b30b-ca4c08269299"
     #else
-    #define JMC_PRJKEY  @"SDGTSNINEF"
-    #define JMC_APIKEY  @"7e35de83-0ce1-4f69-b30b-ca4c08269299"
+    #define JMC_PRJKEY  @"SDGTSNINEP"
+	#define JMC_APIKEY  @"9176b134-1289-4782-adba-5f6be380f7b9"
     #endif
 #else // DUDOKU6
     #ifdef ADMOB_FREEVERSION
     #define JMC_PRJKEY  @"SDGTSSIXF"
     #define JMC_APIKEY  @"f40f6440-259a-4c81-a878-569453fe7fe4"
     #else
-    #define JMC_PRJKEY  @"SDGTSSIXF"
-    #define JMC_APIKEY  @"f40f6440-259a-4c81-a878-569453fe7fe4"
+    #define JMC_PRJKEY  @"SDGTSSIXP"
+	#define JMC_APIKEY  @"d69a926b-d57e-4f6a-9904-464877c17ec2"
     #endif
 #endif
 
-#else // GTSUDOKU
+#elif (defined KILLERSUDOKU)
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDKSNINEF"
+#define JMC_APIKEY  @"b7adf06f-0474-4e44-a4e2-455022b6f73b"
+#else
+#define JMC_PRJKEY  @"SDKSNINEP"
+#define JMC_APIKEY  @"5f92294a-2d26-4dec-b342-b9710a2f1e99"
+#endif
+#else // DUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDKSSIXF"
+#define JMC_APIKEY  @"73c6ac34-1f53-4fc3-b6b5-c39f9e2e088c"
+#else
+#define JMC_PRJKEY  @"SDKSSIXP"
+#define JMC_APIKEY  @"87dab42e-13c6-4cc7-b16d-5d107b8b4fbb"
+#endif
+#endif
+
+#else // KILLERSUDOKU
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
