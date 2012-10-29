@@ -30,7 +30,11 @@ enum LogType {
 };
 typedef enum LogType LogType;
 
+#ifdef DEBUG
 void LogIt (NSString *format, ...);
+#else
+#define LogIt(format, ...)
+#endif
 
 @interface LogItem : NSObject
 {

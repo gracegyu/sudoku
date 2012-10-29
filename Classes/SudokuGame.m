@@ -1620,6 +1620,8 @@ static int	HandyCount[][5] = {
 	//[self initAutoMemo];
 	// automemo 일괄 undo를 해야 한다.
 	
+	[undoData release];
+	
     return pointLastUndoPos;
     
 
@@ -1705,6 +1707,8 @@ static int	HandyCount[][5] = {
 			}
 		}
 	}
+	
+	[undoData release];
     
     return pointLastUndoPos;
    

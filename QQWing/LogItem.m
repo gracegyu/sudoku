@@ -37,7 +37,7 @@ static inline int cellToRow(int cell)
 {
     return cell/ROW_LENGTH;
 }
-
+#ifdef DEBUG
 void LogIt (NSString *format, ...)
 {
     va_list args;
@@ -48,7 +48,7 @@ void LogIt (NSString *format, ...)
     printf ("%s", [string cStringUsingEncoding:NSASCIIStringEncoding]);
     [string release];
 } // LogIt
-
+#endif
 
 
 @implementation LogItem
