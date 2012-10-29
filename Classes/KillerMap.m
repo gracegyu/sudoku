@@ -437,7 +437,8 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 
 + (void) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
-    for (int i=0; i<size; i++)
+   
+	for (int i=0; i<size; i++)
     {
 		if (nums[i] < 0)
 		{
@@ -445,9 +446,8 @@ KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
 				*(str-1) = '\0';
 			break;
 		}
-		if (nums[i] >= 10)
-			*str++ = ('0' + nums[i]/10);
-		*str++ = ('0' + nums[i]%10);
+		sprintf(str, "%d", nums[i]);
+		str += strlen(str);
 		if (i+1 < size)
 			*str++ = '|';
     }

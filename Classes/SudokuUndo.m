@@ -551,7 +551,7 @@
 - (void) saveData
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	char zStrBookmark[MAXBOOKMARK*20] = "";
+	char zStrBookmark[MAXBOOKMARK*30] = "";
 	
 	[defaults setInteger:1 forKey:kundosaved];
 	[defaults setInteger:indexUndo forKey:kindexUndo];

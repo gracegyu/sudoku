@@ -9,4 +9,8 @@ xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6free" clean archi
 xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku6paid" clean archive
 xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9free" clean archive
 xcodebuild  -project ../sudokuall.xcodeproj  -scheme "gtsudoku9paid" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "killersudoku6free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "killersudoku6paid" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "killersudoku9free" clean archive
+xcodebuild  -project ../sudokuall.xcodeproj  -scheme "killersudoku9paid" clean archive
 
