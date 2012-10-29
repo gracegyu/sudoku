@@ -975,8 +975,13 @@ static int	HandyCount[][5] = {
 			if ([kmap getCageNumber:x yPos:y] == num)
 			{
 				if (fixNums[x][y] == 0)
-					return NO;
-				sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
+				{
+					if (puzzleNums[x][y] == 0)
+						return NO;
+					sum += puzzleNums[x][y];
+				} else {
+					sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
+				}
 			}
 		}
 	}
