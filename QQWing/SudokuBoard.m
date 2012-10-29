@@ -257,11 +257,14 @@ bool readPuzzleFromStdIn(int* puzzle)
 
 - (void) print:(int*) sudoku
 {
+#ifdef DEBUG
     for(int i=0; i<BOARD_SIZE; i++){
-        if (printStyle == PRINT_READABLE){
+        if (printStyle == PRINT_READABLE)
+		{
             LogIt(@" ");
         }
-        if (sudoku[i]==0){
+        if (sudoku[i]==0)
+		{
             LogIt(@".");
         } else {
 			LogIt(@"%d", sudoku[i]);
@@ -290,6 +293,7 @@ bool readPuzzleFromStdIn(int* puzzle)
             }
         }
     }
+#endif
 }
 
 
@@ -1679,7 +1683,8 @@ bool readPuzzleFromStdIn(int* puzzle)
 		for (int valIndex=0; valIndex<NUM_POSS; valIndex++){
 			int posVal = (9*i)+valIndex;
 			int value = valIndex+1;
-			if (possibilities[posVal]==0){
+			if (possibilities[posVal]==0)
+			{
 				LogIt(@"%d", value);
 			} else {
 				LogIt(@".");

@@ -62,35 +62,46 @@
 
 - (void) printMap
 {
+#ifdef DEBUG
 	for (int y=0; y<size; y++)
 	{
 		if (y%3 == 0)
+		{
 			LogIt(@"----------------------------  -------------------\n");
+		}
 		for (int x=0; x<size; x++)
 		{
 			if (x%3==0)
+			{
 				LogIt(@"|");
-			else
+			} else {
 				LogIt(@" ");
+			}
 
 			if (map[x][y] < 0)
+			{
 				LogIt(@" .");
-			else
+			} else {
 				LogIt(@"%.2d", map[x][y]);
+			}
 		}
 		LogIt(@"|  ");
 		
 		for (int x=0; x<size; x++)
 		{
 			if (x%3==0)
+			{
 				LogIt(@"|");
-			else
+			} else {
 				LogIt(@" ");
+			}
 			
 			if (color[x][y] < 0)
+			{
 				LogIt(@".");
-			else
+			} else {
 				LogIt(@"%d", color[x][y]);
+			}
 		}
 		LogIt(@"|");
 
@@ -109,7 +120,7 @@
 		num++;
 	}
 	LogIt(@"\n");
-	
+#endif
 	
 }
 

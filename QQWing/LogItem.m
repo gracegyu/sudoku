@@ -149,17 +149,25 @@ void LogIt (NSString *format, ...)
             LogIt(@"!!! Performed unknown optimization !!!");
         } break;
     }
-    if (value > 0 || position > -1){
+    if (value > 0 || position > -1)
+	{
         LogIt(@" (");
         bool printed = false;
-        if (position > -1){
+        if (position > -1)
+		{
             if (printed)
+			{
 				LogIt(@" - ");
+			}
             LogIt(@"Row: %d - Column: %d", cellToRow(position)+1, cellToColumn(position)+1);
             printed = true;
         }
-        if (value > 0){
-            if (printed) LogIt(@" - ");
+        if (value > 0)
+		{
+            if (printed)
+			{
+				LogIt(@" - ");
+			}
             LogIt(@"Value: ", value);
             printed = true;
         }
