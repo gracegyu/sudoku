@@ -28,10 +28,12 @@
 @synthesize labelTitleGameTime;
 @synthesize labelTitleBlank;
 @synthesize labelTitleHint;
-@synthesize buttonNewGameVeryEasy;
 @synthesize areaPuzzleTable;
 @synthesize areaNumButton;
 @synthesize areaAdBanner;
+@synthesize labelAutoMemo;
+@synthesize buttonCheckboxAutoMemo;
+@synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
 @synthesize buttonNewGameNormal;
 @synthesize buttonNewGameHard;
@@ -313,6 +315,10 @@
     labelTitleHint.text = gettext(@"hint", nil);
     //labelNewGame.text = gettext(@"New Game", nil);
     
+	
+	[buttonCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
+	labelAutoMemo.text = gettext(@"auto memo", nil);
+	
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
@@ -1196,6 +1202,14 @@
 	[self hideNewGameView];
 }
 
+- (IBAction)changeAutoMemo
+{
+	mainView.bSettingAutoMemo = !mainView.bSettingAutoMemo;
+	[self updateButtonMenu];
+	
+	[self saveSetting];
+}
+
 
 - (void) startGameTimer
 {
@@ -1315,8 +1329,13 @@
 
 - (void) updateButtonMenu
 {
-	// 메뉴는 항상 눌릴 수 있어야 한다.
-	//buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
+	// 메뉴는 항상 눌릴 수 있어야 한다. -  안된다. new game 창에서 menu가 나온다.
+	buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
+	
+	if (mainView.bSettingAutoMemo)
+		[buttonCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_c.png"] forState:UIControlStateNormal];
+	else
+		[buttonCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_u.png"] forState:UIControlStateNormal];
 }
 
 

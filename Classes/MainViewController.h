@@ -47,6 +47,8 @@
     UIButton    *areaNumButton;
     UIButton    *areaAdBanner;
     
+	UILabel		*labelAutoMemo;
+	UIButton	*buttonCheckboxAutoMemo;
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
 	UIButton	*buttonNewGameNormal;
@@ -113,6 +115,11 @@
 @property (nonatomic, retain) IBOutlet UIButton	*areaPuzzleTable;
 @property (nonatomic, retain) IBOutlet UIButton	*areaNumButton;
 @property (nonatomic, retain) IBOutlet UIButton *areaAdBanner;
+
+
+@property (nonatomic, retain) IBOutlet UILabel	*labelAutoMemo;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonCheckboxAutoMemo;
+
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;
@@ -175,6 +182,7 @@
 - (IBAction)newgameHard;
 - (IBAction)newgameVeryHard;
 - (IBAction)newgameCancel;
+- (IBAction)changeAutoMemo;
 
 
 - (void) setLocalizedMessage;
