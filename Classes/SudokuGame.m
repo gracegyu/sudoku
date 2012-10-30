@@ -640,8 +640,12 @@ static int	HandyCount[][5] = {
 			NSInteger Rand = ((unsigned int)arc4random()) % 100;
 			if (Rand >= 65)
 			{
-				cell->sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
-				cell->sign = CS_MULTIPLE;
+				NSInteger sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
+				if (sum < 1000)
+				{
+					cell->sum = sum;
+					cell->sign = CS_MULTIPLE;
+				}
 			}
 		}
 		else

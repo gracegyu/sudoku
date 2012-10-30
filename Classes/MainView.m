@@ -815,7 +815,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 		isWrongSum = [sudokuGame isWrongSumCellXY:x yPos:y] && bSettingDuplicationWarning;
 		rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.03,
 						  cTableStartY + y*cCellHeight + cCellHeight*0.03,
-						  cCellWidth/2,
+						  cCellWidth,
 						  cCellHeight/4);
 		[self drawNumRectLeft:context
 						  num:sum
@@ -825,15 +825,15 @@ static NSUInteger RainbowColorTemplate[7] = {
 #ifdef CALCUDOKU
 		if ([sudokuGame	countCellInSum:x yPos:y] > 1)
 		{
-			rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.06,
-						  cTableStartY + y*cCellHeight + cCellHeight/5,
+			rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.04,
+						  cTableStartY + y*cCellHeight + cCellHeight/4,
 						  cCellWidth/8,
 						  cCellHeight/4);
 			[self drawStrRect:context
 						  str:[KillerMap getSign:cell->sign]
 						 rect:rect
 						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
-						 font:isWrongSum?cellWrongSumFont:cellSumFont
+						 font:cellWrongSumFont
 						align:UITextAlignmentCenter];
 		}
 #endif
