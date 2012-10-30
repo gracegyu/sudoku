@@ -1191,6 +1191,37 @@ static int	HandyCount[][5] = {
 }
 
 
+- (BOOL)conflictNumber:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+    int x, y;
+    for (x = 0, y = yPos; x < size; x++)
+    {
+        if (x != xPos && [self getDisplayNum:x y:y] == num)
+            return YES;
+    }
+    for (x = xPos, y = 0; y < size; y++)
+    {
+        if (y != yPos && [self getDisplayNum:x y:y] == num)
+            return YES;
+    }
+    
+    
+    for (int x=0; x<size; x++)
+    {
+        for (int y=0; y<size; y++)
+        {
+            if ((x != xPos || y != yPos) &&
+                [self isSameMap:x y:y x2:xPos y2:yPos] == YES &&
+                [self getDisplayNum:x y:y] == num)
+            {
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
 	//DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
@@ -1222,9 +1253,14 @@ static int	HandyCount[][5] = {
 			data = [arrayAutoUndo objectAtIndex:i];
 			if (data.mode == UNDOMODE_AUTOMEMO_DEL)
 			{
-				[self addMemoNums:data.num x:data.x y:data.y];
-				[sudokuUndo addAutoMemo:data.num x:data.x y:data.y];
-			} else if (data.mode == UNDOMODE_AUTOMEMO_ADD)
+				// 비교해야할 셀에서 입력된 메모는 입력하면 안된다.
+				if ([self conflictNumber:data.num xPos:data.x yPos:data.y] == NO)
+				{
+					[self addMemoNums:data.num x:data.x y:data.y];
+					[sudokuUndo addAutoMemo:data.num x:data.x y:data.y];
+				}
+			}
+			else if (data.mode == UNDOMODE_AUTOMEMO_ADD)
 			{
 				[self delMemoNums:data.num x:data.x y:data.y];
 				[sudokuUndo delAutoMemo:data.num x:data.x y:data.y];
@@ -1243,6 +1279,52 @@ static int	HandyCount[][5] = {
 	//[self saveData];
 }
 
+- (BOOL) conflictMemoCompare:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	sXY	xy2[4];
+	BOOL bComapare0, bComapare1;
+	NSInteger numDispaly;
+	
+	if (xPos == 0 && yPos == 0)
+	{
+		DLog(@"");
+	}
+	
+	xy2[0].x = xPos-1;	xy2[0].y = yPos;
+	xy2[1].x = xPos+1;	xy2[1].y = yPos;
+	xy2[2].x = xPos;	xy2[2].y = yPos+1;
+	xy2[3].x = xPos;	xy2[3].y = yPos-1;
+	
+	for (int i=0; i<4; i++)
+	{
+		if ([self isSameMap:xPos y:yPos x2:xy2[i].x y2:xy2[i].y] == NO)
+			continue;
+		
+		bComapare0 = [self getAnswerNums:xPos y:yPos] >
+		[self getAnswerNums:xy2[i].x y:xy2[i].y];
+		numDispaly = [self getDisplayNum:xy2[i].x y:xy2[i].y];
+		if (numDispaly > 0)	// 고정된 번호와는 메모를 비교한다. (자동 삭제 시도?)
+		{
+			bComapare1 = num > numDispaly;
+			
+			if (bComapare0 != bComapare1)
+				return YES;
+			/*} else if ([sudokuGame emptyMemo:xy2[i].x y:xy2[i].y] == NO) {	// 메모와 비교
+			 if (bComapare0)	// 원래 위치가 큰 것
+			 {
+			 if (num <= [sudokuGame smallestMemo:xy2[i].x y:xy2[i].y])
+			 return YES;
+			 } else {
+			 if (num >= [sudokuGame biggestMemo:xy2[i].x y:xy2[i].y])
+			 return YES;
+			 }	*/
+		} else {
+			// empty memo
+		}
+		
+	}
+	return NO;
+}
 
 
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y

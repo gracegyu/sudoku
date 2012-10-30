@@ -109,7 +109,8 @@
 - (void) resetHintTime;
 - (NSInteger) countBlankCells;
 - (NSInteger) countFixCells;
-
+- (BOOL)conflictNumber:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
+- (BOOL) conflictMemoCompare:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (CGPoint) runUndo;

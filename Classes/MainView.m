@@ -660,11 +660,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 		{
 			if (i >= 0 && i < len)
 			{
-                bConflict = [self conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+                bConflict = [sudokuGame conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
 #ifdef GTSUDOKU
 				if (!bConflict)
 				{
-					bConflict = [self conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+					bConflict = [sudokuGame conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
 				}
 #endif
                 rectNum = CGRectMake(x0+width*x/countW,
@@ -686,83 +686,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	}
 }
 
-- (BOOL)conflictNumber:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
-{
-    int x, y;
-    for (x = 0, y = yPos; x < sudokuGame.size; x++)
-    {
-        if (x != xPos && [sudokuGame getDisplayNum:x y:y] == num)
-            return YES;
-    }
-    for (x = xPos, y = 0; y < sudokuGame.size; y++)
-    {
-        if (y != yPos && [sudokuGame getDisplayNum:x y:y] == num)
-            return YES;
-    }
-    
-    
-    for (int x=0; x<sudokuGame.size; x++)
-    {
-        for (int y=0; y<sudokuGame.size; y++)
-        {
-            if ((x != xPos || y != yPos) &&
-                [sudokuGame isSameMap:x y:y x2:xPos y2:yPos] == YES &&
-                [sudokuGame getDisplayNum:x y:y] == num)
-            {
-                return YES;
-            }
-        }
-    }
-    
-    return NO;
-}
 
-- (BOOL) conflictMemoCompare:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
-{
-	sXY	xy2[4];
-	BOOL bComapare0, bComapare1;
-	NSInteger numDispaly;
-	
-	if (xPos == 0 && yPos == 0)
-	{
-		DLog(@"");
-	}
-	
-	xy2[0].x = xPos-1;	xy2[0].y = yPos;
-	xy2[1].x = xPos+1;	xy2[1].y = yPos;
-	xy2[2].x = xPos;	xy2[2].y = yPos+1;
-	xy2[3].x = xPos;	xy2[3].y = yPos-1;
-
-	for (int i=0; i<4; i++)
-	{
-		if ([sudokuGame isSameMap:xPos y:yPos x2:xy2[i].x y2:xy2[i].y] == NO)
-			continue;
-		
-		bComapare0 = [sudokuGame getAnswerNums:xPos y:yPos] >
-					 [sudokuGame getAnswerNums:xy2[i].x y:xy2[i].y];
-		numDispaly = [sudokuGame getDisplayNum:xy2[i].x y:xy2[i].y];
-		if (numDispaly > 0)	// 고정된 번호와는 메모를 비교한다. (자동 삭제 시도?)
-		{
-			bComapare1 = num > numDispaly;
-			
-			if (bComapare0 != bComapare1)
-				return YES;
-		/*} else if ([sudokuGame emptyMemo:xy2[i].x y:xy2[i].y] == NO) {	// 메모와 비교
-			if (bComapare0)	// 원래 위치가 큰 것
-			{
-				if (num <= [sudokuGame smallestMemo:xy2[i].x y:xy2[i].y])
-					return YES;
-			} else {
-				if (num >= [sudokuGame biggestMemo:xy2[i].x y:xy2[i].y])
-					return YES;
-			}	*/	
-		} else {
-			// empty memo
-		}
-
-	}
-	return NO;
-}
 
 
 - (BOOL)conflictCell:(NSInteger)xPos yPos:(NSInteger)yPos
@@ -772,7 +696,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     if (fixNum == 0)
         return NO;
     
-    return [self conflictNumber:fixNum xPos:xPos yPos:yPos];
+    return [sudokuGame conflictNumber:fixNum xPos:xPos yPos:yPos];
 }
 
 - (void)drawRectCell:(CGContextRef)context xPos:(NSInteger)xPos yPos:(NSInteger)yPos
@@ -1769,6 +1693,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 		[sudokuGame setHintNum:selectedXPos y:selectedYPos];
 	}
 
+	
+	
 	[self checkClearAndUpdateButton];
 	[sudokuGame saveData];
 }
