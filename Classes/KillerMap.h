@@ -9,12 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "SudokuMap.h"
 
+enum CAGE_SIGN {
+	CS_PLUS = 0,
+	CS_MINUS,
+	CS_MULIPLE,
+	CS_DEVIDE
+};
+
+typedef enum CAGE_SIGN CAGE_SIGN;
 
 typedef struct KillerCage
 {
 	NSInteger x0;	// 합계를 표시할 위치
 	NSInteger y0;
-	NSInteger sum;
+	NSInteger sum;	// + - x / result
+	CAGE_SIGN sign;	// 0+ 1- 2x 3/
 } KillerCage;
 
 

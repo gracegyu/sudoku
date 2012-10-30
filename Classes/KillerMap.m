@@ -11,6 +11,9 @@
 #import "Constants.h"
 
 
+#define kKillerMap		@"killermap2"
+
+
 @implementation KillerMap
 
 @synthesize size;
@@ -158,6 +161,8 @@
 	
 	cage[num].x0 = xPos;
 	cage[num].y0 = yPos;
+	cage[num].sign = CS_PLUS;
+	
 	
 	//DLog(@"sizeBlock=%d", sizeBlock);
 	
@@ -327,12 +332,9 @@
 	return num;
 }
 
-#define kKillerMap		@"killermap"
 
-NSInteger   size;							// 6,9
-NSInteger	map[MAXMAPSIZE][MAXMAPSIZE];
-NSInteger	color[MAXMAPSIZE][MAXMAPSIZE];	// 0~7
-KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];
+
+
 
 - (void) saveData
 {

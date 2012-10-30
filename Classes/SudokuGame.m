@@ -784,6 +784,8 @@ static int	HandyCount[][5] = {
     }
 	// zzzzzzzzzzzzzzzzzzzzz
 	map = [[SudokuMap alloc] initWithMapArray:(NSInteger*)mapNums size:size];
+	if (!map)
+		return nil;
 		
 	if ([listItems count] > 13)	// bAutoMemo
 	{
@@ -806,6 +808,8 @@ static int	HandyCount[][5] = {
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
 #ifdef KILLERSUDOKU
 	kmap = [[KillerMap alloc] initWithSaveData];
+	if (!kmap)
+		return nil;
 #endif
 
 	return self;
