@@ -1,11 +1,21 @@
 
-#ifdef GTSUDOKU
+#ifdef GTSUDOKU	// Greater than sudoku
 
 #ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"569760774"  // Greater than sudoku9 Free
+#else
+#define APP_ID      @"574380693"  // Greater than sudoku9 Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a150765b79bf648")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a150765af719cb3")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a150765bbea49a7")
 #else  // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"569751989"  // Greater than sudoku6 Free
+#else
+#define APP_ID      @"574377045"  // Greater than sudoku Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1507644eca74b4")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a15076456849bb3")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1507645bce8c4c")
@@ -14,10 +24,20 @@
 #elif defined(KILLERSUDOKU)	// killersudoku9
 
 #ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"574234872"  // killersudoku9 Free
+#else
+#define APP_ID      @"574345418"  // killersudoku9 Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a15088f9e25e0fa")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a15088f9935ab96")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a15088fa20ad7d8")
 #else  // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"574235264"  // killersudoku6 Free
+#else
+#define APP_ID      @"574347141"  // killersudoku6 Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1508bd6c300c4e")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1508bd679e3282")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1508bd70d7fe12")
@@ -26,10 +46,20 @@
 #else
 
 #ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"403191170"  // SUDOKU9 Free
+#else
+#define APP_ID      @"386917779"  // SUDOKU9 Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d") 
 #else  // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"568783854"  // SUDOKU6 Free
+#else
+#define APP_ID      @"574356934"  // SUDOKU6 Paid
+#endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1506f9f57f0075")
@@ -52,11 +82,10 @@
 #define GAMECOUNTFORREVIEW        20
 #define SECONDSFORFREEHINT		1200
 
-#ifdef ADMOB_FREEVERSION
-#define APP_ID      @"403191170"  // SUDOKU9 Free
-#else
-#define APP_ID      @"386917779"  // SUDOKU9 Paid
-#endif
+
+
+
+
 
 
 enum GAMELEVEL {
