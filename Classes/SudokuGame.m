@@ -579,17 +579,77 @@ static int	HandyCount[][5] = {
 	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
 		cell->sum = 0;
-		
+		cell->sign = CS_PLUS;	// killersudoku는 Plus만 지원한다.
+
+		int n=0;
+		NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
+
 		for (int y=0; y<size; y++)
 		{
 			for (int x=0; x<size; x++)
 			{
 				if ([kmap getCageNumber:x yPos:y] == i)
 				{
+					DAssert(n < 4, @"n must be less than 4");
 					cell->sum += answerNums[x][y];
+					arNum[n] = answerNums[x][y];
+					n++;
 				}
 			}
 		}
+#ifdef CALCUDOKU
+		if (n == 1)
+		{
+			//pass
+		}
+		else if (n == 2)
+		{
+			if ((MAX(arNum[0], arNum[1]) % MIN(arNum[0], arNum[1])) == 0)	// 나누기 가능
+			{
+				NSInteger Rand = ((unsigned int)arc4random()) % 100;
+				if (Rand >= 70)
+				{
+					cell->sum = (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1]));
+					cell->sign = CS_DIVIDE;
+					continue;
+				}					
+			}
+			NSInteger Rand = ((unsigned int)arc4random()) % 100;
+			if (Rand >= 70)
+			{
+				cell->sum = arNum[0] * arNum[1];
+				cell->sign = CS_MULTIPLE;
+			}
+			else if (Rand >= 40)
+			{
+				cell->sum = (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1]));
+				cell->sign = CS_MINUS;
+			}
+		}
+		else if (n == 3)
+		{
+			NSInteger Rand = ((unsigned int)arc4random()) % 100;
+			if (Rand >= 50)
+			{
+				cell->sum = arNum[0] * arNum[1] * arNum[2];
+				cell->sign = CS_MULTIPLE;
+			}
+		}
+		else if (n == 4)
+		{
+			NSInteger Rand = ((unsigned int)arc4random()) % 100;
+			if (Rand >= 65)
+			{
+				cell->sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
+				cell->sign = CS_MULTIPLE;
+			}
+		}
+		else
+		{
+			DAssert(n < 4, @"n must be less than 4");
+		}
+#endif
+		
 	}
 	
 #endif
@@ -961,38 +1021,71 @@ static int	HandyCount[][5] = {
 
 #ifdef KILLERSUDOKU
 
-- (BOOL) isWrongSumCell:(NSInteger)xPos yPos:(NSInteger)yPos
+- (BOOL) isWrongSumCell:(NSInteger)num cell:(KillerCage*) cell
 {
-	NSInteger num = [kmap getCageNumber:xPos yPos:yPos];
-	KillerCage *cell = [kmap getCageData:num];
-	NSInteger sum = 0;
-	
 	if (cell == NULL)
 	{
 		DAssert(cell, @"[kmap getCageData:%d] => NULL", num);
 		return NO;
 	}
+	
+	int n=0;
+	NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
+	NSInteger value;
+	NSInteger sum = 0, multi = 1;
+	
 	for (int y=0; y<size; y++)
 	{
 		for (int x=0; x<size; x++)
 		{
 			if ([kmap getCageNumber:x yPos:y] == num)
 			{
-				if (fixNums[x][y] == 0)
-				{
-					if (puzzleNums[x][y] == 0)
-						return NO;
-					sum += puzzleNums[x][y];
-				} else {
-					sum += fixNums[x][y];	// 사용자가 입력한 숫자 합계
-				}
+				if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0)
+					return NO;
+				value = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
+				
+				sum += value;
+				multi *= value;
+				arNum[n] = value;
+				n++;
 			}
 		}
 	}
+	
+#ifdef CALCUDOKU
+	if (cell->sign == CS_MULTIPLE)
+	{
+		return (cell->sum != multi);
+	}
+	else if (cell->sign == CS_MINUS)
+	{
+		DAssert(n == 2, @"n must be 2");
+		return (cell->sum != (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1])));
+	}
+	else if (cell->sign == CS_DIVIDE)
+	{
+		DAssert(n == 2, @"n must be 2");
+		return (cell->sum != (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1])));
+	}
+	
+#endif
+	
+	
 	if (cell->sum != sum)
 		return YES;
 	
-	return NO;	
+	return NO;
+}
+
+
+- (BOOL) isWrongSumCellXY:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+	NSInteger num = [kmap getCageNumber:xPos yPos:yPos];
+	KillerCage *cell = [kmap getCageData:num];
+	
+	return [self isWrongSumCell:num cell:cell];
+	
+
 }
 
 // 나중에 셀의 후보 숫자를 보기 위해서 사용한다.
@@ -1014,25 +1107,15 @@ static int	HandyCount[][5] = {
 	return count;
 }
 
+
 - (NSInteger) countUncorrectSum
 {
 	KillerCage *cell;
-	NSInteger sum, uncorrect=0;
+	NSInteger uncorrect=0;
 	
 	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
-		sum = 0;
-		for (int y=0; y<size; y++)
-		{
-			for (int x=0; x<size; x++)
-			{
-				if ([kmap getCageNumber:x yPos:y] == i)
-				{
-					sum += fixNums[x][y] ? fixNums[x][y] : answerNums[x][y];	// 사용자가 입력한 숫자 합계
-				}
-			}
-		}
-		if (cell->sum != sum)	// 제시된 합계와 사용자가 입력한 합계가 다름
+		if ([self isWrongSumCell:i cell:cell] == YES)
 		{
 			uncorrect++;
 		}

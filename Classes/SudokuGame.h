@@ -91,7 +91,7 @@
 - (void) clearAllNums;
 #ifdef KILLERSUDOKU
 - (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums;
-- (BOOL) isWrongSumCell:(NSInteger)xPos yPos:(NSInteger)yPos;
+- (BOOL) isWrongSumCellXY:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (NSInteger) countCellInSum:(NSInteger)xPos yPos:(NSInteger)yPos;
 #else
 - (NSInteger) clearGameCheckAllCells;

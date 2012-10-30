@@ -133,7 +133,7 @@
 	
 	if (Rand < 60)
 		return 2;
-	if (Rand < 93)
+	if (Rand < 94)
 		return 3;
 	return 4;
 }
@@ -481,6 +481,19 @@
 	return (KillerCage*) cage;
 }
 
-
++ (NSString*) getSign:(CAGE_SIGN)cs
+{
+	static NSString* arraySign[4] = {
+		@"\uFF0B",
+		@"\uFF0D",
+		@"\u00D7",
+		@"÷"
+	};
+	
+	DAssert(cs >= 0 && cs < 4, @"getSign should be 0 <= cs < 4");
+	
+	return arraySign[cs];
+	
+}
 
 @end

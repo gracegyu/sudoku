@@ -812,25 +812,32 @@ static NSUInteger RainbowColorTemplate[7] = {
 		sum = cell->sum;
 		if (sum == 0)
 			break;
+		isWrongSum = [sudokuGame isWrongSumCellXY:x yPos:y] && bSettingDuplicationWarning;
 		rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.03,
 						  cTableStartY + y*cCellHeight + cCellHeight*0.03,
 						  cCellWidth/2,
 						  cCellHeight/4);
-		isWrongSum = [sudokuGame isWrongSumCell:x yPos:y];
-		if (isWrongSum && bSettingDuplicationWarning)
+		[self drawNumRectLeft:context
+						  num:sum
+						 rect:rect
+						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
+						 font:isWrongSum?cellWrongSumFont:cellSumFont];
+#ifdef CALCUDOKU
+		if ([sudokuGame	countCellInSum:x yPos:y] > 1)
 		{
-			[self drawNumRectLeft:context
-							  num:sum
-							 rect:rect
-							color:skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor
-							 font:cellWrongSumFont];
-		} else {
-			[self drawNumRectLeft:context
-							  num:sum
-							 rect:rect
-							color:skincolor[SC_TEXT_CELL_KILLER_SUM].CGColor
-							 font:cellSumFont];
+			rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.06,
+						  cTableStartY + y*cCellHeight + cCellHeight/5,
+						  cCellWidth/8,
+						  cCellHeight/4);
+			[self drawStrRect:context
+						  str:[KillerMap getSign:cell->sign]
+						 rect:rect
+						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
+						 font:isWrongSum?cellWrongSumFont:cellSumFont
+						align:UITextAlignmentCenter];
 		}
+#endif
+		
 	}
 
 }
@@ -2002,8 +2009,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 #define cCellSixFontSize            (0.8f * MINWHT / 2) //15*cResizeRatioW
 #define cCellNineFontSize           (0.9f * MINWHT / 3) //11*cResizeRatioW
 #define cCellBookmarkFontSize       (0.6f * MINWHT / 3) //11*cResizeRatioW
-#define cCellSumFontSize            (0.9f * MINWHT / 3) //11*cResizeRatioW
-#define cCellWrongSumFontSize       (1.0f * MINWHT / 3) //11*cResizeRatioW
+#define cCellSumFontSize            (0.8f * MINWHT / 3) //11*cResizeRatioW
+#define cCellWrongSumFontSize       (0.9f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
