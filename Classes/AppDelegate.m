@@ -59,7 +59,7 @@
 #endif
 #endif
 
-#elif defined KILLERSUDOKU // KILLERSUDOKU
+#elif (defined KILLERSUDOKU) && (!defined CALCUDOKU) // KILLERSUDOKU
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
