@@ -279,19 +279,23 @@ static BOOL bLoginedGamecenter = NO;
     if (cleargame <= 10) {
         strCategory = GK_CATEGORY_CLEAR10;
         percent = (float)cleargame*100/10;
+		[self sendAchievementWithIdentifier:strCategory percentComplete:percent];
     } else if (cleargame <= 100) {
         percent = (float)cleargame*100/100;
         strCategory = GK_CATEGORY_CLEAR100;
+		[self sendAchievementWithIdentifier:strCategory percentComplete:percent];
+		[self sendAchievementWithIdentifier:GK_CATEGORY_CLEAR10 percentComplete:100.f];
     } else if (cleargame <= 1000) {
         percent = (float)cleargame*100/1000;
         strCategory = GK_CATEGORY_CLEAR1000;
+		[self sendAchievementWithIdentifier:strCategory percentComplete:percent];
+		[self sendAchievementWithIdentifier:GK_CATEGORY_CLEAR10 percentComplete:100.f];
+		[self sendAchievementWithIdentifier:GK_CATEGORY_CLEAR100 percentComplete:100.f];
     } else {
         // 1000 게임 이상은 목표가 없음...
         return;
     }
- 
     
-    [self sendAchievementWithIdentifier:strCategory percentComplete:percent];
 }
 
 

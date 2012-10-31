@@ -231,10 +231,22 @@
 		// best time 보내기
 		[GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
 		// achievement 보내기
-		[GameCenterUtil sendAchievementClearGame:scoreClears[0]+scoreClears[1]+scoreClears[2]+scoreClears[3]+scoreClears[4]];
+		[GameCenterUtil sendAchievementClearGame:[self getScoreTotalClears]];
 	}
 	
 	[self updateButtons];
+}
+
+- (NSInteger) getScoreTotalClears
+{
+	NSInteger num = 0;
+	
+	for (int i=0; i<10; i++)
+	{
+		num = scoreClears[i];
+	}
+	
+	return num;	
 }
 
 #define SETTING_VERSION                 1
