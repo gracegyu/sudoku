@@ -664,12 +664,12 @@ static int	HandyCountAuto[][5] = {
 				}					
 			}
 			NSInteger Rand = ((unsigned int)arc4random()) % 100;
-			if (Rand >= 70)
+			if (Rand >= 65)
 			{
 				cell->sum = arNum[0] * arNum[1];
 				cell->sign = CS_MULTIPLE;
 			}
-			else if (Rand >= 40)
+			else if (Rand >= 50)
 			{
 				cell->sum = (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1]));
 				cell->sign = CS_MINUS;
@@ -687,7 +687,7 @@ static int	HandyCountAuto[][5] = {
 		else if (n == 4)
 		{
 			NSInteger Rand = ((unsigned int)arc4random()) % 100;
-			if (Rand >= 65)
+			if (Rand >= 50)
 			{
 				NSInteger sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
 				if (sum < 1000)

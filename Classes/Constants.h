@@ -21,7 +21,7 @@
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1507645bce8c4c")
 #endif
 
-#elif defined(KILLERSUDOKU)	// killersudoku9
+#elif (defined KILLERSUDOKU) && (!defined CALCUDOKU) 	// killersudoku9
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
@@ -41,6 +41,28 @@
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1508bd6c300c4e")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1508bd679e3282")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1508bd70d7fe12")
+#endif
+
+#elif (defined CALCUDOKU) 	// calcudoku
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"11111111"  // calcudoku9 Free
+#else
+#define APP_ID      @"11111111"  // calcudoku9 Paid
+#endif
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a15091355560159")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1509134f595744")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1509135947e051")
+#else  // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define APP_ID      @"11111111"  // calcudoku6 Free
+#else
+#define APP_ID      @"11111111"  // calcudoku6 Paid
+#endif
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1509135f396fee")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1509135bbca1af")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a15091362131622")
 #endif
 
 #else
