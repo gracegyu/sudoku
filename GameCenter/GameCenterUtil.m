@@ -141,7 +141,7 @@ static BOOL bLoginedGamecenter = NO;
     }];
     
     
-    // 보내기 직전의 점수가 나온다... 이유가 뭘까?
+    // 보내기 직전의 점수가 나온다. 이유가 뭘까?
     
 
     

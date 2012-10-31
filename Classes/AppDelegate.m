@@ -59,7 +59,7 @@
 #endif
 #endif
 
-#else // KILLERSUDOKU
+#elif defined KILLERSUDOKU // KILLERSUDOKU
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
@@ -79,7 +79,13 @@
 #endif
 #endif
 
+#else   // etc.
+
+#define JMC_PRJKEY  @"SDALL"
+#define JMC_APIKEY  @"bfa9e7a3-208c-4200-add4-55a5d8970e5e"
+
 #endif // GTSUDOKU
+
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {

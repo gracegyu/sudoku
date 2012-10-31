@@ -24,6 +24,9 @@
 
 - (id) initWithMap:(KillerMap*)source
 {
+	
+	
+	
 	if ((super.init) == nil)
 		return nil;
 	
