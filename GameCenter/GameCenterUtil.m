@@ -185,6 +185,10 @@ static BOOL bLoginedGamecenter = NO;
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
+	if (num < 5)	// too fast
+	{
+		return;
+	}
     
     NSString* strCategory;
 
