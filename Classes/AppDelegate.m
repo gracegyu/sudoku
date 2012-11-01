@@ -39,7 +39,7 @@
     #endif
 #endif
 
-#elif (defined KILLERSUDOKU)
+#elif defined(KILLERSUDOKU) && !defined(CALCUDOKU) // KILLERSUDOKU
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
@@ -59,27 +59,7 @@
 #endif
 #endif
 
-#elif (defined KILLERSUDOKU) && (!defined CALCUDOKU) // KILLERSUDOKU
-
-#ifdef SUDOKU9
-#ifdef ADMOB_FREEVERSION
-#define JMC_PRJKEY  @"SDSDKNINEF"
-#define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
-#else
-#define JMC_PRJKEY  @"SDSDKNINEP"
-#define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
-#endif
-#else // SUDOKU6
-#ifdef ADMOB_FREEVERSION
-#define JMC_PRJKEY  @"SDSDKSIXF"
-#define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
-#else
-#define JMC_PRJKEY  @"SDSDKSIXP"
-#define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
-#endif
-#endif
-
-#elif (defined CALCUDOKU)
+#elif defined(CALCUDOKU)    // CALCUDOKU
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
@@ -99,7 +79,27 @@
 #endif
 #endif
 
-#else   // etc.
+#elif defined(SUDOKU9) || defined(SUDOKU6)
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDSDKNINEF"
+#define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
+#else
+#define JMC_PRJKEY  @"SDSDKNINEP"
+#define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
+#endif
+#else // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDSDKSIXF"
+#define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
+#else
+#define JMC_PRJKEY  @"SDSDKSIXP"
+#define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
+#endif
+#endif
+
+#else   // etc. SUDOKU7 etc
 
 #define JMC_PRJKEY  @"SDALL"
 #define JMC_APIKEY  @"bfa9e7a3-208c-4200-add4-55a5d8970e5e"
