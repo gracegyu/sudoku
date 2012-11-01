@@ -47,7 +47,7 @@
 #define GK_CATEGORY_CLEAR1000   @"grp.gtsudoku6.clear.1000"
 #endif
 
-#elif (defined KILLERSUDOKU)
+#elif (defined KILLERSUDOKU)    // Share with CalcuDoku
 
 #ifdef SUDOKU9
 #define GK_CATEGORY_POINT       @"grp.ksudoku9.points"

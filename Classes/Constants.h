@@ -47,18 +47,18 @@
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
-#define APP_ID      @"11111111"  // calcudoku9 Free
+#define APP_ID      @"575425696"  // calcudoku9 Free
 #else
-#define APP_ID      @"11111111"  // calcudoku9 Paid
+#define APP_ID      @"575430711"  // calcudoku9 Paid
 #endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a15091355560159")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1509134f595744")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a1509135947e051")
 #else  // SUDOKU6
 #ifdef ADMOB_FREEVERSION
-#define APP_ID      @"11111111"  // calcudoku6 Free
+#define APP_ID      @"575418850"  // calcudoku6 Free
 #else
-#define APP_ID      @"11111111"  // calcudoku6 Paid
+#define APP_ID      @"575423342"  // calcudoku6 Paid
 #endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1509135f396fee")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1509135bbca1af")

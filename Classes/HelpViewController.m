@@ -59,7 +59,11 @@
 	str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
 #elif (defined KILLERSUDOKU)
 	str = [str stringByAppendingString:@"\n"];
+#ifdef CALCUDOKU
+	str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
+#else
 	str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
+#endif
 #endif
 	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
 	

@@ -656,7 +656,7 @@ static int	HandyCountAuto[][5] = {
 			if ((MAX(arNum[0], arNum[1]) % MIN(arNum[0], arNum[1])) == 0)	// 나누기 가능
 			{
 				NSInteger Rand = ((unsigned int)arc4random()) % 100;
-				if (Rand >= 70)
+				if (Rand >= 30)
 				{
 					cell->sum = (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1]));
 					cell->sign = CS_DIVIDE;
