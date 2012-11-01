@@ -69,13 +69,33 @@
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
 #endif
-#else // DUDOKU6
+#else // SUDOKU6
 #ifdef ADMOB_FREEVERSION
 #define JMC_PRJKEY  @"SDSDKSIXF"
 #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
 #else
 #define JMC_PRJKEY  @"SDSDKSIXP"
 #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
+#endif
+#endif
+
+#elif (defined CALCUDOKU)
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDCDNINEF"
+#define JMC_APIKEY  @"43a37625-743e-448f-a42e-767bebf6b412"
+#else
+#define JMC_PRJKEY  @"SDCDNINEP"
+#define JMC_APIKEY  @"2f250f70-7954-4b1d-99a1-4f6fe0cf6d49"
+#endif
+#else // SUDOKU6
+#ifdef ADMOB_FREEVERSION
+#define JMC_PRJKEY  @"SDCDSIXF"
+#define JMC_APIKEY  @"22738ec4-9f37-4bfe-9932-19bc34b3d591"
+#else
+#define JMC_PRJKEY  @"SDCDSIXP"
+#define JMC_APIKEY  @"8d7f1b27-be8b-4125-83b2-0dc8678c2acf"
 #endif
 #endif
 
