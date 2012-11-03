@@ -199,7 +199,7 @@
         strMsg = [strMsg stringByAppendingString:@"\n"];
         strMsg = [strMsg stringByAppendingString:gettext(@"You broke your best time.", nil)];
     }
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Conglaturations!", nil)
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Congratulations!", nil)
                                                     message:strMsg
                                                    delegate:self
                                           cancelButtonTitle:gettext(@"Ok", nil)
