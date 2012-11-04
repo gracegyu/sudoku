@@ -930,6 +930,11 @@ static int	HandyCountAuto[][5] = {
 }
 
 
+- (void) replayGames
+{
+    [self clearAllNums];
+    [self initData:gameLevel];
+}
 
 - (void) clearAllNums
 {
@@ -1423,7 +1428,7 @@ static int	HandyCountAuto[][5] = {
 {
 	sXY	xy2[4];
 	BOOL bComapare0, bComapare1;
-	NSInteger numDispaly;
+	NSInteger numDisplay;
 	
 	if (xPos == 0 && yPos == 0)
 	{
@@ -1442,10 +1447,10 @@ static int	HandyCountAuto[][5] = {
 		
 		bComapare0 = [self getAnswerNums:xPos y:yPos] >
 		[self getAnswerNums:xy2[i].x y:xy2[i].y];
-		numDispaly = [self getDisplayNum:xy2[i].x y:xy2[i].y];
-		if (numDispaly > 0)	// 고정된 번호와는 메모를 비교한다. (자동 삭제 시도?)
+		numDisplay = [self getDisplayNum:xy2[i].x y:xy2[i].y];
+		if (numDisplay > 0)	// 고정된 번호와는 메모를 비교한다. (자동 삭제 시도?)
 		{
-			bComapare1 = num > numDispaly;
+			bComapare1 = num > numDisplay;
 			
 			if (bComapare0 != bComapare1)
 				return YES;

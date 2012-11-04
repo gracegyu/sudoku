@@ -89,6 +89,7 @@
 - (void) revertMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) clearMemoNums:(NSInteger)x y:(NSInteger)y;
 - (void) clearAllNums;
+- (void) replayGames;
 #ifdef KILLERSUDOKU
 - (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums;
 - (BOOL) isWrongSumCellXY:(NSInteger)xPos yPos:(NSInteger)yPos;

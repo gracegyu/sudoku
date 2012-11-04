@@ -1323,9 +1323,16 @@ static NSUInteger RainbowColorTemplate[7] = {
 }
 
 
+- (void) drawCongratulations:(CGContextRef)context
+{
+
+    
+}
 
 
-- (void)dealloc {
+
+- (void)dealloc
+{
     [super dealloc];
 }
 
@@ -1673,6 +1680,9 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 	[sudokuGame saveData];
 }
+
+
+
 
 - (void) clearNumbers
 {
@@ -2085,6 +2095,9 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawNumButton:context];
+    
+    [self drawCongratulations:context];                 // 축하 표시
+    
 	[self drawBlurTable:context];     // 기본 테이블 바탕 색
     
 

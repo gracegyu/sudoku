@@ -73,6 +73,8 @@
 	UIButton	*buttonHelp;
 	UIButton	*buttonHistory;
 	UIButton	*buttonFeedback;
+    
+    UIButton    *buttonPlayAgain;
 	
 	
 	UIView		*viewMenu;
@@ -142,6 +144,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHelp;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
+@property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 
 
 
@@ -164,6 +167,7 @@
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
+- (IBAction)playAgain;
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;

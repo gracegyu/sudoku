@@ -54,6 +54,8 @@
 @synthesize buttonHelp;
 @synthesize buttonHistory;
 @synthesize buttonFeedback;
+@synthesize buttonPlayAgain;
+
 
 @synthesize viewMenu;
 @synthesize viewNewGame;
@@ -310,6 +312,8 @@
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+    [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
+    
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
     [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
@@ -745,6 +749,29 @@
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     
 }
+
+- (IBAction) playAgain
+{
+    [mainView.sudokuGame replayGames];
+
+    [self increaseScoreGames];  // 게임 시작 점수 추가
+	[self saveScoreData];
+	
+	[self updateGameTime:0];
+    [self updateBlankCellCount];
+    [self updateHintCount];
+
+    [self updateButtons];
+
+    [mainView playSoundClick];
+    [mainView.sudokuGame saveData];
+    
+    [mainView setNeedsDisplay];
+
+    [self startGameTimer];
+}
+
+
 
 - (void)showHintButton
 {
@@ -1370,6 +1397,9 @@
 	[self updateButtonUndo];
 	[self updateButtonDel];
 	[self updateButtonMemo];
+    
+    buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
+    
 }
 
 
