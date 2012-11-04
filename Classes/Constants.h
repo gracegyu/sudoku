@@ -149,7 +149,7 @@ typedef enum DEVICETYPE DEVICETYPE;
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 
-#define TIME_HOLDANDCHOICE	0.35
+#define TIME_HOLDANDCHOICE	0.30
 #define TIME_UNDOREPEATE	0.5
 #define TIME_UNDOINTERVAL	0.05	// undo가 느리게 진행될 수 있으므로... 짧게 설정
 
