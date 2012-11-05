@@ -55,7 +55,7 @@ typedef struct Bookmark
 
 @property NSInteger       count;
 
-
+- (void) gotoFirst;
 - (NSInteger) getIndex;
 - (NSInteger) countUndo;    // undo 가능 수
 - (NSInteger) countRedo;    // redo 가능 수

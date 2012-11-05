@@ -75,6 +75,7 @@
 	UIButton	*buttonFeedback;
     
     UIButton    *buttonPlayAgain;
+    UIButton    *buttonSeeReplay;
 	
 	
 	UIView		*viewMenu;
@@ -105,6 +106,7 @@
 	NSTimer		*timerRedoRepeat;
 	BOOL		bUndoRepeat;
     BOOL        bAd;
+    BOOL        bReplay;
 }
 
 
@@ -146,6 +148,8 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
+@property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
+
 
 
 
@@ -169,6 +173,7 @@
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
 - (IBAction)playAgain;
+- (IBAction)seeReplay;
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;
@@ -216,5 +221,6 @@
 - (NSInteger) getTotalScore;
 
 - (void) updateButtons;
+- (BOOL) isReplaying;
 
 @end

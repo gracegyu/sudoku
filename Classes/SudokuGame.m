@@ -936,9 +936,9 @@ static int	HandyCountAuto[][5] = {
     [self initData:gameLevel];
 }
 
-- (void) clearAllNums
-{
 
+- (void) gotoFirst
+{
 	for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
 			fixNums[x][y] = 0;
@@ -946,6 +946,20 @@ static int	HandyCountAuto[][5] = {
 		}
 	}
 	[self initAutoMemo];
+}
+
+- (void) readyToReplay
+{
+    [self gotoFirst];
+    
+    [sudokuUndo gotoFirst];
+        
+}
+
+- (void) clearAllNums
+{
+    [self gotoFirst];
+
     [sudokuUndo clear];
 
 }

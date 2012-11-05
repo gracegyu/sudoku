@@ -72,6 +72,11 @@
 	[super dealloc];
 }
 
+- (void) gotoFirst
+{
+    indexUndo = 0;
+}
+
 - (NSInteger) getIndex
 {
 	DLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);

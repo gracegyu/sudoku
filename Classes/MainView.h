@@ -169,4 +169,5 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) playSound:(SystemSoundID) inSystemSoundID;
 - (void) playSoundClick;
 - (void) setBlur:(BOOL)blur;
+- (BOOL) runRedo4Replay;
 @end

@@ -55,6 +55,7 @@
 @synthesize buttonHistory;
 @synthesize buttonFeedback;
 @synthesize buttonPlayAgain;
+@synthesize buttonSeeReplay;
 
 
 @synthesize viewMenu;
@@ -313,6 +314,7 @@
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
+    [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -476,37 +478,11 @@
      [bannerView_ loadRequest:[GADRequest request]];     
 #endif
      bAd = NO;
+     bReplay = NO;
 	 
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
- /*
-     
-     UIPanGestureRecognizer *pan;
-     pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(Swipe4ScrollViews:)];
-     [pan setMinimumNumberOfTouches:2];
-     [mainView  addGestureRecognizer:pan];
-     [pan release];
-
-     
-     
-     
-     UISwipeGestureRecognizer *leftSwipeRecognizer = [[UISwipeGestureRecognizer alloc]  initWithTarget:self action:@selector(handleLeftSwipe:)];
-     leftSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionLeft;
-     leftSwipeRecognizer.numberOfTouchesRequired = 1;
-     [mainView addGestureRecognizer:leftSwipeRecognizer];
-     leftSwipeRecognizer.delegate = self;
-     [leftSwipeRecognizer release];
-     
-     UISwipeGestureRecognizer *rightSwipeRecognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleRightSwipe:)];
-     rightSwipeRecognizer.direction = UISwipeGestureRecognizerDirectionRight;
-     rightSwipeRecognizer.numberOfTouchesRequired = 1;
-     [mainView addGestureRecognizer:rightSwipeRecognizer];
-     rightSwipeRecognizer.delegate = self;
-     [rightSwipeRecognizer release];
-*/
-	 
-
 
 
 }
@@ -752,8 +728,59 @@
     
 }
 
+
+- (void) OnTimerSeeReplay:(NSTimer *)timer
+{
+    if (bReplay == NO)
+    {
+        [self updateButtons];
+        return; // 중단 된 것임.
+    }
+    
+    BOOL bRet = [mainView runRedo4Replay];
+
+    if (bRet == YES)
+    {
+        [NSTimer scheduledTimerWithTimeInterval:REPLAY_FRAME_INTERVAL
+                                         target:self
+                                       selector:@selector(OnTimerSeeReplay:)
+                                       userInfo:nil
+                                        repeats:NO];
+    } else {    // 끝
+        bReplay = NO;
+        [self updateButtons];
+    }
+}
+
+- (IBAction)seeReplay
+{
+    if (mainView.bMenuMode)
+        return;
+
+    bReplay = YES;
+    [self updateButtons];
+    
+    [mainView.sudokuGame readyToReplay];    // 게임을 첫번째로 되도롤린다.
+    [mainView setNeedsDisplay];
+    
+    
+    [NSTimer scheduledTimerWithTimeInterval:REPLAY_FRAME_INTERVAL*10
+									 target:self
+								   selector:@selector(OnTimerSeeReplay:)
+								   userInfo:nil
+									repeats:NO];
+    
+}
+
 - (IBAction) playAgain
 {
+    if (mainView.bMenuMode)
+        return;
+    
+    // see Replay 중이면 멈춰야 한다. timer 멈춘다.
+    bReplay = NO;
+    
+    
     [mainView.sudokuGame replayGames];
 
     [self increaseScoreGames];  // 게임 시작 점수 추가
@@ -1113,6 +1140,8 @@
 
 - (IBAction)showMenu
 {
+    bReplay = NO;   // 혹시 replay 중이면 멈춘다.
+    
 	[mainView playSoundClick];
 	
 	if (mainView.bMenuMode)
@@ -1405,10 +1434,14 @@
 	[self updateButtonMemo];
     
     buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
-    
+    buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonSeeReplay.enabled = !bReplay;
 }
 
-
+- (BOOL) isReplaying
+{
+    return bReplay;
+}
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 { 

@@ -978,6 +978,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) drawMarkingEqualBackgound:(CGContextRef)context
 {
+   	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    
+    if ([ctrl isReplaying] == YES)
+        return;
+    
     if (bSettingMarkingEqual == NO)
         return;
     
@@ -1602,6 +1607,26 @@ static NSUInteger RainbowColorTemplate[7] = {
     
 	[sudokuGame saveData];
 	[self setNeedsDisplay];
+}
+
+- (BOOL) runRedo4Replay
+{
+    CGPoint pointLastUndoPos = [sudokuGame runRedo];
+    
+	
+	if (pointLastUndoPos.x >= 0 && pointLastUndoPos.y >= 0)
+	{
+		selectedXPos = (NSInteger) pointLastUndoPos.x;
+		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        //[self playSoundClick];
+	}
+    
+	[self setNeedsDisplay];
+    
+    if (pointLastUndoPos.x == -1)
+        return NO;
+    else
+        return YES;
 }
 
 - (void) runBookmark

@@ -163,4 +163,6 @@ typedef enum DEVICETYPE DEVICETYPE;
 #endif
 
 
+#define REPLAY_FRAME_INTERVAL   0.2f
+
 

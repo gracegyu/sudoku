@@ -121,5 +121,6 @@
 #endif
 - (void) bonusGameElapsedTime;
 - (void) bonusHintElapsedTime;
+- (void) readyToReplay;
 
 @end
