@@ -1777,6 +1777,33 @@ static int	HandyCountAuto[][5] = {
 	return (NSInteger) hintTime;
 }
 
+- (void) bonusGameElapsedTime
+{
+	if (!isGameFinished)
+	{
+        if (gameTime > 5)
+            gameTime -= 3;
+        else
+            gameTime /= 2;
+    }
+	
+}
+
+- (void) bonusHintElapsedTime
+{
+	if (!isGameFinished)
+    {
+        if (hintTime > 8)
+            hintTime -= 5;
+        else
+            hintTime /= 2;
+    }
+
+}
+
+
+
+
 - (void) resetHintTime
 {
 	hintTime = SECONDSFORFREEHINT;

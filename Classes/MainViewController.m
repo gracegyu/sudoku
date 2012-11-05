@@ -475,6 +475,7 @@
      
      [bannerView_ loadRequest:[GADRequest request]];     
 #endif
+     bAd = NO;
 	 
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
@@ -653,6 +654,7 @@
 
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 													   target:self
+                       
 													 selector:@selector(OnTimerUndoRepeat:)
 													 userInfo:nil
 													  repeats:NO];
@@ -1282,9 +1284,13 @@
 	
 	NSInteger time;
 	
-	time = [mainView.sudokuGame updateGameElapsedTime];
-	[self updateGameTime:time];
-
+    if (bAd == NO)      // 광고를 보는 동안에는 게임 시간이 멈춘다.
+    {
+        time = [mainView.sudokuGame updateGameElapsedTime];
+        [self updateGameTime:time];
+    }
+    
+    // 광고를 보는 동안에도 힌트 타이머는 계속 간다.
 	time = [mainView.sudokuGame updateHintElapsedTime];
 	[self updateHintCount];
 	
@@ -1494,17 +1500,25 @@
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView
 {
-    [self stopGameTimer];
+    bAd = YES;
+    [mainView.sudokuGame bonusGameElapsedTime];
+    //[mainView.sudokuGame bonusHintElapsedTime];
+    [self updateGameTime:mainView.sudokuGame.gameTime];
+	[self updateHintCount];
+
+    //[self stopGameTimer];
+    
 }
 
 - (void)adViewDidDismissScreen:(GADBannerView *)bannerView
 {
-    [self startGameTimer];
+    bAd = NO;
+    //[self startGameTimer];
 }
 
 - (void)adViewWillDismissScreen:(GADBannerView *)bannerView
 {
-    
+    [mainView setNeedsDisplay];
 }
 
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView

@@ -104,6 +104,7 @@
 	NSTimer		*timerUndoRepeat;
 	NSTimer		*timerRedoRepeat;
 	BOOL		bUndoRepeat;
+    BOOL        bAd;
 }
 
 

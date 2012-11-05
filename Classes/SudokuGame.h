@@ -119,4 +119,7 @@
 #ifdef GTSUDOKU
 - (BOOL) checkGreatThan:(NSInteger)xPos y:(NSInteger)yPos;
 #endif
+- (void) bonusGameElapsedTime;
+- (void) bonusHintElapsedTime;
+
 @end
