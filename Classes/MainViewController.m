@@ -16,7 +16,7 @@
 #import "GameCenterUtil.h"
 #import "JMC.h"
 #import "KillerMap.h"
-
+#import "AddThis.h"
 
 
 @implementation MainViewController
@@ -56,6 +56,8 @@
 @synthesize buttonFeedback;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
+@synthesize buttonFacebook;
+@synthesize buttonTwitter;
 
 
 @synthesize viewMenu;
@@ -481,6 +483,18 @@
      bReplay = NO;
 	 
      
+     //configure addthis -- (this step is optional)
+     [AddThisSDK setNavigationBarColor:[UIColor lightGrayColor]];
+     [AddThisSDK setToolBarColor:[UIColor lightGrayColor]];
+     [AddThisSDK setSearchBarColor:[UIColor lightGrayColor]];
+     
+     //Facebook connect settings
+     //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
+     [AddThisSDK setFacebookAPIKey:@"388777671193719"];
+     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
+
+     
+     
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
 
@@ -800,6 +814,19 @@
     [self startGameTimer];
 }
 
+- (IBAction)shareToFacebook
+{
+	[AddThisSDK shareURL:@"http://www.addthis.com"
+			 withService:@"facebook"
+				   title:@"AddThis - The #1 Bookmarking & Sharing Service"
+			 description:@"AddThis is a free way to boost traffic back to your site by making it easier for visitors to share your content."];
+}
+
+- (IBAction)shareToTwitter
+{
+    
+    
+}
 
 
 - (void)showHintButton
@@ -1436,6 +1463,10 @@
     buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
+
+    //buttonFacebook.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonTwitter.hidden = !mainView.sudokuGame.isGameFinished;
+
 }
 
 - (BOOL) isReplaying

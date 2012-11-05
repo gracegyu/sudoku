@@ -76,7 +76,8 @@
     
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
-	
+	UIButton    *buttonFacebook;
+    UIButton    *buttonTwitter;
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
@@ -149,6 +150,9 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
+@property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
+@property (nonatomic, retain) IBOutlet UIButton *buttonTwitter;
+
 
 
 
@@ -174,6 +178,8 @@
 - (IBAction)clearNumbers;
 - (IBAction)playAgain;
 - (IBAction)seeReplay;
+- (IBAction)shareToFacebook;
+- (IBAction)shareToTwitter;
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;
