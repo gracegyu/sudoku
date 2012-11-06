@@ -62,7 +62,7 @@
 #define cYButtonStart [self getNumButtonAreaY]
 
 
-#define cResizeRatioW			(isIpad ? 768/320 : 1) 
+#define cResizeRatioW			(cTableWidth/300)
 //#define cResizeRatioH			(isIpad ? 1004/460 : 1)
 #define cTableStartX [self getTableX]
 #define cTableStartY [self getTableY]
@@ -173,6 +173,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	skin = DEFAULT_SKIN_NUM;
 	bBlur = NO;
+    bDrawOnImage = NO;
 	
 	[self initColorData];
 	
@@ -198,6 +199,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 #endif
 	
 	self.bSettingAutoMemo = NO;
+    
 	
 //	self.fPress = 1.f;
 	
@@ -246,6 +248,9 @@ static NSUInteger RainbowColorTemplate[7] = {
 */
 - (CGRect) getTableRect
 {
+    if (bDrawOnImage)
+        return frameDrawOnImage;
+    
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
     return ctrl.areaPuzzleTable.frame;
 }
@@ -359,15 +364,18 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void)drawRectTableBackground:(CGContextRef) context
 {
-	CGRect currentRect;
+	CGRect currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
     
+/*
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
     CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
-	currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
 	
 	CGContextAddRect(context, currentRect);
 	CGContextDrawPath(context, kCGPathFillStroke);
+*/    
+    CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
+    CGContextFillRect(context, currentRect);
 }
 
 - (void)drawBlurTable:(CGContextRef) context
@@ -732,6 +740,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 	if (puzzleNum > 0)	{
 		// 원래 문제에 있던 번호 
 		[self drawRectCellOnePuzzle:context num:puzzleNum rect:rect dupwarn:bDupWarnArea&&(puzzleNum==pushedButton)];
+    } else if (bDrawOnImage) {
+        return;
 	} else if (bMemoMode == NO &&
                bPressedInButton &&
                selectedXPos == xPos &&
@@ -1240,6 +1250,9 @@ static NSUInteger RainbowColorTemplate[7] = {
 	CGFloat x, y;
 	NSInteger numColor;
 	
+    if (sudokuGame.isGameFinished)
+        return;
+    
 	
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
@@ -2124,8 +2137,59 @@ static NSUInteger RainbowColorTemplate[7] = {
     [self drawCongratulations:context];                 // 축하 표시
     
 	[self drawBlurTable:context];     // 기본 테이블 바탕 색
+}
+
+- (void) drawBackgroundDrawOnImage:(CGContextRef) context strTime:(NSString*) strTime
+{
+    CGRect rect = CGRectMake(0, 0, DRAWONIMAGE_W, DRAWONIMAGE_H);
     
+    CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_VIEW].CGColor);
+    CGContextFillRect(context,rect);
+    
+    UIImage *img = [UIImage imageNamed:@"Sudoku6FreeIcon-Small-50.png"];
+    rect = CGRectMake(DRAWONIMAGE_TABLE_X, DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H, DRAWONIMAGE_ICONSIZE, DRAWONIMAGE_ICONSIZE);
+    [img drawInRect:rect];
+
+    NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]
+                         objectForKey:@"CFBundleDisplayName"];
+    NSString *str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
+   
+    rect = CGRectMake(DRAWONIMAGE_TABLE_X*2+DRAWONIMAGE_ICONSIZE, DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H, DRAWONIMAGE_W, DRAWONIMAGE_ICONSIZE);
+    
+    
+    
+    [self drawStrRect:context
+                  str:str
+                 rect:rect
+                color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
+                 font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
+				align:UITextAlignmentLeft];
 
 }
+
+- (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime
+{
+    bDrawOnImage = YES;
+    frameDrawOnImage = CGRectMake(DRAWONIMAGE_TABLE_X, DRAWONIMAGE_TABLE_Y, DRAWONIMAGE_TABLE_W, DRAWONIMAGE_TABLE_H);
+    
+    [self setFont];
+    
+    [self drawBackgroundDrawOnImage:context strTime:strTime];
+	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
+#ifdef KILLERSUDOKU
+	[self drawKillerBackground:context];		// killer sudoku의 바탕색
+	[self drawKillerLine:context];				// 테이블 라인 긎기
+#endif
+	[self drawRectTableLine:context];           // 테이블 라인 긎기
+	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
+#ifdef KILLERSUDOKU
+	[self drawKillerSumNum:context];			// 합계 표시하기
+#endif
+    
+    bDrawOnImage = NO;
+
+}
+
+
 
 @end

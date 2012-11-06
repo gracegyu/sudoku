@@ -56,7 +56,8 @@
 @synthesize buttonFeedback;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
-@synthesize buttonFacebook;
+@synthesize buttonFacebookRecord;
+@synthesize buttonFacebookPuzzle;
 @synthesize buttonTwitter;
 
 
@@ -315,9 +316,10 @@
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
-    [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
-    [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonFacebook    setTitle:gettext(@"Share on Facebook", nil) forState:UIControlStateNormal];
+    [buttonPlayAgain    setTitle:@"" forState:UIControlStateNormal];
+    [buttonSeeReplay    setTitle:@"" forState:UIControlStateNormal];
+    [buttonFacebookRecord    setTitle:@"" forState:UIControlStateNormal];
+    [buttonFacebookPuzzle    setTitle:@"" forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -816,7 +818,7 @@
     [self startGameTimer];
 }
 
-- (IBAction)shareToFacebook
+- (IBAction)sharePuzzleFacebook
 {
     if (mainView.sudokuGame.isGameFinished == NO)
         return;
@@ -824,10 +826,54 @@
         return;
     
     
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/sudoku9-free/id%@?mt=8", APP_ID];
+    
+    
+    
+   // NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@?mt=8", APP_ID];
+    //NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]                          objectForKey:@"CFBundleDisplayName"];
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared this puzzle", nil)];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"Why don't you try to clear this puzzle.", nil)];
+    
+    
+    
+    UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
+    
+	// draw original image into the context
+	//[image drawAtPoint:CGPointZero];
+    
+	// get the context for CoreGraphics
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    [mainView drawOnImage:ctx strTime:labelGameTime.text];
+    
+    
+	// make image out of bitmap context
+	UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+	// free the context
+	UIGraphicsEndImageContext();
+    
+    
+	[AddThisSDK shareImage:retImage
+			 withService:@"facebook"
+				   title:strTitle
+			 description:strDesc];
+}
+
+
+
+- (IBAction)shareRecordFacebook
+{
+    if (mainView.sudokuGame.isGameFinished == NO)
+        return;
+    if (FACEBOOK_ID == @"")
+        return;
+    
+    
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]
                          objectForKey:@"CFBundleDisplayName"];
-    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle", nil),
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
                           STR_MATRIXSIZE,
                           appName];
     NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@ %@:%@", nil),
@@ -835,14 +881,15 @@
                          labelLevel.text,
                          gettext(@"time", nil),
                          labelGameTime.text];
-    
-    [[[NSBundle mainBundle] localizedInfoDictionary] objectForKey:@"CFBundleDisplayName"];
+
     
 	[AddThisSDK shareURL:strURL
 			 withService:@"facebook"
 				   title:strTitle
 			 description:strDesc];
 }
+
+
 
 - (IBAction)shareToTwitter
 {
@@ -1486,7 +1533,8 @@
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
 
-    buttonFacebook.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
     buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
 
 }

@@ -30,7 +30,6 @@
 {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
-//    enum LOCALE localeNow;
 
 	UILabel		*labelNewGame;
 	UILabel		*labelRights;
@@ -76,7 +75,8 @@
     
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
-	UIButton    *buttonFacebook;
+	UIButton    *buttonFacebookRecord;
+	UIButton    *buttonFacebookPuzzle;
     UIButton    *buttonTwitter;
 	
 	UIView		*viewMenu;
@@ -150,7 +150,8 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
-@property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
+@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookRecord;
+@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookPuzzle;
 @property (nonatomic, retain) IBOutlet UIButton *buttonTwitter;
 
 
@@ -178,7 +179,8 @@
 - (IBAction)clearNumbers;
 - (IBAction)playAgain;
 - (IBAction)seeReplay;
-- (IBAction)shareToFacebook;
+- (IBAction)shareRecordFacebook;
+- (IBAction)sharePuzzleFacebook;
 - (IBAction)shareToTwitter;
 - (IBAction)doHint;
 - (IBAction)showScoreView;

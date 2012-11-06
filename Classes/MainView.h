@@ -104,12 +104,15 @@ typedef enum SKINCOLOR SKINCOLOR;
     BOOL bSettingMarkingEqual;
     BOOL bSettingDefMap;
     BOOL bSettingAutoMemo;
+    BOOL bDrawOnImage;
+    CGRect      frameDrawOnImage;
 
     
     NSTimer		*timerTouch;
 
     enum ALERT_MODE alertMode;
 	BOOL bBlur;
+    
 }
 
 
@@ -170,4 +173,5 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) playSoundClick;
 - (void) setBlur:(BOOL)blur;
 - (BOOL) runRedo4Replay;
+- (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime;
 @end
