@@ -8,3 +8,8 @@ convert.exe KillerSudoku9FreeIcon-1024.png -resize 114x114 KillerSudoku9FreeIcon
 convert.exe KillerSudoku9FreeIcon-1024.png -resize 144x144 KillerSudoku9FreeIcon@2x~ipad.png 
 convert.exe KillerSudoku9FreeIcon-1024.png -resize 512x512 KillerSudoku9FreeIcon-512.png 
  
+convert.exe KillerSudoku9FreeIcon-1024.png -resize 16x16 KillerSudoku9FreeIcon-16.png 
+convert.exe KillerSudoku9FreeIcon-1024.png -resize 64x64 KillerSudoku9FreeIcon-64.png 
+convert.exe KillerSudoku9FreeIcon-1024.png -resize 75x75 KillerSudoku9FreeIcon-75.png 
+convert.exe KillerSudoku9FreeIcon-1024.png -resize 96x96 KillerSudoku9FreeIcon-96.png 
+convert.exe KillerSudoku9FreeIcon-1024.png -resize 128x128 KillerSudoku9FreeIcon-128.pn

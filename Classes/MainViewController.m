@@ -317,6 +317,7 @@
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
+    [buttonFacebook    setTitle:gettext(@"Share on Facebook", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -490,10 +491,11 @@
      
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
-     [AddThisSDK setFacebookAPIKey:@"388777671193719"];
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
      [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
 
-     
+     [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
+     [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
@@ -816,10 +818,30 @@
 
 - (IBAction)shareToFacebook
 {
-	[AddThisSDK shareURL:@"http://www.addthis.com"
+    if (mainView.sudokuGame.isGameFinished == NO)
+        return;
+    if (FACEBOOK_ID == @"")
+        return;
+    
+    
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/sudoku9-free/id%@?mt=8", APP_ID];
+    NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]
+                         objectForKey:@"CFBundleDisplayName"];
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle", nil),
+                          STR_MATRIXSIZE,
+                          appName];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@ %@:%@", nil),
+                         gettext(@"level", nil),
+                         labelLevel.text,
+                         gettext(@"time", nil),
+                         labelGameTime.text];
+    
+    [[[NSBundle mainBundle] localizedInfoDictionary] objectForKey:@"CFBundleDisplayName"];
+    
+	[AddThisSDK shareURL:strURL
 			 withService:@"facebook"
-				   title:@"AddThis - The #1 Bookmarking & Sharing Service"
-			 description:@"AddThis is a free way to boost traffic back to your site by making it easier for visitors to share your content."];
+				   title:strTitle
+			 description:strDesc];
 }
 
 - (IBAction)shareToTwitter
@@ -1464,8 +1486,8 @@
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
 
-    //buttonFacebook.hidden = !mainView.sudokuGame.isGameFinished;
-    buttonTwitter.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonFacebook.hidden = !mainView.sudokuGame.isGameFinished;
+    buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
 
 }
 
