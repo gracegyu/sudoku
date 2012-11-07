@@ -316,10 +316,10 @@
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
-    [buttonPlayAgain    setTitle:@"" forState:UIControlStateNormal];
-    [buttonSeeReplay    setTitle:@"" forState:UIControlStateNormal];
-    [buttonFacebookRecord    setTitle:@"" forState:UIControlStateNormal];
-    [buttonFacebookPuzzle    setTitle:@"" forState:UIControlStateNormal];
+    [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
+    [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
+    [buttonFacebookRecord    setTitle:gettext(@"Share record", nil) forState:UIControlStateNormal];
+    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -825,14 +825,10 @@
     if (FACEBOOK_ID == @"")
         return;
     
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it", nil)];
     
-    
-    
-    
-   // NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@?mt=8", APP_ID];
-    //NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]                          objectForKey:@"CFBundleDisplayName"];
-    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared this puzzle", nil)];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"Why don't you try to clear this puzzle.", nil)];
     
     
     
@@ -871,12 +867,11 @@
     
     
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
-    NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]
-                         objectForKey:@"CFBundleDisplayName"];
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
                           STR_MATRIXSIZE,
                           appName];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@ %@:%@", nil),
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@,  %@:%@", nil),
                          gettext(@"level", nil),
                          labelLevel.text,
                          gettext(@"time", nil),

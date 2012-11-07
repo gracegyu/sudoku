@@ -2150,13 +2150,13 @@ static NSUInteger RainbowColorTemplate[7] = {
     rect = CGRectMake(DRAWONIMAGE_TABLE_X, DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H, DRAWONIMAGE_ICONSIZE, DRAWONIMAGE_ICONSIZE);
     [img drawInRect:rect];
 
-    NSString *appName = [[[NSBundle mainBundle] localizedInfoDictionary]
-                         objectForKey:@"CFBundleDisplayName"];
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
    
-    rect = CGRectMake(DRAWONIMAGE_TABLE_X*2+DRAWONIMAGE_ICONSIZE, DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H, DRAWONIMAGE_W, DRAWONIMAGE_ICONSIZE);
-    
-    
+    rect = CGRectMake(DRAWONIMAGE_TABLE_X*2+DRAWONIMAGE_ICONSIZE,
+                      DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H,
+                      DRAWONIMAGE_TABLE_W - DRAWONIMAGE_TABLE_X - DRAWONIMAGE_ICONSIZE,
+                      DRAWONIMAGE_ICONSIZE);
     
     [self drawStrRect:context
                   str:str
@@ -2164,6 +2164,13 @@ static NSUInteger RainbowColorTemplate[7] = {
                 color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
                  font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
 				align:UITextAlignmentLeft];
+
+    [self drawStrRect:context
+                  str:sudokuGame.bAutoMemo?@"Auto":@"Orginal"
+                 rect:rect
+                color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
+                 font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
+				align:UITextAlignmentRight];
 
 }
 
