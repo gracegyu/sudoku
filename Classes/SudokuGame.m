@@ -1208,7 +1208,7 @@ static int	HandyCountAuto[][5] = {
 {
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
-#ifdef GTSUDOKU
+#if defined(GTSUDOKU) || defined(KILLERSUDOKU)
     NSInteger strangeCells = 0;
 #endif
     
