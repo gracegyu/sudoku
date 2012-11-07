@@ -827,7 +827,7 @@
     
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it", nil)];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
     
     
     
@@ -850,7 +850,7 @@
 	UIGraphicsEndImageContext();
     
     
-	[AddThisSDK shareImage:retImage
+	NSDictionary *dic = [AddThisSDK shareImage:retImage
 			 withService:@"facebook"
 				   title:strTitle
 			 description:strDesc];
@@ -871,17 +871,17 @@
     NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
                           STR_MATRIXSIZE,
                           appName];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@,  %@:%@", nil),
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
                          gettext(@"level", nil),
                          labelLevel.text,
                          gettext(@"time", nil),
                          labelGameTime.text];
-
+    NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
     
-	[AddThisSDK shareURL:strURL
+	NSDictionary *dic = [AddThisSDK shareURL:strURL
 			 withService:@"facebook"
-				   title:strTitle
-			 description:strDesc];
+				   title:strAdd
+			 description:@""];
 }
 
 
@@ -1664,4 +1664,15 @@
     DLog(@"handleLeftSwipe called");
     
 }
+
+- (NSString *)jiraIssueTypeNameFor:(JMCIssueType)type
+{
+    if (type == JMCIssueTypeCrash) {
+        return @"Bug";
+    } else if (type == JMCIssueTypeFeedback) {
+        return @"Improvement";
+    }
+    return nil;
+}
+
 @end

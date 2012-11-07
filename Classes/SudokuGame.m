@@ -1208,8 +1208,9 @@ static int	HandyCountAuto[][5] = {
 {
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
+#ifdef GTSUDOKU
     NSInteger strangeCells = 0;
-
+#endif
     
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {

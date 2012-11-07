@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TPMultiLayoutViewController.h"
+#import "JMCCustomDataSource.h"
 
 
 
@@ -22,7 +23,8 @@
 
 
 
-@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate 
+@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
+    ,JMCCustomDataSource
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
 #endif
