@@ -1563,6 +1563,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 #endif
         MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+        
+        bMemoMode = NO;
         [ctrl writeScoreAfterFinishGame:sudokuGame];
 	} else if (ret > 0) {
 		NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
@@ -2145,10 +2147,24 @@ static NSUInteger RainbowColorTemplate[7] = {
     
     CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_VIEW].CGColor);
     CGContextFillRect(context,rect);
+        
+    NSArray *value = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleIconFiles"];
+    UIImage *img = nil;
+    NSString *strIcon;
+    for (int i=0; i<[value count]; i++)
+    {
+        strIcon = [value objectAtIndex:i];
+        NSRange range = [strIcon rangeOfString:@"Small-50"];
+        if (range.length > 0)
+        {
+            img = [UIImage imageNamed:[value objectAtIndex:i]];
+            break;
+        }
+    }
     
-    UIImage *img = [UIImage imageNamed:@"Sudoku6FreeIcon-Small-50.png"];
     rect = CGRectMake(DRAWONIMAGE_TABLE_X, DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H, DRAWONIMAGE_ICONSIZE, DRAWONIMAGE_ICONSIZE);
-    [img drawInRect:rect];
+    if (img)
+        [img drawInRect:rect];
 
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
