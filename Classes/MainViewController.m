@@ -850,7 +850,7 @@
 	UIGraphicsEndImageContext();
     
     
-	NSDictionary *dic = [AddThisSDK shareImage:retImage
+	[AddThisSDK shareImage:retImage
 			 withService:@"facebook"
 				   title:strTitle
 			 description:strDesc];
@@ -878,7 +878,7 @@
                          labelGameTime.text];
     NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
     
-	NSDictionary *dic = [AddThisSDK shareURL:strURL
+	[AddThisSDK shareURL:strURL
 			 withService:@"facebook"
 				   title:strAdd
 			 description:@""];
@@ -1527,11 +1527,16 @@
     buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
-
-    buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-    buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
-    buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
-
+    
+    if (FACEBOOK_ID == @"")
+    {
+        buttonFacebookRecord.hidden = YES;
+        buttonFacebookPuzzle.hidden = YES;
+    } else {
+        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
+    }
 }
 
 - (BOOL) isReplaying
