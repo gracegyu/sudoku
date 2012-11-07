@@ -10,6 +10,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TPMultiLayoutViewController.h"
+#import "JMCCustomDataSource.h"
 
 
 
@@ -22,7 +23,8 @@
 
 
 
-@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate 
+@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
+    ,JMCCustomDataSource
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
 #endif
@@ -30,7 +32,6 @@
 {
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
-//    enum LOCALE localeNow;
 
 	UILabel		*labelNewGame;
 	UILabel		*labelRights;
@@ -76,7 +77,9 @@
     
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
-	
+	UIButton    *buttonFacebookRecord;
+	UIButton    *buttonFacebookPuzzle;
+    UIButton    *buttonTwitter;
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
@@ -149,6 +152,10 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
+@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookRecord;
+@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookPuzzle;
+@property (nonatomic, retain) IBOutlet UIButton *buttonTwitter;
+
 
 
 
@@ -174,6 +181,9 @@
 - (IBAction)clearNumbers;
 - (IBAction)playAgain;
 - (IBAction)seeReplay;
+- (IBAction)shareRecordFacebook;
+- (IBAction)sharePuzzleFacebook;
+- (IBAction)shareToTwitter;
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;

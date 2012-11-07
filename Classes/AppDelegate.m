@@ -12,12 +12,16 @@
 #import "Constants.h"
 #import "Appirater.h"
 #import "JMC.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
 
 @synthesize window;
 @synthesize mainViewController;
+
+
+
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -126,6 +130,12 @@
     [mainViewController release];
     [window release];
     [super dealloc];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    
+    return [FBSession.activeSession handleOpenURL:url];
+    
 }
 
 @end

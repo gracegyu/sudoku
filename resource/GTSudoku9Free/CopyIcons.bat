@@ -8,3 +8,8 @@ convert.exe GTSudoku9FreeIcon-1024.png -resize 114x114 GTSudoku9FreeIcon@2x.png
 convert.exe GTSudoku9FreeIcon-1024.png -resize 144x144 GTSudoku9FreeIcon@2x~ipad.png 
 convert.exe GTSudoku9FreeIcon-1024.png -resize 512x512 GTSudoku9FreeIcon-512.png 
  
+convert.exe GTSudoku9FreeIcon-1024.png -resize 16x16 GTSudoku9FreeIcon-16.png 
+convert.exe GTSudoku9FreeIcon-1024.png -resize 64x64 GTSudoku9FreeIcon-64.png 
+convert.exe GTSudoku9FreeIcon-1024.png -resize 75x75 GTSudoku9FreeIcon-75.png 
+convert.exe GTSudoku9FreeIcon-1024.png -resize 96x96 GTSudoku9FreeIcon-96.png 
+convert.exe GTSudoku9FreeIcon-1024.png -resize 128x128 GTSudoku9FreeIcon-128.pn

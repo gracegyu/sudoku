@@ -16,7 +16,7 @@
 #import "GameCenterUtil.h"
 #import "JMC.h"
 #import "KillerMap.h"
-
+#import "AddThis.h"
 
 
 @implementation MainViewController
@@ -56,6 +56,9 @@
 @synthesize buttonFeedback;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
+@synthesize buttonFacebookRecord;
+@synthesize buttonFacebookPuzzle;
+@synthesize buttonTwitter;
 
 
 @synthesize viewMenu;
@@ -315,6 +318,8 @@
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
+    [buttonFacebookRecord    setTitle:gettext(@"Share record", nil) forState:UIControlStateNormal];
+    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -480,6 +485,19 @@
      bAd = NO;
      bReplay = NO;
 	 
+     
+     //configure addthis -- (this step is optional)
+     [AddThisSDK setNavigationBarColor:[UIColor lightGrayColor]];
+     [AddThisSDK setToolBarColor:[UIColor lightGrayColor]];
+     [AddThisSDK setSearchBarColor:[UIColor lightGrayColor]];
+     
+     //Facebook connect settings
+     //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
+     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
+
+     [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
+     [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
      
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
@@ -800,6 +818,79 @@
     [self startGameTimer];
 }
 
+- (IBAction)sharePuzzleFacebook
+{
+    if (mainView.sudokuGame.isGameFinished == NO)
+        return;
+    if (FACEBOOK_ID == @"")
+        return;
+    
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
+    
+    
+    
+    
+    UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
+    
+	// draw original image into the context
+	//[image drawAtPoint:CGPointZero];
+    
+	// get the context for CoreGraphics
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    [mainView drawOnImage:ctx strTime:labelGameTime.text];
+    
+    
+	// make image out of bitmap context
+	UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+	// free the context
+	UIGraphicsEndImageContext();
+    
+    
+	[AddThisSDK shareImage:retImage
+			 withService:@"facebook"
+				   title:strTitle
+			 description:strDesc];
+}
+
+
+
+- (IBAction)shareRecordFacebook
+{
+    if (mainView.sudokuGame.isGameFinished == NO)
+        return;
+    if (FACEBOOK_ID == @"")
+        return;
+    
+    
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
+                          STR_MATRIXSIZE,
+                          appName];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
+                         gettext(@"level", nil),
+                         labelLevel.text,
+                         gettext(@"time", nil),
+                         labelGameTime.text];
+    NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
+    
+	[AddThisSDK shareURL:strURL
+			 withService:@"facebook"
+				   title:strAdd
+			 description:@""];
+}
+
+
+
+- (IBAction)shareToTwitter
+{
+    
+    
+}
 
 
 - (void)showHintButton
@@ -1436,6 +1527,16 @@
     buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
+    
+    if (FACEBOOK_ID == @"")
+    {
+        buttonFacebookRecord.hidden = YES;
+        buttonFacebookPuzzle.hidden = YES;
+    } else {
+        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
+    }
 }
 
 - (BOOL) isReplaying
@@ -1568,4 +1669,15 @@
     DLog(@"handleLeftSwipe called");
     
 }
+
+- (NSString *)jiraIssueTypeNameFor:(JMCIssueType)type
+{
+    if (type == JMCIssueTypeCrash) {
+        return @"Bug";
+    } else if (type == JMCIssueTypeFeedback) {
+        return @"Improvement";
+    }
+    return nil;
+}
+
 @end
