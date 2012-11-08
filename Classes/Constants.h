@@ -85,7 +85,7 @@
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"575425696"  // calcudoku9 Free
-#define FACEBOOK_ID @"507367739282811"
+#define FACEBOOK_ID @"346983712065153"
 #define SHORTENURL  @"http://goo.gl/TIsYM"
 #define JMC_PRJKEY  @"SDCDNINEF"
 #define JMC_APIKEY  @"43a37625-743e-448f-a42e-767bebf6b412"
