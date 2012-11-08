@@ -9,13 +9,13 @@
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"569760774"  // Greater than sudoku9 Free
-#define FACEBOOK_ID @""
+#define FACEBOOK_ID @"483561938330570"
 #define SHORTENURL  @"http://goo.gl/hTPaX"
 #define JMC_PRJKEY  @"SDGTSNINEF"
 #define JMC_APIKEY  @"7e35de83-0ce1-4f69-b30b-ca4c08269299"
 #else
 #define APP_ID      @"574380693"  // Greater than sudoku9 Paid
-#define FACEBOOK_ID @""
+#define FACEBOOK_ID @"550584541622317"
 #define SHORTENURL  @"http://goo.gl/lKD69"
 #define JMC_PRJKEY  @"SDGTSNINEP"
 #define JMC_APIKEY  @"9176b134-1289-4782-adba-5f6be380f7b9"
@@ -26,13 +26,13 @@
 #else  // SUDOKU6
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"569751989"  // Greater than sudoku6 Free
-#define FACEBOOK_ID @""
+#define FACEBOOK_ID @"453421778026824"
 #define SHORTENURL  @"http://goo.gl/jzQnD"
 #define JMC_PRJKEY  @"SDGTSSIXF"
 #define JMC_APIKEY  @"f40f6440-259a-4c81-a878-569453fe7fe4"
 #else
 #define APP_ID      @"574377045"  // Greater than sudoku Paid
-#define FACEBOOK_ID @""
+#define FACEBOOK_ID @"382498565165793"
 #define SHORTENURL  @"http://goo.gl/cH2gi"
 #define JMC_PRJKEY  @"SDGTSSIXP"
 #define JMC_APIKEY  @"d69a926b-d57e-4f6a-9904-464877c17ec2"
@@ -53,7 +53,7 @@
 #define JMC_APIKEY  @"b7adf06f-0474-4e44-a4e2-455022b6f73b"
 #else
 #define APP_ID      @"574345418"  // killersudoku9 Paid
-#define FACEBOOK_ID @""
+#define FACEBOOK_ID @"478373285535985"
 #define SHORTENURL  @"http://goo.gl/jwHCX"
 #define JMC_PRJKEY  @"SDKSNINEP"
 #define JMC_APIKEY  @"5f92294a-2d26-4dec-b342-b9710a2f1e99"
@@ -85,7 +85,7 @@
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"575425696"  // calcudoku9 Free
-#define FACEBOOK_ID @"100121343486167"
+#define FACEBOOK_ID @"507367739282811"
 #define SHORTENURL  @"http://goo.gl/TIsYM"
 #define JMC_PRJKEY  @"SDCDNINEF"
 #define JMC_APIKEY  @"43a37625-743e-448f-a42e-767bebf6b412"
@@ -129,7 +129,7 @@
 #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
-#define FACEBOOK_ID @"286020468176698"
+#define FACEBOOK_ID @"302256366555317"
 #define SHORTENURL  @"http://goo.gl/chLcy"
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"

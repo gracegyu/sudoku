@@ -378,6 +378,16 @@ static NSUInteger RainbowColorTemplate[7] = {
     CGContextFillRect(context, currentRect);
 }
 
+- (void)drawRectTableBackgroundBorder:(CGContextRef) context
+{
+	CGRect currentRect = CGRectMake (cTableStartX-cBoldLine/2, cTableStartY-cBoldLine/2,cTableWidth-1+cBoldLine,cTableHeight-1+cBoldLine);
+    
+    CGContextSetLineWidth(context, cBoldLine);
+    CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_VIEW].CGColor);
+    CGContextStrokeRect(context, currentRect);
+}
+
+
 - (void)drawBlurTable:(CGContextRef) context
 {
 	if (!bBlur)
@@ -2129,6 +2139,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
     [self drawBookmarkInCell:context];          // 북마크 표시
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
+    [self drawRectTableBackgroundBorder:context];
 #ifdef KILLERSUDOKU
 	[self drawKillerSumNum:context];			// 합계 표시하기
 #endif
@@ -2204,6 +2215,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	[self drawKillerLine:context];				// 테이블 라인 긎기
 #endif
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
+	[self drawRectTableBackgroundBorder:context];
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
 #ifdef KILLERSUDOKU
 	[self drawKillerSumNum:context];			// 합계 표시하기

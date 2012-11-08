@@ -820,8 +820,8 @@
 
 - (IBAction)sharePuzzleFacebook
 {
-    if (mainView.sudokuGame.isGameFinished == NO)
-        return;
+    //if (mainView.sudokuGame.isGameFinished == NO)
+        //return;
     if (FACEBOOK_ID == @"")
         return;
     
@@ -860,8 +860,8 @@
 
 - (IBAction)shareRecordFacebook
 {
-    if (mainView.sudokuGame.isGameFinished == NO)
-        return;
+    //if (mainView.sudokuGame.isGameFinished == NO)
+        //return;
     if (FACEBOOK_ID == @"")
         return;
     
@@ -1533,8 +1533,8 @@
         buttonFacebookRecord.hidden = YES;
         buttonFacebookPuzzle.hidden = YES;
     } else {
-        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        //buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        //buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
         buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
     }
 }
