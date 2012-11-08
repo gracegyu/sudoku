@@ -496,7 +496,7 @@
      
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
-     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_SMARTONE_ID];
      [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
 
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
@@ -1536,8 +1536,8 @@
         buttonFacebookRecord.hidden = YES;
         buttonFacebookPuzzle.hidden = YES;
     } else {
-        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        //buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        //buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
         buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
     }
 }
