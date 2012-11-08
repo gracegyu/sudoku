@@ -2,7 +2,7 @@
 #define ADDTHIS_MYPUBID     @"ra-5064495f594cc950"
 #define ADDTHIS_MYAPPID     @"50988413246ba277"
 
-
+#define FACEBOOK_SMARTONE_ID @"392385977497376"
 
 #ifdef GTSUDOKU	// Greater than sudoku
 

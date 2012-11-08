@@ -496,7 +496,7 @@
      
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
-     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_SMARTONE_ID];
      [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
 
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];

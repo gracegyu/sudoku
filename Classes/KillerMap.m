@@ -487,8 +487,8 @@
 + (NSString*) getSign:(CAGE_SIGN)cs
 {
 	static NSString* arraySign[4] = {
-		@"\uFF0B",
-		@"\uFF0D",
+		@"+",       //@"\uFF0B",
+		@"\uFF0D",  //@"-",   //
 		@"\u00D7",
 		@"÷"
 	};
