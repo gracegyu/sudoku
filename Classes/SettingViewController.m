@@ -127,16 +127,14 @@
 //    [buttonMarkingEqual setBackgroundImage:[UIImage imageNamed:@"markingequal_h"] forState:UIControlStateHighlighted];
 }
 
-- (void) setImageShapeOfMap
-{
-    if (mainViewController.mainView.bSettingDefMap == YES)
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_on"] forState:UIControlStateNormal];
-    else
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"defmap_off"] forState:UIControlStateNormal];
-}
 
 - (void) setImageAutoMemo
 {
+    buttonShapeOfMap.hidden = YES;
+    labelShapeOfMap.hidden = YES;
+    labelDescShapeOfMap.hidden = YES;
+    
+    
     if (mainViewController.mainView.bSettingAutoMemo == YES)
         [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_on"] forState:UIControlStateNormal];
     else
