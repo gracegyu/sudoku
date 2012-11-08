@@ -86,7 +86,8 @@
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"575425696"  // calcudoku9 Free
 #define FACEBOOK_ID @"346983712065153"
-#define SHORTENURL  @"http://goo.gl/TIsYM"
+//#define SHORTENURL  @"http://goo.gl/TIsYM"
+#define SHORTENURL  @"http://goo.gl/DOfjQ"      // black list URL?
 #define JMC_PRJKEY  @"SDCDNINEF"
 #define JMC_APIKEY  @"43a37625-743e-448f-a42e-767bebf6b412"
 #else
@@ -130,7 +131,8 @@
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 #define FACEBOOK_ID @"302256366555317"
-#define SHORTENURL  @"http://goo.gl/chLcy"
+//#define SHORTENURL  @"http://goo.gl/chLcy"    // blacklist URL?
+#define SHORTENURL  @"http://goo.gl/7tcTc"
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
 #endif
