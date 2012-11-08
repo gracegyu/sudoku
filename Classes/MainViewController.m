@@ -1536,8 +1536,8 @@
         buttonFacebookRecord.hidden = YES;
         buttonFacebookPuzzle.hidden = YES;
     } else {
-        //buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        //buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
         buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
     }
 }
