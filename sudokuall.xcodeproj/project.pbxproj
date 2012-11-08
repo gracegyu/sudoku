@@ -3166,7 +3166,6 @@
 		CF86D2EB164172A600687A8E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CF86D2E9164172A600687A8E /* InfoPlist.strings */; };
 		CF86D31916423D3100687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D31B16423DFA00687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
-		CF86D31C16423E0100687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D31D16423E0900687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D31E16423E0F00687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D31F16423E1A00687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
@@ -3724,6 +3723,7 @@
 		CFA0FB451637A7B900965E23 /* KillerSudoku9PaidIcon@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB3A1637A7B900965E23 /* KillerSudoku9PaidIcon@2x~ipad.png */; };
 		CFA0FB461637A7B900965E23 /* KillerSudoku9PaidIcon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB3B1637A7B900965E23 /* KillerSudoku9PaidIcon~ipad.png */; };
 		CFA0FB491637A7C200965E23 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFA0FB471637A7C200965E23 /* InfoPlist.strings */; };
+		CFB5B623164B8CAC00E26867 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CFB6025E164959F6001F6C67 /* button150_facebook_puzzle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6025A164959F6001F6C67 /* button150_facebook_puzzle.png */; };
 		CFB6025F164959F6001F6C67 /* button150_facebook_puzzle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6025A164959F6001F6C67 /* button150_facebook_puzzle.png */; };
 		CFB60260164959F6001F6C67 /* button150_facebook_puzzle.png in Resources */ = {isa = PBXBuildFile; fileRef = CFB6025A164959F6001F6C67 /* button150_facebook_puzzle.png */; };
@@ -5485,7 +5485,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF86D31C16423E0100687A8E /* StoreKit.framework in Frameworks */,
+				CFB5B623164B8CAC00E26867 /* StoreKit.framework in Frameworks */,
 				CF86D03A164147C300687A8E /* AdSupport.framework in Frameworks */,
 				CF86D03B164147C300687A8E /* AVFoundation.framework in Frameworks */,
 				CF86D03C164147C300687A8E /* libz.dylib in Frameworks */,
@@ -5796,7 +5796,6 @@
 			isa = PBXGroup;
 			children = (
 				CF46913C1647A30D005DA4FD /* AddThis */,
-				CF86D31816423D3100687A8E /* StoreKit.framework */,
 				CF4A9F9D162C01040039A3C2 /* QQWing */,
 				CF6E4198161FF2B5000DD7D7 /* JMCClasses */,
 				CF6E3EB4161FE0B3000DD7D7 /* GoogleAdMobAdsSDK */,
@@ -5860,6 +5859,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF86D31816423D3100687A8E /* StoreKit.framework */,
 				CF4693D81647A47B005DA4FD /* CoreData.framework */,
 				CF4693D91647A47B005DA4FD /* Security.framework */,
 				CF3F3351161E7A1D00D52A43 /* libz.dylib */,

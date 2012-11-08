@@ -473,6 +473,9 @@
      
 #ifdef ADMOB_FREEVERSION	 
      // Create a view of the standard size at the bottom of the screen.
+     
+     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
+     
      bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
      [bannerView_ setDelegate:self];
      bannerView_.adUnitID = MY_BANNER_UNIT_ID;
@@ -1533,8 +1536,8 @@
         buttonFacebookRecord.hidden = YES;
         buttonFacebookPuzzle.hidden = YES;
     } else {
-        //buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        //buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
         buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
     }
 }
