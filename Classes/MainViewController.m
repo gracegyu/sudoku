@@ -980,12 +980,8 @@
 {
 	if (mainView.bMenuMode)
 		return;
-
 	
 	[mainView doHint];
-    
-    
-    [self writeScoreAfterFinishGame:mainView.sudokuGame];
 }
 
 
