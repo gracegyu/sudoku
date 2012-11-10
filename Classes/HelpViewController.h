@@ -25,6 +25,8 @@
     UILabel	*labelTipTitle;
     UILabel	*labelTipDesc;
 	
+    UISegmentedControl *segmentType;
+    SUDOKUTYPE  sudokuType;
 
 }
 
@@ -43,12 +45,13 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelTipTitle;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
 
-
+@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 
 
 
 - (IBAction)done;
+- (IBAction)setSudokuType;
 
 @end
 

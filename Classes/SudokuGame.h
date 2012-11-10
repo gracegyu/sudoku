@@ -11,12 +11,14 @@
 #import "Constants.h"
 #import "SudokuUndo.h"
 #import "SudokuBoard.h"
-#ifdef KILLERSUDOKU
 #import "KillerMap.h"
-#endif
+
+
+
 
 @interface SudokuGame : NSObject {      // 스도쿠 게임 운영
     NSInteger       size;
+    SUDOKUTYPE      sudokuType;
 	GAMELEVEL		gameLevel;			// Game level 1(very hard), 2, 3, 4, 5(easy)
 	NSTimeInterval	startTime;			// Start game time (~1970)
 	NSTimeInterval	lastTime;			// Last game time (~1970)
@@ -31,9 +33,7 @@
 	char			memoNums[MAXMAPSIZE][MAXMAPSIZE][MAXMAPSIZE+1];// 
     SudokuUndo      *sudokuUndo;
 	SudokuMap       *map;
-#ifdef KILLERSUDOKU
 	KillerMap		*kmap;
-#endif
 
 	NSInteger		countBlank;
 	NSInteger		countFixNums;
@@ -44,6 +44,7 @@
 }
 
 @property NSInteger         size;
+@property SUDOKUTYPE		sudokuType;
 @property GAMELEVEL			gameLevel;
 @property NSTimeInterval	startTime;
 @property NSTimeInterval	lastTime;			
@@ -55,19 +56,16 @@
 @property NSInteger		countFixNums;
 @property NSInteger		countHint;
 @property BOOL			bAutoMemo;
-#ifdef KILLERSUDOKU
 @property (nonatomic, retain) KillerMap		*kmap;
-#endif
+
 
 // Create Game : Level
 // 
 
-- (id) initWithSudokuBoard:(SudokuBoard*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
-- (id)initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo;
+- (id) initWithSudokuBoard:(SudokuBoard*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
+- (id)initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
-#ifdef KILLERSUDOKU
 - (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
-#endif
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getAnswerNums:(NSInteger)x y:(NSInteger)y;
@@ -90,13 +88,9 @@
 - (void) clearMemoNums:(NSInteger)x y:(NSInteger)y;
 - (void) clearAllNums;
 - (void) replayGames;
-#ifdef KILLERSUDOKU
 - (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums;
 - (BOOL) isWrongSumCellXY:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (NSInteger) countCellInSum:(NSInteger)xPos yPos:(NSInteger)yPos;
-#else
-- (NSInteger) clearGameCheckAllCells;
-#endif
 - (void) saveData;
 + (SudokuGame*) loadData;
 
@@ -116,9 +110,9 @@
 - (void) addUndoLog:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (CGPoint) runUndo;
 - (CGPoint) runRedo;
-#ifdef GTSUDOKU
+
 - (BOOL) checkGreatThan:(NSInteger)xPos y:(NSInteger)yPos;
-#endif
+
 - (void) bonusGameElapsedTime;
 - (void) bonusHintElapsedTime;
 - (void) readyToReplay;

@@ -20,6 +20,10 @@
 #endif
 
 #import "MainView.h"
+#import "Constants.h"
+
+
+
 
 
 
@@ -90,11 +94,8 @@
 	NSTimer		*timerNewGame;
 	UIActivityIndicatorView	*activityIndicator;
 	
-	NSInteger	scoreGames[10];					// original:5 automemo:5
-	NSInteger	scoreClears[10];
-	NSInteger	scoreBestTime[10];
-	NSInteger	scoreClearTimeSum[10];
-    NSInteger   scoreTotal;
+	SUDOKUSCORE score;
+    
 	NSInteger	levelNewGame;
 	NSInteger	countHint;
 
@@ -110,7 +111,9 @@
 	BOOL		bUndoRepeat;
     BOOL        bAd;
     BOOL        bReplay;
+    UISegmentedControl *segmentType;
 }
+
 
 
 @property (nonatomic, retain) MainView *mainView;
@@ -169,6 +172,7 @@
 @property (nonatomic, retain) NSTimer		*timerGame;
 @property (nonatomic, retain) NSTimer		*timerNewGame;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 
 - (IBAction)runUndo;
@@ -203,6 +207,7 @@
 - (IBAction)newgameVeryHard;
 - (IBAction)newgameCancel;
 - (IBAction)changeAutoMemo;
+- (IBAction)setSudokuType;
 
 
 - (void) setLocalizedMessage;

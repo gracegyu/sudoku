@@ -70,22 +70,26 @@
 @synthesize timerGame;
 @synthesize timerNewGame;
 @synthesize activityIndicator;
+@synthesize segmentType;
 
 
 
 - (void) initScore
 {
 	DLog(@"initScore");	
-	
-	
-	for (int i=0; i<10; i++)
-	{
-		scoreGames[i] = 0;
-		scoreClears[i] = 0;
-		scoreBestTime[i] = 0;
-		scoreClearTimeSum[i] = 0;
+	for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int i=0; i<10; i++)
+        {
+            score.scoreGames[type][i] = 0;
+            score.scoreClears[type][i] = 0;
+            score.scoreBestTime[type][i] = 0;
+            score.scoreClearTimeSum[type][i] = 0;
+            score.scoreRankLevel[type][i] = 0;
+        }
 	}
-    scoreTotal = 0;
+    score.scoreTotal = 0;
+    score.scoreRankTotal = 0;
 }
 
 #ifdef SUDOKU9
@@ -93,18 +97,24 @@
 #define kScoreClears		@"scoreClears"
 #define kScoreBestTime		@"scoreBestTime"
 #define kScoreClearTimeSum	@"scoreClearTimeSum"
+#define kScoreRankLevel     @"scoreRankLevel"
+#define kScoreRankTotal     @"scoreRankTotal"
 #define kScoreTotal         @"scoreTotal"
-#elif SUDOKU7  
+#elif SUDOKU7
 #define kScoreGames			@"score7Games"
 #define kScoreClears		@"score7Clears"
 #define kScoreBestTime		@"score7BestTime"
 #define kScoreClearTimeSum	@"score7ClearTimeSum"
+#define kScoreRankLevel     @"score7RankLevel"
+#define kScoreRankTotal     @"score7RankTotal"
 #define kScoreTotal         @"score7Total"
 #else   // SUDOKU6
 #define kScoreGames			@"score6Games"
 #define kScoreClears		@"score6Clears"
 #define kScoreBestTime		@"score6BestTime"
 #define kScoreClearTimeSum	@"score6ClearTimeSum"
+#define kScoreRankLevel     @"score6RankLevel"
+#define kScoreRankTotal     @"score6RankTotal"
 #define kScoreTotal         @"score6Total"
 #endif
 
@@ -114,36 +124,48 @@
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	for (int i=0; i<10; i++)
-	{
-		[defaults setInteger:scoreGames[i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
-		[defaults setInteger:scoreClears[i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
-		[defaults setInteger:scoreBestTime[i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
-		[defaults setInteger:scoreClearTimeSum[i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
-	}
-    [defaults setInteger:scoreTotal forKey:kScoreTotal];
+	for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int i=0; i<10; i++)
+        {
+            [defaults setInteger:score.scoreGames[type][i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i+type*10]];
+            [defaults setInteger:score.scoreClears[type][i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i+type*10]];
+            [defaults setInteger:score.scoreBestTime[type][i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i+type*10]];
+            [defaults setInteger:score.scoreClearTimeSum[type][i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i+type*10]];
+            [defaults setInteger:score.scoreRankLevel[type][i] forKey:[kScoreRankLevel stringByAppendingFormat:@"%d", i+type*10]];
+        
+            //DLog(@"[%d][%d] %@", type, i, [kScoreRankLevel stringByAppendingFormat:@"%d", i+type*SUDOKUTYPE_MAX]);
+            if (i < 5)
+            {
+                DLog(@"scoreRankLevel[%d][%d]=%d", type, i, score.scoreRankLevel[type][i]);
+            }
+        }
+    }
+    [defaults setInteger:score.scoreTotal forKey:kScoreTotal];
+    [defaults setInteger:score.scoreRankTotal forKey:kScoreRankTotal];
+    DLog(@"scoreRankTotal=%d", score.scoreRankTotal);
 	[defaults synchronize];
 }
 
 - (NSInteger) getGameResultScore:(NSInteger)level sec:(NSInteger)sec
 {
-    NSInteger score = MIN(sec/60+1, 10);
+    NSInteger scoreTemp = MIN(sec/60+1, 10);
     
-	if (score < 5)
-		score = (5-level) * (10 - score + 1) * 3;	// Original은 3배의 점수를 준다.
+	if (scoreTemp < 5)
+		scoreTemp = (5-level) * (10 - scoreTemp + 1) * 3;	// Original은 3배의 점수를 준다.
     else
-		score = (10-level) * (10 - score + 1);
+		scoreTemp = (10-level) * (10 - scoreTemp + 1);
 		
 #ifdef SUDOKU9  // zzz 나중에는 size 넘겨줘서 계산 해야 한다.
-    score = score * (SIZE_9*SIZE_9)/100;
+    scoreTemp = scoreTemp * (SIZE_9*SIZE_9)/100;
 #else
-    score = score * (SIZE_6*SIZE_6)/100;
+    scoreTemp = scoreTemp * (SIZE_6*SIZE_6)/100;
 #endif
-    score = MAX(score, 1);
+    scoreTemp = MAX(scoreTemp, 1);
 
-    DLog(@"getGameResultScore(%d,%d) => %d", level, sec, score);
+    DLog(@"getGameResultScore(%d,%d) => %d", level, sec, scoreTemp);
     
-    return score;
+    return scoreTemp;
 }
 
 - (void) loadScoreData
@@ -151,26 +173,33 @@
 	DLog(@"loadScoreData");	
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	for (int i=0; i<10; i++)
-	{
-		scoreGames[i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", i]];
-		scoreClears[i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i]];
-		scoreBestTime[i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", i]];
-		scoreClearTimeSum[i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i]];
-	}
+    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int i=0; i<10; i++)
+        {
+            score.scoreGames[type][i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", i+type*10]];
+            score.scoreClears[type][i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i+type*10]];
+            score.scoreBestTime[type][i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", i+type*10]];
+            score.scoreClearTimeSum[type][i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i+type*10]];
+            score.scoreRankLevel[type][i] = [defaults integerForKey:[kScoreRankLevel stringByAppendingFormat:@"%d", i+type*10]];
+        }
+    }
     
-    scoreTotal = [defaults integerForKey:kScoreTotal];
-	if (scoreTotal == 0)
+    score.scoreTotal = [defaults integerForKey:kScoreTotal];
+	if (score.scoreTotal == 0)
     {
         // need to migration
         for (int i=0; i<10; i++)
         {
-            scoreTotal += scoreGames[i];    // 게임 시작하면 무조건 1점씩 추가 됨
-            if (scoreClears[i] > 0)
-                scoreTotal += scoreClears[i] * [self getGameResultScore:i sec:scoreClearTimeSum[i]/scoreClears[i]];
+            score.scoreTotal += score.scoreGames[mainView.nSettingSudokuType][i];    // 게임 시작하면 무조건 1점씩 추가 됨
+            if (score.scoreClears[i] > 0)
+                score.scoreTotal += score.scoreClears[mainView.nSettingSudokuType][i] *
+                [self getGameResultScore:i sec:score.scoreClearTimeSum[mainView.nSettingSudokuType][i]/score.scoreClears[mainView.nSettingSudokuType][i]];
         }
 	}
-    DLog(@"scoreTotal = %d", scoreTotal);
+    score.scoreRankTotal = [defaults integerForKey:kScoreRankTotal];
+
+    DLog(@"scoreTotal = %d", score.scoreTotal);
     
 }
 
@@ -180,20 +209,20 @@
 {
 	// button diable
 	
-	DLog(@"writeScore");	
+	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
 	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
     
-	scoreClears[level] += 1;
+	score.scoreClears[sudokuGame.sudokuType][level] += 1;
     
-	if (scoreBestTime[level] == 0 ||                     // 최초는 무조건 Best time
-		sudokuGame.gameTime < scoreBestTime[level])
+	if (score.scoreBestTime[sudokuGame.sudokuType][level] == 0 ||                     // 최초는 무조건 Best time
+		sudokuGame.gameTime < score.scoreBestTime[sudokuGame.sudokuType][level])
     {
-        if (scoreBestTime[level] != 0)
+        if (score.scoreBestTime[sudokuGame.sudokuType][level] != 0)
         {
             bNewBest = YES;
         }
-		scoreBestTime[level] = sudokuGame.gameTime;      // best time 갱신
+		score.scoreBestTime[sudokuGame.sudokuType][level] = sudokuGame.gameTime;      // best time 갱신
         
 	}
     
@@ -214,45 +243,91 @@
     [alert release];
 
     
-    
-    
-	if (sudokuGame.bAutoMemo == NO)
-	{
-		// 하위 호환을 위해서 무조건 best time을 보내기
-		[GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
-    }
 	
-    scoreClearTimeSum[level] += sudokuGame.gameTime;
+    score.scoreClearTimeSum[sudokuGame.sudokuType][level] += sudokuGame.gameTime;
 	
     // add current game score to Total Score
-    scoreTotal += [self getGameResultScore:level sec:sudokuGame.gameTime];
-    scoreTotal += sudokuGame.countHint*3;   // 남은 힌트 점수 추가
+    score.scoreTotal += [self getGameResultScore:level sec:sudokuGame.gameTime];
+    score.scoreTotal += sudokuGame.countHint*3;   // 남은 힌트 점수 추가
     
 	[self saveScoreData];
     
-	if (sudokuGame.bAutoMemo == NO)
-	{
-		// 총점 보내기
-		[GameCenterUtil sendScoreToGameCenter:scoreTotal];
-		// best time 보내기
-		[GameCenterUtil sendBestTimeToGameCenter:sudokuGame.gameLevel besttime:scoreBestTime[sudokuGame.gameLevel]];
-		// achievement 보내기
-		[GameCenterUtil sendAchievementClearGame:[self getScoreTotalClears]];
-	}
-	
+
+    [self sendDataToGameCenter];
+
 	[self updateButtons];
+}
+
+- (void) OnTimerGetRanking:(NSTimer *)timer
+{
+    DLog(@"OnTimerGetRanking");
+    [self getRankingFromGameCenter];
+}
+
+- (void) sendDataToGameCenter
+{
+    DLog(@"sendDataToGameCenter");
+    [GameCenterUtil sendScoreToGameCenter:score.scoreTotal];                    // 총점 보내기
+    [GameCenterUtil sendAchievementClearGame:[self getScoreTotalClears]];       // achievement 보내기
+    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int level=0; level<5; level++)
+        {
+            if (score.scoreBestTime[type][level] > 0)
+                [GameCenterUtil sendBestTimeToGameCenter:type level:level besttime:score.scoreBestTime[type][level]];
+        }
+    }
+    [NSTimer scheduledTimerWithTimeInterval:10
+                                     target:self
+                                   selector:@selector(OnTimerGetRanking:)
+                                   userInfo:nil
+                                    repeats:NO];
+}
+
+- (void) getRankingFromGameCenter
+{
+    DLog(@"getRankingFromGameCenter");
+   [GameCenterUtil getTotalScoreRanking:&(score.scoreRankTotal)];
+    
+    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int level=0; level<NUM_RANK_BESTTIME; level++)
+        {
+            if (score.scoreBestTime[type][level] > 0)
+            {
+                [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level] rank:&(score.scoreRankLevel[type][level])];
+            } else {
+                score.scoreRankLevel[type][level] = 0;  // best time이 없음
+            }
+        }
+    }
+    
+    [NSTimer scheduledTimerWithTimeInterval:10
+                                     target:self
+                                   selector:@selector(OnTimerScoreRanking:)
+                                   userInfo:nil
+                                    repeats:NO];
+    
+}
+
+- (void) OnTimerScoreRanking:(NSTimer *)timer
+{
+    DLog(@"OnTimerScoreRanking");
+    [self saveScoreData];
 }
 
 - (NSInteger) getScoreTotalClears
 {
 	NSInteger num = 0;
 	
-	for (int i=0; i<10; i++)
-	{
-		num = scoreClears[i];
-	}
-	
-	return num;	
+    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    {
+        for (int i=0; i<10; i++)
+        {
+            num += score.scoreClears[type][i];
+        }
+    }
+	return num;
 }
 
 #define SETTING_VERSION                 1
@@ -263,6 +338,7 @@
 #define kSettingMarkingEqual            @"settingMarkingEqual"
 #define kSettingDefMap                  @"settingDefMap"
 #define kSettingAutoMemo                @"settingAutoMemo"
+#define kSettingSudokuType              @"settingSudokuType"
 
 - (void) loadSetting
 {
@@ -280,8 +356,9 @@
     mainView.bSettingGuideline = [defaults boolForKey:kSettingGuideline];
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
-    //mainView.bSettingDefMap = [defaults boolForKey:kSettingDefMap];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
+    mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
+
 }
 
 - (void) saveSetting
@@ -294,8 +371,8 @@
     [defaults setBool:mainView.bSettingGuideline forKey:kSettingGuideline];
     [defaults setBool:mainView.bSettingDuplicationWarning forKey:kSettingDuplicationWarning];
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
-    //[defaults setBool:mainView.bSettingDefMap forKey:kSettingDefMap];
     [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
+    [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
 	
 	[defaults synchronize];
 }
@@ -505,7 +582,6 @@
      [GameCenterUtil connectGameCenter];       //게임센터 접속~
      
 
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -544,12 +620,13 @@
 - (IBAction) showScoreView
 {
 	[self hideMenuView:NO];
+    [self getRankingFromGameCenter];    // 최신 랭킹으로 update
 
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
 										  @"ScoreView" bundle:nil];
     controller.mainViewController = self;
-	[controller setScoreData:scoreTotal g:scoreGames c:scoreClears b:scoreBestTime s:scoreClearTimeSum];	
+	[controller setScoreData:&score];
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
 	[self presentModalViewController:controller animated:YES];
@@ -557,7 +634,7 @@
 	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
 	[controller setAutoSegment];		
 	[controller displayScore];
-    [controller setTotalScoreRank:scoreTotal];	
+//    [controller setTotalScoreRank];
 	[controller release];
 
 }
@@ -825,8 +902,7 @@
 {
     //if (mainView.sudokuGame.isGameFinished == NO)
         //return;
-    if (FACEBOOK_ID == @"")
-        return;
+
     
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
@@ -865,9 +941,7 @@
 {
     //if (mainView.sudokuGame.isGameFinished == NO)
         //return;
-    if (FACEBOOK_ID == @"")
-        return;
-    
+
     
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
@@ -909,6 +983,9 @@
 
 	
 	[mainView doHint];
+    
+    
+    [self writeScoreAfterFinishGame:mainView.sudokuGame];
 }
 
 
@@ -1263,8 +1340,8 @@
 {
 	if (mainView.sudokuGame)
 	{
-		scoreGames[mainView.sudokuGame.gameLevel + (mainView.sudokuGame.bAutoMemo ? 5 : 0)] += 1;     // 게임 수 1 증가
-		scoreTotal += 1;                                    // 1게임 시도당 1점 추가
+		score.scoreGames[mainView.sudokuGame.sudokuType][mainView.sudokuGame.gameLevel + (mainView.sudokuGame.bAutoMemo ? 5 : 0)] += 1;     // 게임 수 1 증가
+		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
 	}
 }
 
@@ -1322,6 +1399,8 @@
 
 - (IBAction)showNewGame
 {
+    [self setSudokuTypeSegment];
+    
 	[self allButtonUnLock];
 	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
 	[self showNewGameView];
@@ -1373,6 +1452,19 @@
 	
 	[self saveSetting];
 }
+
+- (IBAction)setSudokuType
+{
+    mainView.nSettingSudokuType = [segmentType selectedSegmentIndex];
+    
+	[self saveSetting];
+}
+
+- (void) setSudokuTypeSegment
+{
+    segmentType.selectedSegmentIndex = mainView.nSettingSudokuType;
+}
+
 
 
 - (void) startGameTimer
@@ -1509,12 +1601,12 @@
 
 - (NSInteger) getBestTime:(NSInteger)level
 {
-    return scoreBestTime[level];
+    return score.scoreBestTime[mainView.sudokuGame.sudokuType][level];
 }
 
 - (NSInteger) getTotalScore
 {
-    return scoreTotal;
+    return score.scoreTotal;
 }
 
 
@@ -1531,7 +1623,7 @@
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
     buttonSeeReplay.enabled = !bReplay;
     
-    if (FACEBOOK_ID == @"")
+    if (0)//FACEBOOK_ID == @"")
     {
         buttonFacebookRecord.hidden = YES;
         buttonFacebookPuzzle.hidden = YES;

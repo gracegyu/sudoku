@@ -25,9 +25,8 @@
 - (void)dealloc {
 	[strUndo release];
     [map release];
-#ifdef KILLERSUDOKU
-	[kmap release];
-#endif
+    if (kmap)
+        [kmap release];
 	
 	[super dealloc];
 }
@@ -75,11 +74,12 @@
 }
 
 // 최초에 한번만 초기화
-- (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap
+- (void) initPuzzle:(SUDOKUTYPE)type sizePuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap
 {
     numBackTracking = BACKTRACKING_START;
     countHandyTryFailed = 0;
     size = sizePuzzle;
+    sudokuType = type;
 	foundSingle = 0;
 	foundUnique = 0;
 	foundLoop = 0;
@@ -88,16 +88,16 @@
 	sumBack = 0;
 	countFunc = 0;
     
-    [self initMap:defmap];
-#ifdef KILLERSUDOKU
-	kmap = [[KillerMap alloc] initWithSize:size];
-#endif
+    [self initMap:type == SUDOKUTYPE_SUDOKU ? NO : YES];
+    
+    if (type == SUDOKUTYPE_KILLER || type == SUDOKUTYPE_CALCU)
+        kmap = [[KillerMap alloc] initWithSize:size];
 	
     [self initNumsUndo];
-#ifdef GTSUDOKU
-    [self initGTSudoku];
-#endif
-	
+
+    if (type == SUDOKUTYPE_GT)
+        [self initGTSudoku];
+
     
 }
 
@@ -114,13 +114,12 @@
     return map;
 }
 
-#ifdef KILLERSUDOKU
 
 - (KillerMap*) getKillerMap
 {
     return kmap;
 }
-#endif
+
 
 - (NSInteger) randNum:(NSInteger) num
 {
@@ -621,31 +620,31 @@
 			}
 		}
 	}
-	
-#ifdef KILLERSUDOKU
-    int cageNum = [kmap getCageNumber:xPos yPos:yPos];
-	
-    for (x=0; x<size; x++)
+    
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
     {
-		for (y=0; y<size; y++)
-		{
-			if (cageNum == [kmap getCageNumber:x yPos:y])		// 케이지 안에서는 숫자가 중복되면 안된다.
-			{
-				if (x != xPos && y != yPos)
-				{
-					if ([self delMemo:num x:x y:y] == NO)
-					{
-						DLog(@"Failed");
-						foundFail++;
-						bOkAutoSet = NO;
-						return NO;
-					}
-				}
-			}
-		}
-	}
-#endif
+        int cageNum = [kmap getCageNumber:xPos yPos:yPos];
 	
+        for (x=0; x<size; x++)
+        {
+            for (y=0; y<size; y++)
+            {
+                if (cageNum == [kmap getCageNumber:x yPos:y])		// 케이지 안에서는 숫자가 중복되면 안된다.
+                {
+                    if (x != xPos && y != yPos)
+                    {
+                        if ([self delMemo:num x:x y:y] == NO)
+                        {
+                            DLog(@"Failed");
+                            foundFail++;
+                            bOkAutoSet = NO;
+                            return NO;
+                        }
+                    }
+                }
+            }
+        }
+    }
 	
 	//[self printNums];
 	
@@ -809,22 +808,23 @@
 	int numRandom;
 	int num, answerNum;
 
-#ifdef GTSUDOKU
-	// 일단 여기서 모든 셀을 AutoCell로 지정한다.
-	for (int y=0; y<size; y++)
-	{
-		for (int x=0; x<size; x++)
-		{
-			num = [self getPuzzleNum:x y:y];
-			if (num > 0)
-			{
-				[self setAnswerNum:num x:x y:y];
-			}
-		}
-	}
+    if (sudokuType == SUDOKUTYPE_GT)
+    {
+        // 일단 여기서 모든 셀을 AutoCell로 지정한다.
+        for (int y=0; y<size; y++)
+        {
+            for (int x=0; x<size; x++)
+            {
+                num = [self getPuzzleNum:x y:y];
+                if (num > 0)
+                {
+                    [self setAnswerNum:num x:x y:y];
+                }
+            }
+        }
+    }
 	
 	
-#endif
 	for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
 	{
 		numRandom = [self randNum:countAutoFixed];
@@ -1166,7 +1166,7 @@
 }
 
 
-#ifdef GTSUDOKU
+
 
 - (BOOL) isContacted:(NSInteger)x y:(NSInteger)y w:(NSInteger)w h:(NSInteger)h
 {
@@ -1301,11 +1301,11 @@ NSInteger Rand12[2][3] = {
 }
 
 
-#endif
+
 
 @end
 
-SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap)
+SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap)
 {
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 	NSInteger nTry=0;
@@ -1313,7 +1313,7 @@ SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettin
 	do
 	{
 		nTry++;
-		[sudokuNum initPuzzle:sizePuzzle defmap:bSettingDefMap];
+		[sudokuNum initPuzzle:type sizePuzzle:sizePuzzle defmap:bSettingDefMap];
 		[sudokuNum countCell];
 		//[sudokuNum printNums];
 		NSInteger i = 0;

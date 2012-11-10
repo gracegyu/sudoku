@@ -40,9 +40,7 @@ static GKAchievementHandler *defaultHandler = nil;
     }
 //    _topView = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController.mainView;
 
-    NSLog(@"_topView.frame(%f,%f,%f,%f)",
-          _topView.frame.origin.x, _topView.frame.origin.y,
-          _topView.frame.size.width, _topView.frame.size.height);
+
     
     [_topView addSubview:notification];
     [notification animateIn];

@@ -10,6 +10,7 @@
 //@protocol ScoreViewControllerDelegate;
 
 #import <GameKit/GameKit.h>
+#import "Constants.h"
 
 @interface ScoreViewController : UIViewController
 <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>
@@ -63,8 +64,8 @@
     UIButton *buttonGameCenterRanking5;
     
     NSInteger nTimer;
-    NSInteger rankTotal;
-    NSInteger rankLevel[10];
+    //NSInteger rankTotal;
+    //NSInteger rankLevel[10];
     NSInteger score;
     NSTimer *timerScore;
     
@@ -79,11 +80,10 @@
 	UISegmentedControl *segmentAuto;
 	BOOL		bAuto;
 	
-	NSInteger	*scoreGames;					// original:5 automemo:5
-	NSInteger	*scoreClears;
-	NSInteger	*scoreBestTime;
-	NSInteger	*scoreClearTimeSum;
-    NSInteger   scoreTotal;
+    SUDOKUSCORE *pScore;
+    UISegmentedControl *segmentType;
+    
+    SUDOKUTYPE  sudokuType;
 }
 
 
@@ -140,6 +140,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking3;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking4;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking5;
+@property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 @property BOOL		bAuto;
 
@@ -153,13 +154,15 @@
 - (IBAction)showGameCenterLeaderboardHard;
 - (IBAction)showGameCenterLeaderboardVeryHard;
 - (IBAction)setAuto;
+- (IBAction)setSudokuType;
+
 - (void) setAutoSegment;
 
 - (void) displayScore;
-- (void) setScoreData:(NSInteger)t g:(NSInteger*)g c:(NSInteger*)c b:(NSInteger*)b s:(NSInteger*)s;
+- (void) setScoreData:(SUDOKUSCORE*)p;
 
 
-- (void) setTotalScoreRank:(NSInteger)score;
+//- (void) setTotalScoreRank;
 - (void) showLeaderboard:(NSString*)category; //실제로 점수판을 띄우는 부분 구현 메소드
 - (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController;//점수판이 닫힐때 호출되는 메소드
 - (void) showArchboard; //목표달성판을 띄우는 부분 구현 메소드
