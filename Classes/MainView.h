@@ -87,8 +87,9 @@ typedef enum SKINCOLOR SKINCOLOR;
 	UIFont *buttonMemoBigFont;
 	//UIFont *buttonMemoTextFont;
 	
-    SystemSoundID   soundClickID;	
-    SystemSoundID   soundClearID;	
+    SystemSoundID   soundClickID1;
+    SystemSoundID   soundClickID2;
+    SystemSoundID   soundClearID;
     SystemSoundID   soundFailID;	
 	
 	BOOL bFailCell;
@@ -98,7 +99,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 	BOOL bDupWarn;						// 중복된 번호를 경고 할까요?
     BOOL bHoldAndChoice;
 
-	BOOL bSettingSoundOff;						// 소리를 켤까요?
+	NSInteger nSettingSoundOff;						// 소리를 켤까요?
     BOOL bSettingGuideline;
     BOOL bSettingDuplicationWarning;
     BOOL bSettingMarkingEqual;
@@ -127,7 +128,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property BOOL bMemoMode;
 @property BOOL bMenuMode;
 @property BOOL bDupWarn;	
-@property BOOL bSettingSoundOff;
+@property NSInteger nSettingSoundOff;
 @property BOOL bSettingGuideline;
 @property BOOL bSettingDuplicationWarning;
 @property BOOL bSettingMarkingEqual;
