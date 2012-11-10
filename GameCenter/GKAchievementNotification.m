@@ -152,7 +152,7 @@
 
 - (void)dealloc
 {
-    NSLog(@"dealloc: GKAchievementNotification");
+   // NSLog(@"dealloc: GKAchievementNotification");
     
     self.handlerDelegate = nil;
     self.logo = nil;
@@ -181,9 +181,7 @@
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
     self.frame = kGKAchievementFrameEnd;
     
-    NSLog(@"self.frame(%f,%f,%f,%f)",
-          self.frame.origin.x, self.frame.origin.y,
-          self.frame.size.width, self.frame.size.height);
+
     
     [UIView commitAnimations];
 }
@@ -197,9 +195,7 @@
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationOutDidStop:finished:context:)];
     self.frame = kGKAchievementFrameStart;
-    NSLog(@"self.frame(%f,%f,%f,%f)",
-          self.frame.origin.x, self.frame.origin.y,
-          self.frame.size.width, self.frame.size.height);
+
     [UIView commitAnimations];
 }
 

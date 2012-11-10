@@ -16,6 +16,7 @@
 //@synthesize strUndo;
 @synthesize sudokuUndo;
 @synthesize size;
+@synthesize sudokuType;
 @synthesize gameLevel;
 @synthesize startTime;
 @synthesize lastTime;
@@ -26,9 +27,7 @@
 @synthesize countFixNums;
 @synthesize countHint;
 @synthesize bAutoMemo;
-#ifdef KILLERSUDOKU
 @synthesize kmap;
-#endif
 
 
 
@@ -37,9 +36,8 @@
     
     [sudokuUndo release];
     [map release];
-#ifdef KILLERSUDOKU
-	[kmap release];
-#endif
+    if (kmap)
+        [kmap release];
 	
 	[super dealloc];
 }
@@ -53,18 +51,7 @@
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
     return sizeTable > 6 ? 2 : 1;
-/*
 
-#ifdef GTSUDOKU
-    return sizeTable > 6 ? 3 : 2;
-#else
-#ifdef KILLERSUDOKU
-    return sizeTable > 6 ? 3 : 2;
-#else
-    return sizeTable > 6 ? 2 : 1;
-#endif
-#endif
-*/
 }
 
 - (NSInteger) countPuzzleNum
@@ -152,95 +139,117 @@
 	return YES;
 }
 
-
-
-#ifdef GTSUDOKU
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6 ok
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 4, 15, 24, 45 }  // 9 ok
+static int	HandyCount[SUDOKUTYPE_MAX][10][5] = {
+    { //SUDOKU_SUDOKU
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 1, 2, 3, 4 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 13, 20 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 5, 10, 20, 30 } // 9 ok
+    },
+    { //SUDOKU_GT
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 13, 20 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 4, 15, 24, 45 }  // 9 ok
+    },
+    { //SUDOKU_KILLER
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 13, 20 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 4, 15, 33, 45 }  // 9 ok
+    },
+    { //SUDOKU_CALCU
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 13, 20 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 4, 15, 33, 45 }  // 9 ok
+    }
 };
-static int	HandyCountAuto[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 12, 18 }, // 6
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 4, 15, 22, 30 }  // 9 ok
+static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
+    { //SUDOKU_SUDOKU
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 1, 2, 3, 4 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 3, 5, 8, 12 },  // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 5, 10, 15, 20 } // 9 ok
+    },
+    { //SUDOKU_GT
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 12, 18 }, // 6
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 4, 15, 22, 30 }  // 9 ok
+    },
+    { //SUDOKU_KILLER
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 5, 10, 18 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 6, 18, 25, 33 }  // 9 ok
+    },
+    { //SUDOKU_CALCU
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 2, 4, 7, 10 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 5, 10, 18 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 6, 18, 25, 33 }  // 9 ok
+    }
 };
-#elif (defined KILLERSUDOKU)
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6 ok
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 4, 15, 33, 45 }  // 9 ok
-};
-static int	HandyCountAuto[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 2, 4, 7, 10 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 5, 10, 18 }, // 6 ok
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 6, 18, 25, 33 }  // 9 ok
-};
-#else
-static int	HandyCount[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 1, 2, 3, 4 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 2, 6, 13, 20 }, // 6 ok
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 5, 10, 20, 30 } // 9 ok
-};
-static int	HandyCountAuto[][5] = {
-    { 0, 0, 0, 0, 0 },   // 0
-    { 0, 0, 0, 0, 0 },   // 1
-    { 0, 0, 0, 0, 0 },   // 2
-    { 0, 0, 0, 0, 0 },   // 3
-    { 0, 1, 2, 3, 4 },   // 4
-    { 0, 2, 4, 10, 15 }, // 5
-    { 0, 3, 5, 8, 12 },  // 6 ok
-    { 0, 3, 8, 16, 22 }, // 7
-    { 0, 4, 9, 18, 25 }, // 8
-    { 0, 5, 10, 15, 20 } // 9 ok
-};
-#endif
 
 - (void) applyHandy
 {
 	int numRandom;
 	int num;
-	int handy = bAutoMemo ? HandyCountAuto[size][gameLevel] : HandyCount[size][gameLevel];
+	int handy = bAutoMemo ? HandyCountAuto[sudokuType][size][gameLevel] : HandyCount[sudokuType][size][gameLevel];
 	
 	
-#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
-	memset(puzzleNums, 0, sizeof(puzzleNums));
-#endif
+    if (sudokuType != SUDOKUTYPE_SUDOKU)
+        memset(puzzleNums, 0, sizeof(puzzleNums));
+
 	NSInteger countPuzzle = [self countPuzzleNum];
 	NSInteger countBlankCell = size*size - countPuzzle;
 	NSInteger countHandyTryFailed=0;
@@ -281,8 +290,9 @@ static int	HandyCountAuto[][5] = {
 	
 }
 
-- (void) initData:(GAMELEVEL)level
+- (void) initData:(SUDOKUTYPE)type level:(GAMELEVEL)level
 {
+    sudokuType = SUDOKUTYPE_SUDOKU;     // default
 	gameLevel = GAMELEVEL_NORMAL;       // default
 	startTime = [[NSDate date]timeIntervalSince1970];
 	lastTime = [[NSDate date]timeIntervalSince1970];
@@ -290,6 +300,7 @@ static int	HandyCountAuto[][5] = {
 	hintTime = SECONDSFORFREEHINT;
 	isGameFinished = NO;
 	countHint = [self getDefHintCount:size];
+    sudokuType = type;
 	gameLevel = level;
 	
 	bAutoMemoUndoLog = YES;
@@ -344,9 +355,12 @@ static int	HandyCountAuto[][5] = {
 	}
 }
 
-#ifdef KILLERSUDOKU
+
 - (void) deleteAutoMemoCage:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
+    if (sudokuType != SUDOKUTYPE_KILLER && sudokuType != SUDOKUTYPE_CALCU)
+        return;
+    
 	int x, y;
 	NSInteger cageNum = [kmap getCageNumber:xPos yPos:yPos];
 	
@@ -365,7 +379,7 @@ static int	HandyCountAuto[][5] = {
 		}
 	}
 }
-#endif
+
 
 - (BOOL) deleteAutoMemoUniqueNumX
 {
@@ -536,19 +550,14 @@ static int	HandyCountAuto[][5] = {
 
 - (void) updateAutoMemoOnlyUnique
 {
-#ifdef SUDOKU9	// 나머지 에서는 너무 쉬워진다.
-#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
-	if (1)	// GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
-#else
-		if (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD)
-#endif
-		{
-			while ([self deleteAutoMemoUniqueNum] == YES)
-			{
-				
-			}
-		}
-#endif
+    if (size == SIZE_9 &&   // 나머지 에서는 너무 쉬워진다.
+        (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD || sudokuType != SUDOKUTYPE_SUDOKU))
+    {   // GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
+        while ([self deleteAutoMemoUniqueNum] == YES)
+        {
+            
+        }
+    }
 }
 
 - (void) updateAutoMemo:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
@@ -561,9 +570,7 @@ static int	HandyCountAuto[][5] = {
 		[self deleteAutoMemoX:num xPos:xPos yPos:yPos];
 		[self deleteAutoMemoY:num xPos:xPos yPos:yPos];
 		[self deleteAutoMemoXY:num xPos:xPos yPos:yPos];
-#ifdef KILLERSUDOKU
 		[self deleteAutoMemoCage:num xPos:xPos yPos:yPos];
-#endif
 		
 	}
 	
@@ -571,10 +578,10 @@ static int	HandyCountAuto[][5] = {
 
 	// [self deleteAutoMemoSingleNum:]
 	// Single num은 굳이 처리하지 않아도 사용자가 입력할 것이다.
-#ifdef KILLERSUDOKU
-	// zzz 합계상 나올 수 없는 숫자는 지우기....
-#endif
-	
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        // zzz 합계상 나올 수 없는 숫자는 지우기....
+    }
 }
 
 - (void) initAutoMemo
@@ -622,90 +629,92 @@ static int	HandyCountAuto[][5] = {
 	[self applyHandy];
     sudokuUndo = [[SudokuUndo alloc] init];
     
-#ifdef KILLERSUDOKU
-	//kmap = [[KillerMap alloc] initWithSize:size];
-	KillerCage *cell;
-	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
-	{
-		cell->sum = 0;
-		cell->sign = CS_PLUS;	// killersudoku는 Plus만 지원한다.
-
-		int n=0;
-		NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
-
-		for (int y=0; y<size; y++)
-		{
-			for (int x=0; x<size; x++)
-			{
-				if ([kmap getCageNumber:x yPos:y] == i)
-				{
-					DAssert(n < 4, @"n must be less than 4");
-					cell->sum += answerNums[x][y];
-					arNum[n] = answerNums[x][y];
-					n++;
-				}
-			}
-		}
-#ifdef CALCUDOKU
-		if (n == 1)
-		{
-			//pass
-		}
-		else if (n == 2)
-		{
-			if ((MAX(arNum[0], arNum[1]) % MIN(arNum[0], arNum[1])) == 0)	// 나누기 가능
-			{
-				NSInteger Rand = ((unsigned int)arc4random()) % 100;
-				if (Rand >= 30)
-				{
-					cell->sum = (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1]));
-					cell->sign = CS_DIVIDE;
-					continue;
-				}					
-			}
-			NSInteger Rand = ((unsigned int)arc4random()) % 100;
-			if (Rand >= 65)
-			{
-				cell->sum = arNum[0] * arNum[1];
-				cell->sign = CS_MULTIPLE;
-			}
-			else if (Rand >= 50)
-			{
-				cell->sum = (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1]));
-				cell->sign = CS_MINUS;
-			}
-		}
-		else if (n == 3)
-		{
-			NSInteger Rand = ((unsigned int)arc4random()) % 100;
-			if (Rand >= 50)
-			{
-				cell->sum = arNum[0] * arNum[1] * arNum[2];
-				cell->sign = CS_MULTIPLE;
-			}
-		}
-		else if (n == 4)
-		{
-			NSInteger Rand = ((unsigned int)arc4random()) % 100;
-			if (Rand >= 50)
-			{
-				NSInteger sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
-				if (sum < 1000)
-				{
-					cell->sum = sum;
-					cell->sign = CS_MULTIPLE;
-				}
-			}
-		}
-		else
-		{
-			DAssert(n < 4, @"n must be less than 4");
-		}
-#endif
-		
-	}
 	
-#endif
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        KillerCage *cell;
+        for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
+        {
+            cell->sum = 0;
+            cell->sign = CS_PLUS;	// killer sudoku는 Plus만 지원한다.
+            
+            int n=0;
+            NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
+            
+            for (int y=0; y<size; y++)
+            {
+                for (int x=0; x<size; x++)
+                {
+                    if ([kmap getCageNumber:x yPos:y] == i)
+                    {
+                        DAssert(n < 4, @"n must be less than 4");
+                        cell->sum += answerNums[x][y];
+                        arNum[n] = answerNums[x][y];
+                        n++;
+                    }
+                }
+            }
+            if (sudokuType == SUDOKUTYPE_CALCU)
+            {
+                if (n == 1)
+                {
+                    //pass
+                }
+                else if (n == 2)
+                {
+                    if ((MAX(arNum[0], arNum[1]) % MIN(arNum[0], arNum[1])) == 0)	// 나누기 가능
+                    {
+                        NSInteger Rand = ((unsigned int)arc4random()) % 100;
+                        if (Rand >= 30)
+                        {
+                            cell->sum = (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1]));
+                            cell->sign = CS_DIVIDE;
+                            continue;
+                        }
+                    }
+                    NSInteger Rand = ((unsigned int)arc4random()) % 100;
+                    if (Rand >= 65)
+                    {
+                        cell->sum = arNum[0] * arNum[1];
+                        cell->sign = CS_MULTIPLE;
+                    }
+                    else if (Rand >= 50)
+                    {
+                        cell->sum = (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1]));
+                        cell->sign = CS_MINUS;
+                    }
+                }
+                else if (n == 3)
+                {
+                    NSInteger Rand = ((unsigned int)arc4random()) % 100;
+                    if (Rand >= 50)
+                    {
+                        cell->sum = arNum[0] * arNum[1] * arNum[2];
+                        cell->sign = CS_MULTIPLE;
+                    }
+                }
+                else if (n == 4)
+                {
+                    NSInteger Rand = ((unsigned int)arc4random()) % 100;
+                    if (Rand >= 50)
+                    {
+                        NSInteger sum = arNum[0] * arNum[1] * arNum[2] * arNum[3];
+                        if (sum < 1000)
+                        {
+                            cell->sum = sum;
+                            cell->sign = CS_MULTIPLE;
+                        }
+                    }
+                }
+                else
+                {
+                    DAssert(n < 4, @"n must be less than 4");
+                }
+            }   // CALCU
+            
+        }   // KILLER
+	
+    }
 	
 	
 	[self initAutoMemo];
@@ -715,14 +724,14 @@ static int	HandyCountAuto[][5] = {
 
 }
 
-- (id) initWithSudokuBoard:(SudokuBoard*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo
+- (id) initWithSudokuBoard:(SudokuBoard*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo
 {
 	if ((super.init) == nil)
 		return nil;
 	
 	size = SIZE_9;
 	bAutoMemo = automemo;
-	[self initData:level];
+	[self initData:type level:level];
 	map = [[SudokuMap alloc] initWithSize:size defmap:YES];
 	
 	NSInteger num;
@@ -754,18 +763,19 @@ static int	HandyCountAuto[][5] = {
 }
 
 
-- (id) initWithSudokuNum:(SudokuNum*)sudoku level:(GAMELEVEL)level automemo:(BOOL)automemo
+- (id) initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo
 {
 	if ((super.init) == nil) 
 		return nil;
 	
     size = [sudoku getCellSize];
-	[self initData:level];
+	[self initData:type level:level];
 	bAutoMemo = automemo;
 	map = [[SudokuMap alloc] initWithMap:[sudoku getMap]];
-#ifdef KILLERSUDOKU
-	kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
-#endif
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
+    }
 	NSInteger num;
     for (int y=0; y<size; y++) {
 		for (int x=0; x<size; x++) {
@@ -915,16 +925,20 @@ static int	HandyCountAuto[][5] = {
 		hintTime = SECONDSFORFREEHINT;
 	}
 	
-	
-
+	if ([listItems count] > 15)	// sudokutype
+	{
+		sudokuType = [[listItems objectAtIndex:15] integerValue];
+	} else {
+		sudokuType = SUDOKUTYPE_SUDOKU;
+	}
 	
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
-#ifdef KILLERSUDOKU
-	kmap = [[KillerMap alloc] initWithSaveData];
-	if (!kmap)
-		return nil;
-#endif
-
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        kmap = [[KillerMap alloc] initWithSaveData];
+        if (!kmap)
+            return nil;
+    }
 	return self;
 	
 }
@@ -933,7 +947,7 @@ static int	HandyCountAuto[][5] = {
 - (void) replayGames
 {
     [self clearAllNums];
-    [self initData:gameLevel];
+    [self initData:sudokuType level:gameLevel];
 }
 
 
@@ -1017,7 +1031,7 @@ static int	HandyCountAuto[][5] = {
 	return YES;
 }
 
-#ifdef GTSUDOKU
+
 
 - (BOOL) checkGreatThan:(NSInteger)xPos y:(NSInteger)yPos
 {
@@ -1088,10 +1102,10 @@ static int	HandyCountAuto[][5] = {
     
     return YES;
 }
-#endif
 
 
-#ifdef KILLERSUDOKU
+
+
 
 - (BOOL) isWrongSumCell:(NSInteger)num cell:(KillerCage*) cell
 {
@@ -1124,24 +1138,24 @@ static int	HandyCountAuto[][5] = {
 		}
 	}
 	
-#ifdef CALCUDOKU
-	if (cell->sign == CS_MULTIPLE)
+    if (sudokuType == SUDOKUTYPE_CALCU)
 	{
-		return (cell->sum != multi);
-	}
-	else if (cell->sign == CS_MINUS)
-	{
-		DAssert(n == 2, @"n must be 2");
-		return (cell->sum != (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1])));
-	}
-	else if (cell->sign == CS_DIVIDE)
-	{
-		DAssert(n == 2, @"n must be 2");
-		return (cell->sum != (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1])));
-	}
-	
-#endif
-	
+        if (cell->sign == CS_MULTIPLE)
+        {
+            return (cell->sum != multi);
+        }
+        else if (cell->sign == CS_MINUS)
+        {
+            DAssert(n == 2, @"n must be 2");
+            return (cell->sum != (MAX(arNum[0], arNum[1]) - MIN(arNum[0], arNum[1])));
+        }
+        else if (cell->sign == CS_DIVIDE)
+        {
+            DAssert(n == 2, @"n must be 2");
+            return (cell->sum != (MAX(arNum[0], arNum[1]) / MIN(arNum[0], arNum[1])));
+        }
+    }
+		
 	
 	if (cell->sum != sum)
 		return YES;
@@ -1196,25 +1210,23 @@ static int	HandyCountAuto[][5] = {
 	return uncorrect;
 }
 
-#endif
 
 
 
-#ifdef KILLERSUDOKU
+
 - (NSInteger) clearGameCheckAllCells:(NSInteger*)wrongSums
-#else
-- (NSInteger) clearGameCheckAllCells
-#endif
 {
 	NSInteger unfixedCells = 0;
 	NSInteger wrongCells = 0;
-#if defined(GTSUDOKU) || defined(KILLERSUDOKU)
     NSInteger strangeCells = 0;
-#endif
+
     
-    for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
-			if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0) {
+    for (int y=0; y<size; y++)
+    {
+		for (int x=0; x<size; x++)
+        {
+			if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0)
+            {
 				//DLog(@"unFixedCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
 				unfixedCells++;
 			}
@@ -1223,53 +1235,61 @@ static int	HandyCountAuto[][5] = {
     if (unfixedCells > 0)
 		return -1; // not fixed yet;
     
-	for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+	for (int y=0; y<size; y++)
+    {
+		for (int x=0; x<size; x++)
+        {
 			if (puzzleNums[x][y] == 0)
             {
-#ifdef GTSUDOKU // 답이 2개일지도 모르니
-                if ([self checkGreatThanCorrect:x y:y] == NO)
+                if (sudokuType == SUDOKUTYPE_GT)    // 답이 2개일지도 모르니
                 {
-                    DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
-                    wrongCells++;
-                } else {
-                    if (answerNums[x][y] != fixNums[x][y])
+                    if ([self checkGreatThanCorrect:x y:y] == NO)
                     {
-                        strangeCells++;
-                        DLog(@"StangeCell 발견");
+                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        wrongCells++;
+                    } else {
+                        if (answerNums[x][y] != fixNums[x][y])
+                        {
+                            strangeCells++;
+                            DLog(@"StangeCell 발견");
+                        }
                     }
                 }
-#elif (defined KILLERSUDOKU)
-                if ([self checkUniqueNumXYAndMap:x y:y] == NO)
+                if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
                 {
-                    DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
-                    wrongCells++;
-                } else {
-                    if (answerNums[x][y] != fixNums[x][y])
+                    if ([self checkUniqueNumXYAndMap:x y:y] == NO)
                     {
-                        strangeCells++;
-                        DLog(@"StangeCell 발견");
+                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        wrongCells++;
+                    } else {
+                        if (answerNums[x][y] != fixNums[x][y])
+                        {
+                            strangeCells++;
+                            DLog(@"StangeCell 발견");
+                        }
                     }
                 }
-#else
-				if (answerNums[x][y] != fixNums[x][y]) {
-					DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
-					wrongCells++;
-				}
-#endif
+                if (sudokuType == SUDOKUTYPE_SUDOKU)
+                {
+                    if (answerNums[x][y] != fixNums[x][y]) {
+                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        wrongCells++;
+                    }
+                }
 			}
 		}
 	}
 	
-#ifdef KILLERSUDOKU
-	if (wrongCells == 0)
-	{
-		*wrongSums = [self countUncorrectSum];
-		if (*wrongSums > 0)
-			return 0;		// wrong sum갯수는 paprameter로 넘겨준다.
-	}
-#endif
-
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        if (wrongCells == 0)
+        {
+            *wrongSums = [self countUncorrectSum];
+            if (*wrongSums > 0)
+                return 0;		// wrong sum갯수는 paprameter로 넘겨준다.
+        }
+    }
+    
 	if (wrongCells > 0)
 		return wrongCells;	// You've finisehd but You have wrong cell;
 	
@@ -1296,9 +1316,11 @@ static int	HandyCountAuto[][5] = {
 	
     return mapNums[x][y] == mapNums[x2][y2];
 }
-#ifdef KILLERSUDOKU
 - (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2
 {
+    if (sudokuType != SUDOKUTYPE_KILLER && sudokuType != SUDOKUTYPE_CALCU)
+        return YES; // 무시
+    
 	if (x < 0 || x >= size) return NO;
 	if (y < 0 || y >= size) return NO;
 	if (x2 < 0 || x2 >= size) return NO;
@@ -1306,7 +1328,6 @@ static int	HandyCountAuto[][5] = {
 	
     return [kmap getColor:x yPos:y] == [kmap getColor:x2 yPos:y2];
 }
-#endif
 
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y
 {
@@ -1727,7 +1748,7 @@ static int	HandyCountAuto[][5] = {
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -1742,17 +1763,18 @@ static int	HandyCountAuto[][5] = {
                      size,                  // 9칸?
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0,
-					 hintTime];
+					 hintTime,
+                     sudokuType];
 					 
 	//DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 
 	[sudokuUndo saveData];
-#ifdef KILLERSUDOKU
-	[kmap saveData];
-#endif
-
+    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    {
+        [kmap saveData];
+    }
 }
 
 + (SudokuGame*) loadData

@@ -26,6 +26,7 @@
 @synthesize labelRuleDesc;
 @synthesize labelTipTitle;
 @synthesize labelTipDesc;
+@synthesize segmentType;
 
 
 
@@ -54,17 +55,22 @@
 #else
     str = [NSString stringWithString:gettext(@"ruledesc6", nil)];
 #endif
-#ifdef GTSUDOKU
-	str = [str stringByAppendingString:@"\n"];
-	str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
-#elif (defined KILLERSUDOKU)
-	str = [str stringByAppendingString:@"\n"];
-#ifdef CALCUDOKU
-	str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
-#else
-	str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
-#endif
-#endif
+    
+    if (sudokuType == SUDOKUTYPE_GT)
+    {
+        str = [str stringByAppendingString:@"\n"];
+        str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
+    }
+    else if (sudokuType == SUDOKUTYPE_KILLER)
+    {
+        str = [str stringByAppendingString:@"\n"];
+        str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
+    }
+    else if (sudokuType == SUDOKUTYPE_CALCU)
+    {
+        str = [str stringByAppendingString:@"\n"];
+        str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
+    }
 	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
 	
 	labelRuleDesc.text = str;
@@ -82,6 +88,8 @@
 
 - (void) viewDidLoad
 {
+    MainViewController *ctrl = (MainViewController*)mainViewController;
+	segmentType.selectedSegmentIndex = sudokuType = ctrl.mainView.nSettingSudokuType;
 
     
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
@@ -128,6 +136,14 @@
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }
+
+- (IBAction)setSudokuType
+{
+    sudokuType = [segmentType selectedSegmentIndex];
+    
+    [self setLocalizedMessage];
+}
+
 
 
 // Override to allow orientations other than the default portrait orientation.

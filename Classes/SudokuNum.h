@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SudokuMap.h"
 #import "KillerMap.h"
+#import "Constants.h"
 
 #define kSudokuNum		@"sudokunum"
 #define kSudokuTrack	@"sudokutrack"
@@ -16,6 +17,8 @@
 @interface SudokuNum : NSObject 
 {
     NSInteger       size;
+    SUDOKUTYPE      sudokuType;
+    
 //	NSMutableArray	*nums;
     
 	char			defaultMemo[9+1];
@@ -35,9 +38,8 @@
     
     
     SudokuMap       *map;
-#ifdef KILLERSUDOKU
-	KillerMap		*kmap;
-#endif
+	KillerMap		*kmap;      //for Killer/Calcu Sudoku
+
 	NSString		*strUndo;
 	BOOL			bOkSetCell;
 	BOOL			bOkAutoSet;
@@ -51,11 +53,11 @@
     NSInteger       numBackTracking;
 	
 	// 숫자 array 로 변환
-#ifdef GTSUDOKU
-    NSInteger       arrGT[3][3];
+
+    NSInteger       arrGT[3][3];    // for GTSudoku
     NSInteger       wGT;
     NSInteger       hGT;
-#endif
+
     
 }
 
@@ -71,9 +73,7 @@
 - (void) initPuzzle:(NSInteger)sizePuzzle defmap:(BOOL)defmap;
 - (NSInteger) getCellSize;
 - (SudokuMap*) getMap;
-#ifdef KILLERSUDOKU
 - (KillerMap*) getKillerMap;
-#endif
 - (NSInteger) randNum:(NSInteger) num;
 //////////////////////////////////////////////////////////////////////////
 - (NSInteger) getPuzzleNum:(NSInteger)x y:(NSInteger)y;
@@ -115,6 +115,6 @@
 @end
 
 
-SudokuNum* sudokuNumGenerate(NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap);
+SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuzzle, BOOL bSettingDefMap);
 
 

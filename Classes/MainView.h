@@ -104,6 +104,7 @@ typedef enum SKINCOLOR SKINCOLOR;
     BOOL bSettingMarkingEqual;
     BOOL bSettingDefMap;
     BOOL bSettingAutoMemo;
+    SUDOKUTYPE nSettingSudokuType;            // 0~3
     BOOL bDrawOnImage;
     CGRect      frameDrawOnImage;
 
@@ -132,6 +133,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property BOOL bSettingMarkingEqual;
 @property BOOL bSettingDefMap;
 @property BOOL bSettingAutoMemo;
+@property SUDOKUTYPE nSettingSudokuType;
 
 @property (nonatomic, retain) UIFont *cellOneSmallFont;
 @property (nonatomic, retain) UIFont *cellOneBigFont;

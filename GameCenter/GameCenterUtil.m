@@ -80,10 +80,12 @@ static BOOL bLoginedGamecenter = NO;
 
     //__block NSInteger nRank = -1;
     
-    if([GKLocalPlayer localPlayer].authenticated) {
+    if([GKLocalPlayer localPlayer].authenticated)
+    {
         NSArray *arr = [[NSArray alloc] initWithObjects:[GKLocalPlayer localPlayer].playerID, nil];
         GKLeaderboard *board = [[GKLeaderboard alloc] initWithPlayerIDs:arr];
-        if(board != nil) {
+        if(board != nil)
+        {
             board.timeScope = GKLeaderboardTimeScopeAllTime;
             board.range = NSMakeRange(1, 1);
             board.category = category;
@@ -94,18 +96,19 @@ static BOOL bLoginedGamecenter = NO;
                  {
                      if ([score.playerID isEqualToString:lp.playerID])
                      {
-                         NSLog(@"rank=%d", score.rank);
+                         DLog(@"rank(%@)=%d", category, score.rank);
                          
                          //nRank = score.rank;
                          *rank = score.rank;
                      }
                  }
              }];
+        } else {
+            DLog(@"borad(%@) == nil", category);
         }
         [board release];
         [arr release];
     }
-//    *rank = nRank;
     
     return *rank;
     
@@ -153,53 +156,73 @@ static BOOL bLoginedGamecenter = NO;
     return GK_CATEGORY_POINT;
 }
 
-+ (NSString*) getLevelCategory:(NSInteger)level
++ (NSString*) getLevelCategory:(SUDOKUTYPE)type level:(NSInteger)level
 {
-    NSLog(@"getLevelCategory(%d)", level);
+    NSLog(@"getLevelCategory(%d,%d)", type, level);
     
-    static NSString* strLevel[10] = {
-        GK_CATEGORY_VERYHARD,
-        GK_CATEGORY_HARD,
-        GK_CATEGORY_NORMAL,
-        GK_CATEGORY_EASY,
-        GK_CATEGORY_VERYEASY,
-        GK_CATEGORY_VERYHARD_A,
-        GK_CATEGORY_HARD_A,
-        GK_CATEGORY_NORMAL_A,
-        GK_CATEGORY_EASY_A,
-        GK_CATEGORY_VERYEASY_A
+    static NSString* strLevel[SUDOKUTYPE_MAX][5] = {
+        {
+            GK_CATEGORY_VERYHARD,
+            GK_CATEGORY_HARD,
+            GK_CATEGORY_NORMAL,
+            GK_CATEGORY_EASY,
+            GK_CATEGORY_VERYEASY
+        },
+        {
+            GK_CATEGORY_VERYHARD_COM,
+            GK_CATEGORY_HARD_COM,
+            GK_CATEGORY_NORMAL_COM,
+            GK_CATEGORY_EASY_COM,
+            GK_CATEGORY_VERYEASY_COM
+        },
+        {
+            GK_CATEGORY_VERYHARD_SUM,
+            GK_CATEGORY_HARD_SUM,
+            GK_CATEGORY_NORMAL_SUM,
+            GK_CATEGORY_EASY_SUM,
+            GK_CATEGORY_VERYEASY_SUM
+        },
+        {
+            GK_CATEGORY_VERYHARD_CAL,
+            GK_CATEGORY_HARD_CAL,
+            GK_CATEGORY_NORMAL_CAL,
+            GK_CATEGORY_EASY_CAL,
+            GK_CATEGORY_VERYEASY_CAL
+        }
+        
     };
 
-    if (level >= 0 && level < 10)
+    if (level >= 0 && level < 5)
 	{
-		return strLevel[level];
+		return strLevel[type][level];
 	} else {
 		return @"";
 	}
 }
 
 // 게임센터 서버로 점수를 보낸다.
-+(void) sendBestTimeToGameCenter:(NSInteger)level besttime:(NSInteger)num
++ (void) sendBestTimeToGameCenter:(SUDOKUTYPE)type level:(NSInteger)level besttime:(NSInteger)num;
 {
-    NSLog(@"sendBestTimeToGameCenter(%d)", level);
+    DLog(@"sendBestTimeToGameCenter(%d,%d,%d)", type, level, num);
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
-	if (num < 5)	// too fast
+	if (num < 3)	// too fast
 	{
 		return;
 	}
     
     NSString* strCategory;
 
-    if (level >= 0 && level < 10)
+    if (level >= 0 && level < 5)
 	{
-		strCategory = [self getLevelCategory:level];
+		strCategory = [self getLevelCategory:type level:level];
     } else {
         return;
 	}
     
     
+    DLog(@"Sending(%@) <- %d seconds", strCategory, num);
     GKScore* score = [[[GKScore alloc] initWithCategory:strCategory] autorelease];
     // 위에서 kPoint 가 게임센터에서 설정한 Leaderboard ID
     score.value = num;

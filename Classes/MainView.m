@@ -34,6 +34,7 @@
 @synthesize bSettingMarkingEqual;
 @synthesize bSettingDefMap;
 @synthesize bSettingAutoMemo;
+@synthesize nSettingSudokuType;
 
 
 @synthesize cellOneSmallFont;
@@ -113,12 +114,13 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
 	NSInteger RGBA = SkinColorTemplate[skin][num];
 	CGFloat fAlpha = 1.f;
-#ifdef KILLERSUDOKU
-	if (num == SC_BACKGROUND_GUIDELINE_NORMAL ||
-		num == SC_BACKGROUND_GUIDELINE_MEMO)
-		fAlpha = 0.0f;
-#endif
-	
+    
+    if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+    {
+        if (num == SC_BACKGROUND_GUIDELINE_NORMAL ||
+            num == SC_BACKGROUND_GUIDELINE_MEMO)
+            fAlpha = 0.0f;
+    }
 	
 	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
 	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
@@ -188,18 +190,11 @@ static NSUInteger RainbowColorTemplate[7] = {
     self.bSettingGuideline = YES;
     self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
-#if (defined GTSUDOKU) || (defined KILLERSUDOKU)
-    self.bSettingDefMap = YES;
-#else
-#ifdef SUDOKU6
-    self.bSettingDefMap = NO;
-#else  // SODUKU9
-    self.bSettingDefMap = YES;
-#endif
-#endif
+    
+    self.bSettingDefMap = NO;   // deprecated
 	
 	self.bSettingAutoMemo = NO;
-    
+    self.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
 	
 //	self.fPress = 1.f;
 	
@@ -411,10 +406,15 @@ static NSUInteger RainbowColorTemplate[7] = {
 	bBlur =  blur;
 	[self setNeedsDisplay];
 }
-#ifdef KILLERSUDOKU
+
+
 - (void)drawKillerLine:(CGContextRef) context
 {
 	int x,y,i,j;
+    
+    if (sudokuGame.sudokuType != SUDOKUTYPE_KILLER && sudokuGame.sudokuType != SUDOKUTYPE_CALCU)
+        return;
+
 
     CGContextSetLineCap(context, kCGLineCapRound);
     
@@ -462,15 +462,15 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	
 }
-#endif
+
 
 
 - (void)drawRectTableLine:(CGContextRef) context
 {
 	int x,y,i,j;
-#ifdef GTSUDOKU
+
     BOOL bGT, bUserGT;
-#endif
+
     
     CGContextSetLineCap(context, kCGLineCapRound);
     
@@ -488,30 +488,30 @@ static NSUInteger RainbowColorTemplate[7] = {
 			CGContextMoveToPoint(context, x, y);
             if ([sudokuGame isSameMap:i-1 y:j x2:i y2:j])
             {
-#ifdef GTSUDOKU
-
-                bGT = [sudokuGame getAnswerNums:i-1 y:j] > [sudokuGame getAnswerNums:i y:j];
-                
-                
-                // 부등호 오류 표시
-                if (bSettingCompareWarning)
+                if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
                 {
-                    if ([sudokuGame getDisplayNum:i-1 y:j] && [sudokuGame getDisplayNum:i y:j])
+                    bGT = [sudokuGame getAnswerNums:i-1 y:j] > [sudokuGame getAnswerNums:i y:j];
+                    
+                    
+                    // 부등호 오류 표시
+                    if (bSettingCompareWarning)
                     {
-                        bUserGT = [sudokuGame getDisplayNum:i-1 y:j] > [sudokuGame getDisplayNum:i y:j];
-                        if (bGT != bUserGT)
+                        if ([sudokuGame getDisplayNum:i-1 y:j] && [sudokuGame getDisplayNum:i y:j])
                         {
-                            CGContextSetLineWidth(context, cConflictLineWidth);
-                            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
-                            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                            bUserGT = [sudokuGame getDisplayNum:i-1 y:j] > [sudokuGame getDisplayNum:i y:j];
+                            if (bGT != bUserGT)
+                            {
+                                CGContextSetLineWidth(context, cConflictLineWidth);
+                                CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                                CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                            }
+                            
                         }
-                        
                     }
+                    CGContextAddLineToPoint(context, x, y+cCellHeight*GTWIDTH);
+                    CGContextAddLineToPoint(context, x+(bGT?GTDEPTH:-GTDEPTH)*cCellWidth, y+cCellHeight*0.5);
+                    CGContextAddLineToPoint(context, x, y+cCellHeight*(1-GTWIDTH));
                 }
-                CGContextAddLineToPoint(context, x, y+cCellHeight*GTWIDTH);
-                CGContextAddLineToPoint(context, x+(bGT?GTDEPTH:-GTDEPTH)*cCellWidth, y+cCellHeight*0.5);
-                CGContextAddLineToPoint(context, x, y+cCellHeight*(1-GTWIDTH));
-#endif
                 CGContextAddLineToPoint(context, x, y+cCellHeight);
                 CGContextStrokePath(context);
                 
@@ -538,24 +538,26 @@ static NSUInteger RainbowColorTemplate[7] = {
 			CGContextMoveToPoint(context, x, y);
             if ([sudokuGame isSameMap:j y:i-1 x2:j y2:i])
             {
-#ifdef GTSUDOKU
-                bGT = [sudokuGame getAnswerNums:j y:i-1] > [sudokuGame getAnswerNums:j y:i];
-                if ([sudokuGame getDisplayNum:j y:i-1] && [sudokuGame getDisplayNum:j y:i])
+                if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
                 {
-                    bUserGT = [sudokuGame getDisplayNum:j y:i-1] > [sudokuGame getDisplayNum:j y:i];
-                    if (bGT != bUserGT)
+                    bGT = [sudokuGame getAnswerNums:j y:i-1] > [sudokuGame getAnswerNums:j y:i];
+                    if ([sudokuGame getDisplayNum:j y:i-1] && [sudokuGame getDisplayNum:j y:i])
                     {
-                        CGContextSetLineWidth(context, cConflictLineWidth);
-                        CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
-                        CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                        bUserGT = [sudokuGame getDisplayNum:j y:i-1] > [sudokuGame getDisplayNum:j y:i];
+                        if (bGT != bUserGT)
+                        {
+                            CGContextSetLineWidth(context, cConflictLineWidth);
+                            CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                            CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_WRONG].CGColor);
+                        }
+                        
                     }
                     
+                    CGContextAddLineToPoint(context, x+cCellWidth*GTWIDTH, y);
+                    CGContextAddLineToPoint(context, x+cCellWidth*0.5, y+(bGT?GTDEPTH:-GTDEPTH)*cCellHeight);
+                    CGContextAddLineToPoint(context, x+cCellWidth*(1-GTWIDTH), y);
                 }
 
-                CGContextAddLineToPoint(context, x+cCellWidth*GTWIDTH, y);
-                CGContextAddLineToPoint(context, x+cCellWidth*0.5, y+(bGT?GTDEPTH:-GTDEPTH)*cCellHeight);
-                CGContextAddLineToPoint(context, x+cCellWidth*(1-GTWIDTH), y);
-#endif
                 CGContextAddLineToPoint(context, x+cCellWidth, y);
                 CGContextStrokePath(context);
             } else {
@@ -643,35 +645,34 @@ static NSUInteger RainbowColorTemplate[7] = {
     int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
     int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
     BOOL bConflict;
-	CGRect rectNum;
+	CGRect rectNum;    
+    CGFloat margin;
     
-#ifdef GTSUDOKU
-    CGFloat margin = 0.12f;
-#else
-    CGFloat margin = 0.10f;
-#endif
-
-#ifdef KILLERSUDOKU
-	CGFloat topmargin = 0.0f;
-	CGFloat leftmargin = 0.2f;
-#else
+    if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
+        margin = 0.12f; // 부등호를 위한 공간이 조금 더 필요하다.
+    else
+        margin = 0.10f;
+        
+        
 	CGFloat topmargin = 0.0f;
 	CGFloat leftmargin = 0.0f;
-#endif
+	
+	if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+    {
+        leftmargin = 0.2f;  // 합계 표시를 위한 공간이 조금 더 필요하다.
+        if (len == 8)
+            i = -1;
+        else if (len == 7)
+            i = -2;
+        else if (len == 5)
+            i = -1;
+    }
+    
 	CGFloat x0 = rect.origin.x+rect.size.width*(margin+leftmargin);
 	CGFloat y0 = rect.origin.y+rect.size.height*(margin+topmargin);
 	CGFloat width = rect.size.width*(1-2*margin-leftmargin);
 	CGFloat height = rect.size.height*(1-2*margin-topmargin);
-	
-#ifdef KILLERSUDOKU
-	if (len == 8)
-		i = -1;
-	else if (len == 7)
-		i = -2;
-	else if (len == 5)
-		i = -1;
-#endif
-	
+    
 	for (y=0; y<countH; y++)
 	{
 		for (x=0; x<countW; x++)
@@ -679,12 +680,14 @@ static NSUInteger RainbowColorTemplate[7] = {
 			if (i >= 0 && i < len)
 			{
                 bConflict = [sudokuGame conflictNumber:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
-#ifdef GTSUDOKU
-				if (!bConflict)
-				{
-					bConflict = [sudokuGame conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
-				}
-#endif
+                if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
+                {
+                    if (!bConflict)
+                    {
+                        bConflict = [sudokuGame conflictMemoCompare:[self CharToNum:memo[i]] xPos:xPos yPos:yPos];
+                    }
+                }
+
                 rectNum = CGRectMake(x0+width*x/countW,
 									 y0+height*y/countH,
 									 width/countW,
@@ -815,9 +818,13 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	bSetThisTime = NO;
 }
-#ifdef KILLERSUDOKU
+
+
 - (void)drawKillerSumNum:(CGContextRef)context
 {
+    if (sudokuGame.sudokuType != SUDOKUTYPE_KILLER && sudokuGame.sudokuType != SUDOKUTYPE_CALCU)
+        return;
+    
 	KillerMap *kmap = sudokuGame.kmap;
 	KillerCage *cell;
 	NSInteger x, y, sum;
@@ -842,26 +849,27 @@ static NSUInteger RainbowColorTemplate[7] = {
 						 rect:rect
 						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
 						 font:isWrongSum?cellWrongSumFont:cellSumFont];
-#ifdef CALCUDOKU
-		if ([sudokuGame	countCellInSum:x yPos:y] > 1)
-		{
-			rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.04,
-						  cTableStartY + y*cCellHeight + cCellHeight/4,
-						  cCellWidth/8,
-						  cCellHeight/4);
-			[self drawStrRect:context
-						  str:[KillerMap getSign:cell->sign]
-						 rect:rect
-						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
-						 font:cellWrongSumFont
-						align:UITextAlignmentCenter];
-		}
-#endif
+        if (sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+        {
+            if ([sudokuGame	countCellInSum:x yPos:y] > 1)
+            {
+                rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.04,
+                                  cTableStartY + y*cCellHeight + cCellHeight/4,
+                                  cCellWidth/8,
+                                  cCellHeight/4);
+                [self drawStrRect:context
+                              str:[KillerMap getSign:cell->sign]
+                             rect:rect
+                            color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
+                             font:cellWrongSumFont
+                            align:UITextAlignmentCenter];
+            }
+        }
 		
 	}
 
 }
-#endif
+
 
 // 숫자가 중복되면 안되는 바닥을 보여줌
 
@@ -879,60 +887,58 @@ static NSUInteger RainbowColorTemplate[7] = {
     
     CGContextBeginPath(context);
 
-#ifdef GTSUDOKU
-    BOOL bGT;
-    
-//    if (x != 4 || y != 3) return;
-    CGContextMoveToPoint(context, xPos, yPos);
-    // 시계 방향으로 회전
-    
-    if (y > 0 && [sudokuGame isSameMap:x y:y x2:x y2:y-1])
+    if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
     {
-        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y-1];
-        CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos);
-        CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? 0-GTDEPTH : GTDEPTH));
-        CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos);
-    }
-    CGContextAddLineToPoint(context, xPos+cCellWidth, yPos);
+        BOOL bGT;
     
-    if (x < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x+1 y2:y])
-    {
-        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x+1 y:y];
-        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*GTWIDTH);
-        CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)), yPos+cCellHeight*0.5);
-        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*(1-GTWIDTH));
+        //    if (x != 4 || y != 3) return;
+        CGContextMoveToPoint(context, xPos, yPos);
+        // 시계 방향으로 회전
+        
+        if (y > 0 && [sudokuGame isSameMap:x y:y x2:x y2:y-1])
+        {
+            bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y-1];
+            CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos);
+            CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? 0-GTDEPTH : GTDEPTH));
+            CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos);
+        }
+        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos);
+        
+        if (x < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x+1 y2:y])
+        {
+            bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x+1 y:y];
+            CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*GTWIDTH);
+            CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)), yPos+cCellHeight*0.5);
+            CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight*(1-GTWIDTH));
+        }
+        CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight);
+        
+        if (y < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x y2:y+1])
+        {
+            bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y+1];
+            CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos+cCellHeight);
+            CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)));
+            CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos+cCellHeight);
+        }
+        CGContextAddLineToPoint(context, xPos, yPos+cCellHeight);
+        
+        if (x > 0 && [sudokuGame isSameMap:x y:y x2:x-1 y2:y])
+        {
+            bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x-1 y:y];
+            CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*(1-GTWIDTH));
+            CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? 0-GTDEPTH : GTDEPTH), yPos+cCellHeight*0.5);
+            CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*GTWIDTH);
+        }
+        CGContextAddLineToPoint(context, xPos, yPos);
+        
+        CGContextClosePath(context);
+        CGContextDrawPath(context, kCGPathFillStroke);
+    } else  {
+        CGRect currentRect;
+        currentRect = CGRectMake(xPos,yPos,cCellWidth-1,cCellHeight-1);
+        CGContextAddRect(context, currentRect);
+        CGContextDrawPath(context, kCGPathFillStroke);
     }
-    CGContextAddLineToPoint(context, xPos+cCellWidth, yPos+cCellHeight);
-    
-    if (y < sudokuGame.size-1 && [sudokuGame isSameMap:x y:y x2:x y2:y+1])
-    {
-        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x y:y+1];
-        CGContextAddLineToPoint(context, xPos+cCellWidth*(1-GTWIDTH), yPos+cCellHeight);
-        CGContextAddLineToPoint(context, xPos+cCellWidth*0.5, yPos+cCellHeight*(bGT ? (1 + GTDEPTH) : (1 - GTDEPTH)));
-        CGContextAddLineToPoint(context, xPos+cCellWidth*GTWIDTH, yPos+cCellHeight);
-    }
-    CGContextAddLineToPoint(context, xPos, yPos+cCellHeight);
-    
-    if (x > 0 && [sudokuGame isSameMap:x y:y x2:x-1 y2:y])
-    {
-        bGT = [sudokuGame getAnswerNums:x y:y] > [sudokuGame getAnswerNums:x-1 y:y];
-        CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*(1-GTWIDTH));
-        CGContextAddLineToPoint(context, xPos+cCellWidth*(bGT ? 0-GTDEPTH : GTDEPTH), yPos+cCellHeight*0.5);
-        CGContextAddLineToPoint(context, xPos, yPos+cCellHeight*GTWIDTH);
-    }
-    CGContextAddLineToPoint(context, xPos, yPos);
-    
-    CGContextClosePath(context);
-    CGContextDrawPath(context, kCGPathFillStroke);
-
-#else
-    CGRect currentRect;
-    currentRect = CGRectMake(xPos,yPos,cCellWidth-1,cCellHeight-1);
-    CGContextAddRect(context, currentRect);
-    CGContextDrawPath(context, kCGPathFillStroke);
-#endif
-
-
 }
 
 - (BOOL) isSameMapWithSelectedCell:(NSInteger)x y:(NSInteger)y
@@ -947,9 +953,11 @@ static NSUInteger RainbowColorTemplate[7] = {
     return i>0 && j>0 && i == j;
 }
 
-#ifdef KILLERSUDOKU
 - (void) drawKillerBackground:(CGContextRef)context
 {
+    if (sudokuGame.sudokuType != SUDOKUTYPE_KILLER && sudokuGame.sudokuType != SUDOKUTYPE_CALCU)
+        return;
+    
     for (int y=0; y<sudokuGame.size; y++)
     {
         for (int x=0; x<sudokuGame.size; x++)
@@ -970,10 +978,13 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	
 }
-#endif
 
 - (void) drawGuidelineBackground:(CGContextRef)context
 {
+    if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+        return;
+    
+    
     if (bSettingGuideline == NO)
         return;
     
@@ -1061,21 +1072,24 @@ static NSUInteger RainbowColorTemplate[7] = {
 		{
 			NSInteger xPos = cTableStartX + x*cCellWidth;
 			NSInteger yPos = cTableStartY + y*cCellHeight;
-			
-#ifdef KILLERSUDOKU
-			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark2"];
-			CGRect rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H), cCellWidth*BM_W, cCellHeight*BM_H);
-#else
-			UIImage *imageBookmark = [UIImage imageNamed:@"bookmark"];
-			CGRect rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H);
-#endif
+			UIImage *imageBookmark;
+            CGRect rect;
+            if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+			{
+                imageBookmark = [UIImage imageNamed:@"bookmark2"];
+                rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H), cCellWidth*BM_W, cCellHeight*BM_H);
+            } else {
+                imageBookmark = [UIImage imageNamed:@"bookmark"];
+                rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H);
+            }
 			[imageBookmark drawInRect:rect blendMode:kCGBlendModeNormal alpha:0.5f];
 			// 북마크 번호(i+1)를 적어야 한다.
-#ifdef KILLERSUDOKU
-			rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H_TEXT), cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
-#else
-			rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
-#endif
+            if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+            {
+                rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos+cCellHeight*(1-BM_H_TEXT), cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
+            } else {
+                rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
+            }
 			[self drawNumRect:context num:i+1 rect:rect color:[UIColor colorWithWhite:1.0f alpha:1.0f].CGColor font:cellBookmarkFont];
 
 		}
@@ -1547,31 +1561,30 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) checkClearGame
 {
-#ifdef KILLERSUDOKU
 	NSInteger wrongSums = 0;
 	NSInteger ret = [sudokuGame clearGameCheckAllCells:&wrongSums];
-#else
-	NSInteger ret = [sudokuGame clearGameCheckAllCells];
-#endif
-	if (ret == 0) {
-#ifdef KILLERSUDOKU
-		if (wrongSums > 0)
-		{
-			NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong sum(s)", nil), wrongSums];
-			
-			
-			UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
-															message:msg
-														   delegate:self
-												  cancelButtonTitle:gettext(@"Ok", nil)
-												  otherButtonTitles:nil];
-			[alert show];
-			[alert release];
-			
-			return;
-		}
 
-#endif
+	
+    if (ret == 0) {
+        if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+        {
+            if (wrongSums > 0)
+            {
+                NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong sum(s)", nil), wrongSums];
+                
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
+                                                                message:msg
+                                                               delegate:self
+                                                      cancelButtonTitle:gettext(@"Ok", nil)
+                                                      otherButtonTitles:nil];
+                [alert show];
+                [alert release];
+                
+                return;
+            }
+        }
+
         MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
         
         bMemoMode = NO;
@@ -1790,23 +1803,18 @@ static NSUInteger RainbowColorTemplate[7] = {
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
 	BOOL bUseQQ=NO;
-#ifdef SUDOKU9
-#ifndef GTSUDOKU
-#ifndef KILLERSUDOKU
-	bUseQQ = YES;
-#endif
-#endif
-#endif
-	
+    
+    if (nSettingSudokuType == SUDOKUTYPE_SUDOKU && sizePuzzle == SIZE_9)    // QQWing은 9x9 일반 sudoku만 지원한다.
+        bUseQQ = YES;	
 
 	if (bUseQQ)
 	{
 		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT); 
-		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board level:level automemo:bSettingAutoMemo];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board type:nSettingSudokuType level:level automemo:bSettingAutoMemo];
 		[board release];
 	} else {
-		SudokuNum *sudokuNum = sudokuNumGenerate(level, sizePuzzle, bSettingDefMap);
-		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum level:level automemo:bSettingAutoMemo];
+		SudokuNum *sudokuNum = sudokuNumGenerate(nSettingSudokuType, level, sizePuzzle, bSettingDefMap);
+		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum type:nSettingSudokuType level:level automemo:bSettingAutoMemo];
 		[sudokuNum release];
 	}
 	
@@ -2127,29 +2135,22 @@ static NSUInteger RainbowColorTemplate[7] = {
     [self setFont];
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
-#ifdef KILLERSUDOKU
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
-#endif
 	[self drawGuidelineBackground:context];          // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
-#ifdef KILLERSUDOKU
 	[self drawKillerLine:context];				// 테이블 라인 긎기
-#endif
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
     [self drawBookmarkInCell:context];          // 북마크 표시
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
     [self drawRectTableBackgroundBorder:context];
-#ifdef KILLERSUDOKU
 	[self drawKillerSumNum:context];			// 합계 표시하기
-#endif
-	
 	[self drawHighlightCell:context];           // 선택된 셀 표시
 	[self drawNumButton:context];
     
     [self drawCongratulations:context];                 // 축하 표시
     
-	[self drawBlurTable:context];     // 기본 테이블 바탕 색
+	[self drawBlurTable:context];               // 기본 테이블 바탕 색
 }
 
 - (void) drawBackgroundDrawOnImage:(CGContextRef) context strTime:(NSString*) strTime
@@ -2210,16 +2211,12 @@ static NSUInteger RainbowColorTemplate[7] = {
     
     [self drawBackgroundDrawOnImage:context strTime:strTime];
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
-#ifdef KILLERSUDOKU
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
 	[self drawKillerLine:context];				// 테이블 라인 긎기
-#endif
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawRectTableBackgroundBorder:context];
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
-#ifdef KILLERSUDOKU
 	[self drawKillerSumNum:context];			// 합계 표시하기
-#endif
     
     bDrawOnImage = NO;
 
