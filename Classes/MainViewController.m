@@ -579,7 +579,7 @@
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
      [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
      
-     [GameCenterUtil connectGameCenter];       //게임센터 접속~
+     [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
 
 }
@@ -1770,5 +1770,13 @@
     }
     return nil;
 }
+/*
 
+- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
+{
+    
+    [super presentViewController:self animated:flag completion:completion];
+    
+}
+*/
 @end

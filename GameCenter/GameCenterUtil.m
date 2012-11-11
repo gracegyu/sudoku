@@ -9,6 +9,7 @@
 #import "GameCenterUtil.h"
 #import "Locale.h"
 #import "Constants.h"
+#import "AppDelegate.h"
 
 @implementation GameCenterUtil
 
@@ -34,29 +35,54 @@ static BOOL bLoginedGamecenter = NO;
 }
 
 //GameCenter 로그인
-+ (void) connectGameCenter
++ (void) connectGameCenter:(MainViewController*) controller
 {
     if ([self isGameCenterAvailable] == NO)
         return;
     
+    GKLocalPlayer *localPlayer = [GKLocalPlayer localPlayer];
+    
     NSLog(@"connect... to gamecenter");
-    if([GKLocalPlayer localPlayer].authenticated == NO)
+    if(localPlayer.authenticated == NO)
     { //게임센터 로그인이 아직일때
-        [[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError* error)
+        
+        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"6.0"))
         {
-            if(error == NULL)
+            localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error)
             {
-                bLoginedGamecenter = YES;
-                NSLog(@"게임센터 로그인 성공~");
-            } else {
-                NSLog(@"Error(%d):%@", error.code, [error localizedDescription]);
-                
-                
-                NSLog(@"게임센터 로그인 에러. 별다른 처리는 하지 않는다.");
-                
-                // 15:게임센터에서 이 게임을 인식할 수 없습니다.
-            }
-        }];
+                if (viewController != nil)
+                {
+                    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+                    [ctrl presentViewController:viewController animated:YES completion:nil];
+                }
+                else if (localPlayer.isAuthenticated)
+                {
+                    NSLog(@"Player authenticated");
+                    bLoginedGamecenter = YES;
+                }
+                else
+                {
+                    NSLog(@"Player authentication failed");
+                }
+            };
+            
+        } else {    // deprecated 6.0 and above
+            [localPlayer authenticateWithCompletionHandler:^(NSError* error)
+             {
+                 if(error == NULL)
+                 {
+                     bLoginedGamecenter = YES;
+                     NSLog(@"게임센터 로그인 성공~");
+                 } else {
+                     NSLog(@"Error(%d):%@", error.code, [error localizedDescription]);
+                     
+                     
+                     NSLog(@"게임센터 로그인 에러. 별다른 처리는 하지 않는다.");
+                     
+                     // 15:게임센터에서 이 게임을 인식할 수 없습니다.
+                 }
+             }];
+        }
     }
 }
 
