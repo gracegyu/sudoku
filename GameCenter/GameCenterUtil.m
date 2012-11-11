@@ -86,18 +86,18 @@ static BOOL bLoginedGamecenter = NO;
     }
 }
 
-+ (NSInteger) getTotalScoreRanking:(NSInteger*)rank
++ (NSInteger) getTotalScoreRanking:(NSInteger*)rank value:(NSInteger*)value
 {
     NSLog(@"getTotalScoreRanking");
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return 0;
 
-    return [self getRanking:[self getPointCategory] rank:rank];
+    return [self getRanking:[self getPointCategory] rank:rank value:value];
 }
 
 
 
-+ (NSInteger) getRanking:(NSString*)category rank:(NSInteger*)rank
++ (NSInteger) getRanking:(NSString*)category rank:(NSInteger*)rank value:(NSInteger*)value
 {
     NSLog(@"getRanking(%@)", category);
     
@@ -122,10 +122,23 @@ static BOOL bLoginedGamecenter = NO;
                  {
                      if ([score.playerID isEqualToString:lp.playerID])
                      {
-                         DLog(@"rank(%@)=%d", category, score.rank);
+                         DLog(@"rank(%@)=%d, value=%lld", category, score.rank, score.value);
                          
                          //nRank = score.rank;
                          *rank = score.rank;
+                         if (value)
+                         {
+                             NSRange range = [category rangeOfString:@"point"];
+                             if (range.length > 0)
+                             {
+                                 if ((NSInteger) score.value > *value)
+                                     *value = (NSInteger)score.value;
+                             } else {
+                                 if ((NSInteger) score.value < *value)
+                                     *value = (NSInteger)score.value;
+                             }
+                                 
+                         }
                      }
                  }
              }];

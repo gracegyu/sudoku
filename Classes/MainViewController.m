@@ -288,7 +288,7 @@
 - (void) getRankingFromGameCenter
 {
     DLog(@"getRankingFromGameCenter");
-   [GameCenterUtil getTotalScoreRanking:&(score.scoreRankTotal)];
+    [GameCenterUtil getTotalScoreRanking:&(score.scoreRankTotal) value:&(score.scoreTotal)];
     
     for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
@@ -296,7 +296,9 @@
         {
             if (score.scoreBestTime[type][level] > 0)
             {
-                [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level] rank:&(score.scoreRankLevel[type][level])];
+                [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level]
+                                      rank:&(score.scoreRankLevel[type][level])
+                                     value:&(score.scoreBestTime[type][level])];
             } else {
                 score.scoreRankLevel[type][level] = 0;  // best time이 없음
             }
