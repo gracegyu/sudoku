@@ -2184,8 +2184,13 @@ static NSUInteger RainbowColorTemplate[7] = {
         [img drawInRect:rect];
 
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
-    NSString *str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
-   
+    NSString *str;
+    
+    if (sudokuGame.isGameFinished)
+        str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
+    else
+        str = appName;
+    
     rect = CGRectMake(DRAWONIMAGE_TABLE_X*2+DRAWONIMAGE_ICONSIZE,
                       DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H,
                       DRAWONIMAGE_TABLE_W - DRAWONIMAGE_TABLE_X - DRAWONIMAGE_ICONSIZE,
@@ -2198,13 +2203,15 @@ static NSUInteger RainbowColorTemplate[7] = {
                  font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
 				align:UITextAlignmentLeft];
 
-    [self drawStrRect:context
-                  str:sudokuGame.bAutoMemo?@"Auto":@"Orginal"
-                 rect:rect
-                color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
-                 font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
-				align:UITextAlignmentRight];
-
+    if (sudokuGame.isGameFinished)
+    {
+        [self drawStrRect:context
+                      str:sudokuGame.bAutoMemo?@"Auto":@"Orginal"
+                     rect:rect
+                    color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
+                     font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
+                    align:UITextAlignmentRight];
+    }
 }
 
 - (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime

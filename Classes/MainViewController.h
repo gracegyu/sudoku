@@ -70,6 +70,7 @@
 	UIButton	*buttonMemo;
 	UIButton	*buttonDel;
 	UIButton	*buttonReset;
+	UIButton	*buttonSharePuzzle;
 	UIButton	*buttonScore;
 	UIButton	*buttonHint;
     UIButton    *buttonSetting;
@@ -147,6 +148,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonScore;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonReset;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonSharePuzzle;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHint;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonSetting;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMenuClose;

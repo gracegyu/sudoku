@@ -48,6 +48,7 @@
 @synthesize buttonScore;
 @synthesize buttonDel;
 @synthesize buttonReset;
+@synthesize buttonSharePuzzle;
 @synthesize buttonHint;
 @synthesize buttonSetting;
 @synthesize buttonMenuClose;
@@ -385,6 +386,7 @@
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+    [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
@@ -395,8 +397,8 @@
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonFacebookRecord    setTitle:gettext(@"Share record", nil) forState:UIControlStateNormal];
-    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
+    [buttonFacebookRecord    setTitle:gettext(@"Share record on Facebook", nil) forState:UIControlStateNormal];
+    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle on Facebook", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -906,8 +908,14 @@
     
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
+    NSString *strDesc;
     
+    if (mainView.sudokuGame.isGameFinished)
+    {
+        strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
+    } else {
+        strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
+    }
     
     
     
