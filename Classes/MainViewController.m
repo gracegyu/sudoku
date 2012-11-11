@@ -352,7 +352,7 @@
         return;
     }    
     
-    mainView.bSettingSoundOff = [defaults boolForKey:kSettingSoundEffect];
+    mainView.nSettingSoundOff = [defaults integerForKey:kSettingSoundEffect];
     mainView.bSettingGuideline = [defaults boolForKey:kSettingGuideline];
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
@@ -367,7 +367,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     [defaults setInteger:SETTING_VERSION forKey:kSettingSavedVersion];
-    [defaults setBool:mainView.bSettingSoundOff forKey:kSettingSoundEffect];
+    [defaults setInteger:mainView.nSettingSoundOff forKey:kSettingSoundEffect];
     [defaults setBool:mainView.bSettingGuideline forKey:kSettingGuideline];
     [defaults setBool:mainView.bSettingDuplicationWarning forKey:kSettingDuplicationWarning];
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
@@ -980,12 +980,8 @@
 {
 	if (mainView.bMenuMode)
 		return;
-
 	
 	[mainView doHint];
-    
-    
-    [self writeScoreAfterFinishGame:mainView.sudokuGame];
 }
 
 

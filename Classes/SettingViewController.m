@@ -93,7 +93,7 @@
 
 - (void) setImageSoundEffect
 {
-    if (mainViewController.mainView.bSettingSoundOff == YES)
+    if (mainViewController.mainView.nSettingSoundOff > 0)
         [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_on"] forState:UIControlStateNormal];
     else
         [buttonSoundEffect setBackgroundImage:[UIImage imageNamed:@"soundeffect_off"] forState:UIControlStateNormal];
@@ -221,7 +221,7 @@
 
 - (IBAction)setSoundEffect
 {
-    mainViewController.mainView.bSettingSoundOff = !mainViewController.mainView.bSettingSoundOff;
+    mainViewController.mainView.nSettingSoundOff = (mainViewController.mainView.nSettingSoundOff+1)%3;
     [self setImageSoundEffect];
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];

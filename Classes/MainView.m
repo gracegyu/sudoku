@@ -28,7 +28,7 @@
 @synthesize bMemoMode;
 @synthesize bMenuMode;
 @synthesize bDupWarn;
-@synthesize bSettingSoundOff;
+@synthesize nSettingSoundOff;
 @synthesize bSettingGuideline;
 @synthesize bSettingDuplicationWarning;
 @synthesize bSettingMarkingEqual;
@@ -186,7 +186,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	self.bPressedInButton = NO;
 	self.bPressedInCell = NO;
 	self.bDupWarn = YES;
-	self.bSettingSoundOff = YES;
+	self.nSettingSoundOff = 1;  // default
     self.bSettingGuideline = YES;
     self.bSettingDuplicationWarning = YES;
     self.bSettingMarkingEqual = YES;
@@ -203,8 +203,10 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	NSString *path;
 	
-	path = [[NSBundle mainBundle] pathForResource:@"click" ofType:@"wav"];
-	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID);
+	path = [[NSBundle mainBundle] pathForResource:@"click-1" ofType:@"wav"];
+	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID1);
+	path = [[NSBundle mainBundle] pathForResource:@"click-2" ofType:@"wav"];
+	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClickID2);
 	path = [[NSBundle mainBundle] pathForResource:@"clear" ofType:@"wav"];
 	AudioServicesCreateSystemSoundID((CFURLRef)[NSURL fileURLWithPath:path], &soundClearID);
 	path = [[NSBundle mainBundle] pathForResource:@"Sosumi" ofType:@"aiff"];
@@ -787,13 +789,16 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) playSound:(SystemSoundID) inSystemSoundID
 {
-    if (bSettingSoundOff)
+    if (nSettingSoundOff > 0)
         AudioServicesPlaySystemSound(inSystemSoundID);
 }
 
 - (void) playSoundClick
 {
-    [self playSound:soundClickID];
+    if (nSettingSoundOff == 1)
+        [self playSound:soundClickID1];
+    else
+        [self playSound:soundClickID2];
 }
 
 - (void)drawCellNums:(CGContextRef)context
