@@ -303,8 +303,8 @@
 {
 	DLog(@"displayRank");
 	
-	if (pScore->scoreRankTotal > 0)
-		[self setScoreText];
+	//if (pScore->scoreRankTotal > 0)
+    [self setScoreText];
 	
 	NSInteger rank;
     
