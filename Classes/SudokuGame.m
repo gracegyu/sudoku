@@ -551,6 +551,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) updateAutoMemoOnlyUnique
 {
+    if (bAutoMemo == NO)
+		return;
+    
     if (size == SIZE_9 &&   // 나머지 에서는 너무 쉬워진다.
         (gameLevel == GAMELEVEL_VERYHARD || gameLevel == GAMELEVEL_HARD || sudokuType != SUDOKUTYPE_SUDOKU))
     {   // GTSudoku와 Killer Sudoku는 어렵기 때문에 항상 모든 Auto기능을 다 사용한다.
