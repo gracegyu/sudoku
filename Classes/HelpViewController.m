@@ -27,6 +27,7 @@
 @synthesize labelTipTitle;
 @synthesize labelTipDesc;
 @synthesize segmentType;
+@synthesize labelSudokuType;
 
 
 
@@ -48,6 +49,8 @@
     
     lableTitle.text = gettext(@"Help", nil);
 
+    
+    labelSudokuType.text = [SudokuGame getSudokuTypeName:sudokuType];
     
     labelRuleTitle.text = gettext(@"ruletitle", nil);
 #ifdef SUDOKU9

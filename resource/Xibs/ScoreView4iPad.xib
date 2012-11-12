@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1536</int>
 		<string key="IBDocument.SystemVersion">11G63</string>
-		<string key="IBDocument.InterfaceBuilderVersion">2840</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
 		<string key="IBDocument.AppKitVersion">1138.51</string>
 		<string key="IBDocument.HIToolboxVersion">569.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">1926</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -223,7 +223,6 @@
 								<int key="NSvFlags">271</int>
 								<string key="NSFrame">{{0, 889}, {780, 42}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
-								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -248,6 +247,30 @@
 									<double key="NSSize">24</double>
 									<int key="NSfFlags">16</int>
 								</object>
+							</object>
+							<object class="IBUILabel" id="333972157">
+								<reference key="NSNextResponder" ref="16723326"/>
+								<int key="NSvFlags">290</int>
+								<string key="NSFrame">{{2, 105}, {189, 49}}</string>
+								<reference key="NSSuperview" ref="16723326"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBIPadFramework</string>
+								<string key="IBUIText">sudoku</string>
+								<object class="NSColor" key="IBUITextColor">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MC4yMzAxMTE2NDU1IDAuMjc3MTc1NTcwOCAwLjQxODM2NzM0NjkAA</bytes>
+								</object>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+								<int key="IBUINumberOfLines">2</int>
+								<int key="IBUITextAlignment">2</int>
+								<int key="IBUILineBreakMode">0</int>
+								<reference key="IBUIFontDescription" ref="457567580"/>
+								<reference key="IBUIFont" ref="692772946"/>
+								<double key="preferredMaxLayoutWidth">189</double>
 							</object>
 							<object class="IBUILabel" id="622513496">
 								<reference key="NSNextResponder" ref="16723326"/>
@@ -1149,7 +1172,7 @@
 							<object class="IBUILabel" id="172947730">
 								<reference key="NSNextResponder" ref="16723326"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{577, 105}, {139, 49}}</string>
+								<string key="NSFrame">{{567, 105}, {139, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
 								<reference key="NSNextKeyView" ref="622513496"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1173,7 +1196,7 @@
 							<object class="IBUILabel" id="276704568">
 								<reference key="NSNextResponder" ref="16723326"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{424, 105}, {127, 49}}</string>
+								<string key="NSFrame">{{430, 105}, {127, 49}}</string>
 								<reference key="NSSuperview" ref="16723326"/>
 								<reference key="NSNextKeyView" ref="172947730"/>
 								<bool key="IBUIOpaque">NO</bool>
@@ -1790,6 +1813,14 @@
 					<int key="connectionID">151</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">labelSudokuType</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="333972157"/>
+					</object>
+					<int key="connectionID">154</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">showGameCenterLeaderboard</string>
 						<reference key="source" ref="848644502"/>
@@ -1950,7 +1981,6 @@
 							<reference ref="971227837"/>
 							<reference ref="563749475"/>
 							<reference ref="935039098"/>
-							<reference ref="276704568"/>
 							<reference ref="172947730"/>
 							<reference ref="754685698"/>
 							<reference ref="727934895"/>
@@ -1976,6 +2006,8 @@
 							<reference ref="354555609"/>
 							<reference ref="1026629610"/>
 							<reference ref="1004943947"/>
+							<reference ref="333972157"/>
+							<reference ref="276704568"/>
 						</object>
 						<reference key="parent" ref="643985334"/>
 					</object>
@@ -2247,6 +2279,11 @@
 						<reference key="object" ref="1026629610"/>
 						<reference key="parent" ref="16723326"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">153</int>
+						<reference key="object" ref="333972157"/>
+						<reference key="parent" ref="16723326"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -2280,6 +2317,7 @@
 					<string>144.IBPluginDependency</string>
 					<string>144.IUISegmentedControlInspectorSelectedSegmentMetadataKey</string>
 					<string>15.IBPluginDependency</string>
+					<string>153.IBPluginDependency</string>
 					<string>16.IBPluginDependency</string>
 					<string>17.IBPluginDependency</string>
 					<string>18.IBPluginDependency</string>
@@ -2360,6 +2398,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>ScoreView</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -2396,7 +2435,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">152</int>
+			<int key="maxID">154</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>
@@ -2432,6 +2471,6 @@
 				<string>{36, 36}</string>
 			</object>
 		</object>
-		<string key="IBCocoaTouchPluginVersion">1926</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

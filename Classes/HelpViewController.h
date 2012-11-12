@@ -19,7 +19,7 @@
     
     UIButton *buttonDone;
     
-    
+    UILabel *labelSudokuType;
     UILabel	*labelRuleTitle;
     UILabel	*labelRuleDesc;
     UILabel	*labelTipTitle;
@@ -35,7 +35,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationItem	*naviItem;
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 
-
+@property (nonatomic, retain) IBOutlet UILabel *labelSudokuType;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 

@@ -10,6 +10,7 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "SudokuBoard.h"
+#import "Locale.h"
 
 @implementation SudokuGame
 
@@ -2010,6 +2011,16 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
    
 }
 
++ (NSString*) getSudokuTypeName:(SUDOKUTYPE)type
+{
+    switch (type) {
+        case SUDOKUTYPE_SUDOKU :    return gettext(@"sudoku", nil);
+        case SUDOKUTYPE_GT :        return gettext(@"greater than sudoku", nil);
+        case SUDOKUTYPE_KILLER :    return gettext(@"sumdoku", nil);
+        case SUDOKUTYPE_CALCU :     return gettext(@"calcudoku", nil);
+        default: return @"";
+    }
+}
 
 
 @end

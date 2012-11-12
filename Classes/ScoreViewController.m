@@ -20,6 +20,7 @@
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize buttonDone;
+@synthesize labelSudokuType;
 @synthesize labelVeryEasyGames;
 @synthesize labelVeryEasyClears;
 @synthesize labelVeryEasyBestTime;
@@ -241,6 +242,9 @@
 - (void) displayScore
 {
 	NSInteger n = (bAuto?5:0);
+    
+    labelSudokuType.text = [SudokuGame getSudokuTypeName:sudokuType];
+    
 	
 	[self setInteger:labelVeryHardGames num:pScore->scoreGames[sudokuType][0+n]];
 	[self setInteger:labelVeryHardClears num:pScore->scoreClears[sudokuType][0+n]];

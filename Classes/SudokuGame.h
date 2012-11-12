@@ -117,4 +117,6 @@
 - (void) bonusHintElapsedTime;
 - (void) readyToReplay;
 
++ (NSString*) getSudokuTypeName:(SUDOKUTYPE)type;
+
 @end

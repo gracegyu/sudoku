@@ -20,6 +20,7 @@
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;
     UIButton *buttonDone;
+    UILabel *labelSudokuType;
 	UILabel	*labelVeryEasyGames;
 	UILabel	*labelVeryEasyClears;
 	UILabel	*labelVeryEasyBestTime;
@@ -92,6 +93,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 
+@property (nonatomic, retain) IBOutlet UILabel	*labelSudokuType;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryEasyGames;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryEasyClears;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryEasyBestTime;
