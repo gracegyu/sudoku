@@ -2011,6 +2011,30 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
    
 }
 
+- (void) calcuCountNum
+{
+    memset(countNums, 0, sizeof(countNums));
+    
+    for (int y=0; y<size; y++)
+    {
+        for (int x=0; x<size; x++)
+        {
+            int num = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
+            
+            if (num > 0)
+                countNums[num-1] += 1;
+        }
+    }
+}
+
+- (NSInteger) getCountNum:(NSInteger)num
+{
+    if (num < 1 || num > size)
+        return 0;
+    
+    return countNums[num-1]; 
+}
+
 + (NSString*) getSudokuTypeName:(SUDOKUTYPE)type
 {
     switch (type) {

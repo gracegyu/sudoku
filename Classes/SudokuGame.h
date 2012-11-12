@@ -41,6 +41,8 @@
 	
 	BOOL			bAutoMemo;			// AutoMemoMode;
 	BOOL			bAutoMemoUndoLog;
+    
+    NSInteger       countNums[MAXMAPSIZE];
 }
 
 @property NSInteger         size;
@@ -116,6 +118,9 @@
 - (void) bonusGameElapsedTime;
 - (void) bonusHintElapsedTime;
 - (void) readyToReplay;
+
+- (void) calcuCountNum;
+- (NSInteger) getCountNum:(NSInteger)num;
 
 + (NSString*) getSudokuTypeName:(SUDOKUTYPE)type;
 

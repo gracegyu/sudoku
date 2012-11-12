@@ -334,7 +334,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
-    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
+//    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
 	
     [self drawStrRect:context
                   str:[NSString stringWithFormat:@"%d", num]
@@ -354,6 +354,18 @@ static NSUInteger RainbowColorTemplate[7] = {
                 color:color
                  font:font
 				align:UITextAlignmentLeft];
+	
+}
+
+- (void) drawNumRectRight:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+{
+    
+    [self drawStrRect:context
+                  str:[NSString stringWithFormat:@"%d", num]
+                 rect:rect
+                color:color
+                 font:font
+				align:UITextAlignmentRight];
 	
 }
 
@@ -1293,6 +1305,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 			bMemoNum = YES;
 	}
 	
+    [sudokuGame calcuCountNum];
 	
 	for (i=1; i<=sudokuGame.size; i++)    // 버튼 모양 그리기
 	{
@@ -1317,6 +1330,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
 
+        // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
             CGColorRef color;
@@ -1328,6 +1342,11 @@ static NSUInteger RainbowColorTemplate[7] = {
 				color = bMemoMode ? skincolor[SC_TEXT_BUTTON_MEMO].CGColor : skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
 			}
             
+            if (bMemoMode == NO && [sudokuGame getCountNum:i] >= sudokuGame.size)
+            {
+                color = [[UIColor colorWithWhite:1.0f alpha:.2f] CGColor];
+            }
+            
             // 버튼에 숫자를 적기
             [self drawNumRect:context
                           num:i
@@ -1335,8 +1354,17 @@ static NSUInteger RainbowColorTemplate[7] = {
                         color:color
                          font:bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
 		}
+        
+        DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
+        [self drawNumRect:context
+                      num:[sudokuGame getCountNum:i]
+                     rect:CGRectMake(x+cButtonWidth/6, y+cButtonHeight*3/4, cButtonWidth, cButtonHeight/4)
+                    color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
+                     font:cellNineFont];
+        
 	}
 
+    // 현재 누른 버튼 표시
 	if ((bPuzzleNum == NO) &&
 		pushedButton > 0 && pushedButton <= sudokuGame.size)
 	{
