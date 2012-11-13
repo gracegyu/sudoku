@@ -358,7 +358,7 @@
 {
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:
-              @"http://m.facebook.com/pages/smartoneapp/291656217607690?id=291656217607690&_rdr"]];
+              @"http://www.facebook.com/pages/SmartOne/392309084183421"]];
     
 
 }
