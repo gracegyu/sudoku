@@ -457,6 +457,7 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
+
     return NO;
 /*#ifdef ADMOB_FREEVERSION
     if (cDeviceType == DEVICETYPE_IPHONE)
@@ -468,6 +469,7 @@
 
 - (NSUInteger)supportedInterfaceOrientations
 {
+
      return UIInterfaceOrientationMaskPortrait;
     /*
 #ifdef ADMOB_FREEVERSION
