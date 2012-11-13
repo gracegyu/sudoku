@@ -15,22 +15,25 @@
 
 
 
+
 @implementation SettingViewController
 
 @synthesize mainViewController;
+@synthesize viewMain;
+//@synthesize naviBar;
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize labelSoundEffect;
 @synthesize labelGuildeline;
 @synthesize labelDuplicationWarning;
 @synthesize labelMarkingEqual;
-@synthesize labelShapeOfMap;
+@synthesize labelSkinColor;
 @synthesize labelLocale;
 @synthesize labelDescSoundEffect;
 @synthesize labelDescGuildeline;
 @synthesize labelDescDuplicationWarning;
 @synthesize labelDescMarkingEqual;
-@synthesize labelDescShapeOfMap;
+@synthesize labelDescSkinColor;
 @synthesize labelDescLocale;
 
 @synthesize buttonDone;
@@ -38,7 +41,7 @@
 @synthesize buttonGuildeline;
 @synthesize buttonDuplicationWarning;
 @synthesize buttonMarkingEqual;
-@synthesize buttonShapeOfMap;
+@synthesize buttonSkinColor;
 @synthesize buttonLocale;
 
 @synthesize buttonFacebook;
@@ -46,8 +49,18 @@
 @synthesize buttonReview;
 @synthesize buttonNewApp;
 
-
-
+@synthesize buttonColor0;
+@synthesize buttonColor1;
+@synthesize buttonColor2;
+@synthesize buttonColor3;
+@synthesize buttonColor4;
+@synthesize buttonColor5;
+@synthesize buttonColor6;
+@synthesize buttonColor7;
+@synthesize buttonColor8;
+@synthesize buttonColor9;
+@synthesize buttonColor10;
+@synthesize buttonColor11;
 
 
 
@@ -71,7 +84,7 @@
     labelGuildeline.text = gettext(@"guideline", nil);
     labelDuplicationWarning.text = gettext(@"duplication warning", nil);
     labelMarkingEqual.text = gettext(@"marking equal", nil);
-    labelShapeOfMap.text = gettext(@"auto memo", nil);
+    labelSkinColor.text = gettext(@"skin color", nil);
     labelLocale.text = gettext(@"language", nil);
     
     str = gettext(@"desc sound effect", nil);
@@ -83,7 +96,7 @@
 	str = gettext(@"desc marking equal", nil);
     labelDescMarkingEqual.text = [str stringByAppendingString:@"\n\n\n"];
 	str = gettext(@"desc auto memo", nil);
-    labelDescShapeOfMap.text = [str stringByAppendingString:@"\n\n\n"];
+    labelDescSkinColor.text = [str stringByAppendingString:@"\n\n\n"];
 	str = gettext(@"desc language", nil);
     labelDescLocale.text = [str stringByAppendingString:@"\n\n\n"];
 	
@@ -128,17 +141,46 @@
 }
 
 
-- (void) setImageAutoMemo
+- (UIImage *) imageFromColor:(UIColor *)color
 {
-    buttonShapeOfMap.hidden = YES;
-    labelShapeOfMap.hidden = YES;
-    labelDescShapeOfMap.hidden = YES;
+    CGRect rect = CGRectMake(0, 0, 1, 1);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    //  [[UIColor colorWithRed:222./255 green:227./255 blue: 229./255 alpha:1] CGColor]) ;
+    CGContextFillRect(context, rect);
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return img;
+}
+
+- (void) setInitSkinColor
+{
+    for (int i=0; i<MAX_SKIN_COUNT; i++)
+    {
+        [buttonColor[i].layer setMasksToBounds:YES];
+
+        [buttonColor[i].layer setBorderColor:[[UIColor whiteColor] CGColor]];
+        NSInteger RGBA = [mainViewController.mainView getRGBA:i num:0];
+        CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
+        CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
+        CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
+        CGFloat A = ((CGFloat)((RGBA & 0x000000FF) >> 8*0))/255.f;
+        buttonColor[i].backgroundColor = [UIColor colorWithRed:R green:G blue:B alpha:A];
+    }
     
     
-    if (mainViewController.mainView.bSettingAutoMemo == YES)
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_on"] forState:UIControlStateNormal];
-    else
-        [buttonShapeOfMap setBackgroundImage:[UIImage imageNamed:@"automemo_off"] forState:UIControlStateNormal];
+}
+
+- (void) setImageSkinColor
+{
+    for (int i=0; i<MAX_SKIN_COUNT; i++)
+    {
+        if (mainViewController.mainView.skin == i)
+            [buttonColor[i].layer setBorderWidth: isIpad ? 4.0f : 3.0f];
+        else
+            [buttonColor[i].layer setBorderWidth: 0.0f];
+    }
 }
 
 
@@ -167,8 +209,19 @@
 - (void) viewDidLoad
 {
     DLog(@"viewDidLoad");
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     
+    buttonColor[0] = buttonColor0;
+    buttonColor[1] = buttonColor1;
+    buttonColor[2] = buttonColor2;
+    buttonColor[3] = buttonColor3;
+    buttonColor[4] = buttonColor4;
+    buttonColor[5] = buttonColor5;
+    buttonColor[6] = buttonColor6;
+    buttonColor[7] = buttonColor7;
+    buttonColor[8] = buttonColor8;
+    buttonColor[9] = buttonColor9;
+    buttonColor[10] = buttonColor10;
+    buttonColor[11] = buttonColor11;    
     
     [self setLocalizedMessage];
 
@@ -176,8 +229,15 @@
     [self setImageGuideline];
     [self setImageDuplicationWarning];
     [self setImageMarkingEqual];
-    [self setImageAutoMemo];
+    [self setInitSkinColor];
+    [self setImageSkinColor];
 	[self setImageLocale];
+    
+    
+    
+    
+    
+    
     
     [super viewDidLoad];
 }
@@ -257,14 +317,16 @@
     [mainViewController.mainView setNeedsDisplay];
 }
 
-- (IBAction)setShapeOfMap1
+- (IBAction)setChanageSkin
 {
-    mainViewController.mainView.bSettingAutoMemo = !mainViewController.mainView.bSettingAutoMemo;
-    [self setImageAutoMemo];
+    [mainViewController.mainView setNextSkinColor];
+    
+
+    [self setImageSkinColor];
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     
-    // 게임을 새로 시작할까????
+    
 }
 
 - (IBAction)setLocaleChange

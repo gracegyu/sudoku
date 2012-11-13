@@ -119,6 +119,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 
 
 @property (nonatomic, retain) SudokuGame* sudokuGame;
+@property NSInteger skin;
 @property NSInteger selectedXPos;
 @property NSInteger selectedYPos;
 @property NSInteger pushedButton;
@@ -155,6 +156,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 
 //@property UIInterfaceOrientation	lastOrientation;
 
+- (void)initColorData;
 - (void) runUndo;
 - (void) runRedo;
 - (void) runBookmark;
@@ -163,7 +165,10 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) clearNumbers;
 - (void) doHint;
 
+- (void) setNextSkinColor;
+- (NSInteger) getRGBA:(NSInteger)skinnum num:(NSUInteger) num;
 
+- (CGColorRef) getColor:(SKINCOLOR)num;
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
 

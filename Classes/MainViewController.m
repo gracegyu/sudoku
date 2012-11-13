@@ -342,6 +342,8 @@
 #define kSettingDefMap                  @"settingDefMap"
 #define kSettingAutoMemo                @"settingAutoMemo"
 #define kSettingSudokuType              @"settingSudokuType"
+#define kSettingSkin                    @"settingSkin"
+
 
 - (void) loadSetting
 {
@@ -361,6 +363,7 @@
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
     mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
+    mainView.skin = [defaults integerForKey:kSettingSkin];
 
 }
 
@@ -376,6 +379,7 @@
     [defaults setBool:mainView.bSettingMarkingEqual forKey:kSettingMarkingEqual];
     [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
     [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
+    [defaults setInteger:mainView.skin forKey:kSettingSkin];
 	
 	[defaults synchronize];
 }
@@ -482,6 +486,7 @@
        
        [self loadSetting];
        [self setLocalizedMessage];
+       [mainView initColorData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];

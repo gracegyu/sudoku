@@ -179,4 +179,4 @@ typedef struct SUDOKUSCORE
 #define DRAWONIMAGE_ICONSIZE    50
 
 #define NUM_RANK_BESTTIME	5
-
+#define MAX_SKIN_COUNT 12

@@ -19,8 +19,16 @@
 }
 
 
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)drawRect:(CGRect)rect
+{
+/*
+    CGContextRef context = UIGraphicsGetCurrentContext();
+	CGRect currentRect = CGRectMake (100, 100,100,100);
+    
+
+    CGContextSetFillColorWithColor(context, [UIColor whiteColor].CGColor);
+    CGContextFillRect(context, currentRect);
+*/
 }
 
 
