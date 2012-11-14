@@ -138,7 +138,7 @@
             //DLog(@"[%d][%d] %@", type, i, [kScoreRankLevel stringByAppendingFormat:@"%d", i+type*SUDOKUTYPE_MAX]);
             if (i < 5)
             {
-                DLog(@"scoreRankLevel[%d][%d]=%d", type, i, score.scoreRankLevel[type][i]);
+                //DLog(@"scoreRankLevel[%d][%d]=%d", type, i, score.scoreRankLevel[type][i]);
             }
         }
     }

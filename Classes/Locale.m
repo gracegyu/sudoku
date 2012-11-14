@@ -7,6 +7,7 @@
 //
 
 #import "Locale.h"
+#import "Constants.h"
 
 @implementation Locale
 
@@ -17,7 +18,7 @@ static NSBundle *bundle = nil;
 
 + (void) setLocale:(NSString *)strLocale
 {
-    NSLog(@"preferredLang: %@", strLocale);
+    DLog(@"preferredLang: %@", strLocale);
     
     NSString* strResource;
     

@@ -252,7 +252,7 @@
     if (indexUndo < 1)
         return NO;
 	
-	DLog(@"getUndo(count:%d, indexUndo:%d)", count, indexUndo);
+	//DLog(@"getUndo(count:%d, indexUndo:%d)", count, indexUndo);
 
     
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo-1];
@@ -566,7 +566,7 @@
 	if ([self countBookmarked] > 0)
 		[KillerMap getNumsPipe:zStrBookmark	size:[self countBookmarked]*sizeof(Bookmark)/sizeof(NSInteger) nums:(NSInteger*)&arrayBookmark[0]];
 	NSString* str = [NSString stringWithFormat:@"%s", zStrBookmark];
-	DLog(@"bookmark(%@)", str);
+	//DLog(@"bookmark(%@)", str);
 	[defaults setObject:str forKey:karrayBookmark];
 	
 	// undo array save
@@ -588,7 +588,7 @@
 		NSString *str = (NSString*)[defaults stringForKey:karrayBookmark];
 		if (str != nil)
 		{
-			DLog(@"bookmark(%@)", str);
+			//DLog(@"bookmark(%@)", str);
 			[KillerMap setNumsPipe:str size:MAXBOOKMARK*sizeof(Bookmark)/sizeof(NSInteger)	nums:(NSInteger*)&arrayBookmark[0]];
 			[self validateBookmark];
 		} else {
@@ -632,7 +632,7 @@
     
 		if (undoTemp)
 		{
-			DLog(@"  %d:M%d XY%d%d O%d N%d", i, undoTemp.mode, undoTemp.x, undoTemp.y, undoTemp.oldnum, undoTemp.num);
+			//DLog(@"  %d:M%d XY%d%d O%d N%d", i, undoTemp.mode, undoTemp.x, undoTemp.y, undoTemp.oldnum, undoTemp.num);
 		} else {
 			DAssert(undoTemp, @"[arrayUndo objectAtIndex:%d]==NULL;count=%d", i, count);
 		}

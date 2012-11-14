@@ -366,8 +366,8 @@
 					 zStrColor,
 					 zStrCage];
 	
-	DLog(@"saveData KillerMap(%@)", str);
-	[self printMap];
+	//DLog(@"saveData KillerMap(%@)", str);
+	//[self printMap];
 
 
 	
@@ -389,7 +389,7 @@
 		DLog(@"loadData Failed");
 		return nil;
 	}
-	DLog(@"initWithSaveData KillerMap(%@)", str);
+	//DLog(@"initWithSaveData KillerMap(%@)", str);
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 
@@ -398,7 +398,7 @@
 	[KillerMap setNumsPipeSize:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)&cage[0]];
 	
-	[self printMap];
+	//[self printMap];
 
 	return self;
 }

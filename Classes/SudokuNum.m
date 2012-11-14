@@ -1322,14 +1322,14 @@ SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuz
 			if (++i > sizePuzzle*sizePuzzle)
 			{
 				DLog(@"############### i = %d", i);
-				[sudokuNum printNums];
+				//[sudokuNum printNums];
 				
 				break;
 			}
 		}
 		
 		DLog(@"%d times loop", i);
-		[sudokuNum printNums];
+		//[sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
 	DLog(@"sudokuNumGenerate: %d tried", nTry);
