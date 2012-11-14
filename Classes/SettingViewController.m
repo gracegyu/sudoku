@@ -281,6 +281,10 @@
     {
         [mainViewController dismissModalViewControllerAnimated:YES];
     } else {
+        DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+        [mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+        [mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
+        
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
 }

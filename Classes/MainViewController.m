@@ -518,6 +518,28 @@
 }
 
 
+- (void) viewDidDisappear:(BOOL)animated
+{
+    DLog(@"MainViewController:viewDidDisappear");
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%d)", nAddThisWait);
+    if (nAddThisWait > 0)
+    {
+        nAddThisWait++;
+        return;
+    } else {
+        if (mainView.bMenuMode)
+        {
+            [self hideMenuView:NO];
+        }
+    }
+}
+
+
+
 -(void)Swipe4ScrollViews:(UIPanGestureRecognizer *)sender
 {
    
@@ -573,6 +595,7 @@
 #endif
      bAd = NO;
      bReplay = NO;
+     nAddThisWait = 0;
 	 
      
      //configure addthis -- (this step is optional)
@@ -592,11 +615,37 @@
      
 
 }
+/*
+- (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation
+{
+    if (UIInterfaceOrientationIsLandscape(orientation))
+    {
+        // Do some stuff
+    } else {
+        // Do some other stuff
+    }
+}
 
+-(void) willAnimateRotationToInterfaceOrientation: (UIInterfaceOrientation) interfaceOrientation duration: (NSTimeInterval) duration
+{
+    DLog(@"willAnimateRotationToInterfaceOrientation:%d", interfaceOrientation);
+    //[self updateLayoutForNewOrientation: interfaceOrientation];
+}
+*/
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+    DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
-#ifdef ADMOB_FREEVERSION    
+    DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
+    
+    
+    // above ios5
+    //[[UIDevice currentDevice] setOrientation:UIInterfaceOrientationPortrait];
+        
+    //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+  
+#ifdef ADMOB_FREEVERSION
     bannerView_.frame = areaAdBanner.frame;
 #endif
 }
@@ -909,25 +958,30 @@
 
 - (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
 {
-    [self callAddThisShareImage];
+    if (nAddThisWait >= 3)  
+    {
+        [self callAddThisShareImage];
+    }
+    nAddThisWait = 0;
 }
 
 - (IBAction)sharePuzzleFacebook
 {
     [self callAddThisShareImage];
-/*
+
     static BOOL isFirst = YES;
+    nAddThisWait = 0;
     
     if (isFirst)
     {
         isFirst = NO;
-        [NSTimer scheduledTimerWithTimeInterval:3
+        nAddThisWait = 1;
+        [NSTimer scheduledTimerWithTimeInterval:2       // 2초안에 저절로 닫히면 재실행한다.
                                          target:self
                                        selector:@selector(OnTimerSharePuzzleFacebook:)
                                        userInfo:nil
                                         repeats:NO];
     }
-*/
 }
 
 

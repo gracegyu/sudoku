@@ -113,6 +113,9 @@
     BOOL        bAd;
     BOOL        bReplay;
     UISegmentedControl *segmentType;
+    
+    
+    NSInteger        nAddThisWait;
 }
 
 
