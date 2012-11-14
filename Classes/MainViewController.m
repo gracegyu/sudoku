@@ -486,7 +486,8 @@
        
        [self loadSetting];
        [self setLocalizedMessage];
-       //[mainView initSkinColorData];
+       [mainView initSkinColorData];
+       [mainView initRainbowColorData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
