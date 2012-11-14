@@ -193,7 +193,7 @@
         for (int i=0; i<10; i++)
         {
             score.scoreTotal += score.scoreGames[mainView.nSettingSudokuType][i];    // 게임 시작하면 무조건 1점씩 추가 됨
-            if (score.scoreClears[i] > 0)
+            if (score.scoreClears[mainView.nSettingSudokuType][i] > 0)
                 score.scoreTotal += score.scoreClears[mainView.nSettingSudokuType][i] *
                 [self getGameResultScore:i sec:score.scoreClearTimeSum[mainView.nSettingSudokuType][i]/score.scoreClears[mainView.nSettingSudokuType][i]];
         }
