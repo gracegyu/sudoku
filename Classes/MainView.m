@@ -207,9 +207,20 @@ static NSUInteger RainbowColorTemplate[7] = {
     if (SkinColorTemplate[skin][0] == 0)
         skin = 0;
     
+    // 메모리 해제
+    [self initSkinColorDataAgain];
+}
+
+- (void) setSkinColorNum:(NSInteger)num
+{
+    if (num >= MAX_SKIN_COUNT)
+        num = 0;
+    
+    skin = num;
+        
     
     // 메모리 해제
-    [self initColorData];
+    [self initSkinColorDataAgain];
     
 }
 
@@ -232,24 +243,36 @@ static NSUInteger RainbowColorTemplate[7] = {
 	return color.CGColor;
 }
 
+- (void)initSkinColorDataAgain
+{
+    
+	for (int i=0; i<COUNT_SKINCOLOR; i++)
+	{
+        [skincolor[i] release];
+		skincolor[i] = [self getUIColorFromRGBA:i];
+	}	
+	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
+}
 
-- (void)initColorData
+- (void)initSkinColorData
 {
 
 	for (int i=0; i<COUNT_SKINCOLOR; i++)
 	{
 		skincolor[i] = [self getUIColorFromRGBA:i];
 	}	
-
-	for (int i=0; i<7; i++)
-	{
-		rainbowcolor[i] = [self getRainbowColorFromRGBA:i];
-	}
 	
 	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
 	
 }
 
+- (void)initRainbowColorData
+{
+    for (int i=0; i<7; i++)
+	{
+		rainbowcolor[i] = [self getRainbowColorFromRGBA:i];
+	}
+}
 
 - (void)initData
 {
@@ -259,7 +282,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 	bBlur = NO;
     bDrawOnImage = NO;
 	
-	[self initColorData];
+	[self initSkinColorData];
+	[self initRainbowColorData];
 	
 	self.selectedXPos = 0;
 	self.selectedYPos = 0;

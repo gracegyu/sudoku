@@ -486,7 +486,7 @@
        
        [self loadSetting];
        [self setLocalizedMessage];
-       [mainView initColorData];
+       //[mainView initSkinColorData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -907,12 +907,32 @@
     [self startGameTimer];
 }
 
+- (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
+{
+    [self callAddThisShareImage];
+}
+
 - (IBAction)sharePuzzleFacebook
 {
-    //if (mainView.sudokuGame.isGameFinished == NO)
-        //return;
-
+    [self callAddThisShareImage];
+/*
+    static BOOL isFirst = YES;
     
+    if (isFirst)
+    {
+        isFirst = NO;
+        [NSTimer scheduledTimerWithTimeInterval:3
+                                         target:self
+                                       selector:@selector(OnTimerSharePuzzleFacebook:)
+                                       userInfo:nil
+                                        repeats:NO];
+    }
+*/
+}
+
+
+- (void) callAddThisShareImage
+{
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
     NSString *strDesc;
@@ -945,12 +965,11 @@
     
     
 	[AddThisSDK shareImage:retImage
-			 withService:@"facebook"
-				   title:strTitle
-			 description:strDesc];
+               withService:@"facebook"
+                     title:strTitle
+               description:strDesc];
+
 }
-
-
 
 - (IBAction)shareRecordFacebook
 {

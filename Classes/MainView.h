@@ -156,7 +156,8 @@ typedef enum SKINCOLOR SKINCOLOR;
 
 //@property UIInterfaceOrientation	lastOrientation;
 
-- (void)initColorData;
+- (void)initSkinColorData;
+- (void)initRainbowColorData;
 - (void) runUndo;
 - (void) runRedo;
 - (void) runBookmark;
@@ -166,6 +167,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) doHint;
 
 - (void) setNextSkinColor;
+- (void) setSkinColorNum:(NSInteger)num;
 - (NSInteger) getRGBA:(NSInteger)skinnum num:(NSUInteger) num;
 
 - (CGColorRef) getColor:(SKINCOLOR)num;

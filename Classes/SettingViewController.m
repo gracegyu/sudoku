@@ -176,11 +176,12 @@
 {
     for (int i=0; i<MAX_SKIN_COUNT; i++)
     {
-        if (mainViewController.mainView.skin == i)
+        if (skin == i)
             [buttonColor[i].layer setBorderWidth: isIpad ? 4.0f : 3.0f];
         else
             [buttonColor[i].layer setBorderWidth: 0.0f];
     }
+ 
 }
 
 
@@ -209,6 +210,8 @@
 - (void) viewDidLoad
 {
     DLog(@"viewDidLoad");
+    
+    skin = mainViewController.mainView.skin;
     
     buttonColor[0] = buttonColor0;
     buttonColor[1] = buttonColor1;
@@ -270,6 +273,10 @@
 
 - (IBAction)done
 {
+    
+    [mainViewController.mainView setSkinColorNum:skin];
+    [mainViewController saveSetting];
+    
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
         [mainViewController dismissModalViewControllerAnimated:YES];
@@ -319,15 +326,38 @@
 
 - (IBAction)setChanageSkin
 {
-    [mainViewController.mainView setNextSkinColor];
+    skin += 1;
+    
+    if (skin >= MAX_SKIN_COUNT)
+        skin = 0;
+    
+//    [mainViewController.mainView setNextSkinColor];
     
 
     [self setImageSkinColor];
     [mainViewController.mainView playSoundClick];
-    [mainViewController saveSetting];
-    
-    
+    //[mainViewController saveSetting];
 }
+
+- (IBAction)dragChanageSkin:(id)sender
+{
+    DLog(@"dragChanageSkin:%p", sender);
+    
+    int i;
+    for (i=0; i<MAX_SKIN_COUNT; i++)
+    {
+        if (sender == buttonColor[i])
+            break;
+    }
+    if (i < MAX_SKIN_COUNT)
+    {
+        skin = i;
+        [self setImageSkinColor];
+        [mainViewController.mainView playSoundClick];
+        
+    }
+}
+
 
 - (IBAction)setLocaleChange
 {
@@ -345,7 +375,7 @@
     else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
         [Locale setLocale:@"en"];
     else
-        return;
+        [Locale setLocale:@"en"];
     
     [self setLocalizedMessage];
     [mainViewController setLocalizedMessage];

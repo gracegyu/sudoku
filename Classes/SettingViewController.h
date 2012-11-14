@@ -63,6 +63,7 @@
     UIButton *buttonColor[MAX_SKIN_COUNT];
     
     
+    NSInteger skin;
 }
 
 
@@ -120,6 +121,7 @@
 - (IBAction)setDuplicationWarning;
 - (IBAction)setMarkingEqual;
 - (IBAction)setChanageSkin;
+- (IBAction)dragChanageSkin:(id)sender;
 - (IBAction)setLocaleChange;
 
 
