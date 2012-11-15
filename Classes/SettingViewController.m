@@ -326,7 +326,7 @@
 
 - (IBAction)setChanageSkin
 {
-/*    skin += 1;
+    skin += 1;
     
     if (skin >= MAX_SKIN_COUNT)
         skin = 0;
@@ -337,14 +337,14 @@
     [self setImageSkinColor];
     //[mainViewController.mainView playSoundClick];
     //[mainViewController saveSetting];
- */
+ 
  
 }
 
 - (IBAction)dragChanageSkin:(id)sender
 {
 //    DLog(@"dragChanageSkin:%@", sender);   죽는다.
-/*
+
     int i;
     for (i=0; i<MAX_SKIN_COUNT; i++)
     {
@@ -358,7 +358,7 @@
         //[mainViewController.mainView playSoundClick];
         
     }
- */
+ 
 }
 
 
