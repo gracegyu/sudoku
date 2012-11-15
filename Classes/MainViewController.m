@@ -949,7 +949,7 @@
 
     [self updateButtons];
 
-    [mainView playSoundClick];
+    //[mainView playSoundClick];
     [mainView.sudokuGame saveData];
     
     [mainView setNeedsDisplay];
@@ -1398,7 +1398,7 @@
 {
     bReplay = NO;   // 혹시 replay 중이면 멈춘다.
     
-	[mainView playSoundClick];
+	//[mainView playSoundClick];
 	
 	if (mainView.bMenuMode)
 	{

@@ -302,7 +302,7 @@
 {
     mainViewController.mainView.bSettingGuideline = !mainViewController.mainView.bSettingGuideline;
     [self setImageGuideline];
-    [mainViewController.mainView playSoundClick];
+    //[mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     
     [mainViewController.mainView setNeedsDisplay];
@@ -312,7 +312,7 @@
 {    
     mainViewController.mainView.bSettingDuplicationWarning = !mainViewController.mainView.bSettingDuplicationWarning;
     [self setImageDuplicationWarning];
-    [mainViewController.mainView playSoundClick];
+    //[mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     
     [mainViewController.mainView setNeedsDisplay];
@@ -322,7 +322,7 @@
 {
     mainViewController.mainView.bSettingMarkingEqual = !mainViewController.mainView.bSettingMarkingEqual;
     [self setImageMarkingEqual];
-    [mainViewController.mainView playSoundClick];
+    //[mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
 
     [mainViewController.mainView setNeedsDisplay];
@@ -339,7 +339,7 @@
     
 
     [self setImageSkinColor];
-    [mainViewController.mainView playSoundClick];
+    //[mainViewController.mainView playSoundClick];
     //[mainViewController saveSetting];
 }
 
@@ -357,7 +357,7 @@
     {
         skin = i;
         [self setImageSkinColor];
-        [mainViewController.mainView playSoundClick];
+        //[mainViewController.mainView playSoundClick];
         
     }
 }
