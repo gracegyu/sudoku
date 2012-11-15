@@ -180,3 +180,10 @@ typedef struct SUDOKUSCORE
 
 #define NUM_RANK_BESTTIME	5
 #define MAX_SKIN_COUNT 12
+
+
+#ifdef ADMOB_FREEVERSION
+#define SUPPORT_ROTATION    ((cDeviceType == DEVICETYPE_IPHONE)?NO:YES)
+#else
+#define SUPPORT_ROTATION    YES
+#endif

@@ -574,8 +574,8 @@
 	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
-	 [self hideAwaryView:viewMenu];
-	 [self hideAwaryView:viewNewGame];
+	 [self hideAwayView:viewMenu];
+	 [self hideAwayView:viewNewGame];
 
 
 
@@ -1107,16 +1107,9 @@
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
 										 cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
 										 @"HelpView" bundle:nil];
-    controller.mainViewController = self;
-//	controller.title = gettext(@"Help", nil);
-	
-	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
+    controller.mainViewController = self;	
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self presentModalViewController:controller animated:YES];
-    // UIModalTransitionStyleCrossDissolve for newgame
-	
-	
-//	controller.title = gettext(@"Help", nil);
-    
 	
 	[controller release];
 	
@@ -1226,7 +1219,7 @@
 	}
 }
 
-- (void) hideAwaryView:(UIView*) v
+- (void) hideAwayView:(UIView*) v
 {
 	CGRect frameOld = v.frame;
     frameOld.origin.x = 0 - v.frame.size.width*3;
@@ -1280,7 +1273,7 @@
 	if ((viewMenu.frame.origin.x + viewMenu.frame.size.width) <= 0)
 	{
 		[timer invalidate];
-		[self hideAwaryView:viewMenu];
+		[self hideAwayView:viewMenu];
 	}
 }
 
@@ -1347,7 +1340,7 @@
 	if ((viewNewGame.frame.origin.x + viewNewGame.frame.size.width) <= 0)
 	{
 		[timer invalidate];
-		[self hideAwaryView:viewNewGame];
+		[self hideAwayView:viewNewGame];
 	}
 }
 

@@ -10,7 +10,7 @@
 //@protocol SettingViewControllerDelegate;
 #import "MainViewController.h"
 
-@interface SettingViewController : UIViewController {
+@interface SettingViewController : TPMultiLayoutViewController {
     MainViewController *mainViewController;
 	
 //    UINavigationBar     *naviBar;

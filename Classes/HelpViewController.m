@@ -32,12 +32,6 @@
 
 
 
-
-
-- (void) viewWillAppear:(BOOL)animated {
-	self.navigationController.title = gettext(@"Help", nil);
-}
-
 - (void) setLocalizedMessage
 {
 	NSString* str;
@@ -74,14 +68,14 @@
         str = [str stringByAppendingString:@"\n"];
         str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
     }
-	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
+	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
 	
 	labelRuleDesc.text = str;
 	
 	
     labelTipTitle.text = gettext(@"tiptitle", nil);
 	str = [NSString stringWithString:gettext(@"tipdesc", nil)];
-	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
+	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
     labelTipDesc.text = str;
     
     
@@ -93,15 +87,14 @@
 {
     MainViewController *ctrl = (MainViewController*)mainViewController;
 	segmentType.selectedSegmentIndex = sudokuType = ctrl.mainView.nSettingSudokuType;
-
-    
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
-
-    
     [self setLocalizedMessage];
+    [super viewDidLoad];
 
     
-    [super viewDidLoad];
+    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
+
 }
 
 
@@ -137,8 +130,8 @@
         [mainViewController dismissModalViewControllerAnimated:YES];
     } else {
         DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
-        [mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
-        [mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
+        //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+        //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
@@ -156,50 +149,29 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-    return NO;
-    /*#ifdef ADMOB_FREEVERSION
-     if (cDeviceType == DEVICETYPE_IPHONE)
-     return NO;
-     #endif
-     return YES;
-     */
+    return SUPPORT_ROTATION;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
-    /*
-     #ifdef ADMOB_FREEVERSION
-     if (cDeviceType == DEVICETYPE_IPHONE)
-     return UIInterfaceOrientationMaskPortrait;
-     #endif
-     return UIInterfaceOrientationMaskAll;
-     */
+    return SUPPORT_ROTATION?UIInterfaceOrientationMaskAll:UIInterfaceOrientationMaskPortrait;
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    /*
-     #ifdef ADMOB_FREEVERSION
-     if (cDeviceType == DEVICETYPE_IPHONE)
-     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-     else
-     return YES;
-     #else
-     return YES;
-     #endif
-     */
+    return SUPPORT_ROTATION?YES:(interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [mainViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 

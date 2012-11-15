@@ -11,8 +11,9 @@
 
 #import <GameKit/GameKit.h>
 #import "Constants.h"
+#import "TPMultiLayoutViewController.h"
 
-@interface ScoreViewController : UIViewController
+@interface ScoreViewController : TPMultiLayoutViewController
 <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>
 {
     UIViewController *mainViewController;
