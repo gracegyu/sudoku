@@ -23,13 +23,13 @@
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize labelSoundEffect;
-@synthesize labelGuildeline;
+@synthesize labelGuideline;
 @synthesize labelDuplicationWarning;
 @synthesize labelMarkingEqual;
 @synthesize labelSkinColor;
 @synthesize labelLocale;
 @synthesize labelDescSoundEffect;
-@synthesize labelDescGuildeline;
+@synthesize labelDescGuideline;
 @synthesize labelDescDuplicationWarning;
 @synthesize labelDescMarkingEqual;
 @synthesize labelDescSkinColor;
@@ -80,7 +80,7 @@
     
     lableTitle.text = gettext(@"Setting", nil);
 	labelSoundEffect.text = gettext(@"sound effect", nil);
-    labelGuildeline.text = gettext(@"guideline", nil);
+    labelGuideline.text = gettext(@"guideline", nil);
     labelDuplicationWarning.text = gettext(@"duplication warning", nil);
     labelMarkingEqual.text = gettext(@"marking equal", nil);
     labelSkinColor.text = gettext(@"skin color", nil);
@@ -89,7 +89,7 @@
     str = gettext(@"desc sound effect", nil);
 	labelDescSoundEffect.text = [str stringByAppendingString:@"\n\n\n"];
     str = gettext(@"desc guideline", nil);
-	labelDescGuildeline.text = [str stringByAppendingString:@"\n\n\n"];
+	labelDescGuideline.text = [str stringByAppendingString:@"\n\n\n"];
 	str = gettext(@"desc duplication warning", nil);
     labelDescDuplicationWarning.text = [str stringByAppendingString:@"\n\n\n"];
 	str = gettext(@"desc marking equal", nil);
@@ -236,9 +236,9 @@
 	[self setImageLocale];
     
     [super viewDidLoad];
-    //[super willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
-    [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+    // above ios5 && Paid
+    if (SUPPORT_ROTATION)
+        [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 }
 
 
@@ -428,6 +428,7 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
+    //return NO;
     return SUPPORT_ROTATION;
 }
 

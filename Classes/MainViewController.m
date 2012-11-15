@@ -536,6 +536,13 @@
         {
             [self hideMenuView:NO];
         }
+        // Share puzzle용
+        //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+        if (SUPPORT_ROTATION)
+            self.view.frame = [[UIScreen mainScreen] applicationFrame];
+
+        //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+
     }
 }
 
@@ -639,13 +646,16 @@
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
     DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
     
     
-    // above ios5
+    //self.view.frame = [[UIScreen mainScreen] applicationFrame];
+    // above ios5 && Paid
     //[[UIDevice currentDevice] setOrientation:UIInterfaceOrientationPortrait];
-        
-    //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
-  
+    if (SUPPORT_ROTATION)
+        [self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+    //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
     bannerView_.frame = areaAdBanner.frame;
 #endif
@@ -1118,7 +1128,7 @@
 
 - (IBAction)showFeedbackView
 {
-	[self hideMenuView:NO];
+	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
     [self presentModalViewController:controller animated:YES];
