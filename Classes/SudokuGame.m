@@ -1934,6 +1934,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	BOOL bAutoCheck = NO;
     CGPoint pointLastUndoPos;
     
+    DLog(@"runRedo (%d/%d)", [sudokuUndo getIndex], sudokuUndo.count);
+    
     UndoData *undoData = [[UndoData alloc] init];
     
     if ([sudokuUndo getRedo:undoData] == NO)
