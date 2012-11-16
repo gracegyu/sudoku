@@ -536,6 +536,13 @@
         {
             [self hideMenuView:NO];
         }
+        // Share puzzle용
+        //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+        if (SUPPORT_ROTATION)
+            self.view.frame = [[UIScreen mainScreen] applicationFrame];
+
+        //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+
     }
 }
 
@@ -574,8 +581,8 @@
 	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
-	 [self hideAwaryView:viewMenu];
-	 [self hideAwaryView:viewNewGame];
+	 [self hideAwayView:viewMenu];
+	 [self hideAwayView:viewNewGame];
 
 
 
@@ -639,15 +646,20 @@
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
     DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
     
     
-    // above ios5
+    //self.view.frame = [[UIScreen mainScreen] applicationFrame];
+    // above ios5 && Paid
     //[[UIDevice currentDevice] setOrientation:UIInterfaceOrientationPortrait];
-        
-    //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
-  
+    if (SUPPORT_ROTATION)
+        [self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+    //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
+    DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
     bannerView_.frame = areaAdBanner.frame;
+    bannerView_.hidden = NO;
 #endif
 }
 
@@ -1107,16 +1119,9 @@
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
 										 cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
 										 @"HelpView" bundle:nil];
-    controller.mainViewController = self;
-//	controller.title = gettext(@"Help", nil);
-	
-	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
+    controller.mainViewController = self;	
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self presentModalViewController:controller animated:YES];
-    // UIModalTransitionStyleCrossDissolve for newgame
-	
-	
-//	controller.title = gettext(@"Help", nil);
-    
 	
 	[controller release];
 	
@@ -1125,7 +1130,7 @@
 
 - (IBAction)showFeedbackView
 {
-	[self hideMenuView:NO];
+	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
     [self presentModalViewController:controller animated:YES];
@@ -1226,7 +1231,7 @@
 	}
 }
 
-- (void) hideAwaryView:(UIView*) v
+- (void) hideAwayView:(UIView*) v
 {
 	CGRect frameOld = v.frame;
     frameOld.origin.x = 0 - v.frame.size.width*3;
@@ -1280,7 +1285,7 @@
 	if ((viewMenu.frame.origin.x + viewMenu.frame.size.width) <= 0)
 	{
 		[timer invalidate];
-		[self hideAwaryView:viewMenu];
+		[self hideAwayView:viewMenu];
 	}
 }
 
@@ -1347,7 +1352,7 @@
 	if ((viewNewGame.frame.origin.x + viewNewGame.frame.size.width) <= 0)
 	{
 		[timer invalidate];
-		[self hideAwaryView:viewNewGame];
+		[self hideAwayView:viewNewGame];
 	}
 }
 

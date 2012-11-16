@@ -205,7 +205,7 @@ bool readPuzzleFromStdIn(int* puzzle)
     self = [super init];
     if (self) {
 		puzzle = malloc(sizeof(int)*BOARD_SIZE);
-		DLog(@"init(puzzle = %p)", puzzle);
+		//DLog(@"init(puzzle = %p)", puzzle);
 		solution = malloc(sizeof(int)*BOARD_SIZE);
 		solutionRound = malloc(sizeof(int)*BOARD_SIZE);
 		possibilities = malloc(sizeof(int)*POSSIBILITY_SIZE);

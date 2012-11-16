@@ -146,6 +146,11 @@
     [self displayScore];
 	
     [super viewDidLoad];
+    
+    // above ios5 && Paid
+    if (SUPPORT_ROTATION)
+        [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
 }
 
 
@@ -156,8 +161,8 @@
         [mainViewController dismissModalViewControllerAnimated:YES];
     } else {
         DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
-        [mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
-        [mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
+        //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
+        //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
         
         
@@ -462,53 +467,33 @@
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-
-    return NO;
-/*#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return NO;
-#endif
-    return YES;
-*/    
+    return SUPPORT_ROTATION;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-
-     return UIInterfaceOrientationMaskPortrait;
-    /*
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return UIInterfaceOrientationMaskPortrait;
-#endif
-    return UIInterfaceOrientationMaskAll;
-     */
+    return SUPPORT_ROTATION?UIInterfaceOrientationMaskAll:UIInterfaceOrientationMaskPortrait;
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-/*
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType == DEVICETYPE_IPHONE)
-        return (interfaceOrientation == UIInterfaceOrientationPortrait);
-    else
-        return YES;	
-#else	
-	return YES;
-#endif
- */
+    return SUPPORT_ROTATION?YES:(interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
     [mainViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
+    //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
 
 @end
+
+
+

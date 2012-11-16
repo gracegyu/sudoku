@@ -53,10 +53,8 @@
 	
 	
     mainViewController.mainView.frame = [UIScreen mainScreen].applicationFrame;
-//    mainViewController.view.frame = [UIScreen mainScreen].applicationFrame;
 	DLog(@"mainViewController.view.frame size = %f,%f", mainViewController.mainView.frame.size.width, mainViewController.mainView.frame.size.height);
 	[window addSubview:[mainViewController mainView]];
-//	[window addSubview:[mainViewController view]];
 	DLog(@"window.screen = %@", window.screen);
 	DLog(@"window.frame = %f,%f", window.frame.size.width, window.frame.size.height);
 

@@ -6,6 +6,7 @@
 //
 
 #import "TPMultiLayoutViewController.h"
+#import "Constants.h"
 
 #define VERBOSE_MATCH_FAIL 1 // Comment this out to be less verbose when associated views can't be found
 
@@ -55,7 +56,9 @@
     [super dealloc];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+-(void)viewWillAppear:(BOOL)animated
+{
+    DLog(@"TPMultiLayoutViewController:viewWillAppear");
     // Display correct layout for orientation
     if ( (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && !viewIsCurrentlyPortrait) ||
          (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) && viewIsCurrentlyPortrait) ) {
@@ -65,13 +68,17 @@
 
 #pragma mark - Rotation
 
-- (void)applyLayoutForInterfaceOrientation:(UIInterfaceOrientation)newOrientation {
+- (void)applyLayoutForInterfaceOrientation:(UIInterfaceOrientation)newOrientation
+{
+    DLog(@"TPMultiLayoutViewController:applyLayoutForInterfaceOrientation");
     NSDictionary *table = UIInterfaceOrientationIsPortrait(newOrientation) ? portraitAttributes : landscapeAttributes;
     [self applyAttributeTable:table toViewHierarchy:self.view];
     viewIsCurrentlyPortrait = UIInterfaceOrientationIsPortrait(newOrientation);
 }
 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    DLog(@"TPMultiLayoutViewController:willRotateToInterfaceOrientation");
     if ( (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && !viewIsCurrentlyPortrait) ||
          (UIInterfaceOrientationIsLandscape(toInterfaceOrientation) && viewIsCurrentlyPortrait) ) {
         [self applyLayoutForInterfaceOrientation:toInterfaceOrientation];
@@ -86,7 +93,9 @@
     return table;
 }
 
-- (void)addAttributesForSubviewHierarchy:(UIView*)view associatedWithSubviewHierarchy:(UIView*)associatedView toTable:(NSMutableDictionary*)table {
+- (void)addAttributesForSubviewHierarchy:(UIView*)view associatedWithSubviewHierarchy:(UIView*)associatedView toTable:(NSMutableDictionary*)table
+{
+    //DLog(@"addAttributesForSubviewHierarchy:%p", [NSValue valueWithPointer:associatedView]);
     [table setObject:[self attributesForView:view] forKey:[NSValue valueWithPointer:associatedView]];
     
     if ( ![self shouldDescendIntoSubviewsOfView:view] ) return;
@@ -209,6 +218,7 @@
     [attributes setObject:[NSNumber numberWithBool:view.hidden] forKey:@"hidden"];
     [attributes setObject:[NSNumber numberWithInteger:view.autoresizingMask] forKey:@"autoresizingMask"];
     
+    //DLog(@"attributesForView:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     return attributes;
 }
 

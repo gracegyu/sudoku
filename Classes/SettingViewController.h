@@ -10,7 +10,7 @@
 //@protocol SettingViewControllerDelegate;
 #import "MainViewController.h"
 
-@interface SettingViewController : UIViewController {
+@interface SettingViewController : TPMultiLayoutViewController {
     MainViewController *mainViewController;
 	
 //    UINavigationBar     *naviBar;
@@ -19,13 +19,13 @@
 	UILabel *lableTitle;
     
     UILabel	*labelSoundEffect;
-    UILabel	*labelGuildeline;
+    UILabel	*labelGuideline;
     UILabel	*labelDuplicationWarning;
     UILabel	*labelMarkingEqual;
     UILabel	*labelSkinColor;
     UILabel	*labelLocale;
     UILabel	*labelDescSoundEffect;
-    UILabel	*labelDescGuildeline;
+    UILabel	*labelDescGuideline;
     UILabel	*labelDescDuplicationWarning;
     UILabel	*labelDescMarkingEqual;
     UILabel	*labelDescSkinColor;
@@ -74,14 +74,14 @@
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelSoundEffect;
-@property (nonatomic, retain) IBOutlet UILabel	*labelGuildeline;
+@property (nonatomic, retain) IBOutlet UILabel	*labelGuideline;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDuplicationWarning;
 @property (nonatomic, retain) IBOutlet UILabel	*labelMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelSkinColor;
 @property (nonatomic, retain) IBOutlet UILabel	*labelLocale;
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescSoundEffect;
-@property (nonatomic, retain) IBOutlet UILabel	*labelDescGuildeline;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescGuideline;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescDuplicationWarning;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescSkinColor;

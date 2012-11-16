@@ -10,7 +10,7 @@
 //@protocol HelpViewControllerDelegate;
 #import "MainViewController.h"
 
-@interface HelpViewController : UIViewController {
+@interface HelpViewController : TPMultiLayoutViewController {
     MainViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
