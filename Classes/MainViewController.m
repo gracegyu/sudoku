@@ -657,7 +657,9 @@
         [self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
     //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
+    DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
     bannerView_.frame = areaAdBanner.frame;
+    bannerView_.hidden = NO;
 #endif
 }
 
