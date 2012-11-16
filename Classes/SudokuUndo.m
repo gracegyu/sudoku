@@ -287,7 +287,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
-		DLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.x, undo.mode, undo.oldnum, undo.num);
+		DLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.y, undo.mode, undo.oldnum, undo.num);
     }
     indexUndo++;
     

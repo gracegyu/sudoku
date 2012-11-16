@@ -167,8 +167,11 @@ typedef struct SUDOKUSCORE
 #define DAssert(condition, desc, ...)
 #endif
 
-
+#ifdef SUDOKU9
+#define REPLAY_FRAME_INTERVAL   0.05f
+#else
 #define REPLAY_FRAME_INTERVAL   0.2f
+#endif
 
 #define DRAWONIMAGE_W           1000
 #define DRAWONIMAGE_H           1000

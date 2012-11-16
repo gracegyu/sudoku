@@ -1447,7 +1447,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 			}
 			else if (data.mode == UNDOMODE_AUTOMEMO_ADD)
 			{
-				[self delMemoNums:data.num x:data.x y:data.y];
+				[self delMemoNums:data.num x:data.x y:data.y bUndo:NO];
 				[sudokuUndo delAutoMemo:data.num x:data.x y:data.y];
 			}
 		}
@@ -1621,7 +1621,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 }
 
 
-- (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
+- (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y bUndo:(BOOL)bUndo
 {
     if ([self isPuzzleNum:x y:y])               // 문제칸은 Memo를 지울 수 없다.
         return;
@@ -1635,10 +1635,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[SudokuNum deleteNumFromStr:memoNums[x][y] num:num];
 	//DLog(@"	=> %s", memoNums[x][y]);
 	
-	[self updateAutoMemoOnlyUnique];	// 메모를 삭제할 때만 자동으로 삭제할 메모가 생긴다.
-
-
-	//[self saveData];
+    if (bUndo == NO)
+        [self updateAutoMemoOnlyUnique];	// 메모를 삭제할 때만 자동으로 삭제할 메모가 생긴다.
 }
 
 
@@ -1652,7 +1650,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	char c = num + '0';
 	
 	if (strchr(s, c)) {
-		[self delMemoNums:num x:x y:y];
+		[self delMemoNums:num x:x y:y bUndo:NO];
         [sudokuUndo delMemo:num x:x y:y];;
 	} else {
 		[self addMemoNums:num x:x y:y];
@@ -1899,13 +1897,13 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 					fixNums[undoData.x][undoData.y] = undoData.oldnum;
 					break;
 				case UNDOMODE_MEMO_ADD:
-					[self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+					[self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
 					break;
 				case UNDOMODE_MEMO_DEL:
 					[self addMemoNums:undoData.num x:undoData.x y:undoData.y];
 					break;
 				case UNDOMODE_AUTOMEMO_ADD:
-					[self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+					[self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
 					bAuto = YES;
 					break;
 				case UNDOMODE_AUTOMEMO_DEL:
@@ -1961,7 +1959,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                 [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
                 break;
             case UNDOMODE_MEMO_DEL:
-                [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+                [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
                 break;
             case UNDOMODE_AUTOMEMO_ADD:
 				[sudokuUndo printData];
@@ -1972,7 +1970,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
             case UNDOMODE_AUTOMEMO_DEL:
 				[sudokuUndo printData];
 				//DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
-                [self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+                [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
 				bAutoCheck = YES; // ???
                 break;
             default:
@@ -1997,7 +1995,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 						//pointLastUndoPos.y = (CGFloat)undoData.y;
 						break;
 					case UNDOMODE_AUTOMEMO_DEL:
-						[self delMemoNums:undoData.num x:undoData.x y:undoData.y];
+						[self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
 						//pointLastUndoPos.x = (CGFloat)undoData.x;
 						//pointLastUndoPos.y = (CGFloat)undoData.y;
 						break;

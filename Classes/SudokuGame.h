@@ -84,7 +84,7 @@
 - (BOOL) beMemoNums:(NSInteger)num  x:(NSInteger)x y:(NSInteger)y;
 - (void) addMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (BOOL) setMemoNumsForAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
-- (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) delMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y bUndo:(BOOL)bUndo;
 - (void) delMemoNumsForAutoMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) revertMemoNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
 - (void) clearMemoNums:(NSInteger)x y:(NSInteger)y;
