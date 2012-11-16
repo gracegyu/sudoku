@@ -2320,10 +2320,17 @@ static NSUInteger RainbowColorTemplate[7] = {
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *str;
     
+    if (sudokuGame.sudokuType != SUDOKUTYPE_SUDOKU)
+    {
+        appName = [appName stringByAppendingFormat:@"(%@)", [SudokuGame getSudokuTypeName:sudokuGame.sudokuType]];
+    }
+    
     if (sudokuGame.isGameFinished)
+    {
         str = [NSString stringWithFormat:gettext(@"%@: My record is %@", nil), appName, strTime];
-    else
+    } else {
         str = appName;
+    }
     
     rect = CGRectMake(DRAWONIMAGE_TABLE_X*2+DRAWONIMAGE_ICONSIZE,
                       DRAWONIMAGE_TABLE_Y*2+DRAWONIMAGE_TABLE_H,
@@ -2334,7 +2341,7 @@ static NSUInteger RainbowColorTemplate[7] = {
                   str:str
                  rect:rect
                 color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
-                 font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
+                 font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.7f]
 				align:UITextAlignmentLeft];
 
     if (sudokuGame.isGameFinished)
