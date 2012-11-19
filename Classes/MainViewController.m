@@ -254,7 +254,7 @@
 	[self saveScoreData];
     
 
-    [self sendDataToGameCenter];
+    [self sendDataToGameCenter:sudokuGame];
 
 	[self updateButtons];
 }
@@ -265,19 +265,25 @@
     [self getRankingFromGameCenter];
 }
 
-- (void) sendDataToGameCenter
+- (void) sendDataToGameCenter:(SudokuGame*)sudokuGame
 {
     DLog(@"sendDataToGameCenter");
     [GameCenterUtil sendScoreToGameCenter:score.scoreTotal];                    // 총점 보내기
     [GameCenterUtil sendAchievementClearGame:[self getScoreTotalClears]];       // achievement 보내기
-    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    
+    // 이렇게 하면 사람들이 어떤 게임을 많이 즐기는지 알 수 없다.
+    /*for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
         for (int level=0; level<5; level++)
         {
             if (score.scoreBestTime[type][level] > 0)
                 [GameCenterUtil sendBestTimeToGameCenter:type level:level besttime:score.scoreBestTime[type][level]];
         }
-    }
+    }*/
+    // 게임을 끝낸 종류와 Level의 Best time을 무조건 보냄으로써 사람들이 즐기는 게임의 종류와 레벨을 알 수 있다.
+    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType
+                                       level:sudokuGame.gameLevel
+                                    besttime:score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
     [NSTimer scheduledTimerWithTimeInterval:10
                                      target:self
                                    selector:@selector(OnTimerGetRanking:)
