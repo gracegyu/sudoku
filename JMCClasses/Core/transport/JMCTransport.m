@@ -122,10 +122,10 @@
             }
         }
     }
-    
+
     for (NSString *key in unique) {
         JMCAttachmentItem *item = [unique valueForKey:key];
-        NSString *filename = [NSString stringWithFormat:item.filenameFormat, index];
+        NSString *filename = [NSString stringWithFormat:item.filenameFormat, attachmentIndex];
         
         [self addPart:item filename:filename key:item.name boundary:boundary toStream:stream];
         
@@ -282,7 +282,7 @@
 }
 
 - (NSString *)hashForConnection:(NSURLConnection *)connection {
-    return [NSString stringWithFormat:@"%@", connection];
+    return [NSString stringWithFormat:@"%ld", connection];
 }
 
 - (JMCTransportOperation *) requestFromItem:(JMCQueueItem *)item

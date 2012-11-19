@@ -55,6 +55,7 @@
 #import <CoreFoundation/CoreFoundation.h>
 
 #import "Reachability.h"
+#import "Constants.h"
 
 #define kShouldPrintReachabilityFlags 1
 
@@ -243,7 +244,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 - (BOOL) connectionRequired;
 {
-	NSAssert(reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
+	DAssert(reachabilityRef != NULL, @"connectionRequired called with NULL reachabilityRef");
 	SCNetworkReachabilityFlags flags;
 	if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags))
 	{
@@ -254,7 +255,7 @@ static void ReachabilityCallback(SCNetworkReachabilityRef target, SCNetworkReach
 
 - (NetworkStatus) currentReachabilityStatus
 {
-	NSAssert(reachabilityRef != NULL, @"currentNetworkStatus called with NULL reachabilityRef");
+	DAssert(reachabilityRef != NULL, @"currentNetworkStatus called with NULL reachabilityRef");
 	NetworkStatus retVal = NotReachable;
 	SCNetworkReachabilityFlags flags;
 	if (SCNetworkReachabilityGetFlags(reachabilityRef, &flags))

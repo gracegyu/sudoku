@@ -140,7 +140,7 @@ static NSInteger kJMCTag = 10133;
                                          action:@selector(dismiss)] autorelease];
     }
     
-    if ([self.descriptionField.text length] == 0 &&
+    if ([self.descriptionField.text length] == 0 && !self.replyToIssue &&
         [[JMC sharedInstance].customDataSource respondsToSelector:@selector(initialFeedbackText)]) 
     {
         NSString *myText = [[JMC sharedInstance].customDataSource initialFeedbackText];
@@ -390,7 +390,14 @@ static NSInteger kJMCTag = 10133;
     if ([[JMC sharedInstance].customDataSource respondsToSelector:@selector(customAttachment)]) {
         JMCAttachmentItem *payloadData = [[JMC sharedInstance].customDataSource customAttachment];
         if (payloadData) {
-            [allAttachments addObject:payloadData];
+            if (payloadData.path)
+            {
+                [allAttachments addObject:payloadData];
+            }
+            else
+            {
+                JMCALog(@"Not adding attachment: %@ with no path.", payloadData);
+            }
         }
     }
     

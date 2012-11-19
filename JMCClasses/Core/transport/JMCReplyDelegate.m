@@ -47,7 +47,7 @@
         comment.requestId = requestId;
         [store insertComment:comment forIssue:issueKey];
         [comment release];
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil]];
+        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil] waitUntilDone:NO];
     }
 }
 
@@ -66,7 +66,7 @@
         [[JMCIssueStore instance] insertComment:comment forIssue:item.originalIssueKey];
         [comment release];
         [[JMCRequestQueue sharedInstance] deleteItem:requestId];
-        [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil]];
+        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil] waitUntilDone:NO];
     }
 
 

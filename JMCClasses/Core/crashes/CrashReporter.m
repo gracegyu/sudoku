@@ -127,9 +127,9 @@ static CrashReporter *crashReportSender = nil;
 
 - (void)dealloc
 {
+    [super dealloc];
     [_crashesDir release];
     [_crashFiles release];
-    [super dealloc];
 }
 
 

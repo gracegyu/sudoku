@@ -152,7 +152,7 @@
         // remove the request item from the queue
         JMCRequestQueue *queue = [JMCRequestQueue sharedInstance];
         [queue deleteItem:requestId];
-        JMCDLog(@"%@ Request succeeded & queued item is deleted. %@ ",self, requestId);
+        JMCDLog(@"%@ Request succeeded & queued item is deleted. %@ ", self, requestId);
     } else if (statusCode == 401) {
         NSLog(@"Issue not created in JIRA because the autocreated user 'jiraconnectuser' does not have the 'Create Issue' permission on your project.\n Server Response: '%@'", responseString);
         [self connection:connection didFailWithError:nil];
@@ -166,8 +166,7 @@
 
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error {
     NSString *requestId = [request valueForHTTPHeaderField:kJMCHeaderNameRequestId];
-    
-    // TODO: time-out items in the request queue after N Attempts ?
+
     [[JMCRequestQueue sharedInstance] updateItem:requestId sentStatus:JMCSentStatusRetry bumpNumAttemptsBy:1];
     
     if ([self.delegate respondsToSelector:@selector(transportDidFinishWithError:statusCode:requestId:)]) {

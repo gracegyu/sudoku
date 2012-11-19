@@ -13,12 +13,10 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 **/
-
 #import "Locale.h"
 
-
 #define JMCLocalizedString(key, comment) \
-    gettexttable(key, @"JMCLocalizable")
+        gettexttable(key, @"JMCLocalizable")
 //    [[NSBundle mainBundle] localizedStringForKey:(key) value:@"" table:@"JMCLocalizable"]
 
 # define JMCALog(format, ...) NSLog((@"%d %s " format), __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);

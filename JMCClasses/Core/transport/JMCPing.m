@@ -65,7 +65,7 @@
 - (void)didReceiveComments:(NSDictionary *)comments {
     [[JMCIssueStore instance] updateWithData:comments];
     [[NSNotificationCenter defaultCenter] postNotificationName:kJMCReceivedCommentsNotification object:self];
-    
+
     // update the timestamp since we last requested comments.
     // sinceMillis is the server's time
     NSNumber *sinceMillis = [comments valueForKey:@"sinceMillis"];
