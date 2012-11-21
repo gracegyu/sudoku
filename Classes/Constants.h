@@ -18,9 +18,12 @@
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
 #endif
-#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
-#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
-#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d") 
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1506f9f57f0075")
+//#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
+//#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
+//#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")
 #elif defined(SUDOKU6)
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"568783854"  // SUDOKU6 Free

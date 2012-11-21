@@ -108,6 +108,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    
 	if (mainViewController.mainView.sudokuGame)
 	{
 		[mainViewController.mainView.sudokuGame saveData];
@@ -124,13 +125,15 @@
     return UIInterfaceOrientationMaskAll;
 }
 
-- (void)dealloc {
+- (void)dealloc
+{
     [mainViewController release];
     [window release];
     [super dealloc];
 }
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
     
     return [FBSession.activeSession handleOpenURL:url];
     
