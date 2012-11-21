@@ -421,7 +421,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
     return [self getNumButtonAreaY] + [self getNumButtonAreaH]/2;
 }
-
+ 
 - (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font align:(UITextAlignment)align
 {
     CGContextSetFillColorWithColor(context, color);
