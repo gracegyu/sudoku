@@ -762,7 +762,8 @@ static NSUInteger RainbowColorTemplate[7] = {
     int len = strlen(memo);
 	int i = 0;
 	int x, y;
-    int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
+//    int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
+    int countW = (len <= 4 ? 2 : 3);
     int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
     BOOL bConflict;
 	CGRect rectNum;    
