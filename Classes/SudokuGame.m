@@ -51,7 +51,7 @@
 
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
-    return 1;//sizeTable > 6 ? 2 : 1;
+    return sizeTable > 6 ? NUM_DEFHINT9 : NUM_DEFHINT6;
 
 }
 

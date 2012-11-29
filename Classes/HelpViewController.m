@@ -21,11 +21,12 @@
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize buttonDone;
+@synthesize imageHelp;
 
 @synthesize labelRuleTitle;
 @synthesize labelRuleDesc;
-@synthesize labelTipTitle;
-@synthesize labelTipDesc;
+//@synthesize labelTipTitle;
+//@synthesize labelTipDesc;
 @synthesize segmentType;
 @synthesize labelSudokuType;
 @synthesize labelLicense;
@@ -45,40 +46,56 @@
     
     lableTitle.text = gettext(@"Help", nil);
 
-    
-    labelSudokuType.text = [SudokuGame getSudokuTypeName:sudokuType];
-    
-    labelRuleTitle.text = gettext(@"ruletitle", nil);
+    if (sudokuType == SUDOKUTYPE_MAX)
+    {
+        labelRuleTitle.text = gettext(@"tiptitle", nil);
+        str = [NSString stringWithString:gettext(@"tipdesc", nil)];
+    } else {
+        labelRuleTitle.text = [NSString stringWithFormat:@"%@ (%@)",
+                               gettext(@"ruletitle", nil),
+                               [SudokuGame getSudokuTypeName:sudokuType]];
 #ifdef SUDOKU9
-    str = [NSString stringWithString:gettext(@"ruledesc9", nil)];
+        str = [NSString stringWithString:gettext(@"ruledesc9", nil)];
 #else
-    str = [NSString stringWithString:gettext(@"ruledesc6", nil)];
+        str = [NSString stringWithString:gettext(@"ruledesc6", nil)];
 #endif
+    }
+    str = [str stringByAppendingString:@"\n"];
     
-    if (sudokuType == SUDOKUTYPE_GT)
+    switch (sudokuType)
     {
-        str = [str stringByAppendingString:@"\n"];
-        str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
-    }
-    else if (sudokuType == SUDOKUTYPE_KILLER)
-    {
-        str = [str stringByAppendingString:@"\n"];
-        str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
-    }
-    else if (sudokuType == SUDOKUTYPE_CALCU)
-    {
-        str = [str stringByAppendingString:@"\n"];
-        str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
+        case SUDOKUTYPE_SUDOKU :
+            break;
+        case SUDOKUTYPE_GT :
+            str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
+            break;
+        case SUDOKUTYPE_KILLER :
+            str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
+            break;
+        case SUDOKUTYPE_CALCU :
+            str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
+        case SUDOKUTYPE_MAX : // tip
+        default :
+            break;
+            
     }
 	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
 	
 	labelRuleDesc.text = str;
-	
-	
-    labelTipTitle.text = gettext(@"tiptitle", nil);
-	str = [NSString stringWithString:gettext(@"tipdesc", nil)];
-	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
-    labelTipDesc.text = str;
+
+    if (sudokuType == SUDOKUTYPE_MAX)
+    {
+        str = @"help_tip";
+    } else {
+#ifdef SUDOKU9
+        str = [NSString stringWithFormat:@"help9_%d_%@", sudokuType+1, cDeviceType == DEVICETYPE_IPAD ? @"ipad" : @"iphone"];
+#else
+        str = [NSString stringWithFormat:@"help6_%d_%@", sudokuType+1, cDeviceType == DEVICETYPE_IPAD ? @"ipad" : @"iphone"];
+#endif
+    }
+    
+    [imageHelp setBackgroundImage:[UIImage imageNamed:str] forState:UIControlStateNormal];
+
     
     
 }

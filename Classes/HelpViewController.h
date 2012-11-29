@@ -18,12 +18,13 @@
     
     
     UIButton *buttonDone;
+    UIButton *imageHelp;
     
     UILabel *labelSudokuType;
     UILabel	*labelRuleTitle;
     UILabel	*labelRuleDesc;
-    UILabel	*labelTipTitle;
-    UILabel	*labelTipDesc;
+    //UILabel	*labelTipTitle;
+    //ILabel	*labelTipDesc;
 	
     UISegmentedControl *segmentType;
     SUDOKUTYPE  sudokuType;
@@ -41,12 +42,13 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelSudokuType;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
+@property (nonatomic, retain) IBOutlet UIButton *imageHelp;
 
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelRuleTitle;
 @property (nonatomic, retain) IBOutlet UILabel	*labelRuleDesc;
-@property (nonatomic, retain) IBOutlet UILabel	*labelTipTitle;
-@property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
+//@property (nonatomic, retain) IBOutlet UILabel	*labelTipTitle;
+//@property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 @property (nonatomic, retain) IBOutlet UILabel *labelLicense;

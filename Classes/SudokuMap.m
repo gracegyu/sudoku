@@ -141,10 +141,10 @@ static int defaultMap[][16*16] = {
                 
                 
                 unsigned int valRand = arc4random();
-                NSInteger numRandom = valRand % (countDefMap-1);
+                NSInteger numRandom = valRand % (countDefMap);
                 DLog(@"numRandom = %d", numRandom);
                 
-                Map = setMap6[numRandom+1];
+                Map = setMap6[numRandom];
             }
             break;
         case SIZE_7 :
@@ -154,10 +154,10 @@ static int defaultMap[][16*16] = {
 					countDefMap++;
 				
 				unsigned int valRand = arc4random();
-				NSInteger numRandom = valRand % (countDefMap-1);
+				NSInteger numRandom = valRand % (countDefMap);
 				DLog(@"numRandom = %d", numRandom);
 				
-				Map = setMap7[numRandom+1];
+				Map = setMap7[numRandom];
 			}
             break;
 
