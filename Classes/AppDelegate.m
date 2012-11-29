@@ -138,5 +138,13 @@
     return [FBSession.activeSession handleOpenURL:url];
     
 }
+/*
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url
+{
+    
+    return [FBSession.activeSession handleOpenURL:url];
+    
+}
+*/
 
 @end

@@ -36,6 +36,7 @@
 @synthesize bSettingDefMap;
 @synthesize bSettingAutoMemo;
 @synthesize nSettingSudokuType;
+@synthesize bSharedThisOnFacebook;
 
 
 @synthesize cellOneSmallFont;
@@ -300,6 +301,7 @@ static NSUInteger RainbowColorTemplate[7] = {
     self.bSettingDefMap = NO;   // deprecated
 	
 	self.bSettingAutoMemo = NO;
+    self.bSharedThisOnFacebook = NO;
     self.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
 	
 //	self.fPress = 1.f;

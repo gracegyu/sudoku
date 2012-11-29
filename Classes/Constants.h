@@ -195,4 +195,5 @@ typedef struct SUDOKUSCORE
 #endif
 
 #define STR_LICENSE     @"Ⓒ 2013 Smartone, All rights reserved."
+#define NUM_HINTBONUS   2
 

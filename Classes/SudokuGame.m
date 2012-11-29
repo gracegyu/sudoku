@@ -51,7 +51,7 @@
 
 - (NSInteger) getDefHintCount:(NSInteger)sizeTable
 {
-    return sizeTable > 6 ? 2 : 1;
+    return 1;//sizeTable > 6 ? 2 : 1;
 
 }
 
@@ -305,6 +305,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	gameLevel = level;
 	
 	bAutoMemoUndoLog = YES;
+    
+    
 }
 
 - (void) deleteAutoMemoX:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos

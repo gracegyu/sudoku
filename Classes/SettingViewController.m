@@ -412,7 +412,15 @@
 
 - (IBAction)goReview
 {
-    [Appirater rateApp];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Recommendation", nil)
+													message:gettext(@"Please enter your cheering message with 5 stars. We will make more interesting game with your comments.", nil)
+												   delegate:self
+										  cancelButtonTitle:gettext(@"Cancel", nil)
+										  otherButtonTitles:gettext(@"Yes", nil), nil];
+	[alert show];
+	[alert release];
+    
+
 }
 
 - (IBAction)goNewApps
@@ -423,6 +431,14 @@
 
 }
 
+#pragma mark -
+- (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) // "확인" 버튼
+    {        
+        [Appirater rateApp];
+    }
+}
 
 
 
@@ -457,6 +473,8 @@
     //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 }
+
+
 
 @end
 

@@ -235,6 +235,11 @@
         strMsg = [strMsg stringByAppendingString:@"\n"];
         strMsg = [strMsg stringByAppendingString:gettext(@"You broke your best time.", nil)];
     }
+    strMsg = [strMsg stringByAppendingString:@"\n"];
+    strMsg = [strMsg stringByAppendingFormat:
+              gettext(@"If you share this puzzle or result on Facebook, you can get %d more hints in next game.", nil),
+              NUM_HINTBONUS];
+    
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Congratulations!", nil)
                                                     message:strMsg
                                                    delegate:self
@@ -349,7 +354,7 @@
 #define kSettingAutoMemo                @"settingAutoMemo"
 #define kSettingSudokuType              @"settingSudokuType"
 #define kSettingSkin                    @"settingSkin"
-
+#define kSharedThisOnFacebook           @"sharedThisOnFacebook"
 
 - (void) loadSetting
 {
@@ -370,6 +375,8 @@
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
     mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
+    
+    mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
 
 }
 
@@ -387,6 +394,8 @@
     [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
     [defaults setInteger:mainView.skin forKey:kSettingSkin];
 	
+    [defaults setBool:mainView.bSharedThisOnFacebook forKey:kSharedThisOnFacebook];
+    
 	[defaults synchronize];
 }
 
@@ -627,6 +636,10 @@
 
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
      [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
+     
+     [AddThisSDK canUserEditServiceMenu:YES];
+     [AddThisSDK canUserReOrderServiceMenu:YES];
+     [AddThisSDK setDelegate:self];
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1045,6 +1058,8 @@
                      title:strTitle
                description:strDesc];
 
+    mainView.bSharedThisOnFacebook = YES;
+    [self saveSetting];
 }
 
 - (IBAction)shareRecordFacebook
@@ -1069,6 +1084,10 @@
 			 withService:@"facebook"
 				   title:strAdd
 			 description:@""];
+    
+    mainView.bSharedThisOnFacebook = YES;
+    [self saveSetting];
+    
 }
 
 
@@ -1076,7 +1095,9 @@
 - (IBAction)shareToTwitter
 {
     
-    
+    mainView.bSharedThisOnFacebook = YES;
+    [self saveSetting];
+
 }
 
 
@@ -1450,6 +1471,17 @@
 		[mainView.sudokuGame release];
 
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
+    
+    if (mainView.bSharedThisOnFacebook)
+    {
+        mainView.sudokuGame.countHint += NUM_HINTBONUS;
+        
+        mainView.bSharedThisOnFacebook = NO;
+        [self saveSetting];
+    }
+    
+    
+    
 	[self increaseScoreGames];
 	
     
