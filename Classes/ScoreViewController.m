@@ -69,6 +69,7 @@
 @synthesize buttonGameCenterRanking4;
 @synthesize buttonGameCenterRanking5;
 @synthesize segmentType;
+@synthesize labelLicense;
 
 
 
@@ -102,15 +103,14 @@
 	self.navigationController.title = gettext(@"Score", nil);
 }
 
-- (void)viewDidLoad
+- (void) setLocalizedMessage
 {
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
-	
 	naviItem.title = gettext(@"Score", nil);
-	
+    labelLicense.text = STR_LICENSE;
+    
     lableTitle.text = gettext(@"Score", nil);
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
-
+    
 	labelTitleVeryEasy.text = gettext(@"very easy", nil);
 	labelTitleEasy.text = gettext(@"easy", nil);
 	labelTitleNormal.text = gettext(@"normal", nil);
@@ -122,6 +122,13 @@
 	labelTitleClears.text = gettext(@"clears", nil);
 	labelTitleBestTime.text = gettext(@"best time", nil);
 	labelTitleAverage.text = gettext(@"average", nil);
+}
+
+- (void)viewDidLoad
+{
+    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
+	
+    [self setLocalizedMessage];
     
     labelRankArray[GAMELEVEL_VERYHARD] = labelRankVeryHard;
     labelRankArray[GAMELEVEL_HARD] = labelRankHard;
@@ -130,7 +137,7 @@
     labelRankArray[GAMELEVEL_VERYEASY] = labelRankVeryEasy;
 
     MainViewController *ctrl = (MainViewController*)mainViewController;
-    // Gamecenter와 sync맞추기
+    // Gamecenter와 sync맞추기 -> MainViewController로 이동
 /*    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
         for (int level=0; level<NUM_RANK_BESTTIME; level++)

@@ -64,6 +64,9 @@
     
     
     NSInteger skin;
+    
+    UILabel     *labelLicense;
+
 }
 
 
@@ -86,6 +89,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescSkinColor;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescLocale;
+@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSoundEffect;

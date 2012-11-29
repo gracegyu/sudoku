@@ -27,6 +27,9 @@
 	
     UISegmentedControl *segmentType;
     SUDOKUTYPE  sudokuType;
+    
+    UILabel     *labelLicense;
+
 
 }
 
@@ -46,6 +49,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelTipDesc;
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
+@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
 
 
 

@@ -86,6 +86,9 @@
     UISegmentedControl *segmentType;
     
     SUDOKUTYPE  sudokuType;
+    
+    UILabel     *labelLicense;
+
 }
 
 
@@ -144,6 +147,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking4;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking5;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
+@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
 
 @property BOOL		bAuto;
 

@@ -28,6 +28,7 @@
 @synthesize labelTipDesc;
 @synthesize segmentType;
 @synthesize labelSudokuType;
+@synthesize labelLicense;
 
 
 
@@ -37,7 +38,8 @@
 	NSString* str;
 	
     naviItem.title = gettext(@"Help", nil);
-	
+    labelLicense.text = STR_LICENSE;
+
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
 
     

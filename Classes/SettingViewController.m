@@ -34,6 +34,7 @@
 @synthesize labelDescMarkingEqual;
 @synthesize labelDescSkinColor;
 @synthesize labelDescLocale;
+@synthesize labelLicense;
 
 @synthesize buttonDone;
 @synthesize buttonSoundEffect;
@@ -75,6 +76,8 @@
 	NSString* str;
     naviItem.title = gettext(@"Setting", nil);
 	
+    labelLicense.text = STR_LICENSE;
+
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
 
     

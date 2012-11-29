@@ -193,3 +193,6 @@ typedef struct SUDOKUSCORE
 #else
 #define SUPPORT_ROTATION    YES
 #endif
+
+#define STR_LICENSE     @"Ⓒ 2013 Smartone, All rights reserved."
+

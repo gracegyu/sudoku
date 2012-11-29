@@ -38,7 +38,6 @@
 	CGRect		frameMainViewOrg;
 
 	UILabel		*labelNewGame;
-	UILabel		*labelRights;
 	UILabel		*labelTitleLevel;
 	UILabel		*labelTitleGameTime;
 	UILabel		*labelTitleBlank;
@@ -47,6 +46,8 @@
 	UILabel		*labelGameTime;
 	UILabel		*labelBlank;
 	UILabel		*labelHint;
+    
+    UILabel     *labelLicense;
 
     UIButton    *areaPuzzleTable;
     UIButton    *areaNumButton;
@@ -122,7 +123,6 @@
 
 @property (nonatomic, retain) MainView *mainView;
 @property (nonatomic, retain) IBOutlet UILabel	*labelNewGame;
-@property (nonatomic, retain) IBOutlet UILabel	*labelRights;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleLevel;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleGameTime;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTitleBlank;
@@ -130,6 +130,8 @@
 @property (nonatomic, retain) IBOutlet UIButton	*areaPuzzleTable;
 @property (nonatomic, retain) IBOutlet UIButton	*areaNumButton;
 @property (nonatomic, retain) IBOutlet UIButton *areaAdBanner;
+
+@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
 
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelAutoMemo;

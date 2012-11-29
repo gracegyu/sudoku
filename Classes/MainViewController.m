@@ -23,7 +23,6 @@
 
 @synthesize mainView;
 @synthesize labelNewGame;
-@synthesize labelRights;
 @synthesize labelTitleLevel;
 @synthesize labelTitleGameTime;
 @synthesize labelTitleBlank;
@@ -72,6 +71,7 @@
 @synthesize timerNewGame;
 @synthesize activityIndicator;
 @synthesize segmentType;
+@synthesize labelLicense;
 
 
 
@@ -394,6 +394,9 @@
 {
 	DLog(@"setLocalizedMessage");
 	
+    labelLicense.text = STR_LICENSE;
+
+    
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
