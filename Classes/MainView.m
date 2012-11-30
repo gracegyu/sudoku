@@ -1910,7 +1910,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-    
+/*
     for (int i=0; i<sudokuGame.size; i++)
     {
         for (int j=0; j<sudokuGame.size; j++)
@@ -1919,7 +1919,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         }
         
     }
-    
+*/    
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;
