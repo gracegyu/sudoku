@@ -507,12 +507,12 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void)drawBlurTable:(CGContextRef) context
 {
-	if (!bBlur)
+	if (!bBlur && !sudokuGame.isGameFinished)
 		return;
 	
 	CGRect currentRect;
 	
-	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.7f];
+	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.75f];
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, colorBlur.CGColor);
@@ -1401,8 +1401,8 @@ static NSUInteger RainbowColorTemplate[7] = {
 	CGFloat x, y;
 	NSInteger numColor;
 	
-    if (sudokuGame.isGameFinished)
-        return;
+//    if (sudokuGame.isGameFinished)
+//        return;
     
 	
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
@@ -1910,7 +1910,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-/*
+
     for (int i=0; i<sudokuGame.size; i++)
     {
         for (int j=0; j<sudokuGame.size; j++)
@@ -1919,7 +1919,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         }
         
     }
-*/    
+    
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;

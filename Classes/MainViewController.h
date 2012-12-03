@@ -85,7 +85,8 @@
     UIButton    *buttonSeeReplay;
 	UIButton    *buttonFacebookRecord;
 	UIButton    *buttonFacebookPuzzle;
-    UIButton    *buttonTwitter;
+	UIButton    *buttonTwitterRecord;
+	UIButton    *buttonTwitterPuzzle;
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
@@ -164,10 +165,8 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebookRecord;
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebookPuzzle;
-@property (nonatomic, retain) IBOutlet UIButton *buttonTwitter;
-
-
-
+@property (nonatomic, retain) IBOutlet UIButton *buttonTwitterRecord;
+@property (nonatomic, retain) IBOutlet UIButton *buttonTwitterPuzzle;
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
@@ -194,6 +193,8 @@
 - (IBAction)seeReplay;
 - (IBAction)shareRecordFacebook;
 - (IBAction)sharePuzzleFacebook;
+- (IBAction)shareRecordTwitter;
+- (IBAction)sharePuzzleTwitter;
 - (IBAction)shareToTwitter;
 - (IBAction)doHint;
 - (IBAction)showScoreView;

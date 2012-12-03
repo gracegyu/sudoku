@@ -58,7 +58,8 @@
 @synthesize buttonSeeReplay;
 @synthesize buttonFacebookRecord;
 @synthesize buttonFacebookPuzzle;
-@synthesize buttonTwitter;
+@synthesize buttonTwitterRecord;
+@synthesize buttonTwitterPuzzle;
 
 
 @synthesize viewMenu;
@@ -423,6 +424,8 @@
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
     [buttonFacebookRecord    setTitle:gettext(@"Share record on Facebook", nil) forState:UIControlStateNormal];
     [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle on Facebook", nil) forState:UIControlStateNormal];
+    [buttonTwitterRecord    setTitle:gettext(@"Share record on Twitter", nil) forState:UIControlStateNormal];
+    [buttonTwitterPuzzle    setTitle:gettext(@"Share puzzle on Twitter", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -638,11 +641,34 @@
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
      [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
      
+     
+     //CHANGE THIS TWITTER API KEYS TO YOUR OWN!!
+     [AddThisSDK setTwitterConsumerKey:@"Oz2ldTCKZwlPFULDBHYg"];
+     [AddThisSDK setTwitterConsumerSecret:@"UE2ELTkz3Gmvav2PYLsNOYHDOSMi0pbg9uAhEPdo"];
+     [AddThisSDK setTwitterCallBackURL:@"http://gracegyu.zendesk.com"];
+     
+     [AddThisSDK setTwitPicAPIKey:@"deec47835aadb6e6b68a5d1015e4666b"];
+     [AddThisSDK setTwitterAuthenticationMode:ATTwitterAuthenticationTypeOAuth];
+     [AddThisSDK setTwitterViaText:@"smartone3929 "];
+     
+     
      [AddThisSDK canUserEditServiceMenu:YES];
      [AddThisSDK canUserReOrderServiceMenu:YES];
      [AddThisSDK setDelegate:self];
      
+     
+     
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
+     
+     
+     
+     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
+     {
+         buttonTwitterPuzzle.enabled = NO;
+         buttonTwitterRecord.enabled = NO;
+         buttonSharePuzzle.enabled = NO;
+     }
+         
      
 
 }
@@ -947,7 +973,10 @@
 - (IBAction)seeReplay
 {
     if (mainView.bMenuMode)
-        return;
+    {
+        [self hideMenuView:NO];
+    }
+
 
     bReplay = YES;
     [self updateButtons];
@@ -967,7 +996,10 @@
 - (IBAction) playAgain
 {
     if (mainView.bMenuMode)
-        return;
+    {
+        [self hideMenuView:NO];
+    }
+
     
     // see Replay 중이면 멈춰야 한다. timer 멈춘다.
     bReplay = NO;
@@ -996,14 +1028,20 @@
 {
     if (nAddThisWait >= 3)  
     {
-        [self callAddThisShareImage];
+        [self callAddThisShareImage:@"facebook"];
     }
     nAddThisWait = 0;
 }
 
 - (IBAction)sharePuzzleFacebook
 {
-    [self callAddThisShareImage];
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
+
+    
+    [self callAddThisShareImage:@"facebook"];
 
     static BOOL isFirst = YES;
     nAddThisWait = 0;
@@ -1021,7 +1059,7 @@
 }
 
 
-- (void) callAddThisShareImage
+- (void) callAddThisShareImage:(NSString*) service
 {
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
@@ -1034,7 +1072,7 @@
         strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
     }
     
-    
+    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
     
     UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
     
@@ -1055,20 +1093,39 @@
     
     
 	[AddThisSDK shareImage:retImage
-               withService:@"facebook"
-                     title:strTitle
-               description:strDesc];
+               withService:service
+                     title:strAdd
+               description:@""];
 
     mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
 }
 
-- (IBAction)shareRecordFacebook
+
+- (IBAction)sharePuzzleTwitter
 {
-    //if (mainView.sudokuGame.isGameFinished == NO)
-        //return;
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
 
     
+    [self callAddThisShareImage:@"twitter"];
+    
+}
+
+- (IBAction)shareRecordFacebook
+{
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
+    
+    [self callAddThisShareURL:@"facebook"];
+}
+
+- (void) callAddThisShareURL:(NSString*) service
+{
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
@@ -1082,24 +1139,24 @@
     NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
     
 	[AddThisSDK shareURL:strURL
-			 withService:@"facebook"
+			 withService:service
 				   title:strAdd
 			 description:@""];
     
     mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
-    
 }
-
-
-
-- (IBAction)shareToTwitter
+- (IBAction)shareRecordTwitter
 {
-    
-    mainView.bSharedThisOnFacebook = YES;
-    [self saveSetting];
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
 
+    
+    [self callAddThisShareURL:@"twitter"];
 }
+
 
 
 - (void)showHintButton
@@ -1112,7 +1169,11 @@
 {
 	if (mainView.bMenuMode)
 		return;
-	
+
+	//zzzzzzzzzzzzzzzz
+    //[self shareToTwitter];
+    
+    
 	[mainView doHint];
 }
 
@@ -1762,7 +1823,8 @@
     } else {
         buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
         buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonTwitter.hidden = YES;//!mainView.sudokuGame.isGameFinished;
+        buttonTwitterRecord.hidden = !mainView.sudokuGame.isGameFinished;
+        buttonTwitterPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
     }
 }
 
