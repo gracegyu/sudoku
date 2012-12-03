@@ -74,6 +74,11 @@
     //[Appirater setDebug:YES];
     
     [Appirater appLaunched:YES];
+    
+    
+    
+    
+    
 }
 
 + (AppDelegate *)sharedAppDelegate
@@ -95,10 +100,6 @@
 	}
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-	DLog(@"applicationDidBecomeActive");
-}
 
 
 -(void)applicationWillEnterForeground:(UIApplication*)application
@@ -144,6 +145,17 @@
     
     return [FBSession.activeSession handleOpenURL:url];
     
+}
+
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    // FBSample logic
+    // We need to properly handle activation of the application with regards to SSO
+    //  (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
+	DLog(@"applicationDidBecomeActive");
+    
+    //[FBSession.activeSession handleDidBecomeActive];
 }
 
 
