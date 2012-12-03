@@ -507,12 +507,18 @@ static NSUInteger RainbowColorTemplate[7] = {
 
 - (void)drawBlurTable:(CGContextRef) context
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+
+    if ([ctrl isReplaying])
+        return;
+    
+    
 	if (!bBlur && !sudokuGame.isGameFinished)
 		return;
 	
 	CGRect currentRect;
 	
-	UIColor *colorBlur = [UIColor colorWithRed:.9f green:.9f blue:.9f alpha:.75f];
+	UIColor *colorBlur = [UIColor colorWithRed:.7f green:.7f blue:.7f alpha:.7f];
     
     CGContextSetLineWidth(context, cLineDrawWidth);
     CGContextSetStrokeColorWithColor(context, colorBlur.CGColor);
@@ -1910,7 +1916,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-
+/*
     for (int i=0; i<sudokuGame.size; i++)
     {
         for (int j=0; j<sudokuGame.size; j++)
@@ -1919,7 +1925,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         }
         
     }
-    
+  */  
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;

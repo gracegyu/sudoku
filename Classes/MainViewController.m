@@ -947,6 +947,13 @@
 }
 
 
+- (void) OnTimerFinshedSeeReplay:(NSTimer *)timer
+{
+    bReplay = NO;
+    [self updateButtons];
+    [mainView setNeedsDisplay];
+}
+
 - (void) OnTimerSeeReplay:(NSTimer *)timer
 {
     if (bReplay == NO)
@@ -965,8 +972,11 @@
                                        userInfo:nil
                                         repeats:NO];
     } else {    // 끝
-        bReplay = NO;
-        [self updateButtons];
+        [NSTimer scheduledTimerWithTimeInterval:1.5
+                                         target:self
+                                       selector:@selector(OnTimerFinshedSeeReplay:)
+                                       userInfo:nil
+                                        repeats:NO];
     }
 }
 
@@ -1812,20 +1822,12 @@
 	[self updateButtonDel];
 	[self updateButtonMemo];
     
-    buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished;
-    buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished;
-    buttonSeeReplay.enabled = !bReplay;
-    
-    if (0)//FACEBOOK_ID == @"")
-    {
-        buttonFacebookRecord.hidden = YES;
-        buttonFacebookPuzzle.hidden = YES;
-    } else {
-        buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonTwitterRecord.hidden = !mainView.sudokuGame.isGameFinished;
-        buttonTwitterPuzzle.hidden = !mainView.sudokuGame.isGameFinished;
-    }
+    buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    buttonTwitterRecord.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    buttonTwitterPuzzle.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
 }
 
 - (BOOL) isReplaying
