@@ -131,10 +131,10 @@ static BOOL bLoginedGamecenter = NO;
                              NSRange range = [category rangeOfString:@"point"];
                              if (range.length > 0)
                              {
-                                 if ((NSInteger) score.value > *value)
+                                 if (*value == 0 || (NSInteger) score.value > *value)
                                      *value = (NSInteger)score.value;
                              } else {
-                                 if ((NSInteger) score.value < *value)
+                                 if (*value == 0 || (NSInteger) score.value < *value)
                                      *value = (NSInteger)score.value;
                              }
                                  

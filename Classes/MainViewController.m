@@ -305,7 +305,7 @@
     {
         for (int level=0; level<NUM_RANK_BESTTIME; level++)
         {
-            if (score.scoreBestTime[type][level] > 0)
+            if (1)//score.scoreBestTime[type][level] > 0)
             {
                 [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level]
                                       rank:&(score.scoreRankLevel[type][level])
@@ -632,6 +632,7 @@
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
      [AddThisSDK setFacebookAPIKey:FACEBOOK_SMARTONE_ID];
+//     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeDefault];
      [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
 
      [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
