@@ -10,7 +10,7 @@
 #define SHORTENURL  @"http://goo.gl/VQUlv"
 #define JMC_PRJKEY  @"SDSDKNINEF"
 #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
-#define FACEBOOK_SMARTONE_ID @"560258597334326"
+#define FACEBOOK_SMARTONE_ID @"302256366555317"
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 //#define SHORTENURL  @"http://goo.gl/chLcy"    // blacklist URL?
@@ -31,13 +31,13 @@
 #define SHORTENURL  @"http://goo.gl/Mofwx"
 #define JMC_PRJKEY  @"SDSDKSIXF"
 #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
-#define FACEBOOK_SMARTONE_ID @"560258597334326"
+#define FACEBOOK_SMARTONE_ID @"126906610795923"
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
 #define SHORTENURL  @"http://goo.gl/DtLbw"
 #define JMC_PRJKEY  @"SDSDKSIXP"
 #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
-#define FACEBOOK_SMARTONE_ID @"560258597334326"
+#define FACEBOOK_SMARTONE_ID @"381531935263532"
 #endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
