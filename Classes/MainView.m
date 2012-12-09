@@ -1925,7 +1925,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         }
         
     }
-  */  
+*/    
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;
