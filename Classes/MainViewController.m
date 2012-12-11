@@ -509,6 +509,7 @@
        [self setLocalizedMessage];
        [mainView initSkinColorData];
        [mainView initRainbowColorData];
+       [mainView initBiggerSmallerColorData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -1543,6 +1544,7 @@
 		[mainView.sudokuGame release];
 
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
+    
     
     if (mainView.bSharedThisOnFacebook)
     {

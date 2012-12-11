@@ -2051,5 +2051,126 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     }
 }
 
+- (BOOL) isGtCell:(NSInteger)sign x:(NSInteger)x1 y:(NSInteger)y1 x2:(NSInteger)x2 y2:(NSInteger)y2
+{
+    if (sign > 0)
+    {
+        return [self getAnswerNums:x2 y:y2] > [self getAnswerNums:x1 y:y1];
+    } else {
+        return [self getAnswerNums:x2 y:y2] < [self getAnswerNums:x1 y:y1];
+    }
+}
+
+- (BOOL) setGtCellNum:(NSInteger)depth x:(NSInteger)xPos y:(NSInteger)yPos
+{
+    if (xPos == selectedXPos && yPos == selectedYPos)
+        return NO;
+    if (gtNums[xPos][yPos] != 0)
+        return NO;
+    gtNums[xPos][yPos] = depth;
+    
+    return YES;
+}
+
+- (void) setGtCellColorsDepth:(NSInteger)depth x:(NSInteger)xPos y:(NSInteger)yPos
+{
+    BOOL bSucc[4] = { NO, NO, NO, NO };
+    
+    if (xPos-1 >= 0 && [self isSameMap:xPos y:yPos x2:xPos-1 y2:yPos])
+    {
+        if ([self isGtCell:depth x:xPos y:yPos x2:xPos-1 y2:yPos])
+        {
+            if ([self setGtCellNum:depth x:xPos-1 y:yPos])
+            {
+                bSucc[0] = YES;
+            }
+        }
+    }
+    if (xPos+1 < size && [self isSameMap:xPos y:yPos x2:xPos+1 y2:yPos])
+    {
+        if ([self isGtCell:depth x:xPos y:yPos x2:xPos+1 y2:yPos])
+        {
+            if ([self setGtCellNum:depth x:xPos+1 y:yPos])
+            {
+                bSucc[1] = YES;
+            }
+        }
+    }
+    if (yPos-1 >= 0 && [self isSameMap:xPos y:yPos x2:xPos y2:yPos-1])
+    {
+        if ([self isGtCell:depth x:xPos y:yPos x2:xPos y2:yPos-1])
+        {
+            if ([self setGtCellNum:depth x:xPos y:yPos-1])
+            {
+                bSucc[2] = YES;
+            }
+        }
+    }
+    if (yPos+1 < size && [self isSameMap:xPos y:yPos x2:xPos y2:yPos+1])
+    {
+        if ([self isGtCell:depth x:xPos y:yPos x2:xPos y2:yPos+1])
+        {
+            if ([self setGtCellNum:depth x:xPos y:yPos+1])
+            {
+                bSucc[3] = YES;
+            }
+        }
+    }
+    depth += (depth > 0 ? +1 : -1);
+    if (bSucc[0]) [self setGtCellColorsDepth:depth x:xPos-1 y:yPos];
+    if (bSucc[1]) [self setGtCellColorsDepth:depth x:xPos+1 y:yPos];
+    if (bSucc[2]) [self setGtCellColorsDepth:depth x:xPos y:yPos-1];
+    if (bSucc[3]) [self setGtCellColorsDepth:depth x:xPos y:yPos+1];
+}
+
+
+// GTSudoku용 주변 셀 비교 색 칠하기
+- (void) setGtCellColors:(NSInteger)xPos y:(NSInteger)yPos
+{
+    memset(gtNums, 0, sizeof(gtNums));
+    
+    selectedXPos = xPos;
+    selectedYPos = yPos;
+    
+    [self setGtCellColorsDepth:+1 x:xPos y:yPos];
+    [self setGtCellColorsDepth:-1 x:xPos y:yPos];
+    
+    
+    [self printgtNums];
+}
+
+- (NSInteger) getGtCellColor:(NSInteger)xPos y:(NSInteger)yPos
+{
+    return gtNums[xPos][yPos];
+}
+
+
+- (void) printgtNums
+{
+	NSString *str = [[NSString alloc] init];
+	
+	str = [str stringByAppendingString:@"\n"];
+	str = [str stringByAppendingString:@"----------------------------\n"];
+	for (int y=0; y<size; y++)
+	{
+		str = [str stringByAppendingString:@"|"];
+		for (int x=0; x<size; x++)
+		{
+			if (gtNums[x][y] != 0)
+				str = [str stringByAppendingFormat:@"%2d", gtNums[x][y]];
+			else
+				str = [str stringByAppendingFormat:@".."];
+			str = [str stringByAppendingString:x%3 == 2?@"|":@" "];
+			
+		}
+		str = [str stringByAppendingString:@"\n"];
+		
+		if ((y%3) == 2)
+			str = [str stringByAppendingString:@"----------------------------\n"];
+		
+	}
+	DLog(@"puzzle & answer = %@", str);
+}
+
 
 @end

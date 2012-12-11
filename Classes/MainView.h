@@ -58,6 +58,8 @@ typedef enum SKINCOLOR SKINCOLOR;
 	NSInteger skin;
 	UIColor *skincolor[COUNT_SKINCOLOR];
 	UIColor *rainbowcolor[7];
+	UIColor *biggercolor[9];
+	UIColor *smallercolor[9];
 	
 	SudokuGame* sudokuGame;
 	
@@ -161,6 +163,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 
 - (void)initSkinColorData;
 - (void)initRainbowColorData;
+- (void)initBiggerSmallerColorData;
 - (void) runUndo;
 - (void) runRedo;
 - (void) runBookmark;

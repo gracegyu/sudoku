@@ -159,6 +159,12 @@ static NSUInteger RainbowColorTemplate[7] = {
 		0xFDE1DCFF,0xF4E7CEFF,0xF3FCDDFF,0xD2F5E0FF,0xDBE6F0FF,0xE6DDEAFF, 0xD1FFECFF
 };
 
+static NSUInteger BiggerColorTemplate[9] = {
+    0xFFFFFF,0xFFE8E2FF,0xFFDDD6FF,0xFFCFC4FF,0xFFC0B2FF,0xFFB19EFF,0xFFA58EFF,0xFF997FFF,0xFF8C70FF
+};
+static NSUInteger SmallerColorTemplate[9] = {
+    0xFFFFFF,0xDBFAFFFF,0xD1F8FFFF,0xBFF6FFFF,0xAFF4FFFF,0xA0F2FFFF,0x91F0FFFF,0x82EEFFFF,0x72ECFFFF
+};
 
 
 
@@ -200,6 +206,31 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
 }
+
+- (UIColor*) getBiggerColorFromRGBA:(NSUInteger) num
+{
+	NSInteger RGBA = BiggerColorTemplate[num];
+	
+	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
+	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
+	CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
+	CGFloat A = ((CGFloat)((RGBA & 0x000000FF) >> 8*0))/255.f;
+	
+	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
+}
+
+- (UIColor*) getSmallerColorFromRGBA:(NSUInteger) num
+{
+	NSInteger RGBA = SmallerColorTemplate[num];
+	
+	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
+	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
+	CGFloat B = ((CGFloat)((RGBA & 0x0000FF00) >> 8*1))/255.f;
+	CGFloat A = ((CGFloat)((RGBA & 0x000000FF) >> 8*0))/255.f;
+	
+	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
+}
+
 
 - (void) setNextSkinColor
 {
@@ -274,6 +305,21 @@ static NSUInteger RainbowColorTemplate[7] = {
 		rainbowcolor[i] = [self getRainbowColorFromRGBA:i];
 	}
 }
+
+- (void)initBiggerSmallerColorData
+{
+    for (int i=0; i<9; i++)
+	{
+		biggercolor[i] = [self getBiggerColorFromRGBA:i];
+	}
+    for (int i=0; i<9; i++)
+	{
+		smallercolor[i] = [self getSmallerColorFromRGBA:i];
+	}
+    
+    
+}
+
 
 - (void)initData
 {
@@ -1179,6 +1225,28 @@ static NSUInteger RainbowColorTemplate[7] = {
 	}
 }
 
+- (void)drawGtComapreCellColor:(CGContextRef)context
+{
+    if (sudokuGame.sudokuType != SUDOKUTYPE_GT)
+        return;
+    
+    NSInteger num;
+        
+    for (int y=0; y<sudokuGame.size; y++)
+    {
+        for (int x=0; x<sudokuGame.size; x++)
+        {
+            num = [sudokuGame getGtCellColor:x y:y];
+            if (num > 0)
+            {
+                [self drawOneCellBackground:context color:biggercolor[num] x:x y:y];
+            } else if (num < 0) {
+                [self drawOneCellBackground:context color:smallercolor[-num] x:x y:y];
+            }
+        }
+    }
+}
+
 #define BM_LEFTMARGIN	0.05f
 #define BM_W			0.2f
 #define BM_H			0.25f
@@ -1606,6 +1674,17 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 }
 
+- (void)setSelectedXYPos:(NSInteger)xPos yPos:(NSInteger)yPos
+{
+    selectedXPos = xPos;
+    selectedYPos = yPos;
+    
+    if (sudokuGame.sudokuType == SUDOKUTYPE_GT) // 주변셀 대소비교 로직 시작
+    {
+        [sudokuGame setGtCellColors:selectedXPos y:selectedYPos];
+    }
+}
+
 - (void)touchesDo:(NSSet *)touches bEnd:(BOOL)bEnd
 {
 	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
@@ -1635,8 +1714,7 @@ static NSUInteger RainbowColorTemplate[7] = {
         } else if (bPressedInCell) {
 			if (xPos != selectedXPos || yPos != selectedYPos)
 			{
-				selectedXPos = xPos;	
-				selectedYPos = yPos;
+                [self setSelectedXYPos:xPos yPos:yPos];
 				[self playSoundClick];	// drag
 				[self setNeedsDisplay];
 			}
@@ -1766,8 +1844,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	if (pointLastUndoPos.x >= 0 && pointLastUndoPos.y >= 0)
 	{
-		selectedXPos = (NSInteger) pointLastUndoPos.x;
-		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        [self setSelectedXYPos:(NSInteger) pointLastUndoPos.x yPos:(NSInteger) pointLastUndoPos.y];
        // [self playSoundClick];
 	}
 	[sudokuGame saveData];	
@@ -1787,8 +1864,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	if (pointLastUndoPos.x >= 0 && pointLastUndoPos.y >= 0)
 	{
-		selectedXPos = (NSInteger) pointLastUndoPos.x;
-		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        [self setSelectedXYPos:(NSInteger) pointLastUndoPos.x yPos:(NSInteger) pointLastUndoPos.y];
         //[self playSoundClick];
 	}
     
@@ -1803,8 +1879,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	if (pointLastUndoPos.x >= 0 && pointLastUndoPos.y >= 0)
 	{
-		selectedXPos = (NSInteger) pointLastUndoPos.x;
-		selectedYPos = (NSInteger) pointLastUndoPos.y;
+        [self setSelectedXYPos:(NSInteger) pointLastUndoPos.x yPos:(NSInteger) pointLastUndoPos.y];
         //[self playSoundClick];
 	}
     
@@ -1948,7 +2023,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	
 	if (sudokuGame != NULL)
 	{
-        
+        [self setSelectedXYPos:0 yPos:0];
 		[sudokuGame saveData];
         
 		[self setNeedsDisplay];
@@ -1978,6 +2053,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 	}
 	
 	// zzz turn off activityIndicator
+    [self setSelectedXYPos:0 yPos:0];
     [sudokuGame saveData];          // save Sudoku data as soon as making new game
 	[self setNeedsDisplay];
 }
@@ -2014,8 +2090,7 @@ static NSUInteger RainbowColorTemplate[7] = {
 					
 					if (bm)
 					{
-						selectedXPos = bm->x;
-						selectedYPos = bm->y;
+                        [self setSelectedXYPos:bm->x yPos:bm->y];
 						
 						if (countBookmark < 0)
 						{
@@ -2295,9 +2370,10 @@ static NSUInteger RainbowColorTemplate[7] = {
     
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
-	[self drawGuidelineBackground:context];          // 힌트 바탕 색
+	[self drawGuidelineBackground:context];     // 힌트 바탕 색
     [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
 	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
+	[self drawGtComapreCellColor:context];      // 선택된 셀 바탕색
 	[self drawKillerLine:context];				// 테이블 라인 긎기
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
     [self drawBookmarkInCell:context];          // 북마크 표시
