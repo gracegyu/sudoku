@@ -1227,7 +1227,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawGtComapreCellColor:(CGContextRef)context
 {
-    if (sudokuGame.sudokuType != SUDOKUTYPE_GT)
+    if (sudokuGame.sudokuType != SUDOKUTYPE_GT || bSettingGuideline == NO)
         return;
     
     NSInteger num;
@@ -1237,10 +1237,10 @@ static NSUInteger SmallerColorTemplate[9] = {
         for (int x=0; x<sudokuGame.size; x++)
         {
             num = [sudokuGame getGtCellColor:x y:y];
-            if (num > 0)
+            if (num > 0 && num < 9)
             {
                 [self drawOneCellBackground:context color:biggercolor[num] x:x y:y];
-            } else if (num < 0) {
+            } else if (num < 0 && num > -9) {
                 [self drawOneCellBackground:context color:smallercolor[-num] x:x y:y];
             }
         }
