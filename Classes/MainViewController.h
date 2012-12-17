@@ -81,6 +81,7 @@
 	UIButton	*buttonHistory;
 	UIButton	*buttonFeedback;
     
+    UIButton    *buttonPlayNew;
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
 	UIButton    *buttonFacebookRecord;
@@ -161,6 +162,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHelp;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
+@property (nonatomic, retain) IBOutlet UIButton *buttonPlayNew;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebookRecord;

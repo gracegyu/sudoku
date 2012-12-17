@@ -54,6 +54,7 @@
 @synthesize buttonHelp;
 @synthesize buttonHistory;
 @synthesize buttonFeedback;
+@synthesize buttonPlayNew;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
 @synthesize buttonFacebookRecord;
@@ -420,6 +421,7 @@
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+    [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
     [buttonFacebookRecord    setTitle:gettext(@"Share record on Facebook", nil) forState:UIControlStateNormal];
@@ -986,6 +988,7 @@
     if (mainView.bMenuMode)
     {
         [self hideMenuView:NO];
+        [self newgameCancel];
     }
 
 
@@ -1009,6 +1012,7 @@
     if (mainView.bMenuMode)
     {
         [self hideMenuView:NO];
+        [self newgameCancel];
     }
 
     
@@ -1824,6 +1828,7 @@
 	[self updateButtonDel];
 	[self updateButtonMemo];
     
+    buttonPlayNew.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
     buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
     buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
     buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
