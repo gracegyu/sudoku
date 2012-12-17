@@ -26,6 +26,7 @@
 	NSTimeInterval	hintTime;			// Hint add time (seconds)
 	
 	BOOL			isGameFinished;		// 0, 1
+	BOOL			isCloseButton;		// 0, 1
     NSInteger       mapNums[MAXMAPSIZE][MAXMAPSIZE];		// Map num (9x9 1~9
 	NSInteger		puzzleNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
 	NSInteger		answerNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
@@ -56,6 +57,7 @@
 @property NSTimeInterval	gameTime;
 @property NSTimeInterval	hintTime;
 @property BOOL			isGameFinished;
+@property BOOL			isCloseButton;
 @property (nonatomic, retain) SudokuUndo      *sudokuUndo;
 @property NSInteger		countBlank;
 @property NSInteger		countFixNums;

@@ -561,6 +561,10 @@ static NSUInteger SmallerColorTemplate[9] = {
     
 	if (!bBlur && !sudokuGame.isGameFinished)
 		return;
+    
+    if (sudokuGame.isCloseButton)
+        return;
+    
 	
 	CGRect currentRect;
 	
@@ -1162,7 +1166,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     if (sudokuGame.sudokuType == SUDOKUTYPE_KILLER || sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
         return;
+
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
     
+    if (sudokuGame.isGameFinished && [ctrl isReplaying] == NO)
+        return;
+
     
     if (bSettingGuideline == NO)
         return;
@@ -1188,9 +1197,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void) drawMarkingEqualBackgound:(CGContextRef)context
 {
-   	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-    
-    if ([ctrl isReplaying] == YES)
+    if (sudokuGame.isGameFinished)
         return;
     
     if (bSettingMarkingEqual == NO)
@@ -1218,6 +1225,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawHighlightCellBackground:(CGContextRef)context
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    
+    if (sudokuGame.isGameFinished && [ctrl isReplaying] == NO)
+        return;
+    
+    
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{
@@ -1227,6 +1240,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawGtComapreCellColor:(CGContextRef)context
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    
+    if (sudokuGame.isGameFinished && [ctrl isReplaying] == NO)
+        return;
+    
     if (sudokuGame.sudokuType != SUDOKUTYPE_GT || bSettingGuideline == NO)
         return;
     
@@ -1254,6 +1272,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawBookmarkInCell:(CGContextRef)context
 {
+    
 	NSInteger count = [sudokuGame.sudokuUndo countBookmarked];
 	NSInteger x, y;
 	
@@ -1299,6 +1318,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawHighlightCell:(CGContextRef)context
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    
+    if (sudokuGame.isGameFinished && [ctrl isReplaying] == NO)
+        return;
+
+
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size)
 	{

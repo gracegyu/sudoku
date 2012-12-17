@@ -54,6 +54,7 @@
 @synthesize buttonHelp;
 @synthesize buttonHistory;
 @synthesize buttonFeedback;
+@synthesize buttonCloseButton;
 @synthesize buttonPlayNew;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
@@ -421,6 +422,7 @@
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
     [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+    [buttonCloseButton  setTitle:@"" forState:UIControlStateNormal];
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
@@ -512,6 +514,8 @@
        [mainView initSkinColorData];
        [mainView initRainbowColorData];
        [mainView initBiggerSmallerColorData];
+       [self initScore];
+       [self loadScoreData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -529,8 +533,6 @@
 
 			firstRun = YES;
 		}
-		[self initScore];
-		[self loadScoreData];
 	    [self updateButtons];
 	    [self showHintButton];
 	   
@@ -1006,6 +1008,20 @@
 									repeats:NO];
     
 }
+
+- (IBAction)closeButton
+{
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+        [self newgameCancel];
+    }
+    mainView.sudokuGame.isCloseButton = YES;
+    
+    [self updateButtons];
+    [mainView setNeedsDisplay];
+}
+
 
 - (IBAction) playAgain
 {
@@ -1828,13 +1844,16 @@
 	[self updateButtonDel];
 	[self updateButtonMemo];
     
-    buttonPlayNew.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonPlayAgain.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonSeeReplay.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonFacebookRecord.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonFacebookPuzzle.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonTwitterRecord.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
-    buttonTwitterPuzzle.hidden = !mainView.sudokuGame.isGameFinished || bReplay;
+    BOOL bHiddenButton = !mainView.sudokuGame.isGameFinished || bReplay || mainView.sudokuGame.isCloseButton;
+    
+    buttonCloseButton.hidden = bHiddenButton;
+    buttonPlayNew.hidden = bHiddenButton;
+    buttonPlayAgain.hidden = bHiddenButton;
+    buttonSeeReplay.hidden = bHiddenButton;
+    buttonFacebookRecord.hidden = bHiddenButton;
+    buttonFacebookPuzzle.hidden = bHiddenButton;
+    buttonTwitterRecord.hidden = bHiddenButton;
+    buttonTwitterPuzzle.hidden = bHiddenButton;
 }
 
 - (BOOL) isReplaying

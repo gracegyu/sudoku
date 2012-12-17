@@ -81,6 +81,7 @@
 	UIButton	*buttonHistory;
 	UIButton	*buttonFeedback;
     
+    UIButton    *buttonCloseButton;
     UIButton    *buttonPlayNew;
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
@@ -162,6 +163,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHelp;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
+@property (nonatomic, retain) IBOutlet UIButton *buttonCloseButton;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayNew;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
@@ -191,6 +193,7 @@
 - (IBAction)memoOnOff;
 - (IBAction)delNumber;
 - (IBAction)clearNumbers;
+- (IBAction)closeButton;
 - (IBAction)playAgain;
 - (IBAction)seeReplay;
 - (IBAction)shareRecordFacebook;

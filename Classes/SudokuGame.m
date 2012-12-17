@@ -24,6 +24,7 @@
 @synthesize gameTime;
 @synthesize hintTime;
 @synthesize isGameFinished;
+@synthesize isCloseButton;
 @synthesize countBlank;
 @synthesize countFixNums;
 @synthesize countHint;
@@ -300,6 +301,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	gameTime = 0;
 	hintTime = SECONDSFORFREEHINT;
 	isGameFinished = NO;
+	isCloseButton = NO;
 	countHint = [self getDefHintCount:size];
     sudokuType = type;
 	gameLevel = level;
