@@ -289,6 +289,8 @@
         }
     }*/
     // 게임을 끝낸 종류와 Level의 Best time을 무조건 보냄으로써 사람들이 즐기는 게임의 종류와 레벨을 알 수 있다.
+    
+    
     [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType
                                        level:sudokuGame.gameLevel
                                     besttime:score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];

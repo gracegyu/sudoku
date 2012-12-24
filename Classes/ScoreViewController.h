@@ -13,6 +13,13 @@
 #import "Constants.h"
 #import "TPMultiLayoutViewController.h"
 
+typedef enum {
+    SCORETYPE_GAMES = 0,
+    SCORETYPE_CLEARS,
+    SCORETYPE_AVERAGE,
+    SCORETYPE_BESTTIME
+} SCORETYPE;
+
 @interface ScoreViewController : TPMultiLayoutViewController
 <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>
 {
@@ -24,27 +31,48 @@
     UILabel *labelSudokuType;
 	UILabel	*labelVeryEasyGames;
 	UILabel	*labelVeryEasyClears;
-	UILabel	*labelVeryEasyBestTime;
 	UILabel	*labelVeryEasyAverage;
+	UILabel	*labelVeryEasyBestTime;
 	UILabel	*labelEasyGames;
 	UILabel	*labelEasyClears;
-	UILabel	*labelEasyBestTime;
 	UILabel	*labelEasyAverage;
+	UILabel	*labelEasyBestTime;
 	UILabel	*labelNormalGames;
 	UILabel	*labelNormalClears;
-	UILabel	*labelNormalBestTime;
 	UILabel	*labelNormalAverage;
+	UILabel	*labelNormalBestTime;
 	UILabel	*labelHardGames;
 	UILabel	*labelHardClears;
-	UILabel	*labelHardBestTime;
 	UILabel	*labelHardAverage;
+	UILabel	*labelHardBestTime;
 	UILabel	*labelVeryHardGames;
 	UILabel	*labelVeryHardClears;
+	UILabel	*labelVeryHardAverage;
 	UILabel	*labelVeryHardBestTime;
-	UILabel	*labelVeryHardAverage;	
+	UILabel	*label2VeryEasyGames;
+	UILabel	*label2VeryEasyClears;
+	UILabel	*label2VeryEasyAverage;
+	UILabel	*label2VeryEasyBestTime;
+	UILabel	*label2EasyGames;
+	UILabel	*label2EasyClears;
+	UILabel	*label2EasyAverage;
+	UILabel	*label2EasyBestTime;
+	UILabel	*label2NormalGames;
+	UILabel	*label2NormalClears;
+	UILabel	*label2NormalAverage;
+	UILabel	*label2NormalBestTime;
+	UILabel	*label2HardGames;
+	UILabel	*label2HardClears;
+	UILabel	*label2HardAverage;
+	UILabel	*label2HardBestTime;
+	UILabel	*label2VeryHardGames;
+	UILabel	*label2VeryHardClears;
+	UILabel	*label2VeryHardAverage;
+	UILabel	*label2VeryHardBestTime;
 	UILabel	*labelTotalGames;
 	UILabel	*labelTotalClears;
     UILabel *labelTotalScore;
+    UILabel *labelScoresArray[4][10];
 	
 	
 	UILabel *labelTitleVeryEasy;
@@ -76,8 +104,13 @@
 	UILabel *labelRankNormal;
 	UILabel *labelRankHard;
 	UILabel *labelRankVeryHard;
+    UILabel *label2RankVeryEasy;
+	UILabel *label2RankEasy;
+	UILabel *label2RankNormal;
+	UILabel *label2RankHard;
+	UILabel *label2RankVeryHard;
 
-    UILabel *labelRankArray[5];
+    UILabel *labelRankArray[10];
 	
 	UISegmentedControl *segmentAuto;
 	BOOL		bAuto;
@@ -118,6 +151,26 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryHardClears;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryHardBestTime;
 @property (nonatomic, retain) IBOutlet UILabel	*labelVeryHardAverage;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryEasyGames;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryEasyClears;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryEasyBestTime;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryEasyAverage;
+@property (nonatomic, retain) IBOutlet UILabel	*label2EasyGames;
+@property (nonatomic, retain) IBOutlet UILabel	*label2EasyClears;
+@property (nonatomic, retain) IBOutlet UILabel	*label2EasyBestTime;
+@property (nonatomic, retain) IBOutlet UILabel	*label2EasyAverage;
+@property (nonatomic, retain) IBOutlet UILabel	*label2NormalGames;
+@property (nonatomic, retain) IBOutlet UILabel	*label2NormalClears;
+@property (nonatomic, retain) IBOutlet UILabel	*label2NormalBestTime;
+@property (nonatomic, retain) IBOutlet UILabel	*label2NormalAverage;
+@property (nonatomic, retain) IBOutlet UILabel	*label2HardGames;
+@property (nonatomic, retain) IBOutlet UILabel	*label2HardClears;
+@property (nonatomic, retain) IBOutlet UILabel	*label2HardBestTime;
+@property (nonatomic, retain) IBOutlet UILabel	*label2HardAverage;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryHardGames;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryHardClears;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryHardBestTime;
+@property (nonatomic, retain) IBOutlet UILabel	*label2VeryHardAverage;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTotalGames;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTotalClears;
 @property (nonatomic, retain) IBOutlet UILabel	*labelTotalScore;
@@ -139,6 +192,11 @@
 @property (nonatomic, retain) IBOutlet UILabel *labelRankNormal;
 @property (nonatomic, retain) IBOutlet UILabel *labelRankHard;
 @property (nonatomic, retain) IBOutlet UILabel *labelRankVeryHard;
+@property (nonatomic, retain) IBOutlet UILabel *label2RankVeryEasy;
+@property (nonatomic, retain) IBOutlet UILabel *label2RankEasy;
+@property (nonatomic, retain) IBOutlet UILabel *label2RankNormal;
+@property (nonatomic, retain) IBOutlet UILabel *label2RankHard;
+@property (nonatomic, retain) IBOutlet UILabel *label2RankVeryHard;
 
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentAuto;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking1;

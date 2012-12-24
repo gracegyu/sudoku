@@ -41,6 +41,26 @@
 @synthesize labelVeryHardClears;
 @synthesize labelVeryHardBestTime;
 @synthesize labelVeryHardAverage;
+@synthesize label2VeryEasyGames;
+@synthesize label2VeryEasyClears;
+@synthesize label2VeryEasyBestTime;
+@synthesize label2VeryEasyAverage;
+@synthesize label2EasyGames;
+@synthesize label2EasyClears;
+@synthesize label2EasyBestTime;
+@synthesize label2EasyAverage;
+@synthesize label2NormalGames;
+@synthesize label2NormalClears;
+@synthesize label2NormalBestTime;
+@synthesize label2NormalAverage;
+@synthesize label2HardGames;
+@synthesize label2HardClears;
+@synthesize label2HardBestTime;
+@synthesize label2HardAverage;
+@synthesize label2VeryHardGames;
+@synthesize label2VeryHardClears;
+@synthesize label2VeryHardBestTime;
+@synthesize label2VeryHardAverage;
 @synthesize labelTotalGames;
 @synthesize labelTotalClears;
 @synthesize labelTotalScore;
@@ -61,6 +81,11 @@
 @synthesize labelRankNormal;
 @synthesize labelRankHard;
 @synthesize labelRankVeryHard;
+@synthesize label2RankVeryEasy;
+@synthesize label2RankEasy;
+@synthesize label2RankNormal;
+@synthesize label2RankHard;
+@synthesize label2RankVeryHard;
 @synthesize segmentAuto;
 @synthesize bAuto;
 @synthesize buttonGameCenterRanking1;
@@ -78,6 +103,12 @@
 {
 	label.text = [NSString stringWithFormat:@"%d", num];
 }
+
+- (void) setInteger2:(UILabel*)label num1:(NSInteger)num1  num2:(NSInteger)num2
+{
+	label.text = [NSString stringWithFormat:@"%d\n%d", num1, num2];
+}
+
 
 - (void) setTime:(UILabel*)label num:(NSInteger)num
 {
@@ -98,6 +129,43 @@
 	
 	label.text = str;
 }
+
+- (void) setTime2:(UILabel*)label num1:(NSInteger)num1  num2:(NSInteger)num2
+{
+	NSString *str, *str2;
+	
+	if (num1 >= 60*60*100)
+		num1 = 60*60*100 - 1;
+	
+	if (num1 >= 60*60)
+		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+			   num1 / (60*60),
+			   num1 / (60) % (60),
+			   num1 % (60)];
+	else
+		str = [NSString stringWithFormat:@"%02d:%02d",
+			   num1 / (60),
+			   num1 % (60)];
+
+    if (num2 >= 60*60*100)
+		num2 = 60*60*100 - 1;
+	
+	if (num2 >= 60*60)
+		str2 = [NSString stringWithFormat:@"%@\n%d:%02d:%02d",
+                str,
+			   num2 / (60*60),
+			   num2 / (60) % (60),
+			   num2 % (60)];
+	else
+		str2 = [NSString stringWithFormat:@"%@\n%02d:%02d",
+                str,
+			   num2 / (60),
+			   num2 % (60)];
+
+	label.text = str2;
+}
+
+
 
 - (void) viewWillAppear:(BOOL)animated {
 	self.navigationController.title = gettext(@"Score", nil);
@@ -124,17 +192,69 @@
 	labelTitleAverage.text = gettext(@"average", nil);
 }
 
+- (void) initScoreArray
+{
+    labelScoresArray[SCORETYPE_GAMES][GAMELEVEL_VERYHARD] = labelVeryHardGames;
+	labelScoresArray[SCORETYPE_CLEARS][GAMELEVEL_VERYHARD] = labelVeryHardClears;
+	labelScoresArray[SCORETYPE_AVERAGE][GAMELEVEL_VERYHARD] = labelVeryHardAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][GAMELEVEL_VERYHARD] = labelVeryHardBestTime;
+	labelScoresArray[SCORETYPE_GAMES][GAMELEVEL_HARD] = labelHardGames;
+	labelScoresArray[SCORETYPE_CLEARS][GAMELEVEL_HARD] = labelHardClears;
+	labelScoresArray[SCORETYPE_AVERAGE][GAMELEVEL_HARD] = labelHardAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][GAMELEVEL_HARD] = labelHardBestTime;
+	labelScoresArray[SCORETYPE_GAMES][GAMELEVEL_NORMAL] = labelNormalGames;
+	labelScoresArray[SCORETYPE_CLEARS][GAMELEVEL_NORMAL] = labelNormalClears;
+	labelScoresArray[SCORETYPE_AVERAGE][GAMELEVEL_NORMAL] = labelNormalAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][GAMELEVEL_NORMAL] = labelNormalBestTime;
+	labelScoresArray[SCORETYPE_GAMES][GAMELEVEL_EASY] = labelEasyGames;
+	labelScoresArray[SCORETYPE_CLEARS][GAMELEVEL_EASY] = labelEasyClears;
+	labelScoresArray[SCORETYPE_AVERAGE][GAMELEVEL_EASY] = labelEasyAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][GAMELEVEL_EASY] = labelEasyBestTime;
+    labelScoresArray[SCORETYPE_GAMES][GAMELEVEL_VERYEASY] = labelVeryEasyGames;
+	labelScoresArray[SCORETYPE_CLEARS][GAMELEVEL_VERYEASY] = labelVeryEasyClears;
+	labelScoresArray[SCORETYPE_AVERAGE][GAMELEVEL_VERYEASY] = labelVeryEasyAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][GAMELEVEL_VERYEASY] = labelVeryEasyBestTime;
+
+    labelScoresArray[SCORETYPE_GAMES][5+GAMELEVEL_VERYHARD] = label2VeryHardGames;
+	labelScoresArray[SCORETYPE_CLEARS][5+GAMELEVEL_VERYHARD] = label2VeryHardClears;
+	labelScoresArray[SCORETYPE_AVERAGE][5+GAMELEVEL_VERYHARD] = label2VeryHardAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][5+GAMELEVEL_VERYHARD] = label2VeryHardBestTime;
+	labelScoresArray[SCORETYPE_GAMES][5+GAMELEVEL_HARD] = label2HardGames;
+	labelScoresArray[SCORETYPE_CLEARS][5+GAMELEVEL_HARD] = label2HardClears;
+	labelScoresArray[SCORETYPE_AVERAGE][5+GAMELEVEL_HARD] = label2HardAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][5+GAMELEVEL_HARD] = label2HardBestTime;
+	labelScoresArray[SCORETYPE_GAMES][5+GAMELEVEL_NORMAL] = label2NormalGames;
+	labelScoresArray[SCORETYPE_CLEARS][5+GAMELEVEL_NORMAL] = label2NormalClears;
+	labelScoresArray[SCORETYPE_AVERAGE][5+GAMELEVEL_NORMAL] = label2NormalAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][5+GAMELEVEL_NORMAL] = label2NormalBestTime;
+	labelScoresArray[SCORETYPE_GAMES][5+GAMELEVEL_EASY] = label2EasyGames;
+	labelScoresArray[SCORETYPE_CLEARS][5+GAMELEVEL_EASY] = label2EasyClears;
+	labelScoresArray[SCORETYPE_AVERAGE][5+GAMELEVEL_EASY] = label2EasyAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][5+GAMELEVEL_EASY] = label2EasyBestTime;
+    labelScoresArray[SCORETYPE_GAMES][5+GAMELEVEL_VERYEASY] = label2VeryEasyGames;
+	labelScoresArray[SCORETYPE_CLEARS][5+GAMELEVEL_VERYEASY] = label2VeryEasyClears;
+	labelScoresArray[SCORETYPE_AVERAGE][5+GAMELEVEL_VERYEASY] = label2VeryEasyAverage;
+	labelScoresArray[SCORETYPE_BESTTIME][5+GAMELEVEL_VERYEASY] = label2VeryEasyBestTime;
+    
+}
+
 - (void)viewDidLoad
 {
     self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];     
 	
     [self setLocalizedMessage];
+    [self initScoreArray];
     
     labelRankArray[GAMELEVEL_VERYHARD] = labelRankVeryHard;
     labelRankArray[GAMELEVEL_HARD] = labelRankHard;
     labelRankArray[GAMELEVEL_NORMAL] = labelRankNormal;
     labelRankArray[GAMELEVEL_EASY] = labelRankEasy;
     labelRankArray[GAMELEVEL_VERYEASY] = labelRankVeryEasy;
+    labelRankArray[5+GAMELEVEL_VERYHARD] = label2RankVeryHard;
+    labelRankArray[5+GAMELEVEL_HARD] = label2RankHard;
+    labelRankArray[5+GAMELEVEL_NORMAL] = label2RankNormal;
+    labelRankArray[5+GAMELEVEL_EASY] = label2RankEasy;
+    labelRankArray[5+GAMELEVEL_VERYEASY] = label2RankVeryEasy;
 
     MainViewController *ctrl = (MainViewController*)mainViewController;
     // Gamecenter와 sync맞추기 -> MainViewController로 이동
@@ -258,44 +378,33 @@
 
 - (void) displayScore
 {
-	NSInteger n = (bAuto?5:0);
+	//NSInteger n = (bAuto?5:0);
+    NSInteger iBestTime1 = 0;
+    NSInteger iBestTime2 = 0;
+    NSInteger iTotalGames = 0;
+    NSInteger iTotalClears = 0;
     
     labelSudokuType.text = [SudokuGame getSudokuTypeName:sudokuType];
     
-	
-	[self setInteger:labelVeryHardGames num:pScore->scoreGames[sudokuType][0+n]];
-	[self setInteger:labelVeryHardClears num:pScore->scoreClears[sudokuType][0+n]];
-	[self setTime:labelVeryHardBestTime num:pScore->scoreBestTime[sudokuType][0+n]];
-	[self setTime:labelVeryHardAverage num:pScore->scoreClears[sudokuType][0+n] ? pScore->scoreClearTimeSum[sudokuType][0+n]/pScore->scoreClears[sudokuType][0+n] : 0];
-	[self setInteger:labelHardGames num:pScore->scoreGames[sudokuType][1+n]];
-	[self setInteger:labelHardClears num:pScore->scoreClears[sudokuType][1+n]];
-	[self setTime:labelHardBestTime num:pScore->scoreBestTime[sudokuType][1+n]];
-	[self setTime:labelHardAverage num:pScore->scoreClears[sudokuType][1+n] ? pScore->scoreClearTimeSum[sudokuType][1+n]/pScore->scoreClears[sudokuType][1+n] : 0];
-	[self setInteger:labelNormalGames num:pScore->scoreGames[sudokuType][2+n]];
-	[self setInteger:labelNormalClears num:pScore->scoreClears[sudokuType][2+n]];
-	[self setTime:labelNormalBestTime num:pScore->scoreBestTime[sudokuType][2+n]];
-	[self setTime:labelNormalAverage num:pScore->scoreClears[sudokuType][2+n] ? pScore->scoreClearTimeSum[sudokuType][2+n]/pScore->scoreClears[sudokuType][2+n] : 0];
-	[self setInteger:labelEasyGames num:pScore->scoreGames[sudokuType][3+n]];
-	[self setInteger:labelEasyClears num:pScore->scoreClears[sudokuType][3+n]];
-	[self setTime:labelEasyBestTime num:pScore->scoreBestTime[sudokuType][3+n]];
-	[self setTime:labelEasyAverage num:pScore->scoreClears[sudokuType][3+n] ? pScore->scoreClearTimeSum[sudokuType][3+n]/pScore->scoreClears[sudokuType][3+n] : 0];
-	[self setInteger:labelVeryEasyGames num:pScore->scoreGames[sudokuType][4+n]];
-	[self setInteger:labelVeryEasyClears num:pScore->scoreClears[sudokuType][4+n]];
-	[self setTime:labelVeryEasyBestTime num:pScore->scoreBestTime[sudokuType][4+n]];
-	[self setTime:labelVeryEasyAverage num:pScore->scoreClears[sudokuType][4+n] ? pScore->scoreClearTimeSum[sudokuType][4+n]/pScore->scoreClears[sudokuType][4+n] : 0];
-	
-	[self setInteger:labelTotalGames num:
-        pScore->scoreGames[sudokuType][0+n]+
-        pScore->scoreGames[sudokuType][1+n]+
-        pScore->scoreGames[sudokuType][2+n]+
-        pScore->scoreGames[sudokuType][3+n]+
-        pScore->scoreGames[sudokuType][4+n]];
-	[self setInteger:labelTotalClears num:
-        pScore->scoreClears[sudokuType][0+n]+
-        pScore->scoreClears[sudokuType][1+n]+
-        pScore->scoreClears[sudokuType][2+n]+
-        pScore->scoreClears[sudokuType][3+n]+
-        pScore->scoreClears[sudokuType][4+n]];
+    for (int i=GAMELEVEL_VERYHARD; i<=GAMELEVEL_VERYEASY; i++)
+    {
+        iTotalGames += pScore->scoreGames[sudokuType][i] + pScore->scoreGames[sudokuType][i+5];
+        iTotalClears += pScore->scoreClears[sudokuType][i] + pScore->scoreClears[sudokuType][i+5];
+        iBestTime1 = pScore->scoreClears[sudokuType][i] ? pScore->scoreClearTimeSum[sudokuType][i]/pScore->scoreClears[sudokuType][i] : 0;
+        iBestTime2 = pScore->scoreClears[sudokuType][i+5] ? pScore->scoreClearTimeSum[sudokuType][i+5]/pScore->scoreClears[sudokuType][i+5] : 0;
+
+        [self setInteger:labelScoresArray[SCORETYPE_GAMES][i] num:pScore->scoreGames[sudokuType][i]];
+        [self setInteger:labelScoresArray[SCORETYPE_CLEARS][i] num:pScore->scoreClears[sudokuType][i]];
+        [self setTime:   labelScoresArray[SCORETYPE_AVERAGE][i] num:pScore->scoreBestTime[sudokuType][i]];
+        [self setTime:   labelScoresArray[SCORETYPE_BESTTIME][i] num:iBestTime1];
+        [self setInteger:labelScoresArray[SCORETYPE_GAMES][i+5] num:pScore->scoreGames[sudokuType][i+5]];
+        [self setInteger:labelScoresArray[SCORETYPE_CLEARS][i+5] num:pScore->scoreClears[sudokuType][i+5]];
+        [self setTime:   labelScoresArray[SCORETYPE_AVERAGE][i+5] num:pScore->scoreBestTime[sudokuType][i+5]];
+        [self setTime:   labelScoresArray[SCORETYPE_BESTTIME][i+5] num:iBestTime2];
+    }
+    
+	[self setInteger:labelTotalGames num:iTotalGames];
+	[self setInteger:labelTotalClears num:iTotalClears];
 	
 	[self displayRank];
 }
@@ -333,13 +442,18 @@
 	
 	for (int level=0; level<NUM_RANK_BESTTIME; level++)
 	{
-		DLog(@"level=%d", level);
-		if (bAuto)
-			rank = 0;
-		else
-			rank = pScore->scoreRankLevel[sudokuType][level];
-
-		[self setLableRank:labelRankArray[level] rank:rank];
+        if (sudokuType == SUDOKUTYPE_SUDOKU)
+        {
+            rank = pScore->scoreRankLevel[sudokuType][level];
+            [self setLableRank:labelRankArray[level] rank:rank];
+            rank = pScore->scoreRankLevel[sudokuType][level+5];
+            [self setLableRank:labelRankArray[level+5] rank:rank];
+        } else {
+            rank = pScore->scoreRankLevel[sudokuType][level];
+            [self setLableRank:labelRankArray[level] rank:rank];
+            rank = 0;
+            [self setLableRank:labelRankArray[level+5] rank:rank];
+        }
 	}
 
 }

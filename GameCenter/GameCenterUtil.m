@@ -199,7 +199,7 @@ static BOOL bLoginedGamecenter = NO;
 {
     NSLog(@"getLevelCategory(%d,%d)", type, level);
     
-    static NSString* strLevel[SUDOKUTYPE_MAX][5] = {
+    static NSString* strLevel[SUDOKUTYPE_MAX+1][5] = {
         {
             GK_CATEGORY_VERYHARD,
             GK_CATEGORY_HARD,
@@ -227,11 +227,18 @@ static BOOL bLoginedGamecenter = NO;
             GK_CATEGORY_NORMAL_CAL,
             GK_CATEGORY_EASY_CAL,
             GK_CATEGORY_VERYEASY_CAL
+        },
+        {
+            GK_CATEGORY_VERYHARD_AUTO,
+            GK_CATEGORY_HARD_AUTO,
+            GK_CATEGORY_NORMAL_AUTO,
+            GK_CATEGORY_EASY_AUTO,
+            GK_CATEGORY_VERYEASY_AUTO
         }
         
     };
 
-    if (level >= 0 && level < 5)
+    if (level >= 0 && level < 6)
 	{
 		return strLevel[type][level];
 	} else {
@@ -246,14 +253,14 @@ static BOOL bLoginedGamecenter = NO;
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
-	if (num < 3)	// too fast
+	if (num < 2)	// too fast
 	{
 		return;
 	}
     
     NSString* strCategory;
 
-    if (level >= 0 && level < 5)
+    if (level >= 0 && level < 6)    // 5 -> auto
 	{
 		strCategory = [self getLevelCategory:type level:level];
     } else {
