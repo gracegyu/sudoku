@@ -291,9 +291,23 @@
     // 게임을 끝낸 종류와 Level의 Best time을 무조건 보냄으로써 사람들이 즐기는 게임의 종류와 레벨을 알 수 있다.
     
     
-    [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType
-                                       level:sudokuGame.gameLevel
-                                    besttime:score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
+    // best time이 아니고 현재 게임 시간을 보낸다. 금주/오늘의 성적에 반영된다.
+    if (mainView.sudokuGame.bAutoMemo == NO)
+    {
+        [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType
+                                           level:sudokuGame.gameLevel
+                                        besttime:sudokuGame.gameTime];  //score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
+    } else if (mainView.sudokuGame.sudokuType == SUDOKUTYPE_SUDOKU) {
+        [GameCenterUtil sendBestTimeToGameCenter:SUDOKUTYPE_MAX     // auto
+                                           level:sudokuGame.gameLevel+5
+                                        besttime:sudokuGame.gameTime];  //score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
+    } else {    // Original과 Auto중에서 작은 숫자를 보낸다.
+//        NSInteger iMin = MIN(score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel],
+//                             score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel+5]);
+        [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType
+                                           level:sudokuGame.gameLevel
+                                        besttime:sudokuGame.gameTime];  //iMin];
+    }
     [NSTimer scheduledTimerWithTimeInterval:10
                                      target:self
                                    selector:@selector(OnTimerGetRanking:)
@@ -303,13 +317,21 @@
 
 - (void) getRankingFromGameCenter
 {
+    int iMaxRanking = 0;
     DLog(@"getRankingFromGameCenter");
     [GameCenterUtil getTotalScoreRanking:&(score.scoreRankTotal) value:&(score.scoreTotal)];
     
-    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
+    for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)   // SUDOKUTYPE_MAX => auto
     {
-        for (int level=0; level<NUM_RANK_BESTTIME; level++)
+        iMaxRanking = ((type==SUDOKUTYPE_SUDOKU) ? NUM_RANK_BESTTIME*2 : NUM_RANK_BESTTIME);
+        for (int level=0; level<iMaxRanking; level++)
         {
+            if (type == SUDOKUTYPE_MAX && level == GAMELEVEL_VERYEASY)
+            {
+                DLog(@"type == SUDOKUTYPE_MAX && level == GAMELEVEL_VERYEASY(rank=%d,value=%d)",
+                     score.scoreRankLevel[type][level], score.scoreBestTime[type][level]);
+            }
+            
             if (1)//score.scoreBestTime[type][level] > 0)
             {
                 [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level]

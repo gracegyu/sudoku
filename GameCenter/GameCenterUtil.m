@@ -235,12 +235,13 @@ static BOOL bLoginedGamecenter = NO;
             GK_CATEGORY_EASY_AUTO,
             GK_CATEGORY_VERYEASY_AUTO
         }
-        
     };
 
-    if (level >= 0 && level < 6)
+    if (level >= 0 && level < 5)
 	{
 		return strLevel[type][level];
+    } else if (type == SUDOKUTYPE_SUDOKU && level >= 5 && level < 10) {
+		return strLevel[SUDOKUTYPE_MAX][level-5];
 	} else {
 		return @"";
 	}
@@ -260,7 +261,7 @@ static BOOL bLoginedGamecenter = NO;
     
     NSString* strCategory;
 
-    if (level >= 0 && level < 6)    // 5 -> auto
+    if ((level >= 0 && level < 5) || (type == SUDOKUTYPE_SUDOKU && level >= 5 && level < 10))
 	{
 		strCategory = [self getLevelCategory:type level:level];
     } else {

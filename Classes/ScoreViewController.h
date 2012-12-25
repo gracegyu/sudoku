@@ -111,7 +111,21 @@ typedef enum {
 	UILabel *label2RankVeryHard;
 
     UILabel *labelRankArray[10];
-	
+
+    UIButton *buttonRankVeryEasy;
+	UIButton *buttonRankEasy;
+	UIButton *buttonRankNormal;
+	UIButton *buttonRankHard;
+	UIButton *buttonRankVeryHard;
+    UIButton *button2RankVeryEasy;
+	UIButton *button2RankEasy;
+	UIButton *button2RankNormal;
+	UIButton *button2RankHard;
+	UIButton *button2RankVeryHard;
+    
+    UIButton *buttonRankArray[10];
+
+    
 	UISegmentedControl *segmentAuto;
 	BOOL		bAuto;
 	
@@ -198,6 +212,17 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UILabel *label2RankHard;
 @property (nonatomic, retain) IBOutlet UILabel *label2RankVeryHard;
 
+@property (nonatomic, retain) IBOutlet UIButton *buttonRankVeryEasy;
+@property (nonatomic, retain) IBOutlet UIButton *buttonRankEasy;
+@property (nonatomic, retain) IBOutlet UIButton *buttonRankNormal;
+@property (nonatomic, retain) IBOutlet UIButton *buttonRankHard;
+@property (nonatomic, retain) IBOutlet UIButton *buttonRankVeryHard;
+@property (nonatomic, retain) IBOutlet UIButton *button2RankVeryEasy;
+@property (nonatomic, retain) IBOutlet UIButton *button2RankEasy;
+@property (nonatomic, retain) IBOutlet UIButton *button2RankNormal;
+@property (nonatomic, retain) IBOutlet UIButton *button2RankHard;
+@property (nonatomic, retain) IBOutlet UIButton *button2RankVeryHard;
+
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentAuto;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking1;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking2;
@@ -205,7 +230,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking4;
 @property (nonatomic, retain) IBOutlet UIButton *buttonGameCenterRanking5;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
-@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
+@property (nonatomic, retain) IBOutlet UIButton *buttonLicense;
 
 @property BOOL		bAuto;
 
@@ -218,6 +243,11 @@ typedef enum {
 - (IBAction)showGameCenterLeaderboardNormal;
 - (IBAction)showGameCenterLeaderboardHard;
 - (IBAction)showGameCenterLeaderboardVeryHard;
+- (IBAction)showGameCenterLeaderboardVeryEasy2;
+- (IBAction)showGameCenterLeaderboardEasy2;
+- (IBAction)showGameCenterLeaderboardNormal2;
+- (IBAction)showGameCenterLeaderboardHard2;
+- (IBAction)showGameCenterLeaderboardVeryHard2;
 - (IBAction)setAuto;
 - (IBAction)setSudokuType;
 
