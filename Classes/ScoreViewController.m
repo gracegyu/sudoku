@@ -134,10 +134,12 @@
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
-	else 
+	else if (num > 0)
 		str = [NSString stringWithFormat:@"%02d:%02d",
 			   num / (60),
 			   num % (60)];
+    else
+        str = @"-";
 	
 	label.text = str;
 }

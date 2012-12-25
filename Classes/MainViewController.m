@@ -298,7 +298,7 @@
                                            level:sudokuGame.gameLevel
                                         besttime:sudokuGame.gameTime];  //score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
     } else if (mainView.sudokuGame.sudokuType == SUDOKUTYPE_SUDOKU) {
-        [GameCenterUtil sendBestTimeToGameCenter:SUDOKUTYPE_MAX     // auto
+        [GameCenterUtil sendBestTimeToGameCenter:sudokuGame.sudokuType     // auto
                                            level:sudokuGame.gameLevel+5
                                         besttime:sudokuGame.gameTime];  //score.scoreBestTime[sudokuGame.sudokuType][sudokuGame.gameLevel]];
     } else {    // Original과 Auto중에서 작은 숫자를 보낸다.
