@@ -816,7 +816,12 @@
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
 		buttonRedo.enabled = NO;
 	}
-	
+}
+
+- (void) updateButtonBookmark
+{
+	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
+
 	if ([mainView.sudokuGame.sudokuUndo getIndex] <= 0)		// 맨 앞에 위치해 있을 때는 bookmark를 잠근다.
 	{
 		[buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_d"] forState:UIControlStateNormal];
@@ -833,10 +838,6 @@
         [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
 		buttonBookmark.enabled = bLock ? NO : YES;
 	}
-    
-	
-    
-
 }
 
 - (IBAction)stopUndoRedoRepeat
@@ -1896,6 +1897,7 @@
 	[self updateButtonHint];
 	[self updateButtonClear];
 	[self updateButtonUndo];
+	[self updateButtonBookmark];
 	[self updateButtonDel];
 	[self updateButtonMemo];
     

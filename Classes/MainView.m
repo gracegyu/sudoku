@@ -1273,6 +1273,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawBookmarkInCell:(CGContextRef)context
 {
+    if (sudokuGame.isGameFinished)
+        return;    
     
 	NSInteger count = [sudokuGame.sudokuUndo countBookmarked];
 	NSInteger x, y;

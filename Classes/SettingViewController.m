@@ -346,7 +346,7 @@
     //[mainViewController.mainView playSoundClick];
     //[mainViewController saveSetting];
  
-    NSString *str = [NSString stringWithFormat:@"SetSkin(%d)", skin];
+    NSString *str = @"SetChangeSkin";
     [Flurry logEvent:str];
 
 }
