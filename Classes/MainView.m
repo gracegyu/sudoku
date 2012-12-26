@@ -12,6 +12,7 @@
 #import "MainViewController.h"
 #import "Locale.h"
 #import "SudokuBoard.h"
+#import "Flurry.h"
 
 
 
@@ -2058,10 +2059,24 @@ static NSUInteger SmallerColorTemplate[9] = {
 }
 
 
-
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
 	BOOL bUseQQ=NO;
+    NSString *str;
+    
+    str = [NSString stringWithFormat:@"NewGame(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
+    [Flurry logEvent:str];
+
+    str = [NSString stringWithFormat:@"GameLevel(%@)", [SudokuGame getGameLevelNameNoop:level]];
+    [Flurry logEvent:str];
+    
+    str = [NSString stringWithFormat:@"GameSize(%d)", sizePuzzle];
+    [Flurry logEvent:str];
+
+    str = [NSString stringWithFormat:@"AutoMemo(%@)", bSettingAutoMemo ? @"Yes" : @"No"];
+    [Flurry logEvent:str];
+    
+    
     
     if (nSettingSudokuType == SUDOKUTYPE_SUDOKU && sizePuzzle == SIZE_9)    // QQWing은 9x9 일반 sudoku만 지원한다.
         bUseQQ = YES;	

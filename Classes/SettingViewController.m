@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "Appirater.h"
 #import "JMC.h"
+#import "Flurry.h"
 
 
 
@@ -295,6 +296,10 @@
     [self setImageSoundEffect];
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
+    
+    NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%d)", mainViewController.mainView.nSettingSoundOff];
+    [Flurry logEvent:str];
+
 }
 
 - (IBAction)setGuideline
@@ -341,7 +346,9 @@
     //[mainViewController.mainView playSoundClick];
     //[mainViewController saveSetting];
  
- 
+    NSString *str = [NSString stringWithFormat:@"SetSkin(%d)", skin];
+    [Flurry logEvent:str];
+
 }
 
 - (IBAction)dragChanageSkin:(id)sender
@@ -368,21 +375,26 @@
 - (IBAction)setLocaleChange
 {
     NSString* strLocale = gettext(@"locale", nil);
+    NSString* strLocale2;
 //    NSString* strIcon = nil;
     
     if ([strLocale compare:@"en"] == NSOrderedSame)
-        [Locale setLocale:@"ko"];
+        strLocale2 = @"ko";
     else if ([strLocale compare:@"ko"] == NSOrderedSame)
-        [Locale setLocale:@"ja"];
+        strLocale2 = @"ja";
     else if ([strLocale compare:@"ja"] == NSOrderedSame)
-        [Locale setLocale:@"zh_CN"];
+        strLocale2 = @"zh_CN";
     else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
-        [Locale setLocale:@"zh_TW"];
+        strLocale2 = @"zh_TW";
     else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
-        [Locale setLocale:@"en"];
+        strLocale2 = @"en";
     else
-        [Locale setLocale:@"en"];
+        strLocale2 = @"en";
     
+    NSString *str = [NSString stringWithFormat:@"SetLocale(%@)", strLocale2];
+    [Flurry logEvent:str];
+    
+    [Locale setLocale:strLocale2];
     [self setLocalizedMessage];
     [mainViewController setLocalizedMessage];
     [self setImageLocale];
@@ -420,6 +432,7 @@
 	[alert show];
 	[alert release];
     
+    [Flurry logEvent:@"goAppReview"];
 
 }
 
@@ -428,6 +441,8 @@
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:
     @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
+
+    [Flurry logEvent:@"goMoewApps"];
 
 }
 

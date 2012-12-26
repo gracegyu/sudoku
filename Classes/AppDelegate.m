@@ -12,6 +12,7 @@
 #import "Constants.h"
 #import "Appirater.h"
 #import "JMC.h"
+#import "Flurry.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
@@ -25,6 +26,15 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *majorVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString* strLocale = gettext(@"locale", nil);
+    NSString *str = [NSString stringWithFormat:@"Locale(%@)", strLocale];
+    
+    [Flurry startSession:FLURRY_KEY];
+    [Flurry setAppVersion:majorVersion];
+    [Flurry logEvent:str];
+
 
     [[JMC sharedInstance] configureJiraConnect:@"https://gracegyu.atlassian.net"
                                     projectKey:JMC_PRJKEY
@@ -74,9 +84,6 @@
     //[Appirater setDebug:YES];
     
     [Appirater appLaunched:YES];
-    
-    
-    
     
     
 }

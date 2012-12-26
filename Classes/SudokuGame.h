@@ -128,6 +128,8 @@
 - (NSInteger) getCountNum:(NSInteger)num;
 
 + (NSString*) getSudokuTypeName:(SUDOKUTYPE)type;
++ (NSString*) getSudokuTypeNameNoop:(SUDOKUTYPE)type;
++ (NSString*) getGameLevelNameNoop:(GAMELEVEL)level;
 
 - (void) setGtCellColors:(NSInteger)xPos y:(NSInteger)yPos;
 - (NSInteger) getGtCellColor:(NSInteger)xPos y:(NSInteger)yPos;

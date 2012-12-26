@@ -1038,6 +1038,11 @@
 		CF86D32816423E5E00687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D32916423E6600687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
 		CF86D32A16423E6E00687A8E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF86D31816423D3100687A8E /* StoreKit.framework */; };
+		CF87C7B6168A7B2D00097ACD /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF87C7B5168A7B2D00097ACD /* libFlurry.a */; };
+		CF87C7B7168A7B2D00097ACD /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF87C7B5168A7B2D00097ACD /* libFlurry.a */; };
+		CF87C7B8168A7B2D00097ACD /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF87C7B5168A7B2D00097ACD /* libFlurry.a */; };
+		CF87C7B9168A7B2D00097ACD /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF87C7B5168A7B2D00097ACD /* libFlurry.a */; };
+		CF87C7BA168A7B2D00097ACD /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF87C7B5168A7B2D00097ACD /* libFlurry.a */; };
 		CF88A9B016303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
 		CF88A9B116303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
 		CF88A9B216303E81006A3A6C /* bg2.png in Resources */ = {isa = PBXBuildFile; fileRef = CF88A9AC16303E81006A3A6C /* bg2.png */; };
@@ -1912,6 +1917,8 @@
 		CF85A75A16343FA300CBC9EF /* Sudoku7FreeIcon@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku7FreeIcon@2x~ipad.png"; path = "resource/Sudoku7Free/Sudoku7FreeIcon@2x~ipad.png"; sourceTree = "<group>"; };
 		CF85A75B16343FA300CBC9EF /* Sudoku7FreeIcon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Sudoku7FreeIcon~ipad.png"; path = "resource/Sudoku7Free/Sudoku7FreeIcon~ipad.png"; sourceTree = "<group>"; };
 		CF86D31816423D3100687A8E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		CF87C7B4168A7B2D00097ACD /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Flurry.h; path = Flurry/Flurry.h; sourceTree = "<group>"; };
+		CF87C7B5168A7B2D00097ACD /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry.a; path = Flurry/libFlurry.a; sourceTree = "<group>"; };
 		CF88A9AC16303E81006A3A6C /* bg2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg2.png; path = resource/Images/bg2.png; sourceTree = "<group>"; };
 		CF88A9AD16303E81006A3A6C /* bg3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg3.png; path = resource/Images/bg3.png; sourceTree = "<group>"; };
 		CF88A9AE16303E81006A3A6C /* bg4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bg4.png; path = resource/Images/bg4.png; sourceTree = "<group>"; };
@@ -2049,6 +2056,7 @@
 				CF4693DF1647A47B005DA4FD /* CoreData.framework in Frameworks */,
 				CF4693F01647A47B005DA4FD /* Security.framework in Frameworks */,
 				CF8C0AF0164E6A94002DE404 /* libGoogleAdMobAds.a in Frameworks */,
+				CF87C7B9168A7B2D00097ACD /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2081,6 +2089,7 @@
 				CF4693DE1647A47B005DA4FD /* CoreData.framework in Frameworks */,
 				CF4693EF1647A47B005DA4FD /* Security.framework in Frameworks */,
 				CF8C0AEF164E6A94002DE404 /* libGoogleAdMobAds.a in Frameworks */,
+				CF87C7B8168A7B2D00097ACD /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2113,6 +2122,7 @@
 				CF4693E01647A47B005DA4FD /* CoreData.framework in Frameworks */,
 				CF4693F11647A47B005DA4FD /* Security.framework in Frameworks */,
 				CF8C0AF1164E6A94002DE404 /* libGoogleAdMobAds.a in Frameworks */,
+				CF87C7BA168A7B2D00097ACD /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2145,6 +2155,7 @@
 				CF4693DC1647A47B005DA4FD /* CoreData.framework in Frameworks */,
 				CF4693ED1647A47B005DA4FD /* Security.framework in Frameworks */,
 				CF8C0AED164E6A94002DE404 /* libGoogleAdMobAds.a in Frameworks */,
+				CF87C7B6168A7B2D00097ACD /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2177,6 +2188,7 @@
 				CF4693DD1647A47B005DA4FD /* CoreData.framework in Frameworks */,
 				CF4693EE1647A47B005DA4FD /* Security.framework in Frameworks */,
 				CF8C0AEE164E6A94002DE404 /* libGoogleAdMobAds.a in Frameworks */,
+				CF87C7B7168A7B2D00097ACD /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2234,6 +2246,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				CF87C7B2168A7B0800097ACD /* Flurry */,
 				CF46913C1647A30D005DA4FD /* AddThis */,
 				CF4A9F9D162C01040039A3C2 /* QQWing */,
 				CF6E4198161FF2B5000DD7D7 /* JMCClasses */,
@@ -3011,6 +3024,15 @@
 				CF712151161C80A2001FB734 /* soundon.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		CF87C7B2168A7B0800097ACD /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				CF87C7B4168A7B2D00097ACD /* Flurry.h */,
+				CF87C7B5168A7B2D00097ACD /* libFlurry.a */,
+			);
+			name = Flurry;
 			sourceTree = "<group>";
 		};
 		CFBE97D5114DE8FC00CCED88 /* Data */ = {
@@ -4728,6 +4750,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4800,6 +4823,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4854,6 +4878,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4895,6 +4920,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4933,6 +4959,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -4970,6 +4997,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5010,6 +5038,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5045,6 +5074,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5079,6 +5109,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5120,6 +5151,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5158,6 +5190,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5195,6 +5228,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5235,6 +5269,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5270,6 +5305,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
@@ -5304,6 +5340,7 @@
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK/Add-ons/GoogleAnalyticsiOS_2.0beta3/Library\"",
 					"\"$(SRCROOT)/AddThis\"",
+					"\"$(SRCROOT)/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (

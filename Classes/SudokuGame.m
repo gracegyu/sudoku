@@ -2053,6 +2053,31 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     }
 }
 
++ (NSString*) getSudokuTypeNameNoop:(SUDOKUTYPE)type
+{
+    switch (type) {
+        case SUDOKUTYPE_SUDOKU :    return @"sudoku";
+        case SUDOKUTYPE_GT :        return @"greater than sudoku";
+        case SUDOKUTYPE_KILLER :    return @"sumdoku";
+        case SUDOKUTYPE_CALCU :     return @"calcudoku";
+        default: return @"";
+    }
+}
+
+
++ (NSString*) getGameLevelNameNoop:(GAMELEVEL)level
+{
+    switch (level) {
+        case GAMELEVEL_VERYEASY :   return @"very easy";
+        case GAMELEVEL_EASY :       return @"easy";
+        case GAMELEVEL_NORMAL :     return @"normal";
+        case GAMELEVEL_HARD :       return @"hard";
+        case GAMELEVEL_VERYHARD :   return @"very hard";
+        default: return @"";
+    }
+}
+
+
 - (BOOL) isGtCell:(NSInteger)sign x:(NSInteger)x1 y:(NSInteger)y1 x2:(NSInteger)x2 y2:(NSInteger)y2
 {
     if (sign > 0)

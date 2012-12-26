@@ -10,14 +10,16 @@
 #define SHORTENURL  @"http://goo.gl/VQUlv"
 #define JMC_PRJKEY  @"SDSDKNINEF"
 #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
-#define FACEBOOK_SMARTONE_ID @"302256366555317"
+#define FACEBOOK_ID @"302256366555317"
+#define FLURRY_KEY  @"FDJCSXX9BND2Z34G43VB"
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 //#define SHORTENURL  @"http://goo.gl/chLcy"    // blacklist URL?
 #define SHORTENURL  @"http://goo.gl/7tcTc"
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
-#define FACEBOOK_SMARTONE_ID @"116121415220692"
+#define FACEBOOK_ID @"116121415220692"
+#define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
@@ -31,13 +33,15 @@
 #define SHORTENURL  @"http://goo.gl/Mofwx"
 #define JMC_PRJKEY  @"SDSDKSIXF"
 #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
-#define FACEBOOK_SMARTONE_ID @"126906610795923"
+#define FACEBOOK_ID @"126906610795923"
+#define FLURRY_KEY  @"MKQK34DRFGKTTSXVS5BY"
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
 #define SHORTENURL  @"http://goo.gl/DtLbw"
 #define JMC_PRJKEY  @"SDSDKSIXP"
 #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
-#define FACEBOOK_SMARTONE_ID @"381531935263532"
+#define FACEBOOK_ID @"381531935263532"
+#define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #endif
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
@@ -49,7 +53,8 @@
 #define SHORTENURL  @"http://goo.gl/chLcy"
 #define JMC_PRJKEY  @"SDALL"
 #define JMC_APIKEY  @"bfa9e7a3-208c-4200-add4-55a5d8970e5e"
-#define FACEBOOK_SMARTONE_ID @"560258597334326"
+#define FACEBOOK_ID @"560258597334326"
+#define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")

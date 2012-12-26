@@ -17,6 +17,7 @@
 #import "JMC.h"
 #import "KillerMap.h"
 #import "AddThis.h"
+#import "Flurry.h"
 
 
 @implementation MainViewController
@@ -663,7 +664,7 @@
      
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
-     [AddThisSDK setFacebookAPIKey:FACEBOOK_SMARTONE_ID];
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
 //     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeDefault];
      [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
 
@@ -768,6 +769,8 @@
 
 - (IBAction) showScoreView
 {
+    [Flurry logEvent:@"ShowScoreView"];
+
 	[self hideMenuView:NO];
     [self getRankingFromGameCenter];    // 최신 랭킹으로 update
 
@@ -874,6 +877,7 @@
 
 - (void) OnTimerStartUndoRepeat:(NSTimer *)timer
 {
+    [Flurry logEvent:@"RunUndoRedoRepeat"];
 
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 													   target:self
@@ -888,6 +892,8 @@
 	if (mainView.bMenuMode)
 		return;
 
+    [Flurry logEvent:@"RunUndo"];
+    
 	[mainView playSoundClick];
 	[mainView runUndo];
 	[self updateBlankCellCount];
@@ -906,6 +912,8 @@
 {
 	if (mainView.bMenuMode)
 		return;
+
+    [Flurry logEvent:@"RunRedo"];
 
 	[mainView playSoundClick];
 	[mainView runRedo];
@@ -926,6 +934,9 @@
 	if (mainView.bMenuMode)
 		return;
 
+    [Flurry logEvent:@"RunBookmark"];
+
+    
 	[mainView runBookmark];
 	
 	[self updateBlankCellCount];
@@ -971,6 +982,9 @@
 {
 	[self hideMenuView:NO];	
 	
+    [Flurry logEvent:@"RunReset"];
+
+    
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     
 }
@@ -1017,7 +1031,9 @@
         [self newgameCancel];
     }
 
+    [Flurry logEvent:@"RunSeeReplay"];
 
+    
     bReplay = YES;
     [self updateButtons];
     
@@ -1055,7 +1071,8 @@
         [self newgameCancel];
     }
 
-    
+    [Flurry logEvent:@"RunPalyAgain"];
+
     // see Replay 중이면 멈춰야 한다. timer 멈춘다.
     bReplay = NO;
     
@@ -1094,6 +1111,8 @@
     {
         [self hideMenuView:NO];
     }
+
+    [Flurry logEvent:@"SharePuzzleFacebook"];
 
     
     [self callAddThisShareImage:@"facebook"];
@@ -1164,7 +1183,8 @@
         [self hideMenuView:NO];
     }
 
-    
+    [Flurry logEvent:@"SharePuzzleTwitter"];
+
     [self callAddThisShareImage:@"twitter"];
     
 }
@@ -1175,6 +1195,9 @@
     {
         [self hideMenuView:NO];
     }
+
+    [Flurry logEvent:@"ShareRecordFacebook"];
+
     
     [self callAddThisShareURL:@"facebook"];
 }
@@ -1208,6 +1231,7 @@
         [self hideMenuView:NO];
     }
 
+    [Flurry logEvent:@"ShareRecordTwitter"];
     
     [self callAddThisShareURL:@"twitter"];
 }
@@ -1227,7 +1251,8 @@
 
 	//zzzzzzzzzzzzzzzz
     //[self shareToTwitter];
-    
+    [Flurry logEvent:@"RunHint"];
+
     
 	[mainView doHint];
 }
@@ -1236,6 +1261,8 @@
 
 - (IBAction)showSettingView
 {
+    [Flurry logEvent:@"ShowSettingView"];
+
 	[self hideMenuView:NO];
 
     DLog(@"showSettingView");
@@ -1260,6 +1287,8 @@
 
 - (IBAction)showHelpView
 {
+    [Flurry logEvent:@"ShowHelpView"];
+
 	[self hideMenuView:NO];
 	
     DLog(@"showSettingView");
@@ -1277,6 +1306,8 @@
 
 - (IBAction)showFeedbackView
 {
+    [Flurry logEvent:@"ShowFeedbackView"];
+
 	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
