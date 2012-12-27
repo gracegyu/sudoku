@@ -235,6 +235,7 @@
 - (void) updateBlankCellCount;
 - (void) updateHintCount;
 - (void) updateButtonUndo;
+- (void) updateButtonBookmark;
 - (void) updateButtonClear;
 - (void) updateButtonDel;
 - (void) updateButtonHint;

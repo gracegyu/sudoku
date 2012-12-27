@@ -1207,9 +1207,8 @@
 {
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
-    NSString *strTitle = [NSString stringWithFormat:gettext(@"I cleared %@ %@ puzzle.", nil),
-                          STR_MATRIXSIZE,
-                          appName];
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
+                          STR_MATRIXSIZE];
     NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
                          gettext(@"level", nil),
                          labelLevel.text,
