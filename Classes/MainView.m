@@ -1791,6 +1791,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                         [ctrl updateBlankCellCount];
                         [ctrl updateHintCount];
                         [ctrl updateButtonUndo];
+                        [ctrl updateButtonBookmark];
                         [ctrl updateButtonClear];
                     }
 
@@ -1977,6 +1978,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	[ctrl updateBlankCellCount];
     [ctrl updateHintCount];
 	[ctrl updateButtonUndo];
+    [ctrl updateButtonBookmark];
 	[ctrl updateButtonClear];
 	[ctrl updateButtonDel];
 	[ctrl updateButtonHint];
@@ -2114,6 +2116,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                 [ctrl updateBlankCellCount];
                 [ctrl updateHintCount];
 				[ctrl updateButtonUndo];
+                [ctrl updateButtonBookmark];
                 
                 
                 [self playSound:soundClearID];
@@ -2158,6 +2161,7 @@ static NSUInteger SmallerColorTemplate[9] = {
             }
             MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
             [ctrl updateButtonUndo];
+            [ctrl updateButtonBookmark];
 			[sudokuGame saveData];
 
             break;
@@ -2187,6 +2191,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [ctrl updateBlankCellCount];
     [ctrl updateHintCount];
     [ctrl updateButtonUndo];
+    [ctrl updateButtonBookmark];
     [ctrl updateButtonClear];
     [ctrl updateButtonDel];
     [ctrl updateButtonHint];
