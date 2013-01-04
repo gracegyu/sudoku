@@ -29,7 +29,7 @@
 	BOOL			isCloseButton;		// 0, 1
     NSInteger       mapNums[MAXMAPSIZE][MAXMAPSIZE];		// Map num (9x9 1~9
 	NSInteger		puzzleNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means blank) - 문제
-	NSInteger		answerNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 0~9, 0 means 보여지는 숫자) - 정답
+	NSInteger		answerNums[MAXMAPSIZE][MAXMAPSIZE];	// Puzzle num (9x9 1~9) - 정답
 	NSInteger		fixNums[MAXMAPSIZE][MAXMAPSIZE];		// User decided num (9x9 1~9, beside Puzzle num) 
 	char			memoNums[MAXMAPSIZE][MAXMAPSIZE][MAXMAPSIZE+1];// 
 	NSInteger		gtNums[MAXMAPSIZE][MAXMAPSIZE];	// 대소비교 셀 색깔

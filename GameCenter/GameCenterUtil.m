@@ -122,7 +122,7 @@ static BOOL bLoginedGamecenter = NO;
                  {
                      if ([score.playerID isEqualToString:lp.playerID])
                      {
-                         DLog(@"rank(%@)=%d, value=%lld", category, score.rank, score.value);
+                         DLog(@"rank(%@)=%d, value=%lld, %@:%@", category, score.rank, score.value, lp.playerID, lp.displayName);
                          
                          //nRank = score.rank;
                          *rank = score.rank;

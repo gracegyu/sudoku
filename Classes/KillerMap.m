@@ -366,7 +366,7 @@
 					 zStrColor,
 					 zStrCage];
 	
-	//DLog(@"saveData KillerMap(%@)", str);
+	DLog(@"saveData KillerMap(%@)", str);
 	//[self printMap];
 
 

@@ -1772,7 +1772,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 					 hintTime,
                      sudokuType];
 					 
-	//DLog(@"saveData(%@)", str);
+	DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
 
