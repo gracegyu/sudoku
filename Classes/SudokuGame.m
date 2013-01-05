@@ -2163,7 +2163,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     [self setGtCellColorsDepth:-1 x:xPos y:yPos];
     
     
-    [self printgtNums];
+    //[self printgtNums];
 }
 
 - (NSInteger) getGtCellColor:(NSInteger)xPos y:(NSInteger)yPos
