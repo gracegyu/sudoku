@@ -327,19 +327,15 @@
         iMaxRanking = ((type==SUDOKUTYPE_SUDOKU) ? NUM_RANK_BESTTIME*2 : NUM_RANK_BESTTIME);
         for (int level=0; level<iMaxRanking; level++)
         {
-            if (type == SUDOKUTYPE_MAX && level == GAMELEVEL_VERYEASY)
-            {
-                DLog(@"type == SUDOKUTYPE_MAX && level == GAMELEVEL_VERYEASY(rank=%d,value=%d)",
-                     score.scoreRankLevel[type][level], score.scoreBestTime[type][level]);
-            }
-            
-            if (1)//score.scoreBestTime[type][level] > 0)
+            if (type==SUDOKUTYPE_SUDOKU)    // best time sync는 original sudoku만 지원
             {
                 [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level]
                                       rank:&(score.scoreRankLevel[type][level])
                                      value:&(score.scoreBestTime[type][level])];
             } else {
-                score.scoreRankLevel[type][level] = 0;  // best time이 없음
+                [GameCenterUtil getRanking:[GameCenterUtil getLevelCategory:type level:level]
+                                      rank:&(score.scoreRankLevel[type][level])
+                                     value:NULL];
             }
         }
     }
