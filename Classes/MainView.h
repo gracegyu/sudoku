@@ -179,7 +179,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (CGColorRef) getColor:(SKINCOLOR)num;
 
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle;
-
+- (BOOL) newGameFromServer:(NSString*)strData;
 - (BOOL) loadGame;
 - (void) checkClearGame;
 - (BOOL) isSelectedCellisFixed;

@@ -55,6 +55,7 @@
     
 	UILabel		*labelAutoMemo;
 	UIButton	*buttonCheckboxAutoMemo;
+	UIButton	*buttonNewGameDailyPuzzle;
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
 	UIButton	*buttonNewGameNormal;
@@ -120,6 +121,13 @@
     
     
     NSInteger        nAddThisWait;
+    
+	NSString *gServerIP;
+	NSInteger gUserID;
+    NSString *gUserName;
+	NSString *gDeviceID;
+	NSInteger gVersion;
+
 }
 
 
@@ -140,6 +148,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelAutoMemo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonCheckboxAutoMemo;
 
+@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;
@@ -185,6 +194,14 @@
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 
+@property (nonatomic, retain) NSString *gServerIP;
+@property NSInteger gUserID;
+@property (nonatomic, retain) NSString *gUserName;
+@property (nonatomic, retain) NSString *gDeviceID;
+@property NSInteger gVersion;
+
+
+
 - (IBAction)runUndo;
 - (IBAction)runRedo;
 - (IBAction)stopUndoRedoRepeat;
@@ -213,6 +230,7 @@
 - (IBAction)menuCancel;
 
 - (IBAction)showNewGame;
+- (IBAction)newgameDailyPuzzle;
 - (IBAction)newgameVeryEasy;
 - (IBAction)newgameEasy;
 - (IBAction)newgameNormal;

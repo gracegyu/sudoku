@@ -33,6 +33,7 @@
 @synthesize areaAdBanner;
 @synthesize labelAutoMemo;
 @synthesize buttonCheckboxAutoMemo;
+@synthesize buttonNewGameDailyPuzzle;
 @synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
 @synthesize buttonNewGameNormal;
@@ -76,6 +77,13 @@
 @synthesize activityIndicator;
 @synthesize segmentType;
 @synthesize labelLicense;
+
+
+@synthesize gServerIP;
+@synthesize gUserID;
+@synthesize gUserName;
+@synthesize gDeviceID;
+@synthesize gVersion;
 
 
 
@@ -379,11 +387,17 @@
 #define kSettingSudokuType              @"settingSudokuType"
 #define kSettingSkin                    @"settingSkin"
 #define kSharedThisOnFacebook           @"sharedThisOnFacebook"
+#define kServerIP                       @"serverIP"
 
 - (void) loadSetting
 {
 	DLog(@"loadSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    gServerIP = cServerHostName;
+    gDeviceID = [UIDevice currentDevice].uniqueIdentifier;
+	[gDeviceID retain];
+
     
     NSInteger settingVersion = [defaults integerForKey:kSettingSavedVersion];
     if (settingVersion == 0)    // 처음에는 저장된 setting이 없다.
@@ -399,8 +413,11 @@
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
     mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
-    
     mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
+    gServerIP = [defaults stringForKey:kServerIP];
+
+    if (!gServerIP || [gServerIP length] < 3)   // something wrong
+        gServerIP = cServerHostName;
 
 }
 
@@ -417,8 +434,9 @@
     [defaults setBool:mainView.bSettingAutoMemo forKey:kSettingAutoMemo];
     [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
     [defaults setInteger:mainView.skin forKey:kSettingSkin];
-	
     [defaults setBool:mainView.bSharedThisOnFacebook forKey:kSharedThisOnFacebook];
+    [defaults setObject:gServerIP forKey:kServerIP];
+    
     
 	[defaults synchronize];
 }
@@ -473,6 +491,7 @@
 	[buttonCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 	labelAutoMemo.text = gettext(@"auto memo", nil);
 	
+    [buttonNewGameDailyPuzzle setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
@@ -561,6 +580,18 @@
 	   {
 		 //  [self showHelpView];
 	   }
+       
+//       [self connectToServerInit]; // connect to server
+       
+       /*
+        [NSTimer scheduledTimerWithTimeInterval:5
+        target:self
+        selector:@selector(OnTimerconnectToServerInit:)
+        userInfo:nil
+        repeats:NO];
+       */
+
+       
     }
     return self;
 }
@@ -620,7 +651,7 @@
  - (void) viewDidLoad {
 	 DLog(@"viewDidLoad");	
      [super viewDidLoad];
-
+     
 
 	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
@@ -652,12 +683,7 @@
      bReplay = NO;
      nAddThisWait = 0;
 	 
-     
-     //configure addthis -- (this step is optional)
-     [AddThisSDK setNavigationBarColor:[UIColor lightGrayColor]];
-     [AddThisSDK setToolBarColor:[UIColor lightGrayColor]];
-     [AddThisSDK setSearchBarColor:[UIColor lightGrayColor]];
-     
+/*
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
      [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
@@ -682,7 +708,7 @@
      [AddThisSDK canUserReOrderServiceMenu:YES];
      [AddThisSDK setDelegate:self];
      
-     
+*/     
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -698,6 +724,132 @@
      
 
 }
+
+
+
+- (void)OnTimerconnectToServerInit:(NSTimer *)timer
+{
+	DLog(@"OnTimerconnectToServerInit");
+	[self connectToServerInit];
+}
+
+- (void) connectToServerInit
+{
+    [self loadData];
+    
+    if (gUserID != cDefaultUserID)
+        return;
+  
+	// should move to after starting to show screen fastly when it starts.
+	[self serverActStart];
+	if ([gServerIP compare:cServerHostName] != NSOrderedSame)
+		[self serverActStart];	// Server redirection
+
+	[self saveData];
+}
+
+- (NSString *)urlEncodeValue:(NSString *)str
+{
+	NSString *result = (NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str, NULL, CFSTR(":/?#[]@!$&)*+,;="), kCFStringEncodingUTF8);
+	return [result autorelease];
+}
+
+- (void) serverActStart
+{
+    NSLocale *locale = [NSLocale currentLocale];
+	NSString *languageCode = [locale objectForKey: NSLocaleLanguageCode];
+    NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+	
+	NSLocale *gbLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"] autorelease];
+    NSString *countryName = [gbLocale displayNameForKey: NSLocaleCountryCode value:countryCode];
+	NSLog(@"Country Name = %@", countryName);
+	
+	NSString* strURI = [[NSString alloc] initWithFormat:
+						@"act=start&locale=%@&deviceid=%@%@&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
+						@"en_US",
+						gDeviceID,
+						@"",
+						gVersion,
+						cDeviceType,
+						cOSType,
+						cOSVersion,
+						languageCode,
+						countryCode,
+						[self urlEncodeValue:countryName],
+						@"Apple",
+						[self getCheckSum]];
+	NSLog(@"strURI = %@", strURI);
+	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
+	[strURI release];
+	
+	// zzz error handling, if gUserID is 1 still ...
+	if (!strData) {
+		//		[self alertLocalizedAlertViewUTF8];
+		return;
+	}
+	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
+	NSInteger count = listItems.count;
+	NSString *item;
+	
+	NSString *name;
+	NSString *value;
+	NSString *error = nil;
+	for(int idx = 0; idx < count; idx++)
+	{
+		item = [listItems objectAtIndex:idx];
+		
+		NSArray *rawData = [item componentsSeparatedByString:@"\t"];
+		if (rawData.count >= 2)
+		{
+			name = [rawData objectAtIndex:0];
+			value = [rawData objectAtIndex:1];
+			
+			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
+				error = value;
+				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
+					[self alertLocalizedAlertView:error];
+				}
+			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
+				gServerIP = [[NSString alloc] initWithString:value];
+			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
+				gUserID = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
+				gUserName = [[NSString alloc] initWithString:value];
+		}
+	}
+	
+	[strData release];
+}
+
+
+
+#define kUserDefault				@"gUserDefault"
+#define kUserID						@"gUserID"
+#define kUserName					@"gUserName"
+
+- (void) loadData
+{
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *strUserDefault = [defaults stringForKey:kUserDefault];
+	if (strUserDefault == nil)	// It hasn't saved.
+		return;
+	
+	gUserName = [defaults stringForKey:kUserName];
+	gUserID	  = [defaults integerForKey:kUserID];
+}
+
+- (void) saveData
+{
+	
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+    [defaults setObject:@"Yes"		forKey:kUserDefault];
+	[defaults setObject:gUserName	forKey:kUserName];
+	[defaults setInteger:gUserID	forKey:kUserID];
+}
+
+
 /*
 - (void) updateLayoutForNewOrientation: (UIInterfaceOrientation) orientation
 {
@@ -1245,8 +1397,6 @@
 	if (mainView.bMenuMode)
 		return;
 
-	//zzzzzzzzzzzzzzzz
-    //[self shareToTwitter];
     [Flurry logEvent:@"RunHint"];
 
     
@@ -1348,8 +1498,9 @@
 
 - (void) allButtonLock
 {
+	buttonNewGameDailyPuzzle.enabled = NO;
 	buttonNewGameVeryEasy.enabled = NO;
-	buttonNewGameEasy.enabled = NO;	
+	buttonNewGameEasy.enabled = NO;
 	buttonNewGameNormal.enabled = NO;	
 	buttonNewGameHard.enabled = NO;	
 	buttonNewGameVeryHard.enabled = NO;	
@@ -1358,8 +1509,11 @@
 
 - (void) allButtonUnLock
 {
+    // zzz dailpuzzle 잠금 기능 필요
+    
+	buttonNewGameDailyPuzzle.enabled = YES;
 	buttonNewGameVeryEasy.enabled = YES;
-	buttonNewGameEasy.enabled = YES;	
+	buttonNewGameEasy.enabled = YES;
 	buttonNewGameNormal.enabled = YES;	
 	buttonNewGameHard.enabled = YES;	
 	buttonNewGameVeryHard.enabled = YES;	
@@ -1368,6 +1522,13 @@
 
 - (void) setGameLevel
 {
+    if (mainView.sudokuGame.bDailyPuzzle)
+    {
+        labelLevel.text = gettext(@"daily", nil);
+        return;
+    }
+    
+    
 	switch (mainView.sudokuGame.gameLevel) {
 		case GAMELEVEL_VERYEASY:
 			labelLevel.text = gettext(@"very easy", nil);
@@ -1624,14 +1785,9 @@
         mainView.bSharedThisOnFacebook = NO;
         [self saveSetting];
     }
-    
-    
-    
+
 	[self increaseScoreGames];
-	
-    
 	[self saveScoreData];
-	
 	[self updateGameTime:0];
 	[self updateButtons];
 }
@@ -1655,7 +1811,6 @@
 	
 	[self allButtonLock];
 
-//	[self startIndicator];
 	[activityIndicator startAnimating];
 	levelNewGame = level;
 
@@ -1664,9 +1819,193 @@
 											  selector:@selector(OnTimerNewGame:)
 											  userInfo:nil
 											   repeats:NO];	
+}
+
+- (NSInteger) getCheckSum	// forVersion2
+{
+	NSTimeInterval sec = [[NSDate date]timeIntervalSince1970];	// seconds from 1970
+	
+	NSInteger secInt = (NSInteger)(sec / 43);
+	
+	char strInt[8+1];
+	sprintf(strInt, "%08d", secInt);
+	
+	char strScramble[8+1];
+	sprintf(strScramble, "%c%c%c%c%c%c%c%c",
+			strInt[7],
+			strInt[5],
+			strInt[6],
+			strInt[4],
+			strInt[3],
+			strInt[0],
+			strInt[2],
+			strInt[1]);
+	
+	NSInteger csInt = (NSInteger) atoi(strScramble);
+	
+	return csInt;
+}
+
+
+- (void) alertLocalizedOkayView:(NSString*)aTitle message:(NSString*)aMessage
+{
+	UIAlertView *alert = [[UIAlertView alloc]
+						  initWithTitle:NSLocalizedString(aTitle, aTitle)
+						  message:NSLocalizedString(aMessage, aMessage)
+						  delegate:nil
+						  cancelButtonTitle:NSLocalizedString(@"Okay", @"Okay")
+						  otherButtonTitles:nil];
+	[alert show];
+	[alert release];
+}
+
+- (void) alertLocalizedAlertView:(NSString*)aMessage
+{
+	[self alertLocalizedOkayView:@"Alert" message:aMessage];
+}
+
+
+- (void) alertLocalizedAlertViewUTF8
+{
+	[self alertLocalizedAlertView:@"Wrong UTF8 format data was received"];
+}
+
+- (NSString *) GetHTTPData:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
+{
+	NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+						gServerIP,
+						cServerScript,
+						strURI];
+	NSURL *theURL = [NSURL URLWithString:strURL];
+	[strURL release];
+	
+	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:theURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout];
+	
+	NSURLResponse *theResponse;
+	NSError *theError;
+	NSData *theResponseData = [NSURLConnection sendSynchronousRequest:theRequest returningResponse:&theResponse error:&theError];
+	
+	if (theResponseData)
+	{
+		char str[3000+1];
+		
+		memcpy(&str, theResponseData.bytes, MIN(theResponseData.length, 3000));
+		str[theResponseData.length] = '\0';
+		DLog(@"char* = %s", str);
+		
+		NSString *strData = [[NSString alloc] initWithData:theResponseData encoding:NSUTF8StringEncoding];
+		
+		//		NSLog(@"strData = %@", strData);
+		
+		if (strData == nil)
+		{
+			[self alertLocalizedAlertViewUTF8];
+		}
+		
+		return strData;
+	} else {
+		// zzz 에러처리
+	}
 	
 	
-}	
+	return nil;
+}
+
+- (NSString*) downloadDailyPuzzle
+{
+    [self connectToServerInit];
+    
+    
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=getdailypuzzle&userid=%d&version=%d&cs=%d&size=%d&type=%d&date=%@",
+                        gUserID,
+                        1,
+                        [self getCheckSum],
+                        DEFPUZZLESIZE,
+                        mainView.nSettingSudokuType,
+                        @"20120105"];
+    
+    NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+    return strData;
+}
+
+- (void) makeNewGameDataFromServer
+{
+    SudokuGame *oldGame = mainView.sudokuGame;
+    BOOL bRet;
+    
+    NSString* strDailyPuzzle = [self downloadDailyPuzzle];
+    // 이부분을 수정
+    if (!strDailyPuzzle)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Failed!", nil)
+                                                        message:gettext(@"Failed to connect to the server!", nil)
+                                                       delegate:self
+                                              cancelButtonTitle:gettext(@"Ok", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
+	bRet = [mainView newGameFromServer:strDailyPuzzle];
+    [strDailyPuzzle release];
+    
+    if (bRet == NO)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Failed!", nil)
+                                                        message:gettext(@"Failed to make a daily puzzle!", nil)
+                                                       delegate:self
+                                              cancelButtonTitle:gettext(@"Ok", nil)
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+        return;
+    }
+    
+    if (mainView.bSharedThisOnFacebook)
+    {
+        mainView.sudokuGame.countHint += NUM_HINTBONUS;
+        
+        mainView.bSharedThisOnFacebook = NO;
+        [self saveSetting];
+    }
+    
+	[self increaseScoreGames];
+	[self saveScoreData];
+	[self updateGameTime:0];
+	[self updateButtons];
+
+	if (oldGame)
+		[oldGame release];
+
+}
+
+- (void)OnTimerNewGameDailyPuzzle:(NSTimer *)timer
+{
+	DLog(@"OnTimerNewGameDailyPuzzle");
+	
+	[self makeNewGameDataFromServer];
+	
+	[activityIndicator stopAnimating];
+	
+	[self hideNewGameView];	
+	
+}
+
+- (void) makeNewGameDailyPuzzle
+{
+	DLog(@"makeNewGameDailyPuzzle");
+	
+	[self allButtonLock];
+	[activityIndicator startAnimating];
+	timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0
+                                                    target:self
+                                                  selector:@selector(OnTimerNewGameDailyPuzzle:)
+                                                  userInfo:nil
+                                                   repeats:NO];	
+    
+    
+}
 
 - (IBAction)menuCancel
 {
@@ -1681,6 +2020,12 @@
 	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
 	[self showNewGameView];
 	
+}
+
+
+- (IBAction)newgameDailyPuzzle
+{
+	[self makeNewGameDailyPuzzle];
 }
 
 

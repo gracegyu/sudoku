@@ -208,3 +208,15 @@ typedef struct SUDOKUSCORE
 #define NUM_DEFHINT9    1
 #define NUM_DEFHINT6    1
 
+
+// for daily puzzle
+#define cDefaultUserID          1
+#define cServerHostName         @"gracegyu.comlu.com"
+#define cServerScript           @"sudoku.php"
+#define cDefaultHTTPTimeOut     10.f
+#define kResultStatus				@"Result"
+#define kCount						@"Count"
+#define kSuccess					@"Success"
+
+
+

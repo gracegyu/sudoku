@@ -30,6 +30,7 @@
 @synthesize countHint;
 @synthesize bAutoMemo;
 @synthesize kmap;
+@synthesize bDailyPuzzle;
 
 
 
@@ -307,7 +308,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	gameLevel = level;
 	
 	bAutoMemoUndoLog = YES;
-    
+    bDailyPuzzle = NO;
     
 }
 
@@ -632,9 +633,10 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	bAutoMemoUndoLog = YES;
 }
 
-- (void) postData
+- (void) postData:(BOOL)handy
 {
-	[self applyHandy];
+    if (handy)
+        [self applyHandy];
     sudokuUndo = [[SudokuUndo alloc] init];
     
 	
@@ -763,7 +765,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 		}
 	}
 
-	[self postData];
+	[self postData:YES];
 	
 	
 	return self;
@@ -805,9 +807,50 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 		}
 	}
 	
-	[self postData];
+	[self postData:YES];
 	return self;
 
+}
+
+
+- (id) initWithFromServer:(NSString*)strData type:(SUDOKUTYPE)type  automemo:(BOOL)automemo
+{
+	if ((super.init) == nil)
+		return nil;
+
+// zzz 에러 처리 필요
+    NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
+    
+    if ([listItems count] < 6)
+        return nil;
+	
+	size = [[listItems objectAtIndex:0] integerValue];
+    SUDOKUTYPE nType = type;//[[listItems objectAtIndex:1] integerValue];
+    GAMELEVEL nLevel = [[listItems objectAtIndex:2] integerValue];
+	[self initData:nType level:nLevel];
+	bAutoMemo = automemo;//NO;
+    bDailyPuzzle = YES;
+    
+    
+
+    [SudokuGame set9x9Nums:[listItems objectAtIndex:3]	size:size nums:&mapNums[0][0]];
+    [SudokuGame set9x9Nums:[listItems objectAtIndex:4]	size:size nums:&puzzleNums[0][0]];
+    [SudokuGame set9x9Nums:[listItems objectAtIndex:5]	size:size nums:&answerNums[0][0]];
+    
+    if (nType == SUDOKUTYPE_KILLER || nType == SUDOKUTYPE_CALCU)
+    {
+        if ([listItems count] < 9)
+            return nil;
+
+        kmap = [[KillerMap alloc] initWithSize:size];
+        [KillerMap setNumsPipeSize:[listItems objectAtIndex:6] size:MAXMAPSIZE*MAXMAPSIZE	nums:[kmap getMapArray]];
+        [KillerMap setNumsPipeSize:[listItems objectAtIndex:7] size:MAXMAPSIZE*MAXMAPSIZE	nums:[kmap getColorArray]];
+        [KillerMap setNumsPipe:[listItems objectAtIndex:8] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)[kmap getCageArray]];
+    }
+    
+	[self postData:NO];
+	return self;
+    
 }
 
 - (void) printNums
@@ -867,7 +910,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         size = [[listItems objectAtIndex:11] integerValue];
 		if (size < SIZE_6 || size > SIZE_9)
 		{
-			DAssert(size >= SIZE_6 && size <= SIZE_9, @"initWithSavedString:size = %d", size);
+			//DAssert(size >= SIZE_6 && size <= SIZE_9, @"initWithSavedString:size = %d", size);
 			return nil;
 		}
     } else {
@@ -877,21 +920,21 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	strTemp = [listItems objectAtIndex:5];
 	if ([strTemp length] != size*size)
 	{
-		DAssert([strTemp length] == size*size, @"initWithSavedString:puzzleNums length=%d", [strTemp length]);
+		//DAssert([strTemp length] == size*size, @"initWithSavedString:puzzleNums length=%d", [strTemp length]);
 		return nil;
 	}
 	[SudokuGame set9x9Nums:strTemp size:size nums:&puzzleNums[0][0]];
 	strTemp = [listItems objectAtIndex:6];
 	if ([strTemp length] != size*size)
 	{
-		DAssert([strTemp length] == size*size, @"initWithSavedString:answerNums length=%d", [strTemp length]);
+		//DAssert([strTemp length] == size*size, @"initWithSavedString:answerNums length=%d", [strTemp length]);
 		return nil;
 	}
 	[SudokuGame set9x9Nums:strTemp size:size nums:&answerNums[0][0]];
 	strTemp = [listItems objectAtIndex:7];
 	if ([strTemp length] != size*size)
 	{
-		DAssert([strTemp length] == size*size, @"initWithSavedString:fixNums length=%d", [strTemp length]);
+		//DAssert([strTemp length] == size*size, @"initWithSavedString:fixNums length=%d", [strTemp length]);
 		return nil;
 	}
 	[SudokuGame set9x9Nums:strTemp size:size nums:&fixNums[0][0]];
@@ -939,7 +982,15 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	} else {
 		sudokuType = SUDOKUTYPE_SUDOKU;
 	}
-	
+
+    if ([listItems count] > 16)	//
+	{
+		bDailyPuzzle = [[listItems objectAtIndex:16] integerValue] == 1 ? YES : NO;
+	} else {
+		bDailyPuzzle = NO;
+	}
+
+    
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
     {
@@ -1754,7 +1805,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f,%d",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f,%d,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -1770,7 +1821,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0,
 					 hintTime,
-                     sudokuType];
+                     sudokuType,
+                     bDailyPuzzle ? 1 : 0];
 					 
 	DLog(@"saveData(%@)", str);
 	

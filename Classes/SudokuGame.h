@@ -47,6 +47,7 @@
     NSInteger       countNums[MAXMAPSIZE];
     NSInteger       selectedXPos;
     NSInteger       selectedYPos;
+    BOOL            bDailyPuzzle;
 }
 
 @property NSInteger         size;
@@ -64,13 +65,15 @@
 @property NSInteger		countHint;
 @property BOOL			bAutoMemo;
 @property (nonatomic, retain) KillerMap		*kmap;
+@property BOOL            bDailyPuzzle;
 
 
 // Create Game : Level
 // 
 
 - (id) initWithSudokuBoard:(SudokuBoard*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
-- (id)initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
+- (id) initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
+- (id) initWithFromServer:(NSString*)strData type:(SUDOKUTYPE)type  automemo:(BOOL)automemo;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;

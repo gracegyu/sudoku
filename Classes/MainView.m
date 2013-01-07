@@ -2103,6 +2103,30 @@ static NSUInteger SmallerColorTemplate[9] = {
 	[self setNeedsDisplay];
 }
 
+- (BOOL) newGameFromServer:(NSString*)strData
+{
+    NSString *str;
+    SudokuGame *newGame;
+    
+    str = [NSString stringWithFormat:@"DailyPuzzle(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
+    [Flurry logEvent:str];
+    
+    newGame = [[SudokuGame alloc] initWithFromServer:strData type:nSettingSudokuType automemo:bSettingAutoMemo];
+    if (!newGame)
+        return NO;
+    
+    sudokuGame = newGame;
+	
+	// zzz turn off activityIndicator
+    [self setSelectedXYPos:0 yPos:0];
+    [sudokuGame saveData];          // save Sudoku data as soon as making new game
+	[self setNeedsDisplay];
+    
+    return YES;
+}
+
+
+
 #pragma mark -
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
