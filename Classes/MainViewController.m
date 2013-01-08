@@ -1978,7 +1978,9 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyyMMdd"];
     
-    return [formatter stringFromDate:today];
+    NSString *str = [formatter stringFromDate:today];
+    //[str retain];
+    return str;
 }
 
 
@@ -2099,6 +2101,9 @@
 
 	if (oldGame)
 		[oldGame release];
+    
+    dailyStat[mainView.nSettingSudokuType].played = YES;
+    [self saveDailyStat];
 
 }
 
@@ -2137,7 +2142,11 @@
 
 - (void) getDailyStat
 {
-    memset(&dailyStat, 0, sizeof(dailyStat));
+//    memset(&dailyStat, 0, sizeof(dailyStat));
+    for (int i=0; i<4; i++) {
+        dailyStat[i].total = 0;
+        dailyStat[i].besttime = 0;
+    }
     
     [self connectToServerInit];
     
@@ -2178,7 +2187,7 @@
 			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
 				error = value;
 				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
-					//[self alertLocalizedAlertView:error];
+					[self alertLocalizedAlertView:error];
                     bError = YES;
                     break;
 				}
@@ -2216,8 +2225,14 @@
 {
     if (bReadyDownloadDailyPuzzle)
     {
-        buttonNewGameDailyPuzzle.enabled = YES;
-        buttonNewGameDailyPuzzle.alpha = 1.0f;
+        if (dailyStat[mainView.nSettingSudokuType].played) // 이미 play를 했다.
+        {
+            buttonNewGameDailyPuzzle.enabled = NO;
+            buttonNewGameDailyPuzzle.alpha = 0.3;
+        } else {
+            buttonNewGameDailyPuzzle.enabled = YES;
+            buttonNewGameDailyPuzzle.alpha = 1.0f;
+        }
         
         NSString *str;
         
@@ -2238,7 +2253,7 @@
     } else  {
         buttonNewGameDailyPuzzle.enabled = NO;
         buttonNewGameDailyPuzzle.alpha = 0.3;
-        labelDailyStat.text = gettext(@"Can't connect to a server.", nil);
+        labelDailyStat.text = gettext(@"Not connected to a server.", nil);
     }
     
 }
@@ -2252,13 +2267,73 @@
     
 }
 
+#define kDailyStat  @"kDailyStat"
+
+- (void) loadDailyStat
+{
+    nowDate = [[self getNowYYYYMMDD] retain];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSString *str = (NSString*)[defaults stringForKey:kDailyStat];
+	if (str)
+    {
+        NSArray *listItems = [str componentsSeparatedByString:@","];
+
+        NSString *strDate = [listItems objectAtIndex:0];
+        if ([strDate isEqualToString:nowDate])
+        {
+            dailyStat[0].played = [[listItems objectAtIndex:1] integerValue] == 1 ? YES : NO;
+            dailyStat[1].played = [[listItems objectAtIndex:2] integerValue] == 1 ? YES : NO;
+            dailyStat[2].played = [[listItems objectAtIndex:3] integerValue] == 1 ? YES : NO;
+            dailyStat[3].played = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
+            return;
+        }
+    }
+    // another day or 1st try or error
+    
+    dailyStat[0].played = NO;
+    dailyStat[1].played = NO;
+    dailyStat[2].played = NO;
+    dailyStat[3].played = NO;
+    
+    [self saveDailyStat];
+}
+
+- (void) saveDailyStat
+{
+    NSString *newNowDate = [[self getNowYYYYMMDD] retain];
+    if ([newNowDate isEqualToString:nowDate])
+    {
+        // 그사이에 날짜가 바뀌지 않았음
+    } else {
+        // 그사이에 날짜가 바뀌었음
+        
+        nowDate = newNowDate;
+        dailyStat[0].played = NO;
+        dailyStat[1].played = NO;
+        dailyStat[2].played = NO;
+        dailyStat[3].played = NO;
+    }
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString* str = [NSString stringWithFormat:@"%@,%d,%d,%d,%d",
+                     nowDate,
+                     dailyStat[0].played ? 1 : 0,
+                     dailyStat[1].played ? 1 : 0,
+                     dailyStat[2].played ? 1 : 0,
+                     dailyStat[3].played ? 1 : 0];
+    
+    [defaults setObject:str forKey:kDailyStat];
+    [defaults synchronize];
+}
+
 
 - (void) readyToDownloadDailyPuzzle
 {
+    [self loadDailyStat];
+    
     bReadyDownloadDailyPuzzle = NO;
-    buttonNewGameDailyPuzzle.enabled = NO;
-    buttonNewGameDailyPuzzle.alpha = 0.3;
-    labelDailyStat.text = gettext(@"Connection to a server", nil);
+    [self setDailyStat];
+    labelDailyStat.text = gettext(@"Connecting to a server", nil);
     
     // TOBE - indicator on earth
     timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0

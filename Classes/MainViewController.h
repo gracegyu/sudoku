@@ -27,6 +27,7 @@ typedef struct DAILYSTAT
 {
     NSInteger total;
     NSInteger besttime;
+    BOOL played;
 } DAILYSTAT;
 
 
@@ -135,6 +136,7 @@ typedef struct DAILYSTAT
 
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
     BOOL    bReadyDownloadDailyPuzzle;
+    NSString *nowDate;
 }
 
 
