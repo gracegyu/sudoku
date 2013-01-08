@@ -23,7 +23,11 @@
 #import "Constants.h"
 
 
-
+typedef struct DAILYSTAT
+{
+    NSInteger total;
+    NSInteger besttime;
+} DAILYSTAT;
 
 
 
@@ -56,6 +60,7 @@
 	UILabel		*labelAutoMemo;
 	UIButton	*buttonCheckboxAutoMemo;
 	UIButton	*buttonNewGameDailyPuzzle;
+    UILabel     *labelDailyStat;
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
 	UIButton	*buttonNewGameNormal;
@@ -128,6 +133,8 @@
 	NSString *gDeviceID;
 	NSInteger gVersion;
 
+    DAILYSTAT   dailyStat[4];   // daily puzzle 통계
+    BOOL    bReadyDownloadDailyPuzzle;
 }
 
 
@@ -149,6 +156,7 @@
 @property (nonatomic, retain) IBOutlet UIButton	*buttonCheckboxAutoMemo;
 
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStat;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;

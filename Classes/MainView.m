@@ -2022,7 +2022,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-/*
+
     for (int i=0; i<sudokuGame.size; i++)
     {
         for (int j=0; j<sudokuGame.size; j++)
@@ -2031,7 +2031,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         }
         
     }
-*/    
+    
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;

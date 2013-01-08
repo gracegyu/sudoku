@@ -56,6 +56,6 @@ typedef struct KillerCage
 + (NSString*) getSign:(CAGE_SIGN)cs;
 + (void) setNumsPipeSize:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums;
 + (void) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums;
-
++ (void) getNumsPipeSize:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums;
 
 @end

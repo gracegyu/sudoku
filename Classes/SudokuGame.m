@@ -827,15 +827,20 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	size = [[listItems objectAtIndex:0] integerValue];
     SUDOKUTYPE nType = type;//[[listItems objectAtIndex:1] integerValue];
     GAMELEVEL nLevel = [[listItems objectAtIndex:2] integerValue];
+    if (size != SIZE_6 && size != SIZE_9)
+        return nil;    
+    
+    
 	[self initData:nType level:nLevel];
 	bAutoMemo = automemo;//NO;
     bDailyPuzzle = YES;
     
-    
+    map = [[SudokuMap alloc] initWithSize:size defmap:YES]; // for automemo
 
     [SudokuGame set9x9Nums:[listItems objectAtIndex:3]	size:size nums:&mapNums[0][0]];
     [SudokuGame set9x9Nums:[listItems objectAtIndex:4]	size:size nums:&puzzleNums[0][0]];
     [SudokuGame set9x9Nums:[listItems objectAtIndex:5]	size:size nums:&answerNums[0][0]];
+    
     
     if (nType == SUDOKUTYPE_KILLER || nType == SUDOKUTYPE_CALCU)
     {
@@ -1397,6 +1402,21 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
     return answerNums[x][y];
 }
+
+- (NSInteger*) getMapNumsArray
+{
+    return (NSInteger*) &(mapNums[0][0]);
+}
+- (NSInteger*) getPuzzleNumsArray
+{
+    return (NSInteger*) &(puzzleNums[0][0]);
+}
+- (NSInteger*) getAnswerNumsArray
+{
+    return (NSInteger*) &(answerNums[0][0]);
+}
+
+
 
 - (NSInteger) getDisplayNum:(NSInteger)x y:(NSInteger)y
 {

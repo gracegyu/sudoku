@@ -355,9 +355,9 @@
 										nums:(NSInteger*)&cage[0]];
 	//DLog(@"zStrCage(%s)", zStrCage);
 	
-	DAssert(strlen(zStrMap) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrMap)=%zd", strlen(zStrMap));
-	DAssert(strlen(zStrColor) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrColor)=%zd", strlen(zStrColor));
-	DAssert(strlen(zStrCage) >= [self getCageCount]*3*2, @"strlen(zStrCage)=%zd", strlen(zStrCage));
+//	DAssert(strlen(zStrMap) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrMap)=%zd", strlen(zStrMap));
+//	DAssert(strlen(zStrColor) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrColor)=%zd", strlen(zStrColor));
+//	DAssert(strlen(zStrCage) >= [self getCageCount]*3*2, @"strlen(zStrCage)=%zd", strlen(zStrCage));
 	
 	NSString *str = [NSString stringWithFormat:
 					 @"%d,%s,%s,%s",

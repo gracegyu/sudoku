@@ -18,6 +18,7 @@
 #import "KillerMap.h"
 #import "AddThis.h"
 #import "Flurry.h"
+#import "UIDevice+IdentifierAddition.h"
 
 
 @implementation MainViewController
@@ -34,6 +35,7 @@
 @synthesize labelAutoMemo;
 @synthesize buttonCheckboxAutoMemo;
 @synthesize buttonNewGameDailyPuzzle;
+@synthesize labelDailyStat;
 @synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
 @synthesize buttonNewGameNormal;
@@ -242,6 +244,23 @@
     
     
     NSString* strMsg = [NSString stringWithString:gettext(@"You cleared this game.", nil)];
+    if (sudokuGame.bDailyPuzzle)
+    {
+        NSInteger total=0, grade=0;
+        
+        if ([self uploadDailyPuzzleResult:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
+            total > 0 &&
+            grade > 0 &&
+            grade <= total)
+        {
+            strMsg = [strMsg stringByAppendingString:@"\n"];
+            strMsg = [strMsg stringByAppendingFormat:
+                      gettext(@"Your ranking of daily puzzle:#%d/%d", nil),
+                      grade, total];
+        }
+    }
+
+    
     if (bNewBest)
     {
         strMsg = [strMsg stringByAppendingString:@"\n"];
@@ -272,7 +291,6 @@
     
 
     [self sendDataToGameCenter:sudokuGame];
-
 	[self updateButtons];
 }
 
@@ -387,17 +405,12 @@
 #define kSettingSudokuType              @"settingSudokuType"
 #define kSettingSkin                    @"settingSkin"
 #define kSharedThisOnFacebook           @"sharedThisOnFacebook"
-#define kServerIP                       @"serverIP"
 
 - (void) loadSetting
 {
 	DLog(@"loadSetting");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
-    gServerIP = cServerHostName;
-    gDeviceID = [UIDevice currentDevice].uniqueIdentifier;
-	[gDeviceID retain];
-
     
     NSInteger settingVersion = [defaults integerForKey:kSettingSavedVersion];
     if (settingVersion == 0)    // 처음에는 저장된 setting이 없다.
@@ -414,11 +427,6 @@
     mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
     mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
-    gServerIP = [defaults stringForKey:kServerIP];
-
-    if (!gServerIP || [gServerIP length] < 3)   // something wrong
-        gServerIP = cServerHostName;
-
 }
 
 - (void) saveSetting
@@ -435,7 +443,6 @@
     [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
     [defaults setInteger:mainView.skin forKey:kSettingSkin];
     [defaults setBool:mainView.bSharedThisOnFacebook forKey:kSharedThisOnFacebook];
-    [defaults setObject:gServerIP forKey:kServerIP];
     
     
 	[defaults synchronize];
@@ -490,8 +497,12 @@
 	
 	[buttonCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 	labelAutoMemo.text = gettext(@"auto memo", nil);
-	
+	labelDailyStat.text = @"";  // 초기화
+#ifdef DAILYSENDER
+    [buttonNewGameDailyPuzzle setTitle:@"send daily puzzle" forState:UIControlStateNormal];
+#else
     [buttonNewGameDailyPuzzle setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
+#endif
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
@@ -546,6 +557,7 @@
 	   areaPuzzleTable.hidden = YES;
 	   areaNumButton.hidden = YES;
 	   areaAdBanner.hidden = YES;
+       gUserID = cDefaultUserID;
 	   
        [self decideLocale];
        
@@ -683,7 +695,7 @@
      bReplay = NO;
      nAddThisWait = 0;
 	 
-/*
+
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
      [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
@@ -708,7 +720,7 @@
      [AddThisSDK canUserReOrderServiceMenu:YES];
      [AddThisSDK setDelegate:self];
      
-*/     
+     
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -735,17 +747,19 @@
 
 - (void) connectToServerInit
 {
-    [self loadData];
-    
-    if (gUserID != cDefaultUserID)
+    if (gUserID != cDefaultUserID) {
+        [self loadServerData];
         return;
+    }
+    [self loadServerData];
+
   
 	// should move to after starting to show screen fastly when it starts.
 	[self serverActStart];
 	if ([gServerIP compare:cServerHostName] != NSOrderedSame)
 		[self serverActStart];	// Server redirection
 
-	[self saveData];
+	[self saveServerData];
 }
 
 - (NSString *)urlEncodeValue:(NSString *)str
@@ -765,11 +779,12 @@
 	NSLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=start&locale=%@&deviceid=%@%@&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
-						@"en_US",
+						@"act=%@&locale=%@&deviceid=%@%@&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
+						@"start",
+                        @"en_US",
 						gDeviceID,
 						@"",
-						gVersion,
+						cProtocolVersion,
 						cDeviceType,
 						cOSType,
 						cOSVersion,
@@ -807,7 +822,7 @@
 			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
 				error = value;
 				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
-					[self alertLocalizedAlertView:error];
+					//[self alertLocalizedAlertView:error];
 				}
 			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
 				gServerIP = [[NSString alloc] initWithString:value];
@@ -823,23 +838,38 @@
 
 
 
+
+#define kServerIP                   @"serverIP"
 #define kUserDefault				@"gUserDefault"
 #define kUserID						@"gUserID"
 #define kUserName					@"gUserName"
 
-- (void) loadData
+- (void) loadServerData
 {
+    gServerIP = cServerHostName;
+    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
+    [gDeviceID retain];
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *strUserDefault = [defaults stringForKey:kUserDefault];
 	if (strUserDefault == nil)	// It hasn't saved.
 		return;
 	
+    gServerIP = [defaults stringForKey:kServerIP];
 	gUserName = [defaults stringForKey:kUserName];
 	gUserID	  = [defaults integerForKey:kUserID];
+
+    if (!gServerIP || [gServerIP length] < 3)   // something wrong
+        gServerIP = cServerHostName;
 }
 
-- (void) saveData
+
+
+
+
+
+
+- (void) saveServerData
 {
 	
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -847,6 +877,8 @@
     [defaults setObject:@"Yes"		forKey:kUserDefault];
 	[defaults setObject:gUserName	forKey:kUserName];
 	[defaults setInteger:gUserID	forKey:kUserID];
+    [defaults setObject:gServerIP   forKey:kServerIP];
+
 }
 
 
@@ -896,24 +928,49 @@
 	label.text = [NSString stringWithFormat:@"%d", num];
 }
 
+- (NSString*) getTimeString:(NSInteger)num
+{
+    NSString *str;
+    
+	if (num >= 60*60*100)
+		num = 60*60*100 - 1;
+	
+	if (num >= 60*60)
+		str = [NSString stringWithFormat:@"%2d:%02d:%02d",
+			   num / (60*60),
+			   num / (60) % (60),
+			   num % (60)];
+	else if (num > 0) 
+		str = [NSString stringWithFormat:@"%02d:%02d",
+			   num / (60),
+			   num % (60)];
+	else 
+		str = [NSString stringWithFormat:@"-"];
+
+    return str;
+}
+
 - (void) setTime:(UILabel*)label num:(NSInteger)num
 {
+    label.text = [self getTimeString:num];
+    /*
 	if (num >= 60*60*100)
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
 		label.text = [NSString stringWithFormat:@"%2d:%02d:%02d",
-			   num / (60*60),
-			   num / (60) % (60),
-			   num % (60)];
-	else if (num > 0) 
+                      num / (60*60),
+                      num / (60) % (60),
+                      num % (60)];
+	else if (num > 0)
 		label.text = [NSString stringWithFormat:@"%02d:%02d",
-			   num / (60),
-			   num % (60)];
+                      num / (60),
+                      num % (60)];
 	else 
 		label.text = [NSString stringWithFormat:@"-"];
-
+    */
 }
+
 
 - (IBAction) showScoreView
 {
@@ -1813,12 +1870,15 @@
 
 	[activityIndicator startAnimating];
 	levelNewGame = level;
-
+#ifdef DAILYSENDER
+	[self makeNewGameData];
+#else
 	timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0 
 												target:self
 											  selector:@selector(OnTimerNewGame:)
 											  userInfo:nil
 											   repeats:NO];	
+#endif
 }
 
 - (NSInteger) getCheckSum	// forVersion2
@@ -1850,10 +1910,10 @@
 - (void) alertLocalizedOkayView:(NSString*)aTitle message:(NSString*)aMessage
 {
 	UIAlertView *alert = [[UIAlertView alloc]
-						  initWithTitle:NSLocalizedString(aTitle, aTitle)
-						  message:NSLocalizedString(aMessage, aMessage)
+						  initWithTitle:gettext(aTitle, nil)
+						  message:gettext(aMessage, nil)
 						  delegate:nil
-						  cancelButtonTitle:NSLocalizedString(@"Okay", @"Okay")
+						  cancelButtonTitle:gettext(@"Ok", nil)
 						  otherButtonTitles:nil];
 	[alert show];
 	[alert release];
@@ -1911,23 +1971,97 @@
 	return nil;
 }
 
+
+- (NSString*) getNowYYYYMMDD
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    
+    return [formatter stringFromDate:today];
+}
+
+
 - (NSString*) downloadDailyPuzzle
 {
     [self connectToServerInit];
     
-    
+     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=getdailypuzzle&userid=%d&version=%d&cs=%d&size=%d&type=%d&date=%@",
+						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
+                        @"getdailypuzzle",
                         gUserID,
-                        1,
+                        gUserName,
+                        gVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
-                        @"20120105"];
+                       [self getNowYYYYMMDD],
+                        mainView.bSettingAutoMemo ? 1 : 0];
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
     return strData;
 }
+
+- (BOOL) uploadDailyPuzzleResult:(NSTimeInterval)gameTime pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
+{
+    [self connectToServerInit];
+    
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&spend=%d&automemo=%d",
+                        @"addresult",
+                        gUserID,
+                        gUserName,
+                        gVersion,
+                        [self getCheckSum],
+                        DEFPUZZLESIZE,
+                        mainView.nSettingSudokuType,
+                        [self getNowYYYYMMDD],
+                        (NSUInteger)gameTime,
+                        mainView.bSettingAutoMemo ? 1 : 0];
+    
+    NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+    
+    if (!strData) {
+		return NO;
+	}
+	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
+	NSInteger count = listItems.count;
+	NSString *item;
+    BOOL bError = NO;
+	
+	NSString *name;
+	NSString *value;
+	NSString *error = nil;
+	for(int idx = 0; idx < count; idx++)
+	{
+		item = [listItems objectAtIndex:idx];
+		
+		NSArray *rawData = [item componentsSeparatedByString:@"\t"];
+		if (rawData.count >= 2)
+		{
+			name = [rawData objectAtIndex:0];
+			value = [rawData objectAtIndex:1];
+			
+			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
+				error = value;
+				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
+					[self alertLocalizedAlertView:error];
+                    bError = YES;
+				}
+			} else if ([name caseInsensitiveCompare:@"Total"] == NSOrderedSame)
+				*pTotal = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"Grade"] == NSOrderedSame)
+				*pGrade = [value integerValue];
+		}
+	}
+	
+	[strData release];
+    
+    
+    return bError ? NO : YES;
+}
+
 
 - (void) makeNewGameDataFromServer
 {
@@ -1938,13 +2072,7 @@
     // 이부분을 수정
     if (!strDailyPuzzle)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Failed!", nil)
-                                                        message:gettext(@"Failed to connect to the server!", nil)
-                                                       delegate:self
-                                              cancelButtonTitle:gettext(@"Ok", nil)
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+        [self alertLocalizedAlertView:@"Can't connect to a server."];
         return;
     }
 	bRet = [mainView newGameFromServer:strDailyPuzzle];
@@ -1952,13 +2080,7 @@
     
     if (bRet == NO)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Failed!", nil)
-                                                        message:gettext(@"Failed to make a daily puzzle!", nil)
-                                                       delegate:self
-                                              cancelButtonTitle:gettext(@"Ok", nil)
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+        [self alertLocalizedAlertView:@"Failed to make a daily puzzle."];
         return;
     }
     
@@ -2012,8 +2134,147 @@
 	[self hideMenuView:NO];
 }
 
+
+- (void) getDailyStat
+{
+    memset(&dailyStat, 0, sizeof(dailyStat));
+    
+    [self connectToServerInit];
+    
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&date=%@",
+                        @"getdailystat",
+                        gUserID,
+                        gUserName,
+                        cProtocolVersion,
+                        [self getCheckSum],
+                        DEFPUZZLESIZE,
+                        [self getNowYYYYMMDD]];
+    
+    NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+    
+    if (!strData) {
+        // clear 성적 표시
+		return;
+	}
+	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
+	NSInteger count = listItems.count;
+	NSString *item;
+    BOOL bError = NO;
+	
+	NSString *name;
+	NSString *value;
+	NSString *error = nil;
+	for(int idx = 0; idx < count; idx++)
+	{
+		item = [listItems objectAtIndex:idx];
+		
+		NSArray *rawData = [item componentsSeparatedByString:@"\t"];
+		if (rawData.count >= 2)
+		{
+			name = [rawData objectAtIndex:0];
+			value = [rawData objectAtIndex:1];
+			
+			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
+				error = value;
+				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
+					//[self alertLocalizedAlertView:error];
+                    bError = YES;
+                    break;
+				}
+			}
+            else if ([name caseInsensitiveCompare:@"Total0"] == NSOrderedSame)
+				dailyStat[0].total = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"Besttime0"] == NSOrderedSame)
+				dailyStat[0].besttime = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"Total1"] == NSOrderedSame)
+				dailyStat[1].total = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"Besttime1"] == NSOrderedSame)
+				dailyStat[1].besttime = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"Total2"] == NSOrderedSame)
+				dailyStat[2].total = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"Besttime2"] == NSOrderedSame)
+				dailyStat[2].besttime = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"Total3"] == NSOrderedSame)
+				dailyStat[3].total = [value integerValue];
+			else if ([name caseInsensitiveCompare:@"Besttime3"] == NSOrderedSame)
+				dailyStat[3].besttime = [value integerValue];
+		}
+	}
+	
+	[strData release];
+    
+    if (bError == NO)
+        bReadyDownloadDailyPuzzle = YES;
+    
+    return;
+}
+
+
+
+- (void) setDailyStat
+{
+    if (bReadyDownloadDailyPuzzle)
+    {
+        buttonNewGameDailyPuzzle.enabled = YES;
+        buttonNewGameDailyPuzzle.alpha = 1.0f;
+        
+        NSString *str;
+        
+        if (dailyStat[mainView.nSettingSudokuType].total == 0)
+             str = [NSString stringWithFormat:gettext(@"not yet", nil),
+                                              dailyStat[mainView.nSettingSudokuType].total];
+        else if (dailyStat[mainView.nSettingSudokuType].total == 1)
+            str = [NSString stringWithFormat:gettext(@"%d person", nil),
+                                             dailyStat[mainView.nSettingSudokuType].total];
+        else    // > 1
+            str = [NSString stringWithFormat:gettext(@"%d people", nil),
+                                             dailyStat[mainView.nSettingSudokuType].total];
+        labelDailyStat.text = [NSString stringWithFormat:@"%@, %@:%@",
+                               str,
+                               gettext(@"best time", nil),
+                               [self getTimeString:dailyStat[mainView.nSettingSudokuType].besttime]];
+
+    } else  {
+        buttonNewGameDailyPuzzle.enabled = NO;
+        buttonNewGameDailyPuzzle.alpha = 0.3;
+        labelDailyStat.text = gettext(@"Can't connect to a server.", nil);
+    }
+    
+}
+
+- (void)OnTimerDailyState:(NSTimer *)timer
+{
+	DLog(@"OnTimerDailyState");
+	
+	[self getDailyStat];
+    [self setDailyStat];
+    
+}
+
+
+- (void) readyToDownloadDailyPuzzle
+{
+    bReadyDownloadDailyPuzzle = NO;
+    buttonNewGameDailyPuzzle.enabled = NO;
+    buttonNewGameDailyPuzzle.alpha = 0.3;
+    labelDailyStat.text = gettext(@"Connection to a server", nil);
+    
+    // TOBE - indicator on earth
+    timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0
+                                                    target:self
+                                                  selector:@selector(OnTimerDailyState:)
+                                                  userInfo:nil
+                                                   repeats:NO];
+    
+    
+}
+
 - (IBAction)showNewGame
 {
+    [self readyToDownloadDailyPuzzle];
+    //[self getDailyStat];
+    //[self setDailyStat];
     [self setSudokuTypeSegment];
     
 	[self allButtonUnLock];
@@ -2023,9 +2284,125 @@
 }
 
 
+
+- (void) sendDailyPuzzle:(NSString*)puzzleDate
+{
+    char zStrMapNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
+    
+    NSString *dataFile = [NSString stringWithFormat:@"%d\n%d\n%d\n",
+                          mainView.sudokuGame.size,
+                          mainView.sudokuGame.sudokuType,
+                          mainView.sudokuGame.gameLevel];
+
+    [SudokuGame get9x9Nums:zStrMapNum       size:mainView.sudokuGame.size   nums:[mainView.sudokuGame getMapNumsArray]];
+	[SudokuGame get9x9Nums:zStrPuzzleNum	size:mainView.sudokuGame.size   nums:[mainView.sudokuGame getPuzzleNumsArray]];
+	[SudokuGame get9x9Nums:zStrAnswerNum	size:mainView.sudokuGame.size   nums:[mainView.sudokuGame getAnswerNumsArray]];
+
+    dataFile = [dataFile stringByAppendingFormat:@"%s\n%s\n%s\n",
+                zStrMapNum,
+                zStrPuzzleNum,
+                zStrAnswerNum];
+    
+    if (mainView.sudokuGame.sudokuType == SUDOKUTYPE_KILLER || mainView.sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
+    {
+        KillerMap *kMap = mainView.sudokuGame.kmap;
+        
+        char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
+        char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
+        char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
+        
+        [KillerMap getNumsPipeSize:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:[kMap getMapArray]];
+        [KillerMap getNumsPipeSize:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:[kMap getColorArray]];
+        [KillerMap getNumsPipe:zStrCage		size:[kMap getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
+                                        nums:(NSInteger*)[kMap getCageArray]];
+        
+        dataFile = [dataFile stringByAppendingFormat:@"%s\n%s\n%s\n",
+                    zStrMap,
+                    zStrColor,
+                    zStrCage];
+    }
+    
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&file=%@",
+                        @"adddailypuzzle",
+                        gVersion,
+                        [self getCheckSum],
+                        DEFPUZZLESIZE,
+                        mainView.nSettingSudokuType,
+                        puzzleDate,
+                        [self urlEncodeValue:dataFile]];
+    
+    DLog(@"strURI=\n%@", strURI);
+    
+    
+    NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+
+    return;
+}
+
+
+
 - (IBAction)newgameDailyPuzzle
 {
+#ifdef DAILYSENDER
+    NSDate *date;
+    NSDateComponents *com;
+    NSDateFormatter *formatter;
+    
+    com = [[NSDateComponents alloc] init];
+    [com setYear:2012];
+    [com setMonth:1];
+    [com setDay:1];
+    
+    date = [[NSCalendar currentCalendar] dateFromComponents:com];
+    
+    formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyyMMdd"];
+    
+  
+
+    [self makeNewGame:GAMELEVEL_NORMAL];
+    [NSThread sleepForTimeInterval:1];
+    [self sendDailyPuzzle:@"20120722"];
+/*
+    [self makeNewGame:GAMELEVEL_NORMAL];
+    [NSThread sleepForTimeInterval:1];
+    [self sendDailyPuzzle:@"20120722"];
+
+    [self makeNewGame:GAMELEVEL_NORMAL];
+    [NSThread sleepForTimeInterval:1];
+    [self sendDailyPuzzle:@"20120909"];
+
+    [self makeNewGame:GAMELEVEL_NORMAL];
+    [NSThread sleepForTimeInterval:1];
+    [self sendDailyPuzzle:@"20120129"];
+    
+    [self makeNewGame:GAMELEVEL_NORMAL];
+    [NSThread sleepForTimeInterval:1];
+    [self sendDailyPuzzle:@"20120212"];
+*/
+/*
+    for (int i=0; i<366; i++)
+    {
+        DLog(@"%@", [formatter stringFromDate:date]);
+        [self makeNewGame:GAMELEVEL_NORMAL];
+        [NSThread sleepForTimeInterval:1];
+        [self sendDailyPuzzle:[formatter stringFromDate:date]];
+
+        date = [date dateByAddingTimeInterval:60*60*24];
+    }
+*/
+    
+    [formatter release];
+    
+	[self hideNewGameView];
+    
+    
+#else
 	[self makeNewGameDailyPuzzle];
+#endif
 }
 
 
@@ -2077,6 +2454,7 @@
 - (IBAction)setSudokuType
 {
     mainView.nSettingSudokuType = [segmentType selectedSegmentIndex];
+    [self setDailyStat];
     
 	[self saveSetting];
 }

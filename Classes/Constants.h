@@ -210,7 +210,8 @@ typedef struct SUDOKUSCORE
 
 
 // for daily puzzle
-#define cDefaultUserID          1
+#define cProtocolVersion        1
+#define cDefaultUserID          0
 #define cServerHostName         @"gracegyu.comlu.com"
 #define cServerScript           @"sudoku.php"
 #define cDefaultHTTPTimeOut     10.f

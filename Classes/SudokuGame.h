@@ -79,6 +79,12 @@
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getPuzzleNums:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getAnswerNums:(NSInteger)x y:(NSInteger)y;
+
+- (NSInteger*) getMapNumsArray;
+- (NSInteger*) getPuzzleNumsArray;
+- (NSInteger*) getAnswerNumsArray;
+
+
 - (NSInteger) getDisplayNum:(NSInteger)x y:(NSInteger)y;
 - (BOOL) isPuzzleNum:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
