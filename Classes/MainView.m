@@ -501,6 +501,59 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 }
 
+- (void) drawNumRect3D:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+{
+    NSString *str = [NSString stringWithFormat:@"%d", num];
+    NSInteger ratio = 70;
+    
+    CGRect rectBlack = CGRectMake(rect.origin.x-rect.size.width/ratio, rect.origin.y-rect.size.height/ratio, rect.size.width, rect.size.height);
+    CGRect rectWhite1 = CGRectMake(rect.origin.x+rect.size.width/ratio, rect.origin.y+rect.size.height/ratio, rect.size.width, rect.size.height);
+    CGRect rectWhite2 = CGRectMake(rect.origin.x, rect.origin.y+rect.size.height/ratio, rect.size.width, rect.size.height);
+    CGRect rectWhite3 = CGRectMake(rect.origin.x+rect.size.width/ratio, rect.origin.y, rect.size.width, rect.size.height);
+    UIColor *colorBlack = [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:0.5f];
+    UIColor *colorWhite = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.f];
+
+    
+    [self drawStrRect:context
+                  str:str
+                 rect:rectBlack
+                color:colorBlack.CGColor
+                 font:font
+				align:UITextAlignmentCenter];
+
+    [self drawStrRect:context
+                  str:str
+                 rect:rectWhite1
+                color:colorWhite.CGColor
+                 font:font
+				align:UITextAlignmentCenter];
+
+    [self drawStrRect:context
+                  str:str
+                 rect:rectWhite2
+                color:colorWhite.CGColor
+                 font:font
+				align:UITextAlignmentCenter];
+
+    [self drawStrRect:context
+                  str:str
+                 rect:rectWhite3
+                color:colorWhite.CGColor
+                 font:font
+				align:UITextAlignmentCenter];
+
+    
+    [self drawStrRect:context
+                  str:str
+                 rect:rect
+                color:color
+                 font:font
+				align:UITextAlignmentCenter];
+
+    
+}
+
+
 - (void) drawNumRectLeft:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
 
@@ -1503,6 +1556,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	BOOL bMemoNum = NO;
 	CGFloat x, y;
 	NSInteger numColor;
+    UIImage *imgButton = [UIImage imageNamed:bMemoMode ? @"button_num_memo.png" : @"button_num_base.png"];
+
 	
 //    if (sudokuGame.isGameFinished)
 //        return;
@@ -1522,11 +1577,15 @@ static NSUInteger SmallerColorTemplate[9] = {
 	
 	for (i=1; i<=sudokuGame.size; i++)    // 버튼 모양 그리기
 	{
+        if ((bPuzzleNum == NO) && i == pushedButton)
+            continue;
+        
+        
 		x = [self buttonXCenter:i] - cButtonWidth/2;
 		y = [self buttonYCenter:i] - cButtonHeight/2;
 		
 		
-		CGContextSetLineWidth(context, cLineDrawWidth);
+/*		CGContextSetLineWidth(context, cLineDrawWidth);
 		if (bMemoNum && i>0 && i<=sudokuGame.size && [sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos])
 		{
 			numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_PRESSED : SC_BACKGROUND_BUTTON_PRESSED;
@@ -1536,49 +1595,48 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 		CGContextSetStrokeColorWithColor(context, skincolor[numColor].CGColor);
 		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
-		
+*/		
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		//DLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
         
         
-		CGContextAddEllipseInRect(context, currentRect);
-		CGContextDrawPath(context, kCGPathFillStroke);		
+//		CGContextAddEllipseInRect(context, currentRect);
+//		CGContextDrawPath(context, kCGPathFillStroke);
 
-        UIImage *imgButton = [UIImage imageNamed:@"button_num_base.png"];
         [imgButton drawInRect:currentRect];
         
         // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
-            CGColorRef color;
-            if (bPuzzleNum && i <= sudokuGame.size)
+            CGColorRef color = skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
+            
+/*            if (bPuzzleNum && i <= sudokuGame.size)
 			{
 				numColor = bMemoMode ? SC_BACKGROUND_BUTTON_MEMO_NORMAL: SC_BACKGROUND_BUTTON_NORMAL;
 				color = skincolor[numColor].CGColor;
 			} else {
 				color = bMemoMode ? skincolor[SC_TEXT_BUTTON_MEMO].CGColor : skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
 			}
-            
-            if (bMemoMode == NO && [sudokuGame getCountNum:i] >= sudokuGame.size)
+  */
+            if (bPuzzleNum && i <= sudokuGame.size)
             {
-                color = [[UIColor colorWithWhite:1.0f alpha:.3f] CGColor];
+                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
+            } else  if (bMemoMode == NO && [sudokuGame getCountNum:i] >= sudokuGame.size)
+            {
+                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
+            } else if (bMemoMode == YES && ![sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos]) {
+                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
             }
             
             // 버튼에 숫자를 적기
-            [self drawNumRect:context
+            [self drawNumRect3D:context
                           num:i
                          rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
                         color:color
-                         font:bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
+                         font:buttonSmallFont];// bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
 		}
         
-        //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
-        [self drawNumRect:context
-                      num:[sudokuGame getCountNum:i]
-                     rect:CGRectMake(x+cButtonWidth/6, y+cButtonHeight*3/4, cButtonWidth, cButtonHeight/4)
-                    color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
-                     font:cellNineFont];
         
 	}
 
@@ -1596,18 +1654,28 @@ static NSUInteger SmallerColorTemplate[9] = {
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, skincolor[numColor].CGColor);
 		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
-		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
+		currentRect = CGRectMake(x+cButtonWidth/30,y+cButtonHeight/30,cButtonWidth,cButtonHeight);
 		
-		CGContextAddEllipseInRect(context, currentRect);
-		CGContextDrawPath(context, kCGPathFillStroke);		
+//		CGContextAddEllipseInRect(context, currentRect);
+//		CGContextDrawPath(context, kCGPathFillStroke);
+        [imgButton drawInRect:currentRect];
+
 		
 		
         // 버튼에 숫자를 적기
-        [self drawNumRect:context
+        [self drawNumRect3D:context
                       num:i
-                     rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
+                     rect:currentRect
                     color:skincolor[SC_TEXT_BUTTON_NUMBER].CGColor
-                     font:bMemoMode ? buttonMemoBigFont : buttonBigFont];
+                     font:buttonSmallFont];//bMemoMode ? buttonMemoBigFont : buttonBigFont];
+        
+        //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
+        [self drawNumRect:context
+                      num:[sudokuGame getCountNum:i]
+                     rect:CGRectMake(currentRect.origin.x+cButtonWidth/4, currentRect.origin.y+cButtonHeight*3/4, cButtonWidth, cButtonHeight/4)
+                    color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
+                     font:cellNineFont];
+
 
 	}
 
