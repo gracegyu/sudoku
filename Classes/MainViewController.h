@@ -215,6 +215,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *gDeviceID;
 @property NSInteger gVersion;
 @property (nonatomic, retain) CLLocationManager *locationManager;
+@property (nonatomic, retain) NSString *nowDate;
 
 
 - (IBAction)runUndo;

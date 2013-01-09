@@ -701,6 +701,7 @@
      bAd = NO;
      bReplay = NO;
      nAddThisWait = 0;
+     nowDate = nil;
 	 
 
      //Facebook connect settings
@@ -2285,7 +2286,7 @@
 
 - (void) loadDailyStat
 {
-    nowDate = [self getNowYYYYMMDD];
+    nowDate = [[self getNowYYYYMMDD] retain];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kDailyStat];
@@ -2315,7 +2316,7 @@
 
 - (void) saveDailyStat
 {
-    NSString *newNowDate = [[self getNowYYYYMMDD] retain];
+    NSString *newNowDate = [self getNowYYYYMMDD];
     if ([newNowDate isEqualToString:nowDate])
     {
         // 그사이에 날짜가 바뀌지 않았음
