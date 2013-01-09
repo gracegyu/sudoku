@@ -9,6 +9,7 @@
 
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "TPMultiLayoutViewController.h"
 #import "JMCCustomDataSource.h"
 
@@ -34,6 +35,7 @@ typedef struct DAILYSTAT
 
 @interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
     ,JMCCustomDataSource
+    ,CLLocationManagerDelegate
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
 #endif
@@ -137,6 +139,9 @@ typedef struct DAILYSTAT
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
     BOOL    bReadyDownloadDailyPuzzle;
     NSString *nowDate;
+    CLLocationManager *locationManager;
+    CLLocationDegrees currentLatitude;
+    CLLocationDegrees currentLongtitude;
 }
 
 
@@ -209,7 +214,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *gUserName;
 @property (nonatomic, retain) NSString *gDeviceID;
 @property NSInteger gVersion;
-
+@property (nonatomic, retain) CLLocationManager *locationManager;
 
 
 - (IBAction)runUndo;

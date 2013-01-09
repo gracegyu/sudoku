@@ -664,6 +664,13 @@
 	 DLog(@"viewDidLoad");	
      [super viewDidLoad];
      
+     if (locationManager == nil) {
+         locationManager= [[CLLocationManager alloc] init];
+     }
+     locationManager.delegate = self;
+     locationManager.desiredAccuracy= kCLLocationAccuracyBest;
+     [locationManager startUpdatingLocation];
+     
 
 	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
@@ -779,11 +786,12 @@
 	NSLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@%@&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
+						@"act=%@&locale=%@&deviceid=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
 						@"start",
                         @"en_US",
 						gDeviceID,
-						@"",
+                        (NSInteger) (currentLatitude*1000000.0+0.5),
+                        (NSInteger) (currentLongtitude*1000000.0+0.5),
 						cProtocolVersion,
 						cDeviceType,
 						cOSType,
@@ -1990,11 +1998,13 @@
     
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
+						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
                         @"getdailypuzzle",
                         gUserID,
                         gUserName,
-                        gVersion,
+                        (NSInteger) (currentLatitude*1000000.0+0.5),
+                        (NSInteger) (currentLongtitude*1000000.0+0.5),
+						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
@@ -2010,11 +2020,13 @@
     [self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&spend=%d&automemo=%d",
+						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&type=%d&date=%@&spend=%d&automemo=%d",
                         @"addresult",
                         gUserID,
                         gUserName,
-                        gVersion,
+                        (NSInteger) (currentLatitude*1000000.0+0.5),
+                        (NSInteger) (currentLongtitude*1000000.0+0.5),
+						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
@@ -2151,11 +2163,13 @@
     [self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&version=%d&cs=%d&size=%d&date=%@",
+						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&date=%@",
                         @"getdailystat",
                         gUserID,
                         gUserName,
-                        cProtocolVersion,
+                        (NSInteger) (currentLatitude*1000000.0+0.5),
+                        (NSInteger) (currentLongtitude*1000000.0+0.5),
+						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
                         [self getNowYYYYMMDD]];
@@ -2271,7 +2285,7 @@
 
 - (void) loadDailyStat
 {
-    nowDate = [[self getNowYYYYMMDD] retain];
+    nowDate = [self getNowYYYYMMDD];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kDailyStat];
@@ -2402,7 +2416,7 @@
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&file=%@",
                         @"adddailypuzzle",
-                        gVersion,
+                        cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
@@ -2855,4 +2869,22 @@
     
 }
 */
+
+
+
+#pragma mark - CLLocationManagerDelegate
+
+- (void)locationManager:(CLLocationManager *)manager
+	didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    NSLog(@"Location is changed");
+    
+    currentLatitude = newLocation.coordinate.latitude;
+    currentLongtitude = newLocation.coordinate.longitude;
+    
+    [locationManager stopUpdatingLocation];
+}
+
+
 @end
