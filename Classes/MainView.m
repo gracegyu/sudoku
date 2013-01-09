@@ -1540,9 +1540,14 @@ static NSUInteger SmallerColorTemplate[9] = {
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
 		//DLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
         
+        
+        
 		CGContextAddEllipseInRect(context, currentRect);
 		CGContextDrawPath(context, kCGPathFillStroke);		
 
+        UIImage *imgButton = [UIImage imageNamed:@"button_num_base.png"];
+        [imgButton drawInRect:currentRect];
+        
         // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
