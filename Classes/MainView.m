@@ -1654,11 +1654,14 @@ static NSUInteger SmallerColorTemplate[9] = {
 		CGContextSetLineWidth(context, cLineDrawWidth);
 		CGContextSetStrokeColorWithColor(context, skincolor[numColor].CGColor);
 		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
-		currentRect = CGRectMake(x+cButtonWidth/30,y+cButtonHeight/30,cButtonWidth,cButtonHeight);
+		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
+//		currentRect = CGRectMake(x+cButtonWidth/30,y+cButtonHeight/30,cButtonWidth,cButtonHeight);
 		
 //		CGContextAddEllipseInRect(context, currentRect);
 //		CGContextDrawPath(context, kCGPathFillStroke);
-        [imgButton drawInRect:currentRect];
+        UIImage *imgPushedButton = [UIImage imageNamed:@"button_num_push.png"];
+
+        [imgPushedButton drawInRect:currentRect];
 
 		
 		
@@ -1672,7 +1675,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
         [self drawNumRect:context
                       num:[sudokuGame getCountNum:i]
-                     rect:CGRectMake(currentRect.origin.x+cButtonWidth/4, currentRect.origin.y+cButtonHeight*3/4, cButtonWidth, cButtonHeight/4)
+                     rect:CGRectMake(currentRect.origin.x, currentRect.origin.y, cButtonWidth/4, cButtonHeight/4)
                     color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
                      font:cellNineFont];
 

@@ -864,7 +864,9 @@
 	if (strUserDefault == nil)	// It hasn't saved.
 		return;
 	
-    gServerIP = [defaults stringForKey:kServerIP];
+    
+    // redirection은 어떻게 할 것인가?
+//    gServerIP = [defaults stringForKey:kServerIP];
 	gUserName = [defaults stringForKey:kUserName];
 	gUserID	  = [defaults integerForKey:kUserID];
 
@@ -1945,6 +1947,7 @@
 						gServerIP,
 						cServerScript,
 						strURI];
+    DLog(@"strURL* = \n%@", strURL);
 	NSURL *theURL = [NSURL URLWithString:strURL];
 	[strURL release];
 	
