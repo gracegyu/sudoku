@@ -378,15 +378,15 @@
     
     DLog(@"setLocaleChange(%@)", gettext(@"locale", nil));
     
-    NSString* strLocale = [NSString stringWithString: gettext(@"locale", nil)];
-    NSString* strLocale2;
+    NSString* strLocale = gettext(@"locale", nil);
+    NSString* strLocale2 = nil;
 //    NSString* strIcon = nil;
     
     if ([strLocale isEqualToString:@"en"])
-        strLocale2 = @"ko";
-    else if ([strLocale isEqualToString:@"ko"])
         strLocale2 = @"ja";
     else if ([strLocale isEqualToString:@"ja"])
+        strLocale2 = @"ko";
+    else if ([strLocale isEqualToString:@"ko"])
         strLocale2 = @"zh_CN";
     else if ([strLocale isEqualToString:@"zh_CN"])
         strLocale2 = @"zh_TW";

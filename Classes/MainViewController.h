@@ -61,6 +61,7 @@ typedef struct DAILYSTAT
     UIButton    *areaAdBanner;
     
 	UILabel		*labelAutoMemo;
+    UILabel     *labelSudokuType;
 	UIButton	*buttonCheckboxAutoMemo;
 	UIButton	*buttonNewGameDailyPuzzle;
     UILabel     *labelDailyStat;
@@ -160,6 +161,7 @@ typedef struct DAILYSTAT
 
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelAutoMemo;
+@property (nonatomic, retain) IBOutlet UILabel	*labelSudokuType;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonCheckboxAutoMemo;
 
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;

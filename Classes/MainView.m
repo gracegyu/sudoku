@@ -93,62 +93,62 @@
 
 
 static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
-	{	0x88A6CAFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,             // old:0x809AE0FF
+	{	0x88A6CAFF,0x95B5DBFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,             // old:0x809AE0FF
 		0x88A6CAFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x7188BAFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x7188BAFF,0x7A93C9FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x7188BAFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xB6B5B1FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xB6B5B1FF,0xC6C6C2FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0xB6B5B1FF,0xFF0C59FF,0x80BBB7BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x9891AEFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x9891AEFF,0xA7A0BFFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x9891AEFF,0xFF0C59FF,0xFFABA0BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xE78F99FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xE78F99FF,0xF799A4FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0xE78F99FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xD3B89CFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xD3B89CFF,0xE2C5A7FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0xD3B89CFF,0xFF0C59FF,0x9AAED1BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xDBCD3DFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xDBCD3DFF,0xEAD941FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0xDBCD3DFF,0xFF0C59FF,0x59B2F9BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E6A0,0xE6E6E6E6,0xCCE6CCA0,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xACC547FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xACC547FF,0xBDD64FFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0xACC547FF,0xFF0C59FF,0xB6B5CEBB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x7CAD6DFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x7CAD6DFF,0x89BC78FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x7CAD6DFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x50938BFF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x50938BFF,0x59A399FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x50938BFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x727AB7FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x727AB7FF,0x7D85C6FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x727AB7FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x2B9FE3FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x2B9FE3FF,0x2EACF4FF,0xF0F0F0FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
 		0x2B9FE3FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
@@ -232,6 +232,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 	return [[UIColor colorWithRed:R green:G blue:B alpha:A] retain];
 }
 
+- (UIColor *) getSkinColor:(SKINCOLOR)skinnum
+{
+    return skincolor[skinnum];
+}
+
+
 
 - (void) setNextSkinColor
 {
@@ -285,6 +291,27 @@ static NSUInteger SmallerColorTemplate[9] = {
 		skincolor[i] = [self getUIColorFromRGBA:i];
 	}	
 	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
+    
+    [self setViewBackgroundColor];
+}
+
+
+- (void)setViewBackgroundColor
+{
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    
+    if (ctrl)
+    {
+        [ctrl.viewMenu setBackgroundColor:skincolor[SC_BACKGROUND_MENU]];
+        [ctrl.viewNewGame setBackgroundColor:skincolor[SC_BACKGROUND_MENU]];
+    }
+	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
+    
+
+    
+    //	[self setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background_0.png"]]];
+	
+
 }
 
 - (void)initSkinColorData
@@ -294,10 +321,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	{
 		skincolor[i] = [self getUIColorFromRGBA:i];
 	}	
-	
-	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
-//	[self setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"background_0.png"]]];
-	
+
+	[self setViewBackgroundColor];
 }
 
 - (void)initRainbowColorData
@@ -578,20 +603,22 @@ static NSUInteger SmallerColorTemplate[9] = {
 	
 }
 
+- (void)drawWindowsBackground:(CGContextRef) context
+{
+    UIImage *imageBackground = [UIImage imageNamed:@"background_border.png"];
+
+    
+   [imageBackground drawInRect:self.frame];
+    
+    
+}
+
 
 
 - (void)drawRectTableBackground:(CGContextRef) context
 {
 	CGRect currentRect = CGRectMake (cTableStartX, cTableStartY,cTableWidth-1,cTableHeight-1);
     
-/*
-    CGContextSetLineWidth(context, cLineDrawWidth);
-    CGContextSetStrokeColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
-    CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
-	
-	CGContextAddRect(context, currentRect);
-	CGContextDrawPath(context, kCGPathFillStroke);
-*/    
     CGContextSetFillColorWithColor(context, skincolor[SC_BACKGROUND_NORMAL_CELL].CGColor);
     CGContextFillRect(context, currentRect);
 }
@@ -2098,7 +2125,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-
+/*
     for (int i=0; i<sudokuGame.size; i++)
     {
         for (int j=0; j<sudokuGame.size; j++)
@@ -2107,7 +2134,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         }
         
     }
-    
+*/    
     
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;
@@ -2515,7 +2542,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	//DLog(@"drawRect ---------- refresh");
     
     [self setFont];
-    
+
+    [self drawWindowsBackground:context];       // 전체 바탕 색
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
 	[self drawGuidelineBackground:context];     // 힌트 바탕 색

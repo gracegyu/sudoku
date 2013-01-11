@@ -57,6 +57,8 @@
 	// xxx for autorotate
     [window setRootViewController:self.mainViewController];
 
+    [mainViewController.mainView setViewBackgroundColor];
+
 
 	DLog(@"model=%@(%d)", [UIDevice currentDevice].model, cDeviceType);
 	

@@ -33,6 +33,7 @@
 @synthesize areaNumButton;
 @synthesize areaAdBanner;
 @synthesize labelAutoMemo;
+@synthesize labelSudokuType;
 @synthesize buttonCheckboxAutoMemo;
 @synthesize buttonNewGameDailyPuzzle;
 @synthesize labelDailyStat;
@@ -672,12 +673,20 @@
      [locationManager startUpdatingLocation];
      
 
-	 [viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
+     
+     [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
+     [viewNewGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
+
+     
+     
+	 //[viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
 	 viewMenu.layer.masksToBounds = YES;
-	 [viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
+     viewMenu.alpha = 0.9f;
+	 //[viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
+     viewNewGame.alpha = 0.9f;
 	 [self hideAwayView:viewMenu];
 	 [self hideAwayView:viewNewGame];
 
@@ -1735,7 +1744,7 @@
 	[self readySlideView:viewNewGame];
 	mainView.bMenuMode = YES;
 	[self stopGameTimer];
-	intervalX2 = (viewNewGame.frame.origin.x)/25;
+	intervalX2 = (viewNewGame.frame.origin.x)/20;
 	buttonNewGameCancel.hidden = (mainView.sudokuGame == nil);
 	
 	[NSTimer scheduledTimerWithTimeInterval:0.01f
@@ -2254,6 +2263,11 @@
         
         NSString *str;
         
+        
+// zzz
+        //dailyStat[mainView.nSettingSudokuType].total = 758 + (int)(arc4random()%500);
+        //dailyStat[mainView.nSettingSudokuType].besttime = 70 + (int)(arc4random()%100);
+        
         if (dailyStat[mainView.nSettingSudokuType].total == 0)
              str = [NSString stringWithFormat:gettext(@"not yet", nil),
                                               dailyStat[mainView.nSettingSudokuType].total];
@@ -2547,6 +2561,7 @@
 - (IBAction)setSudokuType
 {
     mainView.nSettingSudokuType = [segmentType selectedSegmentIndex];
+    labelSudokuType.text = [SudokuGame getSudokuTypeName:mainView.nSettingSudokuType];
     [self setDailyStat];
     
 	[self saveSetting];
@@ -2555,6 +2570,8 @@
 - (void) setSudokuTypeSegment
 {
     segmentType.selectedSegmentIndex = mainView.nSettingSudokuType;
+    labelSudokuType.text = [SudokuGame getSudokuTypeName:mainView.nSettingSudokuType];
+
 }
 
 

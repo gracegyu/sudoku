@@ -22,6 +22,7 @@ typedef enum ALERT_MODE ALERT_MODE;
 enum SKINCOLOR
 {
 	SC_BACKGROUND_VIEW = 0,
+    SC_BACKGROUND_MENU,
 	SC_BACKGROUND_NORMAL_CELL,
 	SC_BACKGROUND_SELECTED_CELL,
 	SC_BACKGROUND_GUIDELINE_NORMAL,
@@ -190,4 +191,9 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) setBlur:(BOOL)blur;
 - (BOOL) runRedo4Replay;
 - (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime;
+- (UIColor *) getSkinColor:(SKINCOLOR)skinnum;
+
 @end
+
+
+
