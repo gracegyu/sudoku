@@ -607,8 +607,9 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     UIImage *imageBackground = [UIImage imageNamed:@"background_border.png"];
 
-    
-   [imageBackground drawInRect:self.frame];
+    DLog(@"self.frame = %f,%f", self.bounds.size.width, self.bounds.size.height);
+    CGRect rect = CGRectMake(0,0,self.bounds.size.width, self.bounds.size.height);
+    [imageBackground drawInRect:rect];
     
     
 }
