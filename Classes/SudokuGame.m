@@ -736,7 +736,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (id) initWithSudokuBoard:(SudokuBoard*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo
 {
-	if ((super.init) == nil)
+	if ((self = [super init]) == nil)
 		return nil;
 	
 	size = SIZE_9;
@@ -775,8 +775,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (id) initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo
 {
-	if ((super.init) == nil) 
+	if (!(self = [super init]))
 		return nil;
+
 	
     size = [sudoku getCellSize];
 	[self initData:type level:level];
@@ -815,8 +816,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (id) initWithFromServer:(NSString*)strData type:(SUDOKUTYPE)type  automemo:(BOOL)automemo
 {
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
+
 
 // zzz 에러 처리 필요
     NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
@@ -890,8 +892,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
 	NSString *strTemp;
 	
-	if ((super.init) == nil) 
+	if (!(self = [super init]))
 		return nil;
+
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 	

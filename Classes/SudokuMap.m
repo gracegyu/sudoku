@@ -91,7 +91,7 @@ static int defaultMap[][16*16] = {
 
 - (id) initWithMap:(SudokuMap*)source
 {
-	if ((super.init) == nil)
+	if ((self = [super init]) == nil)
 		return nil;
 	
 	size = source.size;
@@ -103,7 +103,7 @@ static int defaultMap[][16*16] = {
 
 - (id) initWithMapArray:(NSInteger*)arrayMap size:(NSInteger)sizeMap
 {
-	if ((super.init) == nil)
+	if ((self = [super init]) == nil)
 		return nil;
 
 	size = sizeMap;
@@ -116,7 +116,7 @@ static int defaultMap[][16*16] = {
 
 - (id) initWithSize:(NSInteger)sizeMap defmap:(BOOL)defmap
 {
-	if ((super.init) == nil)
+	if ((self = [super init]) == nil)
 		return nil;
 	
     DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_4, @"sizeMap=%d", sizeMap);
@@ -141,7 +141,7 @@ static int defaultMap[][16*16] = {
                 
                 
                 unsigned int valRand = arc4random();
-                NSInteger numRandom = valRand % (countDefMap);
+                NSInteger numRandom = countDefMap > 0 ? (valRand % (countDefMap)) : 0;
                 DLog(@"numRandom = %d", numRandom);
                 
                 Map = setMap6[numRandom];
@@ -154,7 +154,7 @@ static int defaultMap[][16*16] = {
 					countDefMap++;
 				
 				unsigned int valRand = arc4random();
-				NSInteger numRandom = valRand % (countDefMap);
+				NSInteger numRandom = countDefMap > 0 ? (valRand % (countDefMap)) : 0;
 				DLog(@"numRandom = %d", numRandom);
 				
 				Map = setMap7[numRandom];

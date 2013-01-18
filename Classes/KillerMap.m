@@ -24,10 +24,7 @@
 
 - (id) initWithMap:(KillerMap*)source
 {
-	
-	
-	
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
 	
 	size = source.size;
@@ -40,8 +37,9 @@
 
 - (id) initWithSize:(NSInteger)sizeMap
 {
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
+
 	
     DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_6, @"sizeMap=%d", sizeMap);
     
@@ -376,8 +374,9 @@
 
 - (id) initWithSaveData
 {
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
+
 	
 	memset(map, -1, sizeof(map));
 	memset(color, -1, sizeof(color));

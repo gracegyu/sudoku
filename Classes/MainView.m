@@ -2172,6 +2172,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
 	BOOL bUseQQ=NO;
     NSString *str;
+
+    [Flurry logEvent:@"NewGame"];
+    
+    str = [NSString stringWithFormat:@"GameSize(%d)", sizePuzzle];
+    [Flurry logEvent:str];
     
     str = [NSString stringWithFormat:@"NewGame(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
     [Flurry logEvent:str];
@@ -2179,9 +2184,6 @@ static NSUInteger SmallerColorTemplate[9] = {
     str = [NSString stringWithFormat:@"GameLevel(%@)", [SudokuGame getGameLevelNameNoop:level]];
     [Flurry logEvent:str];
     
-    str = [NSString stringWithFormat:@"GameSize(%d)", sizePuzzle];
-    [Flurry logEvent:str];
-
     str = [NSString stringWithFormat:@"AutoMemo(%@)", bSettingAutoMemo ? @"Yes" : @"No"];
     [Flurry logEvent:str];
     

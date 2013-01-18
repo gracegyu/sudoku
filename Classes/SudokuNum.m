@@ -905,11 +905,13 @@
 	
 	if (bOkAutoSet == NO) {		// 실패 했음, Back tracking에서 완전히 새로 생성하는 것으로 수정
 		return NO;
+/*
 		[self undoSet:numBackTracking];
         
         numBackTracking += BACKTRACKING_INTERVAL;   // 잘못되면 Backtracking 깊이를 점점 증가시킨다.
         if (numBackTracking > BACKTRACKING_MAX)
             numBackTracking = BACKTRACKING_MAX;
+ */
 	}
 	[self countCell];
 
@@ -957,7 +959,7 @@
 	
 	return bOkSetCell;
 }
-
+/*
 - (void) clearCell
 {
 	int x, y;
@@ -972,10 +974,9 @@
 		}
 	}
 	DLog(@"clearCell");
-//	[strUndo stringWithString:@""];
 	strUndo = @"";
 }
-
+*/
 - (void) editCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {	
 	if (num == 0)
@@ -1020,7 +1021,7 @@
 
 }
 
-
+/*
 
 - (CGPoint) undoSet:(NSInteger)num
 {
@@ -1067,7 +1068,7 @@
 	return pointLastUndoPos;
 }
 
-
+*/
 - (void) printNums 
 {
 	NSString *str = [[NSString alloc] init];

@@ -67,8 +67,9 @@ void LogIt (NSString *format, ...)
 
 - (id) initWithLogType:(int)r type:(LogType)t
 {
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
+
 	
 	[self initLogItem:r type:t value:0 position:-1];
 	
@@ -77,8 +78,9 @@ void LogIt (NSString *format, ...)
 
 - (id) initWithLogPosition:(int)r type:(LogType)t value:(int)v position:(int)p
 {
-	if ((super.init) == nil)
+	if (!(self = [super init]))
 		return nil;
+
 	
 	[self initLogItem:r type:t value:v position:p];
 	

@@ -1431,7 +1431,7 @@
 - (void) callAddThisShareURL:(NSString*) service
 {
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
-    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+//    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
                           STR_MATRIXSIZE];
     NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
@@ -2445,6 +2445,8 @@
     
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+    
+    [strData release];
 
     return;
 }

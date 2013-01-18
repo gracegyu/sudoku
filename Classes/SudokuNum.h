@@ -99,7 +99,7 @@
 
 
 
-- (void) clearCell;
+//- (void) clearCell;
 - (void) editCell:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos;
 - (void) printNums;
 - (void) saveData;
