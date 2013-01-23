@@ -2648,8 +2648,12 @@
 		return;
 	
 	NSInteger count = mainView.sudokuGame.countHint;
-	NSInteger time = (NSInteger)mainView.sudokuGame.hintTime;
-	labelHint.text =[NSString stringWithFormat:@"%d(%d:%02d)", count, time/60, time%60];
+//	NSInteger time = (NSInteger)mainView.sudokuGame.hintTime;
+	labelHint.text =[NSString stringWithFormat:@"%d", count];
+    
+    // zzz 유료 힌트 +00 표시 
+    
+//	labelHint.text =[NSString stringWithFormat:@"%d(%d:%02d)", count, time/60, time%60];
 
 
 }
