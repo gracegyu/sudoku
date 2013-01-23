@@ -38,6 +38,7 @@
 @synthesize bSettingAutoMemo;
 @synthesize nSettingSudokuType;
 @synthesize bSharedThisOnFacebook;
+@synthesize paidHintCount;
 
 
 @synthesize cellOneSmallFont;
@@ -376,6 +377,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	self.bSettingAutoMemo = NO;
     self.bSharedThisOnFacebook = NO;
     self.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
+    self.paidHintCount = 0;
 	
 //	self.fPress = 1.f;
 	
@@ -607,7 +609,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     UIImage *imageBackground = [UIImage imageNamed:@"background_border.png"];
 
-    DLog(@"self.frame = %f,%f", self.bounds.size.width, self.bounds.size.height);
+   // DLog(@"self.frame = %f,%f", self.bounds.size.width, self.bounds.size.height);
     CGRect rect = CGRectMake(0,0,self.bounds.size.width, self.bounds.size.height);
     [imageBackground drawInRect:rect];
     
@@ -2140,7 +2142,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 	if (sudokuGame.countHint > 0) {
 		sudokuGame.countHint -= 1;
 		[sudokuGame setHintNum:selectedXPos y:selectedYPos];
-	}
+	} else if (paidHintCount > 0) {
+		paidHintCount -= 1;
+		[sudokuGame setHintNum:selectedXPos y:selectedYPos];
+    } else  {
+        // no hint
+    }
 
 	
 	
@@ -2233,7 +2240,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 
 
-#pragma mark -
+#pragma mark - Alert
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (alertMode)
@@ -2469,8 +2476,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size) {
 		if ([sudokuGame getPuzzleNums:selectedXPos y:selectedYPos] == 0) {// 사용자가 입력하는 칸이다.
-			if ([sudokuGame countHint] > 0)		// 아직 Hint item이 남아 있다.
-				return YES;
+            return YES;
 		}
 	}
 	

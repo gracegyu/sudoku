@@ -21,6 +21,7 @@
 #import "UIDevice+IdentifierAddition.h"
 
 
+
 @implementation MainViewController
 
 @synthesize mainView;
@@ -406,6 +407,7 @@
 #define kSettingSudokuType              @"settingSudokuType"
 #define kSettingSkin                    @"settingSkin"
 #define kSharedThisOnFacebook           @"sharedThisOnFacebook"
+#define kPaidHintCount                  @"paidHintCount"
 
 - (void) loadSetting
 {
@@ -428,6 +430,8 @@
     mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
     mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
+    
+    mainView.paidHintCount = [defaults integerForKey:kPaidHintCount];
 }
 
 - (void) saveSetting
@@ -444,6 +448,8 @@
     [defaults setInteger:mainView.nSettingSudokuType forKey:kSettingSudokuType];
     [defaults setInteger:mainView.skin forKey:kSettingSkin];
     [defaults setBool:mainView.bSharedThisOnFacebook forKey:kSharedThisOnFacebook];
+
+    [defaults setInteger:mainView.paidHintCount forKey:kPaidHintCount];
     
     
 	[defaults synchronize];
@@ -751,7 +757,23 @@
      }
          
      
+     if ([SKPaymentQueue canMakePayments]) {	// 스토어가 사용 가능하다면
+         NSLog(@"Start Shop!");
+         
+         [[SKPaymentQueue defaultQueue] addTransactionObserver:self];	// Observer를 등록한다.
+     }
+     else
+         NSLog(@"Failed Shop!");
 
+     productHint50 = nil;
+     bBuyingHint50 = NO;
+     SKProductsRequest *productRequest = [[SKProductsRequest alloc]
+                                          initWithProductIdentifiers:
+                                          [NSSet setWithObject:kHint50Item]];
+     productRequest.delegate = self;
+     
+     [productRequest start];
+     
 }
 
 
@@ -1468,16 +1490,51 @@
 	[self updateButtonHint];
 }
 
+- (void)OnTimerSetFinishByuingHint50:(NSTimer *)timer
+{
+    bBuyingHint50 = NO;
+    [self updateButtonHint];
+}
 
 - (IBAction) doHint
 {
 	if (mainView.bMenuMode)
 		return;
 
-    [Flurry logEvent:@"RunHint"];
-
     
-	[mainView doHint];
+    if (mainView.sudokuGame.countHint + mainView.paidHintCount > 0) // && 유료 힌트도 0
+    {
+        [Flurry logEvent:@"RunHint"];
+        [mainView doHint];
+        
+        [self saveSetting];
+    } else if (productHint50) { // buy hint
+        SKPayment *payment = [SKPayment paymentWithProduct:productHint50];
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+        bBuyingHint50 = YES;
+        [self updateButtonHint];
+        
+        [NSTimer scheduledTimerWithTimeInterval:60.0f
+                                         target:self
+                                       selector:@selector(OnTimerSetFinishByuingHint50:)
+                                       userInfo:nil
+                                        repeats:NO];
+/*
+        NSString *msg = [NSString stringWithFormat:@"%@\n%@:%@\n%@: %@",
+                         gettext(@"Do you want to buy this item?", nil),
+                         productHint50.localizedTitle,
+                         productHint50.localizedDescription,
+                         gettext(@"Price", nil),
+                         productHint50.price];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Buy hint", nil)
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:gettext(@"No", nil)
+                                              otherButtonTitles:gettext(@"Yes", nil), nil];
+        [alert show];
+        [alert release];
+ */
+    }
 }
 
 
@@ -1862,6 +1919,7 @@
         mainView.bSharedThisOnFacebook = NO;
         [self saveSetting];
     }
+    bBuyingHint50 = NO;
 
 	[self increaseScoreGames];
 	[self saveScoreData];
@@ -2647,8 +2705,9 @@
 	if (!mainView.sudokuGame)
 		return;
 	
-	NSInteger count = mainView.sudokuGame.countHint;
+	NSInteger count = mainView.sudokuGame.countHint + mainView.paidHintCount;
 //	NSInteger time = (NSInteger)mainView.sudokuGame.hintTime;
+    
 	labelHint.text =[NSString stringWithFormat:@"%d", count];
     
     // zzz 유료 힌트 +00 표시 
@@ -2689,13 +2748,31 @@
 	}
 }
 
-- (void) updateButtonHint	// TODO Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
+- (void) updateButtonHint	// TODO     Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
 {
 	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	
-	if ([mainView isSelectedCellisableHint])	{	// AND Hint item > 0
-		buttonHint.alpha = 1.0f;
-		buttonHint.enabled = bLock ? NO : YES;
+    if (bBuyingHint50) {
+        buttonHint.alpha = 1.0f;
+        buttonHint.enabled = NO;
+        [buttonHint	setTitle:gettext(@"buying", nil) forState:UIControlStateNormal];
+        return;
+    }
+    
+    if ([mainView.sudokuGame countHint] + mainView.paidHintCount == 0 && productHint50)
+    {
+        buttonHint.alpha = 1.0f;
+        buttonHint.enabled = bLock ? NO : YES;
+        [buttonHint	setTitle:gettext(@"buy hint", nil) forState:UIControlStateNormal];
+    } else if ([mainView isSelectedCellisableHint]) {
+        buttonHint.alpha = 1.0f;
+        buttonHint.enabled = bLock ? NO : YES;
+        if ([mainView.sudokuGame countHint] + mainView.paidHintCount > 0) {		// 아직 Hint item이 남아 있다.
+            [buttonHint	setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+        } else {
+            buttonHint.alpha = 0.5f;
+            buttonHint.enabled = NO;
+        }
 	} else {
 		buttonHint.alpha = 0.5f;
 		buttonHint.enabled = NO;		
@@ -2911,6 +2988,127 @@
     currentLongtitude = newLocation.coordinate.longitude;
     
     [locationManager stopUpdatingLocation];
+}
+
+#pragma mark - SKPaymentTransactionObserver Protocol
+
+
+- (void)successBuyHint50
+{
+    bBuyingHint50 = NO;
+    mainView.paidHintCount += countHint50;
+    
+    [self updateButtonHint];
+    [self updateHintCount];
+    
+    [self saveSetting];
+    
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:gettext(@"50 hints were creased.", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+
+}
+
+- (void)failedBuyHint50
+{
+    bBuyingHint50 = NO;
+    [self updateButtonHint];
+    [self updateHintCount];
+
+    // 실패 메시지
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:gettext(@"Failed to buy hint item.", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+}
+
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
+{
+    for (SKPaymentTransaction *transaction in transactions)
+    {
+        switch (transaction.transactionState)
+        {
+            case SKPaymentTransactionStatePurchased:
+                [self completeTransaction:transaction];
+                // 구매 처리
+                [self successBuyHint50];
+                break;
+            case SKPaymentTransactionStateFailed:
+                [self failedTransaction:transaction];
+                // 실패 처리
+                [self failedBuyHint50];
+                break;
+            case SKPaymentTransactionStateRestored:
+                [self restoreTransaction:transaction];
+            default:
+                break;
+        }
+    }
+}
+
+- (void) restoreTransaction: (SKPaymentTransaction *)transaction
+{
+    NSLog(@"SKPaymentTransactionStateRestored");
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+- (void) failedTransaction: (SKPaymentTransaction *)transaction
+{
+    NSLog(@"SKPaymentTransactionStateFailed");
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+- (void) completeTransaction: (SKPaymentTransaction *)transaction
+{
+	NSLog(@"SKPaymentTransactionStatePurchased");
+    
+	NSLog(@"Trasaction Identifier : %@", transaction.transactionIdentifier);
+	NSLog(@"Trasaction Date : %@", transaction.transactionDate);
+    
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+	NSLog(@"SKProductRequest got response");
+	if( [response.products count] > 0 ) {
+		SKProduct *product = [response.products objectAtIndex:0];
+		NSLog(@"Title : %@", product.localizedTitle);
+		NSLog(@"Description : %@", product.localizedDescription);
+		NSLog(@"Price : %@", product.price);
+        
+        productHint50 = product;
+        [productHint50 retain];
+        
+        [self updateButtonHint];
+	}
+	
+	if( [response.invalidProductIdentifiers count] > 0 ) {
+		NSString *invalidString = [response.invalidProductIdentifiers objectAtIndex:0];
+		NSLog(@"Invalid Identifiers : %@", invalidString);
+	}
+}
+
+#pragma mark - Alert
+
+- (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 1) // "확인" 버튼
+    {
+        SKPayment *payment = [SKPayment paymentWithProduct:productHint50];
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+        NSLog(@"");
+
+        [self updateButtonHint];
+
+    }
 }
 
 

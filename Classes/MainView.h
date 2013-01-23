@@ -109,6 +109,7 @@ typedef enum SKINCOLOR SKINCOLOR;
     BOOL bSettingDefMap;
     BOOL bSettingAutoMemo;
     BOOL bSharedThisOnFacebook;
+    NSInteger paidHintCount;
     SUDOKUTYPE nSettingSudokuType;            // 0~3
     BOOL bDrawOnImage;
     CGRect      frameDrawOnImage;
@@ -140,6 +141,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property BOOL bSettingDefMap;
 @property BOOL bSettingAutoMemo;
 @property BOOL bSharedThisOnFacebook;
+@property NSInteger paidHintCount;
 
 @property SUDOKUTYPE nSettingSudokuType;
 

@@ -220,5 +220,20 @@ typedef struct SUDOKUSCORE
 #define kCount						@"Count"
 #define kSuccess					@"Success"
 
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+#define kHint50Item             @"com.raymond.sudoku9free.hint50"
+#else
+#define kHint50Item             @"com.raymond.sudoku9.hint50"
+#endif
+#else
+#ifdef ADMOB_FREEVERSION
+#define kHint50Item             @"com.raymond.sudoku6free.hint50"
+#else
+#define kHint50Item             @"com.raymond.sudoku6.hint50"
+#endif
+#endif
 
+
+#define countHint50             50
 

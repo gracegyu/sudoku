@@ -10,6 +10,11 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
+#import <StoreKit/StoreKit.h>
+#import <StoreKit/SKProductsRequest.h>
+#import <StoreKit/SKProduct.h>
+#import <StoreKit/SKPaymentQueue.h>
+#import <StoreKit/SKPaymentTransaction.h>
 #import "TPMultiLayoutViewController.h"
 #import "JMCCustomDataSource.h"
 
@@ -36,6 +41,7 @@ typedef struct DAILYSTAT
 @interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
     ,JMCCustomDataSource
     ,CLLocationManagerDelegate
+    ,SKProductsRequestDelegate
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
 #endif
@@ -143,6 +149,9 @@ typedef struct DAILYSTAT
     CLLocationManager *locationManager;
     CLLocationDegrees currentLatitude;
     CLLocationDegrees currentLongtitude;
+    
+    SKProduct *productHint50;
+    BOOL    bBuyingHint50;
 }
 
 
