@@ -931,6 +931,12 @@ static NSUInteger SmallerColorTemplate[9] = {
             i = -2;
         else if (len == 5)
             i = -1;
+        else if (len == 3)
+            i = -1;
+        else if (len == 2)
+            i = -2;
+        else if (len == 1)
+            i = -3;
     }
     
 	CGFloat x0 = rect.origin.x+rect.size.width*(margin+leftmargin);
