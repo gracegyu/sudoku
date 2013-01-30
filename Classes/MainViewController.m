@@ -109,8 +109,23 @@
     score.scoreTotal = 0;
     score.scoreRankTotal = 0;
 }
-
-#ifdef SUDOKU9
+#ifdef SUDOKU16
+#define kScoreGames			@"score16Games"
+#define kScoreClears		@"score16Clears"
+#define kScoreBestTime		@"score16BestTime"
+#define kScoreClearTimeSum	@"score16ClearTimeSum"
+#define kScoreRankLevel     @"score16RankLevel"
+#define kScoreRankTotal     @"score16RankTotal"
+#define kScoreTotal         @"score16Total"
+#elif defined(SUDOKU12)
+#define kScoreGames			@"score12Games"
+#define kScoreClears		@"score12Clears"
+#define kScoreBestTime		@"score12BestTime"
+#define kScoreClearTimeSum	@"score12ClearTimeSum"
+#define kScoreRankLevel     @"score12RankLevel"
+#define kScoreRankTotal     @"score12RankTotal"
+#define kScoreTotal         @"score12Total"
+#elif defined(SUDOKU9)
 #define kScoreGames			@"scoreGames"
 #define kScoreClears		@"scoreClears"
 #define kScoreBestTime		@"scoreBestTime"
@@ -118,7 +133,7 @@
 #define kScoreRankLevel     @"scoreRankLevel"
 #define kScoreRankTotal     @"scoreRankTotal"
 #define kScoreTotal         @"scoreTotal"
-#elif SUDOKU7
+#elif defined(SUDOKU7)
 #define kScoreGames			@"score7Games"
 #define kScoreClears		@"score7Clears"
 #define kScoreBestTime		@"score7BestTime"
@@ -174,7 +189,11 @@
     else
 		scoreTemp = (10-level) * (10 - scoreTemp + 1);
 		
-#ifdef SUDOKU9  // zzz 나중에는 size 넘겨줘서 계산 해야 한다.
+#ifdef SUDOKU16  // zzz 나중에는 size 넘겨줘서 계산 해야 한다.
+    scoreTemp = scoreTemp * (SIZE_16*SIZE_16)/100;
+#elif defined(SUDOKU12)
+    scoreTemp = scoreTemp * (SIZE_12*SIZE_12)/100;
+#elif defined(SUDOKU9)
     scoreTemp = scoreTemp * (SIZE_9*SIZE_9)/100;
 #else
     scoreTemp = scoreTemp * (SIZE_6*SIZE_6)/100;
@@ -1884,13 +1903,17 @@
 	}
 }
 
-#ifdef SUDOKU9
+#ifdef SUDOKU16
+#define DEFPUZZLESIZE   SIZE_16
+#elif defined(SUDOKU12)
+#define DEFPUZZLESIZE   SIZE_12
+#elif defined(SUDOKU9)
 #define DEFPUZZLESIZE   SIZE_9
-#elif SUDOKU8
+#elif defined(SUDOKU8)
 #define DEFPUZZLESIZE   SIZE_8
-#elif SUDOKU7
+#elif defined(SUDOKU7)
 #define DEFPUZZLESIZE   SIZE_7
-#elif SUDOKU6
+#elif defined(SUDOKU6)
 #define DEFPUZZLESIZE   SIZE_6
 #else
 #define DEFPUZZLESIZE   SIZE_9

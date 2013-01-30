@@ -30,7 +30,7 @@ typedef struct KillerCage
 @interface KillerMap : NSObject
 
 {
-    NSInteger   size;							// 6,9
+    NSInteger   size;							// 6,9,12,16
     NSInteger	map[MAXMAPSIZE][MAXMAPSIZE];
     NSInteger	color[MAXMAPSIZE][MAXMAPSIZE];	// 0~6
 	KillerCage	cage[MAXMAPSIZE*MAXMAPSIZE/2];

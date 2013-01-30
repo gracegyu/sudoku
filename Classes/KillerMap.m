@@ -69,13 +69,13 @@
 #ifdef DEBUG
 	for (int y=0; y<size; y++)
 	{
-		if (y%3 == 0)
+		if (y%GRIDY == 0)
 		{
 			LogIt(@"----------------------------  -------------------\n");
 		}
 		for (int x=0; x<size; x++)
 		{
-			if (x%3==0)
+			if (x%GRIDX==0)
 			{
 				LogIt(@"|");
 			} else {
@@ -93,7 +93,7 @@
 		
 		for (int x=0; x<size; x++)
 		{
-			if (x%3==0)
+			if (x%GRIDX==0)
 			{
 				LogIt(@"|");
 			} else {

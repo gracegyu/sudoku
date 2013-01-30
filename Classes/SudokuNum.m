@@ -793,7 +793,7 @@
 {
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		DLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Invalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
 		return NO;
 	} 	
 		
@@ -904,14 +904,17 @@
 	}	
 	
 	if (bOkAutoSet == NO) {		// 실패 했음, Back tracking에서 완전히 새로 생성하는 것으로 수정
-		return NO;
-/*
+#ifdef SUDOKU16
 		[self undoSet:numBackTracking];
         
         numBackTracking += BACKTRACKING_INTERVAL;   // 잘못되면 Backtracking 깊이를 점점 증가시킨다.
         if (numBackTracking > BACKTRACKING_MAX)
             numBackTracking = BACKTRACKING_MAX;
- */
+        
+        return YES;
+#endif
+		return NO;
+        
 	}
 	[self countCell];
 
@@ -950,7 +953,7 @@
 	
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		DLog(@"Unvalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Invalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
 	} else {
 		[self setCellPuzzleCheck:num x:xPos y:yPos];
 		[self addUndoLog:num xPos:xPos yPos:yPos];		// set undo data
@@ -1021,7 +1024,7 @@
 
 }
 
-/*
+
 
 - (CGPoint) undoSet:(NSInteger)num
 {
@@ -1068,7 +1071,84 @@
 	return pointLastUndoPos;
 }
 
-*/
+
+#ifdef SUDOKU16
+#define GETHEXA(a)  ((a)<10?'0'+(a):'A'+(a)-10)
+
+- (void) printNums
+{
+	NSString *str = [[NSString alloc] init];
+	
+	str = [str stringByAppendingString:@"\n"];
+	str = [str stringByAppendingString:@"-----------------------------------------------------------------------------------\n"];
+	for (int y=0; y<size; y++)
+	{
+		for (int k=0; k<4; k++)
+		{
+			str = [str stringByAppendingString:@"|"];
+			for (int x=0; x<size; x++)
+			{
+				for (int l=0; l<4; l++)
+				{
+					int pos = k*4 + l;
+					if (pos < size && x < size && y < size && [self isMemoed:pos+1 x:x y:y])
+					{
+						str = [str stringByAppendingFormat:@"%c", GETHEXA(pos+1)];
+					} else {
+						if (x < size && y < size && [self getPuzzleNum:x y:y] > 0)
+						{
+							if (pos == 4)
+								str = [str stringByAppendingString:@"["];
+							else if (pos == 5)
+								str = [str stringByAppendingFormat:@"%c", GETHEXA([self getPuzzleNum:x y:y])];
+							else if (pos == 6)
+								str = [str stringByAppendingString:@"]"];
+							else
+								str = [str stringByAppendingString:@" "];
+						}
+						else if (x < size && y < size && [self getAnswerNum:x y:y] > 0)
+						{
+							if (pos == 4)
+								str = [str stringByAppendingString:@"-"];
+							else if (pos == 5)
+								str = [str stringByAppendingFormat:@"%c", GETHEXA([self getAnswerNum:x y:y])];
+							else if (pos == 6)
+								str = [str stringByAppendingString:@"-"];
+							else
+								str = [str stringByAppendingString:@" "];
+                            
+						} else {
+							str = [str stringByAppendingString:@" "];
+						}
+					}
+					
+				}
+				if (x%GRIDX == GRIDX-1) {
+					str = [str stringByAppendingString:@"|"];
+				} else {
+					str = [str stringByAppendingString:@" "];
+				}
+			}
+			str = [str stringByAppendingString:@"\n"];
+		}
+		if (y%GRIDY == GRIDY-1) {
+			str = [str stringByAppendingString:@"-----------------------------------------------------------------------------------\n"];
+		} else {
+			//str = [str stringByAppendingString:@"\n"];
+		}
+		
+	}
+	str = [str stringByAppendingFormat:@"%d:Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
+		   countFunc, foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
+	DLog(@"str = %@", str);
+    
+	
+	//	[str release];
+}
+
+#else
+
+
 - (void) printNums 
 {
 	NSString *str = [[NSString alloc] init];
@@ -1117,7 +1197,7 @@
 					}
 					
 				}				
-				if (x%3 == 2) {
+				if (x%GRIDX == GRIDX-1) {
 					str = [str stringByAppendingString:@"|"];
 				} else {
 					str = [str stringByAppendingString:@" "];
@@ -1125,7 +1205,7 @@
 			}
 			str = [str stringByAppendingString:@"\n"];
 		}
-		if (y%3 == 2) {
+		if (y%GRIDY == GRIDY-1) {
 			str = [str stringByAppendingString:@"-------------------------------------\n"];
 		} else {
 			//str = [str stringByAppendingString:@"\n"];
@@ -1139,6 +1219,7 @@
 	
 	//	[str release];
 }
+#endif
 
 - (void) countCell
 {
@@ -1316,7 +1397,7 @@ SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuz
 		nTry++;
 		[sudokuNum initPuzzle:type sizePuzzle:sizePuzzle defmap:bSettingDefMap];
 		[sudokuNum countCell];
-		//[sudokuNum printNums];
+//		[sudokuNum printNums];
 		NSInteger i = 0;
 		while ([sudokuNum setCellAuto])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
 		{
@@ -1330,7 +1411,7 @@ SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuz
 		}
 		
 		DLog(@"%d times loop", i);
-		//[sudokuNum printNums];
+		[sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
 	DLog(@"sudokuNumGenerate: %d tried", nTry);

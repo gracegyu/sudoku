@@ -21,12 +21,11 @@
     
 //	NSMutableArray	*nums;
     
-	char			defaultMemo[9+1];
-	char			memo[9][9][9+1];//
-//    NSInteger       memo[9][9];		// bit 연산
-	NSInteger		memonum[9][9];	// 메모 갯수
-    NSInteger       puzzle[9][9];   // 0, 1~9 (User fix) *
-    NSInteger       answer[9][9];   // 0, 1~9 (Auto fix) ~
+	char			defaultMemo[MAXMAPSIZE+1];
+	char			memo[MAXMAPSIZE][MAXMAPSIZE][MAXMAPSIZE+1];
+	NSInteger		memonum[MAXMAPSIZE][MAXMAPSIZE];	// 메모 갯수
+    NSInteger       puzzle[MAXMAPSIZE][MAXMAPSIZE];   // 0, 1~9|12|16 (User fix) *
+    NSInteger       answer[MAXMAPSIZE][MAXMAPSIZE];   // 0, 1~9|12|16 (Auto fix) ~
 	/////////// 메모 개수 처리..........
 	NSInteger		foundSingle;
 	NSInteger		foundUnique;

@@ -875,12 +875,12 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				str = [str stringByAppendingFormat:@"[%d]", puzzleNums[x][y]];
 			else
 				str = [str stringByAppendingFormat:@"-%d-", answerNums[x][y]];
-			str = [str stringByAppendingString:x%3 == 2?@"|":@" "];
+			str = [str stringByAppendingString:x%GRIDX == GRIDX-1?@"|":@" "];
 			
 		}
 		str = [str stringByAppendingString:@"\n"];
 		
-		if ((y%3) == 2)
+		if ((y%GRIDY) == GRIDY-1)
 			str = [str stringByAppendingString:@"-------------------------------------\n"];
 		
 	}
@@ -916,7 +916,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	}
 	if ([listItems count] > 11) {
         size = [[listItems objectAtIndex:11] integerValue];
-		if (size < SIZE_6 || size > SIZE_9)
+		if ((size < SIZE_6 || size > SIZE_9) && size != SIZE_12 && size != SIZE_16)
 		{
 			//DAssert(size >= SIZE_6 && size <= SIZE_9, @"initWithSavedString:size = %d", size);
 			return nil;
@@ -961,7 +961,13 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     if ([listItems count] > 12) {
         [SudokuGame set9x9Nums:[listItems objectAtIndex:12]	size:size nums:&mapNums[0][0]];
     } else {	// 하위호환을 위해서 default map을 제공한다.
+#ifdef SUDOKU16
+        NSString *default9x9Map = @"111122223333444411112222333344441111222233334444111122223333444455556666777788885555666677778888555566667777888855556666777788889999::::;;;;<<<<9999::::;;;;<<<<9999::::;;;;<<<<9999::::;;;;<<<<====>>>>????@@@@====>>>>????@@@@====>>>>????@@@@====>>>>????@@@@";
+#elif defined(SUDOKU12)
+        NSString *default9x9Map = @"1111222233334444111122223333444411112222333344445555666677778888555566667777888855556666777788889999::::;;;;<<<<9999::::;;;;<<<<9999::::;;;;<<<<";
+#else
         NSString *default9x9Map = @"111222333111222333111222333444555666444555666444555666777888999777888999777888999";
+#endif
         [SudokuGame set9x9Nums:default9x9Map size:size nums:&mapNums[0][0]];
     }
 	// zzzzzzzzzzzzzzzzzzzzz

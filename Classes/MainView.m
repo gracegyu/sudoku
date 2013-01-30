@@ -1443,7 +1443,13 @@ static NSUInteger SmallerColorTemplate[9] = {
     return [self getNumButtonAreaX]/[self getNumButtonAreaY] > 1.5;
 }
 
-#ifdef SUDOKU9
+#ifdef SUDOKU16
+#define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
+#define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
+#elif defined(SUDOKU12)
+#define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
+#define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
+#elif defined(SUDOKU9)
 #define cButtonWidth (![self isButtonBox]?[self getNumButtonAreaW]/5.1:[self getNumButtonAreaW]/3.1)
 #define cButtonHeight (![self isButtonBox]?[self getNumButtonAreaH]/1.95:[self getNumButtonAreaH]/3.1)
 #else // SUDOKU6
@@ -1476,8 +1482,18 @@ static NSUInteger SmallerColorTemplate[9] = {
     {
         return [self isButtonBox] ? 5 : 8;
     }
-    else // if (sudokuGame.size == SIZE_9)
+    else  if (sudokuGame.size == SIZE_9)
     {
+        return [self isButtonBox] ? 3 : 9;
+    }
+    else  if (sudokuGame.size == SIZE_12)
+    {
+        return [self isButtonBox] ? 3 : 12;
+    }
+    else  if (sudokuGame.size == SIZE_16)
+    {
+        return [self isButtonBox] ? 4 : 16;
+    } else{
         return [self isButtonBox] ? 3 : 9;
     }
 }
@@ -1504,8 +1520,18 @@ static NSUInteger SmallerColorTemplate[9] = {
     {
         return [self isButtonBox] ? 3 : 2;
     }
-    else // if (sudokuGame.size == SIZE_9)
+    else  if (sudokuGame.size == SIZE_9)
     {
+        return [self isButtonBox] ? 3 : 2;
+    }
+    else  if (sudokuGame.size == SIZE_12)
+    {
+        return [self isButtonBox] ? 4 : 3;
+    }
+    else  if (sudokuGame.size == SIZE_16)
+    {
+        return [self isButtonBox] ? 4 : 3;
+    } else{
         return [self isButtonBox] ? 3 : 2;
     }
 }

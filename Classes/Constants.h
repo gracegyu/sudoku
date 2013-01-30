@@ -63,7 +63,11 @@
 
 
 
-#ifdef SUDOKU9
+#ifdef SUDOKU16
+#define STR_MATRIXSIZE  @"16x16"
+#elif defined(SUDOKU12)
+#define STR_MATRIXSIZE  @"12x12"
+#elif defined(SUDOKU9)
 #define STR_MATRIXSIZE  @"9x9"
 #elif defined(SUDOKU8)
 #define STR_MATRIXSIZE  @"8x8"
