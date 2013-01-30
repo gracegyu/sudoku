@@ -79,6 +79,7 @@
 @synthesize timerGame;
 @synthesize timerNewGame;
 @synthesize activityIndicator;
+@synthesize activityIndicatorNewGame;
 @synthesize segmentType;
 @synthesize labelLicense;
 
@@ -2435,16 +2436,32 @@
     
 }
 
+- (void)OnTimerIndicatorNewGame:(NSTimer *)timer
+{
+    [activityIndicatorNewGame stopAnimating];
+}
+
+
 - (IBAction)showNewGame
 {
+    [NSTimer scheduledTimerWithTimeInterval:0
+                                     target:self
+                                   selector:@selector(OnTimerIndicatorNewGame:)
+                                   userInfo:nil
+                                    repeats:NO];
+
     [self readyToDownloadDailyPuzzle];
     //[self getDailyStat];
     //[self setDailyStat];
+    [activityIndicatorNewGame startAnimating];
+
+    
     [self setSudokuTypeSegment];
     
 	[self allButtonUnLock];
 	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
 	[self showNewGameView];
+
 	
 }
 

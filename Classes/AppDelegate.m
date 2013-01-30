@@ -46,7 +46,7 @@
 	NSString *strNib = [NSString stringWithString:
 #ifdef ADMOB_FREEVERSION
 	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" :
-						(isIphone5 ? @"MainView4iPhone5" : @"MainViewFree")];
+						(isIphone5 ? @"MainView4iPhone5Free" : @"MainViewFree")];
 #else
 	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
 					    (isIphone5 ? @"MainView4iPhone5" : @"MainView") ];

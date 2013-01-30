@@ -114,6 +114,7 @@ typedef struct DAILYSTAT
 	NSTimer		*timerGame;
 	NSTimer		*timerNewGame;
 	UIActivityIndicatorView	*activityIndicator;
+	UIActivityIndicatorView	*activityIndicatorNewGame;
 	
 	SUDOKUSCORE score;
     
@@ -217,6 +218,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSTimer		*timerGame;
 @property (nonatomic, retain) NSTimer		*timerNewGame;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicatorNewGame;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 

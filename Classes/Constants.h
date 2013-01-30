@@ -21,9 +21,9 @@
 #define FACEBOOK_ID @"116121415220692"
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #endif
-#define MY_BANNER_UNIT_ID_IPHONE5   (@"a150e7a2cc8230c")
-#define MY_BANNER_UNIT_ID_IPHONE    (@"a150e7a2cc8230c")
-#define MY_BANNER_UNIT_ID_IPAD      (@"a150e7a320899b1")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a15105ee1044407")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a15105ee1044407")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a15105ee4faf694")
 //#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
 //#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
 //#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")
@@ -43,9 +43,9 @@
 #define FACEBOOK_ID @"381531935263532"
 #define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #endif
-#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
-#define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
-#define MY_BANNER_UNIT_ID_IPAD      (@"a1506f9f57f0075")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a15105ee1044407")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a15105ee1044407")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a15105ee4faf694")
 
 #else   // etc. SUDOKU7 etc
 
@@ -166,7 +166,7 @@ typedef struct SUDOKUSCORE
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
 
-#define TIME_HOLDANDCHOICE	0.30
+#define TIME_HOLDANDCHOICE	0.2
 #define TIME_UNDOREPEATE	0.5
 #define TIME_UNDOINTERVAL	0.05	// undo가 느리게 진행될 수 있으므로... 짧게 설정
 
