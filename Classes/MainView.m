@@ -2584,7 +2584,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     [self setFont];
 
-    [self drawWindowsBackground:context];       // 전체 바탕 색
+//    [self drawWindowsBackground:context];       // 전체 바탕 색
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
 	[self drawGuidelineBackground:context];     // 힌트 바탕 색
