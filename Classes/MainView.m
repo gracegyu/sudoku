@@ -1618,8 +1618,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 	BOOL bMemoNum = NO;
 	CGFloat x, y;
 	NSInteger numColor;
-    UIImage *imgButton = [UIImage imageNamed:bMemoMode ? @"button_num_memo.png" : @"button_num_base.png"];
-
+    UIImage *imgButton;
+    
+    if (isIpad)
+        imgButton = [UIImage imageNamed:bMemoMode ? @"button_num_memo.png" : @"button_num_base.png"];
+    else
+        imgButton = [UIImage imageNamed:bMemoMode ? @"button_num_memo_small.png" : @"button_num_base_small.png"];
 	
 //    if (sudokuGame.isGameFinished)
 //        return;
@@ -1659,7 +1663,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
 */		
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
-		//DLog(@"currentRect=%f,%f", currentRect.origin.x, currentRect.origin.y);
+		DLog(@"currentRect=%f,%f,%f,%f", currentRect.origin.x, currentRect.origin.y, currentRect.size.width, currentRect.size.height);
         
         
         
@@ -1667,6 +1671,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 //		CGContextDrawPath(context, kCGPathFillStroke);
 
         [imgButton drawInRect:currentRect];
+//        [imgButton drawAtPoint:CGPointMake(x, y)];
         
         // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
@@ -1697,6 +1702,14 @@ static NSUInteger SmallerColorTemplate[9] = {
                          rect:CGRectMake(x, y, cButtonWidth, cButtonHeight)
                         color:color
                          font:buttonSmallFont];// bMemoMode ? buttonMemoSmallFont : buttonSmallFont];
+            
+            [self drawNumRect:context
+                          num:[sudokuGame getCountNum:i]
+                         rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
+                        color:skincolor[SC_TEXT_BUTTON_NUMBER].CGColor
+                         font:cellNineFont];
+
+            
 		}
         
         
@@ -1721,7 +1734,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 		
 //		CGContextAddEllipseInRect(context, currentRect);
 //		CGContextDrawPath(context, kCGPathFillStroke);
-        UIImage *imgPushedButton = [UIImage imageNamed:@"button_num_push.png"];
+        UIImage *imgPushedButton = [UIImage imageNamed:isIpad ? @"button_num_push.png" : @"button_num_push_small.png"];
 
         [imgPushedButton drawInRect:currentRect];
 
@@ -1737,7 +1750,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
         [self drawNumRect:context
                       num:[sudokuGame getCountNum:i]
-                     rect:CGRectMake(currentRect.origin.x, currentRect.origin.y, cButtonWidth/4, cButtonHeight/4)
+                     rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
                     color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
                      font:cellNineFont];
 
