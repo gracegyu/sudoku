@@ -9,7 +9,9 @@
 
 
 #import <UIKit/UIKit.h>
+#ifdef LOCATIONTRACK
 #import <CoreLocation/CoreLocation.h>
+#endif
 #import <StoreKit/StoreKit.h>
 #import <StoreKit/SKProductsRequest.h>
 #import <StoreKit/SKProduct.h>
@@ -40,7 +42,9 @@ typedef struct DAILYSTAT
 
 @interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
     ,JMCCustomDataSource
+#ifdef LOCATIONTRACK
     ,CLLocationManagerDelegate
+#endif
     ,SKProductsRequestDelegate
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
@@ -147,10 +151,11 @@ typedef struct DAILYSTAT
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
     BOOL    bReadyDownloadDailyPuzzle;
     NSString *nowDate;
+#ifdef LOCATIONTRACK
     CLLocationManager *locationManager;
     CLLocationDegrees currentLatitude;
     CLLocationDegrees currentLongtitude;
-    
+#endif
     SKProduct *productHint50;
     BOOL    bBuyingHint50;
 }
@@ -227,7 +232,9 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *gUserName;
 @property (nonatomic, retain) NSString *gDeviceID;
 @property NSInteger gVersion;
+#ifdef LOCATIONTRACK
 @property (nonatomic, retain) CLLocationManager *locationManager;
+#endif
 @property (nonatomic, retain) NSString *nowDate;
 
 

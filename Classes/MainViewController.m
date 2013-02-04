@@ -691,13 +691,14 @@
 	 DLog(@"viewDidLoad");	
      [super viewDidLoad];
      
+#ifdef LOCATIONTRACK
      if (locationManager == nil) {
          locationManager= [[CLLocationManager alloc] init];
      }
      locationManager.delegate = self;
      locationManager.desiredAccuracy= kCLLocationAccuracyBest;
      [locationManager startUpdatingLocation];
-     
+#endif
 
      
      [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
@@ -842,8 +843,13 @@
 						@"start",
                         @"en_US",
 						gDeviceID,
+#ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
+#else
+                        0,
+                        0,
+#endif
 						cProtocolVersion,
 						cDeviceType,
 						cOSType,
@@ -2097,8 +2103,13 @@
                         @"getdailypuzzle",
                         gUserID,
                         gUserName,
+#ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
+#else
+                        0,
+                        0,
+#endif
 						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
@@ -2119,8 +2130,13 @@
                         @"addresult",
                         gUserID,
                         gUserName,
+#ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
+#else
+                        0,
+                        0,
+#endif
 						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
@@ -2262,8 +2278,13 @@
                         @"getdailystat",
                         gUserID,
                         gUserName,
+#ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
+#else
+                        0,
+                        0,
+#endif
 						cProtocolVersion,
                         [self getCheckSum],
                         DEFPUZZLESIZE,
@@ -3015,6 +3036,7 @@
 */
 
 
+#ifdef LOCATIONTRACK
 
 #pragma mark - CLLocationManagerDelegate
 
@@ -3029,6 +3051,7 @@
     
     [locationManager stopUpdatingLocation];
 }
+#endif
 
 #pragma mark - SKPaymentTransactionObserver Protocol
 
