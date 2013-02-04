@@ -1671,7 +1671,9 @@ static NSUInteger SmallerColorTemplate[9] = {
 //		CGContextDrawPath(context, kCGPathFillStroke);
 
         [imgButton drawInRect:currentRect];
-//        [imgButton drawAtPoint:CGPointMake(x, y)];
+       
+
+        
         
         // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
