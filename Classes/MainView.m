@@ -1663,7 +1663,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 		CGContextSetFillColorWithColor(context, skincolor[numColor].CGColor);
 */		
 		currentRect = CGRectMake(x,y,cButtonWidth,cButtonHeight);
-		DLog(@"currentRect=%f,%f,%f,%f", currentRect.origin.x, currentRect.origin.y, currentRect.size.width, currentRect.size.height);
+		//DLog(@"currentRect=%f,%f,%f,%f", currentRect.origin.x, currentRect.origin.y, currentRect.size.width, currentRect.size.height);
         
         
         

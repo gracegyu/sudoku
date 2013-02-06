@@ -533,7 +533,7 @@
 			{
 				[array addObject:data];
 			} else {
-				break;
+				//break;
 			}
 			i++;
 		}
