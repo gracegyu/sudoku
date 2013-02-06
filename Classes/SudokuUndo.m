@@ -499,6 +499,7 @@
 {
     [arrayUndo removeAllObjects];
     indexUndo = count = [arrayUndo count];
+    [self delAllBookmarks];
 }
 
 - (NSMutableArray*) getAutoUndo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
