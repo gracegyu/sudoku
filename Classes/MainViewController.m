@@ -2309,11 +2309,17 @@
 		item = [listItems objectAtIndex:idx];
 		
 		NSArray *rawData = [item componentsSeparatedByString:@"\t"];
-		if (rawData.count >= 2)
-		{
+        
+        if (idx == 0) {  // 첫줄은 형식에 맞아야 함
+            if (rawData.count != 2)
+            {
+                [self alertLocalizedAlertView:@"Server internal error"];
+                bError = YES;
+                break;
+            }
 			name = [rawData objectAtIndex:0];
 			value = [rawData objectAtIndex:1];
-			
+            
 			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
 				error = value;
 				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
@@ -2321,8 +2327,18 @@
                     bError = YES;
                     break;
 				}
-			}
-            else if ([name caseInsensitiveCompare:@"Total0"] == NSOrderedSame)
+			} else {
+                [self alertLocalizedAlertView:@"Server error"];
+                bError = YES;
+                break;
+            }
+        }
+        else if (rawData.count >= 2)
+		{
+			name = [rawData objectAtIndex:0];
+			value = [rawData objectAtIndex:1];
+			
+            if ([name caseInsensitiveCompare:@"Total0"] == NSOrderedSame)
 				dailyStat[0].total = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"Besttime0"] == NSOrderedSame)
 				dailyStat[0].besttime = [value integerValue];
