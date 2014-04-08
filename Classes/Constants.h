@@ -21,12 +21,10 @@
 #define FACEBOOK_ID @"116121415220692"
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #endif
-#define MY_BANNER_UNIT_ID_IPHONE5   (@"a150cebec96b4d1")
+//sudoku9
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a150cebec96b4d1")
-#define MY_BANNER_UNIT_ID_IPAD      (@"a150cec09557061")
-//#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9ab471950")
-//#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
-//#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")
 #elif defined(SUDOKU6)
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"568783854"  // SUDOKU6 Free
@@ -43,9 +41,10 @@
 #define FACEBOOK_ID @"381531935263532"
 #define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #endif
-#define MY_BANNER_UNIT_ID_IPHONE5   (@"a150cebec96b4d1")
-#define MY_BANNER_UNIT_ID_IPHONE    (@"a150cebec96b4d1")
-#define MY_BANNER_UNIT_ID_IPAD      (@"a150cec09557061")
+//sudoku6
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a1506f9efd45635")
+#define MY_BANNER_UNIT_ID_IPHONE    (@"a1506f9e947e7b0")
+#define MY_BANNER_UNIT_ID_IPAD      (@"a1506f9f57f0075")
 
 #else   // etc. SUDOKU7 etc
 
