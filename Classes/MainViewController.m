@@ -913,7 +913,9 @@
 - (void) loadServerData
 {
     gServerIP = cServerHostName;
-    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
+//    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
+    gDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
     [gDeviceID retain];
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -2099,7 +2101,7 @@
     
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
+						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
                         @"getdailypuzzle",
                         gUserID,
                         gUserName,
