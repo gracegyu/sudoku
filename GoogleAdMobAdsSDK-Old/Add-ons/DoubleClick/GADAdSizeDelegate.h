@@ -1,8 +1,8 @@
 //
 //  GADAdSizeDelegate.h
-//  Google Mobile Ads SDK
+//  Google Ads iOS SDK
 //
-//  Copyright 2012 Google Inc. All rights reserved.
+//  Copyright (c) 2012 Google Inc. All rights reserved.
 //
 //  The class implementing this protocol will be notified when the DFPBannerView
 //  changes ad size. Any views that may be affected by the banner size change
@@ -12,10 +12,9 @@
 #import <Foundation/Foundation.h>
 
 #import "GADAdSize.h"
+#import "GADBannerView.h"
 
-@class GADBannerView;
-
-@protocol GADAdSizeDelegate<NSObject>
+@protocol GADAdSizeDelegate <NSObject>
 
 - (void)adView:(GADBannerView *)view willChangeAdSizeTo:(GADAdSize)size;
 
