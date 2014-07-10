@@ -22,7 +22,7 @@
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #endif
 //sudoku9
-#define MY_BANNER_UNIT_ID_IPHONE    (@"a150cebec96b4d1")
+#define MY_BANNER_UNIT_ID_IPHONE5   (@"a150cebec96b4d1")
 #define MY_BANNER_UNIT_ID_IPHONE    (@"a14ccfafd6895cb")
 #define MY_BANNER_UNIT_ID_IPAD      (@"a14fd69f029bc6d")
 #elif defined(SUDOKU6)

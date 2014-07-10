@@ -418,7 +418,12 @@
 - (IBAction)goBugReport
 {
     UIViewController *controller = [[JMC sharedInstance] viewController];
-    [self presentModalViewController:controller animated:YES];
+    if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
+    {
+        [self presentModalViewController:controller animated:YES];
+    } else {
+        [self presentViewController:controller animated:YES completion:nil];
+    }
 /*
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:

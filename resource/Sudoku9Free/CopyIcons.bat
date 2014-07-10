@@ -7,3 +7,9 @@ convert.exe Sudoku9FreeIcon-1024.png -resize 72x72 Sudoku9FreeIcon-72.png
 convert.exe Sudoku9FreeIcon-1024.png -resize 114x114 Sudoku9FreeIcon@2x.png 
 convert.exe Sudoku9FreeIcon-1024.png -resize 144x144 Sudoku9FreeIcon@2x~ipad.png 
 convert.exe Sudoku9FreeIcon-1024.png -resize 512x512 Sudoku9FreeIcon-512.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 120x120 Sudoku9FreeIcon-60@2x.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 76x76 Sudoku9FreeIcon-76.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 152x152 Sudoku9FreeIcon-76@2x.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 40x40 Sudoku9FreeIcon-40.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 80x80 Sudoku9FreeIcon-40@2x.png 
+convert.exe Sudoku9FreeIcon-1024.png -resize 100x100 Sudoku9FreeIcon-100.png 
