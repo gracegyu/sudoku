@@ -6,7 +6,7 @@
 //  Copyright 2010 AddThis LLC. All rights reserved.
 //
 
-#define ADDTHIS_VERSION @"0.2.0"
+#define ADDTHIS_VERSION @"0.2.0c"
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 

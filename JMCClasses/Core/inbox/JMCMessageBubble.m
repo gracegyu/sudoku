@@ -31,8 +31,6 @@
 
 - (id)initWithReuseIdentifier:(NSString *)cellIdentifierComment detailSize:(CGSize)detailSize {
 
-    NSLog(@"initWithReuseIdentifier:%@", cellIdentifierComment);
-    
     if ((self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifierComment])) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -54,8 +52,7 @@
         label.editable = NO;
         label.scrollEnabled = NO;
         label.contentInset =  UIEdgeInsetsMake(-8,-8,0,0);
-        //label.clipsToBounds = NO;
-        
+
         detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, detailSize.width, detailLabelHeight)];
         detailLabel.tag = 3;
         detailLabel.numberOfLines = 1;
@@ -63,7 +60,6 @@
         detailLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:11];
         detailLabel.textColor = [UIColor darkGrayColor];
         detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        
 
         detailLabel.backgroundColor = [UIColor clearColor];
         detailLabel.textAlignment = UITextAlignmentCenter;
@@ -118,7 +114,6 @@
                      constrainedToSize:CGSizeMake(constSize.width * 0.75, constSize.height)
                          lineBreakMode:UILineBreakModeWordWrap];
     
-    size.height *= 1.05f;
     UIImage * balloon;
     float balloonY = 2.0f + detailLabelHeight;
     float labelY = 8.0f + detailLabelHeight;
@@ -136,7 +131,6 @@
         self.bubble.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         balloon = [[UIImage imageNamed:@"Balloon_2"] stretchableImageWithLeftCapWidth:20.0f topCapHeight:15.0f];
         self.label.frame = CGRectMake(20.0f, labelY - 2.0f, size.width + 5  + 16.0f, size.height);
-        //self.label.bounds = CGRectMake(20.0f, labelY - 2.0f, size.width + 5  + 16.0f, size.height);
     } 
     self.bubble.image = balloon;
     self.label.text = string;

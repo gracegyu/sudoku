@@ -1854,6 +1854,18 @@
 		CFE094DF1633F77F00B5EEA6 /* bg10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFE094DA1633F77F00B5EEA6 /* bg10.png */; };
 		CFEB8322160D8D1F00FED1FE /* ScoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB831B160D8C7500FED1FE /* ScoreView.m */; };
 		CFEB8323160D8D1F00FED1FE /* ScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFEB831D160D8C7500FED1FE /* ScoreViewController.m */; };
+		CFF044F7196E8FA300CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
+		CFF044F9196E8FA700CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF044FA196E8FC300CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF044FB196E8FCA00CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
+		CFF044FC196E8FCF00CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF044FD196E8FD500CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
+		CFF044FE196E8FE300CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
+		CFF044FF196E8FE700CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF04500196E8FED00CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF04501196E8FF900CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
+		CFF04502196E8FFF00CB0EBD /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F8196E8FA700CB0EBD /* Accounts.framework */; };
+		CFF04503196E900600CB0EBD /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFF044F6196E8FA300CB0EBD /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2436,6 +2448,8 @@
 		CFEB831B160D8C7500FED1FE /* ScoreView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ScoreView.m; path = Classes/ScoreView.m; sourceTree = "<group>"; };
 		CFEB831C160D8C7500FED1FE /* ScoreViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ScoreViewController.h; path = Classes/ScoreViewController.h; sourceTree = "<group>"; };
 		CFEB831D160D8C7500FED1FE /* ScoreViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = ScoreViewController.m; path = Classes/ScoreViewController.m; sourceTree = "<group>"; };
+		CFF044F6196E8FA300CB0EBD /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		CFF044F8196E8FA700CB0EBD /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2443,6 +2457,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF044F9196E8FA700CB0EBD /* Accounts.framework in Frameworks */,
+				CFF044F7196E8FA300CB0EBD /* Social.framework in Frameworks */,
 				CF86D32716423E5600687A8E /* StoreKit.framework in Frameworks */,
 				CF6D31C0196E777C0012D2DA /* CoreTelephony.framework in Frameworks */,
 				CF1304B9166CC65700CDE097 /* Twitter.framework in Frameworks */,
@@ -2477,6 +2493,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF04503196E900600CB0EBD /* Social.framework in Frameworks */,
+				CFF04502196E8FFF00CB0EBD /* Accounts.framework in Frameworks */,
 				CF09AEFD169B114300C51175 /* Twitter.framework in Frameworks */,
 				CF09AEFE169B114300C51175 /* StoreKit.framework in Frameworks */,
 				CF09AEFF169B114300C51175 /* AdSupport.framework in Frameworks */,
@@ -2509,6 +2527,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF044FF196E8FE700CB0EBD /* Accounts.framework in Frameworks */,
+				CFF044FE196E8FE300CB0EBD /* Social.framework in Frameworks */,
 				CF1304BA166CC66000CDE097 /* Twitter.framework in Frameworks */,
 				CF86D32616423E5000687A8E /* StoreKit.framework in Frameworks */,
 				CF6E3FB8161FE323000DD7D7 /* AdSupport.framework in Frameworks */,
@@ -2540,6 +2560,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF044FB196E8FCA00CB0EBD /* Social.framework in Frameworks */,
+				CFF044FA196E8FC300CB0EBD /* Accounts.framework in Frameworks */,
 				CF6D31BF196E77620012D2DA /* CoreTelephony.framework in Frameworks */,
 				CF86D32A16423E6E00687A8E /* StoreKit.framework in Frameworks */,
 				CF6D31BD196E75870012D2DA /* libGoogleAdMobAds.a in Frameworks */,
@@ -2574,6 +2596,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF04501196E8FF900CB0EBD /* Social.framework in Frameworks */,
+				CFF04500196E8FED00CB0EBD /* Accounts.framework in Frameworks */,
 				CF72F68A169AD4FE001316D6 /* Twitter.framework in Frameworks */,
 				CF72F68B169AD4FE001316D6 /* StoreKit.framework in Frameworks */,
 				CF72F68C169AD4FE001316D6 /* AdSupport.framework in Frameworks */,
@@ -2606,6 +2630,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CFF044FD196E8FD500CB0EBD /* Social.framework in Frameworks */,
+				CFF044FC196E8FCF00CB0EBD /* Accounts.framework in Frameworks */,
 				CF1304B7166CC62500CDE097 /* Twitter.framework in Frameworks */,
 				CF86D32916423E6600687A8E /* StoreKit.framework in Frameworks */,
 				CF9B67CC1622487E00EFD0B0 /* AdSupport.framework in Frameworks */,
@@ -2746,6 +2772,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CFF044F8196E8FA700CB0EBD /* Accounts.framework */,
+				CFF044F6196E8FA300CB0EBD /* Social.framework */,
 				CF6D31BE196E77620012D2DA /* CoreTelephony.framework */,
 				CF1304B5166CC5C800CDE097 /* Twitter.framework */,
 				CF86D31816423D3100687A8E /* StoreKit.framework */,
@@ -3684,7 +3712,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0510;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = 376QCT8NVY;
@@ -5675,13 +5703,13 @@
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -5726,7 +5754,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -5803,13 +5831,13 @@
 		CF35AEB8127FE4110062E321 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5821,7 +5849,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5855,20 +5883,20 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
 		CF35AEBA127FE4270062E321 /* Distribute */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Raymond Jeon";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PREPROCESSOR_DEFINITIONS = ADMOB_FREEVERSION;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8CA15EAF-BC8D-48DE-A016-42FA4BB0277F";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -5880,7 +5908,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5953,7 +5981,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -6036,7 +6064,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6053,7 +6081,7 @@
 					ADMOB_FREEVERSION,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
@@ -6067,10 +6095,10 @@
 				);
 				PRODUCT_NAME = SUDOKU6Free;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -6079,7 +6107,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6093,7 +6121,7 @@
 					ADMOB_FREEVERSION,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
@@ -6107,7 +6135,7 @@
 				);
 				PRODUCT_NAME = SUDOKU6Free;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -6132,7 +6160,7 @@
 					ADMOB_FREEVERSION,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
@@ -6191,7 +6219,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -6270,7 +6298,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6301,10 +6329,10 @@
 				);
 				PRODUCT_NAME = SUDOKU6Paid;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -6313,7 +6341,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6339,7 +6367,7 @@
 				);
 				PRODUCT_NAME = SUDOKU6Paid;
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

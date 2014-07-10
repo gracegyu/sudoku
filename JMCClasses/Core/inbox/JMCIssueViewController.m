@@ -149,11 +149,7 @@ static float detailLabelHeight = 21.0f;
     // the text is constrained to 3/4 of the width of the bubble. see JMCMessageBubble setText...
     CGSize constrainTo = CGSizeMake(bubbleSize.width * 0.75f, bubbleSize.height);
 
-    bubbleSize = [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:UILineBreakModeWordWrap];
-    
-    // by gracegyu
-    bubbleSize.height *= 1.05f;
-    return bubbleSize;
+    return [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:UILineBreakModeWordWrap];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -166,9 +162,6 @@ static float detailLabelHeight = 21.0f;
     } else {
         JMCComment *comment = [self.comments objectAtIndex:indexPath.row];
         CGFloat height = [self sizeForComment:comment font:font].height;
-        
-        NSLog(@"heightForRowAtIndexPath:%f", height + 15.0f + detailLabelHeight);
-        
         return height + 15.0f + detailLabelHeight;
     }
 }
