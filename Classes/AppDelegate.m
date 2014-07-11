@@ -11,7 +11,9 @@
 #import "SudokuGame.h"
 #import "Constants.h"
 #import "Appirater.h"
+#ifdef USE_JMC
 #import "JMC.h"
+#endif
 #import "Flurry.h"
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -35,13 +37,13 @@
     [Flurry setAppVersion:majorVersion];
     [Flurry logEvent:str];
 
-
+#ifdef USE_JMC
     [[JMC sharedInstance] configureJiraConnect:@"https://gracegyu.atlassian.net"
                                     projectKey:JMC_PRJKEY
                                         apiKey:JMC_APIKEY
                                       location:YES
                                     dataSource:mainViewController];
-    
+#endif
     
 	NSString *strNib = [NSString stringWithString:
 #ifdef ADMOB_FREEVERSION

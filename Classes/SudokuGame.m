@@ -423,7 +423,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				y = posFirstFound;
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					DLog(@"deleteAutoMemoUniqueNumX(%ld,%ld)->%ld", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumX(%ld,%ld)->%ld", (long)x, (long)y, (long)k);
 					bRet = YES;
 				}
 			}
@@ -532,7 +532,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					DLog(@"deleteAutoMemoUniqueNumXY(%ld,%ld)->%ld", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumXY(%ld,%ld)->%ld", (long)x, (long)y, (long)k);
 					bRet = YES;
 				} else {
 					//DLog(@"[self setMemoNumsForAutoMemo:%d x:%d y:%d] == NO", k, x, y);
@@ -755,7 +755,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				answerNums[x][y] = num; // 0
 			} else {
 				num = ((int*)[sudoku getSolution])[y*size+x];
-                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", (long)num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -798,7 +798,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				answerNums[x][y] = num; // 0
 			} else {
 				num = [sudoku getAnswerNum:x y:y];
-                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", (long)num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -872,9 +872,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 		for (NSInteger x=0; x<size; x++)
 		{
 			if (puzzleNums[x][y] > 0)
-				str = [str stringByAppendingFormat:@"[%ld]", puzzleNums[x][y]];
+				str = [str stringByAppendingFormat:@"[%ld]", (long)puzzleNums[x][y]];
 			else
-				str = [str stringByAppendingFormat:@"-%ld-", answerNums[x][y]];
+				str = [str stringByAppendingFormat:@"-%ld-", (long)answerNums[x][y]];
 			str = [str stringByAppendingString:x%GRIDX == GRIDX-1?@"|":@" "];
 			
 		}
@@ -1345,7 +1345,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                 if (sudokuType == SUDOKUTYPE_SUDOKU)
                 {
                     if (answerNums[x][y] != fixNums[x][y]) {
-                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
                         wrongCells++;
                     }
                 }
@@ -1845,8 +1845,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 					 (char*)zStrFixNum,
 					 (char*)zStrMemoNum,
 					 @"",//strUndo,
-					 countHint,
-                     size,                  // 9칸?
+					 (long)countHint,
+                     (long)size,                  // 9칸?
                      (char*)zStrMapNum,
 					 bAutoMemo?1:0,
 					 hintTime,
@@ -2017,7 +2017,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	BOOL bAutoCheck = NO;
     CGPoint pointLastUndoPos;
     
-    DLog(@"runRedo (%ld/%ld)", [sudokuUndo getIndex], sudokuUndo.count);
+    DLog(@"runRedo (%ld/%ld)", (long)[sudokuUndo getIndex], (long)sudokuUndo.count);
     
     UndoData *undoData = [[UndoData alloc] init];
     

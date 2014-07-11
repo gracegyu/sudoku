@@ -160,7 +160,7 @@
 
 - (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    DAssert(num <= size, @"setAnswerNum num = %ld", num);
+    DAssert(num <= size, @"setAnswerNum num = %ld", (long)num);
     DAssert(x >= 0 && x < size, @"setAnswerNum x = %ld", (long)x);
     DAssert(y >= 0 && y < size, @"setAnswerNum y = %ld", (long)y);
     

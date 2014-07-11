@@ -5678,6 +5678,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ADMOB_FREEVERSION,
 					SUDOKU9,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5687,7 +5688,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5697,6 +5698,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -5745,7 +5747,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5754,7 +5756,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -5781,7 +5783,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5790,6 +5792,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -5816,7 +5819,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5825,6 +5828,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};
@@ -5864,6 +5868,7 @@
 					ADMOB_FREEVERSION,
 					SUDOKU9,
 					DEBUG,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5873,7 +5878,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5883,7 +5888,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -5920,6 +5925,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					ADMOB_FREEVERSION,
 					SUDOKU9,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5929,7 +5935,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5939,6 +5945,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};
@@ -5961,9 +5968,10 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					SUDOKU9,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
@@ -5971,7 +5979,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -5981,7 +5989,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "76AFEE46-0C1F-447D-811E-442BE81D925B";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -5999,9 +6007,12 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU9;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUDOKU9,
+					USE_JMC,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
@@ -6009,7 +6020,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6019,6 +6030,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -6036,9 +6048,12 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU9;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUDOKU9,
+					USE_JMC,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/GoogleAdMobAdsSDK\"",
@@ -6046,7 +6061,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6056,6 +6071,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};
@@ -6079,6 +6095,7 @@
 					SUDOKU6,
 					DEBUG,
 					ADMOB_FREEVERSION,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -6088,7 +6105,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6098,7 +6115,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -6119,6 +6136,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU6,
 					ADMOB_FREEVERSION,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -6128,7 +6146,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6138,6 +6156,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -6158,6 +6177,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					SUDOKU6,
 					ADMOB_FREEVERSION,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -6167,7 +6187,7 @@
 					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
 					/Users/gracegyu/Documents/Git/Sudoku/AddThis,
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6177,6 +6197,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};
@@ -6210,7 +6231,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6219,7 +6240,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -6246,7 +6267,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6255,6 +6276,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -6281,7 +6303,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6290,6 +6312,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};
@@ -6312,6 +6335,7 @@
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					DEBUG,
 					SUDOKU6,
+					USE_JMC,
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -6322,7 +6346,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6332,7 +6356,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				VALID_ARCHS = "arm64 armv7 armv7s";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -6350,7 +6374,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU6;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUDOKU6,
+					USE_JMC,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -6360,7 +6387,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6370,6 +6397,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EEF8476-B3FE-487D-BF9D-0E0DA03F6990";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
@@ -6387,7 +6415,10 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
-				GCC_PREPROCESSOR_DEFINITIONS = SUDOKU6;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					SUDOKU6,
+					USE_JMC,
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
@@ -6397,7 +6428,7 @@
 					"\"$(SRCROOT)/AddThis\"",
 					"\"$(SRCROOT)/Flurry\"",
 				);
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-all_load",
@@ -6407,6 +6438,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = armv7;
 			};
 			name = Distribute;
 		};

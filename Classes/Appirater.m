@@ -228,7 +228,7 @@ static id<AppiraterDelegate> _delegate;
 		useCount++;
 		[userDefaults setInteger:useCount forKey:kAppiraterUseCount];
 		if (_debug)
-			NSLog(@"APPIRATER Use count: %ld", useCount);
+			NSLog(@"APPIRATER Use count: %ld", (long)useCount);
 	}
 	else
 	{
@@ -276,7 +276,7 @@ static id<AppiraterDelegate> _delegate;
 		sigEventCount++;
 		[userDefaults setInteger:sigEventCount forKey:kAppiraterSignificantEventCount];
 		if (_debug)
-			NSLog(@"APPIRATER Significant event count: %ld", sigEventCount);
+			NSLog(@"APPIRATER Significant event count: %ld", (long)sigEventCount);
 	}
 	else
 	{

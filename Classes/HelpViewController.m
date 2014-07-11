@@ -11,8 +11,9 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
+#ifdef USE_JMC
 #import "JMC.h"
-
+#endif
 
 
 @implementation HelpViewController

@@ -154,7 +154,7 @@ static int defaultMap[][16*16] = {
 	if ((self = [super init]) == nil)
 		return nil;
 	
-    DAssert((sizeMap <= SIZE_9 && sizeMap >= SIZE_4) || (sizeMap == SIZE_12 || sizeMap == SIZE_16), @"sizeMap=%ld", sizeMap);
+    DAssert((sizeMap <= SIZE_9 && sizeMap >= SIZE_4) || (sizeMap == SIZE_12 || sizeMap == SIZE_16), @"sizeMap=%ld", (long)sizeMap);
     
     if (sizeMap > MAXMAPSIZE)
         return nil;
@@ -225,8 +225,8 @@ static int defaultMap[][16*16] = {
 	for (NSInteger y = 0; y < size; y++) {
 		for (NSInteger x = 0; x < size; x++) {
 			
-			DAssert(map[x][y] <= size, @"map[%ld,%ld](%ld) > %ld", x, y, map[x][y], (long)size);
-			DAssert(++countMap[map[x][y]] <= size, @"countMap[%ld] > %ld", map[x][y], size);
+			DAssert(map[x][y] <= size, @"map[%ld,%ld](%ld) > %ld", (long)x, (long)y, (long)map[x][y], (long)size);
+			DAssert(++countMap[map[x][y]] <= size, @"countMap[%ld] > %ld", (long)map[x][y], (long)size);
 			//DLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
 			
 			sub[map[x][y]][countSub[map[x][y]]].x = x;

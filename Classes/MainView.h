@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import <AudioToolbox/AudioToolbox.h>
+#ifdef USE_JMC
 #import "JMCCustomDataSource.h"
+#endif
 #import "SudokuNum.h"
 #import "SudokuGame.h"
 

@@ -14,7 +14,9 @@
 #import "MainView.h"
 #import "Locale.h"
 #import "GameCenterUtil.h"
+#ifdef USE_JMC
 #import "JMC.h"
+#endif
 #import "KillerMap.h"
 #import "AddThis.h"
 #import "Flurry.h"
@@ -178,7 +180,7 @@
     }
     [defaults setInteger:score.scoreTotal forKey:kScoreTotal];
     [defaults setInteger:score.scoreRankTotal forKey:kScoreRankTotal];
-    DLog(@"scoreRankTotal=%ld", score.scoreRankTotal);
+    DLog(@"scoreRankTotal=%ld", (long)score.scoreRankTotal);
 	[defaults synchronize];
 }
 
@@ -491,6 +493,10 @@
     [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+#ifndef USE_JMC
+    buttonFeedback.alpha = 0.3f;
+    buttonFeedback.enabled = NO;
+#endif
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
     [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
@@ -976,9 +982,9 @@
     
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
-    DLog(@"self.interfaceOrientation=%ld", self.interfaceOrientation);
-    DLog(@"[UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
     
     
     //self.view.frame = [[UIScreen mainScreen] applicationFrame];
@@ -1008,12 +1014,12 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [NSString stringWithFormat:@"%2ld:%02ld:%02ld",
+		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
 	else if (num > 0) 
-		str = [NSString stringWithFormat:@"%02ld:%02ld",
+		str = [NSString stringWithFormat:@"%02d:%02d",
 			   num / (60),
 			   num % (60)];
 	else 
@@ -1616,12 +1622,14 @@
 
 - (IBAction)showFeedbackView
 {
+#ifdef USE_JMC
     [Flurry logEvent:@"ShowFeedbackView"];
 
 	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
     [self presentViewController:controller animated:YES completion:nil];
+#endif
 }
 
 
@@ -1884,12 +1892,12 @@
 		time = 60*60*100 - 1;
 	
 	if (time >= 60*60)
-		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
+		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
 			   time / (60*60),
 			   time / (60) % (60),
 			   time % (60)];
 	else 
-		str = [NSString stringWithFormat:@"%02ld:%02ld",
+		str = [NSString stringWithFormat:@"%02d:%02d",
 			   time / (60),
 			   time % (60)];
 	
@@ -3036,6 +3044,7 @@
     
 }
 
+#ifdef USE_JMC
 - (NSString *)jiraIssueTypeNameFor:(JMCIssueType)type
 {
     if (type == JMCIssueTypeCrash) {
@@ -3045,6 +3054,8 @@
     }
     return nil;
 }
+#endif
+
 /*
 
 - (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion

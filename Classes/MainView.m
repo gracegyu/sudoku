@@ -499,9 +499,9 @@ static NSUInteger SmallerColorTemplate[9] = {
     return [self getNumButtonAreaY] + [self getNumButtonAreaH]/2;
 }
  
-- (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font align:(UITextAlignment)align
+- (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font align:(UITextAlignment)align
 {
-    CGContextSetFillColorWithColor(context, color);
+//  CGContextSetFillColorWithColor(context, color);
     
 	CGSize sizeText = [str sizeWithFont:font forWidth:rect.size.width lineBreakMode:NSLineBreakByClipping];
 	
@@ -516,14 +516,15 @@ static NSUInteger SmallerColorTemplate[9] = {
 							   rect.size.width,
 							   sizeText.height)
      withAttributes:@{ NSFontAttributeName: font,
-                       NSParagraphStyleAttributeName: textStyle} ];
+                       NSParagraphStyleAttributeName: textStyle,
+                       NSForegroundColorAttributeName: color} ];
 //           withFont:font
 //      lineBreakMode:NSLineBreakByClipping
 //          alignment:align];
 }
 
 
-- (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+- (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
 //    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
 	
@@ -536,7 +537,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 }
 
-- (void) drawNumRect3D:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+- (void) drawNumRect3D:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
     NSString *str = [NSString stringWithFormat:@"%ld", (long)num];
     NSInteger ratio = 70;
@@ -552,28 +553,28 @@ static NSUInteger SmallerColorTemplate[9] = {
     [self drawStrRect:context
                   str:str
                  rect:rectBlack
-                color:colorBlack.CGColor
+                color:colorBlack
                  font:font
 				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite1
-                color:colorWhite.CGColor
+                color:colorWhite
                  font:font
 				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite2
-                color:colorWhite.CGColor
+                color:colorWhite
                  font:font
 				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite3
-                color:colorWhite.CGColor
+                color:colorWhite
                  font:font
 				align:NSTextAlignmentCenter];
 
@@ -589,7 +590,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 }
 
 
-- (void) drawNumRectLeft:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+- (void) drawNumRectLeft:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
 
     [self drawStrRect:context
@@ -601,7 +602,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	
 }
 
-- (void) drawNumRectRight:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
+- (void) drawNumRectRight:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
     
     [self drawStrRect:context
@@ -857,7 +858,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [self drawNumRect:context
                   num:pushedButton
                  rect:rect
-                color:skincolor[SC_TEXT_CELL_CHOOSING_OK].CGColor
+                color:skincolor[SC_TEXT_CELL_CHOOSING_OK]
                  font:cellOneBigFont];
 }
 
@@ -867,7 +868,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [self drawNumRect:context
                   num:num
                  rect:rect
-                color:bDupWarnArea ? skincolor[SC_TEXT_CELL_MEMO_WARN].CGColor : skincolor[SC_TEXT_CELL_PUZZLE].CGColor
+                color:bDupWarnArea ? skincolor[SC_TEXT_CELL_MEMO_WARN]: skincolor[SC_TEXT_CELL_PUZZLE]
                  font:cellOneSmallFont];
     
     if (bDupWarnArea)
@@ -878,16 +879,16 @@ static NSUInteger SmallerColorTemplate[9] = {
 // 나머지는 파스텔톤
 - (void)drawRectCellOneUserFixed:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect dupwarn:(BOOL)bDupWarnArea conflict:(BOOL)bConflict
 {
-    CGColorRef color;
+    UIColor *color;
     
 	if (bDupWarnArea)
 	{
         bFailCell = YES;
-		color = skincolor[SC_TEXT_CELL_MEMO_WARN].CGColor;
+		color = skincolor[SC_TEXT_CELL_MEMO_WARN];
 	} else if (bConflict) {     // conflict number 처리
-		color = skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor;
+		color = skincolor[SC_TEXT_CELL_MEMO_CONFLICT];
     } else {
-        color = skincolor[SC_TEXT_CELL_INPUT].CGColor;
+        color = skincolor[SC_TEXT_CELL_INPUT];
 	}
 
     [self drawNumRect:context
@@ -974,7 +975,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
                              rect:rectNum
-                            color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT].CGColor : skincolor[SC_TEXT_CELL_MEMO_OK].CGColor
+                            color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT] : skincolor[SC_TEXT_CELL_MEMO_OK]
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
@@ -1129,7 +1130,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 		[self drawNumRectLeft:context
 						  num:sum
 						 rect:rect
-						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
+						color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM]
 						 font:isWrongSum?cellWrongSumFont:cellSumFont];
         if (sudokuGame.sudokuType == SUDOKUTYPE_CALCU)
         {
@@ -1142,7 +1143,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                 [self drawStrRect:context
                               str:[KillerMap getSign:cell->sign]
                              rect:rect
-                            color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
+                            color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM]
                              font:cellWrongSumFont
                             align:NSTextAlignmentCenter];
             }
@@ -1411,7 +1412,7 @@ static NSUInteger SmallerColorTemplate[9] = {
             } else {
                 rect = CGRectMake(xPos+cCellWidth*BM_LEFTMARGIN, yPos, cCellWidth*BM_W, cCellHeight*BM_H_TEXT);
             }
-			[self drawNumRect:context num:i+1 rect:rect color:[UIColor colorWithWhite:1.0f alpha:1.0f].CGColor font:cellBookmarkFont];
+			[self drawNumRect:context num:i+1 rect:rect color:[UIColor colorWithWhite:1.0f alpha:1.0f] font:cellBookmarkFont];
 
 		}
 	}
@@ -1686,7 +1687,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         // 현재 누른 버튼 제외
 		if ((bPuzzleNum && pushedButton <= sudokuGame.size) || i != pushedButton)
 		{
-            CGColorRef color = skincolor[SC_TEXT_BUTTON_NUMBER].CGColor;
+            UIColor *color = skincolor[SC_TEXT_BUTTON_NUMBER];
             
 /*            if (bPuzzleNum && i <= sudokuGame.size)
 			{
@@ -1698,12 +1699,12 @@ static NSUInteger SmallerColorTemplate[9] = {
   */
             if (bPuzzleNum && i <= sudokuGame.size)
             {
-                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
+                color = [UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f];
             } else  if (bMemoMode == NO && [sudokuGame getCountNum:i] >= sudokuGame.size)
             {
-                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
+                color = [UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f];
             } else if (bMemoMode == YES && ![sudokuGame beMemoNums:i x:selectedXPos y:selectedYPos]) {
-                color = [[UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f] CGColor];
+                color = [UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f];
             }
             
             // 버튼에 숫자를 적기
@@ -1716,7 +1717,7 @@ static NSUInteger SmallerColorTemplate[9] = {
             [self drawNumRect:context
                           num:[sudokuGame getCountNum:i]
                          rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
-                        color:skincolor[SC_TEXT_BUTTON_NUMBER].CGColor
+                        color:skincolor[SC_TEXT_BUTTON_NUMBER]
                          font:cellNineFont];
 
             
@@ -1754,14 +1755,14 @@ static NSUInteger SmallerColorTemplate[9] = {
         [self drawNumRect3D:context
                       num:i
                      rect:currentRect
-                    color:skincolor[SC_TEXT_BUTTON_NUMBER].CGColor
+                    color:skincolor[SC_TEXT_BUTTON_NUMBER]
                      font:buttonSmallFont];//bMemoMode ? buttonMemoBigFont : buttonBigFont];
         
         //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
         [self drawNumRect:context
                       num:[sudokuGame getCountNum:i]
                      rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
-                    color:[[UIColor colorWithWhite:1.0f alpha:.7f] CGColor]
+                    color:[UIColor colorWithWhite:1.0f alpha:.7f]
                      font:cellNineFont];
 
 
@@ -2676,7 +2677,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [self drawStrRect:context
                   str:str
                  rect:rect
-                color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
+                color:[UIColor colorWithWhite:1.0f alpha:1.0f]
                  font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.7f]
 				align:NSTextAlignmentLeft];
 
@@ -2685,7 +2686,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         [self drawStrRect:context
                       str:sudokuGame.bAutoMemo?@"Auto":@"Orginal"
                      rect:rect
-                    color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
+                    color:[UIColor colorWithWhite:1.0f alpha:1.0f]
                      font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
                     align:NSTextAlignmentRight];
     }

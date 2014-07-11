@@ -18,8 +18,9 @@
 #import <StoreKit/SKPaymentQueue.h>
 #import <StoreKit/SKPaymentTransaction.h>
 #import "TPMultiLayoutViewController.h"
+#ifdef USE_JMC
 #import "JMCCustomDataSource.h"
-
+#endif
 
 
 #ifdef ADMOB_FREEVERSION
@@ -41,7 +42,9 @@ typedef struct DAILYSTAT
 
 
 @interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
+#ifdef USE_JMC
     ,JMCCustomDataSource
+#endif
 #ifdef LOCATIONTRACK
     ,CLLocationManagerDelegate
 #endif

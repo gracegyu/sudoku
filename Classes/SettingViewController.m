@@ -11,7 +11,9 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
+#ifdef USE_JMC
 #import "JMC.h"
+#endif
 #import "Flurry.h"
 
 
@@ -281,7 +283,7 @@
     {
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
-        DLog(@"Done [UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
+        DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         
@@ -417,10 +419,12 @@
 
 - (IBAction)goBugReport
 {
+#ifdef USE_JMC
     UIViewController *controller = [[JMC sharedInstance] viewController];
 
     [self presentViewController:controller animated:YES completion:nil];
-    
+
+#endif
 /*
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:
