@@ -117,7 +117,7 @@ static NSRecursiveLock *writeLock;
                                    "dateCreated, "
                                    "hasUpdates "
                                 "FROM issue ORDER BY hasUpdates desc, dateUpdated desc LIMIT 1 OFFSET ?",
-                           [NSNumber numberWithUnsignedInt:issueIndex]];
+                           [NSNumber numberWithUnsignedInt:(unsigned int)issueIndex]];
     if ([res next]) {
         NSDictionary* dictionary = [res resultDict];
         JMCIssue* issue = [[JMCIssue alloc] initWithDictionary:dictionary];
@@ -128,7 +128,7 @@ static NSRecursiveLock *writeLock;
         [lastComment release];
         return issue;
     }
-    JMCALog(@"No issue at index = %u", issueIndex);
+    JMCALog(@"No issue at index = %lu", issueIndex);
     return nil;
 }
 

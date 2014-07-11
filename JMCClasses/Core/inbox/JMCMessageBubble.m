@@ -62,7 +62,7 @@
         detailLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
         detailLabel.backgroundColor = [UIColor clearColor];
-        detailLabel.textAlignment = UITextAlignmentCenter;
+        detailLabel.textAlignment = NSTextAlignmentCenter;
 
         UIView *message = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
         [message addSubview:detailLabel];

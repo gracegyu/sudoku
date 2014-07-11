@@ -281,7 +281,7 @@
     {
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
-        DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+        DLog(@"Done [UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         
@@ -297,7 +297,7 @@
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     
-    NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%d)", mainViewController.mainView.nSettingSoundOff];
+    NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%ld)", (long)mainViewController.mainView.nSettingSoundOff];
     [Flurry logEvent:str];
 
 }

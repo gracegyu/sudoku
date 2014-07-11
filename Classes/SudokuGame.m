@@ -61,9 +61,9 @@
 {
 	NSInteger num = 0;
 	
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if (puzzleNums[x][y] > 0)
 				num += 1;
@@ -74,8 +74,8 @@
 
 - (NSInteger) countUserFixedNumX:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 	
 	for (y=0; y<size; y++)
@@ -89,8 +89,8 @@
 
 - (NSInteger) countUserFixedNumY:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 	
 	for (x=0; x<size; x++)
@@ -105,11 +105,11 @@
 
 - (NSInteger) countUserFixedNumXY:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 	
-	int mapNum = mapNums[xPos][yPos];
+	NSInteger mapNum = mapNums[xPos][yPos];
 	
 	for (x=0; x<size; x++)
 	{
@@ -245,9 +245,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) applyHandy
 {
-	int numRandom;
-	int num;
-	int handy = bAutoMemo ? HandyCountAuto[sudokuType][size][gameLevel] : HandyCount[sudokuType][size][gameLevel];
+	NSInteger numRandom;
+	NSInteger num;
+	NSInteger handy = bAutoMemo ? HandyCountAuto[sudokuType][size][gameLevel] : HandyCount[sudokuType][size][gameLevel];
 	
 	
     if (sudokuType != SUDOKUTYPE_SUDOKU)
@@ -257,15 +257,15 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	NSInteger countBlankCell = size*size - countPuzzle;
 	NSInteger countHandyTryFailed=0;
 
-	for (int i=0; i<handy && countBlankCell>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
+	for (NSInteger i=0; i<handy && countBlankCell>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
 	{
 		numRandom = [self randNum:countBlankCell];
 		num = 0;
 		
 		// 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
-		for (int y=0; y<size && num <= numRandom; y++)
+		for (NSInteger y=0; y<size && num <= numRandom; y++)
 		{
-			for (int x=0; x<size && num <= numRandom; x++)
+			for (NSInteger x=0; x<size && num <= numRandom; x++)
 			{
 				if (puzzleNums[x][y] == 0)
 				{
@@ -314,7 +314,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) deleteAutoMemoX:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x, y;
+	NSInteger x, y;
 	for (x=xPos, y=0; y<size; y++)
 	{
 		if (y != yPos)
@@ -327,7 +327,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) deleteAutoMemoY:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x, y;
+	NSInteger x, y;
 	for (x=0, y=yPos; x<size; x++)
 	{
 		if (x != xPos)
@@ -342,7 +342,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) deleteAutoMemoXY:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x, y;
+	NSInteger x, y;
 	NSInteger mapNum = mapNums[xPos][yPos];
 	
     for (x=0; x<size; x++)
@@ -367,7 +367,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     if (sudokuType != SUDOKUTYPE_KILLER && sudokuType != SUDOKUTYPE_CALCU)
         return;
     
-	int x, y;
+	NSInteger x, y;
 	NSInteger cageNum = [kmap getCageNumber:xPos yPos:yPos];
 	
     for (x=0; x<size; x++)
@@ -389,9 +389,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (BOOL) deleteAutoMemoUniqueNumX
 {
-	int x,y,k;
-	int	countFound;
-	int posFirstFound;
+	NSInteger x,y,k;
+	NSInteger	countFound;
+	NSInteger posFirstFound;
 	BOOL bRet = NO;
 	
 	
@@ -423,7 +423,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				y = posFirstFound;
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					DLog(@"deleteAutoMemoUniqueNumX(%d,%d)->%d", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumX(%ld,%ld)->%ld", x, y, k);
 					bRet = YES;
 				}
 			}
@@ -434,9 +434,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (BOOL) deleteAutoMemoUniqueNumY
 {
-	int x,y,k;
-	int	countFound;
-	int posFirstFound;
+	NSInteger x,y,k;
+	NSInteger	countFound;
+	NSInteger posFirstFound;
 	BOOL bRet = NO;
 	
 	for (y=0; y<size; y++)
@@ -479,10 +479,10 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (BOOL) deleteAutoMemoUniqueNumXY
 {
-	int x,y,k,i,numMap;//,i,j;
-	int	countFound;
-	int posXFirstFound;
-	int posYFirstFound;
+	NSInteger x,y,k,i,numMap;//,i,j;
+	NSInteger	countFound;
+	NSInteger posXFirstFound;
+	NSInteger posYFirstFound;
 	sXY* sub;
 	BOOL bRet = NO;
 	
@@ -532,7 +532,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 				if ([self setMemoNumsForAutoMemo:k x:x y:y])
 				{
-					DLog(@"deleteAutoMemoUniqueNumXY(%d,%d)->%d", x, y, k);
+					DLog(@"deleteAutoMemoUniqueNumXY(%ld,%ld)->%ld", x, y, k);
 					bRet = YES;
 				} else {
 					//DLog(@"[self setMemoNumsForAutoMemo:%d x:%d y:%d] == NO", k, x, y);
@@ -602,23 +602,23 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 	char defaultMemo[16+1];
 	
-	int i;
+	NSInteger i;
 	for (i=0; i<size; i++)
     {
 		defaultMemo[i] = '1'+i;
     }
 	defaultMemo[i] = '\0';
 	
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			strcpy(memoNums[x][y], defaultMemo);
 		}
 	}
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if (puzzleNums[x][y])
 			{
@@ -643,17 +643,17 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
     {
         KillerCage *cell;
-        for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
+        for (NSInteger i=0; (cell = [kmap getCageData:i]) != NULL; i++)
         {
             cell->sum = 0;
             cell->sign = CS_PLUS;	// killer sudoku는 Plus만 지원한다.
             
-            int n=0;
+            NSInteger n=0;
             NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
             
-            for (int y=0; y<size; y++)
+            for (NSInteger y=0; y<size; y++)
             {
-                for (int x=0; x<size; x++)
+                for (NSInteger x=0; x<size; x++)
                 {
                     if ([kmap getCageNumber:x yPos:y] == i)
                     {
@@ -745,8 +745,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	map = [[SudokuMap alloc] initWithSize:size defmap:YES];
 	
 	NSInteger num;
-    for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+    for (NSInteger y=0; y<size; y++) {
+		for (NSInteger x=0; x<size; x++) {
             mapNums[x][y] = [map getMapNum:x y:y];
             num = ((int*)[sudoku getPuzzle])[y*size+x];
             
@@ -755,7 +755,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				answerNums[x][y] = num; // 0
 			} else {
 				num = ((int*)[sudoku getSolution])[y*size+x];
-                DAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -788,8 +788,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         kmap = [[KillerMap alloc] initWithMap:[sudoku getKillerMap]];
     }
 	NSInteger num;
-    for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+    for (NSInteger y=0; y<size; y++) {
+		for (NSInteger x=0; x<size; x++) {
             mapNums[x][y] = [[sudoku getMap] getMapNum:x y:y];
             num = [sudoku getPuzzleNum:x y:y];
             
@@ -798,7 +798,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				answerNums[x][y] = num; // 0
 			} else {
 				num = [sudoku getAnswerNum:x y:y];
-                DAssert(num > 0, @"getAnswerNum(%d) should be bigger than 0", num);
+                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", num);
 				puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
@@ -828,7 +828,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	size = [[listItems objectAtIndex:0] integerValue];
     SUDOKUTYPE nType = type;//[[listItems objectAtIndex:1] integerValue];
-    GAMELEVEL nLevel = [[listItems objectAtIndex:2] integerValue];
+    GAMELEVEL nLevel = (GAMELEVEL)[[listItems objectAtIndex:2] integerValue];
     if (size != SIZE_6 && size != SIZE_9)
         return nil;    
     
@@ -866,15 +866,15 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	str = [str stringByAppendingString:@"\n"];
 	str = [str stringByAppendingString:@"-------------------------------------\n"];
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
 		str = [str stringByAppendingString:@"|"];
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if (puzzleNums[x][y] > 0)
-				str = [str stringByAppendingFormat:@"[%d]", puzzleNums[x][y]];
+				str = [str stringByAppendingFormat:@"[%ld]", puzzleNums[x][y]];
 			else
-				str = [str stringByAppendingFormat:@"-%d-", answerNums[x][y]];
+				str = [str stringByAppendingFormat:@"-%ld-", answerNums[x][y]];
 			str = [str stringByAppendingString:x%GRIDX == GRIDX-1?@"|":@" "];
 			
 		}
@@ -898,7 +898,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 	
-	gameLevel = [[listItems objectAtIndex:0] integerValue];
+	gameLevel = (GAMELEVEL)[[listItems objectAtIndex:0] integerValue];
 	if (gameLevel < GAMELEVEL_VERYHARD || gameLevel > GAMELEVEL_VERYEASY)
 	{
 		DAssert(gameLevel >= GAMELEVEL_VERYHARD && gameLevel <= GAMELEVEL_VERYEASY, @"initWithSavedString:gameLevel = %d", gameLevel);
@@ -992,7 +992,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	if ([listItems count] > 15)	// sudokutype
 	{
-		sudokuType = [[listItems objectAtIndex:15] integerValue];
+		sudokuType = (SUDOKUTYPE)[[listItems objectAtIndex:15] integerValue];
 	} else {
 		sudokuType = SUDOKUTYPE_SUDOKU;
 	}
@@ -1026,8 +1026,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) gotoFirst
 {
-	for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+	for (NSInteger y=0; y<size; y++) {
+		for (NSInteger x=0; x<size; x++) {
 			fixNums[x][y] = 0;
 			memoNums[x][y][0] = '\0';
 		}
@@ -1054,8 +1054,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 - (NSInteger) countBlankCells
 {
 	NSInteger num = 0;
-	for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+	for (NSInteger y=0; y<size; y++) {
+		for (NSInteger x=0; x<size; x++) {
 			if (puzzleNums[x][y] == 0 && fixNums[x][y] == 0)
 				num++;
 		}
@@ -1069,8 +1069,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 - (NSInteger) countFixCells
 {
 	NSInteger num = 0;
-	for (int y=0; y<size; y++) {
-		for (int x=0; x<size; x++) {
+	for (NSInteger y=0; y<size; y++) {
+		for (NSInteger x=0; x<size; x++) {
 			if (fixNums[x][y] > 0)
 				num++;
 		}
@@ -1085,7 +1085,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
 	NSInteger numCheck = fixNums[xPos][yPos];
     NSInteger numCompare;
-    int x, y;
+    NSInteger x, y;
 	
 	//가로,세로,Map 같은 숫자 비교
 	
@@ -1110,7 +1110,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
     NSInteger numCheck = fixNums[xPos][yPos];
     NSInteger numCompare;
-    int x, y;
+    NSInteger x, y;
     BOOL bCheck;
     BOOL bCompare;
     
@@ -1184,18 +1184,18 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
 	if (cell == NULL)
 	{
-		DAssert(cell, @"[kmap getCageData:%d] => NULL", num);
+		DAssert(cell, @"[kmap getCageData:%ld] => NULL", (long)num);
 		return NO;
 	}
 	
-	int n=0;
+	NSInteger n=0;
 	NSInteger arNum[4];		// Cage는 최대 4개 셀만 지원
 	NSInteger value;
 	NSInteger sum = 0, multi = 1;
 	
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if ([kmap getCageNumber:x yPos:y] == num)
 			{
@@ -1253,9 +1253,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	NSInteger num = [kmap getCageNumber:xPos yPos:yPos];
 	NSInteger count = 0;
 	
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if ([kmap getCageNumber:x yPos:y] == num)
 			{
@@ -1272,7 +1272,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	KillerCage *cell;
 	NSInteger uncorrect=0;
 	
-	for (int i=0; (cell = [kmap getCageData:i]) != NULL; i++)
+	for (NSInteger i=0; (cell = [kmap getCageData:i]) != NULL; i++)
 	{
 		if ([self isWrongSumCell:i cell:cell] == YES)
 		{
@@ -1294,9 +1294,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     NSInteger strangeCells = 0;
 
     
-    for (int y=0; y<size; y++)
+    for (NSInteger y=0; y<size; y++)
     {
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
         {
 			if (fixNums[x][y] == 0 && puzzleNums[x][y] == 0)
             {
@@ -1308,9 +1308,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     if (unfixedCells > 0)
 		return -1; // not fixed yet;
     
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
     {
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
         {
 			if (puzzleNums[x][y] == 0)
             {
@@ -1318,7 +1318,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                 {
                     if ([self checkGreatThanCorrect:x y:y] == NO)
                     {
-                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
                         wrongCells++;
                     } else {
                         if (answerNums[x][y] != fixNums[x][y])
@@ -1332,7 +1332,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                 {
                     if ([self checkUniqueNumXYAndMap:x y:y] == NO)
                     {
-                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
                         wrongCells++;
                     } else {
                         if (answerNums[x][y] != fixNums[x][y])
@@ -1345,7 +1345,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                 if (sudokuType == SUDOKUTYPE_SUDOKU)
                 {
                     if (answerNums[x][y] != fixNums[x][y]) {
-                        DLog(@"wrongCell: fixNums[%d][%d] = %d, answerNums[%d][%d] = %d", x, y, fixNums[x][y], x, y, answerNums[x][y]);
+                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", x, y, fixNums[x][y], x, y, answerNums[x][y]);
                         wrongCells++;
                     }
                 }
@@ -1462,7 +1462,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (BOOL)conflictNumber:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-    int x, y;
+    NSInteger x, y;
     for (x = 0, y = yPos; x < size; x++)
     {
         if (x != xPos && [self getDisplayNum:x y:y] == num)
@@ -1475,9 +1475,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     }
     
     
-    for (int x=0; x<size; x++)
+    for (x=0; x<size; x++)
     {
-        for (int y=0; y<size; y++)
+        for (y=0; y<size; y++)
         {
             if ((x != xPos || y != yPos) &&
                 [self isSameMap:x y:y x2:xPos y2:yPos] == YES &&
@@ -1517,7 +1517,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 		NSInteger count = [arrayAutoUndo count];
 		UndoData* data;
 		
-		for (int i=0; i<count; i++)
+		for (NSInteger i=0; i<count; i++)
 		{
 			data = [arrayAutoUndo objectAtIndex:i];
 			if (data.mode == UNDOMODE_AUTOMEMO_DEL)
@@ -1564,7 +1564,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	xy2[2].x = xPos;	xy2[2].y = yPos+1;
 	xy2[3].x = xPos;	xy2[3].y = yPos-1;
 	
-	for (int i=0; i<4; i++)
+	for (NSInteger i=0; i<4; i++)
 	{
 		if ([self isSameMap:xPos y:yPos x2:xy2[i].x y2:xy2[i].y] == NO)
 			continue;
@@ -1638,7 +1638,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     
     
 	char *s = memoNums[x][y];
-	char *p = strchr(s, num+'0');
+	char *p = strchr(s, (char)num+'0');
 
 	return p != NULL;
 }
@@ -1712,7 +1712,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     
 	if (strlen(memoNums[x][y]) <= 1)
 	{
-		DLog(@"############(%d,%d,%s)", x, y, memoNums[x][y]);
+		DLog(@"############(%ld,%ld,%s)", (long)x, (long)y, memoNums[x][y]);
 	}
 	
 	//DLog(@"delMemoNums(%d-%d,%d)%s", num, x, y, memoNums[x][y]);
@@ -1757,7 +1757,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 + (void) get9x9Nums:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
-	int x, y;
+	NSInteger x, y;
     
     for (y=0; y<size; y++)
     {
@@ -1774,7 +1774,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 + (void) set9x9Nums:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
 	char *s	= (char*)[str cStringUsingEncoding:NSASCIIStringEncoding];
-	int x, y;
+	NSInteger x, y;
     
     for (y=0; y<size; y++)
     {
@@ -1791,9 +1791,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 + (void) get9x9Strs:(char*)str	size:(NSInteger)size strs:(char*)strs
 {
-	int len;
+	NSInteger len;
 	
-	for (int i=0; i<MAXMAPSIZE*MAXMAPSIZE; i++)	// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
+	for (NSInteger i=0; i<MAXMAPSIZE*MAXMAPSIZE; i++)	// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		len = strlen(strs);
 		if (len)
@@ -1809,7 +1809,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
 	NSArray *listItems = [str componentsSeparatedByString:@"|"];
 
-	for (int i=0; i<MAXMAPSIZE*MAXMAPSIZE && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
+	for (NSInteger i=0; i<MAXMAPSIZE*MAXMAPSIZE && i<listItems.count; i++)		// 호환을 위해서 사용하지 않는 메모도 저장하고 가져온다.
 	{
 		strcpy(strs, [[listItems objectAtIndex:i] cStringUsingEncoding:NSASCIIStringEncoding]);
 		strs += MAXMAPSIZE+1;
@@ -1834,7 +1834,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%d,%d,%s,%d,%f,%d,%d",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%ld,%ld,%s,%d,%f,%d,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -2017,7 +2017,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	BOOL bAutoCheck = NO;
     CGPoint pointLastUndoPos;
     
-    DLog(@"runRedo (%d/%d)", [sudokuUndo getIndex], sudokuUndo.count);
+    DLog(@"runRedo (%ld/%ld)", [sudokuUndo getIndex], sudokuUndo.count);
     
     UndoData *undoData = [[UndoData alloc] init];
     
@@ -2103,11 +2103,11 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
     memset(countNums, 0, sizeof(countNums));
     
-    for (int y=0; y<size; y++)
+    for (NSInteger y=0; y<size; y++)
     {
-        for (int x=0; x<size; x++)
+        for (NSInteger x=0; x<size; x++)
         {
-            int num = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
+            NSInteger num = fixNums[x][y] ? fixNums[x][y] : puzzleNums[x][y];
             
             if (num > 0)
                 countNums[num-1] += 1;
@@ -2259,13 +2259,13 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	str = [str stringByAppendingString:@"\n"];
 	str = [str stringByAppendingString:@"----------------------------\n"];
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
 		str = [str stringByAppendingString:@"|"];
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if (gtNums[x][y] != 0)
-				str = [str stringByAppendingFormat:@"%2d", gtNums[x][y]];
+				str = [str stringByAppendingFormat:@"%2ld", (long)gtNums[x][y]];
 			else
 				str = [str stringByAppendingFormat:@".."];
 			str = [str stringByAppendingString:x%3 == 2?@"|":@" "];

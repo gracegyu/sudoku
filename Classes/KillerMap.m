@@ -41,7 +41,7 @@
 		return nil;
 
 	
-    DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_6, @"sizeMap=%d", sizeMap);
+    DAssert(sizeMap <= SIZE_9 && sizeMap >= SIZE_6, @"sizeMap=%ld", (long)sizeMap);
     
 	size = sizeMap;
     if (size > MAXMAPSIZE)
@@ -116,7 +116,7 @@
 	int num = 0;
 	if (cage[0].sum < 0)
 	{
-		DLog(@"cage[0].sum = %d", cage[0].sum);
+		DLog(@"cage[0].sum = %ld", (long)cage[0].sum);
 	}
 	while (cage[num].x0 >= 0 && cage[num].y0 >= 0)
 	{
@@ -345,7 +345,7 @@
 	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
 	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
 	
-	DAssert([self getCageCount] > 10, @"[self getCageCount]=%d", [self getCageCount]);
+	DAssert([self getCageCount] > 10, @"[self getCageCount]=%ld", (long)[self getCageCount]);
 	
 	[KillerMap getNumsPipeSize:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap getNumsPipeSize:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
@@ -358,8 +358,8 @@
 //	DAssert(strlen(zStrCage) >= [self getCageCount]*3*2, @"strlen(zStrCage)=%zd", strlen(zStrCage));
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%s,%s,%s",
-					 size,
+					 @"%ld,%s,%s,%s",
+					 (long)size,
 					 zStrMap,
 					 zStrColor,
 					 zStrCage];
@@ -450,7 +450,7 @@
 				*(str-1) = '\0';
 			break;
 		}
-		sprintf(str, "%d", nums[i]);
+		sprintf(str, "%ld", (long)nums[i]);
 		str += strlen(str);
 		if (i+1 < size)
 			*str++ = '|';
@@ -492,7 +492,7 @@
 		@"÷"
 	};
 	
-	DAssert(cs >= 0 && cs < 4, @"getSign should be 0 <= cs < 4");
+	//DAssert(cs >= 0 && cs < 4, @"getSign should be 0 <= cs < 4");
 	
 	return arraySign[cs];
 	

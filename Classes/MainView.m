@@ -505,13 +505,21 @@ static NSUInteger SmallerColorTemplate[9] = {
     
 	CGSize sizeText = [str sizeWithFont:font forWidth:rect.size.width lineBreakMode:NSLineBreakByClipping];
 	
+    
+    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+    textStyle.lineBreakMode = NSLineBreakByClipping;
+    textStyle.alignment = align;
+    
+    
     [str drawInRect:CGRectMake(rect.origin.x,
 							   rect.origin.y + (rect.size.height - sizeText.height)/2,
 							   rect.size.width,
 							   sizeText.height)
-           withFont:font
-      lineBreakMode:NSLineBreakByClipping
-          alignment:align];
+     withAttributes:@{ NSFontAttributeName: font,
+                       NSParagraphStyleAttributeName: textStyle} ];
+//           withFont:font
+//      lineBreakMode:NSLineBreakByClipping
+//          alignment:align];
 }
 
 
@@ -520,17 +528,17 @@ static NSUInteger SmallerColorTemplate[9] = {
 //    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
 	
     [self drawStrRect:context
-                  str:[NSString stringWithFormat:@"%d", num]
+                  str:[NSString stringWithFormat:@"%ld", (long)num]
                  rect:rect
                 color:color
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
 }
 
 - (void) drawNumRect3D:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(CGColorRef)color font:(UIFont*)font
 {
-    NSString *str = [NSString stringWithFormat:@"%d", num];
+    NSString *str = [NSString stringWithFormat:@"%ld", (long)num];
     NSInteger ratio = 70;
     
     CGRect rectBlack = CGRectMake(rect.origin.x-rect.size.width/ratio, rect.origin.y-rect.size.height/ratio, rect.size.width, rect.size.height);
@@ -546,28 +554,28 @@ static NSUInteger SmallerColorTemplate[9] = {
                  rect:rectBlack
                 color:colorBlack.CGColor
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite1
                 color:colorWhite.CGColor
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite2
                 color:colorWhite.CGColor
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
     [self drawStrRect:context
                   str:str
                  rect:rectWhite3
                 color:colorWhite.CGColor
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
     
     [self drawStrRect:context
@@ -575,7 +583,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                  rect:rect
                 color:color
                  font:font
-				align:UITextAlignmentCenter];
+				align:NSTextAlignmentCenter];
 
     
 }
@@ -585,11 +593,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
 
     [self drawStrRect:context
-                  str:[NSString stringWithFormat:@"%d", num]
+                  str:[NSString stringWithFormat:@"%ld", (long)num]
                  rect:rect
                 color:color
                  font:font
-				align:UITextAlignmentLeft];
+				align:NSTextAlignmentLeft];
 	
 }
 
@@ -597,11 +605,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     
     [self drawStrRect:context
-                  str:[NSString stringWithFormat:@"%d", num]
+                  str:[NSString stringWithFormat:@"%ld", (long)num]
                  rect:rect
                 color:color
                  font:font
-				align:UITextAlignmentRight];
+				align:NSTextAlignmentRight];
 	
 }
 
@@ -902,13 +910,13 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawRectCellOneMemo:(CGContextRef)context memo:(char*)memo rect:(CGRect)rect xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-    int len = strlen(memo);
-	int i = 0;
-	int x, y;
+    NSInteger len = strlen(memo);
+	NSInteger i = 0;
+	NSInteger x, y;
 //    int countW = (len <= 1 ? 1 : (len <= 4 ? 2 : 3));
-    int countW = (len <= 4 ? 2 : 3);
+    NSInteger countW = (len <= 4 ? 2 : 3);
 //    int countH = (len <= 2 ? 1 : (len <= 6 ? 2 : 3));
-    int countH = (len <= 6 ? 2 : 3);
+    NSInteger countH = (len <= 6 ? 2 : 3);
     BOOL bConflict;
 	CGRect rectNum;    
     CGFloat margin;
@@ -1136,7 +1144,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                              rect:rect
                             color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM].CGColor
                              font:cellWrongSumFont
-                            align:UITextAlignmentCenter];
+                            align:NSTextAlignmentCenter];
             }
         }
 		
@@ -1242,7 +1250,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 			{
 				[self drawOneCellBackground:context color:rainbowcolor[colorCell] x:x y:y];
 			} else {
-				DLog(@"colorCell(%d,%d):%d", x, y, colorCell);
+				DLog(@"colorCell(%ld,%ld):%ld",(long)x, (long)y, (long)colorCell);
 				//DAssert(colorCell >= 0 && colorCell < 7, @"colorCell(%d,%d):%d", x, y, colorCell);
 			}
 				
@@ -1611,7 +1619,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void)drawNumButton:(CGContextRef)context
 {
-	int i;
+	NSInteger i;
 
 	CGRect currentRect;
 	BOOL bPuzzleNum = NO;
@@ -2076,7 +2084,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void) runBookmark
 {
-	DLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %d", [sudokuGame.sudokuUndo countGoBookmark]);
+	DLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %ld", (long)[sudokuGame.sudokuUndo countGoBookmark]);
 
 	
     if ([sudokuGame.sudokuUndo countBookmarked] == 0)	// 아직 북마크가 추가된 것이 하나도 없다면 무조건 북마크를 추가한다.
@@ -2229,13 +2237,13 @@ static NSUInteger SmallerColorTemplate[9] = {
 
     [Flurry logEvent:@"NewGame"];
     
-    str = [NSString stringWithFormat:@"GameSize(%d)", sizePuzzle];
+    str = [NSString stringWithFormat:@"GameSize(%ld)", (long)sizePuzzle];
     [Flurry logEvent:str];
     
     str = [NSString stringWithFormat:@"NewGame(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
     [Flurry logEvent:str];
 
-    str = [NSString stringWithFormat:@"GameLevel(%@)", [SudokuGame getGameLevelNameNoop:level]];
+    str = [NSString stringWithFormat:@"GameLevel(%@)", [SudokuGame getGameLevelNameNoop:(GAMELEVEL)level]];
     [Flurry logEvent:str];
     
     str = [NSString stringWithFormat:@"AutoMemo(%@)", bSettingAutoMemo ? @"Yes" : @"No"];
@@ -2249,11 +2257,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 	if (bUseQQ)
 	{
 		SudokuBoard* board = GenerateSudoku(DIFF_EXPERT); 
-		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board type:nSettingSudokuType level:level automemo:bSettingAutoMemo];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuBoard:board type:nSettingSudokuType level:(GAMELEVEL)level automemo:bSettingAutoMemo];
 		[board release];
 	} else {
 		SudokuNum *sudokuNum = sudokuNumGenerate(nSettingSudokuType, level, sizePuzzle, bSettingDefMap);
-		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum type:nSettingSudokuType level:level automemo:bSettingAutoMemo];
+		sudokuGame = [[SudokuGame alloc] initWithSudokuNum:sudokuNum type:nSettingSudokuType level:(GAMELEVEL)level automemo:bSettingAutoMemo];
 		[sudokuNum release];
 	}
 	
@@ -2670,7 +2678,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                  rect:rect
                 color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
                  font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.7f]
-				align:UITextAlignmentLeft];
+				align:NSTextAlignmentLeft];
 
     if (sudokuGame.isGameFinished)
     {
@@ -2679,7 +2687,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                      rect:rect
                     color:[[UIColor colorWithWhite:1.0f alpha:1.0f] CGColor]
                      font:[UIFont fontWithName:@"Trebuchet MS" size:DRAWONIMAGE_ICONSIZE*0.8f]
-                    align:UITextAlignmentRight];
+                    align:NSTextAlignmentRight];
     }
 }
 

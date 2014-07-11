@@ -17,16 +17,18 @@ enum UNDOMODE {
     UNDOMODE_AUTOMEMO_DEL   // Auto메모 삭제
 };
 
+typedef enum UNDOMODE UNDOMODE;
+
 @interface UndoData : NSObject <NSCoding>
 {
-    enum UNDOMODE mode;
+    UNDOMODE mode;
     NSInteger x;
     NSInteger y;
     NSInteger oldnum;       // 숫자 입력에만 쓰임
     NSInteger num;          // 4가지 모드에서 모두 쓰임
 }
 
-@property enum UNDOMODE mode;
+@property UNDOMODE mode;
 @property NSInteger x;
 @property NSInteger y;
 @property NSInteger oldnum;

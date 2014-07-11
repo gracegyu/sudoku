@@ -114,12 +114,12 @@
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
-	label.text = [NSString stringWithFormat:@"%d", num];
+	label.text = [NSString stringWithFormat:@"%ld", (long)num];
 }
 
 - (void) setInteger2:(UILabel*)label num1:(NSInteger)num1  num2:(NSInteger)num2
 {
-	label.text = [NSString stringWithFormat:@"%d\n%d", num1, num2];
+	label.text = [NSString stringWithFormat:@"%d\n%ld", num1, (long)num2];
 }
 
 
@@ -131,12 +131,12 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
 	else if (num > 0)
-		str = [NSString stringWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02ld:%02ld",
 			   num / (60),
 			   num % (60)];
     else
@@ -153,12 +153,12 @@
 		num1 = 60*60*100 - 1;
 	
 	if (num1 >= 60*60)
-		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
 			   num1 / (60*60),
 			   num1 / (60) % (60),
 			   num1 % (60)];
 	else
-		str = [NSString stringWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02ld:%02ld",
 			   num1 / (60),
 			   num1 % (60)];
 
@@ -166,13 +166,13 @@
 		num2 = 60*60*100 - 1;
 	
 	if (num2 >= 60*60)
-		str2 = [NSString stringWithFormat:@"%@\n%d:%02d:%02d",
+		str2 = [NSString stringWithFormat:@"%@\n%ld:%02ld:%02ld",
                 str,
 			   num2 / (60*60),
 			   num2 / (60) % (60),
 			   num2 % (60)];
 	else
-		str2 = [NSString stringWithFormat:@"%@\n%02d:%02d",
+		str2 = [NSString stringWithFormat:@"%@\n%02ld:%02ld",
                 str,
 			   num2 / (60),
 			   num2 % (60)];
@@ -394,7 +394,7 @@
 
 - (IBAction)setSudokuType
 {
-    sudokuType = [segmentType selectedSegmentIndex];
+    sudokuType = (SUDOKUTYPE)[segmentType selectedSegmentIndex];
     
     [self displayScore];
 }

@@ -39,7 +39,7 @@ static CGRect endFrame;
 
         _label = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, endFrame.size.width, 20)];
         _label.backgroundColor = [UIColor clearColor];
-        _label.textAlignment = UITextAlignmentCenter;
+        _label.textAlignment = NSTextAlignmentCenter;
         _label.textColor = [UIColor whiteColor];
         [_toolbar addSubview:_label];
 

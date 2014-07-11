@@ -89,6 +89,8 @@
 @synthesize gUserName;
 @synthesize gDeviceID;
 @synthesize gVersion;
+@synthesize nowDate;
+
 
 
 
@@ -176,7 +178,7 @@
     }
     [defaults setInteger:score.scoreTotal forKey:kScoreTotal];
     [defaults setInteger:score.scoreRankTotal forKey:kScoreRankTotal];
-    DLog(@"scoreRankTotal=%d", score.scoreRankTotal);
+    DLog(@"scoreRankTotal=%ld", score.scoreRankTotal);
 	[defaults synchronize];
 }
 
@@ -200,7 +202,7 @@
 #endif
     scoreTemp = MAX(scoreTemp, 1);
 
-    DLog(@"getGameResultScore(%d,%d) => %d", level, sec, scoreTemp);
+    DLog(@"getGameResultScore(%ld,%ld) => %ld", (long)level, (long)sec, (long)scoreTemp);
     
     return scoreTemp;
 }
@@ -236,7 +238,7 @@
 	}
     score.scoreRankTotal = [defaults integerForKey:kScoreRankTotal];
 
-    DLog(@"scoreTotal = %d", score.scoreTotal);
+    DLog(@"scoreTotal = %ld", (long)score.scoreTotal);
     
 }
 
@@ -643,7 +645,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%d)", nAddThisWait);
+    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
     if (nAddThisWait > 0)
     {
         nAddThisWait++;
@@ -839,7 +841,7 @@
 	NSLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%d",
+						@"act=%@&locale=%@&deviceid=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
@@ -858,7 +860,7 @@
 						countryCode,
 						[self urlEncodeValue:countryName],
 						@"Apple",
-						[self getCheckSum]];
+						(long)[self getCheckSum]];
 	NSLog(@"strURI = %@", strURI);
 	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
 	[strURI release];
@@ -974,9 +976,9 @@
     
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
-    DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
-    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"self.interfaceOrientation=%ld", self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
     
     
     //self.view.frame = [[UIScreen mainScreen] applicationFrame];
@@ -995,7 +997,7 @@
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
-	label.text = [NSString stringWithFormat:@"%d", num];
+	label.text = [NSString stringWithFormat:@"%ld", (long)num];
 }
 
 - (NSString*) getTimeString:(NSInteger)num
@@ -1006,12 +1008,12 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [NSString stringWithFormat:@"%2d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%2ld:%02ld:%02ld",
 			   num / (60*60),
 			   num / (60) % (60),
 			   num % (60)];
 	else if (num > 0) 
-		str = [NSString stringWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02ld:%02ld",
 			   num / (60),
 			   num % (60)];
 	else 
@@ -1882,12 +1884,12 @@
 		time = 60*60*100 - 1;
 	
 	if (time >= 60*60)
-		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
 			   time / (60*60),
 			   time / (60) % (60),
 			   time % (60)];
 	else 
-		str = [NSString stringWithFormat:@"%02d:%02d",
+		str = [NSString stringWithFormat:@"%02ld:%02ld",
 			   time / (60),
 			   time % (60)];
 	
@@ -1998,7 +2000,7 @@
 	NSInteger secInt = (NSInteger)(sec / 43);
 	
 	char strInt[8+1];
-	sprintf(strInt, "%08d", secInt);
+	sprintf(strInt, "%08ld", (long)secInt);
 	
 	char strScramble[8+1];
 	sprintf(strScramble, "%c%c%c%c%c%c%c%c",
@@ -2101,9 +2103,9 @@
     
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&type=%d&date=%@&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d",
                         @"getdailypuzzle",
-                        gUserID,
+                        (long)gUserID,
                         gUserName,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -2113,7 +2115,7 @@
                         0,
 #endif
 						cProtocolVersion,
-                        [self getCheckSum],
+                        (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
                        [self getNowYYYYMMDD],
@@ -2128,9 +2130,9 @@
     [self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&type=%d&date=%@&spend=%d&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&spend=%lu&automemo=%d",
                         @"addresult",
-                        gUserID,
+                        (long)gUserID,
                         gUserName,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -2140,11 +2142,11 @@
                         0,
 #endif
 						cProtocolVersion,
-                        [self getCheckSum],
+                        (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
                         [self getNowYYYYMMDD],
-                        (NSUInteger)gameTime,
+                        (unsigned long)gameTime,
                         mainView.bSettingAutoMemo ? 1 : 0];
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
@@ -2276,9 +2278,9 @@
     [self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%d&username=%@&latitude=%d&longitude=%d&version=%d&cs=%d&size=%d&date=%@",
+						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
                         @"getdailystat",
-                        gUserID,
+                        (long)gUserID,
                         gUserName,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -2288,7 +2290,7 @@
                         0,
 #endif
 						cProtocolVersion,
-                        [self getCheckSum],
+                        (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         [self getNowYYYYMMDD]];
     
@@ -2535,8 +2537,8 @@
 	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
 	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
     
-    NSString *dataFile = [NSString stringWithFormat:@"%d\n%d\n%d\n",
-                          mainView.sudokuGame.size,
+    NSString *dataFile = [NSString stringWithFormat:@"%ld\n%d\n%d\n",
+                          (long)mainView.sudokuGame.size,
                           mainView.sudokuGame.sudokuType,
                           mainView.sudokuGame.gameLevel];
 
@@ -2569,10 +2571,10 @@
     }
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&version=%d&cs=%d&size=%d&type=%d&date=%@&file=%@",
+						@"act=%@&version=%d&cs=%ld&size=%d&type=%d&date=%@&file=%@",
                         @"adddailypuzzle",
                         cProtocolVersion,
-                        [self getCheckSum],
+                        (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
                         puzzleDate,
@@ -2699,7 +2701,7 @@
 
 - (IBAction)setSudokuType
 {
-    mainView.nSettingSudokuType = [segmentType selectedSegmentIndex];
+    mainView.nSettingSudokuType = (SUDOKUTYPE)[segmentType selectedSegmentIndex];
     labelSudokuType.text = [SudokuGame getSudokuTypeName:mainView.nSettingSudokuType];
     [self setDailyStat];
     
@@ -2772,7 +2774,7 @@
 	
 	NSInteger count = [mainView.sudokuGame countBlankCells];
 	NSString *str;
-	str = [NSString stringWithFormat:@"%d", count];
+	str = [NSString stringWithFormat:@"%ld", (long)count];
 	
 	labelBlank.text =str;
 }
@@ -2787,7 +2789,7 @@
 	NSInteger count = mainView.sudokuGame.countHint + mainView.paidHintCount;
 //	NSInteger time = (NSInteger)mainView.sudokuGame.hintTime;
     
-	labelHint.text =[NSString stringWithFormat:@"%d", count];
+	labelHint.text =[NSString stringWithFormat:@"%ld", (long)count];
     
     // zzz 유료 힌트 +00 표시 
     

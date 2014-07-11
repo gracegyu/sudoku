@@ -113,7 +113,7 @@
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
 
 }
 
@@ -145,11 +145,13 @@
 
 - (IBAction)done
 {
+    /*
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
         [mainViewController dismissModalViewControllerAnimated:YES];
-    } else {
-        DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+    } else*/
+    {
+        DLog(@"Done [UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         
@@ -159,7 +161,7 @@
 
 - (IBAction)setSudokuType
 {
-    sudokuType = [segmentType selectedSegmentIndex];
+    sudokuType = (SUDOKUTYPE)[segmentType selectedSegmentIndex];
     
     [self setLocalizedMessage];
 }

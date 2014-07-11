@@ -160,9 +160,9 @@
 
 - (void) setAnswerNum:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    DAssert(num <= size, @"setAnswerNum num = %d", num);
-    DAssert(x >= 0 && x < size, @"setAnswerNum x = %d", x);
-    DAssert(y >= 0 && y < size, @"setAnswerNum y = %d", y);
+    DAssert(num <= size, @"setAnswerNum num = %ld", num);
+    DAssert(x >= 0 && x < size, @"setAnswerNum x = %ld", (long)x);
+    DAssert(y >= 0 && y < size, @"setAnswerNum y = %ld", (long)y);
     
 	answer[x][y] = num;
 	puzzle[x][y] = 0;
@@ -174,8 +174,8 @@
 - (void) setDefaultMemo:(NSInteger)x y:(NSInteger)y
 {
     //DLog(@"setDefaultMemo(%d,%d)", x, y);
-    DAssert(x >= 0 && x < size, @"setDefaultMemo x=%d", x);
-    DAssert(y >= 0 && y < size, @"setDefaultMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"setDefaultMemo x=%ld", (long)x);
+    DAssert(y >= 0 && y < size, @"setDefaultMemo y=%ld", (long)y);
     
 	strcpy(memo[x][y], defaultMemo);
 	memonum[x][y] = strlen(memo[x][y]);
@@ -196,7 +196,7 @@
     DAssert(x >= 0 && x < size, @"isMemoed x");
     DAssert(y >= 0 && y < size, @"isMemoed y");
     
-    return (strchr(memo[x][y], '0'+num) != NULL);
+    return (strchr(memo[x][y], '0'+(char)num) != NULL);
 }
 
 - (BOOL) isEmptyMemo:(NSInteger)x y:(NSInteger)y
@@ -231,9 +231,9 @@
 
 - (void) addMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    DAssert(num >= 1 && num <= size, @"addMemo num=%d", num);
-    DAssert(x >= 0 && x < size, @"addMemo x=%d", x);
-    DAssert(y >= 0 && y < size, @"addMemo y=%d", y);
+    DAssert(num >= 1 && num <= size, @"addMemo num=%ld", (long)num);
+    DAssert(x >= 0 && x < size, @"addMemo x=%ld", (long)x);
+    DAssert(y >= 0 && y < size, @"addMemo y=%ld", (long)y);
 
     
 	if ([SudokuNum insertNumToStr:memo[x][y] num:num] == YES)
@@ -244,11 +244,14 @@
 + (BOOL) deleteNumFromStr:(char*)str num:(NSInteger)num
 {
 	char *s = str;
-	char *p = strchr(s, num+'0');
+	char *p = strchr(s, (char)num+'0');
 	
 	if (p)
 	{
-		strcpy(p, p+1);
+        do {
+            *p = *(p+1);
+        } while (*p++);
+//		strcpy(p, p+1);  // signal SIGABRT
 		return YES;
 	} else {
 		return NO;
@@ -258,9 +261,9 @@
 
 - (BOOL) delMemo:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-    DAssert(num >= 1 && num <= size, @"delMemo num=%d", num);
-    DAssert(x >= 0 && x < size, @"delMemo x=%d", x);
-    DAssert(y >= 0 && y < size, @"delMemo y=%d", y);
+    DAssert(num >= 1 && num <= size, @"delMemo num=%ld", (long)num);
+    DAssert(x >= 0 && x < size, @"delMemo x=%ld", (long)x);
+    DAssert(y >= 0 && y < size, @"delMemo y=%ld", (long)y);
 
 	
 	if (puzzle[x][y] || answer[x][y])
@@ -268,7 +271,7 @@
 	
 	if ([self isEmptyMemo:x y:y] == YES)
 	{
-		DLog(@"EmptyMemo(%d,%d)", x, y);
+		DLog(@"EmptyMemo(%ld,%ld)", (long)x, (long)y);
 		return NO;			// memo 오류
 	}
     if ([SudokuNum deleteNumFromStr:memo[x][y] num:num] == NO)
@@ -280,8 +283,8 @@
 	}
 	if ([self isEmptyMemo:x y:y] == YES)
 	{
-		DAssert(memonum[x][y]==0, @"delMemo(%d,%d)-%d, empty", x, y, num);
-		DLog(@"EmptyMemo(%d,%d)", x, y);
+		DAssert(memonum[x][y]==0, @"delMemo(%ld,%ld)-%ld, empty", (long)x, (long)y, (long)num);
+		DLog(@"EmptyMemo(%ld,%ld)", (long)x, (long)y);
 		return NO;			// memo 오류
 	}
 	return YES;
@@ -291,14 +294,14 @@
 {
 //	DLog(@"getUniqueMemo(%d,%d)", x, y);
 	
-    DAssert(x >= 0 && x < size, @"getUniqueMemo x=%d", x);
-    DAssert(y >= 0 && y < size, @"getUniqueMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"getUniqueMemo x=%ld", (long)x);
+    DAssert(y >= 0 && y < size, @"getUniqueMemo y=%ld", (long)y);
     
     
 	if (memonum[x][y] != 1)
 		return 0;
 
-	DAssert(strlen(memo[x][y]) == 1 && memo[x][y][0] >= '1' && memo[x][y][0] <= size+'0', @"getUniqueMemo(%d,%d) %s", x, y, memo[x][y]);
+	DAssert(strlen(memo[x][y]) == 1 && memo[x][y][0] >= '1' && memo[x][y][0] <= size+'0', @"getUniqueMemo(%ld,%ld) %s", (long)x, (long)y, memo[x][y]);
 		return 0;
 	
 	
@@ -308,15 +311,15 @@
 - (NSInteger) getRandomMemo:(NSInteger)x y:(NSInteger)y
 {
 	//DLog(@"getRandomMemo(%d,%d)", x, y);
-    DAssert(x >= 0 && x < size, @"getRandomMemo x=%d", x);
-    DAssert(y >= 0 && y < size, @"getRandomMemo y=%d", y);
+    DAssert(x >= 0 && x < size, @"getRandomMemo x=%ld", (long)x);
+    DAssert(y >= 0 && y < size, @"getRandomMemo y=%ld", (long)y);
 
     
     NSInteger count = memonum[x][y];
 	NSInteger rand;
  
 	//DLog(@"getRandomMemo(%d,%d) %dvs.%s", x, y, count, memo[x][y]);
-	DAssert(count == strlen(memo[x][y]), @"getRandomMemo(%d,%d) %dvs%s", x, y, count, memo[x][y]);
+	DAssert(count == strlen(memo[x][y]), @"getRandomMemo(%ld,%ld) %ldvs%s", (long)x, (long)y, (long)count, memo[x][y]);
 	
 	rand = [self randNum:count];
 	
@@ -441,10 +444,10 @@
 {
 	countFunc++;
 	
-	int x,y,k,i,numMap;//,i,j;
-	int	countFound;
-	int posXFirstFound;
-	int posYFirstFound;
+	NSInteger x,y,k,i,numMap;//,i,j;
+	NSInteger	countFound;
+	NSInteger posXFirstFound;
+	NSInteger posYFirstFound;
 	sXY* sub;
 
     //NSInteger numMap = [map getMapNum:xPos y:yPos];
@@ -503,8 +506,8 @@
 
 - (NSInteger) countUserFixedNumX:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 
 	for (y=0; y<size; y++)
@@ -518,8 +521,8 @@
 
 - (NSInteger) countUserFixedNumY:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 	
 	for (x=0; x<size; x++)
@@ -534,11 +537,11 @@
 	
 - (NSInteger) countUserFixedNumXY:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x = xPos;
-	int y = yPos;
+	NSInteger x = xPos;
+	NSInteger y = yPos;
 	NSInteger count = 0;
 	
-	int mapNum = [map getMapNum:xPos y:yPos];
+	NSInteger mapNum = [map getMapNum:xPos y:yPos];
 	
 	for (x=0; x<size; x++)
 	{
@@ -563,7 +566,7 @@
 
 - (BOOL) setCellCheck:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
-	int x,y;
+	NSInteger x,y;
 
 	countFunc++;
 	
@@ -599,7 +602,7 @@
 		}		
 	}	
 	
-    int mapNum = [map getMapNum:xPos y:yPos];
+    NSInteger mapNum = [map getMapNum:xPos y:yPos];
 	
     for (x=0; x<size; x++)
     {
@@ -623,7 +626,7 @@
     
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
     {
-        int cageNum = [kmap getCageNumber:xPos yPos:yPos];
+        NSInteger cageNum = [kmap getCageNumber:xPos yPos:yPos];
 	
         for (x=0; x<size; x++)
         {
@@ -692,7 +695,7 @@
 	countFunc++;
 	if ([self getAnswerNum:xPos y:yPos] > 0)
 	{
-		DLog(@"validNumInCell(%d,%d,%d)answerNum", num, xPos, yPos);
+		DLog(@"validNumInCell(%ld,%ld,%ld)answerNum", (long)num, (long)xPos, (long)yPos);
 		return NO;		// 이미 자동세팅 값이 채워져 있어서 수정할 수 없음
 	}
 	
@@ -702,20 +705,20 @@
 	{
 		if (puzzleNum == num)
 		{
-			DLog(@"validNumInCell(%d,%d,%d)puzzleNum", num, xPos, yPos);
+			DLog(@"validNumInCell(%ld,%ld,%ld)puzzleNum", (long)num, (long)xPos, (long)yPos);
 			return NO;	// 이미 같은 값이 설정 되어 있어서 아무 일도 할 것이 없음
 			
 		}
 
 		// 이전에 지정한 셀에 다른 값(0~size)을 설정하려고 함
 		[self editCell:num xPos:xPos yPos:yPos];
-		DLog(@"validNumInCell(%d,%d,%d)editCell", num, xPos, yPos);
+		DLog(@"validNumInCell(%ld,%ld,%ld)editCell", (long)num, (long)xPos, (long)yPos);
 		return NO;
 	}
 		
 	if ([self isMemoed:num x:xPos y:yPos] == NO) // 후보군의 숫자가 아님, 설정 불가능
 	{
-		DLog(@"validNumInCell(%d,%d,%d)isMemoed", num, xPos, yPos);
+		DLog(@"validNumInCell(%ld,%ld,%ld)isMemoed", (long)num, (long)xPos, (long)yPos);
 		return NO;	// 세팅 불가능한 숫자임
 	}
 	
@@ -732,12 +735,12 @@
 				{
 					if ([self getPuzzleNum:x y:y] == num)		// 이미 세팅했던 것들임
 					{
-						DLog(@"validNumInCell(%d,%d,%d)puzzleNum(map)", num, xPos, yPos);
+						DLog(@"validNumInCell(%ld,%ld,%ld)puzzleNum(map)", (long)num, (long)xPos, (long)yPos);
 						return NO;
 					}				
 					if ([self getAnswerNum:x y:y] == num)		// 자동 계산 값과 같음
 					{
-						DLog(@"validNumInCell(%d,%d,%d)answerNum(map)", num, xPos, yPos);
+						DLog(@"validNumInCell(%ld,%ld,%ld)answerNum(map)", (long)num, (long)xPos, (long)yPos);
 						return NO;
 					}
 				}
@@ -752,8 +755,8 @@
 //	DLog(@"Undo Log = %@", strUndo);
 //  이미 기존의 데이터를 수정하는 것이라면 그부분은 제거
 
-	int len = strUndo.length;
-	int max = len/3;
+	NSInteger len = strUndo.length;
+	NSInteger max = len/3;
 	NSString *str;
 	unichar chNum, chX, chY;
 	
@@ -766,7 +769,7 @@
 		{
 			chNum = [strUndo characterAtIndex:i*3];
 			// 같은 위치 발견, 앞에서 설정한 값은 제거해야 함
-			str = [NSString stringWithFormat:@"%d%d%d", chNum-'0', xPos, yPos];
+			str = [NSString stringWithFormat:@"%ld%ld%ld", (long)chNum-'0', (long)xPos, (long)yPos];
 			DLog(@"Undo Log remove = %@", str);
 			strUndo = [strUndo stringByReplacingOccurrencesOfString:str withString: @""];
 
@@ -781,7 +784,7 @@
 	
 */
 
-	str = [strUndo stringByAppendingFormat:@"%d%d%d", num, xPos, yPos];
+	str = [strUndo stringByAppendingFormat:@"%ld%ld%ld", (long)num, (long)xPos,(long) yPos];
 	[strUndo release];
 	strUndo = str; 
 //	DLog(@"Undo Log = %@", strUndo);
@@ -793,7 +796,7 @@
 {
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		DLog(@"Invalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Invalid Number Setting(num:%ld, xPos:%ld, yPos:%ld", (long)num, (long)xPos, (long)yPos);
 		return NO;
 	} 	
 		
@@ -805,15 +808,15 @@
 // deprecated
 - (void) setCellApplyHandy:(NSInteger)handy
 {
-	int numRandom;
-	int num, answerNum;
+	NSInteger numRandom;
+	NSInteger num, answerNum;
 
     if (sudokuType == SUDOKUTYPE_GT)
     {
         // 일단 여기서 모든 셀을 AutoCell로 지정한다.
-        for (int y=0; y<size; y++)
+        for (NSInteger y=0; y<size; y++)
         {
-            for (int x=0; x<size; x++)
+            for (NSInteger x=0; x<size; x++)
             {
                 num = [self getPuzzleNum:x y:y];
                 if (num > 0)
@@ -825,15 +828,15 @@
     }
 	
 	
-	for (int i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
+	for (NSInteger i=0; i<handy && countAutoFixed>0 && countHandyTryFailed < MAX_HANDYTRAYFAIL; i++)
 	{
 		numRandom = [self randNum:countAutoFixed];
 		num = 0;
 		
 		// 자동Fix된 셀중에서 Random 번째의 셀을 찾는다.
-		for (int y=0; y<size && num <= numRandom; y++)
+		for (NSInteger y=0; y<size && num <= numRandom; y++)
 		{
-			for (int x=0; x<size && num <= numRandom; x++)
+			for (NSInteger x=0; x<size && num <= numRandom; x++)
 			{
 				answerNum = [self getAnswerNum:x y:y];
 				
@@ -866,8 +869,8 @@
 
 - (BOOL) setCellAuto
 {
-	int numRandom;
-	int num;
+	NSInteger numRandom;
+	NSInteger num;
 
 	countFunc++;
 	bOkAutoSet = YES;
@@ -877,9 +880,9 @@
 	num = 0;
 
     
-	for (int y=0; y<size && num <= numRandom; y++)
+	for (NSInteger y=0; y<size && num <= numRandom; y++)
 	{
-		for (int x=0; x<size && num <= numRandom; x++)
+		for (NSInteger x=0; x<size && num <= numRandom; x++)
 		{
 			if ([self isEmptyMemo:x y:y] == NO)
 			{
@@ -953,7 +956,7 @@
 	
 	if ([self validNumInCell:num xPos:xPos yPos:yPos] == NO)
 	{
-		DLog(@"Invalid Number Setting(num:%d, xPos:%d, yPos:%d", num, xPos, yPos);
+		DLog(@"Invalid Number Setting(num:%ld, xPos:%ld, yPos:%ld", (long)num, (long)xPos, (long)yPos);
 	} else {
 		[self setCellPuzzleCheck:num x:xPos y:yPos];
 		[self addUndoLog:num xPos:xPos yPos:yPos];		// set undo data
@@ -1031,8 +1034,8 @@
 	//DLog(@"undoSet");
 	NSMutableArray *array = self.nums;	
 	NSString *oldStrUndo = [[NSString alloc] initWithString:strUndo];
-	int len = oldStrUndo.length;
-	int max = len/3;
+	NSInteger len = oldStrUndo.length;
+	NSInteger max = len/3;
 	NSInteger iNum, x, y;
 	CGPoint pointLastUndoPos;
 	
@@ -1174,7 +1177,7 @@
 							if (pos == 3)
 								str = [str stringByAppendingString:@"["];
 							else if (pos == 4)
-								str = [str stringByAppendingFormat:@"%d", [self getPuzzleNum:x y:y]];
+								str = [str stringByAppendingFormat:@"%ld", (long)[self getPuzzleNum:x y:y]];
 							else if (pos == 5)
 								str = [str stringByAppendingString:@"]"];
 							else
@@ -1185,7 +1188,7 @@
 							if (pos == 3)
 								str = [str stringByAppendingString:@"-"];
 							else if (pos == 4)
-								str = [str stringByAppendingFormat:@"%d", [self getAnswerNum:x y:y]];
+								str = [str stringByAppendingFormat:@"%ld", (long)[self getAnswerNum:x y:y]];
 							else if (pos == 5)
 								str = [str stringByAppendingString:@"-"];
 							else
@@ -1212,8 +1215,8 @@
 		}
 		
 	}
-	str = [str stringByAppendingFormat:@"%d:Single(%d) Unique(%d) Loop(%d) Fail(%d) Back(%d,%d)",
-		   countFunc, foundSingle, foundUnique, foundLoop, foundFail, countBack, sumBack];
+	str = [str stringByAppendingFormat:@"%ld:Single(%ld) Unique(%ld) Loop(%ld) Fail(%ld) Back(%ld,%ld)",
+		   (long)countFunc, (long)foundSingle, (long)foundUnique, (long)foundLoop, (long)foundFail, (long)countBack, (long)sumBack];
 	DLog(@"str = %@", str);
 
 	
@@ -1228,9 +1231,9 @@
 	countNotFixed = 0;
 
 	//[self printNums];
-	for (int y=0; y<size; y++)
+	for (NSInteger y=0; y<size; y++)
 	{
-		for (int x=0; x<size; x++)
+		for (NSInteger x=0; x<size; x++)
 		{
 			if ([self getPuzzleNum:x y:y] > 0)
 				countUserFixed += 1;	
@@ -1403,18 +1406,18 @@ SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuz
 		{
 			if (++i > sizePuzzle*sizePuzzle)
 			{
-				DLog(@"############### i = %d", i);
+				DLog(@"############### i = %ld", (long)i);
 				//[sudokuNum printNums];
 				
 				break;
 			}
 		}
 		
-		DLog(@"%d times loop", i);
+		DLog(@"%ld times loop", (long)i);
 		[sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
-	DLog(@"sudokuNumGenerate: %d tried", nTry);
+	DLog(@"sudokuNumGenerate: %ld tried", (long)nTry);
 	
 	return sudokuNum;
 }

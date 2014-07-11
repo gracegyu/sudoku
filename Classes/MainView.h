@@ -194,6 +194,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (BOOL) runRedo4Replay;
 - (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime;
 - (UIColor *) getSkinColor:(SKINCOLOR)skinnum;
+- (void)setViewBackgroundColor;
 
 @end
 

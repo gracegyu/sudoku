@@ -74,7 +74,7 @@ static BOOL bLoginedGamecenter = NO;
                      bLoginedGamecenter = YES;
                      NSLog(@"게임센터 로그인 성공~");
                  } else {
-                     NSLog(@"Error(%d):%@", error.code, [error localizedDescription]);
+                     NSLog(@"Error(%ld):%@", (long)error.code, [error localizedDescription]);
                      
                      
                      NSLog(@"게임센터 로그인 에러. 별다른 처리는 하지 않는다.");
@@ -122,7 +122,7 @@ static BOOL bLoginedGamecenter = NO;
                  {
                      if ([score.playerID isEqualToString:lp.playerID])
                      {
-                         DLog(@"rank(%@)=%d, value=%lld, %@:%@", category, score.rank, score.value, lp.playerID, lp.displayName);
+                         DLog(@"rank(%@)=%ld, value=%lld, %@:%@", category, (long)score.rank, score.value, lp.playerID, lp.displayName);
                          
                          //nRank = score.rank;
                          *rank = score.rank;
@@ -154,7 +154,7 @@ static BOOL bLoginedGamecenter = NO;
 }
 
 // 게임센터 서버로 점수를 보낸다.
-+(void) sendScoreToGameCenter:(int)_score
++(void) sendScoreToGameCenter:(NSInteger)_score
 {
  
     NSLog(@"sendScoreToGameCenter");
@@ -197,7 +197,7 @@ static BOOL bLoginedGamecenter = NO;
 
 + (NSString*) getLevelCategory:(SUDOKUTYPE)type level:(NSInteger)level
 {
-    NSLog(@"getLevelCategory(%d,%d)", type, level);
+    NSLog(@"getLevelCategory(%d,%ld)", type, (long)level);
     
     static NSString* strLevel[SUDOKUTYPE_MAX+1][5] = {
         {
@@ -250,7 +250,7 @@ static BOOL bLoginedGamecenter = NO;
 // 게임센터 서버로 점수를 보낸다.
 + (void) sendBestTimeToGameCenter:(SUDOKUTYPE)type level:(NSInteger)level besttime:(NSInteger)num;
 {
-    DLog(@"sendBestTimeToGameCenter(%d,%d,%d)", type, level, num);
+    DLog(@"sendBestTimeToGameCenter(%d,%ld,%ld)", type, (long)level, (long)num);
     if ([self isGameCenterAvailable] == NO || bLoginedGamecenter == NO)
         return;
 
@@ -269,7 +269,7 @@ static BOOL bLoginedGamecenter = NO;
 	}
     
     
-    DLog(@"Sending(%@) <- %d seconds", strCategory, num);
+    DLog(@"Sending(%@) <- %ld seconds", strCategory, (long)num);
     GKScore* score = [[[GKScore alloc] initWithCategory:strCategory] autorelease];
     // 위에서 kPoint 가 게임센터에서 설정한 Leaderboard ID
     score.value = num;

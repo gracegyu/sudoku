@@ -154,7 +154,7 @@ static int defaultMap[][16*16] = {
 	if ((self = [super init]) == nil)
 		return nil;
 	
-    DAssert((sizeMap <= SIZE_9 && sizeMap >= SIZE_4) || (sizeMap == SIZE_12 || sizeMap == SIZE_16), @"sizeMap=%d", sizeMap);
+    DAssert((sizeMap <= SIZE_9 && sizeMap >= SIZE_4) || (sizeMap == SIZE_12 || sizeMap == SIZE_16), @"sizeMap=%ld", sizeMap);
     
     if (sizeMap > MAXMAPSIZE)
         return nil;
@@ -222,11 +222,11 @@ static int defaultMap[][16*16] = {
 	NSInteger countSub[MAXMAPSIZE+1];
 	memset(countSub, 0, sizeof(countSub));
 	
-	for (int y = 0; y < size; y++) {
-		for (int x = 0; x < size; x++) {
+	for (NSInteger y = 0; y < size; y++) {
+		for (NSInteger x = 0; x < size; x++) {
 			
-			DAssert(map[x][y] <= size, @"map[%d,%d](%d) > %d", x, y, map[x][y], size);
-			DAssert(++countMap[map[x][y]] <= size, @"countMap[%d] > %d", map[x][y], size);
+			DAssert(map[x][y] <= size, @"map[%ld,%ld](%ld) > %ld", x, y, map[x][y], (long)size);
+			DAssert(++countMap[map[x][y]] <= size, @"countMap[%ld] > %ld", map[x][y], size);
 			//DLog(@"%d,%d - Map[%d]=%d", x, y, i, Map[i]);
 			
 			sub[map[x][y]][countSub[map[x][y]]].x = x;
@@ -255,7 +255,7 @@ static int defaultMap[][16*16] = {
 
 - (NSInteger) getMapNum:(NSInteger)x y:(NSInteger)y
 {
-    DAssert(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%d,%d/Max = %d)", x, y, MAXMAPSIZE);
+    DAssert(x < MAXMAPSIZE && y < MAXMAPSIZE, @"getMapNum(%ld,%ld/Max = %d)", (long)x, (long)y, MAXMAPSIZE);
 
     return map[x][y];
 }

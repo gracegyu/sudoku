@@ -253,7 +253,7 @@ typedef struct DAILYSTAT
 - (IBAction)sharePuzzleFacebook;
 - (IBAction)shareRecordTwitter;
 - (IBAction)sharePuzzleTwitter;
-- (IBAction)shareToTwitter;
+//- (IBAction)shareToTwitter;
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;

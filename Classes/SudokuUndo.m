@@ -22,7 +22,7 @@
 {
     if (self = [super init])
 	{
-        self.mode = [decoder decodeIntegerForKey:@"mode"];
+        self.mode = (UNDOMODE)[decoder decodeIntegerForKey:@"mode"];
         self.x = [decoder decodeIntegerForKey:@"x"];
         self.y = [decoder decodeIntegerForKey:@"y"];
         self.oldnum = [decoder decodeIntegerForKey:@"oldnum"];
@@ -79,7 +79,7 @@
 
 - (NSInteger) getIndex
 {
-	DLog(@"getIndex(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getIndex(count:%ld, indexUndo:%ld)", (long)count, (long)indexUndo);
     return indexUndo;
 }
 
@@ -104,12 +104,12 @@
 
     if (indexUndo < count)
     {
-        for (int i = count-1; i >=indexUndo; i--)
+        for (NSInteger i = count-1; i >=indexUndo; i--)
         {
             [arrayUndo removeObjectAtIndex:i];
         }
         count = [arrayUndo count];
-        DAssert(indexUndo == count, @"indexUndo(%d) != count(%d)", indexUndo, count);
+        DAssert(indexUndo == count, @"indexUndo(%ld) != count(%ld)", (long)indexUndo, (long)count);
     }
 	// count보다 큰 위치의 bookmark는 모두 삭제한다.
 	
@@ -276,7 +276,7 @@
     if (indexUndo >= count)
         return NO;
     
-	DLog(@"getRedo(count:%ld, indexUndo:%ld)", count, indexUndo);
+	DLog(@"getRedo(count:%ld, indexUndo:%ld)", (long)count, (long)indexUndo);
 	
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo];
     
@@ -287,7 +287,7 @@
         undo.y = undoPop.y;
         undo.oldnum = undoPop.oldnum;
         undo.num = undoPop.num;
-		DLog(@"Undo:getRedo(%d,%d)%d,%d,%d", undo.x, undo.y, undo.mode, undo.oldnum, undo.num);
+		DLog(@"Undo:getRedo(%ld,%ld)%d,%ld,%ld", (long)undo.x, (long)undo.y, undo.mode, (long)undo.oldnum, (long)undo.num);
     }
     indexUndo++;
     
@@ -371,9 +371,9 @@
 		arrayBookmark[MAXBOOKMARK].y = -1;
 	}
 	//[self saveData];
-	for (int i=0; i<=MAXBOOKMARK; i++)
+	for (NSInteger i=0; i<=MAXBOOKMARK; i++)
 	{
-		DLog(@"bookmark(%d)P:%d XY:%d,%d", i, arrayBookmark[i].pos, arrayBookmark[i].x, arrayBookmark[i].y);
+		DLog(@"bookmark(%ld)P:%ld XY:%ld,%ld", (long)i, (long)arrayBookmark[i].pos, (long)arrayBookmark[i].x, (long)arrayBookmark[i].y);
 	}
 	
 	return YES;
@@ -405,9 +405,9 @@
 			return;
 		}
 	}
-	for (int i=0; i<=MAXBOOKMARK; i++)
+	for (NSInteger i=0; i<=MAXBOOKMARK; i++)
 	{
-		DLog(@"bookmark(%d)P:%d XY:%d,%d", i, arrayBookmark[i].pos, arrayBookmark[i].x, arrayBookmark[i].y);
+		DLog(@"bookmark(%ld)P:%ld XY:%ld,%ld", (long)i, (long)arrayBookmark[i].pos, (long)arrayBookmark[i].x, (long)arrayBookmark[i].y);
 	}
 }
 
@@ -450,7 +450,7 @@
 
 - (Bookmark*) getBookmark:(NSInteger)num;
 {
-	DAssert(num>=0 && num<MAXBOOKMARK, @"getBookmark(%d)", num);
+	DAssert(num>=0 && num<MAXBOOKMARK, @"getBookmark(%ld)", (long)num);
 	
 	return &arrayBookmark[num];
 }
@@ -604,8 +604,8 @@
 			if (array)
 			{
 				arrayUndo = [[NSMutableArray alloc] initWithArray:array];
-				DAssert(count == [arrayUndo count], @"Undo:initWithSaveData:count(%d)!=ArrayUndoCount(%d)",
-						count, [arrayUndo count]);
+				DAssert(count == [arrayUndo count], @"Undo:initWithSaveData:count(%ld)!=ArrayUndoCount(%ld)",
+						(long)count, (long)[arrayUndo count]);
 				[self printData];
 
 				return self;
@@ -624,10 +624,10 @@
 
 - (void) printData
 {
-	DLog(@"UndoLog: indexUndo(%d) count(%d)",
-		 indexUndo, count);
+	DLog(@"UndoLog: indexUndo(%ld) count(%ld)",
+		 (long)indexUndo, (long)count);
 	
-	for (int i=0; i<count; i++)
+	for (NSInteger i=0; i<count; i++)
 	{
 		UndoData* undoTemp = [arrayUndo objectAtIndex:i];
     
@@ -635,7 +635,7 @@
 		{
 			//DLog(@"  %d:M%d XY%d%d O%d N%d", i, undoTemp.mode, undoTemp.x, undoTemp.y, undoTemp.oldnum, undoTemp.num);
 		} else {
-			DAssert(undoTemp, @"[arrayUndo objectAtIndex:%d]==NULL;count=%d", i, count);
+			DAssert(undoTemp, @"[arrayUndo objectAtIndex:%ld]==NULL;count=%ld", (long)i, (long)count);
 		}
 	}
 	
