@@ -276,7 +276,7 @@
     if (indexUndo >= count)
         return NO;
     
-	DLog(@"getRedo(count:%d, indexUndo:%d)", count, indexUndo);
+	DLog(@"getRedo(count:%ld, indexUndo:%ld)", count, indexUndo);
 	
     UndoData* undoPop = [arrayUndo objectAtIndex:indexUndo];
     

@@ -177,7 +177,7 @@ static int defaultMap[][16*16] = {
                 
                 unsigned int valRand = arc4random();
                 NSInteger numRandom = countDefMap > 0 ? (valRand % (countDefMap)) : 0;
-                DLog(@"numRandom = %d", numRandom);
+                DLog(@"numRandom = %ld", (long)numRandom);
                 
                 Map = setMap6[numRandom];
             }
@@ -190,7 +190,7 @@ static int defaultMap[][16*16] = {
 				
 				unsigned int valRand = arc4random();
 				NSInteger numRandom = countDefMap > 0 ? (valRand % (countDefMap)) : 0;
-				DLog(@"numRandom = %d", numRandom);
+				DLog(@"numRandom = %ld", (long)numRandom);
 				
 				Map = setMap7[numRandom];
 			}

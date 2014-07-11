@@ -312,7 +312,7 @@
 {
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
-        [mainViewController dismissModalViewControllerAnimated:YES];
+        [mainViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
         DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
@@ -616,13 +616,13 @@
         leaderboardController.category = category;
         
         // 레더보드를 현재 뷰에 모달로 띄운다.
-        [self presentModalViewController:leaderboardController animated: YES];
+        [self presentViewController:leaderboardController animated: YES completion:nil];
     }
 }
 
 // 레더보드 델리게이트를 구현한 부분. 닫힐때 호출된다.
 - (void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
-    [self dismissModalViewControllerAnimated:YES]; //점수판 모달뷰를 내림
+    [self dismissViewControllerAnimated:YES completion:nil]; //점수판 모달뷰를 내림
     // 추가적으로 자신의 어플에 맞게 구현해야할것이 있으면 한다.
 }
 
@@ -639,13 +639,13 @@
         
         archiveController.achievementDelegate = self;
         
-        [self presentModalViewController:archiveController animated: YES];
+        [self presentViewController:archiveController animated: YES completion:nil];
         
     }
 }
 
 - (void) achievementViewControllerDidFinish:(GKAchievementViewController *)viewController{
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void) didReceiveMemoryWarning {

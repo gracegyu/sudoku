@@ -279,7 +279,7 @@
     
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
-        [mainViewController dismissModalViewControllerAnimated:YES];
+        [mainViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
         DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
@@ -418,12 +418,9 @@
 - (IBAction)goBugReport
 {
     UIViewController *controller = [[JMC sharedInstance] viewController];
-    if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
-    {
-        [self presentModalViewController:controller animated:YES];
-    } else {
-        [self presentViewController:controller animated:YES completion:nil];
-    }
+
+    [self presentViewController:controller animated:YES completion:nil];
+    
 /*
     [[UIApplication sharedApplication]
      openURL:[NSURL URLWithString:

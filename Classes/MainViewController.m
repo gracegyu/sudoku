@@ -1056,7 +1056,7 @@
 	[controller setScoreData:&score];
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
 
 	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
 	[controller setAutoSegment];		
@@ -1581,7 +1581,7 @@
 //	controller.title = gettext(@"Setting", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
 	
@@ -1605,7 +1605,7 @@
 										 @"HelpView" bundle:nil];
     controller.mainViewController = self;	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	[self presentModalViewController:controller animated:YES];
+	[self presentViewController:controller animated:YES completion:nil];
 	
 	[controller release];
 	
@@ -1619,7 +1619,7 @@
 	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
-    [self presentModalViewController:controller animated:YES];
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 

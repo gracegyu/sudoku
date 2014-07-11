@@ -134,7 +134,7 @@ static CGRect endFrame;
     
     UIWindow *window = [self findVisibleWindow];
     if ((window) && ([window respondsToSelector:@selector(rootViewController)]) && ([window rootViewController])) {
-        [window.rootViewController presentModalViewController:_viewController animated:YES];
+        [window.rootViewController presentViewController:_viewController animated:YES completion:nil];
     }
     else {
         [_viewController.view setFrame:currStartFrame];

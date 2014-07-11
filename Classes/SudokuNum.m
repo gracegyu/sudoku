@@ -1281,7 +1281,7 @@
     } else {
         i = [self randNum:max]+max;
         
-        for (y=0; i>0;y=(++y % hGT))
+        for (y=0; i>0;y=((y+1) % hGT))
         {
             for (x=0; x<wGT && i>0;x++)
             {                

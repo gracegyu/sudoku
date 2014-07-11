@@ -255,7 +255,7 @@ static BOOL isPad(void) {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.feedbackController];
         navController.navigationBar.barStyle = [[JMC sharedInstance] getBarStyle];
         navController.navigationBar.tintColor = [JMC sharedInstance].options.barTintColor;
-        [self presentModalViewController:navController animated:YES];
+        [self presentViewController:navController animated:YES completion:nil];
         [navController release];
     }
 }
