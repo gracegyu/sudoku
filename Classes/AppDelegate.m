@@ -23,9 +23,29 @@
 @synthesize window;
 @synthesize mainViewController;
 
+/*
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 7) {
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    } else {
+        // handling statusBar (iOS7)
+        application.statusBarStyle = UIStatusBarStyleLightContent;
+        self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].applicationFrame];
+        self.window.clipsToBounds = YES;
+        
+        
+        // handling screen rotations for statusBar (iOS7)
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    }
+    return YES;
+}
 
-
-
+- (void)applicationDidChangeStatusBarOrientationNotification:(NSNotification *)notification {
+    // handling statusBar (iOS7)
+    self.window.frame = [UIScreen mainScreen].applicationFrame;
+}
+*/
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];

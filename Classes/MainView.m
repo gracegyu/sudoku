@@ -432,6 +432,12 @@ static NSUInteger SmallerColorTemplate[9] = {
         return frameDrawOnImage;
     
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+    DLog(@"areaPuzzleTable = %f,%f,%f,%f\n",
+         ctrl.areaPuzzleTable.frame.origin.x,
+         ctrl.areaPuzzleTable.frame.origin.y,
+         ctrl.areaPuzzleTable.frame.size.width,
+         ctrl.areaPuzzleTable.frame.size.height);
+    
     return ctrl.areaPuzzleTable.frame;
 }
 
