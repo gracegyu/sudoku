@@ -86,19 +86,20 @@
             <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="42">
+                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" id="42">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="barTintColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                     <items>
                         <navigationItem title="Score" id="43">
                             <barButtonItem key="rightBarButtonItem" id="139">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="140">
                                     <rect key="frame" x="695" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                    <state key="normal" title="Done" backgroundImage="background_button_n.png">
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="Done">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -127,7 +128,6 @@
                                 <segment title="" image="type_2_36.png"/>
                                 <segment title="" image="type_3_36.png"/>
                             </segments>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="182"/>
                             </connections>
@@ -767,26 +767,27 @@
                 </view>
             </subviews>
             <color key="backgroundColor" red="0.4431372549" green="0.53333333329999999" blue="0.87843137250000003" alpha="1" colorSpace="calibratedRGB"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackOpaque"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="500" userLabel="View" customClass="ScoreView">
             <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" id="501">
+                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" id="501">
                     <rect key="frame" x="0.0" y="0.0" width="1024" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="barTintColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                     <items>
                         <navigationItem title="Score" id="574">
                             <barButtonItem key="rightBarButtonItem" id="575">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="576">
                                     <rect key="frame" x="951" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                    <state key="normal" title="Done" backgroundImage="background_button_n.png">
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="Done">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="titleShadowColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
@@ -815,7 +816,6 @@
                                 <segment title="" image="type_2_36.png"/>
                                 <segment title="" image="type_3_36.png"/>
                             </segments>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="586"/>
                             </connections>
@@ -1461,7 +1461,6 @@
         </view>
     </objects>
     <resources>
-        <image name="background_button_n.png" width="96" height="58"/>
         <image name="goachievement.png" width="600" height="120"/>
         <image name="goleaderboard.png" width="600" height="120"/>
         <image name="type_0_36.png" width="36" height="36"/>
