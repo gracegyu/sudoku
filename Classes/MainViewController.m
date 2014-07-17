@@ -38,7 +38,7 @@
 @synthesize labelAutoMemo;
 @synthesize labelSudokuType;
 @synthesize buttonCheckboxAutoMemo;
-@synthesize buttonNewGameDailyPuzzle;
+//@synthesize buttonNewGameDailyPuzzle;
 @synthesize labelDailyStat;
 @synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
@@ -46,7 +46,22 @@
 @synthesize buttonNewGameHard;
 @synthesize buttonNewGameVeryHard;
 @synthesize buttonNewGameCancel;
+@synthesize buttonDailyGameSudoku;
+@synthesize buttonDailyGameGt;
+@synthesize buttonDailyGameKiller;
+@synthesize buttonDailyGameCalcu;
+
+
+//@synthesize labelDailyAutoMemo;
+//@synthesize buttonDailyCheckboxAutoMemo;
+@synthesize labelDailyStatSudoku;
+@synthesize labelDailyStatGt;
+@synthesize labelDailyStatKiller;
+@synthesize labelDailyStatCalcu;
+@synthesize buttonDailyGameCancel;
+
 @synthesize buttonNewGame;
+@synthesize buttonDailyGame;
 @synthesize buttonMenu;
 @synthesize buttonUndo;
 @synthesize buttonRedo;
@@ -74,14 +89,17 @@
 
 @synthesize viewMenu;
 @synthesize viewNewGame;
+@synthesize viewDailyGame;
 @synthesize labelLevel;
 @synthesize labelGameTime;
 @synthesize labelBlank;
 @synthesize labelHint;
 @synthesize timerGame;
 @synthesize timerNewGame;
+@synthesize timerDailyGame;
 @synthesize activityIndicator;
-@synthesize activityIndicatorNewGame;
+@synthesize activityIndicatorDailyStat;
+@synthesize activityIndicatorDailyGame;
 @synthesize segmentType;
 @synthesize labelLicense;
 
@@ -487,6 +505,7 @@
 
     
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
+    [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
@@ -533,11 +552,11 @@
 	[buttonCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 	labelAutoMemo.text = gettext(@"auto memo", nil);
 	labelDailyStat.text = @"";  // 초기화
-#ifdef DAILYSENDER
+/*#ifdef DAILYSENDER
     [buttonNewGameDailyPuzzle setTitle:@"send daily puzzle" forState:UIControlStateNormal];
 #else
     [buttonNewGameDailyPuzzle setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
-#endif
+#endif*/
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
@@ -545,6 +564,18 @@
     [buttonNewGameVeryHard setTitle:gettext(@"very hard", nil) forState:UIControlStateNormal];
     [buttonNewGameCancel setTitle:gettext(@"cancel", nil) forState:UIControlStateNormal];
 
+    
+//	[buttonDailyCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
+//    labelDailyAutoMemo.text = gettext(@"auto memo", nil);
+
+    [buttonDailyGameSudoku setTitle:gettext(@"sudoku", nil) forState:UIControlStateNormal];
+    [buttonDailyGameGt setTitle:gettext(@"greater sudoku", nil) forState:UIControlStateNormal];
+    [buttonDailyGameKiller setTitle:gettext(@"sumdoku", nil) forState:UIControlStateNormal];
+    [buttonDailyGameCalcu setTitle:gettext(@"calcudoku", nil) forState:UIControlStateNormal];
+    [buttonDailyGameCancel setTitle:gettext(@"cancel", nil) forState:UIControlStateNormal];
+    
+    
+    
     if (mainView.sudokuGame)
         [self setGameLevel];
 
@@ -711,8 +742,7 @@
      
      [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [viewNewGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
-
-     
+     [viewDailyGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      
 	 //[viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
@@ -722,8 +752,12 @@
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
      viewNewGame.alpha = 0.9f;
+	 viewDailyGame.layer.cornerRadius = viewDailyGame.frame.size.width/12;
+	 viewDailyGame.layer.masksToBounds = YES;
+     viewDailyGame.alpha = 0.9f;
 	 [self hideAwayView:viewMenu];
 	 [self hideAwayView:viewNewGame];
+	 [self hideAwayView:viewDailyGame];
 
 
 
@@ -1670,26 +1704,38 @@
 
 - (void) allButtonLock
 {
-	buttonNewGameDailyPuzzle.enabled = NO;
+//	buttonNewGameDailyPuzzle.enabled = NO;
 	buttonNewGameVeryEasy.enabled = NO;
 	buttonNewGameEasy.enabled = NO;
 	buttonNewGameNormal.enabled = NO;	
 	buttonNewGameHard.enabled = NO;	
 	buttonNewGameVeryHard.enabled = NO;	
-	buttonNewGameCancel.enabled = NO;	
+	buttonNewGameCancel.enabled = NO;
+    
+    buttonDailyGameSudoku.enabled = NO;
+	buttonDailyGameGt.enabled = NO;
+	buttonDailyGameKiller.enabled = NO;
+	buttonDailyGameCalcu.enabled = NO;
+	buttonDailyGameCancel.enabled = NO;
 }
 
 - (void) allButtonUnLock
 {
     // zzz dailpuzzle 잠금 기능 필요
     
-	buttonNewGameDailyPuzzle.enabled = YES;
+//	buttonNewGameDailyPuzzle.enabled = YES;
 	buttonNewGameVeryEasy.enabled = YES;
 	buttonNewGameEasy.enabled = YES;
 	buttonNewGameNormal.enabled = YES;	
 	buttonNewGameHard.enabled = YES;	
 	buttonNewGameVeryHard.enabled = YES;	
 	buttonNewGameCancel.enabled = YES;	
+
+    buttonDailyGameSudoku.enabled = YES;
+	buttonDailyGameGt.enabled = YES;
+	buttonDailyGameKiller.enabled = YES;
+	buttonDailyGameCalcu.enabled = YES;
+	buttonDailyGameCancel.enabled = YES;
 }
 
 - (void) setGameLevel
@@ -1883,6 +1929,73 @@
 	[self updateButtons];
 	
 }
+
+- (void)OnTimerShowDailyGame:(NSTimer *)timer
+{
+	CGRect frameOld = viewDailyGame.frame;
+    frameOld.origin.x -= intervalX2;
+    viewDailyGame.frame = frameOld;
+	
+	if (viewDailyGame.frame.origin.x-intervalX2 > 0)
+	{
+		[timer invalidate];
+	}
+}
+
+- (void) showDailyGameView
+{
+	if (mainView.bMenuMode)
+		return;
+    
+	[self readySlideView:viewDailyGame];
+	mainView.bMenuMode = YES;
+	[self stopGameTimer];
+	intervalX2 = (viewDailyGame.frame.origin.x)/20;
+	// zzzzzzz
+    buttonDailyGameCancel.hidden = (mainView.sudokuGame == nil);
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerShowDailyGame:)
+								   userInfo:nil
+									repeats:YES];
+	[self updateButtons];
+}
+
+- (void) OnTimerHideDailyGame:(NSTimer *)timer
+{
+	CGRect frameOld = viewDailyGame.frame;
+    frameOld.origin.x -= intervalX2;
+    viewDailyGame.frame = frameOld;
+	
+	if ((viewDailyGame.frame.origin.x + viewDailyGame.frame.size.width) <= 0)
+	{
+		[timer invalidate];
+		[self hideAwayView:viewDailyGame];
+	}
+}
+
+- (void) hideDailyGameView
+{
+	[mainView setBlur:NO];
+	intervalX2 = (viewDailyGame.frame.origin.x + viewDailyGame.frame.size.width)/25;
+	// 버튼 disable
+	
+	[NSTimer scheduledTimerWithTimeInterval:0.01f
+									 target:self
+								   selector:@selector(OnTimerHideDailyGame:)
+								   userInfo:nil
+									repeats:YES];
+	
+	mainView.bMenuMode = NO;
+	[self startGameTimer];
+	[self setGameLevel];
+	[self updateBlankCellCount];
+    [self updateHintCount];
+	[self updateButtons];
+	
+}
+
 
 - (void) updateGameTime:(NSInteger) time
 {
@@ -2248,9 +2361,9 @@
 	
 	[self makeNewGameDataFromServer];
 	
-	[activityIndicator stopAnimating];
+	[activityIndicatorDailyGame stopAnimating];
 	
-	[self hideNewGameView];	
+	[self hideDailyGameView];
 	
 }
 
@@ -2258,8 +2371,9 @@
 {
 	DLog(@"makeNewGameDailyPuzzle");
 	
+    mainView.bSettingAutoMemo = NO; // only support original
 	[self allButtonLock];
-	[activityIndicator startAnimating];
+	[activityIndicatorDailyGame startAnimating];
 	timerNewGame = [NSTimer scheduledTimerWithTimeInterval:0
                                                     target:self
                                                   selector:@selector(OnTimerNewGameDailyPuzzle:)
@@ -2378,44 +2492,61 @@
 }
 
 
+- (NSString*) getDailyStatString:(SUDOKUTYPE) type
+{
+    NSString *str;
+    
+    if (dailyStat[type].total == 0)
+        str = [NSString stringWithFormat:gettext(@"not yet", nil),
+               dailyStat[type].total];
+    else if (dailyStat[type].total == 1)
+        str = [NSString stringWithFormat:gettext(@"%d person", nil),
+               dailyStat[type].total];
+    else    // > 1
+        str = [NSString stringWithFormat:gettext(@"%d people", nil),
+               dailyStat[type].total];
+    
+    str = [NSString stringWithFormat:@"%@, %@:%@",
+                                 str,
+                                 gettext(@"best time", nil),
+                                 [self getTimeString:dailyStat[type].besttime]];
+    return str;
+}
 
 - (void) setDailyStat
 {
     if (bReadyDownloadDailyPuzzle)
     {
-        if (dailyStat[mainView.nSettingSudokuType].played) // 이미 play를 했다.
-        {
-            buttonNewGameDailyPuzzle.enabled = NO;
-            buttonNewGameDailyPuzzle.alpha = 0.3;
-        } else {
-            buttonNewGameDailyPuzzle.enabled = YES;
-            buttonNewGameDailyPuzzle.alpha = 1.0f;
-        }
+        labelDailyStat.text = @"";
         
-        NSString *str;
-        
-        
-// zzz
-        //dailyStat[mainView.nSettingSudokuType].total = 758 + (int)(arc4random()%500);
-        //dailyStat[mainView.nSettingSudokuType].besttime = 70 + (int)(arc4random()%100);
-        
-        if (dailyStat[mainView.nSettingSudokuType].total == 0)
-             str = [NSString stringWithFormat:gettext(@"not yet", nil),
-                                              dailyStat[mainView.nSettingSudokuType].total];
-        else if (dailyStat[mainView.nSettingSudokuType].total == 1)
-            str = [NSString stringWithFormat:gettext(@"%d person", nil),
-                                             dailyStat[mainView.nSettingSudokuType].total];
-        else    // > 1
-            str = [NSString stringWithFormat:gettext(@"%d people", nil),
-                                             dailyStat[mainView.nSettingSudokuType].total];
-        labelDailyStat.text = [NSString stringWithFormat:@"%@, %@:%@",
-                               str,
-                               gettext(@"best time", nil),
-                               [self getTimeString:dailyStat[mainView.nSettingSudokuType].besttime]];
-
+        buttonDailyGameSudoku.enabled = YES;
+        buttonDailyGameSudoku.alpha = 1.0f;
+//        buttonDailyGameSudoku.enabled = dailyStat[SUDOKUTYPE_SUDOKU].played ? NO : YES;
+//        buttonDailyGameSudoku.alpha = dailyStat[SUDOKUTYPE_SUDOKU].played ? 0.3f : 1.0f;
+        labelDailyStatSudoku.text = [self getDailyStatString:SUDOKUTYPE_SUDOKU];
+        buttonDailyGameGt.enabled = dailyStat[SUDOKUTYPE_GT].played ? NO : YES;
+        buttonDailyGameGt.alpha = dailyStat[SUDOKUTYPE_GT].played ? 0.3f : 1.0f;
+        labelDailyStatGt.text = [self getDailyStatString:SUDOKUTYPE_GT];
+        buttonDailyGameKiller.enabled = dailyStat[SUDOKUTYPE_KILLER].played ? NO : YES;
+        buttonDailyGameKiller.alpha = dailyStat[SUDOKUTYPE_KILLER].played ? 0.3f : 1.0f;
+        labelDailyStatKiller.text = [self getDailyStatString:SUDOKUTYPE_KILLER];
+        buttonDailyGameCalcu.enabled = dailyStat[SUDOKUTYPE_CALCU].played ? NO : YES;
+        buttonDailyGameCalcu.alpha = dailyStat[SUDOKUTYPE_CALCU].played ? 0.3f : 1.0f;
+        labelDailyStatCalcu.text = [self getDailyStatString:SUDOKUTYPE_CALCU];
     } else  {
-        buttonNewGameDailyPuzzle.enabled = NO;
-        buttonNewGameDailyPuzzle.alpha = 0.3;
+        buttonDailyGameSudoku.enabled = NO;
+        buttonDailyGameSudoku.alpha = 0.3;
+        labelDailyStatSudoku.text = @"...";
+        buttonDailyGameGt.enabled = NO;
+        buttonDailyGameGt.alpha = 0.3;
+        labelDailyStatGt.text = @"...";
+        buttonDailyGameKiller.enabled = NO;
+        buttonDailyGameKiller.alpha = 0.3;
+        labelDailyStatKiller.text = @"...";
+        buttonDailyGameCalcu.enabled = NO;
+        buttonDailyGameCalcu.alpha = 0.3;
+        labelDailyStatCalcu.text = @"...";
+        
         labelDailyStat.text = gettext(@"Not connected to a server.", nil);
     }
     
@@ -2510,8 +2641,16 @@
 
 - (void)OnTimerIndicatorNewGame:(NSTimer *)timer
 {
-    [activityIndicatorNewGame stopAnimating];
+    [activityIndicatorDailyStat stopAnimating];
+    [activityIndicatorDailyGame stopAnimating];
 }
+
+- (void)OnTimerIndicatorDailyGame:(NSTimer *)timer
+{
+    [activityIndicatorDailyStat stopAnimating];
+    [activityIndicatorDailyGame stopAnimating];
+}
+
 
 
 - (IBAction)showNewGame
@@ -2522,10 +2661,10 @@
                                    userInfo:nil
                                     repeats:NO];
 
-    [self readyToDownloadDailyPuzzle];
+//    [self readyToDownloadDailyPuzzle];
     //[self getDailyStat];
     //[self setDailyStat];
-    [activityIndicatorNewGame startAnimating];
+//    [activityIndicatorDailyStat startAnimating];
 
     
     [self setSudokuTypeSegment];
@@ -2537,6 +2676,29 @@
 	
 }
 
+
+- (IBAction)showDailyGame
+{
+    [NSTimer scheduledTimerWithTimeInterval:0
+                                     target:self
+                                   selector:@selector(OnTimerIndicatorDailyGame:)
+                                   userInfo:nil
+                                    repeats:NO];
+    
+    [self readyToDownloadDailyPuzzle];
+    //[self getDailyStat];
+    //[self setDailyStat];
+    [activityIndicatorDailyStat startAnimating];
+    
+    
+//    [self setSudokuTypeSegment];
+    
+	[self allButtonUnLock];
+	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
+	[self showDailyGameView];
+    
+	
+}
 
 
 - (void) sendDailyPuzzle:(NSString*)puzzleDate
@@ -2599,7 +2761,7 @@
 }
 
 
-
+// deprecated zzzzzz
 - (IBAction)newgameDailyPuzzle
 {
 #ifdef DAILYSENDER
@@ -2699,6 +2861,13 @@
 	[self hideNewGameView];
 }
 
+- (IBAction)dailygameCancel
+{
+	// newgameview가 조용히 물러난다.
+	[self hideDailyGameView];
+}
+
+
 - (IBAction)changeAutoMemo
 {
 	mainView.bSettingAutoMemo = !mainView.bSettingAutoMemo;
@@ -2706,6 +2875,15 @@
 	
 	[self saveSetting];
 }
+
+- (IBAction)changeDailyAutoMemo
+{
+	mainView.bSettingAutoMemo = !mainView.bSettingAutoMemo;
+	[self updateButtonMenu];
+	
+	[self saveSetting];
+}
+
 
 - (IBAction)setSudokuType
 {
@@ -2721,6 +2899,32 @@
     segmentType.selectedSegmentIndex = mainView.nSettingSudokuType;
     labelSudokuType.text = [SudokuGame getSudokuTypeName:mainView.nSettingSudokuType];
 
+}
+
+
+- (IBAction)dailygameSudoku
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameGt
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_GT;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameKiller
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_KILLER;
+    [self makeNewGameDailyPuzzle];
+
+}
+
+- (IBAction)dailygameCalcudoku
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_CALCU;
+    [self makeNewGameDailyPuzzle];
 }
 
 
@@ -2873,10 +3077,13 @@
 	// 메뉴는 항상 눌릴 수 있어야 한다. -  안된다. new game 창에서 menu가 나온다.
 	buttonMenu.enabled = mainView.bMenuMode ? NO : YES;
 	
-	if (mainView.bSettingAutoMemo)
+	if (mainView.bSettingAutoMemo) {
 		[buttonCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_c.png"] forState:UIControlStateNormal];
-	else
+//		[buttonDailyCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_c.png"] forState:UIControlStateNormal];
+	} else {
 		[buttonCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_u.png"] forState:UIControlStateNormal];
+//		[buttonDailyCheckboxAutoMemo setBackgroundImage:[UIImage imageNamed:@"checkbox_u.png"] forState:UIControlStateNormal];
+    }
 }
 
 
@@ -2927,6 +3134,7 @@
 #endif
 	[self readySlideView:viewMenu];
 	[self readySlideView:viewNewGame];
+	[self readySlideView:viewDailyGame];
 	[self updateButtons];
 	[mainView setBlur:NO];
 	

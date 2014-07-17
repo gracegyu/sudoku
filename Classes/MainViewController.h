@@ -76,7 +76,7 @@ typedef struct DAILYSTAT
 	UILabel		*labelAutoMemo;
     UILabel     *labelSudokuType;
 	UIButton	*buttonCheckboxAutoMemo;
-	UIButton	*buttonNewGameDailyPuzzle;
+//	UIButton	*buttonNewGameDailyPuzzle;
     UILabel     *labelDailyStat;
 	UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
@@ -85,8 +85,22 @@ typedef struct DAILYSTAT
 	UIButton	*buttonNewGameVeryHard;
 	UIButton	*buttonNewGameCancel;
 
-	
-	UIButton	*buttonNewGame;
+    
+//    UILabel		*labelDailyAutoMemo;
+//	UIButton	*buttonDailyCheckboxAutoMemo;
+	UIButton	*buttonDailyGameSudoku;
+	UIButton	*buttonDailyGameGt;
+	UIButton	*buttonDailyGameKiller;
+	UIButton	*buttonDailyGameCalcu;
+    UILabel     *labelDailyStatSudoku;
+    UILabel     *labelDailyStatGt;
+    UILabel     *labelDailyStatKiller;
+    UILabel     *labelDailyStatCalcu;
+    
+	UIButton	*buttonDailyGameCancel;
+    
+    UIButton	*buttonNewGame;
+	UIButton	*buttonDailyGame;
 	UIButton	*buttonMenu;
 	UIButton	*buttonUndo;
 	UIButton	*buttonRedo;
@@ -115,13 +129,16 @@ typedef struct DAILYSTAT
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
+	UIView		*viewDailyGame;
 	UIView		*viewGlass;
 
 	
 	NSTimer		*timerGame;
 	NSTimer		*timerNewGame;
+	NSTimer		*timerDailyGame;
 	UIActivityIndicatorView	*activityIndicator;
-	UIActivityIndicatorView	*activityIndicatorNewGame;
+	UIActivityIndicatorView	*activityIndicatorDailyStat;
+	UIActivityIndicatorView	*activityIndicatorDailyGame;
 	
 	SUDOKUSCORE score;
     
@@ -182,7 +199,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UILabel	*labelSudokuType;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonCheckboxAutoMemo;
 
-@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;
+//@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStat;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
@@ -191,7 +208,22 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryHard;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameCancel;
 
+//@property (nonatomic, retain) IBOutlet UILabel	*labelDailyAutoMemo;
+//@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyCheckboxAutoMemo;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameSudoku;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameGt;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameKiller;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCalcu;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatSudoku;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatGt;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatKiller;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatCalcu;
+
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCancel;
+
+
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGame;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGame;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMenu;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonUndo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonRedo;
@@ -219,14 +251,17 @@ typedef struct DAILYSTAT
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
 @property (nonatomic, retain) IBOutlet UIView		*viewNewGame;
+@property (nonatomic, retain) IBOutlet UIView		*viewDailyGame;
 @property (nonatomic, retain) IBOutlet UILabel		*labelLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelGameTime;
 @property (nonatomic, retain) IBOutlet UILabel		*labelBlank;
 @property (nonatomic, retain) IBOutlet UILabel		*labelHint;
 @property (nonatomic, retain) NSTimer		*timerGame;
 @property (nonatomic, retain) NSTimer		*timerNewGame;
+@property (nonatomic, retain) NSTimer		*timerDailyGame;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicator;
-@property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicatorNewGame;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicatorDailyStat;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView	*activityIndicatorDailyGame;
 @property (nonatomic, retain) IBOutlet UISegmentedControl *segmentType;
 
 
@@ -269,6 +304,7 @@ typedef struct DAILYSTAT
 - (IBAction)menuCancel;
 
 - (IBAction)showNewGame;
+- (IBAction)showDailyGame;
 - (IBAction)newgameDailyPuzzle;
 - (IBAction)newgameVeryEasy;
 - (IBAction)newgameEasy;
@@ -279,12 +315,21 @@ typedef struct DAILYSTAT
 - (IBAction)changeAutoMemo;
 - (IBAction)setSudokuType;
 
+- (IBAction)dailygameSudoku;
+- (IBAction)dailygameGt;
+- (IBAction)dailygameKiller;
+- (IBAction)dailygameCalcudoku;
+- (IBAction)dailygameCancel;
+//- (IBAction)changeDailyAutoMemo;
+
 
 - (void) setLocalizedMessage;
 
 - (void) showMenuView;
 - (void) showNewGameView;
 - (void) hideNewGameView;
+- (void) showDailyGameView;
+- (void) hideDailyGameView;
 - (void) setGameLevel;
 - (void) startGameTimer;
 - (void) stopGameTimer;

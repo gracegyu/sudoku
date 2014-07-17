@@ -305,6 +305,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     {
         [ctrl.viewMenu setBackgroundColor:skincolor[SC_BACKGROUND_MENU]];
         [ctrl.viewNewGame setBackgroundColor:skincolor[SC_BACKGROUND_MENU]];
+        [ctrl.viewDailyGame setBackgroundColor:skincolor[SC_BACKGROUND_MENU]];
     }
 	[self setBackgroundColor:skincolor[SC_BACKGROUND_VIEW]];
     
