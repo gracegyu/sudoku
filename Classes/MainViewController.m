@@ -2521,8 +2521,8 @@
         
         buttonDailyGameSudoku.enabled = YES;
         buttonDailyGameSudoku.alpha = 1.0f;
-//        buttonDailyGameSudoku.enabled = dailyStat[SUDOKUTYPE_SUDOKU].played ? NO : YES;
-//        buttonDailyGameSudoku.alpha = dailyStat[SUDOKUTYPE_SUDOKU].played ? 0.3f : 1.0f;
+        buttonDailyGameSudoku.enabled = dailyStat[SUDOKUTYPE_SUDOKU].played ? NO : YES;
+        buttonDailyGameSudoku.alpha = dailyStat[SUDOKUTYPE_SUDOKU].played ? 0.3f : 1.0f;
         labelDailyStatSudoku.text = [self getDailyStatString:SUDOKUTYPE_SUDOKU];
         buttonDailyGameGt.enabled = dailyStat[SUDOKUTYPE_GT].played ? NO : YES;
         buttonDailyGameGt.alpha = dailyStat[SUDOKUTYPE_GT].played ? 0.3f : 1.0f;

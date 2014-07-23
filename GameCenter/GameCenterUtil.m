@@ -17,9 +17,6 @@
 //GameCenter 사용 가능 단말인지 확인
 + (BOOL) isGameCenterAvailable
 {
-    return NO;
-    
-    
     // check for presence of GKLocalPlayer API
     Class gcClass = (NSClassFromString(@"GKLocalPlayer"));
     // check if the device is running iOS 4.1 or later
