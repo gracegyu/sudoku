@@ -508,10 +508,10 @@
     [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
-    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal|UIControlStateDisabled];
     [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
-	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal|UIControlStateDisabled];
 #ifndef USE_JMC
     buttonFeedback.alpha = 0.3f;
     buttonFeedback.enabled = NO;
@@ -519,9 +519,11 @@
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
     [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
-    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
-    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
-    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    
+    
+    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal|UIControlStateDisabled];
     [buttonCloseButton  setTitle:@"" forState:UIControlStateNormal];
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
