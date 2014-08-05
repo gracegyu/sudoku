@@ -92,7 +92,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="191">
-                    <rect key="frame" x="101" y="719.99999692080337" width="567" height="210"/>
+                    <rect key="frame" x="101" y="720.0000000112949" width="567" height="210"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -613,7 +613,7 @@
                             </segments>
                             <color key="tintColor" red="0.054901960780000002" green="0.27058823529999998" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="setSudokuType" destination="-1" eventType="touchUpInside" id="g77-yF-e1C"/>
+                                <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="hta-ka-po5"/>
                             </connections>
                         </segmentedControl>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="zSM-Rs-NMT">
@@ -1408,7 +1408,7 @@
                             </segments>
                             <color key="tintColor" red="0.054901960780000002" green="0.27058823529999998" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="setSudokuType" destination="-1" eventType="touchUpInside" id="Jms-gZ-EMF"/>
+                                <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="5cm-sa-v11"/>
                             </connections>
                         </segmentedControl>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="mzg-Pw-x6N">

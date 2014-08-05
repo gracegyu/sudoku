@@ -599,7 +599,7 @@
                     <accessibility key="accessibilityConfiguration" label="MenuView"/>
                 </view>
                 <view tag="110" contentMode="scaleToFill" restorationIdentifier="" id="SN3-Ja-kjs">
-                    <rect key="frame" x="-350" y="321" width="350" height="786"/>
+                    <rect key="frame" x="0.0" y="321" width="350" height="786"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="K7c-rt-a2k">
@@ -613,7 +613,7 @@
                             </segments>
                             <color key="tintColor" red="0.054901960780000002" green="0.27058823529999998" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="setSudokuType" destination="-1" eventType="touchUpInside" id="g77-yF-e1C"/>
+                                <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="Fxn-OY-DwX"/>
                             </connections>
                         </segmentedControl>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="zSM-Rs-NMT">
@@ -916,7 +916,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="192">
-                    <rect key="frame" x="706.9999996451445" y="170" width="301" height="409"/>
+                    <rect key="frame" x="706.9999992846565" y="170" width="301" height="409"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1408,7 +1408,7 @@
                             </segments>
                             <color key="tintColor" red="0.054901960780000002" green="0.27058823529999998" blue="0.52941176469999995" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="setSudokuType" destination="-1" eventType="touchUpInside" id="34o-2E-sP7"/>
+                                <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="NF9-1B-9Xb"/>
                             </connections>
                         </segmentedControl>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="dTA-Ow-Hcp">
