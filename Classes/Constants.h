@@ -208,8 +208,8 @@ typedef struct SUDOKUSCORE
 
 #define STR_LICENSE     @"Ⓒ 2014 Smartone, All rights reserved."
 #define NUM_HINTBONUS   2
-#define NUM_DEFHINT9    2
-#define NUM_DEFHINT6    1
+#define NUM_DEFHINT9    3
+#define NUM_DEFHINT6    2
 
 
 // for daily puzzle
@@ -218,7 +218,7 @@ typedef struct SUDOKUSCORE
 //#define cServerHostName         @"gracegyu.comlu.com"
 #define cServerHostName         @"www.smartoneinc.com"
 #define cServerScript           @"dailysudoku.php"
-#define cDefaultHTTPTimeOut     10.f
+#define cDefaultHTTPTimeOut     5.f
 #define kResultStatus				@"Result"
 #define kCount						@"Count"
 #define kSuccess					@"Success"
