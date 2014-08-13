@@ -912,6 +912,7 @@
 		//		[self alertLocalizedAlertViewUTF8];
 		return;
 	}
+    NSLog(@"strData = %@", strData);
 	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
 	NSInteger count = listItems.count;
 	NSString *item;
@@ -969,7 +970,7 @@
 	
     
     // redirection은 어떻게 할 것인가?
-//    gServerIP = [defaults stringForKey:kServerIP];
+    gServerIP = [defaults stringForKey:kServerIP];
 	gUserName = [defaults stringForKey:kUserName];
 	gUserID	  = [defaults integerForKey:kUserID];
 
