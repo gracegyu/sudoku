@@ -216,7 +216,8 @@ typedef struct SUDOKUSCORE
 #define cProtocolVersion        1
 #define cDefaultUserID          0
 //#define cServerHostName         @"gracegyu.comlu.com"
-#define cServerHostName         @"www.smartoneinc.com"
+//#define cServerHostName         @"www.smartoneinc.com"
+#define cServerHostName         @"dailysudoku.cafe24.com"
 #define cServerScript           @"dailysudoku.php"
 #define cDefaultHTTPTimeOut     5.f
 #define kResultStatus				@"Result"
