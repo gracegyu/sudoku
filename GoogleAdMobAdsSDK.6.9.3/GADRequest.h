@@ -12,7 +12,7 @@
 
 @protocol GADAdNetworkExtras;
 
-/// Add this constant to the testDevices property's array to receive test ads on the simulator.
+/// Constant for getting test ads on the simulator using the testDevices method.
 #define GAD_SIMULATOR_ID @"Simulator"
 
 /// Genders to help deliver more relevant ads.
@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, GADGender) {
 @interface GADRequest : NSObject<NSCopying>
 
 /// Creates an autoreleased GADRequest.
-+ (instancetype)request;
++ (GADRequest *)request;
 
 #pragma mark Additional Parameters For Ad Networks
 
@@ -38,14 +38,14 @@ typedef NS_ENUM(NSInteger, GADGender) {
 /// registered before, the previous extras will be overwritten.
 - (void)registerAdNetworkExtras:(id<GADAdNetworkExtras>)extras;
 
-/// Returns the network extras defined for an ad network.
+/// Get the network extras defined for an ad network.
 - (id<GADAdNetworkExtras>)adNetworkExtrasFor:(Class<GADAdNetworkExtras>)aClass;
 
-/// Removes the extras for an ad network. |aClass| is the class which represents that network's
-/// extras type.
+/// Unsets the extras for an ad network. |clazz| is the class which represents that network's extras
+/// type.
 - (void)removeAdNetworkExtrasFor:(Class<GADAdNetworkExtras>)aClass;
 
-/// Extras sent to the mediation server if using mediation. For future use.
+/// Extras sent to the mediation server (if using Mediation). For future use.
 @property(nonatomic, copy) NSDictionary *mediationExtras;
 
 #pragma mark Collecting SDK Information
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSInteger, GADGender) {
 
 #pragma mark Testing
 
-/// Test ads will be returned for devices with device IDs specified in this array.
+/// Add the device's identifier into this array for testing purposes.
 @property(nonatomic, copy) NSArray *testDevices;
 
 #pragma mark User Information
