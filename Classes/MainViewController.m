@@ -857,10 +857,13 @@
     }
     [self loadServerData];
 
+    
+    NSString *strOldServerIP = [[NSString alloc] initWithString:gServerIP];
+    
   
 	// should move to after starting to show screen fastly when it starts.
 	[self serverActStart];
-	if ([gServerIP compare:cServerHostName] != NSOrderedSame)
+	if ([gServerIP compare:strOldServerIP] != NSOrderedSame)
 		[self serverActStart];	// Server redirection
 
 	[self saveServerData];
