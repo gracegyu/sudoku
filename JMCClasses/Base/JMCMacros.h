@@ -26,3 +26,14 @@
 # endif
 
 
+#define JMCPresentViewController(currentController, controller) \
+ ([UIViewController instancesRespondToSelector:@selector(presentViewController:animated:completion:)] ? \
+    [currentController presentViewController:controller animated:YES completion:nil] : \
+    [currentController presentModalViewController:controller animated:YES])
+
+#define JMCDismissViewController(currentController) \
+([UIViewController instancesRespondToSelector:@selector(dismissViewControllerAnimated:completion:)] ? \
+    [currentController dismissViewControllerAnimated:YES completion:nil] : \
+    [currentController dismissModalViewControllerAnimated:YES])
+
+

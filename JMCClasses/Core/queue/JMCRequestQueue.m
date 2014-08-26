@@ -76,7 +76,6 @@ int _maxNumRequestFailures;
         NSMutableDictionary *items = [self getQueueList];
 
         for (NSString *itemId in [items allKeys]) {
-            JMCQueueItem *item = [self getItem:itemId];
 
             // Get metadata and check if empty
             NSDictionary *metadata = [self metaDataFor:itemId];

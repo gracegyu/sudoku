@@ -134,16 +134,6 @@
     return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    self.image = nil;
-    self.scrollView = nil; 
-    self.mainView = nil;
-    self.imageId = nil;
-    self.toolbar = nil;
-}
-
 - (void)dealloc {
     self.image = nil;
     self.scrollView = nil; 

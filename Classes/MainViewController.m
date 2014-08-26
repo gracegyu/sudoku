@@ -512,6 +512,7 @@
     [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
 #ifndef USE_JMC
     buttonFeedback.alpha = 0.3f;
     buttonFeedback.enabled = NO;

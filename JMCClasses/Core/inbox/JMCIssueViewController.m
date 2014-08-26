@@ -78,12 +78,6 @@ static float detailLabelHeight = 21.0f;
     [self scrollToLastComment];
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    self.tableView = nil;
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
@@ -150,13 +144,15 @@ static float detailLabelHeight = 21.0f;
     CGSize constrainTo = CGSizeMake(bubbleSize.width * 0.75f, bubbleSize.height);
 
     return [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:UILineBreakModeWordWrap];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
         CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-        CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 20.0f, 18.0f) lineBreakMode:UILineBreakModeClip];
+        CGSize size = CGSizeZero;
+        size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 20.0f, 18.0f) lineBreakMode:UILineBreakModeClip];
         return size.height + 20;
 
     } else {
@@ -218,7 +214,9 @@ static BOOL isPad(void) {
             issueCell.selectionStyle = UITableViewCellSelectionStyleNone;
             
             CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-            CGSize size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 40.0f, 18.0f) lineBreakMode:UILineBreakModeTailTruncation];
+            CGSize size = CGSizeZero;
+            size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 40.0f, 18.0f) lineBreakMode:UILineBreakModeTailTruncation];
+
             
             issueCell.title = [[[UILabel alloc] initWithFrame:CGRectMake(screenFrame.size.width * 0.1f, 10, size.width, size.height)] autorelease];
             issueCell.title.font = titleFont;
@@ -255,7 +253,7 @@ static BOOL isPad(void) {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.feedbackController];
         navController.navigationBar.barStyle = [[JMC sharedInstance] getBarStyle];
         navController.navigationBar.tintColor = [JMC sharedInstance].options.barTintColor;
-        [self presentViewController:navController animated:YES completion:nil];
+        JMCPresentViewController(self, navController);
         [navController release];
     }
 }

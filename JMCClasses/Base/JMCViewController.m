@@ -203,12 +203,11 @@ static NSInteger kJMCTag = 10133;
 
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         CGRect newFrame = self.view.bounds;
-        if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation)) {
-            newFrame.size.height = 200;
-        }
-        else {
-            newFrame.size.height = 106;
-        }
+        CGRect kbRect = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+        // The frame does not take into account any rotation, we have to convert the
+        // frame to the current orientation
+        kbRect = [self.view convertRect:kbRect toView:nil];
+        newFrame.size.height -= kbRect.size.height;
 
         self.descriptionField.superview.frame = newFrame;
         self.countdownView.center = self.descriptionField.center;
@@ -282,7 +281,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        JMCDismissViewController(self);
     }
 }
 
@@ -309,7 +308,8 @@ static NSInteger kJMCTag = 10133;
         else 
         {
             _ignoreKeyboardHide = YES;
-            [self presentViewController:imagePicker animated:YES completion:nil];
+
+            JMCPresentViewController(self, imagePicker);
         }
         [imagePicker release];
     }
@@ -366,7 +366,7 @@ static NSInteger kJMCTag = 10133;
             JMCSketchViewController* sketchController = 
             [JMCSketchViewControllerFactory makeSketchViewControllerFor:attachment.data withId:0];
             sketchController.delegate = self;
-            [self presentViewController:sketchController animated:YES completion:nil];
+            JMCPresentViewController(self, sketchController);
             return;
         }
     }
@@ -469,7 +469,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        JMCDismissViewController(self);
     }
     
     self.descriptionField.text = @"";
@@ -506,7 +506,7 @@ static NSInteger kJMCTag = 10133;
     if ([self.popover isPopoverVisible]) {
         [self.popover dismissPopoverAnimated:YES];
     } else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        JMCDismissViewController(self);
     }
 
     UIImage *origImg = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -526,7 +526,7 @@ static NSInteger kJMCTag = 10133;
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    JMCDismissViewController(self);
 }
 
 #pragma mark - JMCAttachmentsViewControllerDelegate
@@ -548,17 +548,19 @@ static NSInteger kJMCTag = 10133;
     attachment.data = UIImagePNGRepresentation(image);
     attachment.thumbnail = [JMCSketchViewControllerFactory makeSketchThumbnailFor:image];
     [self reloadAttachmentsButton];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    JMCDismissViewController(self);
+
 }
 
 - (void)sketchControllerDidCancel:(UIViewController *)controller
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    JMCDismissViewController(self);
 }
 
 - (void)sketchController:(UIViewController *)controller didDeleteImageWithId:(NSNumber *)imageId
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    JMCDismissViewController(self);
     [self.attachments removeObjectAtIndex:[imageId unsignedIntegerValue]];
     [self reloadAttachmentsButton];
 }
@@ -833,13 +835,6 @@ static NSInteger kJMCTag = 10133;
     self.currentLocation = nil;
     
     [super dealloc];
-}
-
-- (void)viewDidUnload
-{
-    // Release any retained subviews of the main view.
-    [self internalRelease];
-    [super viewDidUnload];
 }
 
 - (void)internalRelease

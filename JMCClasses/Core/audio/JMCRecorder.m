@@ -34,7 +34,15 @@ NSString *_recorderFilePath;
 
 + (BOOL)audioRecordingIsAvailable {
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    return session.inputIsAvailable;
+#ifdef __IPHONE_6_0
+    if ([AVAudioSession instancesRespondToSelector:@selector(isInputAvailable)]) {
+        return session.inputAvailable;
+    } else {
+#endif
+        return session.inputIsAvailable;
+#ifdef __IPHONE_6_0
+    }
+#endif
 }
 
 - (id)init {
