@@ -895,10 +895,11 @@
 	NSLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
+                        APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -2237,12 +2238,14 @@
 {
     [self connectToServerInit];
     
+    DLog(@"AppVersion = %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]);
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d",
                         @"getdailypuzzle",
                         (long)gUserID,
                         gUserName,
+                        APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),

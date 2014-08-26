@@ -211,6 +211,8 @@ typedef struct SUDOKUSCORE
 #define NUM_DEFHINT9    3
 #define NUM_DEFHINT6    2
 
+#define APPVERSION      [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
+
 
 // for daily puzzle
 #define cProtocolVersion        1
