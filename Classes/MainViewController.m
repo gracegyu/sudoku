@@ -508,10 +508,12 @@
     [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
-    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
+    [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateDisabled];
     [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
-	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
+	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
 #ifndef USE_JMC
     buttonFeedback.alpha = 0.3f;
@@ -520,11 +522,14 @@
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
     [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
-    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal|UIControlStateDisabled];
-    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
+    [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateDisabled];
+    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateNormal];
+    [buttonDel			setTitle:gettext(@"del", nil) forState:UIControlStateDisabled];
     
     
-    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal|UIControlStateDisabled];
+    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
+    [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateDisabled];
     [buttonCloseButton  setTitle:@"" forState:UIControlStateNormal];
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
