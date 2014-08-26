@@ -889,16 +889,18 @@
     NSLocale *locale = [NSLocale currentLocale];
 	NSString *languageCode = [locale objectForKey: NSLocaleLanguageCode];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+	DLog(@"Country Code = %@", countryCode);
 	
 	NSLocale *gbLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"] autorelease];
     NSString *countryName = [gbLocale displayNameForKey: NSLocaleCountryCode value:countryCode];
-	NSLog(@"Country Name = %@", countryName);
+	DLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
+                        (long)gUserID,
                         APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -916,7 +918,7 @@
 						[self urlEncodeValue:countryName],
 						@"Apple",
 						(long)[self getCheckSum]];
-	NSLog(@"strURI = %@", strURI);
+	DLog(@"strURI = %@", strURI);
 	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
 	[strURI release];
 	
@@ -973,6 +975,8 @@
     gServerIP = cServerHostName;
 //    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
     gDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    
+    DLog(@"gDeviceID=%@", gDeviceID);
     
     [gDeviceID retain];
 	
