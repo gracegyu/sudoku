@@ -2230,6 +2230,17 @@
 {
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
+    formatter.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    
+    
+    //[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    //DLog(@"DateTime=%@", [formatter stringFromDate:today]);
+    
+    
+    
     [formatter setDateFormat:@"yyyyMMdd"];
     
     NSString *str = [formatter stringFromDate:today];
