@@ -2240,12 +2240,16 @@
 
 - (NSString*) downloadDailyPuzzle
 {
+    NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
+
+	DLog(@"Country Code = %@", countryCode);
+    
     [self connectToServerInit];
     
     DLog(@"AppVersion = %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]);
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d&countrycode=%@",
                         @"getdailypuzzle",
                         (long)gUserID,
                         gUserName,
@@ -2262,7 +2266,8 @@
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
                        [self getNowYYYYMMDD],
-                        mainView.bSettingAutoMemo ? 1 : 0];
+                        mainView.bSettingAutoMemo ? 1 : 0,
+                        countryCode];
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
     return strData;
