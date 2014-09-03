@@ -2231,7 +2231,7 @@
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-//    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
+    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
     formatter.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
     
