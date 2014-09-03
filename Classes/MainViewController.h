@@ -88,6 +88,7 @@ typedef struct DAILYSTAT
     
 //    UILabel		*labelDailyAutoMemo;
 //	UIButton	*buttonDailyCheckboxAutoMemo;
+	UIButton	*buttonDailyRanking;
 	UIButton	*buttonDailyGameSudoku;
 	UIButton	*buttonDailyGameGt;
 	UIButton	*buttonDailyGameKiller;
@@ -115,6 +116,7 @@ typedef struct DAILYSTAT
 	
 	UIButton	*buttonMenuClose;
 	UIButton	*buttonHelp;
+	UIButton	*buttonRank;
 	UIButton	*buttonHistory;
 	UIButton	*buttonFeedback;
     
@@ -210,6 +212,7 @@ typedef struct DAILYSTAT
 
 //@property (nonatomic, retain) IBOutlet UILabel	*labelDailyAutoMemo;
 //@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyCheckboxAutoMemo;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyRanking;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameSudoku;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameGt;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameKiller;
@@ -237,6 +240,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton	*buttonSetting;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMenuClose;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHelp;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonRank;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonHistory;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonFeedback;
 @property (nonatomic, retain) IBOutlet UIButton *buttonCloseButton;
@@ -296,6 +300,7 @@ typedef struct DAILYSTAT
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;
 - (IBAction)showHelpView;
+- (IBAction)showRankView;
 - (IBAction)showFeedbackView;
 
 

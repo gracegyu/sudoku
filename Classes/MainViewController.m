@@ -10,6 +10,7 @@
 #import "ScoreViewController.h"
 #import "SettingViewController.h"
 #import "HelpViewController.h"
+#import "RankViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
 #import "Locale.h"
@@ -46,6 +47,7 @@
 @synthesize buttonNewGameHard;
 @synthesize buttonNewGameVeryHard;
 @synthesize buttonNewGameCancel;
+@synthesize buttonDailyRanking;
 @synthesize buttonDailyGameSudoku;
 @synthesize buttonDailyGameGt;
 @synthesize buttonDailyGameKiller;
@@ -75,6 +77,7 @@
 @synthesize buttonSetting;
 @synthesize buttonMenuClose;
 @synthesize buttonHelp;
+@synthesize buttonRank;
 @synthesize buttonHistory;
 @synthesize buttonFeedback;
 @synthesize buttonCloseButton;
@@ -512,6 +515,7 @@
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateDisabled];
     [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
+	[buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
@@ -576,6 +580,7 @@
 //	[buttonDailyCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 //    labelDailyAutoMemo.text = gettext(@"auto memo", nil);
 
+    [buttonDailyRanking setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
     [buttonDailyGameSudoku setTitle:gettext(@"sudoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameGt setTitle:gettext(@"greater sudoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameKiller setTitle:gettext(@"sumdoku", nil) forState:UIControlStateNormal];
@@ -1674,6 +1679,27 @@
     
 }
 
+- (IBAction)showRankView
+{
+    [Flurry logEvent:@"ShowRankView"];
+    
+	//[self hideMenuView:NO];
+    [self hideDailyGameView];
+	
+    DLog(@"showRankView");
+    RankViewController *controller = [[RankViewController alloc] initWithNibName:
+                                      cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
+                                      @"RankView" bundle:nil];
+    controller.mainViewController = self;
+	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+	[self presentViewController:controller animated:YES completion:nil];
+	
+	[controller release];
+	
+    
+}
+
+
 - (IBAction)showFeedbackView
 {
 #ifdef USE_JMC
@@ -1732,6 +1758,7 @@
 	buttonNewGameVeryHard.enabled = NO;	
 	buttonNewGameCancel.enabled = NO;
     
+    buttonDailyRanking.enabled = NO;
     buttonDailyGameSudoku.enabled = NO;
 	buttonDailyGameGt.enabled = NO;
 	buttonDailyGameKiller.enabled = NO;
@@ -1751,6 +1778,7 @@
 	buttonNewGameVeryHard.enabled = YES;	
 	buttonNewGameCancel.enabled = YES;	
 
+    buttonDailyRanking.enabled = YES;
     buttonDailyGameSudoku.enabled = YES;
 	buttonDailyGameGt.enabled = YES;
 	buttonDailyGameKiller.enabled = YES;
@@ -2557,8 +2585,8 @@
     {
         labelDailyStat.text = @"";
         
-        buttonDailyGameSudoku.enabled = YES;
-        buttonDailyGameSudoku.alpha = 1.0f;
+        buttonDailyRanking.enabled = YES;
+        buttonDailyRanking.alpha = 1.0f;
         buttonDailyGameSudoku.enabled = dailyStat[SUDOKUTYPE_SUDOKU].played ? NO : YES;
         buttonDailyGameSudoku.alpha = dailyStat[SUDOKUTYPE_SUDOKU].played ? 0.3f : 1.0f;
         labelDailyStatSudoku.text = [self getDailyStatString:SUDOKUTYPE_SUDOKU];
@@ -2572,6 +2600,8 @@
         buttonDailyGameCalcu.alpha = dailyStat[SUDOKUTYPE_CALCU].played ? 0.3f : 1.0f;
         labelDailyStatCalcu.text = [self getDailyStatString:SUDOKUTYPE_CALCU];
     } else  {
+        buttonDailyRanking.enabled = NO;
+        buttonDailyRanking.alpha = 0.3;
         buttonDailyGameSudoku.enabled = NO;
         buttonDailyGameSudoku.alpha = 0.3;
         labelDailyStatSudoku.text = @"...";
