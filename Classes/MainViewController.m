@@ -2082,21 +2082,7 @@
 	}
 }
 
-#ifdef SUDOKU16
-#define DEFPUZZLESIZE   SIZE_16
-#elif defined(SUDOKU12)
-#define DEFPUZZLESIZE   SIZE_12
-#elif defined(SUDOKU9)
-#define DEFPUZZLESIZE   SIZE_9
-#elif defined(SUDOKU8)
-#define DEFPUZZLESIZE   SIZE_8
-#elif defined(SUDOKU7)
-#define DEFPUZZLESIZE   SIZE_7
-#elif defined(SUDOKU6)
-#define DEFPUZZLESIZE   SIZE_6
-#else
-#define DEFPUZZLESIZE   SIZE_9
-#endif
+
 
 - (void) increaseScoreGames
 {
@@ -2259,7 +2245,7 @@
     NSDate *today = [NSDate date];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
-    formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
+    //formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
     formatter.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
     

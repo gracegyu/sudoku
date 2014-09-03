@@ -44,13 +44,32 @@
 
 - (void) viewDidLoad
 {
-    //MainViewController *ctrl = (MainViewController*)mainViewController;
+    NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
+    MainViewController *ctrl = (MainViewController*)mainViewController;
 
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];
     [super viewDidLoad];
     
-    NSURL *url = [NSURL URLWithString:@"http://www.naver.com"];
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=%@&userid=%ld&cs=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
+                        @"viewrankingpage",
+                        (long)(ctrl.gUserID),
+                        (long)[ctrl getCheckSum],
+                        DEFPUZZLESIZE,
+                        [ctrl getNowYYYYMMDD],
+                        countryCode,
+                        @"en_US"];
+    
+    NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+						ctrl.gServerIP,
+						cServerScript,
+						strURI];
+    DLog(@"strURL* = \n%@", strURL);
+    
+    
+    
+    NSURL *url = [NSURL URLWithString:strURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
     [webView loadRequest:request];
@@ -58,7 +77,7 @@
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
 
 }
 

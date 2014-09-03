@@ -107,14 +107,14 @@
 {
     MainViewController *ctrl = (MainViewController*)mainViewController;
 	segmentType.selectedSegmentIndex = sudokuType = ctrl.mainView.nSettingSudokuType;
-    self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
+    //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];
     [super viewDidLoad];
 
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
 
 }
 

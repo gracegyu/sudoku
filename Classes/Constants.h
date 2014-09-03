@@ -221,7 +221,11 @@ typedef struct SUDOKUSCORE
 #define cServerHostName         @"www.smartoneinc.com"
 //#define cServerHostName         @"dailysudoku.cafe24.com"
 //#define cServerScript           @"dailysudoku_test.php"
+#ifdef DEBUG
+#define cServerScript           @"dailysudoku_test.php"
+#else
 #define cServerScript           @"dailysudoku.php"
+#endif
 #define cDefaultHTTPTimeOut     5.f
 #define kResultStatus				@"Result"
 #define kCount						@"Count"
@@ -243,4 +247,20 @@ typedef struct SUDOKUSCORE
 
 
 #define countHint50             50
+
+#ifdef SUDOKU16
+#define DEFPUZZLESIZE   SIZE_16
+#elif defined(SUDOKU12)
+#define DEFPUZZLESIZE   SIZE_12
+#elif defined(SUDOKU9)
+#define DEFPUZZLESIZE   SIZE_9
+#elif defined(SUDOKU8)
+#define DEFPUZZLESIZE   SIZE_8
+#elif defined(SUDOKU7)
+#define DEFPUZZLESIZE   SIZE_7
+#elif defined(SUDOKU6)
+#define DEFPUZZLESIZE   SIZE_6
+#else
+#define DEFPUZZLESIZE   SIZE_9
+#endif
 

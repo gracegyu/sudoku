@@ -358,5 +358,7 @@ typedef struct DAILYSTAT
 
 - (void) updateButtons;
 - (BOOL) isReplaying;
+- (NSInteger) getCheckSum;	// forVersion2
+- (NSString*) getNowYYYYMMDD;
 
 @end
