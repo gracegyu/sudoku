@@ -267,6 +267,9 @@
 - (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame
 {
 	// button diable
+    
+    
+    [self loadInterstitial];
 	
 	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
@@ -3345,7 +3348,7 @@
     
     // 성공 메시지
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:gettext(@"50 hints were creased.", nil)
+                                                    message:gettext(@"50 hints were increased.", nil)
                                                    delegate:self
                                           cancelButtonTitle:gettext(@"Ok", nil)
                                           otherButtonTitles:nil];
@@ -3440,16 +3443,71 @@
 
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if (buttonIndex == 1) // "확인" 버튼
+    NSString *title = alert.title;
+    
+    if([title isEqualToString:gettext(@"Congratulations!", nil)])
     {
-        SKPayment *payment = [SKPayment paymentWithProduct:productHint50];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
-        NSLog(@"");
-
-        [self updateButtonHint];
-
+        [self showInterstitial];
     }
+    else // if([title isEqualToString:@"Button 2"])
+    {
+        if (buttonIndex == 1) // "확인" 버튼, TODO 확인 필요
+        {
+            SKPayment *payment = [SKPayment paymentWithProduct:productHint50];
+            [[SKPaymentQueue defaultQueue] addPayment:payment];
+            NSLog(@"");
+            
+            [self updateButtonHint];
+        } else {
+            // do nothing
+        }
+    }
+
+    
 }
 
+#pragma mark GADInterstitialDelegate implementation
+
+- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    // TODO
+
+}
+
+- (void)interstitial:(GADInterstitial *)interstitial
+didFailToReceiveAdWithError:(GADRequestError *)error {
+    // TODO
+}
+
+#pragma mark GADRequest implementation
+
+- (GADRequest *)request {
+    GADRequest *request = [GADRequest request];
+    
+    // Make the request for a test ad. Put in an identifier for the simulator as well as any devices
+    // you want to receive test ads.
+    request.testDevices = @[
+                            // TODO: Add your device/simulator test identifiers here. Your device identifier is printed to
+                            // the console when the app is launched.
+                            GAD_SIMULATOR_ID
+                            ];
+    return request;
+}
+
+- (void) loadInterstitial {
+    // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
+    // lifetime. The property will release the old one and set the new one.
+    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial.delegate = self;
+    
+    // Note: Edit SampleConstants.h to update kSampleAdUnitId with your interstitial ad unit id.
+    self.interstitial.adUnitID = MY_INTERSTITIAL_UNIT_ID;
+    [self.interstitial loadRequest:[self request]];
+}
+
+- (void) showInterstitial {
+
+    // Show the interstitial.
+    [self.interstitial presentFromRootViewController:self];
+}
 
 @end

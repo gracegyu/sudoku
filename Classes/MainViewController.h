@@ -26,6 +26,8 @@
 #ifdef ADMOB_FREEVERSION
 #import "GADBannerView.h"
 #import "GADBannerViewDelegate.h"
+#import "GADInterstitial.h"
+#import "GADInterstitialDelegate.h"
 #endif
 
 #import "MainView.h"
@@ -40,8 +42,11 @@ typedef struct DAILYSTAT
 } DAILYSTAT;
 
 
+//@class GADInterstitial;
+//@class GADRequest;
 
 @interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
+    ,UIAlertViewDelegate
 #ifdef USE_JMC
     ,JMCCustomDataSource
 #endif
@@ -51,6 +56,7 @@ typedef struct DAILYSTAT
     ,SKProductsRequestDelegate
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
+    ,GADInterstitialDelegate
 #endif
     >
 {
@@ -275,6 +281,10 @@ typedef struct DAILYSTAT
 #endif
 @property (nonatomic, retain) NSString *nowDate;
 
+@property (nonatomic, strong) GADInterstitial *interstitial;
+- (GADRequest *)request;
+- (void) loadInterstitial;
+- (void) showInterstitial;
 
 - (IBAction)runUndo;
 - (IBAction)runRedo;
