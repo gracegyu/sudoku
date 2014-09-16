@@ -75,6 +75,9 @@
 #endif
 	
     DLog(@"Nibname = %@", strNib);
+    DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
+    DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
+    
 	self.mainViewController = [[MainViewController alloc] initWithNibName:strNib	bundle:nil];
 	// xxx for autorotate
     [window setRootViewController:self.mainViewController];

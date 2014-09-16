@@ -557,9 +557,14 @@
     labelTitleGameTime.text = gettext(@"game time", nil);
     labelTitleBlank.text = gettext(@"blank", nil);
     labelTitleHint.text = gettext(@"hint", nil);
+    DLog(@"labelTitleHint.frame.size.height = %f", labelTitleHint.frame.size.height);
+    DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
     //labelNewGame.text = gettext(@"New Game", nil);
     
-	
+    DLog(@"labelTitleHint.font.pointSize = %f", labelTitleHint.font.pointSize);
+    
+    //labelTitleHint.font=[labelTitleHint.font fontWithSize: labelTitleHint.font.pointSize*[UIScreen mainScreen].bounds.size.height/568];
+    
 	[buttonCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 	labelAutoMemo.text = gettext(@"auto memo", nil);
 	labelDailyStat.text = @"";  // 초기화
@@ -3466,6 +3471,8 @@
     
 }
 
+#ifdef ADMOB_FREEVERSION
+
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
@@ -3509,5 +3516,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
     // Show the interstitial.
     [self.interstitial presentFromRootViewController:self];
 }
+
+#endif
 
 @end

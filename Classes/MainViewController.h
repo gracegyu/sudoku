@@ -281,10 +281,12 @@ typedef struct DAILYSTAT
 #endif
 @property (nonatomic, retain) NSString *nowDate;
 
+#ifdef ADMOB_FREEVERSION
 @property (nonatomic, strong) GADInterstitial *interstitial;
 - (GADRequest *)request;
 - (void) loadInterstitial;
 - (void) showInterstitial;
+#endif
 
 - (IBAction)runUndo;
 - (IBAction)runRedo;
