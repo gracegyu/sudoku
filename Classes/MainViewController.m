@@ -3158,7 +3158,12 @@
     
     buttonCloseButton.hidden = bHiddenButton;
     buttonPlayNew.hidden = bHiddenButton;
-    buttonPlayAgain.hidden = bHiddenButton;
+    if (buttonPlayAgain.hidden == YES) {
+        buttonPlayAgain.hidden = YES;
+    } else {
+        buttonPlayAgain.hidden = NO;
+        buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : YES;
+    }
     buttonSeeReplay.hidden = bHiddenButton;
     buttonFacebookRecord.hidden = bHiddenButton;
     buttonFacebookPuzzle.hidden = bHiddenButton;
