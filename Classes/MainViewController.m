@@ -271,9 +271,9 @@
 {
 	// button diable
     
-    
+#ifdef ADMOB_FREEVERSION
     [self loadInterstitial];
-	
+#endif
 	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
 	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
@@ -3473,7 +3473,9 @@
     
     if([title isEqualToString:gettext(@"Congratulations!", nil)])
     {
+#ifdef ADMOB_FREEVERSION
         [self showInterstitial];
+#endif
     }
     else // if([title isEqualToString:@"Button 2"])
     {
