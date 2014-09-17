@@ -53,7 +53,7 @@
     
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&cs=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
-                        @"viewrankingpage",
+                        @"rankingmenu",
                         (long)(ctrl.gUserID),
                         (long)[ctrl getCheckSum],
                         DEFPUZZLESIZE,

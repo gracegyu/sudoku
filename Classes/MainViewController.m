@@ -3174,7 +3174,7 @@
     
     buttonCloseButton.hidden = bHiddenButton;
     buttonPlayNew.hidden = bHiddenButton;
-    if (buttonPlayAgain.hidden == YES) {
+    if (bHiddenButton == YES) {
         buttonPlayAgain.hidden = YES;
     } else {
         buttonPlayAgain.hidden = NO;
