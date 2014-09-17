@@ -63,6 +63,9 @@ static BOOL bLoginedGamecenter = NO;
                 {
                     NSLog(@"Player authenticated");
                     bLoginedGamecenter = YES;
+                    DLog(@"localPlayer.alias = %@", localPlayer.alias);
+                    DLog(@"localPlayer.displayName = %@", localPlayer.displayName);
+
                 }
                 else
                 {
@@ -88,6 +91,7 @@ static BOOL bLoginedGamecenter = NO;
              }];
         }
     }
+    
 }
 
 + (NSInteger) getTotalScoreRanking:(NSInteger*)rank value:(NSInteger*)value
