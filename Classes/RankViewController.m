@@ -1,5 +1,5 @@
 //
-//  HelpViewController.m
+//  RankViewController.m
 //  Sudoku
 //
 //  Created by gracegyu on 10. 3. 15..
@@ -7,7 +7,7 @@
 //
 
 #import "Locale.h"
-#import "HelpViewController.h"
+#import "RankViewController.h"
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
@@ -16,87 +16,26 @@
 #endif
 
 
-@implementation HelpViewController
+@implementation RankViewController
 
 @synthesize mainViewController;
 @synthesize naviItem;
 @synthesize lableTitle;
 @synthesize buttonDone;
-@synthesize imageHelp;
-
-@synthesize labelRuleTitle;
-@synthesize labelRuleDesc;
-//@synthesize labelTipTitle;
-//@synthesize labelTipDesc;
-@synthesize segmentType;
-@synthesize labelSudokuType;
-@synthesize labelLicense;
+@synthesize webView;
 
 
 
 
 - (void) setLocalizedMessage
 {
-	NSString* str;
+//	NSString* str;
 	
-    naviItem.title = gettext(@"Help", nil);
-    labelLicense.text = STR_LICENSE;
+    naviItem.title = gettext(@"Ranking", nil);
 
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
-
     
-    lableTitle.text = gettext(@"Help", nil);
-
-    if (sudokuType == SUDOKUTYPE_MAX)
-    {
-        labelRuleTitle.text = gettext(@"tiptitle", nil);
-        str = [NSString stringWithString:gettext(@"tipdesc", nil)];
-    } else {
-        labelRuleTitle.text = [NSString stringWithFormat:@"%@ (%@)",
-                               gettext(@"ruletitle", nil),
-                               [SudokuGame getSudokuTypeName:sudokuType]];
-#ifdef SUDOKU9
-        str = [NSString stringWithString:gettext(@"ruledesc9", nil)];
-#else
-        str = [NSString stringWithString:gettext(@"ruledesc6", nil)];
-#endif
-    }
-    str = [str stringByAppendingString:@"\n"];
-    
-    switch (sudokuType)
-    {
-        case SUDOKUTYPE_SUDOKU :
-            break;
-        case SUDOKUTYPE_GT :
-            str = [str stringByAppendingString:gettext(@"ruledescgt", nil)];
-            break;
-        case SUDOKUTYPE_KILLER :
-            str = [str stringByAppendingString:gettext(@"ruledesckiller", nil)];
-            break;
-        case SUDOKUTYPE_CALCU :
-            str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
-        case SUDOKUTYPE_MAX : // tip
-        default :
-            break;
-            
-    }
-	str = [str stringByAppendingString:@"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"];
-	
-	labelRuleDesc.text = str;
-
-    if (sudokuType == SUDOKUTYPE_MAX)
-    {
-        str = @"help_tip";
-    } else {
-#ifdef SUDOKU9
-        str = [NSString stringWithFormat:@"help9_%d_%@", sudokuType+1, cDeviceType == DEVICETYPE_IPAD ? @"ipad" : @"iphone"];
-#else
-        str = [NSString stringWithFormat:@"help6_%d_%@", sudokuType+1, cDeviceType == DEVICETYPE_IPAD ? @"ipad" : @"iphone"];
-#endif
-    }
-    
-    [imageHelp setBackgroundImage:[UIImage imageNamed:str] forState:UIControlStateNormal];
-
+    lableTitle.text = gettext(@"Rank", nil);
     
     
 }
@@ -105,11 +44,35 @@
 
 - (void) viewDidLoad
 {
+    NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
     MainViewController *ctrl = (MainViewController*)mainViewController;
-	segmentType.selectedSegmentIndex = sudokuType = ctrl.mainView.nSettingSudokuType;
+
     //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];
     [super viewDidLoad];
+    
+    NSString* strURI = [NSString stringWithFormat:
+						@"act=%@&userid=%ld&cs=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
+                        @"viewrankingpage",
+                        (long)(ctrl.gUserID),
+                        (long)[ctrl getCheckSum],
+                        DEFPUZZLESIZE,
+                        [ctrl getNowYYYYMMDD],
+                        countryCode,
+                        @"en_US"];
+    
+    NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+						ctrl.gServerIP,
+						cServerScript,
+						strURI];
+    DLog(@"strURL* = \n%@", strURL);
+    
+    
+    
+    NSURL *url = [NSURL URLWithString:strURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    [webView loadRequest:request];
 
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
@@ -158,13 +121,6 @@
         
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
-}
-
-- (IBAction)setSudokuType
-{
-    sudokuType = (SUDOKUTYPE)[segmentType selectedSegmentIndex];
-    
-    [self setLocalizedMessage];
 }
 
 
