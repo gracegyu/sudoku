@@ -51,6 +51,7 @@
 @synthesize cellBookmarkFont;
 @synthesize cellSumFont;
 @synthesize cellWrongSumFont;
+@synthesize cellSignFont;
 @synthesize buttonSmallFont;
 @synthesize buttonBigFont;
 //@synthesize buttonTextFont;
@@ -1138,15 +1139,15 @@ static NSUInteger SmallerColorTemplate[9] = {
         {
             if ([sudokuGame	countCellInSum:x yPos:y] > 1)
             {
-                rect = CGRectMake(cTableStartX + x*cCellWidth + cCellWidth*0.04,
+                rect = CGRectMake(cTableStartX + x*cCellWidth - cCellWidth*(cell->sign == CS_MINUS ? 0.05 : 0.00),
                                   cTableStartY + y*cCellHeight + cCellHeight/4,
-                                  cCellWidth/8,
+                                  cCellWidth/4,
                                   cCellHeight/4);
                 [self drawStrRect:context
                               str:[KillerMap getSign:cell->sign]
                              rect:rect
                             color:skincolor[isWrongSum?SC_TEXT_CELL_MEMO_CONFLICT:SC_TEXT_CELL_KILLER_SUM]
-                             font:cellWrongSumFont
+                             font:cellSignFont
                             align:NSTextAlignmentCenter];
             }
         }
@@ -2555,6 +2556,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 #define cCellBookmarkFontSize       (0.6f * MINWHT / 3) //11*cResizeRatioW
 #define cCellSumFontSize            (0.8f * MINWHT / 3) //11*cResizeRatioW
 #define cCellWrongSumFontSize       (0.9f * MINWHT / 3) //11*cResizeRatioW
+#define cCellSignFontSize           (1.1f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
 #define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
@@ -2580,7 +2582,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	self.cellNineFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellNineFontSize];
 	self.cellBookmarkFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellBookmarkFontSize];
 	self.cellSumFont            = [UIFont fontWithName:@"Trebuchet MS" size:cCellSumFontSize];
-	self.cellWrongSumFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellWrongSumFontSize];
+    self.cellWrongSumFont       = [UIFont fontWithName:@"Trebuchet MS" size:cCellWrongSumFontSize];
+    self.cellSignFont           = [UIFont fontWithName:@"Trebuchet MS" size:cCellSignFontSize];
 	self.buttonSmallFont        = [UIFont fontWithName:@"Trebuchet MS" size:cButtonSmallFontSize];
 	self.buttonBigFont          = [UIFont fontWithName:@"Trebuchet MS" size:cButtonBigFontSize];
 //	self.buttonTextFont         = [UIFont fontWithName:@"Trebuchet MS" size:cButtonTextFontSize];
