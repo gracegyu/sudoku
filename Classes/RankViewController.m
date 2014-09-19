@@ -59,7 +59,7 @@
                         DEFPUZZLESIZE,
                         [ctrl getNowYYYYMMDD],
                         countryCode,
-                        @"en_US"];
+                        gettext(@"locale", nil)];
     
     NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,
