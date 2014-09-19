@@ -52,14 +52,13 @@
     [super viewDidLoad];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&cs=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
+						@"act=%@&userid=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
                         @"rankingmenu",
                         (long)(ctrl.gUserID),
-                        (long)[ctrl getCheckSum],
                         DEFPUZZLESIZE,
                         [ctrl getNowYYYYMMDD],
                         countryCode,
-                        gettext(@"locale", nil)];
+                        [Locale getFullLocale:gettext(@"locale", nil)]];
     
     NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,

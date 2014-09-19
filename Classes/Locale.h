@@ -15,6 +15,7 @@
 @interface Locale : NSObject
 
 + (void) setLocale:(NSString *)strLocale;
++ (NSString *) getFullLocale:(NSString *)strLocale;
 + (NSString*) getText_:(NSString*)msgid comment:(NSString*)comment;
 + (NSString*) getTextTable_:(NSString*)msgid table:(NSString*)table;
 

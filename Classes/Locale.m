@@ -52,6 +52,25 @@ static NSBundle *bundle = nil;
 
 }
 
++ (NSString *) getFullLocale:(NSString *)strLocale
+{
+    DLog(@"preferredLang: %@", strLocale);
+    
+    if ([strLocale compare:@"en"] == NSOrderedSame)
+        return @"en_US";
+    else if ([strLocale compare:@"ko"] == NSOrderedSame)
+        return @"ko_KR";
+    else if ([strLocale compare:@"ja"] == NSOrderedSame)
+        return @"ja_JP";
+    else if ([strLocale compare:@"zh_CN"] == NSOrderedSame)
+        return @"zh_CN";
+    else if ([strLocale compare:@"zh_TW"] == NSOrderedSame)
+        return @"zh_TW";
+    else
+        return @"en_US";
+}
+
+
 + (NSString*) getText_:(NSString*)msgid comment:(NSString*)comment
 {
     if (bundle)
