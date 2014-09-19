@@ -230,6 +230,7 @@ typedef struct SUDOKUSCORE
 #else
 #define cServerScript           @"dailysudoku.php"
 #endif
+#define cServerRankingScript    @"dailyranking.php"
 #define cDefaultHTTPTimeOut     5.f
 #define kResultStatus				@"Result"
 #define kCount						@"Count"

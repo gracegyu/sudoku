@@ -63,7 +63,7 @@
     
     NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,
-						cServerScript,
+						cServerRankingScript,
 						strURI];
     DLog(@"strURL* = \n%@", strURL);
     
