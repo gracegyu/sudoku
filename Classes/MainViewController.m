@@ -1126,7 +1126,8 @@
 
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
-										  @"ScoreView" bundle:nil];
+										  (isIphone5 ? @"ScoreView4iPhone5" : @"ScoreView")
+                                          bundle:nil];
     controller.mainViewController = self;
 	[controller setScoreData:&score];
 	
@@ -1651,7 +1652,8 @@
     DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
-                                       @"SettingView" bundle:nil];
+                                        (isIphone5 ? @"SettingView4iPhone5" : @"SettingView")
+                                        bundle:nil];
     controller.mainViewController = self;
 //	controller.title = gettext(@"Setting", nil);
 	
@@ -1676,9 +1678,10 @@
 	
     DLog(@"showSettingView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
-										 cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
-										 @"HelpView" bundle:nil];
-    controller.mainViewController = self;	
+                                      cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
+                                      (isIphone5 ? @"HelpView4iPhone5" : @"HelpView")
+                                      bundle:nil];
+    controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self presentViewController:controller animated:YES completion:nil];
 	
@@ -1697,7 +1700,8 @@
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
-                                      @"RankView" bundle:nil];
+                                      (isIphone5 ? @"RankView4iPhone5" : @"RankView")
+                                      bundle:nil];
     controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self presentViewController:controller animated:YES completion:nil];
@@ -3513,6 +3517,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 - (GADRequest *)request {
     GADRequest *request = [GADRequest request];
     
+#ifdef __TEST__
     // Make the request for a test ad. Put in an identifier for the simulator as well as any devices
     // you want to receive test ads.
     request.testDevices = @[
@@ -3520,6 +3525,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
                             // the console when the app is launched.
                             GAD_SIMULATOR_ID
                             ];
+#endif
     return request;
 }
 
