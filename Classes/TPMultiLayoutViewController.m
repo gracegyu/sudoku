@@ -29,7 +29,9 @@
     [super viewDidLoad];
     
     // Construct attribute tables
+    DLog(@"portraitAttributes = [[self attributeTableForViewHierarchy:portraitView associateWithViewHierarchy:self.view] retain];");
     portraitAttributes = [[self attributeTableForViewHierarchy:portraitView associateWithViewHierarchy:self.view] retain];
+    DLog(@"landscapeAttributes = [[self attributeTableForViewHierarchy:landscapeView associateWithViewHierarchy:self.view] retain];");
     landscapeAttributes = [[self attributeTableForViewHierarchy:landscapeView associateWithViewHierarchy:self.view] retain];
     viewIsCurrentlyPortrait = (self.view == portraitView);
     
@@ -70,7 +72,7 @@
 
 - (void)applyLayoutForInterfaceOrientation:(UIInterfaceOrientation)newOrientation
 {
-    DLog(@"TPMultiLayoutViewController:applyLayoutForInterfaceOrientation");
+    DLog(@"TPMultiLayoutViewController:applyLayoutForInterfaceOrientation:%d", newOrientation);
     NSDictionary *table = UIInterfaceOrientationIsPortrait(newOrientation) ? portraitAttributes : landscapeAttributes;
     [self applyAttributeTable:table toViewHierarchy:self.view];
     viewIsCurrentlyPortrait = UIInterfaceOrientationIsPortrait(newOrientation);
@@ -78,7 +80,7 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    DLog(@"TPMultiLayoutViewController:willRotateToInterfaceOrientation");
+    DLog(@"TPMultiLayoutViewController:willRotateToInterfaceOrientation:%d duration:%f", toInterfaceOrientation, duration);
     if ( (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && !viewIsCurrentlyPortrait) ||
          (UIInterfaceOrientationIsLandscape(toInterfaceOrientation) && viewIsCurrentlyPortrait) ) {
         [self applyLayoutForInterfaceOrientation:toInterfaceOrientation];
@@ -95,7 +97,7 @@
 
 - (void)addAttributesForSubviewHierarchy:(UIView*)view associatedWithSubviewHierarchy:(UIView*)associatedView toTable:(NSMutableDictionary*)table
 {
-    //DLog(@"addAttributesForSubviewHierarchy:%p", [NSValue valueWithPointer:associatedView]);
+    DLog(@"addAttributesForSubviewHierarchy:(%d:%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.x, view.frame.size.width, view.frame.size.height);
     [table setObject:[self attributesForView:view] forKey:[NSValue valueWithPointer:associatedView]];
     
     if ( ![self shouldDescendIntoSubviewsOfView:view] ) return;
@@ -218,12 +220,15 @@
     [attributes setObject:[NSNumber numberWithBool:view.hidden] forKey:@"hidden"];
     [attributes setObject:[NSNumber numberWithInteger:view.autoresizingMask] forKey:@"autoresizingMask"];
     
-    //DLog(@"attributesForView:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+    DLog(@"attributesForView:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     return attributes;
 }
 
 - (void)applyAttributes:(NSDictionary*)attributes toView:(UIView*)view {
+    DLog(@"applyAttributes:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     view.frame = [[attributes objectForKey:@"frame"] CGRectValue];
+//    [view setFrame:[[attributes objectForKey:@"frame"] CGRectValue]];
+    DLog(@"==============>:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     view.bounds = [[attributes objectForKey:@"bounds"] CGRectValue];
 // hidden 속성은 따라가도록 한다.
 //    view.hidden = [[attributes objectForKey:@"hidden"] boolValue];
