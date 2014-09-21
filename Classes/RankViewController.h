@@ -10,7 +10,7 @@
 //@protocol RankViewControllerDelegate;
 #import "MainViewController.h"
 
-@interface RankViewController : TPMultiLayoutViewController {
+@interface RankViewController : TPMultiLayoutViewController <UIWebViewDelegate> {
     MainViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
@@ -18,6 +18,7 @@
     UIButton *buttonDone;
     
     UIWebView *webView;
+    UIActivityIndicatorView *activityIndicator;
 }
 
 
@@ -26,6 +27,7 @@
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 
 
 

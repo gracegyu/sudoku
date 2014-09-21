@@ -72,7 +72,7 @@
 
 - (void)applyLayoutForInterfaceOrientation:(UIInterfaceOrientation)newOrientation
 {
-    DLog(@"TPMultiLayoutViewController:applyLayoutForInterfaceOrientation:%d", newOrientation);
+//    DLog(@"TPMultiLayoutViewController:applyLayoutForInterfaceOrientation:%d", newOrientation);
     NSDictionary *table = UIInterfaceOrientationIsPortrait(newOrientation) ? portraitAttributes : landscapeAttributes;
     [self applyAttributeTable:table toViewHierarchy:self.view];
     viewIsCurrentlyPortrait = UIInterfaceOrientationIsPortrait(newOrientation);
@@ -80,7 +80,7 @@
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    DLog(@"TPMultiLayoutViewController:willRotateToInterfaceOrientation:%d duration:%f", toInterfaceOrientation, duration);
+//    DLog(@"TPMultiLayoutViewController:willRotateToInterfaceOrientation:%d duration:%f", toInterfaceOrientation, duration);
     if ( (UIInterfaceOrientationIsPortrait(toInterfaceOrientation) && !viewIsCurrentlyPortrait) ||
          (UIInterfaceOrientationIsLandscape(toInterfaceOrientation) && viewIsCurrentlyPortrait) ) {
         [self applyLayoutForInterfaceOrientation:toInterfaceOrientation];
@@ -97,7 +97,7 @@
 
 - (void)addAttributesForSubviewHierarchy:(UIView*)view associatedWithSubviewHierarchy:(UIView*)associatedView toTable:(NSMutableDictionary*)table
 {
-    DLog(@"addAttributesForSubviewHierarchy:(%d:%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.x, view.frame.size.width, view.frame.size.height);
+//    DLog(@"addAttributesForSubviewHierarchy:(%d:%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.x, view.frame.size.width, view.frame.size.height);
     [table setObject:[self attributesForView:view] forKey:[NSValue valueWithPointer:associatedView]];
     
     if ( ![self shouldDescendIntoSubviewsOfView:view] ) return;
@@ -190,7 +190,7 @@
     for ( UIView *v = view.superview; v != nil; v = v.superview ) {
         [path insertString:[NSString stringWithFormat:@"%@ => ", NSStringFromClass([v class])] atIndex:0];
     }
-    NSLog(@"Couldn't find match for %@%@", path, NSStringFromClass([view class]));
+//    DLog(@"Couldn't find match for %@%@", path, NSStringFromClass([view class]));
     
 #endif
     
@@ -220,15 +220,15 @@
     [attributes setObject:[NSNumber numberWithBool:view.hidden] forKey:@"hidden"];
     [attributes setObject:[NSNumber numberWithInteger:view.autoresizingMask] forKey:@"autoresizingMask"];
     
-    DLog(@"attributesForView:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+//    DLog(@"attributesForView:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     return attributes;
 }
 
 - (void)applyAttributes:(NSDictionary*)attributes toView:(UIView*)view {
-    DLog(@"applyAttributes:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+//    DLog(@"applyAttributes:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     view.frame = [[attributes objectForKey:@"frame"] CGRectValue];
 //    [view setFrame:[[attributes objectForKey:@"frame"] CGRectValue]];
-    DLog(@"==============>:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
+//    DLog(@"==============>:tag(%d),frame(%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height);
     view.bounds = [[attributes objectForKey:@"bounds"] CGRectValue];
 // hidden 속성은 따라가도록 한다.
 //    view.hidden = [[attributes objectForKey:@"hidden"] boolValue];

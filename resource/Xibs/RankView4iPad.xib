@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="RankViewController">
             <connections>
+                <outlet property="activityIndicator" destination="IJg-Dv-1JO" id="ekr-2q-PrQ"/>
                 <outlet property="buttonDone" destination="PS4-rI-oHz" id="ymx-Dm-E2U"/>
                 <outlet property="landscapeView" destination="199" id="214"/>
                 <outlet property="portraitView" destination="3" id="182"/>
@@ -33,6 +34,11 @@
                         <action selector="done" destination="-1" eventType="touchUpInside" id="0YC-47-Vbr"/>
                     </connections>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="IJg-Dv-1JO">
+                    <rect key="frame" x="374" y="502" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
                 <webView contentMode="scaleToFill" id="pLh-Ca-UWN">
                     <rect key="frame" x="0.0" y="0.0" width="768" height="1023"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -65,6 +71,11 @@
                         <action selector="done" destination="-1" eventType="touchUpInside" id="jCj-9f-8cB"/>
                     </connections>
                 </button>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" id="Z7f-ag-fdB">
+                    <rect key="frame" x="502" y="374" width="20" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <color key="color" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                </activityIndicatorView>
                 <webView contentMode="scaleToFill" id="gMX-85-n7Z">
                     <rect key="frame" x="0.0" y="0.0" width="1033" height="767"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

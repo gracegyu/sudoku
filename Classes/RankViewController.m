@@ -23,6 +23,7 @@
 @synthesize lableTitle;
 @synthesize buttonDone;
 @synthesize webView;
+@synthesize activityIndicator;
 
 
 
@@ -50,6 +51,8 @@
     //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];
     [super viewDidLoad];
+ 
+    webView.delegate = self;
     
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
@@ -151,6 +154,22 @@
 {
     //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [activityIndicator startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [activityIndicator stopAnimating];
+    activityIndicator.hidden = TRUE;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    [activityIndicator stopAnimating];
 }
 
 @end
