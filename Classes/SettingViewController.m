@@ -278,6 +278,7 @@
     
     [mainViewController.mainView setSkinColorNum:skin];
     [mainViewController saveSetting];
+    [mainViewController startGameTimer];
     
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {

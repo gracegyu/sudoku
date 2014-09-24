@@ -111,11 +111,13 @@
 
 - (IBAction)done
 {
-    /*
+    [mainViewController startGameTimer];
+
+    
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
         [mainViewController dismissModalViewControllerAnimated:YES];
-    } else*/
+    } else
     {
         DLog(@"Done [UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];

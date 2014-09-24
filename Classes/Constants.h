@@ -210,7 +210,7 @@ typedef struct SUDOKUSCORE
 #define SUPPORT_ROTATION    YES
 #endif
 
-#define STR_LICENSE     @"Ⓒ 2014 Smartone, All rights reserved."
+#define STR_LICENSE     @"Ⓒ 2014 SmartOne, All rights reserved."
 #define NUM_HINTBONUS   2
 #define NUM_DEFHINT9    3
 #define NUM_DEFHINT6    2

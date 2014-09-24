@@ -17,7 +17,7 @@
 //GameCenter 사용 가능 단말인지 확인
 + (BOOL) isGameCenterAvailable
 {
-#ifdef DEBUG
+#ifdef DEBUG_____________
     return NO;
 #else
     // check for presence of GKLocalPlayer API
@@ -54,6 +54,7 @@ static BOOL bLoginedGamecenter = NO;
         {
             localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error)
             {
+                DLog(@"localPlayer.playerID=%@", localPlayer.playerID);
                 if (viewController != nil)
                 {
                     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
