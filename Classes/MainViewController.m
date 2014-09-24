@@ -1338,6 +1338,7 @@
 
     
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
+    [self startGameTimer];
     
 }
 
@@ -1482,6 +1483,7 @@
                                        userInfo:nil
                                         repeats:NO];
     }
+    [self startGameTimer];
 }
 
 
@@ -1525,6 +1527,7 @@
 
     mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
+    [self startGameTimer];
 }
 
 
@@ -1574,6 +1577,7 @@
     
     mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
+    [self startGameTimer];
 }
 - (IBAction)shareRecordTwitter
 {
@@ -1722,6 +1726,7 @@
 	UIViewController *controller = [[JMC sharedInstance] viewController];
     [self presentViewController:controller animated:YES completion:nil];
 #endif
+    [self startGameTimer];
 }
 
 
@@ -1864,7 +1869,7 @@
 	if (mainView.bMenuMode)
 	{
 		mainView.bMenuMode = NO;
-		[self startGameTimer];
+		//[self startGameTimer];
 	}
 }
 
@@ -1919,7 +1924,7 @@
 									repeats:YES];
 
 	mainView.bMenuMode = NO;
-	[self startGameTimer];
+	//[self startGameTimer];
 	[self updateButtons];
 }
 
@@ -2048,7 +2053,7 @@
 									repeats:YES];
 	
 	mainView.bMenuMode = NO;
-	[self startGameTimer];
+	//[self startGameTimer];
 	[self setGameLevel];
 	[self updateBlankCellCount];
     [self updateHintCount];
@@ -2450,6 +2455,7 @@
 - (IBAction)menuCancel
 {
 	[self hideMenuView:NO];
+    [self startGameTimer];
 }
 
 
@@ -2925,12 +2931,14 @@
 {
 	// newgameview가 조용히 물러난다.
 	[self hideNewGameView];
+    [self startGameTimer];
 }
 
 - (IBAction)dailygameCancel
 {
 	// newgameview가 조용히 물러난다.
 	[self hideDailyGameView];
+    [self startGameTimer];
 }
 
 
@@ -2997,6 +3005,9 @@
 
 - (void) startGameTimer
 {
+    if (mainView.sudokuGame.isGameFinished)
+        return;
+    
 	if ([timerGame isValid])
 	{
 		//DAssert(0, @"Duplicated game timer");
@@ -3222,6 +3233,7 @@
 #endif
 
     [mainView setNeedsDisplay];
+    [self startGameTimer];
 
 }
 

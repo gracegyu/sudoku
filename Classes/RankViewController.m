@@ -156,6 +156,7 @@
 {
     //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [mainViewController stopGameTimer];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView

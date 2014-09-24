@@ -694,6 +694,7 @@
 {
     //[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
+    [mainViewController stopGameTimer];
 }
 
 @end

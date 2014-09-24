@@ -2319,6 +2319,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                 [self playSound:soundClearID];
 				[sudokuGame saveData];
             }
+            
             break;
         case ALELRT_BOOKMARK :
             if (buttonIndex == 0)		// goto last bookmark
