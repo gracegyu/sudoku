@@ -1124,9 +1124,13 @@
 	[self hideMenuView:NO];
     [self getRankingFromGameCenter];    // 최신 랭킹으로 update
 
+    
+    DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
+    DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
+    
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
-										  (isIphone5 ? @"ScoreView4iPhone5" : @"ScoreView")
+										  (isIphone5or6 ? @"ScoreView4iPhone5" : @"ScoreView")
                                           bundle:nil];
     controller.mainViewController = self;
 	[controller setScoreData:&score];
@@ -1656,7 +1660,7 @@
     DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
-                                        (isIphone5 ? @"SettingView4iPhone5" : @"SettingView")
+                                        (isIphone5or6 ? @"SettingView4iPhone5" : @"SettingView")
                                         bundle:nil];
     controller.mainViewController = self;
 //	controller.title = gettext(@"Setting", nil);
@@ -1683,7 +1687,7 @@
     DLog(@"showSettingView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
-                                      (isIphone5 ? @"HelpView4iPhone5" : @"HelpView")
+                                      (isIphone5or6 ? @"HelpView4iPhone5" : @"HelpView")
                                       bundle:nil];
     controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
@@ -1704,7 +1708,7 @@
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
-                                      (isIphone5 ? @"RankView4iPhone5" : @"RankView")
+                                      (isIphone5or6 ? @"RankView4iPhone5" : @"RankView")
                                       bundle:nil];
     controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
