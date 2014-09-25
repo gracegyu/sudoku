@@ -62,6 +62,7 @@
                         [ctrl getNowYYYYMMDD],
                         countryCode,
                         [Locale getFullLocale:gettext(@"locale", nil)]];
+    DLog(@"strURI* = \n%@", strURI);
     
     NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,
