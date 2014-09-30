@@ -113,7 +113,7 @@
 @synthesize gDeviceID;
 @synthesize gVersion;
 @synthesize nowDate;
-
+@synthesize strMsgFinish;
 
 
 
@@ -266,6 +266,20 @@
 }
 
 
+- (void) alertFinish
+{
+    DLog(@"strMsgFinish=%@", strMsgFinish);
+
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Congratulations!", nil)
+                                                    message:strMsgFinish
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+//    [strMsgFinish release];
+}
+
 
 - (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame
 {
@@ -293,7 +307,7 @@
     
     
     
-    NSString* strMsg = [NSString stringWithString:gettext(@"You cleared this game.", nil)];
+    strMsgFinish = [[NSString alloc] initWithString:gettext(@"You cleared this game.", nil)];
     if (sudokuGame.bDailyPuzzle)
     {
         NSInteger total=0, grade=0;
@@ -303,8 +317,8 @@
             grade > 0 &&
             grade <= total)
         {
-            strMsg = [strMsg stringByAppendingString:@"\n"];
-            strMsg = [strMsg stringByAppendingFormat:
+            strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
+            strMsgFinish = [strMsgFinish stringByAppendingFormat:
                       gettext(@"Your ranking of daily puzzle:#%d/%d", nil),
                       grade, total];
         }
@@ -313,24 +327,25 @@
     
     if (bNewBest)
     {
-        strMsg = [strMsg stringByAppendingString:@"\n"];
-        strMsg = [strMsg stringByAppendingString:gettext(@"You broke your best time.", nil)];
+        strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
+        strMsgFinish = [strMsgFinish stringByAppendingString:gettext(@"You broke your best time.", nil)];
     }
-    strMsg = [strMsg stringByAppendingString:@"\n"];
-    strMsg = [strMsg stringByAppendingFormat:
+    strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
+    strMsgFinish = [strMsgFinish stringByAppendingFormat:
               gettext(@"If you share this puzzle or result on Facebook, you can get %d more hints in next game.", nil),
               NUM_HINTBONUS];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Congratulations!", nil)
-                                                    message:strMsg
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-
+    DLog(@"strMsgFinish = %@", strMsgFinish);
     
+#ifdef ADMOB_FREEVERSION
+    // do nothing
+    [strMsgFinish retain];
+#else
+    [self alertFinish];
+#endif
 	
+    
+    
     score.scoreClearTimeSum[sudokuGame.sudokuType][level] += sudokuGame.gameTime;
 	
     // add current game score to Total Score
@@ -3519,13 +3534,14 @@
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
-    // TODO
+    [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial
 didFailToReceiveAdWithError:(GADRequestError *)error {
-    // TODO
+    [self alertFinish];
+ 
 }
 
 #pragma mark GADRequest implementation

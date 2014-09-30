@@ -186,6 +186,7 @@ typedef struct DAILYSTAT
 #endif
     SKProduct *productHint50;
     BOOL    bBuyingHint50;
+    NSString* strMsgFinish;
 }
 
 
@@ -284,6 +285,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) CLLocationManager *locationManager;
 #endif
 @property (nonatomic, retain) NSString *nowDate;
+@property (nonatomic, retain) NSString *strMsgFinish;
 
 #ifdef ADMOB_FREEVERSION
 @property (nonatomic, strong) GADInterstitial *interstitial;
