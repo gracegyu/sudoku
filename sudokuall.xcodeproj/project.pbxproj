@@ -471,6 +471,18 @@
 		CF3F3393161ED96E00D52A43 /* goleaderboard.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3F3391161ED96E00D52A43 /* goleaderboard.png */; };
 		CF3F3395161EDCA300D52A43 /* goachievement.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3F3394161EDCA300D52A43 /* goachievement.png */; };
 		CF3F3396161EDCA300D52A43 /* goachievement.png in Resources */ = {isa = PBXBuildFile; fileRef = CF3F3394161EDCA300D52A43 /* goachievement.png */; };
+		CF40ACBF19DA7CC9008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACC019DA7CC9008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
+		CF40ACC119DA7CD5008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACC219DA7CD5008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
+		CF40ACC319DA7CDD008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACC419DA7CDD008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
+		CF40ACC519DA7CE8008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACC619DA7CE8008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
+		CF40ACC719DA7CEF008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACC819DA7CEF008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
+		CF40ACC919DA7CF7008D7415 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBD19DA7CC9008D7415 /* EventKit.framework */; };
+		CF40ACCA19DA7CF7008D7415 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */; };
 		CF4686641647701D005DA4FD /* buttonbgl.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4686631647701D005DA4FD /* buttonbgl.png */; };
 		CF4686651647701D005DA4FD /* buttonbgl.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4686631647701D005DA4FD /* buttonbgl.png */; };
 		CF4686671647701D005DA4FD /* buttonbgl.png in Resources */ = {isa = PBXBuildFile; fileRef = CF4686631647701D005DA4FD /* buttonbgl.png */; };
@@ -2174,6 +2186,8 @@
 		CF3F338D161ECF4700D52A43 /* background_button_n.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background_button_n.png; path = resource/Images/background_button_n.png; sourceTree = "<group>"; };
 		CF3F3391161ED96E00D52A43 /* goleaderboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = goleaderboard.png; path = resource/Images/goleaderboard.png; sourceTree = "<group>"; };
 		CF3F3394161EDCA300D52A43 /* goachievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = goachievement.png; path = resource/Images/goachievement.png; sourceTree = "<group>"; };
+		CF40ACBD19DA7CC9008D7415 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
 		CF4686631647701D005DA4FD /* buttonbgl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = buttonbgl.png; path = resource/Images/buttonbgl.png; sourceTree = "<group>"; };
 		CF46913D1647A30D005DA4FD /* AddThis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddThis.h; sourceTree = "<group>"; };
 		CF46913E1647A30D005DA4FD /* ATResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ATResources.bundle; sourceTree = "<group>"; };
@@ -2752,6 +2766,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACC319DA7CDD008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACC419DA7CDD008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF044F9196E8FA700CB0EBD /* Accounts.framework in Frameworks */,
 				CFF044F7196E8FA300CB0EBD /* Social.framework in Frameworks */,
 				CF86D32716423E5600687A8E /* StoreKit.framework in Frameworks */,
@@ -2788,6 +2804,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACC919DA7CF7008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACCA19DA7CF7008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF04503196E900600CB0EBD /* Social.framework in Frameworks */,
 				CFF04502196E8FFF00CB0EBD /* Accounts.framework in Frameworks */,
 				CF09AEFD169B114300C51175 /* Twitter.framework in Frameworks */,
@@ -2822,6 +2840,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACC519DA7CE8008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACC619DA7CE8008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF044FF196E8FE700CB0EBD /* Accounts.framework in Frameworks */,
 				CFF044FE196E8FE300CB0EBD /* Social.framework in Frameworks */,
 				CF1304BA166CC66000CDE097 /* Twitter.framework in Frameworks */,
@@ -2855,6 +2875,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACC119DA7CD5008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACC219DA7CD5008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF044FB196E8FCA00CB0EBD /* Social.framework in Frameworks */,
 				CFF044FA196E8FC300CB0EBD /* Accounts.framework in Frameworks */,
 				CF6D31BF196E77620012D2DA /* CoreTelephony.framework in Frameworks */,
@@ -2891,6 +2913,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACC719DA7CEF008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACC819DA7CEF008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF04501196E8FF900CB0EBD /* Social.framework in Frameworks */,
 				CFF04500196E8FED00CB0EBD /* Accounts.framework in Frameworks */,
 				CF72F68A169AD4FE001316D6 /* Twitter.framework in Frameworks */,
@@ -2925,6 +2949,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF40ACBF19DA7CC9008D7415 /* EventKit.framework in Frameworks */,
+				CF40ACC019DA7CC9008D7415 /* EventKitUI.framework in Frameworks */,
 				CFF044FD196E8FD500CB0EBD /* Social.framework in Frameworks */,
 				CFF044FC196E8FCF00CB0EBD /* Accounts.framework in Frameworks */,
 				CF1304B7166CC62500CDE097 /* Twitter.framework in Frameworks */,
@@ -3065,6 +3091,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CF40ACBD19DA7CC9008D7415 /* EventKit.framework */,
+				CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */,
 				CFF044F8196E8FA700CB0EBD /* Accounts.framework */,
 				CFF044F6196E8FA300CB0EBD /* Social.framework */,
 				CF6D31BE196E77620012D2DA /* CoreTelephony.framework */,
