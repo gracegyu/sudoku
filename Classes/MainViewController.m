@@ -2072,7 +2072,7 @@
 									repeats:YES];
 	
 	mainView.bMenuMode = NO;
-	//[self startGameTimer];
+	[self startGameTimer];
 	[self setGameLevel];
 	[self updateBlankCellCount];
     [self updateHintCount];
