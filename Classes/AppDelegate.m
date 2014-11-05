@@ -15,6 +15,7 @@
 #import "JMC.h"
 #endif
 #import "Flurry.h"
+#import "Locale.h"
 #import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
