@@ -2236,8 +2236,12 @@
 - (NSString *) GetHTTPData:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
 {
 	NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+#ifdef DAILYSENDER
+                        @"10.211.55.10:88",
+#else
 						gServerIP,
-						cServerScript,
+#endif
+                        cServerScript,
 						strURI];
     DLog(@"strURL* = \n%@", strURL);
 	NSURL *theURL = [NSURL URLWithString:strURL];
@@ -2446,7 +2450,11 @@
 - (void)OnTimerNewGameDailyPuzzle:(NSTimer *)timer
 {
 	DLog(@"OnTimerNewGameDailyPuzzle");
-	
+#ifdef DAILYSENDER
+    [self newgameDailyPuzzle];
+#endif
+    
+    
 	[self makeNewGameDataFromServer];
 	
 	[activityIndicatorDailyGame stopAnimating];
@@ -2602,43 +2610,48 @@
     return str;
 }
 
+- (void) setDailyButton:(UIButton*) button played:(BOOL) bPlayed
+{
+    if (bReadyDownloadDailyPuzzle) {
+#ifdef DAILYSENDER
+        button.enabled = YES;
+        button.alpha = 1.0f;
+#else
+        button.enabled = bPlayed ? NO : YES;
+        button.alpha = bPlayed ? 0.3f : 1.0f;
+#endif
+    } else {
+        button.enabled = NO;
+        button.alpha = 0.3;
+    }
+}
+
 - (void) setDailyStat
 {
+    [self setDailyButton:buttonDailyGameSudoku  played:dailyStat[SUDOKUTYPE_SUDOKU].played];
+    [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
+    [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
+    [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
+
     if (bReadyDownloadDailyPuzzle)
     {
         labelDailyStat.text = @"";
         
         buttonDailyRanking.enabled = YES;
         buttonDailyRanking.alpha = 1.0f;
-        buttonDailyGameSudoku.enabled = dailyStat[SUDOKUTYPE_SUDOKU].played ? NO : YES;
-        buttonDailyGameSudoku.alpha = dailyStat[SUDOKUTYPE_SUDOKU].played ? 0.3f : 1.0f;
         labelDailyStatSudoku.text = [self getDailyStatString:SUDOKUTYPE_SUDOKU];
-        buttonDailyGameGt.enabled = dailyStat[SUDOKUTYPE_GT].played ? NO : YES;
-        buttonDailyGameGt.alpha = dailyStat[SUDOKUTYPE_GT].played ? 0.3f : 1.0f;
-        labelDailyStatGt.text = [self getDailyStatString:SUDOKUTYPE_GT];
-        buttonDailyGameKiller.enabled = dailyStat[SUDOKUTYPE_KILLER].played ? NO : YES;
-        buttonDailyGameKiller.alpha = dailyStat[SUDOKUTYPE_KILLER].played ? 0.3f : 1.0f;
+        labelDailyStatGt.text =     [self getDailyStatString:SUDOKUTYPE_GT];
         labelDailyStatKiller.text = [self getDailyStatString:SUDOKUTYPE_KILLER];
-        buttonDailyGameCalcu.enabled = dailyStat[SUDOKUTYPE_CALCU].played ? NO : YES;
-        buttonDailyGameCalcu.alpha = dailyStat[SUDOKUTYPE_CALCU].played ? 0.3f : 1.0f;
-        labelDailyStatCalcu.text = [self getDailyStatString:SUDOKUTYPE_CALCU];
+        labelDailyStatCalcu.text =  [self getDailyStatString:SUDOKUTYPE_CALCU];
     } else  {
+        labelDailyStat.text = gettext(@"Not connected to a server.", nil);
+
         buttonDailyRanking.enabled = NO;
         buttonDailyRanking.alpha = 0.3;
-        buttonDailyGameSudoku.enabled = NO;
-        buttonDailyGameSudoku.alpha = 0.3;
         labelDailyStatSudoku.text = @"...";
-        buttonDailyGameGt.enabled = NO;
-        buttonDailyGameGt.alpha = 0.3;
         labelDailyStatGt.text = @"...";
-        buttonDailyGameKiller.enabled = NO;
-        buttonDailyGameKiller.alpha = 0.3;
         labelDailyStatKiller.text = @"...";
-        buttonDailyGameCalcu.enabled = NO;
-        buttonDailyGameCalcu.alpha = 0.3;
         labelDailyStatCalcu.text = @"...";
-        
-        labelDailyStat.text = gettext(@"Not connected to a server.", nil);
     }
     
 }
@@ -2861,48 +2874,35 @@
     NSDateFormatter *formatter;
     
     com = [[NSDateComponents alloc] init];
-    [com setYear:2012];
-    [com setMonth:1];
-    [com setDay:1];
-    
-    date = [[NSCalendar currentCalendar] dateFromComponents:com];
     
     formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyyMMdd"];
     
   
-
-    [self makeNewGame:GAMELEVEL_NORMAL];
-    [NSThread sleepForTimeInterval:1];
-    [self sendDailyPuzzle:@"20120722"];
 /*
-    [self makeNewGame:GAMELEVEL_NORMAL];
-    [NSThread sleepForTimeInterval:1];
-    [self sendDailyPuzzle:@"20120722"];
-
-    [self makeNewGame:GAMELEVEL_NORMAL];
-    [NSThread sleepForTimeInterval:1];
-    [self sendDailyPuzzle:@"20120909"];
-
-    [self makeNewGame:GAMELEVEL_NORMAL];
-    [NSThread sleepForTimeInterval:1];
-    [self sendDailyPuzzle:@"20120129"];
-    
     [self makeNewGame:GAMELEVEL_NORMAL];
     [NSThread sleepForTimeInterval:1];
     [self sendDailyPuzzle:@"20120212"];
 */
-/*
-    for (int i=0; i<366; i++)
-    {
-        DLog(@"%@", [formatter stringFromDate:date]);
-        [self makeNewGame:GAMELEVEL_NORMAL];
-        [NSThread sleepForTimeInterval:1];
-        [self sendDailyPuzzle:[formatter stringFromDate:date]];
 
-        date = [date dateByAddingTimeInterval:60*60*24];
+    for (int j=0; j<SUDOKUTYPE_MAX; j++) {
+        mainView.nSettingSudokuType = j;
+        [com setYear:2016];
+        [com setMonth:1];
+        [com setDay:1];
+        
+        date = [[NSCalendar currentCalendar] dateFromComponents:com];
+        
+        for (int i=0; i<366; i++)
+        {
+            DLog(@"%@", [formatter stringFromDate:date]);
+            [self makeNewGame:GAMELEVEL_NORMAL];
+//            [NSThread sleepForTimeInterval:0.1];
+            [self sendDailyPuzzle:[formatter stringFromDate:date]];
+
+            date = [date dateByAddingTimeInterval:60*60*24];
+        }
     }
-*/
     
     [formatter release];
     

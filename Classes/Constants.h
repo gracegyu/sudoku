@@ -227,7 +227,7 @@ typedef struct SUDOKUSCORE
 //#define cServerHostName         @"dailysudoku.cafe24.com"
 //#define cServerScript           @"dailysudoku_test.php"
 #ifdef DEBUG
-#define cServerScript           @"dailysudoku_test.php"
+#define cServerScript           @"dailysudoku.php"
 #else
 #define cServerScript           @"dailysudoku.php"
 #endif
