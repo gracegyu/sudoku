@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) NSURLRequest *request;
 
-@property (nonatomic, weak) id delegate;
+@property (nonatomic, assign) id delegate;
 
 + (JMCTransportOperation *)operationWithRequest:(NSURLRequest *)request delegate:(id)delegate;
 

@@ -30,7 +30,7 @@
 @property (nonatomic, assign) BOOL systemUser;
 @property (nonatomic, strong) NSString* body;
 @property (nonatomic, strong) NSDate* date;
-@property (nonatomic, weak) NSNumber* dateLong;
+@property (nonatomic, assign) NSNumber* dateLong;
 
 - (id) initWithAuthor:(NSString *)p_author systemUser:(BOOL)p_sys body:(NSString *)p_body date:(NSDate *)p_date requestId:(NSString *)requestId;
 + (JMCComment *) newCommentFromDict:(NSDictionary *)data;
