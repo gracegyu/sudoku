@@ -23,7 +23,7 @@
 	JMCSketch *_sketch;
 }
 
-@property (nonatomic, retain) JMCSketch *sketch;
+@property (nonatomic, strong) JMCSketch *sketch;
 
 @end
 

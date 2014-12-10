@@ -21,12 +21,11 @@
 #import "JMCIssueStore.h"
 #import "JMC.h"
 
-static UIFont *font;
-static UIFont *titleFont;
+@interface JMCIssueViewController ()
+@property (nonatomic, strong) UIFont *titleFont;
+@end
 
 @implementation JMCIssueViewController
-
-static float detailLabelHeight = 21.0f;
 
 @synthesize tableView = _tableView, issue = _issue;
 @synthesize comments = _comments;
@@ -36,14 +35,12 @@ static float detailLabelHeight = 21.0f;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        font = [UIFont systemFontOfSize:14.0];
-        titleFont = [UIFont boldSystemFontOfSize:14.0];
+
         UIBarButtonItem *replyButton =
         [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply
                                                       target:self
                                                       action:@selector(didTouchReply:)];
         self.navigationItem.rightBarButtonItem = replyButton;
-        [replyButton release];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshTable) name:kJMCNewCommentCreated object:nil];
     }
     return self;
@@ -52,10 +49,6 @@ static float detailLabelHeight = 21.0f;
 - (void)dealloc
 {
     self.issue = nil;
-    self.comments = nil;
-    self.tableView = nil;
-    self.feedbackController = nil;
-    [super dealloc];
 }
 
 - (void)scrollToLastComment
@@ -95,14 +88,12 @@ static float detailLabelHeight = 21.0f;
     NSMutableArray *commentData = [NSMutableArray arrayWithObject:description];
     [commentData addObjectsFromArray:issue.comments];
     self.comments = commentData;
-    [description release];
 }
 
 - (void)setIssue:(JMCIssue *)issue
 {
     if (_issue != issue) {
-        [_issue release];
-        _issue = [issue retain];
+        _issue = issue;
         [self setUpCommentDataFor:issue];
 
     }
@@ -126,39 +117,45 @@ static float detailLabelHeight = 21.0f;
     return (section == 0) ? 1 : [self.comments count];
 }
 
--(CGSize) detailSize 
-{
-    CGRect frame = self.view.frame;
-    return CGSizeMake(frame.size.width, detailLabelHeight);
+
+-(UIFont *)titleFont{
+
+    if(!_titleFont)
+        _titleFont = [UIFont boldSystemFontOfSize:14.0];
+    return _titleFont;
 }
 
--(CGSize) bubbleSize
-{
-    return CGSizeMake([self detailSize].width * 0.9f, self.view.frame.size.height * 20.0f); // 20 screens of text should be ample :)
-}
+-(CGSize)summaryLabelSize{
 
-- (CGSize)sizeForComment:(JMCComment *)comment font:(UIFont *)commentFont
-{
-    CGSize bubbleSize = [self bubbleSize];
-    // the text is constrained to 3/4 of the width of the bubble. see JMCMessageBubble setText...
-    CGSize constrainTo = CGSizeMake(bubbleSize.width * 0.75f, bubbleSize.height);
+    CGSize size;
+    CGSize constrainedSize = CGSizeMake(self.tableView.bounds.size.width, self.tableView.bounds.size.height*2.f);
 
-    return [comment.body sizeWithFont:commentFont constrainedToSize:constrainTo lineBreakMode:UILineBreakModeWordWrap];
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
+        size = [self.issue.summary boundingRectWithSize:constrainedSize
+                                                options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:@{NSFontAttributeName:self.titleFont}
+                                                context:nil
+        ].size;
+    else //if iOS version is below 6, use the method deprected in iOS 7
+        size = [self.issue.summary sizeWithFont:self.titleFont
+                              constrainedToSize:constrainedSize
+                                  lineBreakMode:NSLineBreakByClipping
+        ];
+
+    return size;
 
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-        CGSize size = CGSizeZero;
-        size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 20.0f, 18.0f) lineBreakMode:UILineBreakModeClip];
-        return size.height + 20;
+    if (indexPath.section == 0)
 
-    } else {
+        return self.summaryLabelSize.height + 10.f;
+
+    else {
+
         JMCComment *comment = [self.comments objectAtIndex:indexPath.row];
-        CGFloat height = [self sizeForComment:comment font:font].height;
-        return height + 15.0f + detailLabelHeight;
+        return [JMCMessageBubble cellSizeForComment:comment widthConstraint:tableView.bounds.size.width].height+8.f;
     }
 }
 
@@ -175,24 +172,12 @@ static BOOL isPad(void) {
     static NSString *cellIdentifierComment = @"JMCMessageCellComment";
 
     JMCMessageBubble *messageCell = (JMCMessageBubble *) [tableView dequeueReusableCellWithIdentifier:cellIdentifierComment];
-    
-    CGSize detailSize = [self detailSize];
-    CGSize frameSize = [self bubbleSize];
-    
-    if (messageCell == nil) {
-        messageCell = [[[JMCMessageBubble alloc] initWithReuseIdentifier:cellIdentifierComment detailSize:detailSize] autorelease];
-        messageCell.label.font = font;
-    }
 
-    [messageCell setText:comment.body 
-             leftAligned:comment.systemUser 
-                withFont:font 
-                    size:frameSize];
+    if (!messageCell)
+        messageCell = [[JMCMessageBubble alloc] initWithReuseIdentifier:cellIdentifierComment];
 
-    NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [dateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    messageCell.detailLabel.text = [dateFormatter stringFromDate:comment.date];
+    [messageCell setComment:comment leftAligned:comment.systemUser];
+
     return messageCell;
 }
 
@@ -207,19 +192,17 @@ static BOOL isPad(void) {
     if (indexPath.section == 0) {
         static NSString *cellIdentifier = @"JMCMessageCell";
         JMCMessageCell *issueCell = (JMCMessageCell *) [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-        if (issueCell == nil) {
+        if (!issueCell) {
 
-            issueCell = [[[JMCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] autorelease];
+            issueCell = [[JMCMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
             issueCell.backgroundColor = [UIColor whiteColor];
             issueCell.selectionStyle = UITableViewCellSelectionStyleNone;
-            
-            CGRect screenFrame = [UIScreen mainScreen].applicationFrame;
-            CGSize size = CGSizeZero;
-            size = [self.issue.summary sizeWithFont:titleFont constrainedToSize:CGSizeMake(screenFrame.size.width - 40.0f, 18.0f) lineBreakMode:UILineBreakModeTailTruncation];
 
-            
-            issueCell.title = [[[UILabel alloc] initWithFrame:CGRectMake(screenFrame.size.width * 0.1f, 10, size.width, size.height)] autorelease];
-            issueCell.title.font = titleFont;
+            CGSize size = self.summaryLabelSize;
+
+            issueCell.title = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, tableView.bounds.size.width, size.height)];
+            issueCell.title.textAlignment = NSTextAlignmentCenter;
+            issueCell.title.font = self.titleFont;
             issueCell.title.textColor = [UIColor colorWithRed:17 / 255.0f green:76 / 255.0f blue:147 / 255.0f alpha:1.0];
             issueCell.autoresizesSubviews = YES;
             issueCell.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin;
@@ -243,7 +226,7 @@ static BOOL isPad(void) {
 {
 
     //TODO: using a UINavigationController to get the nice navigationBar at the top of the feedback view. better way to do this?
-    self.feedbackController = [[[JMCViewController alloc] initWithNibName:@"JMCViewController" bundle:nil] autorelease];
+    self.feedbackController = [[JMCViewController alloc] initWithNibName:@"JMCViewController" bundle:nil];
     self.feedbackController.replyToIssue = self.issue;
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -253,8 +236,7 @@ static BOOL isPad(void) {
         UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:self.feedbackController];
         navController.navigationBar.barStyle = [[JMC sharedInstance] getBarStyle];
         navController.navigationBar.tintColor = [JMC sharedInstance].options.barTintColor;
-        JMCPresentViewController(self, navController);
-        [navController release];
+        [self presentViewController:navController animated:YES completion:nil];
     }
 }
 

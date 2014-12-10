@@ -23,17 +23,6 @@
             comments = _comments, hasUpdates = _hasUpdates, dateUpdated = _dateUpdated,
             dateCreated = _dateCreated, dateCreatedLong, dateUpdatedLong;
 
-- (void) dealloc {
-    self.requestId = nil;
-    self.key = nil;
-    self.status = nil;
-    self.summary = nil;
-    self.description = nil;
-    self.comments = nil;
-    self.dateUpdated = nil;
-    self.dateCreated = nil;
-    [super dealloc];
-}
 
 - (JMCComment *) latestComment {
     return [self.comments count] > 0 ? ((JMCComment *)[self.comments lastObject]) : nil;
@@ -61,10 +50,10 @@
 
 +(JMCIssue *)issueWith:(NSString*)issueJSON requestId:(NSString*)uuid
 {
-    NSDictionary *responseDict = [JMCTransport parseJSONString:issueJSON];
+    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:[issueJSON dataUsingEncoding:NSUTF8StringEncoding] options:nil error:nil];
     JMCIssue *issue = [[JMCIssue alloc] initWithDictionary:responseDict];
     issue.requestId = uuid;
-    return [issue autorelease];
+    return issue;
 }
 
 
@@ -108,7 +97,6 @@
             self.description = @"(no description)";
         }
     }
-    [lowerMap release];
     return self;
 }
 

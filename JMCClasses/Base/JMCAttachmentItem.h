@@ -37,15 +37,15 @@ typedef int JMCAttachmentType;
     BOOL deleteFileWhenSent; // if true, then the file backing this attachment, will be purged
 }
 
-@property(nonatomic, retain) NSString *contentType;
+@property(nonatomic, strong) NSString *contentType;
 @property(nonatomic, assign) NSUInteger dataLength;
-@property(nonatomic, retain) NSString *path;
+@property(nonatomic, strong) NSString *path;
 @property(nonatomic, assign) BOOL deleteFileWhenSent;
 
-@property(nonatomic, retain) NSData *data;
-@property(nonatomic, retain) NSString *name;
-@property(nonatomic, retain) NSString *filenameFormat;
-@property(nonatomic, retain) UIImage *thumbnail;
+@property(nonatomic, strong) NSData *data;
+@property(nonatomic, strong) NSString *name;
+@property(nonatomic, strong) NSString *filenameFormat;
+@property(nonatomic, strong) UIImage *thumbnail;
 @property(nonatomic) JMCAttachmentType type;
 
 - (id)initWithName:(NSString *)aName 

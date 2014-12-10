@@ -59,7 +59,6 @@
     
     
     [outStream close];
-    [outStream release];
     aslresponse_free(r);
 }
 

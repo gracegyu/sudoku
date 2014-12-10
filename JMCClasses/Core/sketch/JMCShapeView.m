@@ -45,11 +45,5 @@
     [history removeLastObject];
 }
 
-- (void)dealloc
-{
-    [shapes release];
-    [history release];
-    [super dealloc];
-}
 
 @end

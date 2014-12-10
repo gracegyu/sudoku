@@ -20,7 +20,7 @@
 #import "JMCRequestQueue.h"
 
 @interface JMCIssueTransport ()
-@property(nonatomic, retain) NSURLRequest *createIssueRequest;
+@property(nonatomic, strong) NSURLRequest *createIssueRequest;
 @end
 
 @implementation JMCIssueTransport
@@ -59,9 +59,5 @@
     [self sayThankYou];
 }
 
--(void) dealloc {
-    [createIssueRequest release];
-    [super dealloc];
-}
 
 @end

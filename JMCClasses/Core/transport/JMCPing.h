@@ -23,7 +23,7 @@
     NSURL *_baseUrl;
     NSURLConnection *connection;
 }
-@property (retain, nonatomic) NSURL * baseUrl;
+@property (strong, nonatomic) NSURL * baseUrl;
 
 - (void) start;
 - (void) sendPing;

@@ -39,16 +39,10 @@
 - (id)copyWithZone:(NSZone *)zone
 {
 	JMCLine * clone = [[JMCLine alloc] init];
-	clone.points = [[[NSMutableArray alloc] initWithArray:self.points copyItems:YES] autorelease];
+	clone.points = [[NSMutableArray alloc] initWithArray:self.points copyItems:YES];
 	return clone;
 }
 
-- (void) dealloc
-{
-    self.color = nil;
-    self.points = nil;
-	[super dealloc];
-}
 
 
 

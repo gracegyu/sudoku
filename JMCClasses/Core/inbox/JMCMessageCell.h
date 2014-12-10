@@ -23,8 +23,8 @@
     UIView* _bgview;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel* title;
-@property (nonatomic, retain) IBOutlet UILabel* body;
-@property (nonatomic, retain) IBOutlet UIView* bgview;
+@property (nonatomic, strong) IBOutlet UILabel* title;
+@property (nonatomic, strong) IBOutlet UILabel* body;
+@property (nonatomic, strong) IBOutlet UIView* bgview;
 
 @end

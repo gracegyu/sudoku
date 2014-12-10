@@ -31,9 +31,9 @@ static NSString *cellId = @"CommentCell";
 
     self = [super initWithStyle:style];
     if (self) {
-        self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
                                                                                                 target:self
-                                                                                                action:@selector(compose:)] autorelease];
+                                                                                                action:@selector(compose:)];
 
         self.title = JMCLocalizedString(@"Your Feedback", @"Title of list of previous messages");
         _dateFormatter = [[NSDateFormatter alloc] init];
@@ -50,7 +50,7 @@ static NSString *cellId = @"CommentCell";
         [self.navigationController pushViewController:[[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeCustom] animated:YES];
     }
     else {
-        JMCPresentViewController(self, [[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeDefault]);
+        [self presentViewController:[[JMC sharedInstance] feedbackViewControllerWithMode:JMCViewControllerModeDefault] animated:YES completion:nil];
     }
 }
 
@@ -65,7 +65,7 @@ static NSString *cellId = @"CommentCell";
     }
     
     if (presentingViewController) {
-        JMCDismissViewController(self);
+        [self dismissViewControllerAnimated:YES completion:nil];
     } else {
         CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
         CGSize screenSize = [[UIScreen mainScreen] applicationFrame].size;
@@ -106,10 +106,10 @@ static NSString *cellId = @"CommentCell";
         self.navigationItem.leftBarButtonItem = nil;
     }
     else {
-        self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Close", @"Close navigation item")
+        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Close", @"Close navigation item")
                                                                                   style:UIBarButtonItemStyleBordered
                                                                                  target:self
-                                                                                 action:@selector(cancel:)] autorelease];
+                                                                                 action:@selector(cancel:)];
     }
 }
 
@@ -153,7 +153,6 @@ static NSString *cellId = @"CommentCell";
     JMCSentStatus sentStatus = [[JMCRequestQueue sharedInstance] requestStatusFor:issue.requestId];
     cell.sentStatusLabel.hidden = sentStatus != JMCSentStatusPermError; // TODO: after n-attempts are reached, set status to PermError.
 
-    [issue release];
     return cell;
 }
 
@@ -184,7 +183,6 @@ static NSString *cellId = @"CommentCell";
                              cancelButtonTitle:@"OK"
                              otherButtonTitles:nil];
             [alert show];
-            [alert release];
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES]; 
 
@@ -193,22 +191,18 @@ static NSString *cellId = @"CommentCell";
         issue.comments = [self.issueStore loadCommentsFor:issue];
         JMCIssueViewController *detailViewController = [[JMCIssueViewController alloc] initWithNibName:@"JMCIssueViewController" bundle:nil];
         detailViewController.issue = issue;
+        detailViewController.title = [issue.summary stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         [self.navigationController pushViewController:detailViewController animated:YES];
-        [detailViewController release];
         
         [self.issueStore markAsRead:issue];
         [tableView reloadData]; // redraw the table.
     }
-    [issue release];
 }
 #pragma mark end
 
 - (void)dealloc {
-    self.issueStore = nil;
-    [_dateFormatter release];
     _dateFormatter = nil;
-    [super dealloc];
 }
 
 @end

@@ -48,13 +48,12 @@
 {
     NSString *uuid = nil;
     CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
-    uuid = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+    uuid = (NSString*) CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
     
     NSString* attachmentDir = [[[JMC sharedInstance] dataDirPath] stringByAppendingPathComponent:@"attachments"];
     
     NSString* file = [attachmentDir stringByAppendingPathComponent:[name stringByAppendingFormat:@"-%@", uuid]];
     CFRelease(theUUID);
-    CFRelease(uuid);
 
     NSFileManager* fileManager = [NSFileManager defaultManager];
     if (![fileManager fileExistsAtPath:attachmentDir]) {
@@ -70,7 +69,7 @@
     {
         self.path = file;
         self.dataLength = [data length];
-        [data release]; // release the data from memory
+         // release the data from memory
         data = nil; 
     }    
 }
@@ -82,10 +81,10 @@
     filenameFormat:(NSString *)aFilenameFormat {
     self = [super init];
     if (self) {
-        contentType = [aContentType retain];
-        data = [aData retain];
-        filenameFormat = [aFilenameFormat retain];
-        name = [aName retain];
+        contentType = aContentType;
+        data = aData;
+        filenameFormat = aFilenameFormat;
+        name = aName;
         type = aType;
         thumbnail = nil;
         [self saveDataToFile:[self attachmentDirPath]];
@@ -103,12 +102,12 @@
 {
     self = [super init];
     if (self) {
-        contentType = [aContentType retain];
-        path = [aPath retain];
+        contentType = aContentType;
+        path = aPath;
         deleteFileWhenSent = NO; // if a client gives us a path, do not delete it
         dataLength = aDataLength;
-        filenameFormat = [aFilenameFormat retain];
-        name = [aName retain];
+        filenameFormat = aFilenameFormat;
+        name = aName;
         type = aType;
         thumbnail = nil;
     }
@@ -117,7 +116,7 @@
 
 -(void) setData:(NSData *)aData
 {
-    data = [aData retain]; 
+    data = aData; 
     [self saveDataToFile:self.path];
 }
 
@@ -154,12 +153,11 @@
 
 
 - (void)dealloc {
-    [thumbnail release], thumbnail = nil;
-    [filenameFormat release], filenameFormat = nil;
-    [contentType release], contentType = nil;
-    [data release], data = nil;
-    [path release], path = nil;
-    [name release], name = nil;
-    [super dealloc];
+    thumbnail = nil;
+    filenameFormat = nil;
+    contentType = nil;
+    data = nil;
+    path = nil;
+    name = nil;
 }
 @end

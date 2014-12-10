@@ -30,16 +30,16 @@
     BOOL _hasUpdates;
 }
 
-@property (nonatomic, retain) NSDate* dateCreated;
-@property (nonatomic, retain) NSDate* dateUpdated;
-@property (nonatomic, assign) NSNumber* dateUpdatedLong;
-@property (nonatomic, assign) NSNumber* dateCreatedLong;
-@property (nonatomic, retain) NSString* requestId;
-@property (nonatomic, retain) NSString* key;
-@property (nonatomic, retain) NSString* status;
-@property (nonatomic, retain) NSString* summary;
-@property (nonatomic, retain) NSString* description;
-@property (nonatomic, retain) NSMutableArray* comments;
+@property (nonatomic, strong) NSDate* dateCreated;
+@property (nonatomic, strong) NSDate* dateUpdated;
+@property (nonatomic, weak) NSNumber* dateUpdatedLong;
+@property (nonatomic, weak) NSNumber* dateCreatedLong;
+@property (nonatomic, strong) NSString* requestId;
+@property (nonatomic, strong) NSString* key;
+@property (nonatomic, strong) NSString* status;
+@property (nonatomic, strong) NSString* summary;
+@property (nonatomic, strong) NSString* description;
+@property (nonatomic, strong) NSMutableArray* comments;
 @property (nonatomic, assign) BOOL hasUpdates;
 
 - (id) initWithDictionary:(NSDictionary*)map;
