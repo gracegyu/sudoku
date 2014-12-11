@@ -82,19 +82,19 @@
 * The base URL of the JIRA instance.
 * e.g. http://connect.onjira.com
 */
-@property (strong, nonatomic) NSString* url;
+@property (retain, nonatomic) NSString* url;
 
 /**
 * If non-nil, use this project name when creating feedback. Otherwise, the bundle name is used.
 * This value can be either the JIRA Project's name, _or_ its Project Key. e.g. CONNECT
 */
-@property (strong) NSString* projectKey;
+@property (retain) NSString* projectKey;
 
 /**
 * This is required to talk to JIRA.
 * A API Key exists per JIRA project. see also http://developer.atlassian.com/x/J4VW
 */
-@property (strong) NSString* apiKey;
+@property (retain) NSString* apiKey;
 
 /**
  * If YES users will be able to submit screenshots/photos with their feedback, this is YES by default.
@@ -143,7 +143,7 @@
 * If the JIRA instance contains a custom field of the same name, then the value will be used
 * when creating any issues.
 */
-@property (strong) NSDictionary* customFields;
+@property (retain) NSDictionary* customFields;
 
 /**
  * The style to use for all navigation bars.
@@ -154,7 +154,7 @@
 /**
  * The color to use for all navigation bars.
  */
-@property (strong) UIColor* barTintColor;
+@property (retain) UIColor* barTintColor;
 
 /**
  * The presentation styles of the modal view controllers.
@@ -166,11 +166,11 @@
 
 @interface JMC : NSObject {
     @private
-    NSURL* __weak _url;
+    NSURL* _url;
     JMCPing *_pinger;
     JMCNotifier *_notifier;
     JMCCrashSender *_crashSender;
-    id <JMCCustomDataSource> __weak _customDataSource;
+    id <JMCCustomDataSource> _customDataSource;
     JMCOptions* _options;
 }
 
@@ -179,9 +179,9 @@ enum JMCViewControllerMode {
   JMCViewControllerModeCustom
 };
 
-@property (nonatomic, weak) id <JMCCustomDataSource> customDataSource;
-@property (nonatomic, strong) JMCOptions* options;
-@property (weak, readonly) NSURL* url;
+@property (nonatomic, assign) id <JMCCustomDataSource> customDataSource;
+@property (nonatomic, retain) JMCOptions* options;
+@property (readonly) NSURL* url;
 
 + (JMC *)sharedInstance;
 

@@ -20,17 +20,14 @@
 
 #define TMP_FOLDER [NSHomeDirectory() stringByAppendingPathComponent:@"tmp"]
 
-@interface JMCRecorder ()
-@property (nonatomic, strong) NSString* recorderFilePath;
-@end
-
 @implementation JMCRecorder
 
+NSString *_recorderFilePath;
 
 + (JMCRecorder *)instance {
     static JMCRecorder *singleton;
     if (singleton == nil) {
-        singleton = [[JMCRecorder alloc] init];
+        singleton = [[[JMCRecorder alloc] init] retain];
     }
     return singleton;
 }
@@ -52,7 +49,7 @@
     if ((self = [super init])) {
 
         self.recordTime = 10;
-        _recorderFilePath = [NSString stringWithFormat:@"%@/jiraconnect-recording.aac", TMP_FOLDER];
+        _recorderFilePath = [[NSString stringWithFormat:@"%@/jiraconnect-recording.aac", TMP_FOLDER] retain];
 
         // delete the previous recording.
         [self cleanUp];
@@ -71,7 +68,7 @@
             return nil;
         }
 
-        NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];
+        NSMutableDictionary *recordSetting = [[[NSMutableDictionary alloc] init] autorelease];
 
         [recordSetting setValue :[NSNumber numberWithInt:kAudioFormatMPEG4AAC] forKey:AVFormatIDKey];
 
@@ -89,6 +86,7 @@
         [recorder prepareToRecord];
         recorder.meteringEnabled = YES;
         self.recorder = recorder;
+        [recorder release];
     }
     return self;
 }
@@ -107,7 +105,7 @@
 
 - (float)previousDuration {
 
-    AVAudioPlayer *player = [[AVAudioPlayer alloc] initWithContentsOfURL:self.recorder.url error:nil];
+    AVAudioPlayer *player = [[[AVAudioPlayer alloc] initWithContentsOfURL:self.recorder.url error:nil] autorelease];
     player.volume = 1;
     return (float) player.duration;
 
@@ -136,5 +134,11 @@
 
 @synthesize recorder = _recorder, recordTime = _recordTime;
 
+- (void)dealloc {
+    self.recorder = nil;
+    [_recorderFilePath release];
+    _recorderFilePath = nil;
+    [super dealloc];
+}
 
 @end

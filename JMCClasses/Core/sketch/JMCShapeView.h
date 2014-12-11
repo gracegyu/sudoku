@@ -14,8 +14,8 @@
     NSMutableArray *history;
 }
 
-@property (nonatomic, strong) NSMutableArray *shapes;
-@property (nonatomic, strong) NSMutableArray *history;
+@property (nonatomic, retain) NSMutableArray *shapes;
+@property (nonatomic, retain) NSMutableArray *history;
 
 - (void)clear;
 - (void)undo;

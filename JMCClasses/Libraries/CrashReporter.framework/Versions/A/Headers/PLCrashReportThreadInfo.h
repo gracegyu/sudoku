@@ -28,8 +28,45 @@
 
 #import <Foundation/Foundation.h>
 
-#import "PLCrashReportStackFrameInfo.h"
-#import "PLCrashReportRegisterInfo.h"
+@interface PLCrashReportStackFrameInfo : NSObject {
+@private
+    /** Frame instruction pointer. */
+    uint64_t _instructionPointer;
+}
+
+- (id) initWithInstructionPointer: (uint64_t) instructionPointer;
+
+/**
+ * Frame's instruction pointer.
+ */
+@property(nonatomic, readonly) uint64_t instructionPointer;
+
+@end
+
+
+@interface PLCrashReportRegisterInfo : NSObject {
+@private
+    /** Register name */
+    NSString *_registerName;
+
+    /** Register value */
+    uint64_t _registerValue;
+}
+
+- (id) initWithRegisterName: (NSString *) registerName registerValue: (uint64_t) registerValue;
+
+/**
+ * Register name.
+ */
+@property(nonatomic, readonly) NSString *registerName;
+
+/**
+ * Register value.
+ */
+@property(nonatomic, readonly) uint64_t registerValue;
+
+@end
+
 
 @interface PLCrashReportThreadInfo : NSObject {
 @private

@@ -18,7 +18,7 @@
 #pragma mark - Init / Dealloc Methods
 
 + (JMCTransportOperation *)operationWithRequest:(NSURLRequest *)request delegate:(id)delegate {
-    JMCTransportOperation *operation = [[JMCTransportOperation alloc] init];
+    JMCTransportOperation *operation = [[[JMCTransportOperation alloc] init] autorelease];
     operation.request = request;
     operation.delegate = delegate;
     return operation;
@@ -26,6 +26,9 @@
 
 - (void)dealloc {
     delegate = nil;
+    [responseData release];
+    [request release];
+    [super dealloc];
 }
 
 #pragma mark - NSOperation Methods
@@ -94,26 +97,26 @@
     }];
 #endif
     
-    @autoreleasepool {
-        requestThread = [NSThread currentThread];
-        
-        connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        if (connection != nil) {
-            do {
-                [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-            } while (looping);
-        }    
-        
-        [self willChangeValueForKey:@"isFinished"];
-        [self willChangeValueForKey:@"isExecuting"];    
-        finished = YES;
-        executing = NO;
-        [self didChangeValueForKey:@"isExecuting"];
-        [self didChangeValueForKey:@"isFinished"];  
-        
-        requestThread = nil;
-        connection = nil;
-    }
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    requestThread = [NSThread currentThread];
+    
+    connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+    if (connection != nil) {
+        do {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        } while (looping);
+    }    
+    
+    [self willChangeValueForKey:@"isFinished"];
+    [self willChangeValueForKey:@"isExecuting"];    
+    finished = YES;
+    executing = NO;
+    [self didChangeValueForKey:@"isExecuting"];
+    [self didChangeValueForKey:@"isFinished"];  
+    
+    requestThread = nil;
+    [connection release], connection = nil;
+    [pool drain];
     
 #if TARGET_OS_IPHONE && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_4_0
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -130,6 +133,7 @@
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response {
     statusCode = [(NSHTTPURLResponse *)response statusCode];
     
+    [responseData release];
     responseData = [[NSMutableData alloc] init];
     [responseData setLength:0];
 }
@@ -156,6 +160,7 @@
         JMCDLog(@"%@ Request FAILED & queued item is not deleted. %@ %@",self, requestId, responseString);
         [self connection:connection didFailWithError:nil];
     }
+    [responseString release];
     looping = NO;
 }
 
@@ -179,6 +184,7 @@
     }
     NSString *absoluteURL = [[request.URL absoluteURL] description];
     JMCDLog(@"Request failed: %@ URL: %@, response code: %d", msg, absoluteURL, statusCode);
+    [responseString release];
 #endif
     
     looping = NO;

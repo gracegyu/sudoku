@@ -37,5 +37,14 @@
 
 @synthesize dateLabel=_dateLabel, titleLabel=_titleLabel, detailsLabel=_detailsLabell, statusLabel=_statusLabel, sentStatusLabel=_sentStatusLabel;
 
+- (void)dealloc
+{
+    self.dateLabel = nil;
+    self.titleLabel = nil;
+    self.detailsLabel = nil;
+    self.statusLabel = nil;
+    self.sentStatusLabel = nil;
+    [super dealloc];
+}
 
 @end

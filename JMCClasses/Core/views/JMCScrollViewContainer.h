@@ -1,5 +1,5 @@
 @interface JMCScrollViewContainer : UIView
 
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
+@property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 
 @end

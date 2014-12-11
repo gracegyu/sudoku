@@ -34,8 +34,14 @@
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextDrawPath(context, kCGPathStroke);
     CGContextRestoreGState(context);
+    [renderer release];
 }
 
+- (void)dealloc
+{
+    self.sketch = nil;
+    [super dealloc];
+}
 
 @end
 
@@ -61,5 +67,9 @@
     CGContextAddLineToPoint(self.context, point.x, point.y);
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+}
 @end
 

@@ -22,16 +22,21 @@
 
 #import <Foundation/Foundation.h>
 
-@class JMCComment;
 
-@interface JMCMessageBubble : UITableViewCell
+@interface JMCMessageBubble : UITableViewCell {
+    
+    @private
+    UIImageView *bubble;
+    UITextView *label;
+    UILabel *detailLabel;
+    float detailLabelHeight;
+}
 
-+ (CGSize)detailLabelSizeForComment:(JMCComment *)comment withWidthConstraint:(CGFloat)widthConstraint;
-+ (CGSize)bubbleSizeForComment:(JMCComment *)comment withWidthConstraint:(CGFloat)widthConstraint;
-+ (CGSize)cellSizeForComment:(JMCComment *)comment widthConstraint:(CGFloat)widthConstraint;
+@property (nonatomic, retain) UITextView *label;
+@property (nonatomic, retain) UILabel *detailLabel;
 
-- (id)initWithReuseIdentifier:(NSString *)cellIdentifierComment;
+- (id)initWithReuseIdentifier:(NSString *)cellIdentifierComment detailSize:(CGSize)detailSize;
 
-- (void)setComment:(JMCComment *)comment leftAligned:(BOOL)leftAligned;
+- (void)setText:(NSString *)string leftAligned:(BOOL)leftAligned withFont:(UIFont *)font size:(CGSize)constSize;
 
 @end

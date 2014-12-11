@@ -51,7 +51,7 @@ static CGRect endFrame;
         _label.textColor = [UIColor whiteColor];
         [_toolbar addSubview:_label];
 
-        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
         [_button setFrame:endFrame];
         [_button addTarget:self action:@selector(displayNotifications:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -137,12 +137,12 @@ static CGRect endFrame;
     CGRect currEndFrame = CGRectMake(0, 0 + statusBarFrame.size.height, frameSize.width, frameSize.height);
 
     if (!_viewController) {
-        _viewController = [[JMC sharedInstance] issuesViewControllerWithMode:JMCViewControllerModeDefault];
+        _viewController = [[[JMC sharedInstance] issuesViewControllerWithMode:JMCViewControllerModeDefault] retain];
     }
     
     UIWindow *window = [self findVisibleWindow];
     if ((window) && ([window respondsToSelector:@selector(rootViewController)]) && ([window rootViewController])) {
-        [window.rootViewController presentViewController:_viewController animated:YES completion:nil];
+        JMCPresentViewController(window.rootViewController, _viewController);
     }
     else {
         [_viewController.view setFrame:currStartFrame];
@@ -160,12 +160,14 @@ static CGRect endFrame;
 
 - (void)dealloc {
 
+    self.view = nil;
     
-    _viewController = nil;
-    _label = nil;
-    _toolbar = nil;
-    _button = nil;
+    [_viewController release], _viewController = nil;
+    [_label release], _label = nil;
+    [_toolbar release], _toolbar = nil;
+    [_button release], _button = nil;
     
+    [super dealloc];
 }
 
 @end

@@ -1,7 +1,7 @@
 /*
  * Author: Landon Fuller <landonf@plausiblelabs.com>
  *
- * Copyright (c) 2008-2013 Plausible Labs Cooperative, Inc.
+ * Copyright (c) 2008-2010 Plausible Labs Cooperative, Inc.
  * All rights reserved.
  *
  * Permission is hereby granted, free of charge, to any person
@@ -27,20 +27,14 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "PLCrashReportSystemInfo.h"
+#import "PLCrashReportMachineInfo.h"
 #import "PLCrashReportApplicationInfo.h"
+#import "PLCrashReportProcessInfo.h"
+#import "PLCrashReportSignalInfo.h"
+#import "PLCrashReportThreadInfo.h"
 #import "PLCrashReportBinaryImageInfo.h"
 #import "PLCrashReportExceptionInfo.h"
-#import "PLCrashReportMachineInfo.h"
-#import "PLCrashReportMachExceptionInfo.h"
-#import "PLCrashReportProcessInfo.h"
-#import "PLCrashReportProcessorInfo.h"
-#import "PLCrashReportRegisterInfo.h"
-#import "PLCrashReportSignalInfo.h"
-#import "PLCrashReportStackFrameInfo.h"
-#import "PLCrashReportSymbolInfo.h"
-#import "PLCrashReportSystemInfo.h"
-#import "PLCrashReportThreadInfo.h"
 
 /** 
  * @ingroup constants
@@ -99,9 +93,6 @@ typedef struct _PLCrashReportDecoder _PLCrashReportDecoder;
 
     /** Signal info */
     PLCrashReportSignalInfo *_signalInfo;
-    
-    /** Mach exception info */
-    PLCrashReportMachExceptionInfo *_machExceptionInfo;
 
     /** Thread info (PLCrashReportThreadInfo instances) */
     NSArray *_threads;
@@ -111,9 +102,6 @@ typedef struct _PLCrashReportDecoder _PLCrashReportDecoder;
 
     /** Exception information (may be nil) */
     PLCrashReportExceptionInfo *_exceptionInfo;
-
-    /** Report UUID */
-    CFUUIDRef _uuid;
 }
 
 - (id) initWithData: (NSData *) encodedData error: (NSError **) outError;
@@ -158,18 +146,6 @@ typedef struct _PLCrashReportDecoder _PLCrashReportDecoder;
 @property(nonatomic, readonly) PLCrashReportSignalInfo *signalInfo;
 
 /**
- * Mach exception information, if available. This will only be included in the
- * case that encoding crash reporter's exception-based reporting was enabled, and a Mach
- * exception was caught.
- *
- * @warning If Mach exception information is available, the legacy signalInfo property will also be provided; this
- * s required to maintain backwards compatibility with the established API. Note, however, that the signal info may be derived from the
- * Mach exception info by the encoding crash reporter, and thus may not exactly match the kernel exception-to-signal
- * mappings implemented in xnu. As such, when Mach exception info is available, its use should be preferred.
- */
-@property(nonatomic, readonly) PLCrashReportMachExceptionInfo *machExceptionInfo;
-
-/**
  * Thread information. Returns a list of PLCrashReportThreadInfo instances.
  */
 @property(nonatomic, readonly) NSArray *threads;
@@ -189,12 +165,5 @@ typedef struct _PLCrashReportDecoder _PLCrashReportDecoder;
  * otherwise nil.
  */
 @property(nonatomic, readonly) PLCrashReportExceptionInfo *exceptionInfo;
-
-/**
- * A client-generated 16-byte UUID. May be used to filter duplicate reports submitted or generated
- * by a single client. Only available in later (v1.2+) crash report format versions. If not available,
- * will be NULL.
- */
-@property(nonatomic, readonly) CFUUIDRef uuidRef;
 
 @end

@@ -15,10 +15,10 @@
 +(JMCSketchViewController*) makeSketchViewControllerFor:(NSData*)imageData withId:(NSInteger)imageId
 {
     JMCSketchViewController *sketchViewController = 
-        [[JMCSketchViewController alloc] initWithNibName:@"JMCSketchViewController" bundle:nil];
+        [[[JMCSketchViewController alloc] initWithNibName:@"JMCSketchViewController" bundle:nil] autorelease];
     
     // get the original image, wire it up to the sketch controller
-    sketchViewController.image = [[UIImage alloc] initWithData:imageData];
+    sketchViewController.image = [[[UIImage alloc] initWithData:imageData] autorelease];
     sketchViewController.imageId = [NSNumber numberWithUnsignedInteger:imageId]; // set this image's id. just the index in the array
 
     

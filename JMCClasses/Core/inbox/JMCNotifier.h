@@ -22,7 +22,7 @@
     UIViewController *_viewController;
 }
 
-@property(strong, nonatomic) UIView *view;
+@property(retain, nonatomic) UIView *view;
 
 - (id)initWithStartFrame:(CGRect)start endFrame:(CGRect)end;
 

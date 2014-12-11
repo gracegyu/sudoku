@@ -50,7 +50,7 @@
 +(id)optionsWithContentsOfFile:(NSString *)filePath
 {
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:filePath];
-    JMCOptions* options = [[JMCOptions alloc] init];
+    JMCOptions* options = [[[JMCOptions alloc] init]autorelease];
     options.url = [dict objectForKey:kJMCOptionUrl];
     options.projectKey = [dict objectForKey:kJMCOptionProjectKey];
     options.apiKey = [dict objectForKey:kJMCOptionApiKey];
@@ -77,7 +77,7 @@
       notifications:(BOOL)notifications
        customFields:(NSDictionary*)customFields
 {
-    JMCOptions* options = [[JMCOptions alloc] init];
+    JMCOptions* options = [[[JMCOptions alloc] init]autorelease];
     options.url = jiraUrl;
     options.projectKey = projectKey;
     options.apiKey = apiKey;
@@ -118,12 +118,17 @@
     NSString* charToAppend = lastChar != '/' ? @"/" : @"";
     url = [url stringByAppendingString:charToAppend];
 
-    _url = url;
+    [_url autorelease];
+    _url = [url retain];
 }
 
 -(void) dealloc
 {
     self.url = nil;
+    self.projectKey = nil;
+    self.apiKey = nil;
+    self.customFields = nil;
+    [super dealloc];
 }
 
 @end
@@ -131,10 +136,10 @@
 
 @interface JMC ()
 
-@property (nonatomic, strong) JMCPing * _pinger;
-@property (nonatomic, strong) JMCNotifier * _notifier;
-@property (nonatomic, strong) JMCCrashSender *_crashSender;
-@property (nonatomic, strong) NSString* _dataDirPath;
+@property (nonatomic, retain) JMCPing * _pinger;
+@property (nonatomic, retain) JMCNotifier * _notifier;
+@property (nonatomic, retain) JMCCrashSender *_crashSender;
+@property (nonatomic, retain) NSString* _dataDirPath;
 
 
 -(CGRect)notifierStartFrame;
@@ -169,7 +174,14 @@ static JMCViewController* _jcViewController;
 
 - (void)dealloc
 {
+    self.options = nil;
     self.customDataSource = nil;
+    [_pinger release];
+    [_notifier release];
+    [_crashSender release];
+    [_dataDirPath release];
+    [_jcViewController release];
+    [super dealloc];
 }
 
 -(id)init
@@ -177,6 +189,7 @@ static JMCViewController* _jcViewController;
     if ((self = [super init])) {
         JMCOptions* options = [[JMCOptions alloc] init];
         self.options = options;
+        [options release];
         
         self._dataDirPath = [self makeDataDirPath];
         
@@ -202,9 +215,10 @@ static JMCViewController* _jcViewController;
         NSString *uuid = nil;
         CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
         if (theUUID) {
-            uuid = (NSString*) CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+            uuid = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
             CFRelease(theUUID);
             [[NSUserDefaults standardUserDefaults] setObject:uuid forKey:kJIRAConnectUUID];
+            CFRelease(uuid);
         }
     }
 }
@@ -216,6 +230,7 @@ static JMCViewController* _jcViewController;
     options.projectKey = project;
     options.apiKey = apiKey;
     [self configureWithOptions:options];
+    [options release];
 }
 
 - (void) configureJiraConnect:(NSString*) withUrl
@@ -228,6 +243,7 @@ static JMCViewController* _jcViewController;
     options.projectKey = project;
     options.apiKey = apiKey;
     [self configureWithOptions:options dataSource:customDataSource];
+    [options release];
 }
 
 - (void) configureJiraConnect:(NSString*) withUrl
@@ -242,6 +258,7 @@ static JMCViewController* _jcViewController;
     options.apiKey = apiKey;
     options.locationEnabled = locationEnabled;
     [self configureWithOptions:options dataSource:customDataSource];
+    [options release];
 }
 
 - (void) configureWithOptions:(JMCOptions*)options
@@ -272,7 +289,7 @@ static JMCViewController* _jcViewController;
 -(void) start 
 {
     if ([self crashReportingIsEnabled]) {
-        self._crashSender = [[JMCCrashSender alloc] init];
+        self._crashSender = [[[JMCCrashSender alloc] init] autorelease ];
         [CrashReporter enableCrashReporter];
         // TODO: firing this when network becomes active could be better
         [NSTimer scheduledTimerWithTimeInterval:3
@@ -286,10 +303,11 @@ static JMCViewController* _jcViewController;
 
     if (self.options.notificationsEnabled) {
 
-        self._pinger = [[JMCPing alloc] init];
+        self._pinger = [[[JMCPing alloc] init] autorelease ];
         JMCNotifier* notifier = [[JMCNotifier alloc] initWithStartFrame:[self notifierStartFrame]
                                                                endFrame:[self notifierEndFrame]];
         self._notifier = notifier;
+        [notifier release];
         // whenever the Application Becomes Active, ping for notifications from JIRA.
         [[NSNotificationCenter defaultCenter] removeObserver:_pinger]; // in case app was already configured, don't add a second observer.
         [[NSNotificationCenter defaultCenter] addObserver:_pinger
@@ -316,7 +334,7 @@ static JMCViewController* _jcViewController;
     return self.options.url ? [NSURL URLWithString:self.options.url] : nil;
 }
 
--(JMCViewController*)createJMCViewController
+-(JMCViewController*)initJMCViewController
 {
     return [[JMCViewController alloc] initWithNibName:@"JMCViewController" bundle:nil];
 }
@@ -324,7 +342,7 @@ static JMCViewController* _jcViewController;
 - (JMCViewController *)_jcController {
     if (_jcViewController == nil) {
 
-        _jcViewController = [self createJMCViewController];
+        _jcViewController = [[self initJMCViewController] retain];
         _jcViewController.modalPresentationStyle = self.options.modalPresentationStyle;
     }
     return _jcViewController;
@@ -332,7 +350,7 @@ static JMCViewController* _jcViewController;
 }
 
 - (JMCIssuesViewController *)_issuesController {
-    JMCIssuesViewController *viewController = [[JMCIssuesViewController alloc] initWithStyle:UITableViewStylePlain];
+    JMCIssuesViewController *viewController = [[[JMCIssuesViewController alloc] initWithStyle:UITableViewStylePlain] autorelease];
     [viewController loadView];
     [viewController setIssueStore:[JMCIssueStore instance]];
     viewController.modalPresentationStyle = self.options.modalPresentationStyle;
@@ -360,10 +378,10 @@ static JMCViewController* _jcViewController;
 
 - (UIViewController *)feedbackViewControllerWithMode:(enum JMCViewControllerMode)mode {
     if (mode == JMCViewControllerModeCustom) {
-        return [self createJMCViewController]; // customview modes get a clean JMCViewController
+        return [[self initJMCViewController] autorelease]; // customview modes get a clean JMCViewController
     }
     else { // standard re-uses the same
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self _jcController]];
+        UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:[self _jcController]] autorelease];
         navigationController.navigationBar.barStyle =  self.options.barStyle;
         navigationController.navigationBar.tintColor = self.options.barTintColor;
         navigationController.modalPresentationStyle = self.options.modalPresentationStyle;
@@ -381,7 +399,7 @@ static JMCViewController* _jcViewController;
         return [self _issuesController]; 
     }
     else {
-        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:[self _issuesController]];
+        UINavigationController *navigationController = [[[UINavigationController alloc] initWithRootViewController:[self _issuesController]] autorelease];
         navigationController.navigationBar.barStyle =  self.options.barStyle;
         navigationController.navigationBar.tintColor = self.options.barTintColor;
         navigationController.modalPresentationStyle = self.options.modalPresentationStyle;
@@ -397,7 +415,7 @@ static JMCViewController* _jcViewController;
 {
     UIDevice *device = [UIDevice currentDevice];
     NSDictionary *appMetaData = [[NSBundle mainBundle] infoDictionary];
-    NSMutableDictionary *info = [[NSMutableDictionary alloc] initWithCapacity:10];
+    NSMutableDictionary *info = [[[NSMutableDictionary alloc] initWithCapacity:10] autorelease];
     
     // add device data
     [info setObject:[self getUUID] forKey:@"uuid"];
@@ -421,7 +439,7 @@ static JMCViewController* _jcViewController;
     if (bundleVersion) [info setObject:bundleVersion forKey:@"appVersion"];
     if (bundleVersionShort) [info setObject:bundleVersionShort forKey:@"appVersionShort"];
     if (bundleName) [info setObject:bundleName forKey:@"appName"];
-    if (bundleDisplayName) [info setObject:bundleDisplayName forKey:@"appDisplayName"];
+    if (bundleDisplayName) [info setObject:bundleName forKey:@"appDisplayName"];
     if (bundleId) [info setObject:bundleId forKey:@"appId"];
     
     return info;
@@ -459,7 +477,7 @@ static JMCViewController* _jcViewController;
 
 -(NSMutableDictionary *)getCustomFields
 {
-    NSMutableDictionary *customFields = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *customFields = [[[NSMutableDictionary alloc] init] autorelease];
     if ([_customDataSource respondsToSelector:@selector(customFields)]) {
         [customFields addEntriesFromDictionary:[_customDataSource customFields]];
     }

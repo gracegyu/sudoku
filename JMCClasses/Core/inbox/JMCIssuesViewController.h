@@ -24,6 +24,6 @@
     NSDateFormatter *_dateFormatter;
 }
 
-@property (strong, nonatomic) JMCIssueStore * issueStore;
+@property (retain, nonatomic) JMCIssueStore * issueStore;
 
 @end

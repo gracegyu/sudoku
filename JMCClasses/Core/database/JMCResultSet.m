@@ -23,21 +23,29 @@
     [rs setStatement:statement];
     [rs setParentDB:aDB];
     
-    return rs;
+    return [rs autorelease];
 }
 
+- (void)finalize {
+    [self close];
+    [super finalize];
+}
 
 - (void)dealloc {
     [self close];
     
+    [query release];
     query = nil;
     
+    [columnNameToIndexMap release];
     columnNameToIndexMap = nil;
     
+    [super dealloc];
 }
 
 - (void)close {
     [statement reset];
+    [statement release];
     statement = nil;
     
     // we don't need this anymore... (i think)
@@ -103,7 +111,7 @@
             [dict setObject:objectValue forKey:columnName];
         }
         
-        return [dict copy];
+        return [[dict copy] autorelease];
     }
     else {
         NSLog(@"Warning: There seem to be no columns in this set.");
@@ -372,6 +380,8 @@
 }
 
 - (void)setQuery:(NSString *)value {
+    [value retain];
+    [query release];
     query = value;
 }
 
@@ -380,6 +390,8 @@
 }
 
 - (void)setColumnNameToIndexMap:(NSMutableDictionary *)value {
+    [value retain];
+    [columnNameToIndexMap release];
     columnNameToIndexMap = value;
 }
 
@@ -389,7 +401,8 @@
 
 - (void)setStatement:(JMCStatement *)value {
     if (statement != value) {
-        statement = value;
+        [statement release];
+        statement = [value retain];
     }
 }
 

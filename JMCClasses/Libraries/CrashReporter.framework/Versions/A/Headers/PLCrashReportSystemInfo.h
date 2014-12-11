@@ -73,8 +73,7 @@ typedef enum {
 
     /**
      * ARMv6
-     * @deprecated This value has been deprecated in favor of ARM subtype-specific
-     * values.
+     * @deprecated
      * @sa PLCrashReportArchitectureARMv6
      */
     PLCrashReportArchitectureARM = PLCrashReportArchitectureARMv6,

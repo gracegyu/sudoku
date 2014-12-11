@@ -11,7 +11,7 @@
 #import "JMCReplyTransport.h"
 #import "JMCCreateIssueDelegate.h"
 #import "JMCReplyDelegate.h"
-//#import "Reachability.h"
+#import "Reachability.h"
 #import "JMC.h"
 #import "JMCTransportOperation.h"
 
@@ -34,12 +34,11 @@ static NSOperationQueue *sharedOperationQueue = nil;
 
 - (void) doFlushQueue:(NSTimer*) timer;
 
-@property (nonatomic, strong) JMCIssueTransport* issueTransport;
-@property (nonatomic, strong) JMCReplyTransport* replyTransport;
-@property (nonatomic, strong) NSRecursiveLock* flushLock;
-
 @end
 
+JMCIssueTransport* _issueTransport;
+JMCReplyTransport* _replyTransport;
+NSRecursiveLock* _flushLock;
 int _maxNumRequestFailures;
 
 @implementation JMCRequestQueue {
@@ -53,11 +52,11 @@ int _maxNumRequestFailures;
         instance = [[JMCRequestQueue alloc] init];
         sharedOperationQueue = [[NSOperationQueue alloc] init];
         [sharedOperationQueue setMaxConcurrentOperationCount:1];
-        instance.issueTransport = [[JMCIssueTransport alloc] init];
-        instance.replyTransport = [[JMCReplyTransport alloc] init];
-        instance.issueTransport.delegate = [[JMCCreateIssueDelegate alloc]init];
-        instance.replyTransport.delegate = [[JMCReplyDelegate alloc] init];
-        instance.flushLock = [[NSRecursiveLock alloc] init];
+        _issueTransport = [[JMCIssueTransport alloc] init];
+        _replyTransport = [[JMCReplyTransport alloc] init];
+        _issueTransport.delegate = [[[JMCCreateIssueDelegate alloc]init] autorelease];
+        _replyTransport.delegate = [[[JMCReplyDelegate alloc] init] autorelease];
+        _flushLock = [[NSRecursiveLock alloc] init];
         _maxNumRequestFailures = 50;
         JMCDLog(@"queue at  %@", [instance getQueueIndexPath]);
         [instance resetAllInProgress];
@@ -237,7 +236,7 @@ int _maxNumRequestFailures;
 
 // This is the actual list of items that need sending
 - (NSMutableDictionary *)getQueueList {
-    NSMutableDictionary  *queueIndex = [[NSMutableDictionary dictionaryWithContentsOfFile:[self getQueueIndexPath]] mutableCopy];
+    NSMutableDictionary  *queueIndex = [[[NSMutableDictionary dictionaryWithContentsOfFile:[self getQueueIndexPath]] mutableCopy] autorelease];
     if (queueIndex == nil) {
         queueIndex = [NSMutableDictionary dictionary];
     }
@@ -257,5 +256,13 @@ int _maxNumRequestFailures;
     return [[JMC sharedInstance] dataDirPath];
 }
 
+-(void) dealloc
+{
+    [_issueTransport release];
+    [_replyTransport release];
+    [sharedOperationQueue release];
+    [_flushLock release];
+    [super dealloc];
+}
 
 @end

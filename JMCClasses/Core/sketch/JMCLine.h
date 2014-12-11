@@ -22,8 +22,8 @@
   CGMutablePathRef curve;
 }
 
-@property (nonatomic, strong) NSMutableArray *points;
-@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, retain) NSMutableArray *points;
+@property (nonatomic, retain) UIColor *color;
 @property (assign) CGMutablePathRef curve;
 
 - (void) addPoint:(CGPoint)point;

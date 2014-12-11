@@ -21,6 +21,13 @@
 
 @synthesize requestId = _requestId, author = _author, systemUser = _systemUser, body = _body, date = _date, dateLong;
 
+- (void)dealloc {
+    self.author = nil;
+    self.body = nil;
+    self.date = nil;
+    self.requestId = nil;
+    [super dealloc];
+}
 
 - (id) initWithAuthor:(NSString *)p_author
            systemUser:(BOOL)p_sys
@@ -71,6 +78,7 @@
     NSNumber *systemUser = (NSNumber *) [lowerMap objectForKey:@"systemuser"];
 
     NSString *uuid = (NSString *) [lowerMap objectForKey:@"uuid"]; // this matches the uuid column in the database
+    [lowerMap release];
 
     return [[JMCComment alloc] initWithAuthor:author systemUser:systemUser.boolValue body:body date:date requestId:uuid];
 }

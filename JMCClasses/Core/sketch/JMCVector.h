@@ -35,9 +35,10 @@
 }
 
 @property (nonatomic) CGContextRef ctx;
-@property (nonatomic, strong) NSMutableArray *points;
+@property (nonatomic, retain) NSMutableArray *points;
 
 - (void)addPoint:(CGPoint)point;
+- (void)visitPoints;
 
 - (void)extendPoint;
 - (void)lengthOfArrowHead;

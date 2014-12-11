@@ -49,7 +49,7 @@
     id <JMCTransportDelegate> _delegate;
 }
 
-@property(nonatomic, strong) id <JMCTransportDelegate> delegate;
+@property(nonatomic, retain) id <JMCTransportDelegate> delegate;
 
 - (JMCTransportOperation *) requestFromItem:(JMCQueueItem *)item;
 
@@ -64,5 +64,8 @@
 + (NSString *)encodeCommonParameters;
 + (NSMutableString *)encodeParameters:(NSDictionary *)parameters;
 + (NSString*)postDataFilePathFor:(NSString*)uuid;
+
++ (NSString *)buildJSONString:(id)object;
++ (id)parseJSONString:(NSString *)jsonString;
 
 @end

@@ -31,7 +31,7 @@
     
 @private
     
-    id<JMCSketchViewControllerDelegate> __weak _delegate;
+    id<JMCSketchViewControllerDelegate> _delegate;
 	IBOutlet JMCSketchScrollView * _scrollView;
     IBOutlet UIToolbar* _toolbar;
     NSNumber* _imageId;
@@ -39,14 +39,14 @@
     JMCSketchContainerView * _mainView;
 }
 
-@property (nonatomic, strong) JMCShapeView *shapeView;
-@property (nonatomic, strong) JMCSketchContainerView * mainView;
-@property (nonatomic, strong) JMCSketchScrollView * scrollView;
-@property (nonatomic, weak) id<JMCSketchViewControllerDelegate> delegate;
-@property (nonatomic, strong) NSNumber* imageId;
-@property (nonatomic, strong) UIImage* image;
+@property (nonatomic, retain) JMCShapeView *shapeView;
+@property (nonatomic, retain) JMCSketchContainerView * mainView;
+@property (nonatomic, retain) JMCSketchScrollView * scrollView;
+@property (nonatomic, assign) id<JMCSketchViewControllerDelegate> delegate;
+@property (nonatomic, retain) NSNumber* imageId;
+@property (nonatomic, retain) UIImage* image;
 
-@property (nonatomic, strong) IBOutlet UIToolbar* toolbar;
+@property (nonatomic, retain) IBOutlet UIToolbar* toolbar;
 
 
 -(UIImage*) createImageScaledBy:(float) dx;

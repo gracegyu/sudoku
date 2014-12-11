@@ -82,6 +82,7 @@
 - (void)connection:(NSURLConnection *)aConnection didReceiveResponse:(NSURLResponse *)response {
     statusCode = [(NSHTTPURLResponse *)response statusCode];
     
+    [responseData release];
     responseData = [[NSMutableData alloc] init];
     [responseData setLength:0];
 }
@@ -91,7 +92,7 @@
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)aConnection {
-    NSString *responseString = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding: NSUTF8StringEncoding];
+    NSString *responseString = [[[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding: NSUTF8StringEncoding] autorelease];
     
     if ([responseString isEqualToString:@"null"] || [responseString isEqualToString:@""])
     {
@@ -101,7 +102,7 @@
     
     if (statusCode < 300)
     {
-        NSDictionary *data = [NSJSONSerialization JSONObjectWithData:[responseString dataUsingEncoding:NSUTF8StringEncoding] options:nil error:nil];
+        NSDictionary *data = [JMCTransport parseJSONString:responseString];
         [self performSelectorOnMainThread:@selector(didReceiveComments:) withObject:data waitUntilDone:YES];
     }
     else
@@ -116,10 +117,15 @@
 - (void)connection:(NSURLConnection *)aConnection didFailWithError:(NSError *)error {
     NSString *responseString = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding: NSUTF8StringEncoding];
     JMCALog(@"Ping request failed: '%@'", responseString);
+    [responseString release];
 }
 
 @synthesize baseUrl = _baseUrl;
 
+- (void)dealloc {
+    self.baseUrl = nil;
+    [super dealloc];
+}
 
 
 @end

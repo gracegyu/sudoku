@@ -45,7 +45,7 @@
     NSMutableDictionary *customFields = [[JMC sharedInstance] getCustomFields];
     if ([customFields count] > 0) 
     {
-        NSData *customFieldsJSON = [NSJSONSerialization dataWithJSONObject:customFields options:nil error:nil];
+        NSData *customFieldsJSON = [[JMCTransport buildJSONString:customFields] dataUsingEncoding:NSUTF8StringEncoding];
         
         JMCAttachmentItem *customFieldsItem = [[JMCAttachmentItem alloc] initWithName:@"customfields"
                                                                                  data:customFieldsJSON
@@ -53,6 +53,7 @@
                                                                           contentType:@"application/json"
                                                                        filenameFormat:@"customfields.json"];
         [attachments addObject:customFieldsItem];
+        [customFieldsItem release];
     }
 }
 
@@ -64,6 +65,7 @@
     // TODO: sanitize AppName for spaces, puntuation, etc..
     NSString *filename =
     [[[JMC sharedInstance] getAppName] stringByAppendingFormat:@"-%@.crash", [dateFormatter stringFromDate:[NSDate date]]];
+    [dateFormatter release];
     NSData *rawData = [crashReport dataUsingEncoding:NSUTF8StringEncoding];
     JMCAttachmentItem *crashData = [[JMCAttachmentItem alloc] initWithName:filename
                                                                       data:rawData
@@ -72,6 +74,7 @@
                                                             filenameFormat:filename];
     
     [attachments addObject:crashData];
+    [crashData release];
 }
 
 -(void)addCustomAttachmentTo:(NSMutableArray*)attachments

@@ -95,7 +95,7 @@ static CrashReporter *crashReportSender = nil;
         {
             _crashFiles = [[NSMutableArray alloc] init];
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-            _crashesDir = [NSString stringWithFormat:@"%@", [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/crashes/"]];
+            _crashesDir = [[NSString stringWithFormat:@"%@", [[paths objectAtIndex:0] stringByAppendingPathComponent:@"/crashes/"]] retain];
 
             NSFileManager *fm = [NSFileManager defaultManager];
 
@@ -125,6 +125,12 @@ static CrashReporter *crashReportSender = nil;
 }
 
 
+- (void)dealloc
+{
+    [super dealloc];
+    [_crashesDir release];
+    [_crashFiles release];
+}
 
 
 - (BOOL)hasPendingCrashReport
@@ -200,6 +206,7 @@ static CrashReporter *crashReportSender = nil;
             NSString *crashLogString = [self _crashLogStringForReport:report];
 
             [crashReports addObject:crashLogString];
+            [report release];
         }
     }
     return crashReports;
@@ -309,11 +316,15 @@ static CrashReporter *crashReportSender = nil;
         NSString *uuid = nil;
         CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
         if (theUUID) {
-            uuid = (NSString*)CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+            uuid = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+            CFRelease(theUUID);
         }
         
         [reportString appendFormat:@"Incident Identifier: %@\n", uuid];
 
+        if (uuid) {
+            CFRelease(uuid);
+        }
         
         [reportString appendFormat:@"CrashReporter Key:   %@\n", [[JMC sharedInstance] getUUID]];
         [reportString appendFormat:@"Hardware Model:       %@,%@\n", [[UIDevice currentDevice] systemName], [[UIDevice currentDevice] systemVersion]];
@@ -340,18 +351,6 @@ static CrashReporter *crashReportSender = nil;
     [reportString appendFormat:@"Exception Type:  %s\n", [report.signalInfo.name UTF8String]];
     [reportString appendFormat:@"Exception Codes: %@ at 0x%" PRIx64 "\n", report.signalInfo.code, report.signalInfo.address];
 
-    /* If an exception stack trace is available, output an Apple-compatible backtrace. */
-    if (report.exceptionInfo != nil && report.exceptionInfo.stackFrames != nil && [report.exceptionInfo.stackFrames count] > 0) {
-        PLCrashReportExceptionInfo *exception = report.exceptionInfo;
-        
-        /* Create the header. */
-        [reportString appendString: @"Last Exception Backtrace:\n"];
-        
-        /* Write out the frames. In raw reports, Apple writes this out as a simple list of PCs. In the minimally
-         * post-processed report, Apple writes this out as full frame entries. We use the latter format. */
-        [reportString appendString:_callStackString(exception.stackFrames, report)];
-    }
-    
     for (PLCrashReportThreadInfo *thread in report.threads)
     {
         if (thread.crashed)
@@ -383,7 +382,29 @@ static CrashReporter *crashReportSender = nil;
         {
             [reportString appendFormat:@"Thread %ld:\n", (long)thread.threadNumber];
         }
-        [reportString appendString:_callStackString(thread.stackFrames, report)];
+        for (NSUInteger frame_idx = 0; frame_idx < [thread.stackFrames count]; frame_idx++)
+        {
+            PLCrashReportStackFrameInfo *frameInfo = [thread.stackFrames objectAtIndex:frame_idx];
+            PLCrashReportBinaryImageInfo *imageInfo;
+
+            /* Base image address containing instrumention pointer, offset of the IP from that base
+     * address, and the associated image name */
+            uint64_t baseAddress = 0x0;
+            uint64_t pcOffset = 0x0;
+            NSString *imageName = @"\?\?\?";
+
+            imageInfo = [report imageForAddress:frameInfo.instructionPointer];
+            if (imageInfo != nil)
+            {
+                imageName = [imageInfo.imageName lastPathComponent];
+                baseAddress = imageInfo.imageBaseAddress;
+                pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
+            }
+
+            [reportString appendFormat:@"%-4ld%-36s0x%08" PRIx64 " 0x%" PRIx64 " + %" PRId64 "\n",
+                    (long)frame_idx, [imageName UTF8String], frameInfo.instructionPointer, baseAddress, pcOffset];
+        }
+        [reportString appendString:@"\n"];
     }
 
     /* Registers */
@@ -450,36 +471,6 @@ static CrashReporter *crashReportSender = nil;
     return reportString;
 }
 
-/* Utility function to avoid repetion between callstack formatting code for exception and abort/signal. */
-NSString * _callStackString(NSArray * callStack, PLCrashReport * report)
-{
-    NSMutableString * returnString = [NSMutableString string];
-    for (NSUInteger frame_idx = 0; frame_idx < [callStack count]; frame_idx++)
-    {
-        PLCrashReportStackFrameInfo *frameInfo = [callStack objectAtIndex:frame_idx];
-        PLCrashReportBinaryImageInfo *imageInfo;
-        
-        /* Base image address containing instrumention pointer, offset of the IP from that base
-         * address, and the associated image name */
-        uint64_t baseAddress = 0x0;
-        uint64_t pcOffset = 0x0;
-        NSString *imageName = @"\?\?\?";
-        
-        imageInfo = [report imageForAddress:frameInfo.instructionPointer];
-        if (imageInfo != nil)
-        {
-            imageName = [imageInfo.imageName lastPathComponent];
-            baseAddress = imageInfo.imageBaseAddress;
-            pcOffset = frameInfo.instructionPointer - imageInfo.imageBaseAddress;
-        }
-        
-        [returnString appendFormat:@"%-4ld%-36s0x%08" PRIx64 " 0x%" PRIx64 " + %" PRId64 "\n",
-         (long)frame_idx, [imageName UTF8String], frameInfo.instructionPointer, baseAddress, pcOffset];
-    }
-    [returnString appendString:@"\n"];
-    return returnString;
-}
-
 #pragma mark PLCrashReporter
 
 //
@@ -519,6 +510,7 @@ NSString * _callStackString(NSArray * callStack, PLCrashReport * report)
             JMCDLog(@"Could not parse crash report");
             goto finish;
         }
+        [report release];
     }
 
     // Purge the report

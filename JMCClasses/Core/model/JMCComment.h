@@ -25,12 +25,12 @@
     NSDate* _date;
 }
 
-@property (nonatomic, strong) NSString* requestId;
-@property (nonatomic, strong) NSString* author;
+@property (nonatomic, retain) NSString* requestId;
+@property (nonatomic, retain) NSString* author;
 @property (nonatomic, assign) BOOL systemUser;
-@property (nonatomic, strong) NSString* body;
-@property (nonatomic, strong) NSDate* date;
-@property (nonatomic, weak) NSNumber* dateLong;
+@property (nonatomic, retain) NSString* body;
+@property (nonatomic, retain) NSDate* date;
+@property (nonatomic, assign) NSNumber* dateLong;
 
 - (id) initWithAuthor:(NSString *)p_author systemUser:(BOOL)p_sys body:(NSString *)p_body date:(NSDate *)p_date requestId:(NSString *)requestId;
 + (JMCComment *) newCommentFromDict:(NSDictionary *)data;

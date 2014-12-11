@@ -27,9 +27,10 @@
     NSString *queueItemId = nil;
     CFUUIDRef theUUID = CFUUIDCreate(kCFAllocatorDefault);
     if (theUUID) {
-        NSString *uuid = (NSString*)CFBridgingRelease(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
+        NSString *uuid = NSMakeCollectable(CFUUIDCreateString(kCFAllocatorDefault, theUUID));
         CFRelease(theUUID);
         queueItemId = [NSString stringWithFormat:@"jmc-%@", uuid];
+        CFRelease(uuid);
     }
     return queueItemId; // what when nil?
 }
@@ -79,4 +80,12 @@
 
 @synthesize uuid=_uuid, type=_type, attachments=_attachments, originalIssueKey=_originalIssueKey;
 
+- (void) dealloc
+{
+    self.uuid = nil;
+    self.type = nil;
+    self.attachments = nil;
+    self.originalIssueKey = nil;
+    [super dealloc];
+}
 @end

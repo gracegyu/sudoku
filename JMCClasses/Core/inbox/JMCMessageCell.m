@@ -37,5 +37,12 @@
 
 @synthesize title = _title, body = _body, bgview = _bgview;
 
+- (void)dealloc
+{
+    self.title = nil;
+    self.body = nil;
+    self.bgview = nil;
+    [super dealloc];
+}
 
 @end

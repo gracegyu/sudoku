@@ -17,10 +17,10 @@
     NSString* _originalIssueKey;
 }
 
-@property (strong, nonatomic) NSString* uuid;
-@property (strong, nonatomic) NSArray* attachments;
-@property (strong, nonatomic) NSString* type;
-@property (strong, nonatomic) NSString* originalIssueKey;
+@property (retain, nonatomic) NSString* uuid;
+@property (retain, nonatomic) NSArray* attachments;
+@property (retain, nonatomic) NSString* type;
+@property (retain, nonatomic) NSString* originalIssueKey;
 
 +(NSString*) generateUniqueId;
 

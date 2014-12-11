@@ -20,7 +20,7 @@
 - (void)transportWillSend:(NSString *)entityJSON requestId:(NSString *)requestId issueKey:(NSString *)issueKey
 {
     // create a comment to be inserted in the db
-    NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:[entityJSON dataUsingEncoding:NSUTF8StringEncoding] options:nil error:nil];
+    NSDictionary *responseDict = [JMCTransport parseJSONString:entityJSON];
     NSString* description = [responseDict objectForKey:@"description"];
     JMCComment *comment = [[JMCComment alloc] initWithAuthor:@"jiraconnectuser"
                                                   systemUser:YES
@@ -29,6 +29,7 @@
                                                         requestId:requestId];
 
     [[JMCIssueStore instance] insertComment:comment forIssue:issueKey];
+    [comment release];
     [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil]];
 }
 
@@ -39,12 +40,13 @@
     if (![store commentExistsIssueByUUID:requestId])
     {
         // insert a new comment.... a ping notification may have dropped the db
-        NSDictionary *commentDict = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:nil error:nil];
+        NSDictionary *commentDict = [JMCTransport parseJSONString:response];
         JMCComment *comment = [JMCComment newCommentFromDict:commentDict];
         NSString *issueKey = [commentDict valueForKey:@"issueKey"];
         JMCDLog(@"Comment inserted for JIRA %@ and marked as sent: %@", issueKey, requestId);
         comment.requestId = requestId;
         [store insertComment:comment forIssue:issueKey];
+        [comment release];
         [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil] waitUntilDone:NO];
     }
 }
@@ -62,6 +64,7 @@
                                                             date:[NSDate date]
                                                             requestId:requestId];
         [[JMCIssueStore instance] insertComment:comment forIssue:item.originalIssueKey];
+        [comment release];
         [[JMCRequestQueue sharedInstance] deleteItem:requestId];
         [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:[NSNotification notificationWithName:kJMCNewCommentCreated object:nil] waitUntilDone:NO];
     }

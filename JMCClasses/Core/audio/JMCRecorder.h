@@ -25,7 +25,7 @@
     float _recordTime;
 }
 
-@property(nonatomic, strong) AVAudioRecorder *recorder;
+@property(nonatomic, retain) AVAudioRecorder *recorder;
 @property(assign) float recordTime; // maximum voice record time in seconds
 
 

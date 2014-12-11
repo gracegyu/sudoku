@@ -49,22 +49,22 @@
     UIButton *_screenshotButton;
 }
 
-@property(strong, nonatomic) IBOutlet JMCAttachmentsViewController *attachmentsViewController;
-@property(strong, nonatomic) IBOutlet UIImageView *buttonOverlayView;
-@property(strong, nonatomic) IBOutlet UITextView *descriptionField;
-@property(strong, nonatomic) IBOutlet UIView *countdownView;
-@property(strong, nonatomic) IBOutlet UIProgressView *progressView;
+@property(retain, nonatomic) IBOutlet JMCAttachmentsViewController *attachmentsViewController;
+@property(retain, nonatomic) IBOutlet UIImageView *buttonOverlayView;
+@property(retain, nonatomic) IBOutlet UITextView *descriptionField;
+@property(retain, nonatomic) IBOutlet UIView *countdownView;
+@property(retain, nonatomic) IBOutlet UIProgressView *progressView;
 
-@property(strong, nonatomic) JMCIssueTransport *issueTransport;
-@property(strong, nonatomic) JMCReplyTransport *replyTransport;
+@property(retain, nonatomic) JMCIssueTransport *issueTransport;
+@property(retain, nonatomic) JMCReplyTransport *replyTransport;
 
 // an array of items to attach to the issue
-@property(strong, nonatomic) NSMutableArray *attachments;
+@property(retain, nonatomic) NSMutableArray *attachments;
 
 // if this is non-null, then a reply is sent to that issue. Otherwise, a new issue is created.
-@property(strong, nonatomic) JMCIssue *replyToIssue;
+@property(retain, nonatomic) JMCIssue *replyToIssue;
 
-@property(strong, nonatomic) UIButton *voiceButton;
+@property(retain, nonatomic) UIButton *voiceButton;
 
 - (IBAction)sendFeedback;
 
