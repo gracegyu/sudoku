@@ -32,8 +32,8 @@
 
 @property (nonatomic, strong) NSDate* dateCreated;
 @property (nonatomic, strong) NSDate* dateUpdated;
-@property (nonatomic, assign) NSNumber* dateUpdatedLong;
-@property (nonatomic, assign) NSNumber* dateCreatedLong;
+@property (nonatomic, weak) NSNumber* dateUpdatedLong;
+@property (nonatomic, weak) NSNumber* dateCreatedLong;
 @property (nonatomic, strong) NSString* requestId;
 @property (nonatomic, strong) NSString* key;
 @property (nonatomic, strong) NSString* status;
