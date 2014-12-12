@@ -98,7 +98,7 @@
 - (void)addAttributesForSubviewHierarchy:(UIView*)view associatedWithSubviewHierarchy:(UIView*)associatedView toTable:(NSMutableDictionary*)table
 {
 //    DLog(@"addAttributesForSubviewHierarchy:(%d:%f,%f,%f,%f)", view.tag, view.frame.origin.x, view.frame.origin.x, view.frame.size.width, view.frame.size.height);
-    [table setObject:[self attributesForView:view] forKey:[NSValue valueWithPointer:associatedView]];
+    [table setObject:[self attributesForView:view] forKey:[NSValue valueWithPointer:(__bridge const void *)(associatedView)]];
     
     if ( ![self shouldDescendIntoSubviewsOfView:view] ) return;
     
@@ -198,7 +198,7 @@
 }
 
 - (void)applyAttributeTable:(NSDictionary*)table toViewHierarchy:(UIView*)view {
-    NSDictionary *attributes = [table objectForKey:[NSValue valueWithPointer:view]];
+    NSDictionary *attributes = [table objectForKey:[NSValue valueWithPointer:(__bridge const void *)(view)]];
     if ( attributes ) {
         [self applyAttributes:attributes toView:view];
     }
