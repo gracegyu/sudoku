@@ -19,7 +19,7 @@
 #import "JMC.h"
 #endif
 #import "KillerMap.h"
-#import "AddThis.h"
+//#import "AddThis.h"
 #import "Flurry.h"
 #import "UIDevice+IdentifierAddition.h"
 
@@ -715,12 +715,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
+/*    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
     if (nAddThisWait > 0)
     {
         nAddThisWait++;
         return;
-    } else {
+    } else {*/
         if (mainView.bMenuMode)
         {
             [self hideMenuView:NO];
@@ -732,7 +732,7 @@
 
         //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
 
-    }
+//    }
 }
 
 
@@ -811,7 +811,7 @@
 #endif
      bAd = NO;
      bReplay = NO;
-     nAddThisWait = 0;
+//     nAddThisWait = 0;
      nowDate = nil;
 	 
 /*
@@ -1463,16 +1463,16 @@
 
     [self startGameTimer];
 }
-
+/*
 - (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
 {
     if (nAddThisWait >= 3)  
     {
-        [self callAddThisShareImage:@"facebook"];
+        [self callPuzzleShare:@"facebook"];
     }
     nAddThisWait = 0;
 }
-
+*/
 - (IBAction)sharePuzzleFacebook
 {
     if (mainView.bMenuMode)
@@ -1483,7 +1483,7 @@
     [Flurry logEvent:@"SharePuzzleFacebook"];
 
     
-    [self callAddThisShareImage:@"facebook"];
+    [self callPuzzleShare:@"facebook"];
 /*
     static BOOL isFirst = YES;
     nAddThisWait = 0;
@@ -1502,7 +1502,7 @@
 }
 
 
-- (void) callAddThisShareImage:(NSString*) service
+- (void) callPuzzleShare:(NSString*) service
 {
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
@@ -1567,7 +1567,7 @@
 
     [Flurry logEvent:@"SharePuzzleTwitter"];
 
-    [self callAddThisShareImage:@"twitter"];
+    [self callPuzzleShare:@"twitter"];
     
     
     
@@ -1583,7 +1583,7 @@
 
     [Flurry logEvent:@"ShareRecordFacebook"];
     
-    [self callAddThisShareImage:@"facebook"];
+    [self callPuzzleShare:@"facebook"];
     
     //[self callAddThisShareURL:@"facebook"];
 }
@@ -1631,7 +1631,7 @@
     [Flurry logEvent:@"ShareRecordTwitter"];
     
 //    [self callAddThisShareURL:@"twitter"];
-    [self callAddThisShareImage:@"twitter"];
+    [self callPuzzleShare:@"twitter"];
 }
 
 

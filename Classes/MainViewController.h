@@ -168,7 +168,7 @@ typedef struct DAILYSTAT
     UISegmentedControl *segmentType;
     
     
-    NSInteger        nAddThisWait;
+//    NSInteger        nAddThisWait;
     
 	NSString *gServerIP;
 	NSInteger gUserID;

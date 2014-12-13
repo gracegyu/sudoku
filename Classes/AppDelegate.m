@@ -16,7 +16,7 @@
 #endif
 #import "Flurry.h"
 #import "Locale.h"
-#import <FacebookSDK/FacebookSDK.h>
+//#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
@@ -167,7 +167,7 @@
     [window release];
     [super dealloc];
 }
-
+/*
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     
@@ -181,7 +181,7 @@
     return [FBSession.activeSession handleOpenURL:url];
     
 }
-
+*/
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
