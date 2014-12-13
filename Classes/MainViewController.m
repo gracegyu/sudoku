@@ -1886,7 +1886,7 @@
     frameOld.origin.x -= intervalX;
     viewMenu.frame = frameOld;
 	
-	if (viewMenu.frame.origin.x-intervalX > 0)
+	if (viewMenu.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}
@@ -1978,7 +1978,7 @@
     frameOld.origin.x -= intervalX2;
     viewNewGame.frame = frameOld;
 	
-	if (viewNewGame.frame.origin.x-intervalX2 > 0)
+	if (viewNewGame.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}
@@ -2044,7 +2044,7 @@
     frameOld.origin.x -= intervalX2;
     viewDailyGame.frame = frameOld;
 	
-	if (viewDailyGame.frame.origin.x-intervalX2 > 0)
+	if (viewDailyGame.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}

@@ -17,7 +17,7 @@
 //GameCenter 사용 가능 단말인지 확인
 + (BOOL) isGameCenterAvailable
 {
-#ifdef DEBUG_____________
+#ifdef DEBUG
     return NO;
 #else
     // check for presence of GKLocalPlayer API
