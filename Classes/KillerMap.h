@@ -16,7 +16,7 @@ enum CAGE_SIGN {
 	CS_DIVIDE
 };
 
-typedef enum CAGE_SIGN CAGE_SIGN;
+typedef NSInteger CAGE_SIGN;
 
 typedef struct KillerCage
 {
