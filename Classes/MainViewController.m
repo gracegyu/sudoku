@@ -556,7 +556,7 @@
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonTwitterPuzzle    setTitle:gettext(@"    Puzzle share", nil) forState:UIControlStateNormal];
+    [buttonTwitterPuzzle    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
