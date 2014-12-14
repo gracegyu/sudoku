@@ -345,6 +345,7 @@
 	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
 	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
 	
+    DLog(@"[self getCageCount]=%ld", (long)[self getCageCount]);
 	DAssert([self getCageCount] > 10, @"[self getCageCount]=%ld", (long)[self getCageCount]);
 	
 	[KillerMap getNumsPipeSize:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
@@ -396,7 +397,15 @@
 	[KillerMap setNumsPipeSize:[listItems objectAtIndex:1] size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap setNumsPipeSize:[listItems objectAtIndex:2] size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
 	[KillerMap setNumsPipe:[listItems objectAtIndex:3] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)&cage[0]];
-	
+
+    // load 된 데이터가 잘못 된 경우
+    if ([self getCageCount] < 10)
+    {
+        DLog(@"loadData Failed");
+        return nil;
+    }
+    
+    
 	//[self printMap];
 
 	return self;
