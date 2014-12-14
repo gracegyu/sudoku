@@ -21,18 +21,22 @@
 #import "JMCMacros.h"
 #import "JMC.h"
 
+@interface JMCIssueStore ()
+@property (nonatomic, strong) JMCDatabase* theDB;
+@end
+
 @implementation JMCIssueStore
+@synthesize theDB = db;
 
 JMCDatabase *db;
 NSString* _jcoDbPath;
 static NSRecursiveLock *writeLock;
 
-
 +(JMCIssueStore *) instance {
     static JMCIssueStore *singleton = nil;
     if (singleton == nil) {
         NSString* jmcDbPath = [[JMC sharedInstance] dataDirPath];
-        _jcoDbPath = [[NSString stringWithFormat:@"%@/issues.db", jmcDbPath] retain];
+        _jcoDbPath = [NSString stringWithFormat:@"%@/issues.db", jmcDbPath];
         singleton = [[JMCIssueStore alloc] init];
         writeLock = [[NSRecursiveLock alloc] init];
     }
@@ -44,7 +48,6 @@ static NSRecursiveLock *writeLock;
         // db init code...
         db = [JMCDatabase databaseWithPath:_jcoDbPath];
         [db setLogsErrors:YES];
-        [db retain];
         if (![db open]) {
             JMCALog(@"Error opening database for JMC. Issue Inbox will be unavailable.");
             return nil;
@@ -125,7 +128,6 @@ static NSRecursiveLock *writeLock;
         if (lastComment) {
             issue.comments = [NSMutableArray arrayWithObject:lastComment];
         }
-        [lastComment release];
         return issue;
     }
     JMCALog(@"No issue at index = %u", issueIndex);
@@ -149,7 +151,6 @@ static NSRecursiveLock *writeLock;
         // {"username":"jiraconnectuser","systemUser":true,"text":"testing","date":1310840213824, "uuid":"uniquestring"}
         JMCComment *comment = [JMCComment newCommentFromDict:[res resultDict]];
         [comments addObject:comment];
-        [comment release];
     }
     return comments;
 }
@@ -305,9 +306,7 @@ static NSRecursiveLock *writeLock;
             for (NSDictionary *commentDict in comments) {
                 JMCComment *jcoComment = [JMCComment newCommentFromDict:commentDict];
                 [self insertComment:jcoComment forIssue:issue.key];
-                [jcoComment release];
             }
-            [issue release];
         }
         [db commit];
     }
@@ -315,9 +314,5 @@ static NSRecursiveLock *writeLock;
 
 @synthesize newIssueCount, count;
 
-- (void) dealloc {
-    [db release];
-    [super dealloc];
-}
 
 @end

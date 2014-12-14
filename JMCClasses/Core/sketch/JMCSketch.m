@@ -68,7 +68,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 			[lineVal addPoint:point];
 		}
 		[lines addObject:lineVal];
-		[lineVal release];
 	}
 	return self;
 }
@@ -77,7 +76,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 {
 	JMCLine * line = [[JMCLine alloc]init];
 	[lines addObject:line];
-	[line release];
 	[self addPoint:point];
 }
 
@@ -135,12 +133,6 @@ blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 	[undoHistory removeLastObject];
 }
 
-- (void) dealloc
-{
-	[lines release];
-	[undoHistory release];
-	[super dealloc];
-}
 
 @end
 

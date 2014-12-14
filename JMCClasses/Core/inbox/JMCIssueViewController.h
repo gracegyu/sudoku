@@ -21,16 +21,11 @@
 
 @class JMCViewController;
 
-@interface JMCIssueViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-    JMCIssue * _issue;
-    NSArray * _comments;
-    IBOutlet UITableView* _tableView;
-@private
-    JMCViewController *_feedbackController;
-}
+@interface JMCIssueViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, retain) IBOutlet UITableView* tableView;
-@property (nonatomic, retain) JMCIssue * issue;
-@property (nonatomic, retain) NSArray * comments;
-@property (nonatomic, retain) JMCViewController * feedbackController;
+@property (strong, nonatomic) IBOutlet UITextView *issueSummaryView;
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) JMCIssue *issue;
+@property (nonatomic, strong) NSArray *comments;
+@property (nonatomic, strong) JMCViewController *feedbackController;
 @end

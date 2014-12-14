@@ -25,11 +25,11 @@
     UIImageView* _sentStatusLabel;
 }
 
-@property (retain, nonatomic) IBOutlet UILabel* dateLabel;
-@property (retain, nonatomic) IBOutlet UILabel* titleLabel;
-@property (retain, nonatomic) IBOutlet UILabel* detailsLabel;
-@property (retain, nonatomic) IBOutlet UIImageView* statusLabel;
-@property (retain, nonatomic) IBOutlet UIImageView* sentStatusLabel;
+@property (strong, nonatomic) IBOutlet UILabel* dateLabel;
+@property (strong, nonatomic) IBOutlet UILabel* titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel* detailsLabel;
+@property (strong, nonatomic) IBOutlet UIImageView* statusLabel;
+@property (strong, nonatomic) IBOutlet UIImageView* sentStatusLabel;
 
 
 

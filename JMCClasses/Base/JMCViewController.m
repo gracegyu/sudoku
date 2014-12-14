@@ -47,11 +47,11 @@
 - (void)removeAttachmentItemAtIndex:(NSUInteger)attachmentIndex;
 - (void)deleteAttachments;
 
-@property(nonatomic, retain) CLLocationManager *locationManager;
-@property(nonatomic, retain) CLLocation *currentLocation;
-@property(nonatomic, retain) UIPopoverController *popover;
-@property(nonatomic, retain) UIButton *screenshotButton;
-@property(nonatomic, retain) UIButton *attachmentsButton;
+@property(nonatomic, strong) CLLocationManager *locationManager;
+@property(nonatomic, strong) CLLocation *currentLocation;
+@property(nonatomic, strong) UIPopoverController *popover;
+@property(nonatomic, strong) UIButton *screenshotButton;
+@property(nonatomic, strong) UIButton *attachmentsButton;
 
 @end
 
@@ -74,7 +74,6 @@ static NSInteger kJMCTag = 10133;
     if ([self shouldTrackLocation]) {
         CLLocationManager* locMgr = [[CLLocationManager alloc] init];
         self.locationManager = locMgr;
-        [locMgr release];
         self.locationManager.delegate = self;
         [self.locationManager startUpdatingLocation];
         
@@ -85,7 +84,6 @@ static NSInteger kJMCTag = 10133;
         CLLocation *fixed = [[CLLocation alloc] initWithLatitude:-33.871088 longitude:151.203665];
         
         [self setCurrentLocation: fixed];
-        [fixed release];
 #endif
     }
 
@@ -101,10 +99,10 @@ static NSInteger kJMCTag = 10133;
 
 
     self.navigationItem.rightBarButtonItem =
-            [[[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Send", @"Send feedback")
+            [[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Send", @"Send feedback")
                                               style:UIBarButtonItemStyleDone
                                              target:self
-                                             action:@selector(sendFeedback)] autorelease];
+                                             action:@selector(sendFeedback)];
 
     [self addButtonsToView];
     if (!self.attachments) {
@@ -120,11 +118,9 @@ static NSInteger kJMCTag = 10133;
     
     JMCCreateIssueDelegate* createDelegate = [[JMCCreateIssueDelegate alloc] init];
     _issueTransport.delegate = createDelegate;
-    [createDelegate release];
     
     JMCReplyDelegate* replyDelegate = [[JMCReplyDelegate alloc] init];
     _replyTransport.delegate = replyDelegate;
-    [replyDelegate release];
 
 }
 
@@ -134,10 +130,10 @@ static NSInteger kJMCTag = 10133;
     // Show cancel button only if this is the first controller on the stack
     if ([self.navigationController.viewControllers objectAtIndex:0] == self) {
         self.navigationItem.leftBarButtonItem =
-        [[[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Cancel", @"Cancel feedback")
+        [[UIBarButtonItem alloc] initWithTitle:JMCLocalizedString(@"Cancel", @"Cancel feedback")
                                           style:UIBarButtonItemStyleBordered
                                          target:self
-                                         action:@selector(dismiss)] autorelease];
+                                         action:@selector(dismiss)];
     }
     
     if ([self.descriptionField.text length] == 0 && !self.replyToIssue &&
@@ -281,7 +277,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        JMCDismissViewController(self);
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 
@@ -299,7 +295,7 @@ static NSInteger kJMCTag = 10133;
         imagePicker.delegate = self;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) 
         {
-            self.popover = [[[UIPopoverController alloc] initWithContentViewController:imagePicker] autorelease];
+            self.popover = [[UIPopoverController alloc] initWithContentViewController:imagePicker];
             [self.popover presentPopoverFromRect:self.screenshotButton.frame
                                           inView:self.screenshotButton.superview 
                         permittedArrowDirections:UIPopoverArrowDirectionAny 
@@ -308,10 +304,8 @@ static NSInteger kJMCTag = 10133;
         else 
         {
             _ignoreKeyboardHide = YES;
-
-            JMCPresentViewController(self, imagePicker);
+            [self presentViewController:imagePicker animated:YES completion:nil];
         }
-        [imagePicker release];
     }
        
 }
@@ -327,7 +321,6 @@ static NSInteger kJMCTag = 10133;
                          cancelButtonTitle:@"OK"
                          otherButtonTitles:nil];
         [alert show];
-        [alert release];
         return;
     }
     recorder.recorder.delegate = self;
@@ -366,7 +359,7 @@ static NSInteger kJMCTag = 10133;
             JMCSketchViewController* sketchController = 
             [JMCSketchViewControllerFactory makeSketchViewControllerFor:attachment.data withId:0];
             sketchController.delegate = self;
-            JMCPresentViewController(self, sketchController);
+            [self presentViewController:sketchController animated:YES completion:nil];
             return;
         }
     }
@@ -416,11 +409,10 @@ static NSInteger kJMCTag = 10133;
         // Merge the location into the existing customFields.
         NSDictionary *dict = [[NSDictionary alloc] initWithObjects:objects forKeys:keys];
         [customFields addEntriesFromDictionary:dict];
-        [dict release];
     }
     
     // add all custom fields as one attachment item
-    NSData *customFieldsJSON = [[JMCTransport buildJSONString:customFields] dataUsingEncoding:NSUTF8StringEncoding];
+    NSData *customFieldsJSON = [NSJSONSerialization dataWithJSONObject:customFields options:nil error:nil];
     
     JMCAttachmentItem *customFieldsItem = [[JMCAttachmentItem alloc] initWithName:@"customfields"
                                                                              data:customFieldsJSON
@@ -441,12 +433,10 @@ static NSInteger kJMCTag = 10133;
                                  filenameFormat:@"console.log"];
         
         [allAttachments addObject:consoleLogItem];
-        [consoleLogItem release];
         
     }
     
     [allAttachments addObject:customFieldsItem];
-    [customFieldsItem release];
     
     
     
@@ -469,7 +459,7 @@ static NSInteger kJMCTag = 10133;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else {
-        JMCDismissViewController(self);
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
     
     self.descriptionField.text = @"";
@@ -494,7 +484,6 @@ static NSInteger kJMCTag = 10133;
     
     attachment.thumbnail = [UIImage imageNamed:@"audio_attachment"];
     [self addAttachmentItem:attachment withIcon:attachment.thumbnail action:@selector(voiceAttachmentTapped:)];
-    [attachment release];
     [recorder cleanUp];
 }
 
@@ -506,7 +495,7 @@ static NSInteger kJMCTag = 10133;
     if ([self.popover isPopoverVisible]) {
         [self.popover dismissPopoverAnimated:YES];
     } else {
-        JMCDismissViewController(self);
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 
     UIImage *origImg = (UIImage *) [info objectForKey:UIImagePickerControllerOriginalImage];
@@ -526,7 +515,7 @@ static NSInteger kJMCTag = 10133;
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - JMCAttachmentsViewControllerDelegate
@@ -549,18 +538,18 @@ static NSInteger kJMCTag = 10133;
     attachment.thumbnail = [JMCSketchViewControllerFactory makeSketchThumbnailFor:image];
     [self reloadAttachmentsButton];
     
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
 - (void)sketchControllerDidCancel:(UIViewController *)controller
 {
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)sketchController:(UIViewController *)controller didDeleteImageWithId:(NSNumber *)imageId
 {
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
     [self.attachments removeObjectAtIndex:[imageId unsignedIntegerValue]];
     [self reloadAttachmentsButton];
 }
@@ -669,7 +658,7 @@ static NSInteger kJMCTag = 10133;
             [subviews removeObject:subview];
         }
     }
-    return [subviews autorelease];
+    return subviews;
 }
 
 - (void)addAttachmentsButton {
@@ -690,7 +679,6 @@ static NSInteger kJMCTag = 10133;
     UIImageView *iconView = [[UIImageView alloc] initWithImage:icon];
     iconView.tag = kJMCTag;
     [subviews addObject:iconView];
-    [iconView release];
     
     [self addImageViewsToAttachmentsButton:subviews];
 }
@@ -706,7 +694,6 @@ static NSInteger kJMCTag = 10133;
             UIImageView *iconView = [[UIImageView alloc] initWithImage:attachment.thumbnail];
             iconView.tag = kJMCTag;
             [subviews insertObject:iconView atIndex:0];
-            [iconView release];
         }
     }
     
@@ -809,7 +796,6 @@ static NSInteger kJMCTag = 10133;
     
     attachment.thumbnail = [origImg jmc_thumbnailImage:34 transparentBorder:0 cornerRadius:3.0 interpolationQuality:kCGInterpolationDefault];
     [self addAttachmentItem:attachment withIcon:attachment.thumbnail action:@selector(imageAttachmentTapped:)];
-    [attachment release];
 }
 
 - (void)removeAttachmentItemAtIndex:(NSUInteger)attachmentIndex
@@ -831,10 +817,7 @@ static NSInteger kJMCTag = 10133;
     [self internalRelease];
 
     // Release these vars only if controller is deallocated
-    self.attachments = nil;
-    self.currentLocation = nil;
     
-    [super dealloc];
 }
 
 - (void)internalRelease

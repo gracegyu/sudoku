@@ -35,7 +35,6 @@
     self.toolbar.translucent = YES;
     self.toolbar.barStyle = UIBarStyleBlackTranslucent;
     [self.toolbar setItems:[NSArray arrayWithObjects:trash, space, undo, redo, done, nil]];
-    [done release]; [undo release]; [redo release]; [trash release]; [space release];
     
     
     [self.scrollView setCanCancelContentTouches:NO];
@@ -54,38 +53,31 @@
     
     JMCShapeView * shapeViewTmp = [[JMCShapeView alloc] initWithFrame:CGRectMake(0, 0, sketchSize.width, sketchSize.height)];
     self.shapeView = shapeViewTmp;
-    [shapeViewTmp release];
     
     self.shapeView.backgroundColor = [UIColor clearColor];
     NSMutableArray* shapes = [[NSMutableArray alloc] init];
     self.shapeView.shapes = shapes;
-    [shapes release];
     NSMutableArray* history = [[NSMutableArray alloc] init];
     self.shapeView.history = history;
-    [history release];
     
     UIImageView* imageView = [[UIImageView alloc] initWithImage:self.image];
     
     JMCSketchContainerView * container = [[JMCSketchContainerView alloc] initWithFrame:shapeView.frame];
     self.mainView = container;
-    [container release];
     [self.mainView addSubview:imageView];
     [self.mainView addSubview:self.shapeView];
     [self.scrollView addSubview:self.mainView];
     
-    [imageView release];
     
     // a swipe to draw a line
     UIPanGestureRecognizer *swipe = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(triggerVector:)];
     [swipe setMaximumNumberOfTouches:1];
     [self.mainView addGestureRecognizer:swipe];
-    [swipe release];
     
     // a double tap to enable pan and zoom
     UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTap:)];
     [doubleTap setNumberOfTapsRequired:2];
     [self.mainView addGestureRecognizer:doubleTap];
-    [doubleTap release];
     
 }
 
@@ -134,14 +126,6 @@
     return interfaceOrientation == UIInterfaceOrientationPortrait;
 }
 
-- (void)dealloc {
-    self.image = nil;
-    self.scrollView = nil; 
-    self.mainView = nil;
-    self.imageId = nil;
-    self.toolbar = nil;
-    [super dealloc];
-}
 
 - (void)redoAction:(id)sender {
     [self.shapeView redo];
@@ -173,7 +157,6 @@
     if ([trigger state] == UIGestureRecognizerStateBegan) {
         vector = [[JMCVector alloc] init];
         [self.shapeView.shapes addObject:vector];
-        [vector release];
         CGPoint start = [trigger locationInView:self.shapeView];
         [vector addPoint:start];
     } else if ([trigger state] == UIGestureRecognizerStateEnded || [trigger state] == UIGestureRecognizerStateChanged) {

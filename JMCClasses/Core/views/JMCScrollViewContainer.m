@@ -14,9 +14,5 @@
   return child;
 }
 
-- (void)dealloc {
-  self.scrollView = nil;
-  [super dealloc];
-}
 
 @end

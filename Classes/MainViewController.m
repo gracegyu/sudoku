@@ -19,7 +19,7 @@
 #import "JMC.h"
 #endif
 #import "KillerMap.h"
-#import "AddThis.h"
+//#import "AddThis.h"
 #import "Flurry.h"
 #import "UIDevice+IdentifierAddition.h"
 
@@ -531,7 +531,7 @@
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateDisabled];
-    [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
+    [buttonSharePuzzle  setTitle:gettext(@"Puzzle share", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
 	[buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
@@ -556,10 +556,7 @@
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonFacebookRecord    setTitle:gettext(@"Share record on Facebook", nil) forState:UIControlStateNormal];
-    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle on Facebook", nil) forState:UIControlStateNormal];
-    [buttonTwitterRecord    setTitle:gettext(@"Share record on Twitter", nil) forState:UIControlStateNormal];
-    [buttonTwitterPuzzle    setTitle:gettext(@"Share puzzle on Twitter", nil) forState:UIControlStateNormal];
+    [buttonTwitterPuzzle    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -718,12 +715,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
+/*    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
     if (nAddThisWait > 0)
     {
         nAddThisWait++;
         return;
-    } else {
+    } else {*/
         if (mainView.bMenuMode)
         {
             [self hideMenuView:NO];
@@ -735,7 +732,7 @@
 
         //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
 
-    }
+//    }
 }
 
 
@@ -814,10 +811,10 @@
 #endif
      bAd = NO;
      bReplay = NO;
-     nAddThisWait = 0;
+//     nAddThisWait = 0;
      nowDate = nil;
 	 
-
+/*
      //Facebook connect settings
      //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
      [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
@@ -841,8 +838,7 @@
      [AddThisSDK canUserEditServiceMenu:YES];
      [AddThisSDK canUserReOrderServiceMenu:YES];
      [AddThisSDK setDelegate:self];
-     
-     
+ */
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1467,16 +1463,16 @@
 
     [self startGameTimer];
 }
-
+/*
 - (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
 {
     if (nAddThisWait >= 3)  
     {
-        [self callAddThisShareImage:@"facebook"];
+        [self callPuzzleShare:@"facebook"];
     }
     nAddThisWait = 0;
 }
-
+*/
 - (IBAction)sharePuzzleFacebook
 {
     if (mainView.bMenuMode)
@@ -1487,8 +1483,8 @@
     [Flurry logEvent:@"SharePuzzleFacebook"];
 
     
-    [self callAddThisShareImage:@"facebook"];
-
+    [self callPuzzleShare:@"facebook"];
+/*
     static BOOL isFirst = YES;
     nAddThisWait = 0;
     
@@ -1501,15 +1497,16 @@
                                        selector:@selector(OnTimerSharePuzzleFacebook:)
                                        userInfo:nil
                                         repeats:NO];
-    }
+    }*/
     [self startGameTimer];
 }
 
 
-- (void) callAddThisShareImage:(NSString*) service
+- (void) callPuzzleShare:(NSString*) service
 {
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
-    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
+//    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
     NSString *strDesc;
     
     if (mainView.sudokuGame.isGameFinished)
@@ -1519,7 +1516,7 @@
         strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
     }
     
-    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
+//    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
     
     UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
     
@@ -1539,12 +1536,30 @@
 	UIGraphicsEndImageContext();
     
     
-	[AddThisSDK shareImage:retImage
+/*	[AddThisSDK shareImage:retImage
                withService:service
                      title:strAdd
                description:@""];
+  */  
+        
+    UIActivityViewController *controller =
+    [[UIActivityViewController alloc]
+     initWithActivityItems:@[strDesc, strURL, retImage]
+     applicationActivities:nil];
 
-    mainView.bSharedThisOnFacebook = YES;
+    controller.completionHandler = ^(NSString *activityType, BOOL completed) {
+        if (completed) {
+            NSLog(@"The selected activity was %@", activityType);
+            NSRange range = [activityType rangeOfString:@"PostTo"];
+            if (range.location != NSNotFound)
+                mainView.bSharedThisOnFacebook = YES;
+        }
+    };
+    
+    
+    [self presentViewController:controller animated:YES completion:nil];
+    
+
     [self saveSetting];
     [self startGameTimer];
 }
@@ -1559,7 +1574,10 @@
 
     [Flurry logEvent:@"SharePuzzleTwitter"];
 
-    [self callAddThisShareImage:@"twitter"];
+    [self callPuzzleShare:@"twitter"];
+    
+    
+    
     
 }
 
@@ -1571,13 +1589,15 @@
     }
 
     [Flurry logEvent:@"ShareRecordFacebook"];
-
     
-    [self callAddThisShareURL:@"facebook"];
+    [self callPuzzleShare:@"facebook"];
+    
+    //[self callAddThisShareURL:@"facebook"];
 }
 
 - (void) callAddThisShareURL:(NSString*) service
 {
+    /*
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
 //    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
     NSString *strTitle = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
@@ -1593,10 +1613,20 @@
 			 withService:service
 				   title:strAdd
 			 description:@""];
+
+    
+    UIActivityViewController *controller =
+    [[UIActivityViewController alloc]
+     initWithActivityItems:@[strAdd, strURL, nil]
+     applicationActivities:nil];
+    
+    [self presentViewController:controller animated:YES completion:nil];
+    
     
     mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
     [self startGameTimer];
+  */
 }
 - (IBAction)shareRecordTwitter
 {
@@ -1607,7 +1637,8 @@
 
     [Flurry logEvent:@"ShareRecordTwitter"];
     
-    [self callAddThisShareURL:@"twitter"];
+//    [self callAddThisShareURL:@"twitter"];
+    [self callPuzzleShare:@"twitter"];
 }
 
 
@@ -1862,7 +1893,7 @@
     frameOld.origin.x -= intervalX;
     viewMenu.frame = frameOld;
 	
-	if (viewMenu.frame.origin.x-intervalX > 0)
+	if (viewMenu.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}
@@ -1954,7 +1985,7 @@
     frameOld.origin.x -= intervalX2;
     viewNewGame.frame = frameOld;
 	
-	if (viewNewGame.frame.origin.x-intervalX2 > 0)
+	if (viewNewGame.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}
@@ -2020,7 +2051,7 @@
     frameOld.origin.x -= intervalX2;
     viewDailyGame.frame = frameOld;
 	
-	if (viewDailyGame.frame.origin.x-intervalX2 > 0)
+	if (viewDailyGame.frame.origin.x >= 0)
 	{
 		[timer invalidate];
 	}

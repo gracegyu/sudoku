@@ -12,6 +12,7 @@
 #import <GameKit/GameKit.h>
 #import "Constants.h"
 #import "TPMultiLayoutViewController.h"
+#import "MainViewController.h"
 
 typedef enum {
     SCORETYPE_GAMES = 0,
@@ -23,7 +24,7 @@ typedef enum {
 @interface ScoreViewController : TPMultiLayoutViewController
 <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate>
 {
-    UIViewController *mainViewController;
+    MainViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;

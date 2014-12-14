@@ -24,23 +24,21 @@
 
 #define kJiraConnectAutoSubmitCrashes @"JiraConnectAutoSubmitCras"
 
-@implementation JMCCrashSender
+@interface JMCCrashSender ()
+@property (nonatomic, strong) JMCCrashTransport* transport;
+@end
 
-JMCCrashTransport *_transport;
+@implementation JMCCrashSender
 
 - (id)init {
     self = [super init];
     if (self) {
         _transport = [[JMCCrashTransport alloc] init];
-        _transport.delegate = [[[JMCCreateIssueDelegate alloc] init] autorelease];
+        _transport.delegate = [[JMCCreateIssueDelegate alloc] init];
     }
     return self;
 }
 
-- (void)dealloc {
-    [_transport release];
-    [super dealloc];
-}
 
 
 - (void)promptThenMaybeSendCrashReports {
@@ -58,7 +56,6 @@ JMCCrashTransport *_transport;
                                                            delegate:self
                                                   cancelButtonTitle:JMCLocalizedString(@"No", @"No") otherButtonTitles:JMCLocalizedString(@"Yes", @"Yes"), JMCLocalizedString(@"Always", @"Always"), nil];
         [alertView show];
-        [alertView release];
     } else {
         [self sendCrashReports];
     }

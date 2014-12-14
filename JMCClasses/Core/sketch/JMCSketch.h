@@ -31,8 +31,8 @@
 	int undoto;
 }
 
-@property(retain, nonatomic) NSMutableArray* lines;
-@property(retain, nonatomic) NSMutableArray* undoHistory;
+@property(strong, nonatomic) NSMutableArray* lines;
+@property(strong, nonatomic) NSMutableArray* undoHistory;
 
 @property int undoto;
 

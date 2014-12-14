@@ -63,7 +63,7 @@
     static NSString *identifier = @"AttachmentCell";
     UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
     
     JMCAttachmentItem *attachment = [self.attachments objectAtIndex:indexPath.row];
@@ -116,8 +116,8 @@
         JMCSketchViewController* controller = 
             [JMCSketchViewControllerFactory makeSketchViewControllerFor:attachment.data withId:indexPath.row];
         controller.delegate = self;
-
-        JMCPresentViewController(self, controller);
+        
+        [self presentViewController:controller animated:YES completion:nil];
         currentAttachmentItemIndex = indexPath.row;
     }
 }
@@ -137,18 +137,19 @@
     if ([self.delegate respondsToSelector:@selector(attachmentsViewController:didChangeAttachment:)]) {
         [self.delegate attachmentsViewController:self didChangeAttachment:attachment];
     }
-    JMCDismissViewController(self);
+    
+    [self dismissViewControllerAnimated:YES completion:nil];
 
 }
 
 - (void)sketchControllerDidCancel:(UIViewController *)controller
 {
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)sketchController:(UIViewController *)controller didDeleteImageWithId:(NSNumber *)imageId
 {
-    JMCDismissViewController(self);
+    [self dismissViewControllerAnimated:YES completion:nil];
     [self removeAttachmentAtIndex:[imageId unsignedIntegerValue]];
 }
 
@@ -168,8 +169,6 @@
 
 - (void)setAttachments:(NSMutableArray *)newAttachments  
 {
-    [newAttachments retain];
-    [_attachments release];
     _attachments = newAttachments;
     
     [self.tableView reloadData];
@@ -181,7 +180,6 @@
 {
     self.delegate = nil;
     self.attachments = nil;
-    [super dealloc];
 }
 
 @end

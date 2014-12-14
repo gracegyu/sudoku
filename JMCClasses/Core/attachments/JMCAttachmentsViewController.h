@@ -29,7 +29,7 @@
 @end
 
 @interface JMCAttachmentsViewController : UITableViewController <JMCSketchViewControllerDelegate> {
-    IBOutlet UIViewController<JMCAttachmentsViewControllerDelegate> *delegate;
+    IBOutlet UIViewController<JMCAttachmentsViewControllerDelegate> *__weak delegate;
     
 @private
     NSMutableArray *_attachments;
@@ -37,8 +37,8 @@
     
 }
 
-@property (nonatomic, retain) NSMutableArray *attachments;
+@property (nonatomic, strong) NSMutableArray *attachments;
 
-@property (nonatomic, assign) IBOutlet UIViewController<JMCAttachmentsViewControllerDelegate> *delegate;
+@property (nonatomic, weak) IBOutlet UIViewController<JMCAttachmentsViewControllerDelegate> *delegate;
 
 @end

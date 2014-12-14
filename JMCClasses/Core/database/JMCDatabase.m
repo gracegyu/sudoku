@@ -6,7 +6,7 @@
 @implementation JMCDatabase
 
 + (id)databaseWithPath:(NSString*)aPath {
-    return [[[self alloc] initWithPath:aPath] autorelease];
+    return [[self alloc] initWithPath:aPath];
 }
 
 - (id)initWithPath:(NSString*)aPath {
@@ -24,19 +24,11 @@
     return self;
 }
 
-- (void)finalize {
-    [self close];
-    [super finalize];
-}
 
 - (void)dealloc {
     [self close];
     
-    [openResultSets release];
-    [cachedStatements release];
-    [databasePath release];
     
-    [super dealloc];
 }
 
 + (NSString*)sqliteLibVersion {
@@ -125,7 +117,7 @@
 
 - (void)closeOpenResultSets {
     //Copy the set so we don't get mutation errors
-    NSSet *resultSets = [[openResultSets copy] autorelease];
+    NSSet *resultSets = [openResultSets copy];
     
     NSEnumerator *e = [resultSets objectEnumerator];
     NSValue *returnedResultSet = nil;
@@ -152,7 +144,6 @@
     query = [query copy]; // in case we got handed in a mutable string...
     [statement setQuery:query];
     [cachedStatements setObject:statement forKey:query];
-    [query release];
 }
 
 
@@ -501,7 +492,7 @@
         return nil;
     }
     
-    [statement retain]; // to balance the release below
+     // to balance the release below
     
     if (!statement) {
         statement = [[JMCStatement alloc] init];
@@ -520,7 +511,6 @@
     
     statement.useCount = statement.useCount + 1;
     
-    [statement release];    
     
     [self setInUse:NO];
     
@@ -708,7 +698,6 @@
         
         [self setCachedStatement:cachedStmt forQuery:sql];
         
-        [cachedStmt release];
     }
     
     if (cachedStmt) {
@@ -874,8 +863,7 @@
 
 - (void)setCachedStatements:(NSMutableDictionary *)value {
     if (cachedStatements != value) {
-        [cachedStatements release];
-        cachedStatements = [value retain];
+        cachedStatements = value;
     }
 }
 
@@ -886,15 +874,9 @@
 
 @implementation JMCStatement
 
-- (void)finalize {
-    [self close];
-    [super finalize];
-}
 
 - (void)dealloc {
     [self close];
-    [query release];
-    [super dealloc];
 }
 
 
@@ -925,8 +907,7 @@
 
 - (void)setQuery:(NSString *)value {
     if (query != value) {
-        [query release];
-        query = [value retain];
+        query = value;
     }
 }
 
