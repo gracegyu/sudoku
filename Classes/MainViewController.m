@@ -1546,13 +1546,20 @@
     [[UIActivityViewController alloc]
      initWithActivityItems:@[strDesc, strURL, retImage]
      applicationActivities:nil];
+
+    controller.completionHandler = ^(NSString *activityType, BOOL completed) {
+        if (completed) {
+            NSLog(@"The selected activity was %@", activityType);
+            NSRange range = [activityType rangeOfString:@"PostTo"];
+            if (range.location != NSNotFound)
+                mainView.bSharedThisOnFacebook = YES;
+        }
+    };
+    
     
     [self presentViewController:controller animated:YES completion:nil];
     
-    
-    
 
-    mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
     [self startGameTimer];
 }
