@@ -222,10 +222,14 @@ typedef struct SUDOKUSCORE
 // for daily puzzle
 #define cProtocolVersion        1
 #define cDefaultUserID          0
-//#define cServerHostName         @"gracegyu.comlu.com"
+
+#ifdef DEBUG
+#define cServerHostName         @"10.211.55.10:88"
+//#define cServerHostName         @"www.smartoneinc.com"
+#else
 #define cServerHostName         @"www.smartoneinc.com"
-//#define cServerHostName         @"dailysudoku.cafe24.com"
-//#define cServerScript           @"dailysudoku_test.php"
+#endif
+
 #ifdef DEBUG
 #define cServerScript           @"dailysudoku.php"
 #else

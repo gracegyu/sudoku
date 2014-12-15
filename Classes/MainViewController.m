@@ -1017,6 +1017,9 @@
 
     if (!gServerIP || [gServerIP length] < 3)   // something wrong
         gServerIP = cServerHostName;
+    
+    gServerIP = cServerHostName;    // 저장된 데이터 무시
+    
 }
 
 
@@ -2918,7 +2921,7 @@
 
     for (int j=0; j<SUDOKUTYPE_MAX; j++) {
         mainView.nSettingSudokuType = j;
-        [com setYear:2016];
+        [com setYear:2015];
         [com setMonth:1];
         [com setDay:1];
         
