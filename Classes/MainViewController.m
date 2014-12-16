@@ -670,6 +670,7 @@
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
+            [self updateGameTime:mainView.sudokuGame.gameTime];
 			[self updateBlankCellCount];
 			[self updateHintCount];
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
@@ -1507,14 +1508,22 @@
 
 - (void) callPuzzleShare:(NSString*) service
 {
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
+//    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
+    NSString *strURL = SHORTENURL;
     NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
 //    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
     NSString *strDesc;
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
+        strDesc = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
+                   gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
+                   gettext(@"level", nil),
+                   labelLevel.text,
+                   gettext(@"time", nil),
+                   labelGameTime.text];
+        
+        
     } else {
         strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
     }
