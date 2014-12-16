@@ -55,6 +55,8 @@ static BOOL bLoginedGamecenter = NO;
             localPlayer.authenticateHandler = ^(UIViewController *viewController, NSError *error)
             {
                 DLog(@"localPlayer.playerID=%@", localPlayer.playerID);
+                DLog(@"localPlayer.alias = %@", localPlayer.alias);
+                DLog(@"localPlayer.displayName = %@", localPlayer.displayName);
                 if (viewController != nil)
                 {
                     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
@@ -62,15 +64,13 @@ static BOOL bLoginedGamecenter = NO;
                 }
                 else if (localPlayer.isAuthenticated)
                 {
-                    NSLog(@"Player authenticated");
+                    DLog(@"Player authenticated");
                     bLoginedGamecenter = YES;
-                    DLog(@"localPlayer.alias = %@", localPlayer.alias);
-                    DLog(@"localPlayer.displayName = %@", localPlayer.displayName);
 
                 }
                 else
                 {
-                    NSLog(@"Player authentication failed");
+                    DLog(@"Player authentication failed");
                 }
             };
             
