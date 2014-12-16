@@ -376,3 +376,15 @@ typedef struct DAILYSTAT
 - (NSString*) getNowYYYYMMDD;
 
 @end
+
+@interface APActivityProvider : UIActivityItemProvider <UIActivityItemSource>
+{
+    NSString *strMsg;
+    NSString *strMsgTwitter;
+}
+
+@property (nonatomic, retain) NSString *strMsg;
+@property (nonatomic, retain) NSString *strMsgTwitter;
+@end
+
+

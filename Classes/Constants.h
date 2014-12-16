@@ -2,7 +2,7 @@
 //#define ADDTHIS_MYPUBID     @"ra-5064495f594cc950"
 //#define ADDTHIS_MYAPPID     @"50988413246ba277"
 
-
+#define TWITTER_ID  @"@smartone3929"
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION

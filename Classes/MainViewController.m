@@ -812,34 +812,8 @@
 #endif
      bAd = NO;
      bReplay = NO;
-//     nAddThisWait = 0;
      nowDate = nil;
 	 
-/*
-     //Facebook connect settings
-     //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
-     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
-//     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeDefault];
-     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
-
-     [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
-     [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
-     
-     
-     //CHANGE THIS TWITTER API KEYS TO YOUR OWN!!
-     [AddThisSDK setTwitterConsumerKey:@"Oz2ldTCKZwlPFULDBHYg"];
-     [AddThisSDK setTwitterConsumerSecret:@"UE2ELTkz3Gmvav2PYLsNOYHDOSMi0pbg9uAhEPdo"];
-     [AddThisSDK setTwitterCallBackURL:@"http://gracegyu.zendesk.com"];
-     
-     [AddThisSDK setTwitPicAPIKey:@"deec47835aadb6e6b68a5d1015e4666b"];
-     [AddThisSDK setTwitterAuthenticationMode:ATTwitterAuthenticationTypeOAuth];
-     [AddThisSDK setTwitterViaText:@"smartone3929 "];
-     
-     
-     [AddThisSDK canUserEditServiceMenu:YES];
-     [AddThisSDK canUserReOrderServiceMenu:YES];
-     [AddThisSDK setDelegate:self];
- */
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1508,24 +1482,34 @@
 
 - (void) callPuzzleShare:(NSString*) service
 {
-//    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
-    NSString *strURL = SHORTENURL;
-    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
-//    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
-    NSString *strDesc;
+    NSString *strMsg;
+    NSString *strMsgTwitter;
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        strDesc = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
-                   gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
-                   gettext(@"level", nil),
-                   labelLevel.text,
-                   gettext(@"time", nil),
-                   labelGameTime.text];
-        
-        
+        strMsg = [NSString stringWithFormat:@"%@ %@ (%@:%@, %@:%@)",
+                  SHORTENURL,
+                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
+                  gettext(@"level", nil),
+                  labelLevel.text,
+                  gettext(@"time", nil),
+                  labelGameTime.text];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@ %@ (%@:%@, %@:%@)",
+                  SHORTENURL,
+                  TWITTER_ID,
+                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
+                  gettext(@"level", nil),
+                  labelLevel.text,
+                  gettext(@"time", nil),
+                  labelGameTime.text];
     } else {
-        strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
+        strMsg = [NSString stringWithFormat:@"%@ %@",
+                  SHORTENURL,
+                  gettext(@"I'm solving this puzzle now.", nil)];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@ %@",
+                  SHORTENURL,
+                  TWITTER_ID,
+                  gettext(@"I'm solving this puzzle now.", nil)];
     }
     
 //    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
@@ -1548,29 +1532,41 @@
 	UIGraphicsEndImageContext();
     
     
-/*	[AddThisSDK shareImage:retImage
-               withService:service
-                     title:strAdd
-               description:@""];
-  */  
-        
-    UIActivityViewController *controller =
-    [[UIActivityViewController alloc]
-     initWithActivityItems:@[strDesc, strURL, retImage]
-     applicationActivities:nil];
+    APActivityProvider *ActivityProvider = [[APActivityProvider alloc] init];
+    ActivityProvider.strMsg = strMsg;
+    ActivityProvider.strMsgTwitter = strMsgTwitter;
+    NSArray *Items = @[ActivityProvider, retImage];
+    [ActivityProvider release];
+    
 
-    controller.completionHandler = ^(NSString *activityType, BOOL completed) {
-        if (completed) {
-            NSLog(@"The selected activity was %@", activityType);
-            NSRange range = [activityType rangeOfString:@"PostTo"];
-            if (range.location != NSNotFound)
-                mainView.bSharedThisOnFacebook = YES;
-        }
-    };
+    UIActivityViewController *ActivityView = [[[UIActivityViewController alloc]
+                                               initWithActivityItems:Items
+                                               applicationActivities:nil] autorelease];
+    [ActivityView setExcludedActivityTypes:
+     @[UIActivityTypeAssignToContact]];
+    
+    [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
+     {
+         if (done) {
+             NSLog(@"The selected activity was %@", act);
+             NSRange range = [act rangeOfString:@"PostTo"];
+             if (range.location != NSNotFound) {
+                 mainView.bSharedThisOnFacebook = YES;
+/*                 NSString *ServiceMsg = [NSString stringWithFormat:gettext(@"You got %d more hints in next game.", nil),
+                                                                   NUM_HINTBONUS];
+                 UIAlertView *Alert = [[UIAlertView alloc] initWithTitle:ServiceMsg
+                                                                 message:@""
+                                                                delegate:nil
+                                                       cancelButtonTitle:@"ok"
+                                                       otherButtonTitles:nil];
+                 [Alert show];
+                 [Alert release];*/
+             }
+         }
+     }];
     
     
-    [self presentViewController:controller animated:YES completion:nil];
-    
+    [self presentViewController:ActivityView animated:YES completion:nil];
 
     [self saveSetting];
     [self startGameTimer];
@@ -3624,3 +3620,24 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 #endif
 
 @end
+
+
+
+@implementation APActivityProvider
+
+@synthesize strMsg;
+@synthesize strMsgTwitter;
+
+
+- (id) activityViewController:(UIActivityViewController *)activityViewController
+          itemForActivityType:(NSString *)activityType
+{
+    if ( [activityType isEqualToString:UIActivityTypePostToTwitter] )
+        return strMsgTwitter;
+    return strMsg;
+}
+- (id) activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController { return @""; }
+@end
+
+
+
