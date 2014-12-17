@@ -1487,29 +1487,29 @@
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        strMsg = [NSString stringWithFormat:@"%@ %@ (%@:%@, %@:%@)",
-                  SHORTENURL,
+        strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) %@\n",
                   gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
                   gettext(@"level", nil),
                   labelLevel.text,
                   gettext(@"time", nil),
-                  labelGameTime.text];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@ %@ (%@:%@, %@:%@)",
-                  SHORTENURL,
-                  TWITTER_ID,
+                  labelGameTime.text,
+                  SHORTENURL];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) %@ via %@\n",
                   gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
                   gettext(@"level", nil),
                   labelLevel.text,
                   gettext(@"time", nil),
-                  labelGameTime.text];
+                  labelGameTime.text,
+                  SHORTENURL,
+                  TWITTER_ID];
     } else {
-        strMsg = [NSString stringWithFormat:@"%@ %@",
+        strMsg = [NSString stringWithFormat:@"%@ %@\n",
+                  gettext(@"I'm solving this puzzle now.", nil),
+                  SHORTENURL];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ %@ via %@\n",
+                  gettext(@"I'm solving this puzzle now.", nil),
                   SHORTENURL,
-                  gettext(@"I'm solving this puzzle now.", nil)];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@ %@",
-                  SHORTENURL,
-                  TWITTER_ID,
-                  gettext(@"I'm solving this puzzle now.", nil)];
+                  TWITTER_ID];
     }
     
 //    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
