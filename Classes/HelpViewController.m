@@ -114,7 +114,7 @@
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%ld", (long)[UIApplication sharedApplication].statusBarOrientation);
 
 }
 
@@ -153,7 +153,7 @@
         [mainViewController dismissModalViewControllerAnimated:YES];
     } else
     {
-        DLog(@"Done [UIDevice currentDevice].orientation=%ld", [UIDevice currentDevice].orientation);
+        DLog(@"Done [UIDevice currentDevice].orientation=%ld", (long)[UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         

@@ -490,7 +490,7 @@
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
-    mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
+    mainView.nSettingSudokuType = (SUDOKUTYPE) [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
     mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
     
@@ -1038,9 +1038,9 @@
     
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
-    DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
-    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"self.interfaceOrientation=%d", (int) self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%d", (int) [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", (int)[UIApplication sharedApplication].statusBarOrientation);
     
     
     //self.view.frame = [[UIScreen mainScreen] applicationFrame];
@@ -1071,13 +1071,13 @@
 	
 	if (num >= 60*60)
 		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
-			   num / (60*60),
-			   num / (60) % (60),
-			   num % (60)];
+			   (int) num / (60*60),
+			   (int) num / (60) % (60),
+			   (int) num % (60)];
 	else if (num > 0) 
 		str = [NSString stringWithFormat:@"%02d:%02d",
-			   num / (60),
-			   num % (60)];
+			   (int) num / (60),
+			   (int) num % (60)];
 	else 
 		str = [NSString stringWithFormat:@"-"];
 
@@ -2129,13 +2129,13 @@
 	
 	if (time >= 60*60)
 		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
-			   time / (60*60),
-			   time / (60) % (60),
-			   time % (60)];
+			   (int) time / (60*60),
+			   (int) time / (60) % (60),
+			   (int) time % (60)];
 	else 
 		str = [NSString stringWithFormat:@"%02d:%02d",
-			   time / (60),
-			   time % (60)];
+			   (int) time / (60),
+			   (int) time % (60)];
 	
 	labelGameTime.text = str; 
 	

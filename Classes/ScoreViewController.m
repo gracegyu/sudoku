@@ -114,12 +114,12 @@
 
 - (void) setInteger:(UILabel*)label num:(NSInteger)num
 {
-	label.text = [NSString stringWithFormat:@"%ld", (long)num];
+	label.text = [NSString stringWithFormat:@"%d", (int)num];
 }
 
 - (void) setInteger2:(UILabel*)label num1:(NSInteger)num1  num2:(NSInteger)num2
 {
-	label.text = [NSString stringWithFormat:@"%d\n%ld", num1, (long)num2];
+	label.text = [NSString stringWithFormat:@"%d\n%d", (int)num1, (int)num2];
 }
 
 
@@ -131,14 +131,14 @@
 		num = 60*60*100 - 1;
 	
 	if (num >= 60*60)
-		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
-			   num / (60*60),
-			   num / (60) % (60),
-			   num % (60)];
+		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+			   (int) num / (60*60),
+			   (int) num / (60) % (60),
+			   (int) num % (60)];
 	else if (num > 0)
-		str = [NSString stringWithFormat:@"%02ld:%02ld",
-			   num / (60),
-			   num % (60)];
+		str = [NSString stringWithFormat:@"%02d:%02d",
+			   (int) num / (60),
+			   (int) num % (60)];
     else
         str = @"-";
 	
@@ -153,29 +153,29 @@
 		num1 = 60*60*100 - 1;
 	
 	if (num1 >= 60*60)
-		str = [NSString stringWithFormat:@"%ld:%02ld:%02ld",
-			   num1 / (60*60),
-			   num1 / (60) % (60),
-			   num1 % (60)];
+		str = [NSString stringWithFormat:@"%d:%02d:%02d",
+			   (int) num1 / (60*60),
+			   (int) num1 / (60) % (60),
+			   (int) num1 % (60)];
 	else
-		str = [NSString stringWithFormat:@"%02ld:%02ld",
-			   num1 / (60),
-			   num1 % (60)];
+		str = [NSString stringWithFormat:@"%02d:%02d",
+			   (int) num1 / (60),
+			   (int) num1 % (60)];
 
     if (num2 >= 60*60*100)
 		num2 = 60*60*100 - 1;
 	
 	if (num2 >= 60*60)
-		str2 = [NSString stringWithFormat:@"%@\n%ld:%02ld:%02ld",
+		str2 = [NSString stringWithFormat:@"%@\n%d:%02d:%02d",
                 str,
-			   num2 / (60*60),
-			   num2 / (60) % (60),
-			   num2 % (60)];
+			   (int) num2 / (60*60),
+			   (int) num2 / (60) % (60),
+			   (int) num2 % (60)];
 	else
-		str2 = [NSString stringWithFormat:@"%@\n%02ld:%02ld",
+		str2 = [NSString stringWithFormat:@"%@\n%02d:%02d",
                 str,
-			   num2 / (60),
-			   num2 % (60)];
+			   (int) num2 / (60),
+			   (int) num2 % (60)];
 
 	label.text = str2;
 }
@@ -304,7 +304,7 @@
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", (int)[UIApplication sharedApplication].statusBarOrientation);
 }
 
 
@@ -316,7 +316,7 @@
     {
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     } else {
-        DLog(@"Done [UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+        DLog(@"Done [UIDevice currentDevice].orientation=%d", (int)[UIDevice currentDevice].orientation);
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
