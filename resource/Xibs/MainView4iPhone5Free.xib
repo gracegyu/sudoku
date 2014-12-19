@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <objects>
@@ -36,6 +37,7 @@
                 <outlet property="buttonNewGameNormal" destination="60" id="107"/>
                 <outlet property="buttonNewGameVeryEasy" destination="58" id="108"/>
                 <outlet property="buttonNewGameVeryHard" destination="94" id="109"/>
+                <outlet property="buttonNickname" destination="Igf-la-LE3" id="LPR-7Q-tqe"/>
                 <outlet property="buttonPlayAgain" destination="386" id="389"/>
                 <outlet property="buttonPlayNew" destination="440" id="443"/>
                 <outlet property="buttonRedo" destination="205" id="207"/>
@@ -57,6 +59,7 @@
                 <outlet property="labelHint" destination="133" id="136"/>
                 <outlet property="labelLevel" destination="87" id="93"/>
                 <outlet property="labelLicense" destination="39" id="428"/>
+                <outlet property="labelNickname" destination="Gah-g1-gbm" id="WfG-bm-KIz"/>
                 <outlet property="labelSudokuType" destination="465" id="467"/>
                 <outlet property="labelTitleBlank" destination="86" id="111"/>
                 <outlet property="labelTitleGameTime" destination="85" id="112"/>
@@ -115,7 +118,7 @@
                     </state>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="39">
-                    <rect key="frame" x="0.0" y="534.99999951881659" width="325" height="18"/>
+                    <rect key="frame" x="0.0" y="535" width="325" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -685,7 +688,7 @@
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
                 <view tag="130" contentMode="scaleToFill" restorationIdentifier="" id="ag0-Fg-5Cd">
-                    <rect key="frame" x="-160" y="187.5" width="160" height="330"/>
+                    <rect key="frame" x="0.0" y="187.5" width="160" height="330"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="4la-Iv-HhB">
@@ -700,7 +703,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="92B-p6-EYI">
-                            <rect key="frame" x="20" y="28" width="140" height="33"/>
+                            <rect key="frame" x="20" y="25" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -716,23 +719,23 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" image="type_0_100b.png" id="Fj8-S2-VXE">
-                            <rect key="frame" x="4" y="81" width="20" height="20"/>
+                            <rect key="frame" x="4" y="121" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" tag="82" contentMode="scaleToFill" image="type_1_100b.png" id="b2U-ES-xDn">
-                            <rect key="frame" x="4" y="131" width="20" height="20"/>
+                            <rect key="frame" x="4" y="166" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" tag="83" contentMode="scaleToFill" image="type_2_100b.png" id="RLJ-fp-KJ9">
-                            <rect key="frame" x="4" y="180" width="20" height="20"/>
+                            <rect key="frame" x="4" y="211" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <imageView userInteractionEnabled="NO" tag="84" contentMode="scaleToFill" image="type_3_100b.png" id="P2w-ki-X6X">
-                            <rect key="frame" x="4" y="230" width="20" height="20"/>
+                            <rect key="frame" x="4" y="251" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vis-j3-7tz">
-                            <rect key="frame" x="20" y="74.5" width="140" height="33"/>
+                            <rect key="frame" x="20" y="115" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -748,14 +751,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat sudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9WB-id-z27">
-                            <rect key="frame" x="0.0" y="108.5" width="160" height="15"/>
+                            <rect key="frame" x="0.0" y="142.5" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="894-09-e9z">
-                            <rect key="frame" x="20" y="124.5" width="140" height="33"/>
+                            <rect key="frame" x="20" y="160" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -771,14 +774,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat greater than" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VtL-Hg-d7d">
-                            <rect key="frame" x="0.0" y="158.5" width="160" height="15"/>
+                            <rect key="frame" x="0.0" y="188" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cAk-tI-BYC">
-                            <rect key="frame" x="20" y="174" width="140" height="33"/>
+                            <rect key="frame" x="20" y="205" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -794,14 +797,14 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat killer" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="102-uH-YkE">
-                            <rect key="frame" x="0.0" y="205.5" width="160" height="15"/>
+                            <rect key="frame" x="0.0" y="232.5" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CAQ-dI-pLP">
-                            <rect key="frame" x="20" y="224" width="140" height="33"/>
+                            <rect key="frame" x="20" y="245" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -817,7 +820,7 @@
                             </connections>
                         </button>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat calcudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HFb-TY-j2u">
-                            <rect key="frame" x="0.0" y="255.5" width="160" height="15"/>
+                            <rect key="frame" x="0.0" y="272.5" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
@@ -840,9 +843,36 @@
                             </connections>
                         </button>
                         <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="ranking.png" id="nu4-bW-jtZ">
-                            <rect key="frame" x="2" y="32" width="24" height="24"/>
+                            <rect key="frame" x="2" y="29" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="logo-128.png" id="wBT-lm-bsz">
+                            <rect key="frame" x="2" y="74.5" width="24" height="24"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="my name" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Gah-g1-gbm">
+                            <rect key="frame" x="0.0" y="97.5" width="160" height="15"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
+                            <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Igf-la-LE3">
+                            <rect key="frame" x="20" y="69" width="140" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="Nickname">
+                                <color key="titleColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="changeNickName" destination="-1" eventType="touchUpInside" id="s83-C9-HaS"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="calibratedRGB"/>
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
@@ -880,6 +910,7 @@
         <image name="checkbox_c.png" width="48" height="48"/>
         <image name="close.png" width="37" height="38"/>
         <image name="earth.png" width="128" height="128"/>
+        <image name="logo-128.png" width="128" height="128"/>
         <image name="ranking.png" width="160" height="160"/>
         <image name="redo_d.png" width="64" height="64"/>
         <image name="share.png" width="128" height="128"/>

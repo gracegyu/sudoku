@@ -99,10 +99,12 @@ typedef struct DAILYSTAT
 	UIButton	*buttonDailyGameGt;
 	UIButton	*buttonDailyGameKiller;
 	UIButton	*buttonDailyGameCalcu;
+    UIButton    *buttonNickname;
     UILabel     *labelDailyStatSudoku;
     UILabel     *labelDailyStatGt;
     UILabel     *labelDailyStatKiller;
     UILabel     *labelDailyStatCalcu;
+    UILabel     *labelNickname;
     
 	UIButton	*buttonDailyGameCancel;
     
@@ -224,10 +226,12 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameGt;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameKiller;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCalcu;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonNickname;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatSudoku;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatGt;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatKiller;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatCalcu;
+@property (nonatomic, retain) IBOutlet UILabel  *labelNickname;
 
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCancel;
 
@@ -339,6 +343,7 @@ typedef struct DAILYSTAT
 - (IBAction)dailygameKiller;
 - (IBAction)dailygameCalcudoku;
 - (IBAction)dailygameCancel;
+- (IBAction)changeNickName;
 //- (IBAction)changeDailyAutoMemo;
 
 
@@ -374,6 +379,7 @@ typedef struct DAILYSTAT
 - (BOOL) isReplaying;
 - (NSInteger) getCheckSum;	// forVersion2
 - (NSString*) getNowYYYYMMDD;
+- (NSString *)percentEscapeString:(NSString *)string;
 
 @end
 

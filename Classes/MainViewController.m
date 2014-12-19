@@ -52,6 +52,7 @@
 @synthesize buttonDailyGameGt;
 @synthesize buttonDailyGameKiller;
 @synthesize buttonDailyGameCalcu;
+@synthesize buttonNickname;
 
 
 //@synthesize labelDailyAutoMemo;
@@ -60,6 +61,7 @@
 @synthesize labelDailyStatGt;
 @synthesize labelDailyStatKiller;
 @synthesize labelDailyStatCalcu;
+@synthesize labelNickname;
 @synthesize buttonDailyGameCancel;
 
 @synthesize buttonNewGame;
@@ -533,7 +535,7 @@
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateDisabled];
     [buttonSharePuzzle  setTitle:gettext(@"Puzzle share", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
-	[buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
+    [buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
@@ -600,6 +602,7 @@
 //	[buttonDailyCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 //    labelDailyAutoMemo.text = gettext(@"auto memo", nil);
 
+    [buttonNickname setTitle:gettext(@"Nickname", nil) forState:UIControlStateNormal];
     [buttonDailyRanking setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
     [buttonDailyGameSudoku setTitle:gettext(@"sudoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameGt setTitle:gettext(@"greater sudoku", nil) forState:UIControlStateNormal];
@@ -657,6 +660,7 @@
 	   areaNumButton.hidden = YES;
 	   areaAdBanner.hidden = YES;
        gUserID = cDefaultUserID;
+       gUserName = @"";
 	   
        [self decideLocale];
        
@@ -895,11 +899,12 @@
 	DLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&userid=%ld&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
                         (long)gUserID,
+                        [self percentEscapeString:gUserName],
                         APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -917,7 +922,7 @@
 						[self urlEncodeValue:countryName],
 						@"Apple",
 						(long)[self getCheckSum]];
-	DLog(@"strURI = %@", strURI);
+//	DLog(@"strURI = %@", strURI);
 	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
 	[strURI release];
 	
@@ -994,6 +999,9 @@
         gServerIP = cServerHostName;
     
     gServerIP = cServerHostName;    // 저장된 데이터 무시
+    
+    if (gUserName == nil || [gUserName compare:@"(null)"] == NSOrderedSame)
+        gUserName = [NSString stringWithFormat:@"%d", (int)gUserID];
     
 }
 
@@ -2312,6 +2320,7 @@
 		return strData;
 	} else {
 		// zzz 에러처리
+        NSLog(@"%@", [theError localizedDescription]);
 	}
 	
 	
@@ -2342,6 +2351,16 @@
 }
 
 
+- (NSString *)percentEscapeString:(NSString *)string
+{
+    NSString *result = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                       (CFStringRef)[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
+                       (CFStringRef)@" ",
+                       (CFStringRef)@":/?@!$&'()*+,;=",
+                       kCFStringEncodingUTF8));
+    return [result stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+}
+
 - (NSString*) downloadDailyPuzzle
 {
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
@@ -2356,7 +2375,7 @@
 						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d&countrycode=%@",
                         @"getdailypuzzle",
                         (long)gUserID,
-                        gUserName,
+                        [self percentEscapeString:gUserName],
                         APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -2385,7 +2404,7 @@
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&spend=%lu&automemo=%d",
                         @"addresult",
                         (long)gUserID,
-                        gUserName,
+                        [self percentEscapeString:gUserName],
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -2539,7 +2558,7 @@
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
                         @"getdailystat",
                         (long)gUserID,
-                        gUserName,
+                        [self percentEscapeString:gUserName],
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -2671,6 +2690,10 @@
     [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
     [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
     [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
+    if ([gUserName compare:[NSString stringWithFormat:@"%d", (int)gUserID]] != NSOrderedSame)
+        labelNickname.text = gUserName;
+    else
+        labelNickname.text = @"";
 
     if (bReadyDownloadDailyPuzzle)
     {
@@ -2769,7 +2792,7 @@
     [self loadDailyStat];
     
     bReadyDownloadDailyPuzzle = NO;
-    [self setDailyStat];
+//    [self setDailyStat];
     labelDailyStat.text = gettext(@"Connecting to a server", nil);
     
     // TOBE - indicator on earth
@@ -2998,6 +3021,27 @@
 	[self hideDailyGameView];
     [self startGameTimer];
 }
+
+- (IBAction)changeNickName
+{
+    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil
+                                                     message:gettext(@"Please input your nickname", nil)
+                                                    delegate:self
+                                           cancelButtonTitle:gettext(@"Save", nil)
+                                           otherButtonTitles:nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    UITextField *textField = [alert textFieldAtIndex:0];
+    if ([gUserName compare:[NSString stringWithFormat:@"%d", (int)gUserID]] != NSOrderedSame)
+        textField.text = gUserName;
+    else
+        textField.text = @"";
+    
+    [alert show];
+    [alert release];
+    [self hideDailyGameView];
+    [self startGameTimer];
+}
+
 
 
 - (IBAction)changeAutoMemo
@@ -3544,14 +3588,19 @@
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = alert.title;
+    NSString *message = alert.message;
     
-    if([title isEqualToString:gettext(@"Congratulations!", nil)])
-    {
+    if([title isEqualToString:gettext(@"Congratulations!", nil)]) {
 #ifdef ADMOB_FREEVERSION
         [self showInterstitial];
 #endif
-    }
-    else // if([title isEqualToString:@"Button 2"])
+    } else if([message isEqualToString:gettext(@"Please input your nickname", nil)]) {
+        
+        gUserName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        [self saveServerData];
+        
+    } else // if([title isEqualToString:@"Button 2"])
     {
         if (buttonIndex == 1) // "확인" 버튼, TODO 확인 필요
         {
