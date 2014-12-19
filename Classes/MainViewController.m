@@ -3596,7 +3596,14 @@
 #endif
     } else if([message isEqualToString:gettext(@"Please input your nickname", nil)]) {
         
-        gUserName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        NSString *newName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        
+        if ([newName length] < 1) {
+            // Warning
+            
+        } else {
+            gUserName = newName;
+        }
         
         [self saveServerData];
         
