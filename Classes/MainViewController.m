@@ -2334,7 +2334,8 @@
 		return strData;
 	} else {
 		// zzz 에러처리
-        NSLog(@"theError:%@", [theError localizedDescription]);
+        DLog(@"theError:%@", [theError localizedDescription]);
+        //[self alertLocalizedAlertView:[theError localizedDescription]];
 	}
 	
 	
