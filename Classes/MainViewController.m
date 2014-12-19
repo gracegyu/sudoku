@@ -638,7 +638,16 @@
     }
 }
 
-
+- (void) setUserName:(NSString*) newname
+{
+    DLog(@"setUserName:%@", newname);
+    
+    [gUserName release];
+    if ([newname length] > 60)
+        newname = [newname substringWithRange:NSMakeRange(0, 60)];
+    gUserName = [[NSString stringWithString:newname] retain];
+    DLog(@"setUserName:%@ => %@", newname, gUserName);
+}
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -660,7 +669,7 @@
 	   areaNumButton.hidden = YES;
 	   areaAdBanner.hidden = YES;
        gUserID = cDefaultUserID;
-       gUserName = @"";
+       gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
 	   
        [self decideLocale];
        
@@ -923,7 +932,7 @@
 						@"Apple",
 						(long)[self getCheckSum]];
 //	DLog(@"strURI = %@", strURI);
-	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
+	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
 	[strURI release];
 	
 	// zzz error handling, if gUserID is 1 still ...
@@ -959,7 +968,8 @@
 			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
 				gUserID = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
-				gUserName = [[NSString alloc] initWithString:value];
+                [self setUserName:value];
+//				gUserName = [[NSString alloc] initWithString:value];
 		}
 	}
 	
@@ -976,6 +986,8 @@
 
 - (void) loadServerData
 {
+    NSString *name;
+    
     gServerIP = cServerHostName;
 //    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
     gDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -992,7 +1004,7 @@
     
     // redirection은 어떻게 할 것인가?
     gServerIP = [defaults stringForKey:kServerIP];
-	gUserName = [defaults stringForKey:kUserName];
+	name = [defaults stringForKey:kUserName];
 	gUserID	  = [defaults integerForKey:kUserID];
 
     if (!gServerIP || [gServerIP length] < 3)   // something wrong
@@ -1000,8 +1012,10 @@
     
     gServerIP = cServerHostName;    // 저장된 데이터 무시
     
-    if (gUserName == nil || [gUserName compare:@"(null)"] == NSOrderedSame)
-        gUserName = [NSString stringWithFormat:@"%d", (int)gUserID];
+    if (name == nil || [name compare:@"(null)"] == NSOrderedSame)
+        name = [NSString stringWithFormat:@"%d", (int)gUserID];
+    
+    [self setUserName:name];
     
 }
 
@@ -2320,7 +2334,7 @@
 		return strData;
 	} else {
 		// zzz 에러처리
-        NSLog(@"%@", [theError localizedDescription]);
+        NSLog(@"theError:%@", [theError localizedDescription]);
 	}
 	
 	
@@ -3031,6 +3045,7 @@
                                            otherButtonTitles:nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textField = [alert textFieldAtIndex:0];
+    DLog(@"gUserName:%@", gUserName);
     if ([gUserName compare:[NSString stringWithFormat:@"%d", (int)gUserID]] != NSOrderedSame)
         textField.text = gUserName;
     else
@@ -3602,7 +3617,8 @@
             // Warning
             
         } else {
-            gUserName = newName;
+            [self setUserName:newName];
+            //gUserName = newName;
         }
         
         [self saveServerData];
