@@ -215,7 +215,11 @@ typedef struct SUDOKUSCORE
 #endif
 
 #define STR_LICENSE     @"Ⓒ 2014 SmartOne, All rights reserved."
+#ifdef SUDOKU9
+#define NUM_HINTBONUS   3
+#else
 #define NUM_HINTBONUS   2
+#endif
 #define NUM_DEFHINT9    3
 #define NUM_DEFHINT6    2
 
