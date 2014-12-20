@@ -1463,101 +1463,70 @@
 
     [self startGameTimer];
 }
-/*
-- (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
+
+
+
+
+- (void) callPuzzleShare:(BOOL) bImg
 {
-    if (nAddThisWait >= 3)  
-    {
-        [self callPuzzleShare:@"facebook"];
-    }
-    nAddThisWait = 0;
-}
-*/
-- (IBAction)sharePuzzleFacebook
-{
-    if (mainView.bMenuMode)
-    {
-        [self hideMenuView:NO];
-    }
-
-    [Flurry logEvent:@"SharePuzzleFacebook"];
-
-    
-    [self callPuzzleShare:@"facebook"];
-/*
-    static BOOL isFirst = YES;
-    nAddThisWait = 0;
-    
-    if (isFirst)
-    {
-        isFirst = NO;
-        nAddThisWait = 1;
-        [NSTimer scheduledTimerWithTimeInterval:2       // 2초안에 저절로 닫히면 재실행한다.
-                                         target:self
-                                       selector:@selector(OnTimerSharePuzzleFacebook:)
-                                       userInfo:nil
-                                        repeats:NO];
-    }*/
-    [self startGameTimer];
-}
-
-
-- (void) callPuzzleShare:(NSString*) service
-{
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
     NSString *strMsg;
     NSString *strMsgTwitter;
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) %@\n",
+        strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
+                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
+                  gettext(@"level", nil),
+                  labelLevel.text,
+                  gettext(@"time", nil),
+                  labelGameTime.text];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) via %@",
                   gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
                   gettext(@"level", nil),
                   labelLevel.text,
                   gettext(@"time", nil),
                   labelGameTime.text,
-                  SHORTENURL];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) %@ via %@\n",
-                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
-                  gettext(@"level", nil),
-                  labelLevel.text,
-                  gettext(@"time", nil),
-                  labelGameTime.text,
-                  SHORTENURL,
                   TWITTER_ID];
     } else {
-        strMsg = [NSString stringWithFormat:@"%@ %@\n",
+        strMsg = [NSString stringWithFormat:@"%@",
+                  gettext(@"I'm solving this puzzle now.", nil)];
+        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@",
                   gettext(@"I'm solving this puzzle now.", nil),
-                  SHORTENURL];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ %@ via %@\n",
-                  gettext(@"I'm solving this puzzle now.", nil),
-                  SHORTENURL,
                   TWITTER_ID];
     }
     
 //    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
     
-    UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
+    UIImage *retImage = nil;
     
-	// draw original image into the context
-	//[image drawAtPoint:CGPointZero];
-    
-	// get the context for CoreGraphics
-	CGContextRef ctx = UIGraphicsGetCurrentContext();
-    
-    [mainView drawOnImage:ctx strTime:labelGameTime.text];
-    
-    
-	// make image out of bitmap context
-	UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-	// free the context
-	UIGraphicsEndImageContext();
-    
+    if (bImg) {
+        UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
+        
+        // draw original image into the context
+        //[image drawAtPoint:CGPointZero];
+        
+        // get the context for CoreGraphics
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        
+        [mainView drawOnImage:ctx strTime:labelGameTime.text];
+        
+        
+        // make image out of bitmap context
+        retImage = UIGraphicsGetImageFromCurrentImageContext();
+        
+        // free the context
+        UIGraphicsEndImageContext();
+    }
     
     APActivityProvider *ActivityProvider = [[APActivityProvider alloc] init];
     ActivityProvider.strMsg = strMsg;
     ActivityProvider.strMsgTwitter = strMsgTwitter;
-    NSArray *Items = @[ActivityProvider, retImage];
+    NSArray *Items;
+//    if (bImg)
+//        Items = @[ActivityProvider, strURL, retImage];
+//    else
+        Items = @[ActivityProvider, strURL, retImage];
     [ActivityProvider release];
     
 
@@ -1574,15 +1543,6 @@
              NSRange range = [act rangeOfString:@"PostTo"];
              if (range.location != NSNotFound) {
                  mainView.bSharedThisOnFacebook = YES;
-/*                 NSString *ServiceMsg = [NSString stringWithFormat:gettext(@"You got %d more hints in next game.", nil),
-                                                                   NUM_HINTBONUS];
-                 UIAlertView *Alert = [[UIAlertView alloc] initWithTitle:ServiceMsg
-                                                                 message:@""
-                                                                delegate:nil
-                                                       cancelButtonTitle:@"ok"
-                                                       otherButtonTitles:nil];
-                 [Alert show];
-                 [Alert release];*/
              }
          }
      }];
@@ -1595,7 +1555,7 @@
 }
 
 
-- (IBAction)sharePuzzleTwitter
+- (IBAction)openSharePuzzle
 {
     if (mainView.bMenuMode)
     {
@@ -1604,61 +1564,14 @@
 
     [Flurry logEvent:@"SharePuzzleTwitter"];
 
-    [self callPuzzleShare:@"twitter"];
+    [self callPuzzleShare:YES];
     
     
     
     
 }
 
-- (IBAction)shareRecordFacebook
-{
-    if (mainView.bMenuMode)
-    {
-        [self hideMenuView:NO];
-    }
-
-    [Flurry logEvent:@"ShareRecordFacebook"];
-    
-    [self callPuzzleShare:@"facebook"];
-    
-    //[self callAddThisShareURL:@"facebook"];
-}
-
-- (void) callAddThisShareURL:(NSString*) service
-{
-    /*
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
-//    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
-    NSString *strTitle = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
-                          STR_MATRIXSIZE];
-    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
-                         gettext(@"level", nil),
-                         labelLevel.text,
-                         gettext(@"time", nil),
-                         labelGameTime.text];
-    NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
-    
-	[AddThisSDK shareURL:strURL
-			 withService:service
-				   title:strAdd
-			 description:@""];
-
-    
-    UIActivityViewController *controller =
-    [[UIActivityViewController alloc]
-     initWithActivityItems:@[strAdd, strURL, nil]
-     applicationActivities:nil];
-    
-    [self presentViewController:controller animated:YES completion:nil];
-    
-    
-    mainView.bSharedThisOnFacebook = YES;
-    [self saveSetting];
-    [self startGameTimer];
-  */
-}
-- (IBAction)shareRecordTwitter
+- (IBAction)openShareRecord
 {
     if (mainView.bMenuMode)
     {
@@ -1667,8 +1580,8 @@
 
     [Flurry logEvent:@"ShareRecordTwitter"];
     
-//    [self callAddThisShareURL:@"twitter"];
-    [self callPuzzleShare:@"twitter"];
+
+    [self callPuzzleShare:NO];
 }
 
 

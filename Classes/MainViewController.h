@@ -309,11 +309,10 @@ typedef struct DAILYSTAT
 - (IBAction)closeButton;
 - (IBAction)playAgain;
 - (IBAction)seeReplay;
-- (IBAction)shareRecordFacebook;
-- (IBAction)sharePuzzleFacebook;
-- (IBAction)shareRecordTwitter;
-- (IBAction)sharePuzzleTwitter;
-//- (IBAction)shareToTwitter;
+
+- (IBAction)openShareRecord;
+- (IBAction)openSharePuzzle;
+
 - (IBAction)doHint;
 - (IBAction)showScoreView;
 - (IBAction)showSettingView;
