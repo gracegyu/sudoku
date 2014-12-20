@@ -3141,9 +3141,9 @@
 	BOOL bLock = (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
-	if (count > 0)	{
+	if (count > 0 && bLock == NO)	{
 		buttonReset.alpha = 1.0f;
-		buttonReset.enabled = bLock ? NO : YES;
+		buttonReset.enabled = YES;
 	} else {
 		buttonReset.alpha = 0.3f;
 		buttonReset.enabled = NO;		
