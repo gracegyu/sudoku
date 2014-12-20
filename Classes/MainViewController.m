@@ -86,10 +86,9 @@
 @synthesize buttonPlayNew;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
-@synthesize buttonFacebookRecord;
-@synthesize buttonFacebookPuzzle;
-@synthesize buttonTwitterRecord;
-@synthesize buttonTwitterPuzzle;
+
+@synthesize buttonRecordShare;
+@synthesize buttonPuzzleShare;
 
 
 @synthesize viewMenu;
@@ -558,7 +557,8 @@
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonTwitterPuzzle    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
+    [buttonPuzzleShare    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
+    [buttonRecordShare    setTitle:[@"    " stringByAppendingString:gettext(@"Record share", nil)] forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -834,8 +834,8 @@
      
      if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
      {
-         buttonTwitterPuzzle.enabled = NO;
-         buttonTwitterRecord.enabled = NO;
+         buttonPuzzleShare.enabled = NO;
+         buttonRecordShare.enabled = NO;
          buttonSharePuzzle.enabled = NO;
      }
          
@@ -1469,32 +1469,34 @@
 
 - (void) callPuzzleShare:(BOOL) bImg
 {
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APPSHARE_ID];
+    NSString *strDesc;
     NSString *strMsg;
     NSString *strMsgTwitter;
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
-                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
-                  gettext(@"level", nil),
-                  labelLevel.text,
-                  gettext(@"time", nil),
-                  labelGameTime.text];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@) via %@",
-                  gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil),
-                  gettext(@"level", nil),
-                  labelLevel.text,
-                  gettext(@"time", nil),
-                  labelGameTime.text,
-                  TWITTER_ID];
+        if (bImg) {  // Puzzle share
+            strMsg = gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil);
+        } else {        // Record share
+            strDesc = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
+                       STR_MATRIXSIZE];
+            strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
+                      strDesc,
+                      gettext(@"level", nil),
+                      labelLevel.text,
+                      gettext(@"time", nil),
+                      labelGameTime.text];
+        }
+
     } else {
+        // only Puzzle share?
         strMsg = [NSString stringWithFormat:@"%@",
                   gettext(@"I'm solving this puzzle now.", nil)];
-        strMsgTwitter = [NSString stringWithFormat:@"%@ via %@",
-                  gettext(@"I'm solving this puzzle now.", nil),
-                  TWITTER_ID];
     }
+    strMsgTwitter = [NSString stringWithFormat:@"%@ via %@",
+                     strMsg,
+                     TWITTER_ID];
     
 //    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
     
@@ -1523,18 +1525,30 @@
     ActivityProvider.strMsg = strMsg;
     ActivityProvider.strMsgTwitter = strMsgTwitter;
     NSArray *Items;
-//    if (bImg)
-//        Items = @[ActivityProvider, strURL, retImage];
-//    else
+    if (bImg)
         Items = @[ActivityProvider, strURL, retImage];
+    else
+        Items = @[ActivityProvider, strURL];
     [ActivityProvider release];
     
 
     UIActivityViewController *ActivityView = [[[UIActivityViewController alloc]
                                                initWithActivityItems:Items
                                                applicationActivities:nil] autorelease];
-    [ActivityView setExcludedActivityTypes:
-     @[UIActivityTypeAssignToContact]];
+    if (bImg) {
+        [ActivityView setExcludedActivityTypes:
+         @[UIActivityTypeAssignToContact,
+           UIActivityTypeAddToReadingList]];
+    } else {
+        [ActivityView setExcludedActivityTypes:
+         @[UIActivityTypePrint,
+           UIActivityTypeCopyToPasteboard,
+           UIActivityTypeAssignToContact,
+           UIActivityTypeSaveToCameraRoll,
+           UIActivityTypeAddToReadingList,
+           UIActivityTypeAirDrop]];
+        
+    }
     
     [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
      {
@@ -3227,10 +3241,9 @@
         buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : YES;
     }
     buttonSeeReplay.hidden = bHiddenButton;
-    buttonFacebookRecord.hidden = bHiddenButton;
-    buttonFacebookPuzzle.hidden = bHiddenButton;
-    buttonTwitterRecord.hidden = bHiddenButton;
-    buttonTwitterPuzzle.hidden = bHiddenButton;
+
+    buttonPuzzleShare.hidden = bHiddenButton;
+    buttonRecordShare.hidden = bHiddenButton;
 }
 
 - (BOOL) isReplaying

@@ -132,10 +132,8 @@ typedef struct DAILYSTAT
     UIButton    *buttonPlayNew;
     UIButton    *buttonPlayAgain;
     UIButton    *buttonSeeReplay;
-	UIButton    *buttonFacebookRecord;
-	UIButton    *buttonFacebookPuzzle;
-	UIButton    *buttonTwitterRecord;
-	UIButton    *buttonTwitterPuzzle;
+	UIButton    *buttonRecordShare;
+	UIButton    *buttonPuzzleShare;
 	
 	UIView		*viewMenu;
 	UIView		*viewNewGame;
@@ -258,10 +256,9 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayNew;
 @property (nonatomic, retain) IBOutlet UIButton *buttonPlayAgain;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSeeReplay;
-@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookRecord;
-@property (nonatomic, retain) IBOutlet UIButton *buttonFacebookPuzzle;
-@property (nonatomic, retain) IBOutlet UIButton *buttonTwitterRecord;
-@property (nonatomic, retain) IBOutlet UIButton *buttonTwitterPuzzle;
+
+@property (nonatomic, retain) IBOutlet UIButton *buttonRecordShare;
+@property (nonatomic, retain) IBOutlet UIButton *buttonPuzzleShare;
 
 
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
