@@ -3493,7 +3493,7 @@
                 [self successBuyHint50];
                 break;
             case SKPaymentTransactionStateFailed:
-                NSLog(@"Error:%@", transaction.error.localizedDescription);
+                NSLog(@"Error:%d:%@", (int)[transaction.error code], transaction.error.localizedDescription);
                 [self failedTransaction:transaction];
                 // 실패 처리
                 [self failedBuyHint50:transaction.error.localizedDescription];
