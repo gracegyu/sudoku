@@ -2535,7 +2535,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
 	if (selectedXPos >= 0 && selectedXPos < sudokuGame.size &&
         selectedYPos >= 0 && selectedYPos < sudokuGame.size) {
-		if ([sudokuGame getPuzzleNums:selectedXPos y:selectedYPos] == 0) {// 사용자가 입력하는 칸이다.
+		if ([sudokuGame getPuzzleNums:selectedXPos y:selectedYPos] == 0 &&  // 사용자가 입력하는 칸이다.
+            [sudokuGame getFixNums:selectedXPos y:selectedYPos] == 0) {     // 사용자가 입력한 칸이다.
             return YES;
 		}
 	}
