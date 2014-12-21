@@ -846,9 +846,9 @@
          NSLog(@"Start Shop!");
          
          [[SKPaymentQueue defaultQueue] addTransactionObserver:self];	// Observer를 등록한다.
-     }
-     else
+     } else {
          NSLog(@"Failed Shop!");
+     }
 
      productHint50 = nil;
      bBuyingHint50 = NO;
