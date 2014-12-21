@@ -19,7 +19,7 @@
 #import "JMC.h"
 #endif
 #import "KillerMap.h"
-//#import "AddThis.h"
+#import "AddThis.h"
 #import "Flurry.h"
 #import "UIDevice+IdentifierAddition.h"
 
@@ -52,7 +52,6 @@
 @synthesize buttonDailyGameGt;
 @synthesize buttonDailyGameKiller;
 @synthesize buttonDailyGameCalcu;
-@synthesize buttonNickname;
 
 
 //@synthesize labelDailyAutoMemo;
@@ -61,7 +60,6 @@
 @synthesize labelDailyStatGt;
 @synthesize labelDailyStatKiller;
 @synthesize labelDailyStatCalcu;
-@synthesize labelNickname;
 @synthesize buttonDailyGameCancel;
 
 @synthesize buttonNewGame;
@@ -86,9 +84,10 @@
 @synthesize buttonPlayNew;
 @synthesize buttonPlayAgain;
 @synthesize buttonSeeReplay;
-
-@synthesize buttonRecordShare;
-@synthesize buttonPuzzleShare;
+@synthesize buttonFacebookRecord;
+@synthesize buttonFacebookPuzzle;
+@synthesize buttonTwitterRecord;
+@synthesize buttonTwitterPuzzle;
 
 
 @synthesize viewMenu;
@@ -491,7 +490,7 @@
     mainView.bSettingDuplicationWarning = [defaults boolForKey:kSettingDuplicationWarning];
     mainView.bSettingMarkingEqual = [defaults boolForKey:kSettingMarkingEqual];
     mainView.bSettingAutoMemo = [defaults boolForKey:kSettingAutoMemo];
-    mainView.nSettingSudokuType = (SUDOKUTYPE) [defaults integerForKey:kSettingSudokuType];
+    mainView.nSettingSudokuType = [defaults integerForKey:kSettingSudokuType];
     mainView.skin = [defaults integerForKey:kSettingSkin];
     mainView.bSharedThisOnFacebook = [defaults boolForKey:kSharedThisOnFacebook];
     
@@ -532,9 +531,9 @@
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateDisabled];
-    [buttonSharePuzzle  setTitle:gettext(@"Puzzle share", nil) forState:UIControlStateNormal];
+    [buttonSharePuzzle  setTitle:gettext(@"Share puzzle", nil) forState:UIControlStateNormal];
 	[buttonHelp			setTitle:gettext(@"Help", nil) forState:UIControlStateNormal];
-    [buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
+	[buttonRank			setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
@@ -557,8 +556,10 @@
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
     [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
-    [buttonPuzzleShare    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
-    [buttonRecordShare    setTitle:[@"    " stringByAppendingString:gettext(@"Record share", nil)] forState:UIControlStateNormal];
+    [buttonFacebookRecord    setTitle:gettext(@"Share record on Facebook", nil) forState:UIControlStateNormal];
+    [buttonFacebookPuzzle    setTitle:gettext(@"Share puzzle on Facebook", nil) forState:UIControlStateNormal];
+    [buttonTwitterRecord    setTitle:gettext(@"Share record on Twitter", nil) forState:UIControlStateNormal];
+    [buttonTwitterPuzzle    setTitle:gettext(@"Share puzzle on Twitter", nil) forState:UIControlStateNormal];
     
 
     [buttonUndo setTitle:@"" forState:UIControlStateNormal];
@@ -602,7 +603,6 @@
 //	[buttonDailyCheckboxAutoMemo setTitle:@"" forState:UIControlStateNormal];
 //    labelDailyAutoMemo.text = gettext(@"auto memo", nil);
 
-    [buttonNickname setTitle:gettext(@"Nickname", nil) forState:UIControlStateNormal];
     [buttonDailyRanking setTitle:gettext(@"Ranking", nil) forState:UIControlStateNormal];
     [buttonDailyGameSudoku setTitle:gettext(@"sudoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameGt setTitle:gettext(@"greater sudoku", nil) forState:UIControlStateNormal];
@@ -638,17 +638,7 @@
     }
 }
 
-- (void) setUserName:(NSString*) newname
-{
-    DLog(@"setUserName:%@", newname);
-    
-    [gUserName release];
-    if ([newname length] > 60)
-        newname = [newname substringWithRange:NSMakeRange(0, 60)];
-    gUserName = [[NSString stringWithString:newname] retain];
-    DLog(@"setUserName:%@ => %@", newname, gUserName);
-    
-}
+
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -670,11 +660,9 @@
 	   areaNumButton.hidden = YES;
 	   areaAdBanner.hidden = YES;
        gUserID = cDefaultUserID;
-       gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
 	   
        [self decideLocale];
        
-       [self loadServerData];
        [self loadSetting];
        [self setLocalizedMessage];
        [mainView initSkinColorData];
@@ -685,7 +673,6 @@
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
-            [self updateGameTime:mainView.sudokuGame.gameTime];
 			[self updateBlankCellCount];
 			[self updateHintCount];
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
@@ -731,12 +718,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-/*    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
+    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
     if (nAddThisWait > 0)
     {
         nAddThisWait++;
         return;
-    } else {*/
+    } else {
         if (mainView.bMenuMode)
         {
             [self hideMenuView:NO];
@@ -748,7 +735,7 @@
 
         //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
 
-//    }
+    }
 }
 
 
@@ -827,8 +814,35 @@
 #endif
      bAd = NO;
      bReplay = NO;
+     nAddThisWait = 0;
      nowDate = nil;
 	 
+
+     //Facebook connect settings
+     //CHANGE THIS FACEBOOK API KEY TO YOUR OWN!!
+     [AddThisSDK setFacebookAPIKey:FACEBOOK_ID];
+//     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeDefault];
+     [AddThisSDK setFacebookAuthenticationMode:ATFacebookAuthenticationTypeFBConnect];
+
+     [AddThisSDK setAddThisPubId:ADDTHIS_MYPUBID];
+     [AddThisSDK setAddThisApplicationId:ADDTHIS_MYAPPID];
+     
+     
+     //CHANGE THIS TWITTER API KEYS TO YOUR OWN!!
+     [AddThisSDK setTwitterConsumerKey:@"Oz2ldTCKZwlPFULDBHYg"];
+     [AddThisSDK setTwitterConsumerSecret:@"UE2ELTkz3Gmvav2PYLsNOYHDOSMi0pbg9uAhEPdo"];
+     [AddThisSDK setTwitterCallBackURL:@"http://gracegyu.zendesk.com"];
+     
+     [AddThisSDK setTwitPicAPIKey:@"deec47835aadb6e6b68a5d1015e4666b"];
+     [AddThisSDK setTwitterAuthenticationMode:ATTwitterAuthenticationTypeOAuth];
+     [AddThisSDK setTwitterViaText:@"smartone3929 "];
+     
+     
+     [AddThisSDK canUserEditServiceMenu:YES];
+     [AddThisSDK canUserReOrderServiceMenu:YES];
+     [AddThisSDK setDelegate:self];
+     
+     
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -836,8 +850,8 @@
      
      if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
      {
-         buttonPuzzleShare.enabled = NO;
-         buttonRecordShare.enabled = NO;
+         buttonTwitterPuzzle.enabled = NO;
+         buttonTwitterRecord.enabled = NO;
          buttonSharePuzzle.enabled = NO;
      }
          
@@ -846,9 +860,9 @@
          NSLog(@"Start Shop!");
          
          [[SKPaymentQueue defaultQueue] addTransactionObserver:self];	// Observer를 등록한다.
-     } else {
-         NSLog(@"Failed Shop!");
      }
+     else
+         NSLog(@"Failed Shop!");
 
      productHint50 = nil;
      bBuyingHint50 = NO;
@@ -871,22 +885,20 @@
 
 - (void) connectToServerInit
 {
-/*    if (gUserID != cDefaultUserID) {
+    if (gUserID != cDefaultUserID) {
         [self loadServerData];
         return;
     }
     [self loadServerData];
-*/
-    
+
 	// should move to after starting to show screen fastly when it starts.
     for (int i=0; i<3; i++) {
         NSString *strOldServerIP = [[NSString alloc] initWithString:gServerIP];
         
         [self serverActStart];
-        if ([gServerIP isEqualToString:strOldServerIP] == YES) {
+        if ([gServerIP compare:strOldServerIP] == NSOrderedSame) {
             break;
         } else {
-            DLog(@"Should connect to different server!!!!!!!!!!!!!");
             continue;
         }
     }
@@ -912,12 +924,11 @@
 	DLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [[NSString alloc] initWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
                         (long)gUserID,
-                        [self percentEscapeString:gUserName],
                         APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -935,8 +946,8 @@
 						[self urlEncodeValue:countryName],
 						@"Apple",
 						(long)[self getCheckSum]];
-//	DLog(@"strURI = %@", strURI);
-	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
+	DLog(@"strURI = %@", strURI);
+	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut*2];
 	[strURI release];
 	
 	// zzz error handling, if gUserID is 1 still ...
@@ -972,12 +983,11 @@
 			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
 				gUserID = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
-                [self setUserName:value];
+				gUserName = [[NSString alloc] initWithString:value];
 		}
 	}
 	
 	[strData release];
-    [self saveServerData];
 }
 
 
@@ -990,8 +1000,6 @@
 
 - (void) loadServerData
 {
-    NSString *name;
-    
     gServerIP = cServerHostName;
 //    gDeviceID = [[UIDevice currentDevice] uniqueGlobalDeviceIdentifier];
     gDeviceID = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
@@ -1008,19 +1016,11 @@
     
     // redirection은 어떻게 할 것인가?
     gServerIP = [defaults stringForKey:kServerIP];
-	name = [defaults stringForKey:kUserName];
+	gUserName = [defaults stringForKey:kUserName];
 	gUserID	  = [defaults integerForKey:kUserID];
 
     if (!gServerIP || [gServerIP length] < 3)   // something wrong
         gServerIP = cServerHostName;
-    
-    gServerIP = cServerHostName;    // 저장된 데이터 무시
-    
-    if (name == nil || [name isEqualToString:@"(null)"] == YES)
-        name = [NSString stringWithFormat:@"%d", (int)gUserID];
-    
-    [self setUserName:name];
-    
 }
 
 
@@ -1036,7 +1036,6 @@
 	
     [defaults setObject:@"Yes"		forKey:kUserDefault];
 	[defaults setObject:gUserName	forKey:kUserName];
-    DLog(@"Save User Name:%@", gUserName);
 	[defaults setInteger:gUserID	forKey:kUserID];
     [defaults setObject:gServerIP   forKey:kServerIP];
 
@@ -1065,9 +1064,9 @@
     
     DLog(@"MainViewController:viewWillAppear");
     [super viewWillAppear:animated];
-    DLog(@"self.interfaceOrientation=%d", (int) self.interfaceOrientation);
-    DLog(@"[UIDevice currentDevice].orientation=%d", (int) [UIDevice currentDevice].orientation);
-    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", (int)[UIApplication sharedApplication].statusBarOrientation);
+    DLog(@"self.interfaceOrientation=%d", self.interfaceOrientation);
+    DLog(@"[UIDevice currentDevice].orientation=%d", [UIDevice currentDevice].orientation);
+    DLog(@"[UIApplication sharedApplication].statusBarOrientation=%d", [UIApplication sharedApplication].statusBarOrientation);
     
     
     //self.view.frame = [[UIScreen mainScreen] applicationFrame];
@@ -1098,13 +1097,13 @@
 	
 	if (num >= 60*60)
 		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
-			   (int) num / (60*60),
-			   (int) num / (60) % (60),
-			   (int) num % (60)];
+			   num / (60*60),
+			   num / (60) % (60),
+			   num % (60)];
 	else if (num > 0) 
 		str = [NSString stringWithFormat:@"%02d:%02d",
-			   (int) num / (60),
-			   (int) num % (60)];
+			   num / (60),
+			   num % (60)];
 	else 
 		str = [NSString stringWithFormat:@"-"];
 
@@ -1469,112 +1468,89 @@
     [self startGameTimer];
 }
 
-
-
-
-- (void) callPuzzleShare:(BOOL) bImg
+- (void) OnTimerSharePuzzleFacebook:(NSTimer *)timer
 {
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APPSHARE_ID];
+    if (nAddThisWait >= 3)  
+    {
+        [self callAddThisShareImage:@"facebook"];
+    }
+    nAddThisWait = 0;
+}
+
+- (IBAction)sharePuzzleFacebook
+{
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
+
+    [Flurry logEvent:@"SharePuzzleFacebook"];
+
+    
+    [self callAddThisShareImage:@"facebook"];
+
+    static BOOL isFirst = YES;
+    nAddThisWait = 0;
+    
+    if (isFirst)
+    {
+        isFirst = NO;
+        nAddThisWait = 1;
+        [NSTimer scheduledTimerWithTimeInterval:2       // 2초안에 저절로 닫히면 재실행한다.
+                                         target:self
+                                       selector:@selector(OnTimerSharePuzzleFacebook:)
+                                       userInfo:nil
+                                        repeats:NO];
+    }
+    [self startGameTimer];
+}
+
+
+- (void) callAddThisShareImage:(NSString*) service
+{
+    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+    NSString *strTitle = [NSString stringWithFormat:@"%@(%@)", appName, SHORTENURL];
     NSString *strDesc;
-    NSString *strMsg;
-    NSString *strMsgTwitter;
     
     if (mainView.sudokuGame.isGameFinished)
     {
-        if (bImg) {  // Puzzle share
-            strMsg = gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil);
-        } else {        // Record share
-            strDesc = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
-                       STR_MATRIXSIZE];
-            strMsg = [NSString stringWithFormat:@"%@ (%@:%@, %@:%@)",
-                      strDesc,
-                      gettext(@"level", nil),
-                      labelLevel.text,
-                      gettext(@"time", nil),
-                      labelGameTime.text];
-        }
-
+        strDesc = [NSString stringWithFormat:gettext(@"I cleared this puzzle. Why don't you try to solve it.", nil)];
     } else {
-        // only Puzzle share?
-        strMsg = [NSString stringWithFormat:@"%@",
-                  gettext(@"I'm solving this puzzle now.", nil)];
-    }
-    strMsgTwitter = [NSString stringWithFormat:@"%@ via %@",
-                     strMsg,
-                     TWITTER_ID];
-    
-//    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
-    
-    UIImage *retImage = nil;
-    
-    if (bImg) {
-        UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
-        
-        // draw original image into the context
-        //[image drawAtPoint:CGPointZero];
-        
-        // get the context for CoreGraphics
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        
-        [mainView drawOnImage:ctx strTime:labelGameTime.text];
-        
-        
-        // make image out of bitmap context
-        retImage = UIGraphicsGetImageFromCurrentImageContext();
-        
-        // free the context
-        UIGraphicsEndImageContext();
+        strDesc = [NSString stringWithFormat:gettext(@"I'm solving this puzzle now.", nil)];
     }
     
-    APActivityProvider *ActivityProvider = [[APActivityProvider alloc] init];
-    ActivityProvider.strMsg = strMsg;
-    ActivityProvider.strMsgTwitter = strMsgTwitter;
-    NSArray *Items;
-    if (bImg)
-        Items = @[ActivityProvider, strURL, retImage];
-    else
-        Items = @[ActivityProvider, strURL];
-    [ActivityProvider release];
+    NSString *strAdd = [NSString stringWithFormat:@"%@ %@", strDesc, strTitle];
     
+    UIGraphicsBeginImageContext(CGSizeMake(DRAWONIMAGE_W,DRAWONIMAGE_H));
+    
+	// draw original image into the context
+	//[image drawAtPoint:CGPointZero];
+    
+	// get the context for CoreGraphics
+	CGContextRef ctx = UIGraphicsGetCurrentContext();
+    
+    [mainView drawOnImage:ctx strTime:labelGameTime.text];
+    
+    
+	// make image out of bitmap context
+	UIImage *retImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+	// free the context
+	UIGraphicsEndImageContext();
+    
+    
+	[AddThisSDK shareImage:retImage
+               withService:service
+                     title:strAdd
+               description:@""];
 
-    UIActivityViewController *ActivityView = [[[UIActivityViewController alloc]
-                                               initWithActivityItems:Items
-                                               applicationActivities:nil] autorelease];
-    if (bImg) {
-        [ActivityView setExcludedActivityTypes:
-         @[UIActivityTypeAssignToContact,
-           UIActivityTypeAddToReadingList]];
-    } else {
-        [ActivityView setExcludedActivityTypes:
-         @[UIActivityTypePrint,
-           UIActivityTypeCopyToPasteboard,
-           UIActivityTypeAssignToContact,
-           UIActivityTypeSaveToCameraRoll,
-           UIActivityTypeAddToReadingList,
-           UIActivityTypeAirDrop]];
-        
-    }
-    
-    [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
-     {
-         if (done) {
-             NSLog(@"The selected activity was %@", act);
-             NSRange range = [act rangeOfString:@"PostTo"];
-             if (range.location != NSNotFound) {
-                 mainView.bSharedThisOnFacebook = YES;
-             }
-         }
-     }];
-    
-    
-    [self presentViewController:ActivityView animated:YES completion:nil];
-
+    mainView.bSharedThisOnFacebook = YES;
     [self saveSetting];
     [self startGameTimer];
 }
 
 
-- (IBAction)openSharePuzzle
+- (IBAction)sharePuzzleTwitter
 {
     if (mainView.bMenuMode)
     {
@@ -1583,14 +1559,46 @@
 
     [Flurry logEvent:@"SharePuzzleTwitter"];
 
-    [self callPuzzleShare:YES];
-    
-    
-    
+    [self callAddThisShareImage:@"twitter"];
     
 }
 
-- (IBAction)openShareRecord
+- (IBAction)shareRecordFacebook
+{
+    if (mainView.bMenuMode)
+    {
+        [self hideMenuView:NO];
+    }
+
+    [Flurry logEvent:@"ShareRecordFacebook"];
+
+    
+    [self callAddThisShareURL:@"facebook"];
+}
+
+- (void) callAddThisShareURL:(NSString*) service
+{
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APP_ID];
+//    NSString *appName = gettexttable(@"CFBundleDisplayName", @"InfoPlist");
+    NSString *strTitle = [NSString stringWithFormat:gettext(@"I solved a %@ sudoku puzzle.", nil),
+                          STR_MATRIXSIZE];
+    NSString *strDesc = [NSString stringWithFormat:gettext(@"%@:%@, %@:%@", nil),
+                         gettext(@"level", nil),
+                         labelLevel.text,
+                         gettext(@"time", nil),
+                         labelGameTime.text];
+    NSString *strAdd = [NSString stringWithFormat:@"%@ (%@)", strTitle, strDesc];
+    
+	[AddThisSDK shareURL:strURL
+			 withService:service
+				   title:strAdd
+			 description:@""];
+    
+    mainView.bSharedThisOnFacebook = YES;
+    [self saveSetting];
+    [self startGameTimer];
+}
+- (IBAction)shareRecordTwitter
 {
     if (mainView.bMenuMode)
     {
@@ -1599,8 +1607,7 @@
 
     [Flurry logEvent:@"ShareRecordTwitter"];
     
-
-    [self callPuzzleShare:NO];
+    [self callAddThisShareURL:@"twitter"];
 }
 
 
@@ -1855,7 +1862,7 @@
     frameOld.origin.x -= intervalX;
     viewMenu.frame = frameOld;
 	
-	if (viewMenu.frame.origin.x >= 0)
+	if (viewMenu.frame.origin.x-intervalX > 0)
 	{
 		[timer invalidate];
 	}
@@ -1947,7 +1954,7 @@
     frameOld.origin.x -= intervalX2;
     viewNewGame.frame = frameOld;
 	
-	if (viewNewGame.frame.origin.x >= 0)
+	if (viewNewGame.frame.origin.x-intervalX2 > 0)
 	{
 		[timer invalidate];
 	}
@@ -2013,7 +2020,7 @@
     frameOld.origin.x -= intervalX2;
     viewDailyGame.frame = frameOld;
 	
-	if (viewDailyGame.frame.origin.x >= 0)
+	if (viewDailyGame.frame.origin.x-intervalX2 > 0)
 	{
 		[timer invalidate];
 	}
@@ -2083,13 +2090,13 @@
 	
 	if (time >= 60*60)
 		str = [NSString stringWithFormat:@"%02d:%02d:%02d",
-			   (int) time / (60*60),
-			   (int) time / (60) % (60),
-			   (int) time % (60)];
+			   time / (60*60),
+			   time / (60) % (60),
+			   time % (60)];
 	else 
 		str = [NSString stringWithFormat:@"%02d:%02d",
-			   (int) time / (60),
-			   (int) time % (60)];
+			   time / (60),
+			   time % (60)];
 	
 	labelGameTime.text = str; 
 	
@@ -2208,7 +2215,7 @@
 	UIAlertView *alert = [[UIAlertView alloc]
 						  initWithTitle:gettext(aTitle, nil)
 						  message:gettext(aMessage, nil)
-						  delegate:self
+						  delegate:nil
 						  cancelButtonTitle:gettext(@"Ok", nil)
 						  otherButtonTitles:nil];
 	[alert show];
@@ -2266,8 +2273,6 @@
 		return strData;
 	} else {
 		// zzz 에러처리
-        DLog(@"theError:%@", [theError localizedDescription]);
-        //[self alertLocalizedAlertView:[theError localizedDescription]];
 	}
 	
 	
@@ -2298,16 +2303,6 @@
 }
 
 
-- (NSString *)percentEscapeString:(NSString *)string
-{
-    NSString *result = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
-                       (CFStringRef)[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]],
-                       (CFStringRef)@" ",
-                       (CFStringRef)@":/?@!$&'()*+,;=",
-                       kCFStringEncodingUTF8));
-    return [result stringByReplacingOccurrencesOfString:@" " withString:@"+"];
-}
-
 - (NSString*) downloadDailyPuzzle
 {
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
@@ -2322,7 +2317,7 @@
 						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d&countrycode=%@",
                         @"getdailypuzzle",
                         (long)gUserID,
-                        [self percentEscapeString:gUserName],
+                        gUserName,
                         APPVERSION,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -2351,7 +2346,7 @@
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&spend=%lu&automemo=%d",
                         @"addresult",
                         (long)gUserID,
-                        [self percentEscapeString:gUserName],
+                        gUserName,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -2505,7 +2500,7 @@
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
                         @"getdailystat",
                         (long)gUserID,
-                        [self percentEscapeString:gUserName],
+                        gUserName,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -2637,10 +2632,6 @@
     [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
     [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
     [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] != YES)
-        labelNickname.text = gUserName;
-    else
-        labelNickname.text = @"";
 
     if (bReadyDownloadDailyPuzzle)
     {
@@ -2739,7 +2730,7 @@
     [self loadDailyStat];
     
     bReadyDownloadDailyPuzzle = NO;
-//    [self setDailyStat];
+    [self setDailyStat];
     labelDailyStat.text = gettext(@"Connecting to a server", nil);
     
     // TOBE - indicator on earth
@@ -2792,31 +2783,23 @@
 
 - (IBAction)showDailyGame
 {
-    DLog(@"gUserName:%@", gUserName);
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] == YES ||
-        [gUserName length] < 1) {
-        
-        [self allButtonUnLock];
-        [self hideMenuView:NO];	// 메뉴가 사라지고, newgame이 나온다.
-
-        
-        [self openChangeNickNameDialog];
-    } else {
-        [NSTimer scheduledTimerWithTimeInterval:0
-                                         target:self
-                                       selector:@selector(OnTimerIndicatorDailyGame:)
-                                       userInfo:nil
-                                        repeats:NO];
-        
-        [self readyToDownloadDailyPuzzle];
-        [activityIndicatorDailyStat startAnimating];
-
-        [self allButtonUnLock];
-        [self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
-        [self showDailyGameView];
-    }
+    [NSTimer scheduledTimerWithTimeInterval:0
+                                     target:self
+                                   selector:@selector(OnTimerIndicatorDailyGame:)
+                                   userInfo:nil
+                                    repeats:NO];
+    
+    [self readyToDownloadDailyPuzzle];
+    //[self getDailyStat];
+    //[self setDailyStat];
+    [activityIndicatorDailyStat startAnimating];
     
     
+//    [self setSudokuTypeSegment];
+    
+	[self allButtonUnLock];
+	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
+	[self showDailyGameView];
     
 	
 }
@@ -2904,7 +2887,7 @@
 
     for (int j=0; j<SUDOKUTYPE_MAX; j++) {
         mainView.nSettingSudokuType = j;
-        [com setYear:2015];
+        [com setYear:2016];
         [com setMonth:1];
         [com setDay:1];
         
@@ -2976,33 +2959,6 @@
 	[self hideDailyGameView];
     [self startGameTimer];
 }
-
-- (void) openChangeNickNameDialog
-{
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil
-                                                     message:gettext(@"Please input your nickname", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:gettext(@"Save", nil)
-                                           otherButtonTitles:nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [alert textFieldAtIndex:0];
-    DLog(@"gUserName:%@", gUserName);
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] != YES)
-        textField.text = gUserName;
-    else
-        textField.text = @"";
-    
-    [alert show];
-    [alert release];
-}
-
-- (IBAction)changeNickName
-{
-    [self openChangeNickNameDialog];
-    [self hideDailyGameView];
-    [self startGameTimer];
-}
-
 
 
 - (IBAction)changeAutoMemo
@@ -3159,9 +3115,9 @@
 	BOOL bLock = (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
-	if (count > 0 && bLock == NO)	{
+	if (count > 0)	{
 		buttonReset.alpha = 1.0f;
-		buttonReset.enabled = YES;
+		buttonReset.enabled = bLock ? NO : YES;
 	} else {
 		buttonReset.alpha = 0.3f;
 		buttonReset.enabled = NO;		
@@ -3259,9 +3215,10 @@
         buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : YES;
     }
     buttonSeeReplay.hidden = bHiddenButton;
-
-    buttonPuzzleShare.hidden = bHiddenButton;
-    buttonRecordShare.hidden = bHiddenButton;
+    buttonFacebookRecord.hidden = bHiddenButton;
+    buttonFacebookPuzzle.hidden = bHiddenButton;
+    buttonTwitterRecord.hidden = bHiddenButton;
+    buttonTwitterPuzzle.hidden = bHiddenButton;
 }
 
 - (BOOL) isReplaying
@@ -3461,17 +3418,16 @@
 
 }
 
-- (void)failedBuyHint50:(NSString*)message;
+- (void)failedBuyHint50
 {
     bBuyingHint50 = NO;
     [self updateButtonHint];
     [self updateHintCount];
-    NSString *msg = [NSString stringWithFormat:@"%@\n%@", gettext(@"Failed to buy hint item.", nil), message];
 
     // 실패 메시지
     // 성공 메시지
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:msg
+                                                    message:gettext(@"Failed to buy hint item.", nil)
                                                    delegate:self
                                           cancelButtonTitle:gettext(@"Ok", nil)
                                           otherButtonTitles:nil];
@@ -3484,7 +3440,6 @@
 {
     for (SKPaymentTransaction *transaction in transactions)
     {
-        NSLog(@"transaction.transactionState=%d", (int)transaction.transactionState);
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
@@ -3493,10 +3448,9 @@
                 [self successBuyHint50];
                 break;
             case SKPaymentTransactionStateFailed:
-                NSLog(@"Error:%@", transaction.error.localizedDescription);
                 [self failedTransaction:transaction];
                 // 실패 처리
-                [self failedBuyHint50:transaction.error.localizedDescription];
+                [self failedBuyHint50];
                 break;
             case SKPaymentTransactionStateRestored:
                 [self restoreTransaction:transaction];
@@ -3551,28 +3505,14 @@
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = alert.title;
-    NSString *message = alert.message;
     
-    if([title isEqualToString:gettext(@"Congratulations!", nil)]) {
+    if([title isEqualToString:gettext(@"Congratulations!", nil)])
+    {
 #ifdef ADMOB_FREEVERSION
         [self showInterstitial];
 #endif
-    } else if([message isEqualToString:gettext(@"Please input your nickname", nil)]) {
-        
-        NSString *newName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        
-        if ([newName length] < MIN_NAME) {
-            // Warning
-            [self alertLocalizedAlertView:@"Name is too short!"];
-        } else {
-            [self setUserName:newName];
-            //gUserName = newName;
-            [self saveServerData];
-        }
-        
-    } else if([message isEqualToString:gettext(@"Name is too short!", nil)]) {
-        [self openChangeNickNameDialog];
-    } else //if([title isEqualToString:@"Button 2"])
+    }
+    else // if([title isEqualToString:@"Button 2"])
     {
         if (buttonIndex == 1) // "확인" 버튼, TODO 확인 필요
         {
@@ -3641,24 +3581,3 @@ didFailToReceiveAdWithError:(GADRequestError *)error {
 #endif
 
 @end
-
-
-
-@implementation APActivityProvider
-
-@synthesize strMsg;
-@synthesize strMsgTwitter;
-
-
-- (id) activityViewController:(UIActivityViewController *)activityViewController
-          itemForActivityType:(NSString *)activityType
-{
-    if ( [activityType isEqualToString:UIActivityTypePostToTwitter] )
-        return strMsgTwitter;
-    return strMsg;
-}
-- (id) activityViewControllerPlaceholderItem:(UIActivityViewController *)activityViewController { return @""; }
-@end
-
-
-
