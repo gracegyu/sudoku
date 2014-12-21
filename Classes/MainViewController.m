@@ -647,6 +647,7 @@
         newname = [newname substringWithRange:NSMakeRange(0, 60)];
     gUserName = [[NSString stringWithString:newname] retain];
     DLog(@"setUserName:%@ => %@", newname, gUserName);
+    
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -673,6 +674,7 @@
 	   
        [self decideLocale];
        
+       [self loadServerData];
        [self loadSetting];
        [self setLocalizedMessage];
        [mainView initSkinColorData];
@@ -869,12 +871,13 @@
 
 - (void) connectToServerInit
 {
-    if (gUserID != cDefaultUserID) {
+/*    if (gUserID != cDefaultUserID) {
         [self loadServerData];
         return;
     }
     [self loadServerData];
-
+*/
+    
 	// should move to after starting to show screen fastly when it starts.
     for (int i=0; i<3; i++) {
         NSString *strOldServerIP = [[NSString alloc] initWithString:gServerIP];
@@ -883,6 +886,7 @@
         if ([gServerIP compare:strOldServerIP] == NSOrderedSame) {
             break;
         } else {
+            DLog(@"Should connect to different server!!!!!!!!!!!!!");
             continue;
         }
     }
@@ -969,11 +973,11 @@
 				gUserID = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
-//				gUserName = [[NSString alloc] initWithString:value];
 		}
 	}
 	
 	[strData release];
+    [self saveServerData];
 }
 
 
@@ -1032,6 +1036,7 @@
 	
     [defaults setObject:@"Yes"		forKey:kUserDefault];
 	[defaults setObject:gUserName	forKey:kUserName];
+    DLog(@"Save User Name:%@", gUserName);
 	[defaults setInteger:gUserID	forKey:kUserID];
     [defaults setObject:gServerIP   forKey:kServerIP];
 
@@ -2203,7 +2208,7 @@
 	UIAlertView *alert = [[UIAlertView alloc]
 						  initWithTitle:gettext(aTitle, nil)
 						  message:gettext(aMessage, nil)
-						  delegate:nil
+						  delegate:self
 						  cancelButtonTitle:gettext(@"Ok", nil)
 						  otherButtonTitles:nil];
 	[alert show];
@@ -2787,23 +2792,31 @@
 
 - (IBAction)showDailyGame
 {
-    [NSTimer scheduledTimerWithTimeInterval:0
-                                     target:self
-                                   selector:@selector(OnTimerIndicatorDailyGame:)
-                                   userInfo:nil
-                                    repeats:NO];
+    DLog(@"gUserName:%@", gUserName);
+    if ([gUserName compare:[NSString stringWithFormat:@"%d", (int)gUserID]] == NSOrderedSame ||
+        [gUserName length] < 1) {
+        
+        [self allButtonUnLock];
+        [self hideMenuView:NO];	// 메뉴가 사라지고, newgame이 나온다.
+
+        
+        [self openChangeNickNameDialog];
+    } else {
+        [NSTimer scheduledTimerWithTimeInterval:0
+                                         target:self
+                                       selector:@selector(OnTimerIndicatorDailyGame:)
+                                       userInfo:nil
+                                        repeats:NO];
+        
+        [self readyToDownloadDailyPuzzle];
+        [activityIndicatorDailyStat startAnimating];
+
+        [self allButtonUnLock];
+        [self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
+        [self showDailyGameView];
+    }
     
-    [self readyToDownloadDailyPuzzle];
-    //[self getDailyStat];
-    //[self setDailyStat];
-    [activityIndicatorDailyStat startAnimating];
     
-    
-//    [self setSudokuTypeSegment];
-    
-	[self allButtonUnLock];
-	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
-	[self showDailyGameView];
     
 	
 }
@@ -2964,7 +2977,7 @@
     [self startGameTimer];
 }
 
-- (IBAction)changeNickName
+- (void) openChangeNickNameDialog
 {
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil
                                                      message:gettext(@"Please input your nickname", nil)
@@ -2981,6 +2994,11 @@
     
     [alert show];
     [alert release];
+}
+
+- (IBAction)changeNickName
+{
+    [self openChangeNickNameDialog];
     [self hideDailyGameView];
     [self startGameTimer];
 }
@@ -3540,17 +3558,18 @@
         
         NSString *newName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
-        if ([newName length] < 1) {
+        if ([newName length] < MIN_NAME) {
             // Warning
-            
+            [self alertLocalizedAlertView:@"Name is too short!"];
         } else {
             [self setUserName:newName];
             //gUserName = newName;
+            [self saveServerData];
         }
         
-        [self saveServerData];
-        
-    } else // if([title isEqualToString:@"Button 2"])
+    } else if([message isEqualToString:gettext(@"Name is too short!", nil)]) {
+        [self openChangeNickNameDialog];
+    } else if([title isEqualToString:@"Button 2"])
     {
         if (buttonIndex == 1) // "확인" 버튼, TODO 확인 필요
         {

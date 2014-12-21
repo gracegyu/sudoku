@@ -281,3 +281,5 @@ typedef struct SUDOKUSCORE
 #define DEFPUZZLESIZE   SIZE_9
 #endif
 
+#define MIN_NAME    3
+
