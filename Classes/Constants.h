@@ -231,8 +231,8 @@ typedef struct SUDOKUSCORE
 #define cDefaultUserID          0
 
 #ifdef DEBUG
-#define cServerHostName         @"10.211.55.10:88"
-//#define cServerHostName         @"www.smartoneinc.com"
+//#define cServerHostName         @"10.211.55.10:88"
+#define cServerHostName         @"www.smartoneinc.com"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
 #endif
