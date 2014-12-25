@@ -42,13 +42,13 @@
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
 
-NSString *const kAppiraterFirstUseDate				= @"kAppiraterFirstUseDate";
-NSString *const kAppiraterUseCount					= @"kAppiraterUseCount";
-NSString *const kAppiraterSignificantEventCount		= @"kAppiraterSignificantEventCount";
-NSString *const kAppiraterCurrentVersion			= @"kAppiraterCurrentVersion";
-NSString *const kAppiraterRatedCurrentVersion		= @"kAppiraterRatedCurrentVersion";
-NSString *const kAppiraterDeclinedToRate			= @"kAppiraterDeclinedToRate";
-NSString *const kAppiraterReminderRequestDate		= @"kAppiraterReminderRequestDate";
+NSString *const kAppiraterFirstUseDate				= @"kAppiraterFirstUseDate2";
+NSString *const kAppiraterUseCount					= @"kAppiraterUseCount2";
+NSString *const kAppiraterSignificantEventCount		= @"kAppiraterSignificantEventCount2";
+NSString *const kAppiraterCurrentVersion			= @"kAppiraterCurrentVersion2";
+NSString *const kAppiraterRatedCurrentVersion		= @"kAppiraterRatedCurrentVersion2";
+NSString *const kAppiraterDeclinedToRate			= @"kAppiraterDeclinedToRate2";
+NSString *const kAppiraterReminderRequestDate		= @"kAppiraterReminderRequestDate2";
 
 NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
 NSString *templateReviewURLiOS7 = @"itms-apps://itunes.apple.com/app/idAPP_ID";
