@@ -1474,7 +1474,7 @@
 
 - (void) callPuzzleShare:(BOOL) bImg
 {
-    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/app/id%@", APPSHARE_ID];
+    NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/%@/app/id%@", gettext(@"us", nil), APPSHARE_ID];
     NSString *strDesc;
     NSString *strMsg;
     NSString *strMsgTwitter;
