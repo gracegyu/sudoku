@@ -796,14 +796,14 @@
 	 //[viewMenu setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewMenu.layer.cornerRadius = viewMenu.frame.size.width/12;
 	 viewMenu.layer.masksToBounds = YES;
-     viewMenu.alpha = 0.9f;
+     viewMenu.alpha = 1.0f;
 	 //[viewNewGame setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg6.png"]]];
 	 viewNewGame.layer.cornerRadius = viewNewGame.frame.size.width/12;
 	 viewNewGame.layer.masksToBounds = YES;
-     viewNewGame.alpha = 0.9f;
+     viewNewGame.alpha = 1.0f;
 	 viewDailyGame.layer.cornerRadius = viewDailyGame.frame.size.width/12;
 	 viewDailyGame.layer.masksToBounds = YES;
-     viewDailyGame.alpha = 0.9f;
+     viewDailyGame.alpha = 1.0f;
 	 [self hideAwayView:viewMenu];
 	 [self hideAwayView:viewNewGame];
 	 [self hideAwayView:viewDailyGame];
