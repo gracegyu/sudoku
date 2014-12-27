@@ -3348,48 +3348,7 @@
 
 
 
-#ifdef ADMOB_FREEVERSION
 
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
-{
-}
-
-- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
-{
-
-}
-
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
-{
-    bAd = YES;
-    [mainView.sudokuGame bonusGameElapsedTime];
-    //[mainView.sudokuGame bonusHintElapsedTime];
-    [self updateGameTime:mainView.sudokuGame.gameTime];
-	[self updateHintCount];
-
-    //[self stopGameTimer];
-    
-}
-
-- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
-{
-    bAd = NO;
-    //[self startGameTimer];
-}
-
-- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
-{
-    [mainView setNeedsDisplay];
-}
-
-- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
-{
-    
-}
-
-
-
-#endif
 
 - (IBAction)LeftSwipe:(id)sender
 {
@@ -3589,17 +3548,63 @@
     
 }
 
+
 #ifdef ADMOB_FREEVERSION
+
+#pragma mark GADBannerViewDelegate implementation
+
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+{
+    DLog(@"adViewDidReceiveAd:%@", bannerView.description);
+}
+
+- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    DLog(@"adView didFailToReceiveAdWithError:%@", error.description);
+    
+}
+
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+{
+    bAd = YES;
+    [mainView.sudokuGame bonusGameElapsedTime];
+    //[mainView.sudokuGame bonusHintElapsedTime];
+    [self updateGameTime:mainView.sudokuGame.gameTime];
+    [self updateHintCount];
+    
+    //[self stopGameTimer];
+    
+}
+
+- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+{
+    bAd = NO;
+    //[self startGameTimer];
+}
+
+- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+{
+    [mainView setNeedsDisplay];
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+{
+    
+}
+
+
 
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
     [self alertFinish];
 
 }
 
-- (void)interstitial:(GADInterstitial *)interstitial
-didFailToReceiveAdWithError:(GADRequestError *)error {
+- (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
+    DLog(@"interstitial didFailToReceiveAdWithError:%@", error.description);
     [self alertFinish];
  
 }
