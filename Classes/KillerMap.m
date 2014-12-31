@@ -128,13 +128,18 @@
 	
 }
 
+#define POSS_2  66
+#define POSS_3  95
+
+
+
 - (NSInteger) GetRandomBlockSize
 {
 	NSInteger Rand = ((unsigned int)arc4random()) % 100;
 	
-	if (Rand < 60)
+	if (Rand < POSS_2)
 		return 2;
-	if (Rand < 94)
+	if (Rand < POSS_3)
 		return 3;
 	return 4;
 }
