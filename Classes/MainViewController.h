@@ -290,6 +290,9 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *nowDate;
 @property (nonatomic, retain) NSString *strMsgFinish;
 
+
+- (void) setButtonMode:(UIButton *)button  mode:(BOOL)mode;
+
 #ifdef ADMOB_FREEVERSION
 @property (nonatomic, strong) GADInterstitial *interstitial;
 - (GADRequest *)request;

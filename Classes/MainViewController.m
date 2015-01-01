@@ -178,6 +178,18 @@
 #define kScoreTotal         @"score6Total"
 #endif
 
+- (void) setButtonMode:(UIButton *)button  mode:(BOOL)mode
+{
+    if (mode == YES) {
+        button.enabled = YES;
+        button.alpha = 1.0f;
+    } else {
+        button.enabled = NO;
+        button.alpha = 0.3f;
+    }
+}
+
+
 - (void) saveScoreData
 {
 	DLog(@"saveScoreData");	
@@ -540,8 +552,7 @@
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
 #ifndef USE_JMC
-    buttonFeedback.alpha = 0.3f;
-    buttonFeedback.enabled = NO;
+    [self setButtonMode:buttonFeedback.alpha mode:NO];
 #endif
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
@@ -2665,15 +2676,12 @@
 {
     if (bReadyDownloadDailyPuzzle) {
 #ifdef DAILYSENDER
-        button.enabled = YES;
-        button.alpha = 1.0f;
+        [self setButtonMode:button mode:YES];
 #else
-        button.enabled = bPlayed ? NO : YES;
-        button.alpha = bPlayed ? 0.3f : 1.0f;
+        [self setButtonMode:button mode:!bPlayed];
 #endif
     } else {
-        button.enabled = NO;
-        button.alpha = 0.3;
+        [self setButtonMode:button mode:NO];
     }
 }
 
@@ -3080,7 +3088,9 @@
 {
     mainView.nSettingSudokuType = (SUDOKUTYPE)[segmentType selectedSegmentIndex];
     labelSudokuType.text = [SudokuGame getSudokuTypeName:mainView.nSettingSudokuType];
-    [self setDailyStat];
+//    [self setDailyStat];
+    
+    [self setButtonMode:buttonNewGameUserInput mode:mainView.nSettingSudokuType == SUDOKUTYPE_SUDOKU];
     
 	[self saveSetting];
 }
@@ -3213,19 +3223,16 @@
 	BOOL bLock = (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	NSInteger count = [mainView.sudokuGame countFixCells];
 
-	if (count > 0 && bLock == NO)	{
-		buttonReset.alpha = 1.0f;
-		buttonReset.enabled = YES;
-	} else {
-		buttonReset.alpha = 0.3f;
-		buttonReset.enabled = NO;		
-	}
+    [self setButtonMode:buttonReset mode:(count > 0 && bLock == NO)];
+	
 }
 
 - (void) updateButtonDel
 {
 	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 
+    [self setButtonMode:buttonDel mode:!bLock && [mainView isSelectedCellisFixed]];
+/*
 	if ([mainView isSelectedCellisFixed])	{
 		buttonDel.alpha = 1.0f;
 		buttonDel.enabled = bLock ? NO : YES;
@@ -3233,6 +3240,7 @@
 		buttonDel.alpha = 0.5f;
 		buttonDel.enabled = NO;		
 	}
+ */
 }
 
 - (void) updateButtonHint	// TODO     Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
@@ -3259,11 +3267,11 @@
         if ([mainView.sudokuGame countHint] + mainView.paidHintCount > 0) {		// 아직 Hint item이 남아 있다.
             [buttonHint	setTitle:gettext(@"hint", nil) forState:UIControlStateNormal];
         } else {
-            buttonHint.alpha = 0.5f;
+            buttonHint.alpha = 0.3f;
             buttonHint.enabled = NO;
         }
 	} else {
-		buttonHint.alpha = 0.5f;
+		buttonHint.alpha = 0.3f;
 		buttonHint.enabled = NO;		
 	}
 }
