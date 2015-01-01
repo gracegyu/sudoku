@@ -31,6 +31,7 @@
 @synthesize bAutoMemo;
 @synthesize kmap;
 @synthesize bDailyPuzzle;
+@synthesize bUserInputStart;
 
 
 
@@ -317,8 +318,22 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	bAutoMemoUndoLog = YES;
     bDailyPuzzle = NO;
+    bUserInputStart = NO;
     
 }
+
+- (void) initGameTime
+{
+    startTime = [[NSDate date]timeIntervalSince1970];
+    lastTime = [[NSDate date]timeIntervalSince1970];
+    gameTime = 0;
+}
+
+- (void) initUndo
+{
+    [sudokuUndo clear];
+}
+
 
 - (void) deleteAutoMemoX:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
 {
@@ -806,8 +821,11 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				answerNums[x][y] = num; // 0
 			} else {
 				num = [sudoku getAnswerNum:x y:y];
-                DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", (long)num);
-				puzzleNums[x][y] = 0;				// blank
+                if (level != GAMELEVEL_USERINPUT) {
+                    // user input 게임은 answer 정보가 없다.
+                    DAssert(num > 0, @"getAnswerNum(%ld) should be bigger than 0", (long)num);
+                }
+                puzzleNums[x][y] = 0;				// blank
 				answerNums[x][y] = num;
 			}
             
@@ -844,6 +862,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[self initData:nType level:nLevel];
 	bAutoMemo = automemo;//NO;
     bDailyPuzzle = YES;
+    bUserInputStart = NO;
     
     map = [[SudokuMap alloc] initWithSize:size defmap:YES]; // for automemo
 
@@ -907,9 +926,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	NSArray *listItems = [str componentsSeparatedByString:@","];
 	
 	gameLevel = (GAMELEVEL)[[listItems objectAtIndex:0] integerValue];
-	if (gameLevel < GAMELEVEL_VERYHARD || gameLevel > GAMELEVEL_VERYEASY)
+	if (gameLevel < GAMELEVEL_VERYHARD || gameLevel > GAMELEVEL_USERINPUT)
 	{
-		DAssert(gameLevel >= GAMELEVEL_VERYHARD && gameLevel <= GAMELEVEL_VERYEASY, @"initWithSavedString:gameLevel = %d", gameLevel);
+		DAssert(gameLevel >= GAMELEVEL_VERYHARD && gameLevel <= GAMELEVEL_USERINPUT, @"initWithSavedString:gameLevel = %d", gameLevel);
 		return nil;
 	}
 	startTime = [[listItems objectAtIndex:1] floatValue];
@@ -1005,13 +1024,20 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 		sudokuType = SUDOKUTYPE_SUDOKU;
 	}
 
-    if ([listItems count] > 16)	//
+    if ([listItems count] > 16)	// is daily puzzle?
 	{
 		bDailyPuzzle = [[listItems objectAtIndex:16] integerValue] == 1 ? YES : NO;
 	} else {
 		bDailyPuzzle = NO;
 	}
 
+    if ([listItems count] > 17)	// is user input?
+    {
+        bUserInputStart = [[listItems objectAtIndex:17] integerValue] == 1 ? YES : NO;
+    } else {
+        bUserInputStart = NO;
+    }
+    
     
 	sudokuUndo = [[SudokuUndo alloc] initWithSaveData];
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
@@ -1322,7 +1348,15 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         {
 			if (puzzleNums[x][y] == 0)
             {
-                if (sudokuType == SUDOKUTYPE_GT)    // 답이 2개일지도 모르니
+                if (sudokuType == SUDOKUTYPE_SUDOKU && gameLevel == GAMELEVEL_USERINPUT)    // 사용자 정의 문제 종료 검사 방법
+                {
+                    if ([self checkUniqueNumXYAndMap:x y:y] == NO)
+                    {
+                        DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
+                        wrongCells++;
+                    }
+                }
+                else if (sudokuType == SUDOKUTYPE_GT)    // 답이 2개일지도 모르니
                 {
                     if ([self checkGreatThanCorrect:x y:y] == NO)
                     {
@@ -1336,7 +1370,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                         }
                     }
                 }
-                if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+                else if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
                 {
                     if ([self checkUniqueNumXYAndMap:x y:y] == NO)
                     {
@@ -1350,7 +1384,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                         }
                     }
                 }
-                if (sudokuType == SUDOKUTYPE_SUDOKU)
+                else if (sudokuType == SUDOKUTYPE_SUDOKU)
                 {
                     if (answerNums[x][y] != fixNums[x][y]) {
                         DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
@@ -1501,7 +1535,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y
 {
-	//DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
+    //DLog(@"### setFixNums(%d,%d)->%d", x, y, num);
 	
     if (puzzleNums[x][y] > 0)               // 문제칸은 Set할 수 없다.
         return;
@@ -1554,6 +1588,24 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	
 	
 	//[self saveData];
+}
+
+- (void) StartUserInputPuzzle
+{
+    for (NSInteger y=0; y<size; y++)
+    {
+        for (NSInteger x=0; x<size; x++)
+        {
+            if (fixNums[x][y] > 0)
+            {
+                puzzleNums[x][y] = fixNums[x][y];
+                fixNums[x][y] = 0;
+            }
+        }
+    }
+    bUserInputStart = YES;
+    
+    
 }
 
 - (BOOL) conflictMemoCompare:(NSInteger)num xPos:(NSInteger)xPos yPos:(NSInteger)yPos
@@ -1842,7 +1894,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%ld,%ld,%s,%d,%f,%d,%d",
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%ld,%ld,%s,%d,%f,%d,%d,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -1859,7 +1911,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 					 bAutoMemo?1:0,
 					 hintTime,
                      sudokuType,
-                     bDailyPuzzle ? 1 : 0];
+                     bDailyPuzzle ? 1 : 0,
+                     bUserInputStart ? 1 : 0];
 					 
 	DLog(@"saveData(%@)", str);
 	
@@ -2157,6 +2210,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 + (NSString*) getGameLevelNameNoop:(GAMELEVEL)level
 {
     switch (level) {
+        case GAMELEVEL_USERINPUT :  return @"user input";
         case GAMELEVEL_VERYEASY :   return @"very easy";
         case GAMELEVEL_EASY :       return @"easy";
         case GAMELEVEL_NORMAL :     return @"normal";

@@ -41,6 +41,7 @@
 @synthesize buttonCheckboxAutoMemo;
 //@synthesize buttonNewGameDailyPuzzle;
 @synthesize labelDailyStat;
+@synthesize buttonNewGameUserInput;
 @synthesize buttonNewGameVeryEasy;
 @synthesize buttonNewGameEasy;
 @synthesize buttonNewGameNormal;
@@ -591,6 +592,7 @@
 #else
     [buttonNewGameDailyPuzzle setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
 #endif*/
+    [buttonNewGameUserInput setTitle:gettext(@"user input", nil) forState:UIControlStateNormal];
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
@@ -1320,7 +1322,19 @@
 
 - (void)updateButtonMemo
 {
-	if (mainView.bMemoMode)
+    if (mainView.sudokuGame && mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT && mainView.sudokuGame.bUserInputStart == NO) {
+        BOOL bLock = mainView.bMenuMode;
+        
+        buttonMemo.enabled = bLock ? NO : YES;
+        buttonMemo.alpha = bLock ? 0.5f : 1.f;
+
+        [buttonMemo	setTitle:gettext(@"start", nil) forState:UIControlStateNormal];
+        [buttonMemo	setTitle:gettext(@"start", nil) forState:UIControlStateDisabled];
+        
+        return;
+    }
+    
+    if (mainView.bMemoMode)
 	{
 		buttonMemo.alpha = 1.f;	
 	} else {
@@ -1330,6 +1344,10 @@
 	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
 	
 	buttonMemo.enabled = bLock ? NO : YES;
+    
+
+    [buttonMemo	setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
+    [buttonMemo	setTitle:gettext(@"memo", nil) forState:UIControlStateDisabled];
 }
 
 - (IBAction) memoOnOff
@@ -1337,8 +1355,32 @@
 	if (mainView.bMenuMode || !mainView.sudokuGame)
 		return;
 
+    if (mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT && mainView.sudokuGame.bUserInputStart == NO) {
+        // user input game start
+        // fix num => puzzle num
+        [mainView.sudokuGame StartUserInputPuzzle];
+        
+        // undo 초기화 - TBD       
+        [mainView.sudokuGame initUndo];
+        
+        // 시간 초기화
+        [mainView.sudokuGame initGameTime];
+        
+        [self updateButtonMemo];
+        [mainView.sudokuGame saveData];
+        
+        // update undo button
+        [self updateButtonUndo];
+        
+        [mainView setNeedsDisplay];
+        
+        return;
+    }
+    
+    
 	[mainView memoOnOff];
-	[self updateButtonMemo];
+    [self updateButtonMemo];
+   
 }
 
 - (IBAction) delNumber
@@ -1780,7 +1822,8 @@
 - (void) allButtonLock
 {
 //	buttonNewGameDailyPuzzle.enabled = NO;
-	buttonNewGameVeryEasy.enabled = NO;
+    buttonNewGameUserInput.enabled = NO;
+    buttonNewGameVeryEasy.enabled = NO;
 	buttonNewGameEasy.enabled = NO;
 	buttonNewGameNormal.enabled = NO;	
 	buttonNewGameHard.enabled = NO;	
@@ -1800,7 +1843,8 @@
     // zzz dailpuzzle 잠금 기능 필요
     
 //	buttonNewGameDailyPuzzle.enabled = YES;
-	buttonNewGameVeryEasy.enabled = YES;
+    buttonNewGameUserInput.enabled = YES;
+    buttonNewGameVeryEasy.enabled = YES;
 	buttonNewGameEasy.enabled = YES;
 	buttonNewGameNormal.enabled = YES;	
 	buttonNewGameHard.enabled = YES;	
@@ -1822,9 +1866,11 @@
         labelLevel.text = gettext(@"daily", nil);
         return;
     }
-    
-    
+        
 	switch (mainView.sudokuGame.gameLevel) {
+        case GAMELEVEL_USERINPUT:
+            labelLevel.text = gettext(@"user input", nil);
+            break;
 		case GAMELEVEL_VERYEASY:
 			labelLevel.text = gettext(@"very easy", nil);
 			break;
@@ -2932,6 +2978,14 @@
 }
 
 
+- (IBAction)newgameUserInput
+{
+    // only original is allowed
+    
+    [self makeNewGame:GAMELEVEL_USERINPUT];
+    
+}
+
 - (IBAction)newgameVeryEasy
 {
 	[self makeNewGame:GAMELEVEL_VERYEASY];
@@ -3183,8 +3237,10 @@
 
 - (void) updateButtonHint	// TODO     Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
 {
-	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
-	
+	BOOL bLock = mainView.bMenuMode ||
+                (mainView.sudokuGame && mainView.sudokuGame.isGameFinished) ||
+                (mainView.sudokuGame && mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT);    
+    
     if (bBuyingHint50) {
         buttonHint.alpha = 1.0f;
         buttonHint.enabled = NO;

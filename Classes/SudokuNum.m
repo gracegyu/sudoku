@@ -88,7 +88,7 @@
 	sumBack = 0;
 	countFunc = 0;
     
-    [self initMap:type == SUDOKUTYPE_SUDOKU ? NO : YES];
+    [self initMap:type == SUDOKUTYPE_SUDOKU ? defmap : YES];
     
     if (type == SUDOKUTYPE_KILLER || type == SUDOKUTYPE_CALCU)
         kmap = [[KillerMap alloc] initWithSize:size];
@@ -1395,26 +1395,31 @@ SudokuNum* sudokuNumGenerate(SUDOKUTYPE type, NSInteger level, NSInteger sizePuz
 	SudokuNum *sudokuNum = [[SudokuNum alloc] init];
 	NSInteger nTry=0;
 	
+    //if (level == GAMELEVEL_USERINPUT)
+        //return sudokuNum;
+    
 	do
 	{
 		nTry++;
-		[sudokuNum initPuzzle:type sizePuzzle:sizePuzzle defmap:bSettingDefMap];
+        // UserInput일 경우 무조건 def map 사용한다.
+		[sudokuNum initPuzzle:type sizePuzzle:sizePuzzle defmap:bSettingDefMap || level == GAMELEVEL_USERINPUT];
 		[sudokuNum countCell];
-//		[sudokuNum printNums];
-		NSInteger i = 0;
-		while ([sudokuNum setCellAuto])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
-		{
-			if (++i > sizePuzzle*sizePuzzle)
-			{
-				DLog(@"############### i = %ld", (long)i);
-				//[sudokuNum printNums];
-				
-				break;
-			}
-		}
-		
-		DLog(@"%ld times loop", (long)i);
 		[sudokuNum printNums];
+		NSInteger i = 0;
+        if (level == GAMELEVEL_USERINPUT)
+            break;
+
+        while ([sudokuNum setCellAuto])   // Sudoku 게임 생성 시도, 실패시 Backtracking으로 반복
+        {
+            if (++i > sizePuzzle*sizePuzzle)
+            {
+                DLog(@"############### i = %ld", (long)i);
+                [sudokuNum printNums];
+                break;
+            }
+        }
+        DLog(@"%ld times loop", (long)i);
+        [sudokuNum printNums];
 	} while (sudokuNum.bOkAutoSet == NO);
 			 
 	DLog(@"sudokuNumGenerate: %ld tried", (long)nTry);

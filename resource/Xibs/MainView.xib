@@ -35,6 +35,7 @@
                 <outlet property="buttonNewGameEasy" destination="59" id="105"/>
                 <outlet property="buttonNewGameHard" destination="61" id="106"/>
                 <outlet property="buttonNewGameNormal" destination="60" id="107"/>
+                <outlet property="buttonNewGameUserInput" destination="J10-wI-LTQ" id="nPd-VC-iyL"/>
                 <outlet property="buttonNewGameVeryEasy" destination="58" id="108"/>
                 <outlet property="buttonNewGameVeryHard" destination="94" id="109"/>
                 <outlet property="buttonNickname" destination="b2L-WL-re7" id="vxV-Lm-zSG"/>
@@ -120,7 +121,7 @@
                     </state>
                 </button>
                 <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="39">
-                    <rect key="frame" x="0.0" y="447.0000004039091" width="325" height="18"/>
+                    <rect key="frame" x="0.0" y="447.00000054732357" width="325" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -558,7 +559,7 @@
                     <accessibility key="accessibilityConfiguration" label="MenuView"/>
                 </view>
                 <view tag="110" contentMode="scaleToFill" restorationIdentifier="" id="54">
-                    <rect key="frame" x="-160" y="120.5" width="160" height="359.5"/>
+                    <rect key="frame" x="0.0" y="120.5" width="160" height="359.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="417">
@@ -608,6 +609,21 @@
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J10-wI-LTQ">
+                            <rect key="frame" x="0.0" y="94.5" width="160" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
+                            <size key="titleShadowOffset" width="1" height="1"/>
+                            <state key="normal" title="User Input">
+                                <color key="titleColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
+                            </state>
+                            <state key="highlighted">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="newgameUserInput" destination="-1" eventType="touchUpInside" id="q6i-v3-B62"/>
+                            </connections>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="58">
                             <rect key="frame" x="0.0" y="117.5" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>

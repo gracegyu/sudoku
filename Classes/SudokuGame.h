@@ -48,6 +48,7 @@
     NSInteger       selectedXPos;
     NSInteger       selectedYPos;
     BOOL            bDailyPuzzle;
+    BOOL            bUserInputStart;
 }
 
 @property NSInteger         size;
@@ -66,14 +67,19 @@
 @property BOOL			bAutoMemo;
 @property (nonatomic, retain) KillerMap		*kmap;
 @property BOOL            bDailyPuzzle;
+@property BOOL            bUserInputStart;
 
 
 // Create Game : Level
-// 
+//
+
+
 
 - (id) initWithSudokuBoard:(SudokuBoard*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (id) initWithSudokuNum:(SudokuNum*)sudoku type:(SUDOKUTYPE)type level:(GAMELEVEL)level automemo:(BOOL)automemo;
 - (id) initWithFromServer:(NSString*)strData type:(SUDOKUTYPE)type  automemo:(BOOL)automemo;
+- (void) initGameTime;
+- (void) initUndo;
 - (BOOL) isSameMap:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (BOOL) isSameColor:(NSInteger)x y:(NSInteger)y x2:(NSInteger)x2 y2:(NSInteger)y2;
 - (NSInteger) getMapNums:(NSInteger)x y:(NSInteger)y;
@@ -90,6 +96,7 @@
 - (NSInteger) getFixNums:(NSInteger)x y:(NSInteger)y;
 - (void) setHintNum:(NSInteger)x y:(NSInteger)y;
 - (void) setFixNums:(NSInteger)num x:(NSInteger)x y:(NSInteger)y;
+- (void) StartUserInputPuzzle;
 - (void) cancelFixNums:(NSInteger)x y:(NSInteger)y;
 - (BOOL) emptyMemo:(NSInteger)x y:(NSInteger)y;
 - (NSInteger) smallestMemo:(NSInteger)x y:(NSInteger)y;

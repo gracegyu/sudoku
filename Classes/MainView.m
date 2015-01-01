@@ -2238,6 +2238,9 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
 	BOOL bUseQQ=NO;
     NSString *str;
+    
+    if (level == GAMELEVEL_USERINPUT)           // only original is allowed
+        nSettingSudokuType = SUDOKUTYPE_SUDOKU;
 
     [Flurry logEvent:@"NewGame"];
     
@@ -2255,7 +2258,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     
     
-    if (nSettingSudokuType == SUDOKUTYPE_SUDOKU && sizePuzzle == SIZE_9)    // QQWing은 9x9 일반 sudoku만 지원한다.
+    if (nSettingSudokuType == SUDOKUTYPE_SUDOKU && sizePuzzle == SIZE_9 && level != GAMELEVEL_USERINPUT)    // QQWing은 9x9 일반 sudoku만 지원한다.
         bUseQQ = YES;	
 
 	if (bUseQQ)

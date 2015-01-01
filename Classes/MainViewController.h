@@ -84,7 +84,8 @@ typedef struct DAILYSTAT
 	UIButton	*buttonCheckboxAutoMemo;
 //	UIButton	*buttonNewGameDailyPuzzle;
     UILabel     *labelDailyStat;
-	UIButton	*buttonNewGameVeryEasy;
+    UIButton	*buttonNewGameUserInput;
+    UIButton	*buttonNewGameVeryEasy;
 	UIButton	*buttonNewGameEasy;
 	UIButton	*buttonNewGameNormal;
 	UIButton	*buttonNewGameHard;
@@ -210,6 +211,7 @@ typedef struct DAILYSTAT
 
 //@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameDailyPuzzle;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStat;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameUserInput;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameVeryEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameEasy;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNewGameNormal;
@@ -325,6 +327,7 @@ typedef struct DAILYSTAT
 - (IBAction)showNewGame;
 - (IBAction)showDailyGame;
 - (IBAction)newgameDailyPuzzle;
+- (IBAction)newgameUserInput;
 - (IBAction)newgameVeryEasy;
 - (IBAction)newgameEasy;
 - (IBAction)newgameNormal;
