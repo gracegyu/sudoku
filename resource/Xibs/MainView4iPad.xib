@@ -616,7 +616,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vcf-8D-21R">
-                            <rect key="frame" x="0.0" y="179" width="350" height="70"/>
+                            <rect key="frame" x="54" y="179" width="296" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="40"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -630,6 +630,10 @@
                                 <action selector="newgameUserInput" destination="-1" eventType="touchUpInside" id="itb-te-WSy"/>
                             </connections>
                         </button>
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="userinput.png" id="udL-NA-b2d">
+                            <rect key="frame" x="1" y="189" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="r06-dW-5fn">
                             <rect key="frame" x="0.0" y="271" width="350" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -1425,8 +1429,12 @@
                             <color key="textColor" red="0.054901964960000001" green="0.270588249" blue="0.53333336109999996" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="userinput.png" id="tRd-6Z-uog">
+                            <rect key="frame" x="5" y="160" width="50" height="50"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                        </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cX5-CZ-2er">
-                            <rect key="frame" x="0.0" y="150" width="350" height="70"/>
+                            <rect key="frame" x="56" y="150" width="294" height="70"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="40"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
@@ -1748,6 +1756,7 @@
         <image name="type_3_100b.png" width="100" height="100"/>
         <image name="type_3_120s.png" width="120" height="120"/>
         <image name="undo_d.png" width="64" height="64"/>
+        <image name="userinput.png" width="128" height="128"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
