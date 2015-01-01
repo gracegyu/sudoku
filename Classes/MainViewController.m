@@ -2992,6 +2992,14 @@
     
     [self makeNewGame:GAMELEVEL_USERINPUT];
     
+    UIAlertView *alert = [[UIAlertView alloc]
+                          initWithTitle:nil
+                          message:gettext(@"Press start button after input puzzle number.", nil)
+                          delegate:self
+                          cancelButtonTitle:gettext(@"Ok", nil)
+                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
 }
 
 - (IBAction)newgameVeryEasy
