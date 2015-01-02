@@ -124,7 +124,7 @@
 	DLog(@"initScore");	
 	for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
-        for (int i=0; i<10; i++)
+        for (int i=0; i<MAX_SCORE_TYPE; i++)
         {
             score.scoreGames[type][i] = 0;
             score.scoreClears[type][i] = 0;
@@ -192,25 +192,25 @@
 
 - (void) saveScoreData
 {
-	DLog(@"saveScoreData");	
+	DLog(@"saveScoreData");
+    int num;
 
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
 	for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
-        for (int i=0; i<10; i++)
+        for (int i=0; i<MAX_SCORE_TYPE; i++)
         {
-            [defaults setInteger:score.scoreGames[type][i] forKey:[kScoreGames stringByAppendingFormat:@"%d", i+type*10]];
-            [defaults setInteger:score.scoreClears[type][i] forKey:[kScoreClears stringByAppendingFormat:@"%d", i+type*10]];
-            [defaults setInteger:score.scoreBestTime[type][i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", i+type*10]];
-            [defaults setInteger:score.scoreClearTimeSum[type][i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i+type*10]];
-            [defaults setInteger:score.scoreRankLevel[type][i] forKey:[kScoreRankLevel stringByAppendingFormat:@"%d", i+type*10]];
-        
-            //DLog(@"[%d][%d] %@", type, i, [kScoreRankLevel stringByAppendingFormat:@"%d", i+type*SUDOKUTYPE_MAX]);
-            if (i < 5)
-            {
-                //DLog(@"scoreRankLevel[%d][%d]=%d", type, i, score.scoreRankLevel[type][i]);
-            }
+            if (i < 10)
+                num = i+type*10;
+            else
+                num = 100 + i+type*10;  // 하위 호환을 위해서 어쩔 수 없음
+            
+            [defaults setInteger:score.scoreGames[type][i] forKey:[kScoreGames stringByAppendingFormat:@"%d", num]];
+            [defaults setInteger:score.scoreClears[type][i] forKey:[kScoreClears stringByAppendingFormat:@"%d", num]];
+            [defaults setInteger:score.scoreBestTime[type][i] forKey:[kScoreBestTime stringByAppendingFormat:@"%d", num]];
+            [defaults setInteger:score.scoreClearTimeSum[type][i] forKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", num]];
+            [defaults setInteger:score.scoreRankLevel[type][i] forKey:[kScoreRankLevel stringByAppendingFormat:@"%d", num]];
         }
     }
     [defaults setInteger:score.scoreTotal forKey:kScoreTotal];
@@ -247,17 +247,29 @@
 - (void) loadScoreData
 {
 	DLog(@"loadScoreData");	
-
+    int num;
+    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
-        for (int i=0; i<10; i++)
+        for (int i=0; i<MAX_SCORE_TYPE; i++)
         {
-            score.scoreGames[type][i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", i+type*10]];
-            score.scoreClears[type][i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", i+type*10]];
-            score.scoreBestTime[type][i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", i+type*10]];
-            score.scoreClearTimeSum[type][i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", i+type*10]];
-            score.scoreRankLevel[type][i] = [defaults integerForKey:[kScoreRankLevel stringByAppendingFormat:@"%d", i+type*10]];
+            if (i < 10)
+                num = i+type*10;
+            else
+                num = 100 + i+type*10;
+            
+            score.scoreGames[type][i] = [defaults integerForKey:[kScoreGames stringByAppendingFormat:@"%d", num]];
+            score.scoreClears[type][i] = [defaults integerForKey:[kScoreClears stringByAppendingFormat:@"%d", num]];
+            score.scoreBestTime[type][i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", num]];
+            score.scoreClearTimeSum[type][i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", num]];
+            score.scoreRankLevel[type][i] = [defaults integerForKey:[kScoreRankLevel stringByAppendingFormat:@"%d", num]];
+            DLog(@"Score[%d][%d]:%d,%d,%d,%d,%d", type, num,
+                 (int)score.scoreGames[type][i],
+                 (int)score.scoreClears[type][i],
+                 (int)score.scoreBestTime[type][i],
+                 (int)score.scoreClearTimeSum[type][i],
+                 (int)score.scoreRankLevel[type][i]);
         }
     }
     
@@ -294,6 +306,19 @@
 //    [strMsgFinish release];
 }
 
+- (NSInteger) levelToWriteScore:(SudokuGame*)sudokuGame
+{
+    NSInteger level;
+    
+    if (sudokuGame.gameLevel == GAMELEVEL_USERINPUT) {
+        level = sudokuGame.bAutoMemo ? MAX_SCORE_TYPE-1 : MAX_SCORE_TYPE-2; // 12:11
+    } else {
+        level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
+    }
+
+    return level;
+}
+
 
 - (void) writeScoreAfterFinishGame:(SudokuGame*)sudokuGame
 {
@@ -304,7 +329,7 @@
 #endif
 	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
-	NSInteger level = sudokuGame.gameLevel + (sudokuGame.bAutoMemo ? 5 : 0);
+    NSInteger level = [self levelToWriteScore:sudokuGame];
     
 	score.scoreClears[sudokuGame.sudokuType][level] += 1;
     
@@ -313,13 +338,12 @@
     {
         if (score.scoreBestTime[sudokuGame.sudokuType][level] != 0)
         {
-            bNewBest = YES;
+            if (sudokuGame.gameLevel != GAMELEVEL_USERINPUT)    // user input은 best 고려 안함
+                bNewBest = YES;
         }
 		score.scoreBestTime[sudokuGame.sudokuType][level] = sudokuGame.gameTime;      // best time 갱신
         
 	}
-    
-    
     
     strMsgFinish = [[NSString alloc] initWithString:gettext(@"You cleared this game.", nil)];
     if (sudokuGame.bDailyPuzzle)
@@ -2174,7 +2198,9 @@
 {
 	if (mainView.sudokuGame)
 	{
-		score.scoreGames[mainView.sudokuGame.sudokuType][mainView.sudokuGame.gameLevel + (mainView.sudokuGame.bAutoMemo ? 5 : 0)] += 1;     // 게임 수 1 증가
+        NSInteger level = [self levelToWriteScore:mainView.sudokuGame];
+        
+		score.scoreGames[mainView.sudokuGame.sudokuType][level] += 1;     // 게임 수 1 증가
 		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
 	}
 }

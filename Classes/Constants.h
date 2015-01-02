@@ -148,13 +148,15 @@ enum DEVICETYPE {
 
 typedef enum DEVICETYPE DEVICETYPE;
 
+#define MAX_SCORE_TYPE  12  // original:5 automemo:5, userinput 2
+
 typedef struct SUDOKUSCORE
 {
-    NSInteger	scoreGames[SUDOKUTYPE_MAX][10];					// original:5 automemo:5
-	NSInteger	scoreClears[SUDOKUTYPE_MAX][10];
-	NSInteger	scoreBestTime[SUDOKUTYPE_MAX][10];
-	NSInteger	scoreClearTimeSum[SUDOKUTYPE_MAX][10];
-	NSInteger	scoreRankLevel[SUDOKUTYPE_MAX][10];            // normal sudoku는 auto ranking도 저장 
+    NSInteger	scoreGames[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];					// original:5 automemo:5, userinput 2
+	NSInteger	scoreClears[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+	NSInteger	scoreBestTime[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+	NSInteger	scoreClearTimeSum[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+	NSInteger	scoreRankLevel[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];            // normal sudoku는 auto ranking도 저장
     NSInteger   scoreTotal;
     NSInteger   scoreRankTotal;
 } SUDOKUSCORE;
