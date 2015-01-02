@@ -591,8 +591,8 @@
     [buttonHint			setTitle:gettext(@"hint", nil) forState:UIControlStateDisabled];
     [buttonCloseButton  setTitle:@"" forState:UIControlStateNormal];
     [buttonPlayNew      setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
-    [buttonPlayAgain    setTitle:gettext(@"Play again", nil) forState:UIControlStateNormal];
-    [buttonSeeReplay    setTitle:gettext(@"Watch replay", nil) forState:UIControlStateNormal];
+    [buttonPlayAgain    setTitle:[@"    " stringByAppendingString:gettext(@"Play again", nil)] forState:UIControlStateNormal];
+    [buttonSeeReplay    setTitle:[@"    " stringByAppendingString:gettext(@"Watch replay", nil)] forState:UIControlStateNormal];
     [buttonPuzzleShare    setTitle:[@"    " stringByAppendingString:gettext(@"Puzzle share", nil)] forState:UIControlStateNormal];
     [buttonRecordShare    setTitle:[@"    " stringByAppendingString:gettext(@"Record share", nil)] forState:UIControlStateNormal];
     
