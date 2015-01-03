@@ -1807,6 +1807,8 @@
 
 - (IBAction)showFeedbackView
 {
+    [self hideMenuView:NO];
+
 #ifdef USE_JMC
     [Flurry logEvent:@"ShowFeedbackView"];
 
@@ -3335,6 +3337,30 @@
     return score.scoreTotal;
 }
 
+- (void) updateButtonFinishGame
+{
+    BOOL bHiddenButton = !mainView.sudokuGame.isGameFinished || bReplay || mainView.sudokuGame.isCloseButton;
+    BOOL bEnable = mainView.bMenuMode ? NO : YES;
+    
+    
+    buttonCloseButton.hidden = bHiddenButton;
+    buttonCloseButton.enabled = bEnable;
+    buttonPlayNew.hidden = bHiddenButton;
+    buttonPlayNew.enabled = bEnable;
+    if (bHiddenButton == YES) {
+        buttonPlayAgain.hidden = YES;
+    } else {
+        buttonPlayAgain.hidden = NO;
+        buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : bEnable;
+    }
+    buttonSeeReplay.hidden = bHiddenButton;
+    buttonSeeReplay.enabled = bEnable;
+    
+    buttonPuzzleShare.hidden = bHiddenButton;
+    buttonPuzzleShare.enabled = bEnable;
+    buttonRecordShare.hidden = bHiddenButton;
+    buttonRecordShare.enabled = bEnable;
+}
 
 - (void) updateButtons
 {
@@ -3345,21 +3371,7 @@
 	[self updateButtonBookmark];
 	[self updateButtonDel];
 	[self updateButtonMemo];
-    
-    BOOL bHiddenButton = !mainView.sudokuGame.isGameFinished || bReplay || mainView.sudokuGame.isCloseButton;
-    
-    buttonCloseButton.hidden = bHiddenButton;
-    buttonPlayNew.hidden = bHiddenButton;
-    if (bHiddenButton == YES) {
-        buttonPlayAgain.hidden = YES;
-    } else {
-        buttonPlayAgain.hidden = NO;
-        buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : YES;
-    }
-    buttonSeeReplay.hidden = bHiddenButton;
-
-    buttonPuzzleShare.hidden = bHiddenButton;
-    buttonRecordShare.hidden = bHiddenButton;
+    [self updateButtonFinishGame];
 }
 
 - (BOOL) isReplaying

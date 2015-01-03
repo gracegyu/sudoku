@@ -217,7 +217,7 @@ typedef struct SUDOKUSCORE
 #define SUPPORT_ROTATION    YES
 #endif
 
-#define STR_LICENSE     @"Ⓒ 2014 SmartOne, All rights reserved."
+#define STR_LICENSE     @"Ⓒ 2015 SmartOne, All rights reserved."
 #ifdef SUDOKU9
 #define NUM_HINTBONUS   3
 #else
@@ -234,8 +234,8 @@ typedef struct SUDOKUSCORE
 #define cDefaultUserID          0
 
 #ifdef DEBUG
-#define cServerHostName         @"10.211.55.10:88"
-//#define cServerHostName         @"www.smartoneinc.com"
+//#define cServerHostName         @"10.211.55.10:88"
+#define cServerHostName         @"www.smartoneinc.com"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
 #endif
