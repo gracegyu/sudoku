@@ -1954,12 +1954,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                         else
                             [self playSoundClick];
                         
-                        [ctrl updateBlankCellCount];
-                        [ctrl updateHintCount];
-                        [ctrl updateButtonUndo];
-                        [ctrl updateButtonBookmark];
-                        [ctrl updateButtonClear];
-                        [ctrl updateButtonSharePuzzle];
+                        [ctrl updateButtons];
                     }
 
 				}
@@ -2142,14 +2137,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	
 	[self playSoundClick];
 	MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-	[ctrl updateBlankCellCount];
-    [ctrl updateHintCount];
-	[ctrl updateButtonUndo];
-    [ctrl updateButtonBookmark];
-    [ctrl updateButtonClear];
-    [ctrl updateButtonSharePuzzle];
-	[ctrl updateButtonDel];
-	[ctrl updateButtonHint];
+
+	[ctrl updateButtons];
 	
 	[self setNeedsDisplay];	
 }
@@ -2315,11 +2304,8 @@ static NSUInteger SmallerColorTemplate[9] = {
                 [sudokuGame clearAllNums];
                 
                 MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-                [ctrl updateBlankCellCount];
+                [ctrl updateButtons];
                 [ctrl updateHintCount];
-				[ctrl updateButtonUndo];
-                [ctrl updateButtonBookmark];
-                
                 
                 [self playSound:soundClearID];
 				[sudokuGame saveData];
@@ -2391,15 +2377,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     else
         [self playSoundClick];
 
-    [ctrl updateBlankCellCount];
-    [ctrl updateHintCount];
-    [ctrl updateButtonUndo];
-    [ctrl updateButtonBookmark];
-    [ctrl updateButtonClear];
-    [ctrl updateButtonSharePuzzle];
-    [ctrl updateButtonDel];
-    [ctrl updateButtonHint];
-
+    [ctrl updateButtons];
 
     timerTouch = nil;
     bPressedInButton = NO;

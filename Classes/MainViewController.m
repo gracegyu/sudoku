@@ -723,16 +723,12 @@
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
             [self updateGameTime:mainView.sudokuGame.gameTime];
-			[self updateBlankCellCount];
-			[self updateHintCount];
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
 		} else {
 			levelNewGame = GAMELEVEL_NORMAL;	// normal로 새로운 게임을 무조건 생성한다.
 			[self makeNewGameData];
 			
 			[self setGameLevel];
-			[self updateBlankCellCount];
-			[self updateHintCount];
             [self startGameTimer];
 
 			firstRun = YES;
@@ -1264,8 +1260,7 @@
 		[mainView runUndo];
 	else
 		[mainView runRedo];
-	[self updateBlankCellCount];
-	[self updateHintCount];
+
 	[self updateButtons];
 	
 	if ((bUndoRepeat && [mainView.sudokuGame.sudokuUndo countUndo] <=0) ||
@@ -1305,8 +1300,7 @@
     
 	[mainView playSoundClick];
 	[mainView runUndo];
-	[self updateBlankCellCount];
-	[self updateHintCount];
+
 	[self updateButtons];	
 	bUndoRepeat = TRUE;
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOREPEATE
@@ -1326,8 +1320,7 @@
 
 	[mainView playSoundClick];
 	[mainView runRedo];
-	[self updateBlankCellCount];
-	[self updateHintCount];
+
 	[self updateButtons];
 	bUndoRepeat = FALSE;
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOREPEATE
@@ -1348,8 +1341,7 @@
     
 	[mainView runBookmark];
 	
-	[self updateBlankCellCount];
-	[self updateHintCount];
+
 	[self updateButtons];
 
 }
@@ -1533,8 +1525,6 @@
 	[self saveScoreData];
 	
 	[self updateGameTime:0];
-    [self updateBlankCellCount];
-    [self updateHintCount];
 
     [self updateButtons];
 
@@ -2106,8 +2096,7 @@
 	mainView.bMenuMode = NO;
 	[self startGameTimer];
 	[self setGameLevel];
-	[self updateBlankCellCount];
-    [self updateHintCount];
+
 	[self updateButtons];
 	
 }
@@ -2172,8 +2161,7 @@
 	mainView.bMenuMode = NO;
 	[self startGameTimer];
 	[self setGameLevel];
-	[self updateBlankCellCount];
-    [self updateHintCount];
+    
 	[self updateButtons];
 	
 }
@@ -3395,6 +3383,9 @@
 
 - (void) updateButtons
 {
+    [self updateBlankCellCount];
+    [self updateHintCount];
+    
 	[self updateButtonMenu];
 	[self updateButtonHint];
     [self updateButtonClear];
