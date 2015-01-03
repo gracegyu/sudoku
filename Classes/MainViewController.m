@@ -1617,19 +1617,41 @@
     UIActivityViewController *ActivityView = [[[UIActivityViewController alloc]
                                                initWithActivityItems:Items
                                                applicationActivities:nil] autorelease];
-    if (bImg) {
-        [ActivityView setExcludedActivityTypes:
-         @[UIActivityTypeAssignToContact,
-           UIActivityTypeAddToReadingList]];
+    // for ipad & ios8.1 (bugs)
+    if (isIpad && SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        ActivityView.modalInPopover = YES;
+        ActivityView.popoverPresentationController.sourceView = self.view;
+        if (bImg) {
+            [ActivityView setExcludedActivityTypes:
+             @[UIActivityTypeAssignToContact,
+               UIActivityTypeMail,
+               UIActivityTypeAddToReadingList]];
+        } else {
+            [ActivityView setExcludedActivityTypes:
+             @[UIActivityTypePrint,
+               UIActivityTypeMail,
+               UIActivityTypeCopyToPasteboard,
+               UIActivityTypeAssignToContact,
+               UIActivityTypeSaveToCameraRoll,
+               UIActivityTypeAddToReadingList,
+               UIActivityTypeAirDrop]];
+            
+        }
     } else {
-        [ActivityView setExcludedActivityTypes:
-         @[UIActivityTypePrint,
-           UIActivityTypeCopyToPasteboard,
-           UIActivityTypeAssignToContact,
-           UIActivityTypeSaveToCameraRoll,
-           UIActivityTypeAddToReadingList,
-           UIActivityTypeAirDrop]];
-        
+        if (bImg) {
+            [ActivityView setExcludedActivityTypes:
+             @[UIActivityTypeAssignToContact,
+               UIActivityTypeAddToReadingList]];
+        } else {
+            [ActivityView setExcludedActivityTypes:
+             @[UIActivityTypePrint,
+               UIActivityTypeCopyToPasteboard,
+               UIActivityTypeAssignToContact,
+               UIActivityTypeSaveToCameraRoll,
+               UIActivityTypeAddToReadingList,
+               UIActivityTypeAirDrop]];
+            
+        }
     }
     
     [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
