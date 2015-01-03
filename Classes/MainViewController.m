@@ -3275,15 +3275,24 @@
 
 - (void) updateButtonClear
 {
-	if (!mainView.sudokuGame)
-		return;
-	
-	BOOL bLock = (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
-	NSInteger count = [mainView.sudokuGame countFixCells];
+	BOOL bLock = (!mainView.sudokuGame || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished));
+    NSInteger count = 0;
+    
+    if (mainView.sudokuGame)
+        count = [mainView.sudokuGame countFixCells];
 
     [self setButtonMode:buttonReset mode:(count > 0 && bLock == NO)];
 	
 }
+
+- (void) updateButtonSharePuzzle
+{
+    BOOL bLock = (!mainView.sudokuGame || (mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT && mainView.sudokuGame.bUserInputStart == NO));
+    
+    [self setButtonMode:buttonSharePuzzle mode:(bLock == NO)];
+    
+}
+
 
 - (void) updateButtonDel
 {
@@ -3388,7 +3397,8 @@
 {
 	[self updateButtonMenu];
 	[self updateButtonHint];
-	[self updateButtonClear];
+    [self updateButtonClear];
+    [self updateButtonSharePuzzle];
 	[self updateButtonUndo];
 	[self updateButtonBookmark];
 	[self updateButtonDel];

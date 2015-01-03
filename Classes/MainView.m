@@ -1959,6 +1959,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                         [ctrl updateButtonUndo];
                         [ctrl updateButtonBookmark];
                         [ctrl updateButtonClear];
+                        [ctrl updateButtonSharePuzzle];
                     }
 
 				}
@@ -2145,7 +2146,8 @@ static NSUInteger SmallerColorTemplate[9] = {
     [ctrl updateHintCount];
 	[ctrl updateButtonUndo];
     [ctrl updateButtonBookmark];
-	[ctrl updateButtonClear];
+    [ctrl updateButtonClear];
+    [ctrl updateButtonSharePuzzle];
 	[ctrl updateButtonDel];
 	[ctrl updateButtonHint];
 	
@@ -2394,6 +2396,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [ctrl updateButtonUndo];
     [ctrl updateButtonBookmark];
     [ctrl updateButtonClear];
+    [ctrl updateButtonSharePuzzle];
     [ctrl updateButtonDel];
     [ctrl updateButtonHint];
 
