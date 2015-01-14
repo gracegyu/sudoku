@@ -680,8 +680,10 @@
     DLog(@"setUserName:%@", newname);
     
     [gUserName release];
-    if ([newname length] > 60)
+    if ([newname length] > 60) {
+        [Flurry logEvent:@"ChangeNickNameDialog Too Long name"];
         newname = [newname substringWithRange:NSMakeRange(0, 60)];
+    }
     gUserName = [[NSString stringWithString:newname] retain];
     DLog(@"setUserName:%@ => %@", newname, gUserName);
     
@@ -1003,7 +1005,11 @@
 			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
 				gServerIP = [[NSString alloc] initWithString:value];
 			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
+#ifdef DEBUG
+                gUserID = cDebugUserID;
+#else
 				gUserID = [value integerValue];
+#endif
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
 		}
@@ -1647,11 +1653,17 @@
     [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
      {
          if (done) {
+             NSString* str = [NSString stringWithFormat:@"Share(%@) done", act];
+             [Flurry logEvent:str];
+             
              NSLog(@"The selected activity was %@", act);
              NSRange range = [act rangeOfString:@"PostTo"];
              if (range.location != NSNotFound) {
                  mainView.bSharedThisOnFacebook = YES;
              }
+         } else {
+             NSString* str = [NSString stringWithFormat:@"Share(%@) cancel", act];
+             [Flurry logEvent:str];
          }
      }];
     
@@ -1670,7 +1682,7 @@
         [self hideMenuView:NO];
     }
 
-    [Flurry logEvent:@"SharePuzzleTwitter"];
+    [Flurry logEvent:@"SharePuzzle"];
 
     [self callPuzzleShare:YES];
     
@@ -1686,7 +1698,7 @@
         [self hideMenuView:NO];
     }
 
-    [Flurry logEvent:@"ShareRecordTwitter"];
+    [Flurry logEvent:@"ShareRecord"];
     
 
     [self callPuzzleShare:NO];
@@ -3027,6 +3039,7 @@
 - (IBAction)newgameUserInput
 {
     // only original is allowed
+    [Flurry logEvent:@"GameLevel(user input try)"];
     
     [self makeNewGame:GAMELEVEL_USERINPUT];
     
@@ -3087,6 +3100,9 @@
 
 - (void) openChangeNickNameDialog
 {
+    [Flurry logEvent:@"ChangeNickNameDialog open"];
+
+    
     UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil
                                                      message:gettext(@"Please input your nickname", nil)
                                                     delegate:self
@@ -3654,6 +3670,8 @@
         NSString *newName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         if ([newName length] < MIN_NAME) {
+            [Flurry logEvent:@"ChangeNickNameDialog Short Name"];
+
             // Warning
             [self alertLocalizedAlertView:@"Name is too short!"];
         } else {
