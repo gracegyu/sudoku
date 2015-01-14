@@ -3045,7 +3045,7 @@
     
     UIAlertView *alert = [[UIAlertView alloc]
                           initWithTitle:nil
-                          message:gettext(@"Press start button after input puzzle number.", nil)
+                          message:gettext(@"Press start button after input puzzle numbers from newspapers and books.", nil)
                           delegate:self
                           cancelButtonTitle:gettext(@"Ok", nil)
                           otherButtonTitles:nil];
