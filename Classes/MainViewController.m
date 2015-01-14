@@ -1518,28 +1518,33 @@
         [self hideMenuView:NO];
         [self newgameCancel];
     }
-
-    [Flurry logEvent:@"RunPalyAgain"];
-
-    // see Replay 중이면 멈춰야 한다. timer 멈춘다.
-    bReplay = NO;
     
-    
-    [mainView.sudokuGame replayGames];
+    if (mainView.sudokuGame.bDailyPuzzle) {
+        [Flurry logEvent:@"RankingCheck"];
+        [self gotoRankingWebView];
+    } else {
+        [Flurry logEvent:@"RunPalyAgain"];
 
-    [self increaseScoreGames];  // 게임 시작 점수 추가
-	[self saveScoreData];
-	
-	[self updateGameTime:0];
+        // see Replay 중이면 멈춰야 한다. timer 멈춘다.
+        bReplay = NO;
+        
+        
+        [mainView.sudokuGame replayGames];
 
-    [self updateButtons];
+        [self increaseScoreGames];  // 게임 시작 점수 추가
+        [self saveScoreData];
+        
+        [self updateGameTime:0];
 
-    //[mainView playSoundClick];
-    [mainView.sudokuGame saveData];
-    
-    [mainView setNeedsDisplay];
+        [self updateButtons];
 
-    [self startGameTimer];
+        //[mainView playSoundClick];
+        [mainView.sudokuGame saveData];
+        
+        [mainView setNeedsDisplay];
+
+        [self startGameTimer];
+    }
 }
 
 
@@ -1807,25 +1812,30 @@
     
 }
 
+- (void) gotoRankingWebView
+{
+    DLog(@"showRankView");
+    RankViewController *controller = [[RankViewController alloc] initWithNibName:
+                                      cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
+                                      (isIphone5or6 ? @"RankView4iPhone5" : @"RankView")
+                                                                          bundle:nil];
+    controller.bMyRankCheck = YES;
+    controller.mainViewController = self;
+    controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    [controller release];
+    
+}
+
+
 - (IBAction)showRankView
 {
     [Flurry logEvent:@"ShowRankView"];
     
 	//[self hideMenuView:NO];
     [self hideDailyGameView];
-	
-    DLog(@"showRankView");
-    RankViewController *controller = [[RankViewController alloc] initWithNibName:
-                                      cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
-                                      (isIphone5or6 ? @"RankView4iPhone5" : @"RankView")
-                                      bundle:nil];
-    controller.mainViewController = self;
-	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	[self presentViewController:controller animated:YES completion:nil];
-	
-	[controller release];
-	
-    
+    [self gotoRankingWebView];
 }
 
 
@@ -3386,7 +3396,17 @@
         buttonPlayAgain.hidden = YES;
     } else {
         buttonPlayAgain.hidden = NO;
-        buttonPlayAgain.enabled = mainView.sudokuGame.bDailyPuzzle ? NO : bEnable;
+        buttonPlayAgain.enabled = bEnable;
+        if (mainView.sudokuGame.bDailyPuzzle) {
+            [buttonPlayAgain setTitle:[@"    " stringByAppendingString:gettext(@"Check ranking", nil)] forState:UIControlStateNormal];
+            [buttonPlayAgain setBackgroundImage:[UIImage imageNamed:@"button_big_ranking.png"] forState:UIControlStateNormal];
+            [buttonPlayAgain setBackgroundImage:[UIImage imageNamed:@"button_big_ranking.png"] forState:UIControlStateHighlighted];
+
+        } else {
+            [buttonPlayAgain setTitle:[@"    " stringByAppendingString:gettext(@"Play again", nil)] forState:UIControlStateNormal];
+            [buttonPlayAgain setBackgroundImage:[UIImage imageNamed:@"button_big_playagain.png"] forState:UIControlStateNormal];
+            [buttonPlayAgain setBackgroundImage:[UIImage imageNamed:@"button_big_playagain.png"] forState:UIControlStateHighlighted];
+        }
     }
     buttonSeeReplay.hidden = bHiddenButton;
     buttonSeeReplay.enabled = bEnable;

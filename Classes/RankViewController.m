@@ -24,9 +24,21 @@
 @synthesize buttonDone;
 @synthesize webView;
 @synthesize activityIndicator;
+@synthesize bMyRankCheck;
 
 
 
+
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+     bMyRankCheck = NO;
+    
+    DLog(@"initWithNibName");
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
+    {
+    }
+    return self;
+}
 
 - (void) setLocalizedMessage
 {
@@ -54,7 +66,22 @@
  
     webView.delegate = self;
     
-    NSString* strURI = [NSString stringWithFormat:
+//    http://10.211.55.10:88/dailyranking.php?act=rankingview&userid=158902&size=6&date=20150114&type=0&rankingtype=0&countrycode=US&locale=ko_KR
+
+    NSString* strURI;
+    if (bMyRankCheck) {
+        strURI = [NSString stringWithFormat:
+                  @"act=%@&userid=%ld&size=%d&date=%@&type=%d&rankingtype=%d&countrycode=%@&locale=%@",
+                  @"rankingview",
+                  (long)(ctrl.gUserID),
+                  DEFPUZZLESIZE,
+                  [ctrl getNowYYYYMMDD],
+                  ctrl.mainView.sudokuGame.sudokuType,
+                  0,
+                  countryCode,
+                  [Locale getFullLocale:gettext(@"locale", nil)]];
+    } else {
+        strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&size=%d&date=%@&countrycode=%@&locale=%@",
                         @"rankingmenu",
                         (long)(ctrl.gUserID),
@@ -62,7 +89,10 @@
                         [ctrl getNowYYYYMMDD],
                         countryCode,
                         [Locale getFullLocale:gettext(@"locale", nil)]];
+    }
     DLog(@"strURI* = \n%@", strURI);
+    
+    
     
     NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,

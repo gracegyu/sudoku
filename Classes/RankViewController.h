@@ -16,6 +16,7 @@
 	UINavigationItem	*naviItem;
 	UILabel *lableTitle;
     UIButton *buttonDone;
+    BOOL bMyRankCheck;
     
     UIWebView *webView;
     UIActivityIndicatorView *activityIndicator;
@@ -28,10 +29,10 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIWebView *webView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property BOOL bMyRankCheck;
 
 
-
-
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil;
 - (IBAction)done;
 
 
