@@ -1521,7 +1521,7 @@
     
     if (mainView.sudokuGame.bDailyPuzzle) {
         [Flurry logEvent:@"RankingCheck"];
-        [self gotoRankingWebView];
+        [self gotoRankingWebView:YES];
     } else {
         [Flurry logEvent:@"RunPalyAgain"];
 
@@ -1812,14 +1812,14 @@
     
 }
 
-- (void) gotoRankingWebView
+- (void) gotoRankingWebView:(BOOL)bMyRanking
 {
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
                                       (isIphone5or6 ? @"RankView4iPhone5" : @"RankView")
                                                                           bundle:nil];
-    controller.bMyRankCheck = YES;
+    controller.bMyRankCheck = bMyRanking;
     controller.mainViewController = self;
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     [self presentViewController:controller animated:YES completion:nil];
@@ -1835,7 +1835,7 @@
     
 	//[self hideMenuView:NO];
     [self hideDailyGameView];
-    [self gotoRankingWebView];
+    [self gotoRankingWebView:NO];
 }
 
 
