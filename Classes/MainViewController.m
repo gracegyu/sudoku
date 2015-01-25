@@ -809,6 +809,28 @@
     return YES;
 }
 
+#ifdef ADMOB_FREEVERSION	
+- (void)initGADBanner
+{
+    DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
+    
+    bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
+    [bannerView_ setDelegate:self];
+    bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+    
+    bannerView_.rootViewController = self;
+    [self.view addSubview:bannerView_];
+    
+    [bannerView_ loadRequest:[GADRequest request]];
+}
+
+- (void) requestGADagain
+{
+    [bannerView_ loadRequest:[GADRequest request]];
+}
+
+#endif
+
  // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
  - (void) viewDidLoad {
 	 DLog(@"viewDidLoad");	
@@ -846,19 +868,9 @@
 
 
      
-#ifdef ADMOB_FREEVERSION	 
+#ifdef ADMOB_FREEVERSION
      // Create a view of the standard size at the bottom of the screen.
-     
-     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
-     
-     bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
-     [bannerView_ setDelegate:self];
-     bannerView_.adUnitID = MY_BANNER_UNIT_ID;
-     
-     bannerView_.rootViewController = self;
-     [self.view addSubview:bannerView_];
-     
-     [bannerView_ loadRequest:[GADRequest request]];     
+     [self initGADBanner];
 #endif
      bAd = NO;
      bReplay = NO;
@@ -3727,12 +3739,26 @@
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
+    [Flurry logEvent:@"Admob banner load success"];
     DLog(@"adViewDidReceiveAd:%@", bannerView.description);
+}
+
+- (void) OnTimerGADRequestAgain:(NSTimer *)timer
+{
+    DLog(@"OnTimerGADRequestAgain");
+    [self requestGADagain];
 }
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    DLog(@"adView didFailToReceiveAdWithError:%@", error.description);
+    [Flurry logEvent:@"Admob banner load fail"];
+    DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    
+    [NSTimer scheduledTimerWithTimeInterval:10
+                                     target:self
+                                   selector:@selector(OnTimerGADRequestAgain:)
+                                   userInfo:nil
+                                    repeats:NO];
     
 }
 
@@ -3769,13 +3795,15 @@
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    [Flurry logEvent:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
     [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
-    DLog(@"interstitial didFailToReceiveAdWithError:%@", error.description);
+    [Flurry logEvent:@"Admob interstitial load fail"];
+    DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
     [self alertFinish];
  
 }
