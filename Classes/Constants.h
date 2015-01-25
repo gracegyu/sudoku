@@ -233,7 +233,11 @@ typedef struct SUDOKUSCORE
 #define cProtocolVersion        1
 #define cDefaultUserID          0
 
+#ifdef SUDOKU9
+#define cDebugUserID            162650
+#else
 #define cDebugUserID            158902
+#endif
 
 #ifdef DEBUG
 #define cServerHostName         @"10.211.55.10:88"

@@ -41,7 +41,7 @@ typedef struct KillerCage
 @property NSInteger     size;
 
 - (id) initWithMap:(KillerMap*)source;
-- (id) initWithSize:(NSInteger)sizeMap;
+- (id) initWithSize:(NSInteger)sizeMap randomFill:(BOOL)randomFill;
 - (NSInteger) getCageNumber:(NSInteger)x yPos:(NSInteger)y;	// from map
 - (NSInteger) getColor:(NSInteger)x yPos:(NSInteger)y;		// from color
 - (NSInteger) getCageCount;

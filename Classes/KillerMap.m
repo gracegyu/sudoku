@@ -35,7 +35,7 @@
 	return self;
 }
 
-- (id) initWithSize:(NSInteger)sizeMap
+- (id) initWithSize:(NSInteger)sizeMap randomFill:(BOOL)randomFill
 {
 	if (!(self = [super init]))
 		return nil;
@@ -51,11 +51,13 @@
 	memset(color, -1, sizeof(color));
 	memset(cage, -1, sizeof(cage));
 	NSInteger num=0;
-	
-	while ([self FillRandomMap:num] == YES)
-	{
-		num++;
-	}
+    
+    if (randomFill) {
+        while ([self FillRandomMap:num] == YES)
+        {
+            num++;
+        }
+    }
 	cage[num].x0 = -1;
 	cage[num].y0 = -1;
 //	[self printMap];

@@ -876,7 +876,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         if ([listItems count] < 9)
             return nil;
 
-        kmap = [[KillerMap alloc] initWithSize:size];
+        kmap = [[KillerMap alloc] initWithSize:size  randomFill:NO];
         [KillerMap setNumsPipeSize:[listItems objectAtIndex:6] size:MAXMAPSIZE*MAXMAPSIZE	nums:[kmap getMapArray]];
         [KillerMap setNumsPipeSize:[listItems objectAtIndex:7] size:MAXMAPSIZE*MAXMAPSIZE	nums:[kmap getColorArray]];
         [KillerMap setNumsPipe:[listItems objectAtIndex:8] size:MAXMAPSIZE*MAXMAPSIZE/2*sizeof(KillerCage)	nums:(NSInteger*)[kmap getCageArray]];

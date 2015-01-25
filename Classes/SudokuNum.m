@@ -91,7 +91,7 @@
     [self initMap:type == SUDOKUTYPE_SUDOKU ? defmap : YES];
     
     if (type == SUDOKUTYPE_KILLER || type == SUDOKUTYPE_CALCU)
-        kmap = [[KillerMap alloc] initWithSize:size];
+        kmap = [[KillerMap alloc] initWithSize:size randomFill:YES];
 	
     [self initNumsUndo];
 
