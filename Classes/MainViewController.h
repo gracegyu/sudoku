@@ -63,6 +63,10 @@ typedef struct DAILYSTAT
 	MainView	*mainView;
 	CGRect		frameMainViewOrg;
 
+    UILabel		*labelUserLevel;
+    
+    
+    UIImageView *imageUserLevel;
 	UILabel		*labelNewGame;
 	UILabel		*labelTitleLevel;
 	UILabel		*labelTitleGameTime;
@@ -266,6 +270,8 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIView		*viewMenu;
 @property (nonatomic, retain) IBOutlet UIView		*viewNewGame;
 @property (nonatomic, retain) IBOutlet UIView		*viewDailyGame;
+@property (nonatomic, retain) IBOutlet UIImageView  *imageUserLevel;
+@property (nonatomic, retain) IBOutlet UILabel		*labelUserLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelGameTime;
 @property (nonatomic, retain) IBOutlet UILabel		*labelBlank;
@@ -357,6 +363,7 @@ typedef struct DAILYSTAT
 - (void) showDailyGameView;
 - (void) hideDailyGameView;
 - (void) setGameLevel;
+- (void) setUserLevel;
 - (void) startGameTimer;
 - (void) stopGameTimer;
 - (void) OnTimer:(NSTimer *)timer;
@@ -376,6 +383,7 @@ typedef struct DAILYSTAT
 - (void) saveSetting;
 - (NSInteger) getBestTime:(NSInteger)level;
 - (NSInteger) getTotalScore;
+- (NSInteger) getMyLevel;
 
 - (void) updateButtons;
 - (BOOL) isReplaying;

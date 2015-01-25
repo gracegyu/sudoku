@@ -95,6 +95,8 @@
 @synthesize viewMenu;
 @synthesize viewNewGame;
 @synthesize viewDailyGame;
+@synthesize imageUserLevel;
+@synthesize labelUserLevel;
 @synthesize labelLevel;
 @synthesize labelGameTime;
 @synthesize labelBlank;
@@ -217,6 +219,8 @@
     [defaults setInteger:score.scoreRankTotal forKey:kScoreRankTotal];
     DLog(@"scoreRankTotal=%ld", (long)score.scoreRankTotal);
 	[defaults synchronize];
+    
+    [self setUserLevel];
 }
 
 - (NSInteger) getGameResultScore:(NSInteger)level sec:(NSInteger)sec
@@ -288,6 +292,8 @@
     score.scoreRankTotal = [defaults integerForKey:kScoreRankTotal];
 
     DLog(@"scoreTotal = %ld", (long)score.scoreTotal);
+    
+    [self setUserLevel];
     
 }
 
@@ -468,6 +474,8 @@
             }
         }
     }
+    
+    [self setUserLevel];
     
     [NSTimer scheduledTimerWithTimeInterval:10
                                      target:self
@@ -651,6 +659,8 @@
     
     if (mainView.sudokuGame)
         [self setGameLevel];
+    
+    [self setUserLevel];
 
 }
 
@@ -1974,7 +1984,13 @@
 	}
 }
 
-
+- (void) setUserLevel
+{
+    NSInteger userLevel = [self getMyLevel];
+    
+    labelUserLevel.text =  [NSString stringWithFormat:gettext(@"level %d", nil), (int)userLevel];
+    imageUserLevel.image = [UIImage imageNamed:[NSString stringWithFormat:@"level_%02d.png", (int)userLevel]];
+}
 
 
 
@@ -2248,6 +2264,8 @@
         
 		score.scoreGames[mainView.sudokuGame.sudokuType][level] += 1;     // 게임 수 1 증가
 		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
+        
+        [self setUserLevel];
 	}
 }
 
@@ -3391,8 +3409,41 @@
 
 - (NSInteger) getTotalScore
 {
+    DLog(@"getTotalScore -> %d", (int)score.scoreTotal);
     return score.scoreTotal;
 }
+
+static NSInteger LEVELSCORE[] = {
+    100,        // 1    토끼
+    300,        // 2    팬더
+    1000,       // 3    사슴
+    3000,       // 4    늑대
+    10000,      // 5    돌고래
+    30000,      // 6    낙타
+    100000,     // 7    곰
+    300000,     // 8    코뿔소
+    1000000,    // 9    코끼리
+    3000000,    // 10   드래곤
+    -1
+};
+
+- (NSInteger) getMyLevel
+{
+    NSInteger level = 1;    // max 10
+    
+    for (int i=0; LEVELSCORE[i] > 0; i++)
+    {
+        if ([self getTotalScore] >= LEVELSCORE[i])
+            level = i+1;
+        else
+            break;
+    }
+    if (level > 10)
+        level = 10;
+    
+    return level;
+}
+
 
 - (void) updateButtonFinishGame
 {
