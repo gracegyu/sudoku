@@ -106,6 +106,19 @@
 - (void) viewDidLoad
 {
     MainViewController *ctrl = (MainViewController*)mainViewController;
+    
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    {  // for iPhone and iPad
+        CGRect frame= segmentType.frame;
+        [segmentType setFrame:CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 30)];
+        
+        [segmentType setImage:[UIImage imageNamed:@"type_0_24.png"] forSegmentAtIndex:0];
+        [segmentType setImage:[UIImage imageNamed:@"type_1_24.png"] forSegmentAtIndex:1];
+        [segmentType setImage:[UIImage imageNamed:@"type_2_24.png"] forSegmentAtIndex:2];
+        [segmentType setImage:[UIImage imageNamed:@"type_3_24.png"] forSegmentAtIndex:3];
+    } else {
+        segmentType.tintColor = [UIColor colorWithRed:0.055f green:0.27f blue:0.55f alpha:1.0f];
+    }
 	segmentType.selectedSegmentIndex = sudokuType = ctrl.mainView.nSettingSudokuType;
     //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];

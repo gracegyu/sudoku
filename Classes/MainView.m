@@ -504,26 +504,30 @@ static NSUInteger SmallerColorTemplate[9] = {
  
 - (void) drawStrRect:(CGContextRef)context str:(NSString*)str rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font align:(UITextAlignment)align
 {
-//  CGContextSetFillColorWithColor(context, color);
-    
 	CGSize sizeText = [str sizeWithFont:font forWidth:rect.size.width lineBreakMode:NSLineBreakByClipping];
 	
-    
-    NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
-    textStyle.lineBreakMode = NSLineBreakByClipping;
-    textStyle.alignment = align;
-    
-    
-    [str drawInRect:CGRectMake(rect.origin.x,
-							   rect.origin.y + (rect.size.height - sizeText.height)/2,
-							   rect.size.width,
-							   sizeText.height)
-     withAttributes:@{ NSFontAttributeName: font,
-                       NSParagraphStyleAttributeName: textStyle,
-                       NSForegroundColorAttributeName: color} ];
-//           withFont:font
-//      lineBreakMode:NSLineBreakByClipping
-//          alignment:align];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        textStyle.lineBreakMode = NSLineBreakByClipping;
+        textStyle.alignment = align;
+
+        [str drawInRect:CGRectMake(rect.origin.x,
+                                   rect.origin.y + (rect.size.height - sizeText.height)/2,
+                                   rect.size.width,
+                                   sizeText.height)
+         withAttributes:@{ NSFontAttributeName: font,
+                           NSParagraphStyleAttributeName: textStyle,
+                           NSForegroundColorAttributeName: color} ];
+    } else {    // less than 7.0
+        CGContextSetFillColorWithColor(context, color.CGColor);
+        [str drawInRect:CGRectMake(rect.origin.x,
+                                   rect.origin.y + (rect.size.height - sizeText.height)/2,
+                                   rect.size.width,
+                                   sizeText.height)
+               withFont:font
+          lineBreakMode:NSLineBreakByClipping
+              alignment:align];
+    }
 }
 
 
