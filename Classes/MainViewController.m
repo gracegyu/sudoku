@@ -1049,7 +1049,7 @@
 			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
 				gServerIP = [[NSString alloc] initWithString:value];
 			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
-#ifdef DEBUG
+#if defined(DEBUG) && defined(APPLY_DEBUGID)
                 gUserID = cDebugUserID;
 #else
 				gUserID = [value integerValue];
