@@ -374,10 +374,12 @@
         strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
         strMsgFinish = [strMsgFinish stringByAppendingString:gettext(@"You broke your best time.", nil)];
     }
-    strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
-    strMsgFinish = [strMsgFinish stringByAppendingFormat:
-              gettext(@"If you share this puzzle or result on Facebook, you can get %d more hints in next game.", nil),
-              NUM_HINTBONUS];
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
+        strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
+        strMsgFinish = [strMsgFinish stringByAppendingFormat:
+                  gettext(@"If you share this puzzle or result on Facebook, you can get %d more hints in next game.", nil),
+                  NUM_HINTBONUS];
+    }
     
     DLog(@"strMsgFinish = %@", strMsgFinish);
     
@@ -911,7 +913,12 @@
      } else {
          segmentType.tintColor = [UIColor colorWithRed:0.055f green:0.27f blue:0.55f alpha:1.0f];
      }
-     
+
+     /*
+     if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+     {
+         buttonSharePuzzle.enabled = NO;
+     }*/
      
      if ([SKPaymentQueue canMakePayments]) {	// 스토어가 사용 가능하다면
          NSLog(@"Start Shop!");
@@ -1589,6 +1596,12 @@
 
 - (void) callPuzzleShare:(BOOL) bImg
 {
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    {
+        return;
+    }
+
+    
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/%@/app/id%@", gettext(@"us", nil), APPSHARE_ID];
     NSString *strDesc;
     NSString *strMsg;
@@ -3348,6 +3361,11 @@
 {
     BOOL bLock = (!mainView.sudokuGame || (mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT && mainView.sudokuGame.bUserInputStart == NO));
     
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    {
+        bLock = YES;
+    }
+    
     [self setButtonMode:buttonSharePuzzle mode:(bLock == NO)];
     
 }
@@ -3493,6 +3511,12 @@ static NSInteger LEVELSCORE[] = {
     buttonPuzzleShare.enabled = bEnable;
     buttonRecordShare.hidden = bHiddenButton;
     buttonRecordShare.enabled = bEnable;
+    
+    if (SYSTEM_VERSION_LESS_THAN(@"7.0"))
+    {
+        buttonPuzzleShare.enabled = NO;
+        buttonRecordShare.enabled = NO;
+    }
 }
 
 - (void) updateButtons
