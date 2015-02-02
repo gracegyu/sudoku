@@ -260,6 +260,7 @@
     [self setLocalizedMessage];
     [self initScoreArray];
     
+
     labelRankArray[GAMELEVEL_VERYHARD] = labelRankVeryHard;
     labelRankArray[GAMELEVEL_HARD] = labelRankHard;
     labelRankArray[GAMELEVEL_NORMAL] = labelRankNormal;
