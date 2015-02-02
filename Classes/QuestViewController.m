@@ -8,7 +8,9 @@
 
 #import "Locale.h"
 #import "QuestViewController.h"
-
+#import "CustomCell.h"
+#import "Quest.h"
+#define CELL_ID @"CELL_ID"
 
 @interface QuestViewController ()
 
@@ -25,15 +27,10 @@
 
 
 
-
 - (void) setLocalizedMessage
 {
     naviItem.title = gettext(@"Quest", nil);
-
-    
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
-    
-    
     lableTitle.text = gettext(@"Quest", nil);
 }
 
@@ -43,7 +40,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    tableData = [[NSMutableArray alloc] initWithObjects:@"One",@"Two",@"Three",@"Four",@"Five",@"Six",@"Seven",@"Eight",@"Nine",@"Ten",@"One",@"Two",@"Three",@"Four",@"Five",@"Six",@"Seven",@"Eight",@"Nine",@"Ten",nil];
+    tableData = [[NSMutableArray alloc]initWithCapacity:5];
+    [tableData addObject:[Quest quest:@"iPad" point:10 imageName:@"type_0_36b.png"]];
+    [tableData addObject:[Quest quest:@"iMac" point:20 imageName:@"type_1_36b.png"]];
+    [tableData addObject:[Quest quest:@"iPhone" point:30 imageName:@"type_2_36b.png"]];
+    [tableData addObject:[Quest quest:@"MacBook" point:40 imageName:@"type_3_36b.png"]];
+    [tableData addObject:[Quest quest:@"iPod Touch" point:50 imageName:@"type_0_36b.png"]];
     
     
     if (SUPPORT_ROTATION)
@@ -112,32 +114,31 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 
 {
-    
-    static NSString *simpleTableIdentifier = @"SimpleTableItem";
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
+    CustomCell *cell = (CustomCell *) [tableView dequeueReusableCellWithIdentifier:CELL_ID];
     
     if (cell == nil) {
         
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        //cell = [[QuestTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:simpleTableIdentifier];
+        NSArray *array = [[NSBundle mainBundle]loadNibNamed:@"CustomCell" owner:nil options:nil];
+        cell = [array objectAtIndex:0];
         
     }
     
-    cell.textLabel.text = [tableData objectAtIndex:indexPath.row];
+
     
-    cell.imageView.image = [UIImage imageNamed:@"geekPic.jpg"];
-    
+    [cell setQuest:[tableData objectAtIndex:indexPath.row]];
     return cell;
     
 }
+
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 {
     
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat:@"Selected Value is %@",[tableData objectAtIndex:indexPath.row]] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-    
-    [alertView show];
+    //UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Alert" message:[NSString stringWithFormat:@"Selected Value is %@",[tableData objectAtIndex:indexPath.row]] delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+    //
+    //[alertView show];
     
 }
 
