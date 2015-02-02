@@ -2,6 +2,9 @@
 
 @interface Quest : NSObject
 
+
+// id (new), name, (...), point (30), done (bool) 
+
 @property (nonatomic, retain) UIImage *questImage;
 @property (retain) NSString *questName;
 @property NSInteger questPoint;

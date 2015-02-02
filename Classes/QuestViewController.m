@@ -41,7 +41,7 @@
     // Do any additional setup after loading the view from its nib.
     
     tableData = [[NSMutableArray alloc]initWithCapacity:5];
-    [tableData addObject:[Quest quest:@"iPad" point:10 imageName:@"type_0_36b.png"]];
+    [tableData addObject:[Quest quest:@"iPad" point:10 imageName:@"type_0_36b"]];
     [tableData addObject:[Quest quest:@"iMac" point:20 imageName:@"type_1_36b.png"]];
     [tableData addObject:[Quest quest:@"iPhone" point:30 imageName:@"type_2_36b.png"]];
     [tableData addObject:[Quest quest:@"MacBook" point:40 imageName:@"type_3_36b.png"]];
