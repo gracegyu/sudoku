@@ -69,6 +69,7 @@
                 <outlet property="labelTitleHint" destination="134" id="137"/>
                 <outlet property="labelTitleLevel" destination="84" id="113"/>
                 <outlet property="labelUserLevel" destination="QRA-X7-q5l" id="aTR-h6-L5R"/>
+                <outlet property="labelUserName" destination="chz-N5-xDe" id="RrA-v1-BS9"/>
                 <outlet property="landscapeView" destination="146" id="185"/>
                 <outlet property="portraitView" destination="34" id="186"/>
                 <outlet property="segmentType" destination="K7c-rt-a2k" id="ZaP-nr-vBc"/>
@@ -135,6 +136,14 @@
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" id="QRA-X7-q5l">
                     <rect key="frame" x="60" y="5" width="476" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label="Game level"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="22"/>
+                    <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="chz-N5-xDe">
+                    <rect key="frame" x="353" y="5" width="410" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="22"/>

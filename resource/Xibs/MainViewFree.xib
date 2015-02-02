@@ -69,6 +69,7 @@
                 <outlet property="labelTitleHint" destination="134" id="137"/>
                 <outlet property="labelTitleLevel" destination="84" id="113"/>
                 <outlet property="labelUserLevel" destination="6jB-TU-eLS" id="Kq0-e2-OKC"/>
+                <outlet property="labelUserName" destination="fMK-GH-OOF" id="fO1-Rf-jHC"/>
                 <outlet property="portraitView" destination="34" id="186"/>
                 <outlet property="segmentType" destination="417" id="419"/>
                 <outlet property="view" destination="34" id="142"/>
@@ -138,6 +139,14 @@
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="fMK-GH-OOF">
+                    <rect key="frame" x="140" y="1" width="175" height="15"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label="Game level"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
+                    <color key="textColor" red="0.23137254900000001" green="0.2784313725" blue="0.41960784309999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="level" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="84">

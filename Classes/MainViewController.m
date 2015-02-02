@@ -99,6 +99,7 @@
 @synthesize viewDailyGame;
 @synthesize imageUserLevel;
 @synthesize labelUserLevel;
+@synthesize labelUserName;
 @synthesize labelLevel;
 @synthesize labelGameTime;
 @synthesize labelBlank;
@@ -666,6 +667,7 @@
         [self setGameLevel];
     
     [self setUserLevel];
+    [self setUserName];
 
 }
 
@@ -702,6 +704,7 @@
     gUserName = [[NSString stringWithString:newname] retain];
     DLog(@"setUserName:%@ => %@", newname, gUserName);
     
+    [self setUserName];
 }
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -2051,6 +2054,20 @@
     labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@)", strLevel, strScore];
 }
 
+- (NSString *) getUserName
+{
+    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] != YES) {
+        return gUserName;
+    } else {
+        return @"";
+    }
+}
+
+- (void) setUserName
+{
+    labelNickname.text = [self getUserName];
+    labelUserName.text = [self getUserName];
+}
 
 
 - (void)OnTimerShowMenu:(NSTimer *)timer
@@ -2840,10 +2857,7 @@
     [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
     [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
     [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] != YES)
-        labelNickname.text = gUserName;
-    else
-        labelNickname.text = @"";
+    [self setUserName];
 
     if (bReadyDownloadDailyPuzzle)
     {
@@ -3210,10 +3224,8 @@
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     UITextField *textField = [alert textFieldAtIndex:0];
     DLog(@"gUserName:%@", gUserName);
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] != YES)
-        textField.text = gUserName;
-    else
-        textField.text = @"";
+    textField.text = [self getUserName];
+
     
     [alert show];
     [alert release];

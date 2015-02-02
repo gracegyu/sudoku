@@ -64,6 +64,7 @@ typedef struct DAILYSTAT
 	CGRect		frameMainViewOrg;
 
     UILabel		*labelUserLevel;
+    UILabel		*labelUserName;
     
     
     UIImageView *imageUserLevel;
@@ -274,6 +275,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIView		*viewDailyGame;
 @property (nonatomic, retain) IBOutlet UIImageView  *imageUserLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelUserLevel;
+@property (nonatomic, retain) IBOutlet UILabel		*labelUserName;
 @property (nonatomic, retain) IBOutlet UILabel		*labelLevel;
 @property (nonatomic, retain) IBOutlet UILabel		*labelGameTime;
 @property (nonatomic, retain) IBOutlet UILabel		*labelBlank;
