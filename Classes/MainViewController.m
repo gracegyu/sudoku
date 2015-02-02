@@ -11,6 +11,7 @@
 #import "SettingViewController.h"
 #import "HelpViewController.h"
 #import "RankViewController.h"
+#import "QuestViewController.h"
 #import "MainViewController.h"
 #import "MainView.h"
 #import "Locale.h"
@@ -73,6 +74,7 @@
 @synthesize buttonBookmark;
 @synthesize buttonMemo;
 @synthesize buttonScore;
+@synthesize buttonQuest;
 @synthesize buttonDel;
 @synthesize buttonReset;
 @synthesize buttonSharePuzzle;
@@ -575,6 +577,7 @@
     
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
+    [buttonQuest		setTitle:gettext(@"Quest", nil) forState:UIControlStateNormal];
     [buttonScore		setTitle:gettext(@"Score", nil) forState:UIControlStateNormal];
     [buttonSetting		setTitle:gettext(@"Setting", nil) forState:UIControlStateNormal];
     [buttonReset		setTitle:gettext(@"reset", nil) forState:UIControlStateNormal];
@@ -1245,6 +1248,29 @@
 
 }
 
+
+- (IBAction)showQuestView
+{
+    [Flurry logEvent:@"ShowQuestView"];
+    
+    [self hideMenuView:NO];
+    
+    QuestViewController *controller = [[QuestViewController alloc] initWithNibName:
+                                       cDeviceType == DEVICETYPE_IPAD ? @"QuestView4iPad" :
+                                       (isIphone5or6 ? @"QuestView4iPhone5" : @"QuestView")
+                                                                            bundle:nil];
+    
+    
+    
+    controller.mainViewController = self;
+    controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:controller animated:YES completion:nil];
+    
+    [controller release];
+    
+    
+}
+
 - (void) updateButtonUndo
 {
 	BOOL bLock = mainView.bMenuMode || (mainView.sudokuGame && mainView.sudokuGame.isGameFinished);
@@ -1848,11 +1874,14 @@
 
 	[self hideMenuView:NO];
 	
-    DLog(@"showSettingView");
+    DLog(@"showHelpView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
                                       (isIphone5or6 ? @"HelpView4iPhone5" : @"HelpView")
                                       bundle:nil];
+
+
+    
     controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
 	[self presentViewController:controller animated:YES completion:nil];

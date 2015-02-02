@@ -123,7 +123,8 @@ typedef struct DAILYSTAT
 	UIButton	*buttonDel;
 	UIButton	*buttonReset;
 	UIButton	*buttonSharePuzzle;
-	UIButton	*buttonScore;
+    UIButton	*buttonQuest;
+    UIButton	*buttonScore;
 	UIButton	*buttonHint;
     UIButton    *buttonSetting;
 	
@@ -248,6 +249,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton	*buttonBookmark;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonMemo;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonScore;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonQuest;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDel;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonReset;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonSharePuzzle;
@@ -323,6 +325,7 @@ typedef struct DAILYSTAT
 
 - (IBAction)doHint;
 - (IBAction)showScoreView;
+- (IBAction)showQuestView;
 - (IBAction)showSettingView;
 - (IBAction)showHelpView;
 - (IBAction)showRankView;
