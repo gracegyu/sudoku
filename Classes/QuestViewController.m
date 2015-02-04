@@ -29,7 +29,7 @@
 
 - (void) setLocalizedMessage
 {
-    naviItem.title = gettext(@"Quest", nil);
+    naviItem.title = [NSString stringWithFormat:@"%@ %d%%", gettext(@"Quest", nil), (int)[Quest gerQuestPercentage]];
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
     lableTitle.text = gettext(@"Quest", nil);
 }
@@ -40,13 +40,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    tableData = [[NSMutableArray alloc]initWithCapacity:5];
-    [tableData addObject:[Quest quest:@"iPad" point:10 imageName:@"type_0_36b"]];
-    [tableData addObject:[Quest quest:@"iMac" point:20 imageName:@"type_1_36b.png"]];
-    [tableData addObject:[Quest quest:@"iPhone" point:30 imageName:@"type_2_36b.png"]];
-    [tableData addObject:[Quest quest:@"MacBook" point:40 imageName:@"type_3_36b.png"]];
-    [tableData addObject:[Quest quest:@"iPod Touch" point:50 imageName:@"type_0_36b.png"]];
+    tableData = [[NSMutableArray alloc]initWithCapacity:eQuestMax];
+    // 추가한다.
     
+    for (int i=0; i<eQuestMax; i++) {
+        [tableData addObject:[Quest quest:gettext(listQuest[i].desc, nil)
+                                    point:listQuest[i].point
+                                imageName:[NSString stringWithFormat:@"quest_%@", @"hint"] //listQuest[i].key]
+                                     done:listQuest[i].done]];
+        
+    }
     
     if (SUPPORT_ROTATION)
         [self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
@@ -64,6 +67,7 @@
 - (void)viewDidUnload {
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    [tableData release];
 }
 
 
@@ -123,8 +127,6 @@
         cell = [array objectAtIndex:0];
         
     }
-    
-
     
     [cell setQuest:[tableData objectAtIndex:indexPath.row]];
     return cell;

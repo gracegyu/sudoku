@@ -172,6 +172,7 @@
         
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
+    [mainViewController DoneQuest:eQuestCheckHelp];
 }
 
 - (IBAction)setSudokuType

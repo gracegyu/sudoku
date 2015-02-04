@@ -406,6 +406,8 @@
     [self setLocalizedMessage];
     [mainViewController setLocalizedMessage];
     [self setImageLocale];
+    
+    [mainViewController DoneQuest:eQuestChangeLang];
 }
 
 
@@ -464,6 +466,7 @@
     if (buttonIndex == 1) // "확인" 버튼
     {        
         [Appirater rateApp];
+        [mainViewController DoneQuest:eQuestAppReview];
     }
 }
 

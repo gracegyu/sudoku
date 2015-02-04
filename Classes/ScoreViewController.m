@@ -334,9 +334,8 @@
         //[mainViewController willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
         //[mainViewController didRotateFromInterfaceOrientation:[UIDevice currentDevice].orientation];
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
-        
-        
     }
+    [mainViewController DoneQuest:eQuestCheckScore];
 }
 
 - (IBAction)showGameCenterLeaderboard

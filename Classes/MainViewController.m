@@ -333,6 +333,26 @@
 {
 	// button diable
     
+    if (sudokuGame.bDailyPuzzle) {  // check quest
+        switch (sudokuGame.sudokuType) {
+            case SUDOKUTYPE_SUDOKU  : [self DoneQuest:eQuestClearDaily0]; break;
+            case SUDOKUTYPE_GT      : [self DoneQuest:eQuestClearDaily1]; break;
+            case SUDOKUTYPE_KILLER  : [self DoneQuest:eQuestClearDaily2]; break;
+            case SUDOKUTYPE_CALCU   : [self DoneQuest:eQuestClearDaily3]; break;
+            default: break;
+        }
+    } else  {
+        switch (sudokuGame.gameLevel) {
+            case GAMELEVEL_VERYHARD : [self DoneQuest:eQuestClearLevel0]; break;
+            case GAMELEVEL_HARD     : [self DoneQuest:eQuestClearLevel1]; break;
+            case GAMELEVEL_NORMAL   : [self DoneQuest:eQuestClearLevel2]; break;
+            case GAMELEVEL_EASY     : [self DoneQuest:eQuestClearLevel3]; break;
+            case GAMELEVEL_VERYEASY : [self DoneQuest:eQuestClearLevel4]; break;
+            default: break;
+        }
+    }
+    
+    
 #ifdef ADMOB_FREEVERSION
     [self loadInterstitial];
 #endif
@@ -739,6 +759,7 @@
        [mainView initBiggerSmallerColorData];
        [self initScore];
        [self loadScoreData];
+       [Quest loadQuestData];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -1248,7 +1269,6 @@
 	[controller displayScore];
 //    [controller setTotalScoreRank];
 	[controller release];
-
 }
 
 
@@ -1379,8 +1399,10 @@
     
 	[mainView playSoundClick];
 	[mainView runUndo];
+    [self DoneQuest:eQuestUndo];
 
-	[self updateButtons];	
+
+	[self updateButtons];
 	bUndoRepeat = TRUE;
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOREPEATE
 													   target:self
@@ -1399,6 +1421,8 @@
 
 	[mainView playSoundClick];
 	[mainView runRedo];
+    [self DoneQuest:eQuestRedo];
+
 
 	[self updateButtons];
 	bUndoRepeat = FALSE;
@@ -1419,7 +1443,6 @@
 
     
 	[mainView runBookmark];
-	
 
 	[self updateButtons];
 
@@ -1508,6 +1531,7 @@
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     [self startGameTimer];
     
+    [self DoneQuest:eQuestResetGame];
 }
 
 
@@ -1630,6 +1654,11 @@
         return;
     }
 
+    if (bImg)
+        [self DoneQuest:eQuestPuzzleShare];
+    else
+        [self DoneQuest:eQuestRecordShare];
+    
     
     NSString *strURL = [NSString stringWithFormat:@"https://itunes.apple.com/%@/app/id%@", gettext(@"us", nil), APPSHARE_ID];
     NSString *strDesc;
@@ -1811,6 +1840,7 @@
     {
         [Flurry logEvent:@"RunHint"];
         [mainView doHint];
+        [self DoneQuest:eQuestHint];
         
         [self saveSetting];
     } else if (productHint50) { // buy hint
@@ -1890,8 +1920,6 @@
 	[self presentViewController:controller animated:YES completion:nil];
 	
 	[controller release];
-	
-    
 }
 
 - (void) gotoRankingWebView:(BOOL)bMyRanking
@@ -1934,6 +1962,7 @@
     [self presentViewController:controller animated:YES completion:nil];
 #endif
     [self startGameTimer];
+    [self DoneQuest:eQuestSendfeedback];
 }
 
 
@@ -2341,6 +2370,7 @@
 		score.scoreGames[mainView.sudokuGame.sudokuType][level] += 1;     // 게임 수 1 증가
 		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
         
+        [self saveScoreData];
         [self setUserLevel];
 	}
 }
@@ -2366,6 +2396,9 @@
 	[self saveScoreData];
 	[self updateGameTime:0];
 	[self updateButtons];
+    
+    if (mainView.sudokuGame.bAutoMemo)
+        [self DoneQuest:eQuestAutomemo];
 }
 
 
@@ -2529,6 +2562,22 @@
                        (CFStringRef)@":/?@!$&'()*+,;=",
                        kCFStringEncodingUTF8));
     return [result stringByReplacingOccurrencesOfString:@" " withString:@"+"];
+}
+
+
+- (void) DoneQuest:(eQuest)quest
+{
+    NSInteger point = [Quest DoneQuest:quest];
+    if (point > 0) {
+        score.scoreTotal += point;
+
+        [self saveScoreData];
+        
+
+    } else {
+        // do nothing
+        // aleady done
+    }
 }
 
 - (NSString*) downloadDailyPuzzle
@@ -3843,6 +3892,7 @@ static NSInteger LEVELSCORE[] = {
             [self setUserName:newName];
             //gUserName = newName;
             [self saveServerData];
+            [self DoneQuest:eQuestChangeName];
         }
         
     } else if([message isEqualToString:gettext(@"Name is too short!", nil)]) {

@@ -28,6 +28,9 @@
     self.questImage.image = [quest questImage];
     self.questName.text = [quest questName];
     self.questPoint.text = [NSString stringWithFormat:gettext(@"%d points", nil), [quest questPoint]];
+    
+    if (quest.questDone == NO)
+        self.questImage.alpha = 0.1f;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

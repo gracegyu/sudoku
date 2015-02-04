@@ -32,6 +32,7 @@
 
 #import "MainView.h"
 #import "Constants.h"
+#import "Quest.h"
 
 
 typedef struct DAILYSTAT
@@ -395,6 +396,8 @@ typedef struct DAILYSTAT
 - (NSInteger) getCheckSum;	// forVersion2
 - (NSString*) getNowYYYYMMDD;
 - (NSString *)percentEscapeString:(NSString *)string;
+- (void) DoneQuest:(eQuest)quest;
+
 
 @end
 

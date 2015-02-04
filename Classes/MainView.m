@@ -1901,6 +1901,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     //DLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
     if (bEnd && [touch tapCount] == 2 && xPos < sudokuGame.size && yPos < sudokuGame.size) {
         [ctrl memoOnOff];
+        [ctrl DoneQuest:eQuestDoubleTab];
         return;             // double tab 후에는 아무런 세팅을 하지 않는다.
     }
         
@@ -2088,12 +2089,16 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (void) runBookmark
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+
 	DLog(@"[sudokuGame.sudokuUndo countGoBookmark] = %ld", (long)[sudokuGame.sudokuUndo countGoBookmark]);
 
 	
     if ([sudokuGame.sudokuUndo countBookmarked] == 0)	// 아직 북마크가 추가된 것이 하나도 없다면 무조건 북마크를 추가한다.
     {
         [sudokuGame.sudokuUndo addBookmark];
+        [ctrl DoneQuest:eQuestBookmarking];
+
         [self playSoundClick];
     } else {
         
@@ -2300,6 +2305,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 #pragma mark - Alert
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+
     switch (alertMode)
     {
         case ALELRT_INIT :
@@ -2343,16 +2350,18 @@ static NSUInteger SmallerColorTemplate[9] = {
 				// delete last bookmark;
                 [sudokuGame.sudokuUndo delLastBookmark];
                 [self playSoundClick];
+                [ctrl DoneQuest:eQuestGoBack];
+
             } else if (buttonIndex == 1) {
                 [sudokuGame.sudokuUndo addBookmark];
                 [self playSoundClick];
+                [ctrl DoneQuest:eQuestBookmarking];
             } else if (buttonIndex == 2) {
                 [sudokuGame.sudokuUndo delAllBookmarks];
                 [self playSound:soundClearID];	
             } else if (buttonIndex == 3) {              // cancel
                 
             }
-            MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
             [ctrl updateButtonUndo];
             [ctrl updateButtonBookmark];
 			[sudokuGame saveData];
@@ -2391,6 +2400,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 	[sudokuGame saveData];
 
     [self setNeedsDisplay];
+    
+    [ctrl DoneQuest:eQuestLongTouch];
 
 }
 

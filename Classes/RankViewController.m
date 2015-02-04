@@ -156,6 +156,11 @@
         
         [mainViewController dismissViewControllerAnimated:YES completion:nil];
     }
+    
+    if (bMyRankCheck)
+        [mainViewController DoneQuest:eQuestCheckRanking];
+    else
+        [mainViewController DoneQuest:eQuestVisitRanking];
 }
 
 
