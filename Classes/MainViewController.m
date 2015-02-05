@@ -3918,7 +3918,7 @@ static NSInteger LEVELSCORE[] = {
 #ifdef ADMOB_FREEVERSION
 
 #pragma mark GADBannerViewDelegate implementation
-
+#define ADCLICKBONUS            -7
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
@@ -3970,7 +3970,8 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
-    
+    // Click Ads
+    [self isInterstitialShowTurn:ADCLICKBONUS];
 }
 
 
@@ -4008,7 +4009,52 @@ static NSInteger LEVELSCORE[] = {
     return request;
 }
 
-- (void) loadInterstitial {
+#define INTERSTITIALSHOWTIME    3
+#define kINTERSTITIALSHOWTIME   @"kINTERSTITIALSHOWTIME"
+
+- (NSInteger) loadInterstitialShowTurn
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    return [defaults integerForKey:kINTERSTITIALSHOWTIME];
+}
+
+- (void) saveInterstitialShowTurn:(NSInteger) turn
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setInteger:turn forKey:kINTERSTITIALSHOWTIME];
+    
+    [defaults synchronize];
+}
+
+- (BOOL) isInterstitialShowTurn:(NSInteger)delta    // default = 1
+{
+    static NSInteger iTurn = 0;
+    static BOOL isFirst = YES;
+    BOOL bRet = NO;
+    if (isFirst) {
+        iTurn = [self loadInterstitialShowTurn];
+        isFirst = NO;
+    }
+    iTurn += delta;
+    if (iTurn >= INTERSTITIALSHOWTIME) {
+        iTurn = 0;
+        bRet = YES;
+    }
+    [self saveInterstitialShowTurn:iTurn];
+    
+    return bRet;
+}
+
+- (BOOL) loadInterstitial {
+    // Check, is this turn is ad turn
+    
+    if ([self isInterstitialShowTurn:1] == NO)
+        return NO;  // don't show ads
+    
+    
+    
     // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
     // lifetime. The property will release the old one and set the new one.
     self.interstitial = [[GADInterstitial alloc] init];
@@ -4017,12 +4063,49 @@ static NSInteger LEVELSCORE[] = {
     // Note: Edit SampleConstants.h to update kSampleAdUnitId with your interstitial ad unit id.
     self.interstitial.adUnitID = MY_INTERSTITIAL_UNIT_ID;
     [self.interstitial loadRequest:[self request]];
+    
+    return YES;
 }
 
 - (void) showInterstitial {
 
     // Show the interstitial.
     [self.interstitial presentFromRootViewController:self];
+}
+
+/// Called just before presenting an interstitial. After this method finishes the interstitial will
+/// animate onto the screen. Use this opportunity to stop animations and save the state of your
+/// application in case the user leaves while the interstitial is on screen (e.g. to visit the App
+/// Store from a link on the interstitial).
+- (void)interstitialWillPresentScreen:(GADInterstitial *)ad
+{
+    DLog(@"interstitialWillPresentScreen");
+}
+
+/// Called before the interstitial is to be animated off the screen.
+- (void)interstitialWillDismissScreen:(GADInterstitial *)ad
+{
+    DLog(@"interstitialWillDismissScreen");
+    
+}
+
+/// Called just after dismissing an interstitial and it has animated off the screen.
+- (void)interstitialDidDismissScreen:(GADInterstitial *)ad
+{
+    DLog(@"interstitialDidDismissScreen");
+    
+}
+
+/// Called just before the application will background or terminate because the user clicked on an
+/// ad that will launch another application (such as the App Store). The normal
+/// UIApplicationDelegate methods, like applicationDidEnterBackground:, will be called immediately
+/// before this.
+- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad
+{
+    // Click Ads
+    DLog(@"interstitialWillLeaveApplication");
+    
+    [self isInterstitialShowTurn:ADCLICKBONUS];
 }
 
 #endif
