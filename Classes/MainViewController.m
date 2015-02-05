@@ -405,14 +405,20 @@
     }
     
     DLog(@"strMsgFinish = %@", strMsgFinish);
-    
+
+/*
 #ifdef ADMOB_FREEVERSION
     // do nothing
-    [strMsgFinish retain];
+    if (bLoadAds)
+        [strMsgFinish retain];
+    else
+        [self alertFinish];
 #else
     [self alertFinish];
 #endif
-	
+*/
+    
+    [self alertFinish];
     
     
     score.scoreClearTimeSum[sudokuGame.sudokuType][level] += sudokuGame.gameTime;
@@ -3877,7 +3883,8 @@ static NSInteger LEVELSCORE[] = {
     
     if([title isEqualToString:gettext(@"Congratulations!", nil)]) {
 #ifdef ADMOB_FREEVERSION
-        [self showInterstitial];
+        if (self.interstitial != nil)
+            [self showInterstitial];
 #endif
     } else if([message isEqualToString:gettext(@"Please input your nickname", nil)]) {
         
@@ -3918,7 +3925,7 @@ static NSInteger LEVELSCORE[] = {
 #ifdef ADMOB_FREEVERSION
 
 #pragma mark GADBannerViewDelegate implementation
-#define ADCLICKBONUS            -7
+#define ADCLICKBONUS            -3
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
@@ -3981,14 +3988,14 @@ static NSInteger LEVELSCORE[] = {
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
     [Flurry logEvent:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
-    [self alertFinish];
+//    [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
     [Flurry logEvent:@"Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
-    [self alertFinish];
+//    [self alertFinish];
  
 }
 
@@ -4044,15 +4051,26 @@ static NSInteger LEVELSCORE[] = {
     }
     [self saveInterstitialShowTurn:iTurn];
     
+    DLog(@"iTurn=%d", (int)iTurn);
+    
     return bRet;
 }
 
 - (BOOL) loadInterstitial {
     // Check, is this turn is ad turn
     
-    if ([self isInterstitialShowTurn:1] == NO)
-        return NO;  // don't show ads
+    if (self.interstitial) {
+        [self.interstitial release];
+        self.interstitial = nil;
+    }
     
+    if ([self isInterstitialShowTurn:1] == NO) {
+        DLog(@"Don't show Interstitial Ads.");
+        return NO;  // don't show ads
+    }
+    DLog(@"Show Interstitial Ads.");
+    
+    // Show ads only every 3 times
     
     
     // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its

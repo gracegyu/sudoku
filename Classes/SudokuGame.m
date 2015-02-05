@@ -202,7 +202,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         { 0, 1, 2, 3, 4 },   // 4
         { 0, 2, 4, 10, 15 }, // 5
 #ifdef DEBUG
-        { 0, 3, 5, 8, 25 },  // 6 ok
+        { 0, 3, 5, 8, 30 },  // 6 ok
 #else
         { 0, 3, 5, 8, 12 },  // 6 ok
 #endif
