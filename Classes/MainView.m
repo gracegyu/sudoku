@@ -2314,12 +2314,13 @@ static NSUInteger SmallerColorTemplate[9] = {
             {
                 [sudokuGame clearAllNums];
                 
-                MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
                 [ctrl updateButtons];
                 [ctrl updateHintCount];
                 
                 [self playSound:soundClearID];
 				[sudokuGame saveData];
+                
+                [ctrl DoneQuest:eQuestResetGame];
             }
             
             break;

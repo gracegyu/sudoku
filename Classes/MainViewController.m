@@ -1537,7 +1537,6 @@
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     [self startGameTimer];
     
-    [self DoneQuest:eQuestResetGame];
 }
 
 
@@ -3986,6 +3985,9 @@ static NSInteger LEVELSCORE[] = {
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    
+    [self isInterstitialShowTurn:0];
+    
     [Flurry logEvent:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
 //    [self alertFinish];
@@ -4016,7 +4018,7 @@ static NSInteger LEVELSCORE[] = {
     return request;
 }
 
-#define INTERSTITIALSHOWTIME    3
+#define INTERSTITIALSHOWTIME    2 //3
 #define kINTERSTITIALSHOWTIME   @"kINTERSTITIALSHOWTIME"
 
 - (NSInteger) loadInterstitialShowTurn
@@ -4044,10 +4046,15 @@ static NSInteger LEVELSCORE[] = {
         iTurn = [self loadInterstitialShowTurn];
         isFirst = NO;
     }
-    iTurn += delta;
-    if (iTurn >= INTERSTITIALSHOWTIME) {
+    if (delta == 0) { // set to zero
         iTurn = 0;
-        bRet = YES;
+    } else {
+        iTurn += delta;
+        
+        NSInteger times = INTERSTITIALSHOWTIME + (((unsigned int)arc4random()) % 2);
+        if (iTurn >= times) {
+            bRet = YES;
+        }
     }
     [self saveInterstitialShowTurn:iTurn];
     
