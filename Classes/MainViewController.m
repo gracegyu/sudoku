@@ -3924,7 +3924,7 @@ static NSInteger LEVELSCORE[] = {
 #ifdef ADMOB_FREEVERSION
 
 #pragma mark GADBannerViewDelegate implementation
-#define ADCLICKBONUS            -3
+#define ADCLICKBONUS            -5
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
@@ -4051,7 +4051,7 @@ static NSInteger LEVELSCORE[] = {
     } else {
         iTurn += delta;
         
-        NSInteger times = INTERSTITIALSHOWTIME + (((unsigned int)arc4random()) % 2);
+        NSInteger times = INTERSTITIALSHOWTIME + (((unsigned int)arc4random()) % 3);
         if (iTurn >= times) {
             bRet = YES;
         }
