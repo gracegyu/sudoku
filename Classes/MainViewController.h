@@ -183,6 +183,11 @@ typedef struct DAILYSTAT
     NSString *gUserName;
 	NSString *gDeviceID;
 	NSInteger gVersion;
+    
+    NSInteger gInterval;
+    NSInteger gRandom;
+    NSInteger gBonus;
+    
 
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
     BOOL    bReadyDownloadDailyPuzzle;
@@ -295,6 +300,12 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *gUserName;
 @property (nonatomic, retain) NSString *gDeviceID;
 @property NSInteger gVersion;
+@property NSInteger gInterval;
+@property NSInteger gRandom;
+@property NSInteger gBonus;
+
+
+
 #ifdef LOCATIONTRACK
 @property (nonatomic, retain) CLLocationManager *locationManager;
 #endif

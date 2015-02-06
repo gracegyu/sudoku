@@ -119,6 +119,11 @@
 @synthesize gUserName;
 @synthesize gDeviceID;
 @synthesize gVersion;
+
+@synthesize gInterval;
+@synthesize gRandom;
+@synthesize gBonus;
+
 @synthesize nowDate;
 @synthesize strMsgFinish;
 
@@ -754,6 +759,10 @@
 	   areaAdBanner.hidden = YES;
        gUserID = cDefaultUserID;
        gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
+       
+       gInterval = INTERSTITIALINTERVAL;
+       gRandom = INTERSTITIALRANDOM;
+       gBonus = ADCLICKBONUS;
 	   
        [self decideLocale];
        
@@ -1089,6 +1098,12 @@
 #endif
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
+            else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
+                gInterval = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
+                gRandom = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
+                gBonus = [value integerValue];
 		}
 	}
 	
@@ -1103,6 +1118,10 @@
 #define kUserDefault				@"gUserDefault"
 #define kUserID						@"gUserID"
 #define kUserName					@"gUserName"
+#define kInterval                   @"gInterval"
+#define kRandom                     @"gRandom"
+#define kBonus                      @"gBonus"
+
 
 - (void) loadServerData
 {
@@ -1136,13 +1155,18 @@
         name = [NSString stringWithFormat:@"%d", (int)gUserID];
     
     [self setUserName:name];
+
+    if ([defaults integerForKey:kInterval] > 0) {
+        gInterval = [defaults integerForKey:kInterval];
+        gRandom = [defaults integerForKey:kRandom];
+        gBonus = [defaults integerForKey:kBonus];
+        DLog(@"ITV:RND:BNS=%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus);
+    } else {
+        DLog(@"Not saved");
+    }
+
     
 }
-
-
-
-
-
 
 
 - (void) saveServerData
@@ -1156,6 +1180,13 @@
 	[defaults setInteger:gUserID	forKey:kUserID];
     [defaults setObject:gServerIP   forKey:kServerIP];
 
+    [defaults setInteger:gInterval	forKey:kInterval];
+    [defaults setInteger:gRandom	forKey:kRandom];
+    [defaults setInteger:gBonus     forKey:kBonus];
+    DLog(@"ITV:RND:BNS=%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus);
+
+    
+    [defaults synchronize];
 }
 
 
@@ -3924,7 +3955,7 @@ static NSInteger LEVELSCORE[] = {
 #ifdef ADMOB_FREEVERSION
 
 #pragma mark GADBannerViewDelegate implementation
-#define ADCLICKBONUS            -5
+
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
@@ -3977,7 +4008,7 @@ static NSInteger LEVELSCORE[] = {
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
     // Click Ads
-    [self isInterstitialShowTurn:ADCLICKBONUS];
+    [self isInterstitialShowTurn:gBonus];
 }
 
 
@@ -4018,7 +4049,7 @@ static NSInteger LEVELSCORE[] = {
     return request;
 }
 
-#define INTERSTITIALSHOWTIME    2 //3
+
 #define kINTERSTITIALSHOWTIME   @"kINTERSTITIALSHOWTIME"
 
 - (NSInteger) loadInterstitialShowTurn
@@ -4051,7 +4082,7 @@ static NSInteger LEVELSCORE[] = {
     } else {
         iTurn += delta;
         
-        NSInteger times = INTERSTITIALSHOWTIME + (((unsigned int)arc4random()) % 3);
+        NSInteger times = gInterval + (((unsigned int)arc4random()) % (gRandom+1));
         if (iTurn >= times) {
             bRet = YES;
         }
@@ -4130,7 +4161,7 @@ static NSInteger LEVELSCORE[] = {
     // Click Ads
     DLog(@"interstitialWillLeaveApplication");
     
-    [self isInterstitialShowTurn:ADCLICKBONUS];
+    [self isInterstitialShowTurn:-1 * ADCLICKBONUS];
 }
 
 #endif
