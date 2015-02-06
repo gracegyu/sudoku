@@ -234,7 +234,7 @@ typedef struct SUDOKUSCORE
 #define cDefaultUserID          0
 
 
-//#define APPLY_DEBUGID
+#define APPLY_DEBUGID
 #ifdef SUDOKU9
 #define cDebugUserID            162650
 #else

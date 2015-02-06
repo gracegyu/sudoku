@@ -46,7 +46,7 @@
     for (int i=0; i<eQuestMax; i++) {
         [tableData addObject:[Quest quest:gettext(listQuest[i].desc, nil)
                                     point:listQuest[i].point
-                                imageName:[NSString stringWithFormat:@"quest_%@", @"hint"] //listQuest[i].key]
+                                imageName:[NSString stringWithFormat:@"quest_%@", listQuest[i].key]
                                      done:listQuest[i].done]];
         
     }
