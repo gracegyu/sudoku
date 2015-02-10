@@ -27,7 +27,7 @@ typedef enum {
     eQuestGoBack,
     eQuestAutomemo,
     eQuestChangeLang,    
-    eQuestDoubleTab,     
+    eQuestDoubleTap,
     eQuestLongTouch,
     eQuestAppReview,
     eQuestChangeName,

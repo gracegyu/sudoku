@@ -33,7 +33,7 @@ sQuest listQuest[] = {
     {   eQuestGoBack,           @"goback",          NO, 10, @"Go back to bookmark"},
     {   eQuestAutomemo,         @"automemo",        NO, 5,  @"Play an auto memo game"},
     {   eQuestChangeLang,       @"changelang",      NO, 3,  @"Change your language setting"},
-    {   eQuestDoubleTab,        @"doubletab",       NO, 5,  @"Memo mode using double tab"},
+    {   eQuestDoubleTap,        @"doubletap",       NO, 5,  @"Memo mode using double tap"},
     {   eQuestLongTouch,        @"longtouch",       NO, 20, @"Press and hold a number button in memo mode"},
     {   eQuestAppReview,        @"appreview",       NO, 99, @"Review this app from setting page"},
     {   eQuestChangeName,       @"changename",      NO, 10, @"Change your nickname"},

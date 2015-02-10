@@ -1901,8 +1901,8 @@ static NSUInteger SmallerColorTemplate[9] = {
     //DLog(@"touchesDo(%f,%f,end=%d,tapcount=%d)", fX, fY, bEnd, [touch tapCount]);
     if (bEnd && [touch tapCount] == 2 && xPos < sudokuGame.size && yPos < sudokuGame.size) {
         [ctrl memoOnOff];
-        [ctrl DoneQuest:eQuestDoubleTab];
-        return;             // double tab 후에는 아무런 세팅을 하지 않는다.
+        [ctrl DoneQuest:eQuestDoubleTap];
+        return;             // double tap 후에는 아무런 세팅을 하지 않는다.
     }
         
 		
