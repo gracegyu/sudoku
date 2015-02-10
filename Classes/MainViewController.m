@@ -4008,7 +4008,7 @@ static NSInteger LEVELSCORE[] = {
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
     // Click Ads
-    [self isInterstitialShowTurn:gBonus];
+    [self isInterstitialShowTurn:0 set:(-1) * gBonus];
 }
 
 
@@ -4017,7 +4017,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
     
-    [self isInterstitialShowTurn:0];
+    [self isInterstitialShowTurn:0 set:0];
     
     [Flurry logEvent:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
@@ -4068,7 +4068,7 @@ static NSInteger LEVELSCORE[] = {
     [defaults synchronize];
 }
 
-- (BOOL) isInterstitialShowTurn:(NSInteger)delta    // default = 1
+- (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
     static NSInteger iTurn = 0;
     static BOOL isFirst = YES;
@@ -4078,7 +4078,7 @@ static NSInteger LEVELSCORE[] = {
         isFirst = NO;
     }
     if (delta == 0) { // set to zero
-        iTurn = 0;
+        iTurn = set;
     } else {
         iTurn += delta;
         
@@ -4102,7 +4102,7 @@ static NSInteger LEVELSCORE[] = {
         self.interstitial = nil;
     }
     
-    if ([self isInterstitialShowTurn:1] == NO) {
+    if ([self isInterstitialShowTurn:1 set:0] == NO) {
         DLog(@"Don't show Interstitial Ads.");
         return NO;  // don't show ads
     }
@@ -4161,7 +4161,8 @@ static NSInteger LEVELSCORE[] = {
     // Click Ads
     DLog(@"interstitialWillLeaveApplication");
     
-    [self isInterstitialShowTurn:-1 * ADCLICKBONUS];
+    [self isInterstitialShowTurn:0 set:(-1) * gBonus];
+
 }
 
 #endif
