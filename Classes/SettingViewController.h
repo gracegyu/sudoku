@@ -24,12 +24,14 @@
     UILabel	*labelMarkingEqual;
     UILabel	*labelSkinColor;
     UILabel	*labelLocale;
+    UILabel *labelNoAd;
     UILabel	*labelDescSoundEffect;
     UILabel	*labelDescGuideline;
     UILabel	*labelDescDuplicationWarning;
     UILabel	*labelDescMarkingEqual;
     UILabel	*labelDescSkinColor;
     UILabel	*labelDescLocale;
+    UILabel *labelDescNoAd;
     
     UIButton *buttonDone;
     
@@ -39,6 +41,7 @@
     UIButton *buttonMarkingEqual;
     UIButton *buttonSkinColor;
     UIButton *buttonLocale;
+    UIButton *buttonNoAd;
 
 	
     UIButton *buttonFacebook;
@@ -82,6 +85,7 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelSkinColor;
 @property (nonatomic, retain) IBOutlet UILabel	*labelLocale;
+@property (nonatomic, retain) IBOutlet UILabel	*labelNoAd;
 
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescSoundEffect;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescGuideline;
@@ -89,7 +93,8 @@
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescMarkingEqual;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescSkinColor;
 @property (nonatomic, retain) IBOutlet UILabel	*labelDescLocale;
-@property (nonatomic, retain) IBOutlet UILabel *labelLicense;
+@property (nonatomic, retain) IBOutlet UILabel	*labelDescNoAd;
+@property (nonatomic, retain) IBOutlet UILabel  *labelLicense;
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSoundEffect;
@@ -98,6 +103,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonMarkingEqual;
 @property (nonatomic, retain) IBOutlet UIButton *buttonSkinColor;
 @property (nonatomic, retain) IBOutlet UIButton *buttonLocale;
+@property (nonatomic, retain) IBOutlet UIButton *buttonNoAd;
 
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
@@ -127,7 +133,7 @@
 - (IBAction)setChanageSkin;
 - (IBAction)dragChanageSkin:(id)sender;
 - (IBAction)setLocaleChange;
-
+- (IBAction)setNoAd;
 
 - (IBAction)goFacebook;
 - (IBAction)goBugReport;

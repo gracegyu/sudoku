@@ -31,12 +31,14 @@
 @synthesize labelMarkingEqual;
 @synthesize labelSkinColor;
 @synthesize labelLocale;
+@synthesize labelNoAd;
 @synthesize labelDescSoundEffect;
 @synthesize labelDescGuideline;
 @synthesize labelDescDuplicationWarning;
 @synthesize labelDescMarkingEqual;
 @synthesize labelDescSkinColor;
 @synthesize labelDescLocale;
+@synthesize labelDescNoAd;
 @synthesize labelLicense;
 
 @synthesize buttonDone;
@@ -46,6 +48,7 @@
 @synthesize buttonMarkingEqual;
 @synthesize buttonSkinColor;
 @synthesize buttonLocale;
+@synthesize buttonNoAd;
 
 @synthesize buttonFacebook;
 @synthesize buttonBugReport;
@@ -212,6 +215,27 @@
     
 }
 
+- (void) hideNoAd
+{
+    buttonNoAd.hidden = YES;
+    labelNoAd.hidden = YES;
+    labelDescNoAd.hidden = YES;
+}
+
+- (void) setNoAdButton
+{
+#ifdef ADMOB_FREEVERSION
+    //if bought NoAd
+    //  [self hideNoAd];
+
+    
+#else
+    [self hideNoAd];
+#endif
+    
+}
+
+
 - (void) viewDidLoad
 {
     DLog(@"viewDidLoad");
@@ -240,6 +264,7 @@
     [self setInitSkinColor];
     [self setImageSkinColor];
 	[self setImageLocale];
+    [self setNoAdButton];
     
     [super viewDidLoad];
     // above ios5 && Paid
@@ -410,6 +435,17 @@
     [mainViewController DoneQuest:eQuestChangeLang];
 }
 
+
+- (IBAction)setNoAd
+{
+#ifdef ADMOB_FREEVERSION
+
+    DLog(@"Buy NoAd");
+#else
+    // do nothing
+#endif
+    
+}
 
 
 - (IBAction)goFacebook
