@@ -944,6 +944,8 @@
      
 #ifdef ADMOB_FREEVERSION
      // Create a view of the standard size at the bottom of the screen.
+     DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
+     
      [self initGADBanner];
 #endif
      bAd = NO;

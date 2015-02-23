@@ -1176,10 +1176,6 @@
 		CF6BCE68161DC37D00879F6E /* GameCenterUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = CF6BCE66161DC37D00879F6E /* GameCenterUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		CF6BCE6A161DC5B600879F6E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6BCE69161DC5B600879F6E /* GameKit.framework */; };
 		CF6BCE6B161DC5C500879F6E /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6BCE69161DC5B600879F6E /* GameKit.framework */; };
-		CF6D31B9196E737C0012D2DA /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D31B5196E737C0012D2DA /* libGoogleAdMobAds.a */; };
-		CF6D31BA196E737C0012D2DA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF6D31B6196E737C0012D2DA /* README.txt */; };
-		CF6D31BC196E737C0012D2DA /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = CF6D31B6196E737C0012D2DA /* README.txt */; };
-		CF6D31BD196E75870012D2DA /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D31B5196E737C0012D2DA /* libGoogleAdMobAds.a */; };
 		CF6D31BF196E77620012D2DA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D31BE196E77620012D2DA /* CoreTelephony.framework */; };
 		CF6D31C0196E777C0012D2DA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF6D31BE196E77620012D2DA /* CoreTelephony.framework */; };
 		CF6E3D89161FC48C000DD7D7 /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212A161C8084001FB734 /* clear.wav */; };
@@ -1882,6 +1878,8 @@
 		CFCB337A1A7502D200AA65C6 /* level_10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCB33401A7502D200AA65C6 /* level_10.png */; };
 		CFCB337B1A7502D200AA65C6 /* level_10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCB33401A7502D200AA65C6 /* level_10.png */; };
 		CFCB337C1A7502D200AA65C6 /* level_10.png in Resources */ = {isa = PBXBuildFile; fileRef = CFCB33401A7502D200AA65C6 /* level_10.png */; };
+		CFD3A4421A9B222C00B4263B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD3A4411A9B222C00B4263B /* GoogleMobileAds.framework */; };
+		CFD3A4431A9B222C00B4263B /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFD3A4411A9B222C00B4263B /* GoogleMobileAds.framework */; };
 		CFD9D8731A31A48600436030 /* clear.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212A161C8084001FB734 /* clear.wav */; };
 		CFD9D8741A31A48600436030 /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = CF71212B161C8084001FB734 /* click.wav */; };
 		CFD9D8751A31A48600436030 /* Sudoku9PaidIcon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF8AC96C19CECB6700444382 /* Sudoku9PaidIcon-50.png */; };
@@ -2702,20 +2700,6 @@
 		CF6BCE65161DC37D00879F6E /* GameCenterUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameCenterUtil.h; path = GameCenter/GameCenterUtil.h; sourceTree = "<group>"; };
 		CF6BCE66161DC37D00879F6E /* GameCenterUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameCenterUtil.m; path = GameCenter/GameCenterUtil.m; sourceTree = "<group>"; };
 		CF6BCE69161DC5B600879F6E /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
-		CF6D31A9196E737C0012D2DA /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
-		CF6D31AA196E737C0012D2DA /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
-		CF6D31AB196E737C0012D2DA /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
-		CF6D31AC196E737C0012D2DA /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
-		CF6D31AD196E737C0012D2DA /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
-		CF6D31AE196E737C0012D2DA /* GADInAppPurchase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchase.h; sourceTree = "<group>"; };
-		CF6D31AF196E737C0012D2DA /* GADInAppPurchaseDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInAppPurchaseDelegate.h; sourceTree = "<group>"; };
-		CF6D31B0196E737C0012D2DA /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
-		CF6D31B1196E737C0012D2DA /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
-		CF6D31B2196E737C0012D2DA /* GADModules.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADModules.h; sourceTree = "<group>"; };
-		CF6D31B3196E737C0012D2DA /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
-		CF6D31B4196E737C0012D2DA /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
-		CF6D31B5196E737C0012D2DA /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
-		CF6D31B6196E737C0012D2DA /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		CF6D31BE196E77620012D2DA /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		CF6E3E6B161FC48C000DD7D7 /* SUDOKU6Free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SUDOKU6Free.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF6E3FB6161FE310000DD7D7 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -3005,6 +2989,7 @@
 		CFCB333E1A7502D200AA65C6 /* level_08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = level_08.png; path = resource/Images/level/level_08.png; sourceTree = "<group>"; };
 		CFCB333F1A7502D200AA65C6 /* level_09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = level_09.png; path = resource/Images/level/level_09.png; sourceTree = "<group>"; };
 		CFCB33401A7502D200AA65C6 /* level_10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = level_10.png; path = resource/Images/level/level_10.png; sourceTree = "<group>"; };
+		CFD3A4411A9B222C00B4263B /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMobileAds.framework; sourceTree = "<group>"; };
 		CFD9D9E11A31A48600436030 /* sudoku9paid copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sudoku9paid copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFD9D9E21A31A48600436030 /* sudoku9paid copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sudoku9paid copy-Info.plist"; path = "/Users/gracegyu/Documents/Git/Sudoku/sudoku9paid copy-Info.plist"; sourceTree = "<absolute>"; };
 		CFD9DB541A31A49200436030 /* sudoku6paid copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sudoku6paid copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -3076,13 +3061,13 @@
 				CF3F3352161E7A1D00D52A43 /* libz.dylib in Frameworks */,
 				CF3F3350161E7A1400D52A43 /* libsqlite3.dylib in Frameworks */,
 				CF712112161C7F66001FB734 /* CFNetwork.framework in Frameworks */,
+				CFD3A4431A9B222C00B4263B /* GoogleMobileAds.framework in Frameworks */,
 				CF3F334E161E79E700D52A43 /* MobileCoreServices.framework in Frameworks */,
 				CF3F334D161E79DC00D52A43 /* CoreLocation.framework in Frameworks */,
 				CF6BCE6B161DC5C500879F6E /* GameKit.framework in Frameworks */,
 				CF68482214F73DDF007ECC9D /* SystemConfiguration.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
-				CF6D31B9196E737C0012D2DA /* libGoogleAdMobAds.a in Frameworks */,
 				288765590DF743DE002DB57D /* CoreGraphics.framework in Frameworks */,
 				CF8059A01155213300AE3DB5 /* AudioToolbox.framework in Frameworks */,
 				CF4C6DEB116A1B59007DFB9C /* MessageUI.framework in Frameworks */,
@@ -3139,12 +3124,12 @@
 				CFF044FA196E8FC300CB0EBD /* Accounts.framework in Frameworks */,
 				CF6D31BF196E77620012D2DA /* CoreTelephony.framework in Frameworks */,
 				CF86D32A16423E6E00687A8E /* StoreKit.framework in Frameworks */,
-				CF6D31BD196E75870012D2DA /* libGoogleAdMobAds.a in Frameworks */,
 				CF1304B6166CC5C800CDE097 /* Twitter.framework in Frameworks */,
 				CF6E3FB9161FE32A000DD7D7 /* AdSupport.framework in Frameworks */,
 				CF6E3E55161FC48C000DD7D7 /* AVFoundation.framework in Frameworks */,
 				CF6E3E56161FC48C000DD7D7 /* libz.dylib in Frameworks */,
 				CF6E3E57161FC48C000DD7D7 /* libsqlite3.dylib in Frameworks */,
+				CFD3A4421A9B222C00B4263B /* GoogleMobileAds.framework in Frameworks */,
 				CF6E3E58161FC48C000DD7D7 /* CFNetwork.framework in Frameworks */,
 				CF6E3E59161FC48C000DD7D7 /* MobileCoreServices.framework in Frameworks */,
 				CF6E3E5A161FC48C000DD7D7 /* CoreLocation.framework in Frameworks */,
@@ -3318,7 +3303,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				CF6D3195196E737C0012D2DA /* GoogleAdMobAdsSDK */,
+				CFD3A4401A9B222C00B4263B /* Google-Mobile-Ads-SDK */,
 				CF09AF22169BF7BB00C51175 /* Identifier */,
 				CF87C7B2168A7B0800097ACD /* Flurry */,
 				CF4A9F9D162C01040039A3C2 /* QQWing */,
@@ -3596,27 +3581,6 @@
 				CF6BCE66161DC37D00879F6E /* GameCenterUtil.m */,
 			);
 			name = GameCenter;
-			sourceTree = "<group>";
-		};
-		CF6D3195196E737C0012D2DA /* GoogleAdMobAdsSDK */ = {
-			isa = PBXGroup;
-			children = (
-				CF6D31A9196E737C0012D2DA /* GADAdMobExtras.h */,
-				CF6D31AA196E737C0012D2DA /* GADAdNetworkExtras.h */,
-				CF6D31AB196E737C0012D2DA /* GADAdSize.h */,
-				CF6D31AC196E737C0012D2DA /* GADBannerView.h */,
-				CF6D31AD196E737C0012D2DA /* GADBannerViewDelegate.h */,
-				CF6D31AE196E737C0012D2DA /* GADInAppPurchase.h */,
-				CF6D31AF196E737C0012D2DA /* GADInAppPurchaseDelegate.h */,
-				CF6D31B0196E737C0012D2DA /* GADInterstitial.h */,
-				CF6D31B1196E737C0012D2DA /* GADInterstitialDelegate.h */,
-				CF6D31B2196E737C0012D2DA /* GADModules.h */,
-				CF6D31B3196E737C0012D2DA /* GADRequest.h */,
-				CF6D31B4196E737C0012D2DA /* GADRequestError.h */,
-				CF6D31B5196E737C0012D2DA /* libGoogleAdMobAds.a */,
-				CF6D31B6196E737C0012D2DA /* README.txt */,
-			);
-			path = GoogleAdMobAdsSDK;
 			sourceTree = "<group>";
 		};
 		CF6E3E6E161FC92E000DD7D7 /* Sudoku6Free */ = {
@@ -4283,6 +4247,14 @@
 			name = level;
 			sourceTree = "<group>";
 		};
+		CFD3A4401A9B222C00B4263B /* Google-Mobile-Ads-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				CFD3A4411A9B222C00B4263B /* GoogleMobileAds.framework */,
+			);
+			path = "Google-Mobile-Ads-SDK";
+			sourceTree = "<group>";
+		};
 		CFE02C0D163237F300CE0904 /* Help view */ = {
 			isa = PBXGroup;
 			children = (
@@ -4570,7 +4542,6 @@
 				CF33CBEB1A94D8E6002799A8 /* type_0_100.png in Resources */,
 				CF33CD7B1A94D974002799A8 /* button_big_twitter.png in Resources */,
 				CF33286D1A84DDC50030FE1A /* quest_clearlevel1.png in Resources */,
-				CF6D31BC196E737C0012D2DA /* README.txt in Resources */,
 				CF6BCE5D161DC25B00879F6E /* gk-icon.png in Resources */,
 				CF6BCE5F161DC25B00879F6E /* gk-icon@2x.png in Resources */,
 				CF6BCE61161DC25B00879F6E /* gk-notification.png in Resources */,
@@ -5169,7 +5140,6 @@
 				CF33CBDD1A94D8E6002799A8 /* type_0_36.png in Resources */,
 				CF33CBE91A94D8E6002799A8 /* type_0_100.png in Resources */,
 				CF33CD791A94D974002799A8 /* button_big_twitter.png in Resources */,
-				CF6D31BA196E737C0012D2DA /* README.txt in Resources */,
 				CF33286B1A84DDC50030FE1A /* quest_clearlevel1.png in Resources */,
 				CF8AC91219CECB1F00444382 /* Sudoku6FreeIcon-50.png in Resources */,
 				CF6E3DD9161FC48C000DD7D7 /* gk-icon.png in Resources */,
@@ -6942,6 +6912,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon9free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
@@ -6949,6 +6920,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -6961,8 +6933,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
+					"$(SRCROOT)/Flurry",
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -7017,6 +6989,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon9free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Raymond Jeon (BB2BC37UD9)";
@@ -7024,6 +6997,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -7039,8 +7013,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
+					"$(SRCROOT)/Flurry",
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -7079,6 +7053,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon9free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Raymond Jeon (376QCT8NVY)";
@@ -7086,6 +7061,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -7098,8 +7074,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
+					"$(SRCROOT)/Flurry",
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -7247,6 +7223,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon6free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -7254,6 +7231,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -7269,8 +7247,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
+					"$(SRCROOT)/Flurry",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -7292,6 +7270,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon6free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -7299,6 +7278,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -7311,8 +7291,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
+					"$(SRCROOT)/Flurry",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -7334,6 +7314,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon6free;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -7341,6 +7322,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/JMCClasses/Libraries\"",
+					"$(PROJECT_DIR)/Google-Mobile-Ads-SDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = sudoku_Prefix.pch;
@@ -7353,8 +7335,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/Users/gracegyu/Documents/Git/Sudoku/GoogleAdMobAdsSDK,
-					/Users/gracegyu/Documents/Git/Sudoku/Flurry,
+					"$(SRCROOT)/GoogleAdMobAdsSDK",
+					"$(SRCROOT)/Flurry",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

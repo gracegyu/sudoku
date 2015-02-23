@@ -24,10 +24,7 @@
 
 
 #ifdef ADMOB_FREEVERSION
-#import "GADBannerView.h"
-#import "GADBannerViewDelegate.h"
-#import "GADInterstitial.h"
-#import "GADInterstitialDelegate.h"
+@import GoogleMobileAds;
 #endif
 
 #import "AppDelegate.h"
