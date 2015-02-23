@@ -116,7 +116,7 @@
     
 #ifdef ADMOB_FREEVERSION
     bNoAd = NO;
-    //[self loadSetting];
+    [self loadSetting];
     bNoAdRestarted = bNoAd;
 #endif
     
