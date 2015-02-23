@@ -10,7 +10,20 @@
 //@protocol SettingViewControllerDelegate;
 #import "MainViewController.h"
 
-@interface SettingViewController : TPMultiLayoutViewController {
+#ifdef ADMOB_FREEVERSION
+#import <StoreKit/StoreKit.h>
+#import <StoreKit/SKProductsRequest.h>
+#import <StoreKit/SKProduct.h>
+#import <StoreKit/SKPaymentQueue.h>
+#import <StoreKit/SKPaymentTransaction.h>
+#endif
+
+@interface SettingViewController :
+TPMultiLayoutViewController
+#ifdef ADMOB_FREEVERSION
+<SKProductsRequestDelegate,SKPaymentTransactionObserver>
+#endif
+{
     MainViewController *mainViewController;
 	
 //    UINavigationBar     *naviBar;
@@ -69,6 +82,12 @@
     NSInteger skin;
     
     UILabel     *labelLicense;
+    
+#ifdef ADMOB_FREEVERSION
+    SKProduct *productNoAd;
+    SKProductsRequest *productRequestNoAd;
+    SKPayment *paymentNoAd;
+#endif
 
 }
 
@@ -124,6 +143,13 @@
 @property (nonatomic, retain) IBOutlet UIButton *buttonColor9;
 @property (nonatomic, retain) IBOutlet UIButton *buttonColor10;
 @property (nonatomic, retain) IBOutlet UIButton *buttonColor11;
+
+
+#ifdef ADMOB_FREEVERSION
+@property (nonatomic, retain) SKProduct *productNoAd;
+@property (nonatomic, retain) SKProductsRequest *productRequestNoAd;
+@property (nonatomic, retain) SKPayment *paymentNoAd;
+#endif
 
 
 - (IBAction)setSoundEffect;

@@ -210,12 +210,7 @@ typedef struct SUDOKUSCORE
 #define NUM_RANK_BESTTIME	5
 #define MAX_SKIN_COUNT 12
 
-
-#ifdef ADMOB_FREEVERSION
-#define SUPPORT_ROTATION    ((cDeviceType == DEVICETYPE_IPHONE)?NO:YES)
-#else
-#define SUPPORT_ROTATION    YES
-#endif
+#define SUPPORT_ROTATION    [[AppDelegate sharedAppDelegate] supportRotate]
 
 #define STR_LICENSE     @"Ⓒ 2015 SmartOne, All rights reserved."
 #ifdef SUDOKU9
@@ -241,7 +236,7 @@ typedef struct SUDOKUSCORE
 #define cDebugUserID            158902
 #endif
 
-#ifdef DEBUG
+#ifdef DEBUG______________
 #define cServerHostName         @"10.211.55.10:88"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
@@ -261,12 +256,14 @@ typedef struct SUDOKUSCORE
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION
 #define kHint50Item             @"com.raymond.sudoku9free.hint50"
+#define kNoAdItem               @"com.raymond.sudoku9free.noad"
 #else
 #define kHint50Item             @"com.raymond.sudoku9.hint50"
 #endif
 #else
 #ifdef ADMOB_FREEVERSION
 #define kHint50Item             @"com.raymond.sudoku6free.hint50"
+#define kNoAdItem               @"com.raymond.sudoku6free.noad"
 #else
 #define kHint50Item             @"com.raymond.sudoku6.hint50"
 #endif

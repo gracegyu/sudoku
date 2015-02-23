@@ -37,7 +37,7 @@ sQuest listQuest[] = {
     {   eQuestLongTouch,        @"longtouch",       NO, 20, @"Press and hold a number button in memo mode"},
     {   eQuestAppReview,        @"appreview",       NO, 99, @"Review this app from setting page"},
     {   eQuestChangeName,       @"changename",      NO, 10, @"Change your nickname"},
-    {   eQuestCheckRanking,     @"checkranking",    NO, 50, @"Check your ranking after clearing puzzle"},
+    {   eQuestCheckRanking,     @"checkranking",    NO, 50, @"Check your ranking after clearing daily puzzle"},
 
     
     

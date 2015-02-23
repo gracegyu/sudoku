@@ -68,7 +68,11 @@
 @synthesize buttonColor10;
 @synthesize buttonColor11;
 
-
+#ifdef ADMOB_FREEVERSION
+@synthesize productNoAd;
+@synthesize productRequestNoAd;
+@synthesize paymentNoAd;
+#endif
 
 
 
@@ -94,6 +98,7 @@
     labelMarkingEqual.text = gettext(@"marking equal", nil);
     labelSkinColor.text = gettext(@"skin color", nil);
     labelLocale.text = gettext(@"language", nil);
+    labelNoAd.text = gettext(@"no advertisement", nil);
     
     str = gettext(@"desc sound effect", nil);
 	labelDescSoundEffect.text = [str stringByAppendingString:@"\n\n\n"];
@@ -107,6 +112,8 @@
     labelDescSkinColor.text = [str stringByAppendingString:@"\n\n\n"];
 	str = gettext(@"desc language", nil);
     labelDescLocale.text = [str stringByAppendingString:@"\n\n\n"];
+    str = gettext(@"desc noad", nil);
+    labelDescNoAd.text = [str stringByAppendingString:@"\n\n\n"];
 	
 	
     
@@ -225,10 +232,8 @@
 - (void) setNoAdButton
 {
 #ifdef ADMOB_FREEVERSION
-    //if bought NoAd
-    //  [self hideNoAd];
-
-    
+    if (mainViewController.bNoAd)
+        [self hideNoAd];
 #else
     [self hideNoAd];
 #endif
@@ -266,6 +271,27 @@
 	[self setImageLocale];
     [self setNoAdButton];
     
+    
+    
+#ifdef ADMOB_FREEVERSION
+    if ([SKPaymentQueue canMakePayments]) {	// 스토어가 사용 가능하다면
+        NSLog(@"Start Shop!");
+        
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];	// Observer를 등록한다.
+    } else {
+        NSLog(@"Failed Shop!");
+    }
+
+    productNoAd = nil;
+    productRequestNoAd = [[SKProductsRequest alloc]
+                          initWithProductIdentifiers:
+                          [NSSet setWithObject:kNoAdItem]];
+    productRequestNoAd.delegate = self;
+    [productRequestNoAd start];
+#endif
+    
+    
+    
     [super viewDidLoad];
     // above ios5 && Paid
     if (SUPPORT_ROTATION) {
@@ -301,6 +327,17 @@
 
 - (IBAction)done
 {
+    
+#ifdef ADMOB_FREEVERSION
+    if ([SKPaymentQueue canMakePayments]) {	// 스토어가 사용 가능하다면
+        NSLog(@"Start Shop!");
+        [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];	// Observer를 해제한다.
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:mainViewController];	// Observer를 등록한다.
+    } else {
+        NSLog(@"Failed Shop!");
+    }
+#endif
+    
     
     [mainViewController.mainView setSkinColorNum:skin];
     [mainViewController saveSetting];
@@ -441,6 +478,13 @@
 #ifdef ADMOB_FREEVERSION
 
     DLog(@"Buy NoAd");
+    
+    
+    if (productNoAd) { // buy hint
+        paymentNoAd = [SKPayment paymentWithProduct:productNoAd];
+        [[SKPaymentQueue defaultQueue] addPayment:paymentNoAd];
+    }
+    
 #else
     // do nothing
 #endif
@@ -496,7 +540,115 @@
 
 }
 
-#pragma mark -
+#ifdef ADMOB_FREEVERSION
+
+#pragma mark - SKPaymentTransactionObserver Protocol
+
+- (void)successBuyNoAd
+{
+    [[AppDelegate sharedAppDelegate] saveNoAdSetting];
+    mainViewController.bNoAd = YES;
+    [mainViewController removeAd];
+    [self setNoAdButton];
+    
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:gettext(@"All of advertisements will be removed", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+}
+
+- (void)failedBuyNoAd:(NSString*)message;
+{
+    NSString *msg = [NSString stringWithFormat:@"%@\n%@", gettext(@"Failed to buy No Advertisement item", nil), message];
+    
+    // 실패 메시지
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:msg
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+}
+
+
+- (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
+{
+    for (SKPaymentTransaction *transaction in transactions)
+    {
+        NSLog(@"transaction.transactionState=%d", (int)transaction.transactionState);
+        
+        switch (transaction.transactionState)
+        {
+            case SKPaymentTransactionStatePurchased:
+                [self completeTransaction:transaction];
+                // 구매 처리
+                [self successBuyNoAd];
+                break;
+            case SKPaymentTransactionStateFailed:
+                NSLog(@"Error:%d:%@", (int)[transaction.error code], transaction.error.localizedDescription);
+                [self failedTransaction:transaction];
+                // 실패 처리
+                [self failedBuyNoAd:transaction.error.localizedDescription];
+                break;
+            case SKPaymentTransactionStateRestored:
+                [self restoreTransaction:transaction];
+            default:
+                break;
+        }
+    }
+}
+
+- (void) restoreTransaction: (SKPaymentTransaction *)transaction
+{
+    NSLog(@"SKPaymentTransactionStateRestored");
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+- (void) failedTransaction: (SKPaymentTransaction *)transaction
+{
+    NSLog(@"SKPaymentTransactionStateFailed");
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+- (void) completeTransaction: (SKPaymentTransaction *)transaction
+{
+    NSLog(@"SKPaymentTransactionStatePurchased");
+    
+    NSLog(@"Trasaction Identifier : %@", transaction.transactionIdentifier);
+    NSLog(@"Trasaction Date : %@", transaction.transactionDate);
+    
+    [[SKPaymentQueue defaultQueue] finishTransaction: transaction];
+}
+
+- (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
+    NSLog(@"SKProductRequest got response");
+    if( [response.products count] > 0 ) {
+        SKProduct *product = [response.products objectAtIndex:0];
+        NSLog(@"Title : %@", product.localizedTitle);
+        NSLog(@"Description : %@", product.localizedDescription);
+        NSLog(@"Price : %@", product.price);
+        
+        productNoAd = product;
+        [productNoAd retain];
+    }
+    
+    if( [response.invalidProductIdentifiers count] > 0 ) {
+        NSString *invalidString = [response.invalidProductIdentifiers objectAtIndex:0];
+        NSLog(@"Invalid Identifiers : %@", invalidString);
+    }
+}
+
+#endif //ADMOB_FREEVERSION
+
+
+
+#pragma mark - Alert
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) // "확인" 버튼
@@ -540,6 +692,7 @@
     [mainViewController didRotateFromInterfaceOrientation:fromInterfaceOrientation];
     [mainViewController stopGameTimer];
 }
+
 
 
 

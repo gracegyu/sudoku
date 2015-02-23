@@ -30,6 +30,7 @@
 #import "GADInterstitialDelegate.h"
 #endif
 
+#import "AppDelegate.h"
 #import "MainView.h"
 #import "Constants.h"
 #import "Quest.h"
@@ -55,6 +56,7 @@ typedef struct DAILYSTAT
     ,CLLocationManagerDelegate
 #endif
     ,SKProductsRequestDelegate
+    ,SKPaymentTransactionObserver
 #ifdef ADMOB_FREEVERSION
     ,GADBannerViewDelegate
     ,GADInterstitialDelegate
@@ -163,6 +165,8 @@ typedef struct DAILYSTAT
 
 #ifdef ADMOB_FREEVERSION
     GADBannerView *bannerView_;
+    BOOL        bNoAd;              // 광고 제거 아이템 구매
+    BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
 
 #endif
 	CGFloat		intervalX;
@@ -198,7 +202,11 @@ typedef struct DAILYSTAT
     CLLocationDegrees currentLongtitude;
 #endif
     SKProduct *productHint50;
+    SKProductsRequest *productRequestHint50;
+    SKPayment *paymentHint50;
     BOOL    bBuyingHint50;
+    
+    
     NSString* strMsgFinish;
 }
 
@@ -305,12 +313,18 @@ typedef struct DAILYSTAT
 @property NSInteger gBonus;
 
 
-
 #ifdef LOCATIONTRACK
 @property (nonatomic, retain) CLLocationManager *locationManager;
 #endif
 @property (nonatomic, retain) NSString *nowDate;
 @property (nonatomic, retain) NSString *strMsgFinish;
+
+
+#ifdef ADMOB_FREEVERSION
+@property BOOL        bNoAd;              // 광고 제거 아이템 구매
+@property BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
+#endif
+
 
 
 
@@ -410,6 +424,9 @@ typedef struct DAILYSTAT
 - (NSString *)percentEscapeString:(NSString *)string;
 - (void) DoneQuest:(eQuest)quest;
 
+#ifdef ADMOB_FREEVERSION
+- (void)removeAd;
+#endif
 
 @end
 

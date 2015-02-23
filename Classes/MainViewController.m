@@ -127,7 +127,10 @@
 @synthesize nowDate;
 @synthesize strMsgFinish;
 
-
+#ifdef ADMOB_FREEVERSION
+@synthesize bNoAd;              // 광고 제거 아이템 구매
+@synthesize bNoAdRestarted;     // 광고 제거된 xib으로 load됨
+#endif
 
 - (void) initScore
 {
@@ -359,7 +362,8 @@
     
     
 #ifdef ADMOB_FREEVERSION
-    [self loadInterstitial];
+    if (bNoAd == NO)
+        [self loadInterstitial];
 #endif
 	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
@@ -864,8 +868,19 @@
 }
 
 #ifdef ADMOB_FREEVERSION	
+- (void)removeAd
+{
+    bannerView_.hidden = YES;
+    [bannerView_ release];
+}
+
 - (void)initGADBanner
 {
+    if (bNoAd) {
+        DLog(@"No Ad");
+        return;
+    }
+    
     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
     
     bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
@@ -880,6 +895,11 @@
 
 - (void) requestGADagain
 {
+    if (bNoAd) {
+        DLog(@"No Ad");
+        return;
+    }
+
     [bannerView_ loadRequest:[GADRequest request]];
 }
 
@@ -972,12 +992,14 @@
 
      productHint50 = nil;
      bBuyingHint50 = NO;
-     SKProductsRequest *productRequest = [[SKProductsRequest alloc]
-                                          initWithProductIdentifiers:
-                                          [NSSet setWithObject:kHint50Item]];
-     productRequest.delegate = self;
      
-     [productRequest start];
+     productRequestHint50 = [[SKProductsRequest alloc]
+                             initWithProductIdentifiers:
+                             [NSSet setWithObject:kHint50Item]];
+     productRequestHint50.delegate = self;
+     [productRequestHint50 start];
+
+
      
 }
 
@@ -1207,6 +1229,8 @@
     //[self updateLayoutForNewOrientation: interfaceOrientation];
 }
 */
+
+
 - (void)viewWillAppear:(BOOL)animated
 {
     
@@ -1225,8 +1249,12 @@
     //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
-    bannerView_.frame = areaAdBanner.frame;
-    bannerView_.hidden = NO;
+    if (bNoAd) {
+        DLog(@"No Ad");
+    } else {
+        bannerView_.frame = areaAdBanner.frame;
+        bannerView_.hidden = NO;
+    }
 #endif
 }
 
@@ -1862,9 +1890,13 @@
 
 - (void)OnTimerSetFinishByuingHint50:(NSTimer *)timer
 {
-    bBuyingHint50 = NO;
+    bBuyingHint50 = YES;    // 구매중
     [self updateButtonHint];
 }
+
+#ifdef DEBUG
+#define BUYHINTTEST______________________________
+#endif
 
 - (IBAction) doHint
 {
@@ -1872,7 +1904,13 @@
 		return;
 
     
-    if (mainView.sudokuGame.countHint + mainView.paidHintCount > 0) // && 유료 힌트도 0
+    if (
+#ifdef BUYHINTTEST
+        NO
+#else
+        mainView.sudokuGame.countHint + mainView.paidHintCount > 0
+#endif
+        ) // && 유료 힌트도 0
     {
         [Flurry logEvent:@"RunHint"];
         [mainView doHint];
@@ -1880,8 +1918,8 @@
         
         [self saveSetting];
     } else if (productHint50) { // buy hint
-        SKPayment *payment = [SKPayment paymentWithProduct:productHint50];
-        [[SKPaymentQueue defaultQueue] addPayment:payment];
+        paymentHint50 = [SKPayment paymentWithProduct:productHint50];
+        [[SKPaymentQueue defaultQueue] addPayment:paymentHint50];
         bBuyingHint50 = YES;
         [self updateButtonHint];
         
@@ -1890,21 +1928,6 @@
                                        selector:@selector(OnTimerSetFinishByuingHint50:)
                                        userInfo:nil
                                         repeats:NO];
-/*
-        NSString *msg = [NSString stringWithFormat:@"%@\n%@:%@\n%@: %@",
-                         gettext(@"Do you want to buy this item?", nil),
-                         productHint50.localizedTitle,
-                         productHint50.localizedDescription,
-                         gettext(@"Price", nil),
-                         productHint50.price];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Buy hint", nil)
-                                                        message:msg
-                                                       delegate:self
-                                              cancelButtonTitle:gettext(@"No", nil)
-                                              otherButtonTitles:gettext(@"Yes", nil), nil];
-        [alert show];
-        [alert release];
- */
     }
 }
 
@@ -1915,6 +1938,17 @@
     [Flurry logEvent:@"ShowSettingView"];
 
 	[self hideMenuView:NO];
+    
+#ifdef ADMOB_FREEVERSION
+    if ([SKPaymentQueue canMakePayments]) {	// 스토어가 사용 가능하다면
+        NSLog(@"Start Shop!");
+        
+        [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];	// Observer를 등록을 해지한다.
+    } else {
+        NSLog(@"Failed Shop!");
+    }
+#endif
+    
 
     DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
@@ -2021,8 +2055,12 @@
 	DLog(@"viewDidUnload");	
     
 #ifdef ADMOB_FREEVERSION
-    [bannerView_ release];
-#endif    
+    if (bNoAd) {
+        DLog(@"No Ad");
+    } else {
+        [bannerView_ release];
+    }
+#endif
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
 }
@@ -2031,8 +2069,12 @@
 - (void)dealloc {
 	DLog(@"dealloc");
 #ifdef ADMOB_FREEVERSION
-    bannerView_.delegate = nil;
-    [bannerView_ release];
+    if (bNoAd) {
+        DLog(@"No Ad");
+    } else {
+        bannerView_.delegate = nil;
+        [bannerView_ release];
+    }
 #endif
     [super dealloc];
 }
@@ -3515,6 +3557,8 @@
  */
 }
 
+
+
 - (void) updateButtonHint	// TODO     Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
 {
 	BOOL bLock = mainView.bMenuMode ||
@@ -3528,7 +3572,11 @@
         return;
     }
     
-    if ([mainView.sudokuGame countHint] + mainView.paidHintCount == 0 && productHint50)
+    if (
+#ifndef BUYHINTTEST
+        [mainView.sudokuGame countHint] + mainView.paidHintCount == 0 &&
+#endif
+        productHint50)
     {
         buttonHint.alpha = 1.0f;
         buttonHint.enabled = bLock ? NO : YES;
@@ -3673,7 +3721,8 @@ static NSInteger LEVELSCORE[] = {
 	//DLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 #ifdef ADMOB_FREEVERSION
-    bannerView_.hidden = YES;
+    if (bNoAd == NO)
+        bannerView_.hidden = YES;
 #endif
 	[self readySlideView:viewMenu];
 	[self readySlideView:viewNewGame];
@@ -3689,8 +3738,10 @@ static NSInteger LEVELSCORE[] = {
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
 #ifdef ADMOB_FREEVERSION
-    bannerView_.frame = areaAdBanner.frame;
-    bannerView_.hidden = NO;
+    if (bNoAd == NO) {
+        bannerView_.frame = areaAdBanner.frame;
+        bannerView_.hidden = NO;
+    }
 #endif
 
     [mainView setNeedsDisplay];
@@ -3701,50 +3752,19 @@ static NSInteger LEVELSCORE[] = {
 // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotate
 {
-	
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType != DEVICETYPE_IPAD)
-        return NO;
-#endif
-    return YES;
-    
+    return SUPPORT_ROTATION;
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-#ifdef ADMOB_FREEVERSION
-    if (cDeviceType != DEVICETYPE_IPAD)
-        return UIInterfaceOrientationMaskPortrait;
-#endif
-    return UIInterfaceOrientationMaskAll;
+    return SUPPORT_ROTATION?UIInterfaceOrientationMaskAll:UIInterfaceOrientationMaskPortrait;
 }
 
 
-// Deprecated
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	//DLog(@"shouldAutorotateToInterfaceOrientation");
-
-	
-	if (interfaceOrientation == UIInterfaceOrientationPortrait ||
-		interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)	{
-
-	} else { 
-#ifdef ADMOB_FREEVERSION
-        if (cDeviceType == DEVICETYPE_IPAD)
-        {
-            return YES;
-        } else {
-            return NO;
-        }
-        
-#endif        
-	}
-
-	
-	return YES;
+    return SUPPORT_ROTATION?YES:(interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
 
 
 
@@ -3797,7 +3817,6 @@ static NSInteger LEVELSCORE[] = {
 
 #pragma mark - SKPaymentTransactionObserver Protocol
 
-
 - (void)successBuyHint50
 {
     bBuyingHint50 = NO;
@@ -3838,11 +3857,13 @@ static NSInteger LEVELSCORE[] = {
     
 }
 
+
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
     for (SKPaymentTransaction *transaction in transactions)
     {
         NSLog(@"transaction.transactionState=%d", (int)transaction.transactionState);
+        
         switch (transaction.transactionState)
         {
             case SKPaymentTransactionStatePurchased:
@@ -3913,7 +3934,7 @@ static NSInteger LEVELSCORE[] = {
     
     if([title isEqualToString:gettext(@"Congratulations!", nil)]) {
 #ifdef ADMOB_FREEVERSION
-        if (self.interstitial != nil)
+        if (self.interstitial != nil && bNoAd == NO)
             [self showInterstitial];
 #endif
     } else if([message isEqualToString:gettext(@"Please input your nickname", nil)]) {
@@ -4070,6 +4091,9 @@ static NSInteger LEVELSCORE[] = {
 
 - (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
+    if (bNoAd)
+        return NO;  // 영원히 광고를 출력하지 않는다.
+    
     static NSInteger iTurn = 0;
     static BOOL isFirst = YES;
     BOOL bRet = NO;

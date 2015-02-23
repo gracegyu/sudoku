@@ -23,6 +23,10 @@
 
 @synthesize window;
 @synthesize mainViewController;
+#ifdef ADMOB_FREEVERSION
+@synthesize bNoAd;              // 광고 제거 아이템 구매
+@synthesize bNoAdRestarted;     // 광고 제거된 xib으로 load됨
+#endif
 
 /*
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -47,6 +51,50 @@
     self.window.frame = [UIScreen mainScreen].applicationFrame;
 }
 */
+
+
+#define kNoAdPurchase           @"kNoAdPurchase"
+#ifdef ADMOB_FREEVERSION
+- (void) loadSetting
+{
+    DLog(@"loadSetting");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    bNoAd = [defaults boolForKey:kNoAdPurchase];
+}
+
+- (void) saveSetting
+{
+    DLog(@"saveSetting");
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:bNoAd forKey:kNoAdPurchase];
+    
+    [defaults synchronize];
+}
+
+- (void) saveNoAdSetting
+{
+    bNoAd = YES;
+    [self saveSetting];
+}
+#endif
+
+- (BOOL) supportRotate
+{
+#ifdef ADMOB_FREEVERSION
+    if (cDeviceType == DEVICETYPE_IPHONE) {
+        if (bNoAdRestarted)
+            return YES;
+        else
+            return NO;
+    } else {
+        return YES;
+    }
+#else
+    return YES;
+#endif
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -66,14 +114,22 @@
                                     dataSource:mainViewController];
 #endif
     
+#ifdef ADMOB_FREEVERSION
+    bNoAd = NO;
+    [self loadSetting];
+    bNoAdRestarted = bNoAd;
+#endif
+    
 	NSString *strNib = [NSString stringWithString:
 #ifdef ADMOB_FREEVERSION
-	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" :
-						(isIphone5or6 ? @"MainView4iPhone5Free" : @"MainViewFree")];
+    bNoAd ?
+    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isIphone5or6 ? @"MainView4iPhone5" : @"MainView")) :
+	(cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" : (isIphone5or6 ? @"MainView4iPhone5Free" : @"MainViewFree"))
+                        
 #else
-	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" :
-					    (isIphone5or6 ? @"MainView4iPhone5" : @"MainView") ];
+	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isIphone5or6 ? @"MainView4iPhone5" : @"MainView")
 #endif
+     ];
 	
     DLog(@"Nibname = %@", strNib);
     DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
@@ -84,11 +140,13 @@
     [window setRootViewController:self.mainViewController];
 
     [mainViewController.mainView setViewBackgroundColor];
+#ifdef ADMOB_FREEVERSION
+    mainViewController.bNoAd = bNoAd;
+    mainViewController.bNoAdRestarted = bNoAdRestarted;
+#endif
 
 
 	DLog(@"model=%@(%d)", [UIDevice currentDevice].model, cDeviceType);
-	
-	
 	
     mainViewController.mainView.frame = [UIScreen mainScreen].applicationFrame;
 	DLog(@"mainViewController.view.frame size = %f,%f", mainViewController.mainView.frame.size.width, mainViewController.mainView.frame.size.height);
@@ -118,7 +176,7 @@
 
 + (AppDelegate *)sharedAppDelegate
 {
-    return (AppDelegate *) [UIApplication sharedApplication].delegate;
+    return ((AppDelegate *) [UIApplication sharedApplication].delegate);
 }
 
 

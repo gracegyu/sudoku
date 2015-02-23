@@ -6,6 +6,7 @@
 //
 //
 
+#import "AppDelegate.h"
 #import "Locale.h"
 #import "QuestViewController.h"
 #import "CustomCell.h"
