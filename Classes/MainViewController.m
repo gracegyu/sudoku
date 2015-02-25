@@ -1892,7 +1892,7 @@
 
 - (void)OnTimerSetFinishByuingHint50:(NSTimer *)timer
 {
-    bBuyingHint50 = YES;    // 구매중
+    bBuyingHint50 = NO;    // 적어도 60초 후에는 구매가 완료되었을 것이다.
     [self updateButtonHint];
 }
 
