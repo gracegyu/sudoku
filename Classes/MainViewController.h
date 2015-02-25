@@ -420,6 +420,7 @@ typedef struct DAILYSTAT
 - (NSString*) getNowYYYYMMDD;
 - (NSString *)percentEscapeString:(NSString *)string;
 - (void) DoneQuest:(eQuest)quest;
+- (void) alertLocalizedAlertView:(NSString*)aMessage;
 
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;

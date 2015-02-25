@@ -483,6 +483,9 @@
     if (productNoAd) { // buy hint
         paymentNoAd = [SKPayment paymentWithProduct:productNoAd];
         [[SKPaymentQueue defaultQueue] addPayment:paymentNoAd];
+    } else {
+        DLog(@"Can't buy items");
+        [mainViewController alertLocalizedAlertView:(NSString*)gettext(@"Can't buy this item in current setting.", nil)];
     }
     
 #else
