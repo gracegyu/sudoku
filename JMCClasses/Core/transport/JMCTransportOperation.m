@@ -165,7 +165,7 @@
     [[JMCRequestQueue sharedInstance] updateItem:requestId sentStatus:JMCSentStatusRetry bumpNumAttemptsBy:1];
     
     if ([self.delegate respondsToSelector:@selector(transportDidFinishWithError:statusCode:requestId:)]) {
-        [self.delegate transportDidFinishWithError:error statusCode:statusCode requestId:requestId];
+        [self.delegate transportDidFinishWithError:error statusCode:(int)statusCode requestId:requestId];
     }
     
 #ifdef JMC_DEBUG

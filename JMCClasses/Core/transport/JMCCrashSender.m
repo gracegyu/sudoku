@@ -96,7 +96,7 @@
     NSArray *reports = [[CrashReporter sharedCrashReporter] crashReports];
     // queue all the reports
     for (NSString *report in reports) {
-        u_int toIndex = [report length] > 500 ? 500 : [report length];
+        u_int toIndex = [report length] > 500 ? 500 : (u_int)[report length];
         [_transport send:@"Crash report"
              description:[[report substringToIndex:toIndex] stringByAppendingString:@"...\n(truncated)"]
              crashReport:report];

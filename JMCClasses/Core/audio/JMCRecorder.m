@@ -61,13 +61,13 @@
         NSError *err = nil;
         [audioSession setCategory:AVAudioSessionCategoryPlayAndRecord error:&err];
         if (err) {
-            JMCALog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            JMCALog(@"audioSession: %@ %d %@", [err domain], (int)[err code], [[err userInfo] description]);
             return nil;
         }
         [audioSession setActive:YES error:&err];
         err = nil;
         if (err) {
-            JMCALog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            JMCALog(@"audioSession: %@ %d %@", [err domain], (int)[err code], [[err userInfo] description]);
             return nil;
         }
 
@@ -81,7 +81,7 @@
         AVAudioRecorder *recorder = [[AVAudioRecorder alloc] initWithURL:url settings:recordSetting error:&err];
 
         if (!recorder) {
-            JMCALog(@"recorder: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+            JMCALog(@"recorder: %@ %d %@", [err domain], (int)[err code], [[err userInfo] description]);
             return nil;
         }
 
@@ -123,7 +123,7 @@
     NSError *err = nil;
     NSData *audioData = [NSData dataWithContentsOfFile:[url path] options:0 error:&err];
     if (!audioData) {
-        JMCALog(@"audio data: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        JMCALog(@"audio data: %@ %d %@", [err domain], (int)[err code], [[err userInfo] description]);
     }
     return audioData;
 }

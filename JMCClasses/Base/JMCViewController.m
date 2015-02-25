@@ -448,7 +448,7 @@ static NSInteger kJMCTag = 10133;
         // use the first 80 chars of the description as the issue summary
         NSString *description = self.descriptionField.text;
         u_int length = 80;
-        u_int toIndex = [description length] > length ? length : [description length];
+        u_int toIndex = [description length] > length ? length : (u_int)[description length];
         NSString *truncationMarker = [description length] > length ? @"..." : @"";
         [self.issueTransport send:[[description substringToIndex:toIndex] stringByAppendingString:truncationMarker]
                       description:self.descriptionField.text
