@@ -55,6 +55,7 @@ TPMultiLayoutViewController
     UIButton *buttonSkinColor;
     UIButton *buttonLocale;
     UIButton *buttonNoAd;
+    UIButton *buttonRestore;
 
 	
     UIButton *buttonFacebook;
@@ -123,6 +124,7 @@ TPMultiLayoutViewController
 @property (nonatomic, retain) IBOutlet UIButton *buttonSkinColor;
 @property (nonatomic, retain) IBOutlet UIButton *buttonLocale;
 @property (nonatomic, retain) IBOutlet UIButton *buttonNoAd;
+@property (nonatomic, retain) IBOutlet UIButton *buttonRestore;
 
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
@@ -160,6 +162,7 @@ TPMultiLayoutViewController
 - (IBAction)dragChanageSkin:(id)sender;
 - (IBAction)setLocaleChange;
 - (IBAction)setNoAd;
+- (IBAction)setRestore;
 
 - (IBAction)goFacebook;
 - (IBAction)goBugReport;

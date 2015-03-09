@@ -49,6 +49,7 @@
 @synthesize buttonSkinColor;
 @synthesize buttonLocale;
 @synthesize buttonNoAd;
+@synthesize buttonRestore;
 
 @synthesize buttonFacebook;
 @synthesize buttonBugReport;
@@ -227,6 +228,7 @@
     buttonNoAd.hidden = YES;
     labelNoAd.hidden = YES;
     labelDescNoAd.hidden = YES;
+    buttonRestore.hidden = YES;
 }
 
 - (void) setNoAdButton
@@ -494,6 +496,27 @@
     
 }
 
+- (IBAction)setRestore
+{
+#ifdef ADMOB_FREEVERSION
+    
+    DLog(@"Buy NoAd");
+    
+    if (productNoAd) { // buy hint
+        [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
+        [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+    } else {
+        DLog(@"Can't buy items");
+        [mainViewController alertLocalizedAlertView:(NSString*)gettext(@"Can't buy this item in current setting.", nil)];
+    }
+    
+#else
+    // do nothing
+#endif
+    
+}
+
+
 
 - (IBAction)goFacebook
 {
@@ -565,6 +588,24 @@
     
 }
 
+- (void)successResotreNoAd
+{
+    [[AppDelegate sharedAppDelegate] saveNoAdSetting];
+    mainViewController.bNoAd = YES;
+    [mainViewController removeAd];
+    [self setNoAdButton];
+    
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:gettext(@"Restored No Advertisements item", nil)
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+}
+
 - (void)failedBuyNoAd:(NSString*)message;
 {
     NSString *msg = [NSString stringWithFormat:@"%@\n%@", gettext(@"Failed to buy No Advertisement item", nil), message];
@@ -581,6 +622,21 @@
     
 }
 
+- (void)failedRestoreNoAd:(NSString*)message;
+{
+    NSString *msg = [NSString stringWithFormat:@"%@\n%@", gettext(@"Failed to restore No Advertisement item", nil), message];
+    
+    // 실패 메시지
+    // 성공 메시지
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
+                                                    message:msg
+                                                   delegate:self
+                                          cancelButtonTitle:gettext(@"Ok", nil)
+                                          otherButtonTitles:nil];
+    [alert show];
+    [alert release];
+    
+}
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
 {
@@ -646,6 +702,60 @@
         NSLog(@"Invalid Identifiers : %@", invalidString);
     }
 }
+
+
+- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions
+{
+    NSLog(@"- (void)paymentQueue:(SKPaymentQueue *)queue removedTransactions:(NSArray *)transactions ");
+}
+
+// Sent when an error is encountered while adding transactions from the user's purchase history back to the queue.
+- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error
+{
+    NSLog(@"- (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error ");
+    [self failedRestoreNoAd:error.localizedDescription];
+}
+// Then this is called
+- (void)paymentQueueRestoreCompletedTransactionsFinished:(SKPaymentQueue *)queue
+{
+    NSLog(@"%@",queue );
+    NSLog(@"Restored Transactions are once again in Queue for purchasing %@",[queue transactions]);
+    
+    NSMutableArray *purchasedItemIDs = [[NSMutableArray alloc] init];
+    NSLog(@"received restored transactions: %d", (int)queue.transactions.count);
+    
+    //결재 기록이 없을때 alert 뛰우기
+    if(queue.transactions.count==0){
+        UIAlertView *resultView = [[UIAlertView alloc] initWithTitle:@"Failed"
+                                                             message:gettext(@"There is no record of your purchase.", nil)
+                                                            delegate:self
+                                                   cancelButtonTitle:nil
+                                                   otherButtonTitles:@"OK", nil];
+        [resultView show];
+    }
+    
+    for (SKPaymentTransaction *transaction in queue.transactions)
+    {
+        NSString *productID = transaction.payment.productIdentifier;
+        [purchasedItemIDs addObject:productID];
+        NSLog (@"product id is %@" , productID);
+        // here put an if/then statement to write files based on previously purchased items
+        // example if ([productID isequaltostring: @"youruniqueproductidentifier]){write files} else { nslog sorry}
+        
+        if([productID isEqualToString:kNoAdItem])
+        {
+            //재구입확인dh
+            NSLog(@"already buy");
+            [self successResotreNoAd];
+        }
+    }
+}
+
+
+
+
+
+
 
 #endif //ADMOB_FREEVERSION
 

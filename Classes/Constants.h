@@ -290,8 +290,8 @@ typedef struct SUDOKUSCORE
 
 #define MIN_NAME    3
                                     // server default
-#define INTERSTITIALINTERVAL    1   // 2
-#define INTERSTITIALRANDOM      1   // 2
+#define INTERSTITIALINTERVAL    1   // 2    (once a 2 times)
+#define INTERSTITIALRANDOM      1   // 2    (+0 ~ +2)
 #define ADCLICKBONUS            2   // 5
 
 

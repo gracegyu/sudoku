@@ -4103,7 +4103,7 @@ static NSInteger LEVELSCORE[] = {
         iTurn = [self loadInterstitialShowTurn];
         isFirst = NO;
     }
-    if (delta == 0) { // set to zero
+    if (delta == 0) { // set to (set)
         iTurn = set;
     } else {
         iTurn += delta;

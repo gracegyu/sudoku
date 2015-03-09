@@ -27,6 +27,7 @@
                 <outlet property="buttonMarkingEqual" destination="136" id="148"/>
                 <outlet property="buttonNewApp" destination="142" id="149"/>
                 <outlet property="buttonNoAd" destination="UB5-3m-9aV" id="hYX-67-Nqt"/>
+                <outlet property="buttonRestore" destination="XAn-cH-LJh" id="bFH-iJ-kR7"/>
                 <outlet property="buttonReview" destination="141" id="150"/>
                 <outlet property="buttonSkinColor" destination="138" id="215"/>
                 <outlet property="buttonSoundEffect" destination="130" id="153"/>
@@ -512,7 +513,7 @@
                                 <action selector="setNoAd" destination="-1" eventType="touchUpInside" id="Ga5-Ns-MpJ"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="remove advertisement" lineBreakMode="wordWrap" numberOfLines="2" adjustsFontSizeToFit="NO" id="Jma-SQ-q07">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="no advertisement" lineBreakMode="wordWrap" numberOfLines="2" adjustsFontSizeToFit="NO" id="Jma-SQ-q07">
                             <rect key="frame" x="73" y="285" width="426" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
@@ -527,6 +528,17 @@
                             <color key="textColor" red="0.99989897009999995" green="1" blue="0.9998418093" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="XAn-cH-LJh">
+                            <rect key="frame" x="253" y="281" width="59" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                            <state key="normal" title="Restore">
+                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="setRestore" destination="-1" eventType="touchUpInside" id="WMi-9O-cda"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
@@ -979,7 +991,7 @@
                                 <action selector="setNoAd" destination="-1" eventType="touchUpInside" id="sA0-Fg-f4U"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="remove advertisement" lineBreakMode="wordWrap" numberOfLines="2" adjustsFontSizeToFit="NO" id="9At-tw-gcd">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="remove advertisement" lineBreakMode="wordWrap" numberOfLines="2" adjustsFontSizeToFit="NO" id="9At-tw-gcd" userLabel="no advertisement">
                             <rect key="frame" x="-100" y="-100" width="426" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
@@ -994,6 +1006,17 @@
                             <color key="textColor" red="0.99989897009999995" green="1" blue="0.9998418093" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CCJ-Xh-bbf">
+                            <rect key="frame" x="-1000" y="124" width="59" height="28"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="13"/>
+                            <state key="normal" title="Restore">
+                                <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="setRestore" destination="-1" eventType="touchUpInside" id="rX7-ez-rhA"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                 </view>
