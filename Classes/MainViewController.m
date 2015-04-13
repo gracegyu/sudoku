@@ -824,24 +824,16 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-/*    DLog(@"MainViewController:viewDidAppear(nAddThisWait=%ld)", (long)nAddThisWait);
-    if (nAddThisWait > 0)
+    if (mainView.bMenuMode)
     {
-        nAddThisWait++;
-        return;
-    } else {*/
-        if (mainView.bMenuMode)
-        {
-            [self hideMenuView:NO];
-        }
-        // Share puzzle용
-        //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
-        if (SUPPORT_ROTATION)
-            self.view.frame = [[UIScreen mainScreen] applicationFrame];
+        [self hideMenuView:NO];
+    }
+    // Share puzzle용
+    //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
+    if (SUPPORT_ROTATION)
+        self.view.frame = [[UIScreen mainScreen] applicationFrame];
 
-        //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
-
-//    }
+    //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
 }
 
 
