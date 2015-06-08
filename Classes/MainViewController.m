@@ -415,7 +415,7 @@
     
     DLog(@"strMsgFinish = %@", strMsgFinish);
 
-/*
+
 #ifdef ADMOB_FREEVERSION
     // do nothing
     if (bLoadAds)
@@ -425,9 +425,8 @@
 #else
     [self alertFinish];
 #endif
-*/
-    
-    [self alertFinish];
+
+//    [self alertFinish];
     
     
     score.scoreClearTimeSum[sudokuGame.sudokuType][level] += sudokuGame.gameTime;
@@ -2558,7 +2557,7 @@
 {
 	NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
 #ifdef DAILYSENDER
-                        @"10.211.55.10:88",
+                        @"10.211.55.17:88",
 #else
 						gServerIP,
 #endif
@@ -4036,14 +4035,14 @@ static NSInteger LEVELSCORE[] = {
     
     [Flurry logEvent:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
-//    [self alertFinish];
+    [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
     [Flurry logEvent:@"Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
-//    [self alertFinish];
+    [self alertFinish];
  
 }
 
@@ -4085,9 +4084,10 @@ static NSInteger LEVELSCORE[] = {
 
 - (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
-    if (bNoAd)
+    if (bNoAd) {
+        bLoadAds = NO;
         return NO;  // 영원히 광고를 출력하지 않는다.
-    
+    }
     static NSInteger iTurn = 0;
     static BOOL isFirst = YES;
     BOOL bRet = NO;
@@ -4101,6 +4101,7 @@ static NSInteger LEVELSCORE[] = {
         iTurn += delta;
         
         NSInteger times = gInterval + (((unsigned int)arc4random()) % (gRandom+1));
+        DLog(@"iTurn=%d, times=%d", (int)iTurn, (int)times);
         if (iTurn >= times) {
             bRet = YES;
         }
@@ -4108,6 +4109,7 @@ static NSInteger LEVELSCORE[] = {
     [self saveInterstitialShowTurn:iTurn];
     
     DLog(@"iTurn=%d", (int)iTurn);
+    bLoadAds = bRet;
     
     return bRet;
 }

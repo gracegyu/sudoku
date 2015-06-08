@@ -164,7 +164,7 @@ typedef struct DAILYSTAT
     GADBannerView *bannerView_;
     BOOL        bNoAd;              // 광고 제거 아이템 구매
     BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
-
+    BOOL        bLoadAds;
 #endif
 	CGFloat		intervalX;
 	CGFloat		intervalX2;

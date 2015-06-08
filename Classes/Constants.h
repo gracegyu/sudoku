@@ -236,8 +236,8 @@ typedef struct SUDOKUSCORE
 #define cDebugUserID            158902
 #endif
 
-#ifdef DEBUG_____
-#define cServerHostName         @"10.211.55.10:88"
+#ifdef DEBUG_________________________________________________
+#define cServerHostName         @"10.211.55.17:88"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
 #endif
@@ -290,8 +290,8 @@ typedef struct SUDOKUSCORE
 
 #define MIN_NAME    3
                                     // server default
-#define INTERSTITIALINTERVAL    1   // 2    (once a 2 times)
-#define INTERSTITIALRANDOM      1   // 2    (+0 ~ +2)
+#define INTERSTITIALINTERVAL    0   // 0    (once a 2 times)
+#define INTERSTITIALRANDOM      1   // 1    (+0 ~ +2)
 #define ADCLICKBONUS            2   // 5
 
 
