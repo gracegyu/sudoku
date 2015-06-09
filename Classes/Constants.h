@@ -292,7 +292,7 @@ typedef struct SUDOKUSCORE
                                     // server default
 #define INTERSTITIALINTERVAL    0   // 0    (once a 2 times)
 #define INTERSTITIALRANDOM      1   // 1    (+0 ~ +2)
-#define ADCLICKBONUS            2   // 5
+#define ADCLICKBONUS            0   // 5
 
 
 

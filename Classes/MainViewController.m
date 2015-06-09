@@ -4022,7 +4022,7 @@ static NSInteger LEVELSCORE[] = {
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
     // Click Ads
-    [self isInterstitialShowTurn:0 set:(-1) * gBonus];
+    //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 }
 
 
@@ -4181,7 +4181,7 @@ static NSInteger LEVELSCORE[] = {
     // Click Ads
     DLog(@"interstitialWillLeaveApplication");
     
-    [self isInterstitialShowTurn:0 set:(-1) * gBonus];
+    //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 
 }
 
