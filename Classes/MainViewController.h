@@ -17,6 +17,7 @@
 #import <StoreKit/SKProduct.h>
 #import <StoreKit/SKPaymentQueue.h>
 #import <StoreKit/SKPaymentTransaction.h>
+#import <iAd/iAd.h>
 #import "TPMultiLayoutViewController.h"
 #ifdef USE_JMC
 #import "JMCCustomDataSource.h"
@@ -55,6 +56,7 @@ typedef struct DAILYSTAT
     ,SKProductsRequestDelegate
     ,SKPaymentTransactionObserver
 #ifdef ADMOB_FREEVERSION
+    ,ADBannerViewDelegate
     ,GADBannerViewDelegate
     ,GADInterstitialDelegate
 #endif
@@ -83,6 +85,7 @@ typedef struct DAILYSTAT
     UIButton    *areaPuzzleTable;
     UIButton    *areaNumButton;
     UIButton    *areaAdBanner;
+    UIButton    *areaiAdBanner;
     
 	UILabel		*labelAutoMemo;
     UILabel     *labelSudokuType;
@@ -161,7 +164,8 @@ typedef struct DAILYSTAT
 	NSInteger	countHint;
 
 #ifdef ADMOB_FREEVERSION
-    GADBannerView *bannerView_;
+    ADBannerView *iADBanner;        // iAD
+    GADBannerView *adMobBanner;
     BOOL        bNoAd;              // 광고 제거 아이템 구매
     BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
     BOOL        bLoadAds;
@@ -188,6 +192,9 @@ typedef struct DAILYSTAT
     NSInteger gInterval;
     NSInteger gRandom;
     NSInteger gBonus;
+    NSInteger gAdBendor;
+    NSInteger gNowAd;
+    NSInteger gAdmobFailCount;
     
 
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
@@ -218,6 +225,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) IBOutlet UIButton	*areaPuzzleTable;
 @property (nonatomic, retain) IBOutlet UIButton	*areaNumButton;
 @property (nonatomic, retain) IBOutlet UIButton *areaAdBanner;
+@property (nonatomic, retain) IBOutlet UIButton *areaiAdBanner;
 
 @property (nonatomic, retain) IBOutlet UILabel *labelLicense;
 
@@ -308,6 +316,9 @@ typedef struct DAILYSTAT
 @property NSInteger gInterval;
 @property NSInteger gRandom;
 @property NSInteger gBonus;
+@property NSInteger gAdBendor;
+@property NSInteger gNowAd;
+@property NSInteger gAdmobFailCount;
 
 
 #ifdef LOCATIONTRACK

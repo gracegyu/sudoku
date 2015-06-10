@@ -37,6 +37,7 @@
 @synthesize areaPuzzleTable;
 @synthesize areaNumButton;
 @synthesize areaAdBanner;
+@synthesize areaiAdBanner;
 @synthesize labelAutoMemo;
 @synthesize labelSudokuType;
 @synthesize buttonCheckboxAutoMemo;
@@ -123,6 +124,9 @@
 @synthesize gInterval;
 @synthesize gRandom;
 @synthesize gBonus;
+@synthesize gAdBendor;
+@synthesize gNowAd;
+@synthesize gAdmobFailCount;
 
 @synthesize nowDate;
 @synthesize strMsgFinish;
@@ -748,6 +752,23 @@
  	DLog(@"initWithNibName");	
    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])
    {
+#ifdef ADMOB_FREEVERSION
+       bNoAd = [[AppDelegate sharedAppDelegate] getNoAdSetting];
+#endif
+       
+       gUserID = cDefaultUserID;
+       gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
+       
+       gInterval = INTERSTITIALINTERVAL;
+       gRandom = INTERSTITIALRANDOM;
+       gBonus = ADCLICKBONUS;
+       gAdBendor = ADBENDER_ADMOB;
+       gNowAd = ADBENDER_ADMOB;
+       
+       [self decideLocale];
+       
+       [self loadServerData];
+       [self loadSetting];
 	   
 	   
         mainView = (MainView*) self.view;
@@ -759,18 +780,8 @@
 
 	   areaPuzzleTable.hidden = YES;
 	   areaNumButton.hidden = YES;
-	   areaAdBanner.hidden = YES;
-       gUserID = cDefaultUserID;
-       gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
-       
-       gInterval = INTERSTITIALINTERVAL;
-       gRandom = INTERSTITIALRANDOM;
-       gBonus = ADCLICKBONUS;
-	   
-       [self decideLocale];
-       
-       [self loadServerData];
-       [self loadSetting];
+       areaAdBanner.hidden = YES;
+       areaiAdBanner.hidden = YES;
        [self setLocalizedMessage];
        [mainView initSkinColorData];
        [mainView initRainbowColorData];
@@ -859,11 +870,38 @@
 }
 
 #ifdef ADMOB_FREEVERSION	
+- (void) reloadBanner
+{
+    [self removeAd];
+    [self initBanner];
+}
+
 - (void)removeAd
 {
-    bannerView_.hidden = YES;
-    [bannerView_ release];
+    if (adMobBanner) {
+        adMobBanner.hidden = YES;
+        adMobBanner.delegate = nil;
+        [adMobBanner removeFromSuperview];
+        [adMobBanner release];
+        adMobBanner = nil;
+    }
+    if (iADBanner) {
+        iADBanner.hidden = YES;
+        iADBanner.delegate = nil;
+        [iADBanner removeFromSuperview];
+        [iADBanner release];
+        iADBanner = nil;
+    }
 }
+
+- (void)initBanner
+{
+    if (gAdBendor == ADBENDER_ADMOB)
+        [self initGADBanner];
+    else   // iad
+        [self initiADBanner];
+}
+
 
 - (void)initGADBanner
 {
@@ -874,15 +912,34 @@
     
     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
     
-    bannerView_ = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
-    [bannerView_ setDelegate:self];
-    bannerView_.adUnitID = MY_BANNER_UNIT_ID;
+    gNowAd = ADBENDER_ADMOB;
+
+    // AdMob Banner
+    adMobBanner = [[GADBannerView alloc] initWithFrame:areaAdBanner.frame];
+    [adMobBanner setDelegate:self];
+    adMobBanner.adUnitID = MY_BANNER_UNIT_ID;
+    adMobBanner.rootViewController = self;
+    [self.view addSubview:adMobBanner];
     
-    bannerView_.rootViewController = self;
-    [self.view addSubview:bannerView_];
-    
-    [bannerView_ loadRequest:[GADRequest request]];
+    [adMobBanner loadRequest:[GADRequest request]];
 }
+
+- (void)initiADBanner
+{
+    if (bNoAd) {
+        DLog(@"No Ad");
+        return;
+    }
+    gNowAd = ADBENDER_IAD;
+    
+    DLog(@"areaiAdBanner.frame(%f,%f,%f,%f)", areaiAdBanner.frame.origin.x, areaiAdBanner.frame.origin.y, areaiAdBanner.frame.size.width, areaiAdBanner.frame.size.height);
+    // iAd Banner
+    iADBanner = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
+    iADBanner.frame = areaiAdBanner.frame;
+    iADBanner.delegate=self;
+    [self.view addSubview:iADBanner];
+}
+
 
 - (void) requestGADagain
 {
@@ -891,7 +948,7 @@
         return;
     }
 
-    [bannerView_ loadRequest:[GADRequest request]];
+    [adMobBanner loadRequest:[GADRequest request]];
 }
 
 #endif
@@ -937,7 +994,8 @@
      // Create a view of the standard size at the bottom of the screen.
      DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
      
-     [self initGADBanner];
+     [self initBanner];
+     
 #endif
      bAd = NO;
      bReplay = NO;
@@ -1119,6 +1177,13 @@
                 gRandom = [value integerValue];
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
                 gBonus = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"ADBENDOR"] == NSOrderedSame) {
+                NSInteger oldAdBendor = gAdBendor;
+                gAdBendor = [value integerValue];
+                if (gAdBendor != oldAdBendor) {
+                    [self reloadBanner];
+                }
+            }
 		}
 	}
 	
@@ -1136,6 +1201,7 @@
 #define kInterval                   @"gInterval"
 #define kRandom                     @"gRandom"
 #define kBonus                      @"gBonus"
+#define kAdBendor                   @"gAdBendor"
 
 
 - (void) loadServerData
@@ -1154,7 +1220,6 @@
 	NSString *strUserDefault = [defaults stringForKey:kUserDefault];
 	if (strUserDefault == nil)	// It hasn't saved.
 		return;
-	
     
     // redirection은 어떻게 할 것인가?
     gServerIP = [defaults stringForKey:kServerIP];
@@ -1171,11 +1236,12 @@
     
     [self setUserName:name];
 
-    if ([defaults integerForKey:kInterval] > 0) {
+    if ([defaults objectForKey:kInterval]) {
         gInterval = [defaults integerForKey:kInterval];
         gRandom = [defaults integerForKey:kRandom];
         gBonus = [defaults integerForKey:kBonus];
-        DLog(@"ITV:RND:BNS=%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus);
+        gAdBendor = [defaults integerForKey:kAdBendor];
+        DLog(@"ITV:RND:BNS:ADBENDOR=%d:%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus, (int)gAdBendor);
     } else {
         DLog(@"Not saved");
     }
@@ -1198,7 +1264,8 @@
     [defaults setInteger:gInterval	forKey:kInterval];
     [defaults setInteger:gRandom	forKey:kRandom];
     [defaults setInteger:gBonus     forKey:kBonus];
-    DLog(@"ITV:RND:BNS=%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus);
+    [defaults setInteger:gAdBendor     forKey:kAdBendor];
+    DLog(@"ITV:RND:BNS=%d:%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus, (int)gAdBendor);
 
     
     [defaults synchronize];
@@ -1242,11 +1309,19 @@
     //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
+    DLog(@"areaiAdBanner.frame(%f,%f,%f,%f)", areaiAdBanner.frame.origin.x, areaiAdBanner.frame.origin.y, areaiAdBanner.frame.size.width, areaiAdBanner.frame.size.height);
     if (bNoAd) {
         DLog(@"No Ad");
     } else {
-        bannerView_.frame = areaAdBanner.frame;
-        bannerView_.hidden = NO;
+        if (adMobBanner) {
+            adMobBanner.frame = areaAdBanner.frame;
+            adMobBanner.hidden = NO;
+        }
+        if (iADBanner) {
+            iADBanner.frame = areaiAdBanner.frame;
+            iADBanner.hidden = NO;
+        }
+    
     }
 #endif
 }
@@ -2051,7 +2126,14 @@
     if (bNoAd) {
         DLog(@"No Ad");
     } else {
-        [bannerView_ release];
+        if (adMobBanner) {
+            [adMobBanner release];
+            adMobBanner = nil;
+        }
+        if (iADBanner) {
+            [iADBanner release];
+            iADBanner = nil;
+        }
     }
 #endif
 	// Release any retained subviews of the main view.
@@ -2065,8 +2147,16 @@
     if (bNoAd) {
         DLog(@"No Ad");
     } else {
-        bannerView_.delegate = nil;
-        [bannerView_ release];
+        if (adMobBanner) {
+            adMobBanner.delegate = nil;
+            [adMobBanner release];
+            adMobBanner = nil;
+        }
+        if (iADBanner) {
+            iADBanner.delegate = nil;
+            [iADBanner release];
+            iADBanner = nil;
+        }
     }
 #endif
     [super dealloc];
@@ -3714,8 +3804,12 @@ static NSInteger LEVELSCORE[] = {
 	//DLog(@"willRotateToInterfaceOrientation toInterfaceOrientation = %d duration = %f", toInterfaceOrientation, duration);
     [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 #ifdef ADMOB_FREEVERSION
-    if (bNoAd == NO)
-        bannerView_.hidden = YES;
+    if (bNoAd == NO) {
+        if (adMobBanner)
+            adMobBanner.hidden = YES;
+        if (iADBanner)
+            iADBanner.hidden = YES;
+    }
 #endif
 	[self readySlideView:viewMenu];
 	[self readySlideView:viewNewGame];
@@ -3732,8 +3826,14 @@ static NSInteger LEVELSCORE[] = {
 {
 #ifdef ADMOB_FREEVERSION
     if (bNoAd == NO) {
-        bannerView_.frame = areaAdBanner.frame;
-        bannerView_.hidden = NO;
+        if (adMobBanner) {
+            adMobBanner.frame = areaAdBanner.frame;
+            adMobBanner.hidden = NO;
+        }
+        if (iADBanner) {
+            iADBanner.frame = areaiAdBanner.frame;
+            iADBanner.hidden = NO;
+        }
     }
 #endif
 
@@ -3992,11 +4092,29 @@ static NSInteger LEVELSCORE[] = {
 
 #ifdef ADMOB_FREEVERSION
 
+#pragma mark -
+#pragma mark iAD Delegate
+
+- (void)bannerViewDidLoadAd:(ADBannerView *)bannerView {
+    [self logEventParam:@"iAd banner load success"];
+    DLog(@"bannerViewDidLoadAd:%@", bannerView.description);
+}
+
+- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
+    [self logEventParam:@"iAd banner load fail"];
+    DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    if (gNowAd == ADBENDER_ADMOB)
+        return;
+
+}
+
+
 #pragma mark GADBannerViewDelegate implementation
 
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
+    gAdmobFailCount = 0;
     [self logEventParam:@"Admob banner load success"];
     DLog(@"adViewDidReceiveAd:%@", bannerView.description);
 }
@@ -4006,13 +4124,38 @@ static NSInteger LEVELSCORE[] = {
     DLog(@"OnTimerGADRequestAgain");
     [self requestGADagain];
 }
+- (void) OnTimerSwitchToiAD:(NSTimer *)timer
+{
+    DLog(@"OnTimerSwitchToiAD");
+    [self removeAd];
+    [self initiADBanner];
+}
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
     [self logEventParam:@"Admob banner load fail"];
     DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
-    [NSTimer scheduledTimerWithTimeInterval:10
+    if (bNoAd) {
+        DLog(@"No Ad");
+        return;
+    }
+    if (gNowAd == ADBENDER_IAD)
+        return;
+    
+    gAdmobFailCount++;
+    
+    if (gAdmobFailCount > MAXGADFAIL) {
+        [NSTimer scheduledTimerWithTimeInterval:1
+                                         target:self
+                                       selector:@selector(OnTimerSwitchToiAD:)
+                                       userInfo:nil
+                                        repeats:NO];
+
+        return;
+    }
+    
+    [NSTimer scheduledTimerWithTimeInterval:GADRETRYINTERVAL
                                      target:self
                                    selector:@selector(OnTimerGADRequestAgain:)
                                    userInfo:nil
@@ -4212,6 +4355,16 @@ static NSInteger LEVELSCORE[] = {
 }
 
 #endif
+
+
+
+
+
+
+
+
+
+
 
 @end
 

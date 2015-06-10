@@ -236,7 +236,7 @@ typedef struct SUDOKUSCORE
 #define cDebugUserID            158902
 #endif
 
-#ifdef DEBUG_______
+#ifdef DEBUG_____________
 #define cServerHostName         @"10.211.55.17:88"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
@@ -294,5 +294,10 @@ typedef struct SUDOKUSCORE
 #define INTERSTITIALRANDOM      1   // 1    (+0 ~ +2)
 #define ADCLICKBONUS            0   // 5
 
+#define GADRETRYINTERVAL        3
+#define MAXGADFAIL              3   // zzzzz 3
+
+#define ADBENDER_ADMOB        0   // admob
+#define ADBENDER_IAD          1   // iAd
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6751" systemVersion="13F1077" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
@@ -12,6 +12,7 @@
                 <outlet property="areaAdBanner" destination="335" id="338"/>
                 <outlet property="areaNumButton" destination="191" id="197"/>
                 <outlet property="areaPuzzleTable" destination="187" id="198"/>
+                <outlet property="areaiAdBanner" destination="rUP-y9-X1F" id="wfK-cw-91R"/>
                 <outlet property="buttonBookmark" destination="211" id="214"/>
                 <outlet property="buttonCheckboxAutoMemo" destination="379" id="WXj-nJ-TiX"/>
                 <outlet property="buttonCloseButton" destination="447" id="452"/>
@@ -97,7 +98,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="191">
-                    <rect key="frame" x="50" y="329" width="220" height="101.5"/>
+                    <rect key="frame" x="50" y="327" width="220" height="101.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -109,12 +110,25 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="335" userLabel="Button - AdBannerArea">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="335">
                     <rect key="frame" x="0.0" y="430" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" title="AdBannerArea">
+                        <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <state key="highlighted">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="rUP-y9-X1F">
+                    <rect key="frame" x="0.0" y="430" width="320" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                    <state key="normal" title="iAdBannerArea">
                         <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -157,7 +171,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="87">
-                    <rect key="frame" x="101" y="299" width="76" height="15"/>
+                    <rect key="frame" x="101" y="297" width="76" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -172,7 +186,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="88">
-                    <rect key="frame" x="101" y="316" width="76" height="12"/>
+                    <rect key="frame" x="101" y="314" width="76" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game Time"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -180,14 +194,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="86">
-                    <rect key="frame" x="175" y="299" width="50" height="15"/>
+                    <rect key="frame" x="175" y="297" width="50" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="90">
-                    <rect key="frame" x="175" y="316" width="50" height="12"/>
+                    <rect key="frame" x="175" y="314" width="50" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -195,14 +209,14 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="hint" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="134" userLabel="Label - hint">
-                    <rect key="frame" x="217" y="299" width="55" height="15"/>
+                    <rect key="frame" x="217" y="297" width="55" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="133" userLabel="Label - {hint}">
-                    <rect key="frame" x="217" y="316" width="55" height="12"/>
+                    <rect key="frame" x="217" y="314" width="55" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -242,7 +256,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="211">
-                    <rect key="frame" x="65" y="299" width="30" height="30"/>
+                    <rect key="frame" x="65" y="297" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -760,7 +774,7 @@
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
                 <view tag="130" contentMode="scaleToFill" restorationIdentifier="" id="ag0-Fg-5Cd">
-                    <rect key="frame" x="0.0" y="47" width="160" height="382.5"/>
+                    <rect key="frame" x="-160" y="47" width="160" height="382.5"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="4la-Iv-HhB">

@@ -77,6 +77,12 @@
     bNoAd = YES;
     [self saveSetting];
 }
+
+- (BOOL) getNoAdSetting
+{
+    return bNoAd;
+}
+
 #endif
 
 - (BOOL) supportRotate
