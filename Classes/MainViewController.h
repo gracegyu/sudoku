@@ -421,6 +421,8 @@ typedef struct DAILYSTAT
 - (NSString *)percentEscapeString:(NSString *)string;
 - (void) DoneQuest:(eQuest)quest;
 - (void) alertLocalizedAlertView:(NSString*)aMessage;
+- (void) logEventParam:(NSString*)event;
+
 
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;

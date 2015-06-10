@@ -802,13 +802,13 @@
        
 //       [self connectToServerInit]; // connect to server
        
-       /*
+       
         [NSTimer scheduledTimerWithTimeInterval:5
         target:self
         selector:@selector(OnTimerconnectToServerInit:)
         userInfo:nil
         repeats:NO];
-       */
+       
 
        
     }
@@ -1114,7 +1114,7 @@
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
             else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
-                gInterval = [value integerValue];
+                gInterval = 0;//[value integerValue];
             else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
                 gRandom = [value integerValue];
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
@@ -2688,7 +2688,7 @@
 
 - (BOOL) uploadDailyPuzzleResult:(NSTimeInterval)gameTime pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
 {
-    [self connectToServerInit];
+    //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&spend=%lu&automemo=%d",
@@ -2842,7 +2842,7 @@
         dailyStat[i].besttime = 0;
     }
     
-    [self connectToServerInit];
+    //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
@@ -3966,6 +3966,30 @@ static NSInteger LEVELSCORE[] = {
 }
 
 
+- (void) logEventParam:(NSString*)event
+{
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *languageCode = [locale objectForKey: NSLocaleLanguageCode];
+    NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+
+    NSDictionary *params =
+    [NSDictionary dictionaryWithObjectsAndKeys:
+        @"UserID", [NSNumber numberWithInt:(int)gUserID],
+        @"UserName", gUserName,
+        @"Locale", locale,
+        @"Language", languageCode,
+        @"Country", countryCode,
+        nil];
+
+    
+
+    
+    
+    [Flurry logEvent:event withParameters:params];
+}
+
+
+
 #ifdef ADMOB_FREEVERSION
 
 #pragma mark GADBannerViewDelegate implementation
@@ -3973,7 +3997,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
-    [Flurry logEvent:@"Admob banner load success"];
+    [self logEventParam:@"Admob banner load success"];
     DLog(@"adViewDidReceiveAd:%@", bannerView.description);
 }
 
@@ -3985,7 +4009,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    [Flurry logEvent:@"Admob banner load fail"];
+    [self logEventParam:@"Admob banner load fail"];
     DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
     [NSTimer scheduledTimerWithTimeInterval:10
@@ -4021,6 +4045,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
+    [self logEventParam:@"Admob banner click"];
     // Click Ads
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 }
@@ -4033,14 +4058,14 @@ static NSInteger LEVELSCORE[] = {
     
     [self isInterstitialShowTurn:0 set:0];
     
-    [Flurry logEvent:@"Admob interstitial load success"];
+    [self logEventParam:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
     [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
-    [Flurry logEvent:@"Admob interstitial load fail"];
+    [self logEventParam:@"Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
     [self alertFinish];
  
@@ -4180,6 +4205,7 @@ static NSInteger LEVELSCORE[] = {
 {
     // Click Ads
     DLog(@"interstitialWillLeaveApplication");
+    [self logEventParam:@"Admob interstitial click"];
     
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 
