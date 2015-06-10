@@ -190,6 +190,7 @@ typedef struct DAILYSTAT
 	NSInteger gVersion;
     
     NSInteger gInterval;
+    NSInteger gIntervalSec;
     NSInteger gRandom;
     NSInteger gBonus;
     NSInteger gAdBendor;
@@ -314,6 +315,7 @@ typedef struct DAILYSTAT
 @property (nonatomic, retain) NSString *gDeviceID;
 @property NSInteger gVersion;
 @property NSInteger gInterval;
+@property NSInteger gIntervalSec;
 @property NSInteger gRandom;
 @property NSInteger gBonus;
 @property NSInteger gAdBendor;

@@ -122,6 +122,7 @@
 @synthesize gVersion;
 
 @synthesize gInterval;
+@synthesize gIntervalSec;
 @synthesize gRandom;
 @synthesize gBonus;
 @synthesize gAdBendor;
@@ -760,6 +761,7 @@
        gUserName = [[NSString stringWithFormat:@"%d", (int)gUserID] retain];
        
        gInterval = INTERSTITIALINTERVAL;
+       gIntervalSec = INTERSTITIALINTERVALSEC;
        gRandom = INTERSTITIALRANDOM;
        gBonus = ADCLICKBONUS;
        gAdBendor = ADBENDER_ADMOB;
@@ -1172,7 +1174,9 @@
 			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
             else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
-                gInterval = 0;//[value integerValue];
+                gInterval = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"ITVSEC"] == NSOrderedSame)
+                gIntervalSec = [value integerValue];
             else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
                 gRandom = [value integerValue];
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
@@ -1199,6 +1203,7 @@
 #define kUserID						@"gUserID"
 #define kUserName					@"gUserName"
 #define kInterval                   @"gInterval"
+#define kIntervalSec                @"gIntervalSec"
 #define kRandom                     @"gRandom"
 #define kBonus                      @"gBonus"
 #define kAdBendor                   @"gAdBendor"
@@ -1246,7 +1251,10 @@
         DLog(@"Not saved");
     }
 
-    
+    if ([defaults objectForKey:kIntervalSec]) {
+        gIntervalSec = [defaults integerForKey:kIntervalSec];
+        DLog(@"ITVSEC:%d", (int)gIntervalSec);
+    }
 }
 
 
@@ -1262,10 +1270,11 @@
     [defaults setObject:gServerIP   forKey:kServerIP];
 
     [defaults setInteger:gInterval	forKey:kInterval];
+    [defaults setInteger:gIntervalSec	forKey:kIntervalSec];
     [defaults setInteger:gRandom	forKey:kRandom];
     [defaults setInteger:gBonus     forKey:kBonus];
     [defaults setInteger:gAdBendor     forKey:kAdBendor];
-    DLog(@"ITV:RND:BNS=%d:%d:%d:%d", (int)gInterval, (int)gRandom, (int)gBonus, (int)gAdBendor);
+    DLog(@"ITV:ITVSEC:RND:BNS=%d:%d:%d:%d", (int)gInterval, (int)gIntervalSec, (int)gRandom, (int)gBonus, (int)gAdBendor);
 
     
     [defaults synchronize];
@@ -4199,7 +4208,9 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
     
+    // init
     [self isInterstitialShowTurn:0 set:0];
+    [self saveInterstitialLastTimeNow];
     
     [self logEventParam:@"Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
@@ -4233,6 +4244,7 @@ static NSInteger LEVELSCORE[] = {
 
 
 #define kINTERSTITIALSHOWTIME   @"kINTERSTITIALSHOWTIME"
+#define kINTERSTITIALLASTTIME   @"kINTERSTITIALSLASTTIME"
 
 - (NSInteger) loadInterstitialShowTurn
 {
@@ -4241,14 +4253,34 @@ static NSInteger LEVELSCORE[] = {
     return [defaults integerForKey:kINTERSTITIALSHOWTIME];
 }
 
+- (NSInteger) loadInterstitialShowLastTime
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([defaults objectForKey:kINTERSTITIALLASTTIME]) {
+        return [defaults integerForKey:kINTERSTITIALLASTTIME];
+    } else {
+        return [self saveInterstitialLastTimeNow];
+    }
+}
+
 - (void) saveInterstitialShowTurn:(NSInteger) turn
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
     [defaults setInteger:turn forKey:kINTERSTITIALSHOWTIME];
-    
     [defaults synchronize];
 }
+
+- (NSInteger) saveInterstitialLastTimeNow
+{
+    NSInteger timestamp = (NSInteger)[[NSDate date] timeIntervalSince1970];
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setInteger:timestamp    forKey:kINTERSTITIALLASTTIME];
+    [defaults synchronize];
+    
+    return timestamp;
+}
+
 
 - (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
@@ -4257,6 +4289,7 @@ static NSInteger LEVELSCORE[] = {
         return NO;  // 영원히 광고를 출력하지 않는다.
     }
     static NSInteger iTurn = 0;
+    NSInteger iLastTime = [self loadInterstitialShowLastTime];
     static BOOL isFirst = YES;
     BOOL bRet = NO;
     if (isFirst) {
@@ -4273,6 +4306,13 @@ static NSInteger LEVELSCORE[] = {
         if (iTurn >= times) {
             bRet = YES;
         }
+        
+        NSInteger timestamp = (NSInteger) [[NSDate date] timeIntervalSince1970];
+        DLog(@"timestamp=%d, iLastTime=%d, (%d), gIntervalSec=%d", (int)timestamp, (int)iLastTime, (int)(timestamp - iLastTime), (int)gIntervalSec);
+        if (timestamp - iLastTime >= gIntervalSec) {
+            bRet = YES;
+        }
+        
     }
     [self saveInterstitialShowTurn:iTurn];
     
