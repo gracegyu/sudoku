@@ -4105,12 +4105,12 @@ static NSInteger LEVELSCORE[] = {
 #pragma mark iAD Delegate
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)bannerView {
-    [self logEventParam:@"iAd banner load success"];
+    [self logEventParam:@"2 iAd banner load success"];
     DLog(@"bannerViewDidLoadAd:%@", bannerView.description);
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    [self logEventParam:@"iAd banner load fail"];
+    [self logEventParam:@"2 iAd banner load fail"];
     DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
     if (gNowAd == ADBENDER_ADMOB)
         return;
@@ -4124,7 +4124,7 @@ static NSInteger LEVELSCORE[] = {
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
     gAdmobFailCount = 0;
-    [self logEventParam:@"Admob banner load success"];
+    [self logEventParam:@"2 Admob banner load success"];
     DLog(@"adViewDidReceiveAd:%@", bannerView.description);
 }
 
@@ -4142,7 +4142,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    [self logEventParam:@"Admob banner load fail"];
+    [self logEventParam:@"2 Admob banner load fail"];
     DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
     if (bNoAd) {
@@ -4197,7 +4197,7 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
-    [self logEventParam:@"Admob banner click"];
+    [self logEventParam:@"2 Admob banner click"];
     // Click Ads
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 }
@@ -4212,14 +4212,14 @@ static NSInteger LEVELSCORE[] = {
     [self isInterstitialShowTurn:0 set:0];
     [self saveInterstitialLastTimeNow];
     
-    [self logEventParam:@"Admob interstitial load success"];
+    [self logEventParam:@"2 Admob interstitial load success"];
     DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
     [self alertFinish];
 
 }
 
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self logEventParam:@"Admob interstitial load fail"];
+    [self logEventParam:@"2 Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
     [self alertFinish];
  
@@ -4311,8 +4311,7 @@ static NSInteger LEVELSCORE[] = {
         DLog(@"timestamp=%d, iLastTime=%d, (%d), gIntervalSec=%d", (int)timestamp, (int)iLastTime, (int)(timestamp - iLastTime), (int)gIntervalSec);
         if (timestamp - iLastTime >= gIntervalSec) {
             bRet = YES;
-        }
-        
+        }        
     }
     [self saveInterstitialShowTurn:iTurn];
     
@@ -4388,7 +4387,7 @@ static NSInteger LEVELSCORE[] = {
 {
     // Click Ads
     DLog(@"interstitialWillLeaveApplication");
-    [self logEventParam:@"Admob interstitial click"];
+    [self logEventParam:@"2 Admob interstitial click"];
     
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 
