@@ -4112,8 +4112,12 @@ static NSInteger LEVELSCORE[] = {
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
     [self logEventParam:@"2 iAd banner load fail"];
     DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
-    if (gNowAd == ADBENDER_ADMOB)
+    if (gNowAd == ADBENDER_ADMOB) {
+        [self logEventParam:@"2 iAd banner load fail:Switch to Admob"];
         return;
+    }
+    NSString *str = [NSString stringWithFormat:@"2 iAdyu interstitial load fail:%@", [error localizedDescription]];
+    [self logEventParam:str];
 
 }
 
@@ -4142,15 +4146,20 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    [self logEventParam:@"2 Admob banner load fail"];
     DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
-    
+    [self logEventParam:@"2 Admob banner load fail"];
     if (bNoAd) {
         DLog(@"No Ad");
+        [self logEventParam:@"2 Admob banner load fail:No Ad"];
         return;
     }
-    if (gNowAd == ADBENDER_IAD)
+    if (gNowAd == ADBENDER_IAD) {
+        [self logEventParam:@"2 Admob banner load fail:Switch iAd"];
         return;
+    }
+    NSString *str = [NSString stringWithFormat:@"2 Admob banner load fail:%@", [error localizedDescription]];
+    [self logEventParam:str];
+
     
     gAdmobFailCount++;
     
@@ -4221,6 +4230,11 @@ static NSInteger LEVELSCORE[] = {
 - (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
     [self logEventParam:@"2 Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    
+    NSString *str = [NSString stringWithFormat:@"2 Admob interstitial load fail:%@", [error localizedDescription]];
+    [self logEventParam:str];
+    
+    
     [self alertFinish];
  
 }

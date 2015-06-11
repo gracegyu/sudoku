@@ -296,7 +296,7 @@ typedef struct SUDOKUSCORE
 #define ADCLICKBONUS            0   // 5
 
 #define GADRETRYINTERVAL        3
-#define MAXGADFAIL              3   // zzzzz 3
+#define MAXGADFAIL              5   // zzzzz 3
 
 #define ADBENDER_ADMOB        0   // admob
 #define ADBENDER_IAD          1   // iAd
