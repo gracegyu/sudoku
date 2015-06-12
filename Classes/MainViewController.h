@@ -41,6 +41,23 @@ typedef struct DAILYSTAT
     BOOL played;
 } DAILYSTAT;
 
+typedef enum {
+    eAdStateAdmobBanner = 0,
+    eAdStateAdmobInterstitial,
+    eAdStateiAdBanner,
+    eAdStateiAdInterstitial,
+    eAdStateMax
+} eAdState;
+
+
+typedef struct ADSTATE
+{
+    NSInteger show;
+    NSInteger fail;
+    NSString *lasterror;
+} ADSTATE;
+
+
 
 //@class GADInterstitial;
 //@class GADRequest;
@@ -197,8 +214,11 @@ typedef struct DAILYSTAT
     NSInteger gNowAd;
     NSInteger gAdmobFailCount;
     
-
+    
+    
+    ADSTATE gAdState[eAdStateMax];
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
+
     BOOL    bReadyDownloadDailyPuzzle;
     NSString *nowDate;
 #ifdef LOCATIONTRACK

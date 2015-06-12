@@ -313,6 +313,43 @@
     
 }
 
+#define kAdStateShow		@"AdStateShow"
+#define kAdStateFail		@"AdStateFail"
+#define kAdStateLastError	@"AdStateLastError"
+
+
+- (void) loadAdState
+{
+    DLog(@"loadAdState");
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    for (int i=0; i<eAdStateMax; i++)
+    {
+        gAdState[i].show = [defaults integerForKey:[kAdStateShow stringByAppendingFormat:@"%d", i]];
+        gAdState[i].fail = [defaults integerForKey:[kAdStateFail stringByAppendingFormat:@"%d", i]];
+        gAdState[i].lasterror = nil;
+        if ([defaults objectForKey:[kAdStateLastError stringByAppendingFormat:@"%d", i]]) {
+            NSString *str = [defaults stringForKey:[kAdStateLastError stringByAppendingFormat:@"%d", i]];
+            if (str)
+                gAdState[i].lasterror = [[NSString alloc] initWithString:str];
+        }
+        DLog(@"load gAdState[%d] = %d,%d,%@", i, (int)gAdState[i].show, (int)gAdState[i].fail, gAdState[i].lasterror);
+    }
+}
+
+- (void) saveAdState
+{
+    DLog(@"saveAdState");
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    for (int i=0; i<eAdStateMax; i++)
+    {
+        [defaults setInteger:gAdState[i].show forKey:[kAdStateShow stringByAppendingFormat:@"%d", i]];
+        [defaults setInteger:gAdState[i].fail forKey:[kAdStateFail stringByAppendingFormat:@"%d", i]];
+        [defaults setObject:gAdState[i].lasterror forKey:[kAdStateLastError stringByAppendingFormat:@"%d", i]];
+        DLog(@"save gAdState[%d] = %d,%d,%@", i, (int)gAdState[i].show, (int)gAdState[i].fail, gAdState[i].lasterror);
+    }
+}
 
 - (void) alertFinish
 {
@@ -791,6 +828,7 @@
        [self initScore];
        [self loadScoreData];
        [Quest loadQuestData];
+       [self loadAdState];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -1106,7 +1144,7 @@
     NSString *countryName = [gbLocale displayNameForKey: NSLocaleCountryCode value:countryCode];
 	DLog(@"Country Name = %@", countryName);
 	
-	NSString* strURI = [[NSString alloc] initWithFormat:
+	NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
@@ -1131,9 +1169,26 @@
 						[self urlEncodeValue:countryName],
 						@"Apple",
 						(long)[self getCheckSum]];
-//	DLog(@"strURI = %@", strURI);
+#ifdef ADMOB_FREEVERSION
+    for (int i=0; i<eAdStateMax; i++) {
+        NSString *str;
+        if (gAdState[i].show > 0) {
+            str = [NSString stringWithFormat:@"adshow%d", i];
+            strURI = [strURI stringByAppendingFormat:@"&%@=%d", str, (int)gAdState[i].show];
+        }
+        if (gAdState[i].fail > 0) {
+            str = [NSString stringWithFormat:@"adfail%d", i];
+            strURI = [strURI stringByAppendingFormat:@"&%@=%d", str, (int)gAdState[i].fail];
+        }
+        if (gAdState[i].lasterror && ![gAdState[i].lasterror isEqual: @""]) {
+            str = [NSString stringWithFormat:@"aderror%d", i];
+            strURI = [strURI stringByAppendingFormat:@"&%@=%@", str, [self percentEscapeString:gAdState[i].lasterror]];
+        }
+    }
+#endif
+	DLog(@"strURI = %@", strURI);
 	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
-	[strURI release];
+	//[strURI release];
 	
 	// zzz error handling, if gUserID is 1 still ...
 	if (!strData) {
@@ -1166,7 +1221,7 @@
 			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
 				gServerIP = [[NSString alloc] initWithString:value];
 			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
-#if defined(DEBUG) && defined(APPLY_DEBUGID)
+#if defined(DEBUG) && defined(APPLY_DEBUGID_______)
                 gUserID = cDebugUserID;
 #else
 				gUserID = [value integerValue];
@@ -1274,7 +1329,7 @@
     [defaults setInteger:gRandom	forKey:kRandom];
     [defaults setInteger:gBonus     forKey:kBonus];
     [defaults setInteger:gAdBendor     forKey:kAdBendor];
-    DLog(@"ITV:ITVSEC:RND:BNS=%d:%d:%d:%d", (int)gInterval, (int)gIntervalSec, (int)gRandom, (int)gBonus, (int)gAdBendor);
+    DLog(@"ITV:ITVSEC:RND:BNS:ADBENDER=%d:%d:%d:%d:%d", (int)gInterval, (int)gIntervalSec, (int)gRandom, (int)gBonus, (int)gAdBendor);
 
     
     [defaults synchronize];
@@ -4105,19 +4160,30 @@ static NSInteger LEVELSCORE[] = {
 #pragma mark iAD Delegate
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)bannerView {
-    [self logEventParam:@"2 iAd banner load success"];
     DLog(@"bannerViewDidLoadAd:%@", bannerView.description);
+
+    [self logEventParam:@"2 iAd banner load success"];
+    gAdState[eAdStateiAdBanner].show += 1;
+    [self saveAdState];
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    [self logEventParam:@"2 iAd banner load fail"];
     DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
+
+    [self logEventParam:@"2 iAd banner load fail"];
+    NSString *str = [NSString stringWithFormat:@"2 iAd banner load fail:%@", [error localizedDescription]];
+    [self logEventParam:str];
+    gAdState[eAdStateiAdBanner].fail += 1;
+    if (gAdState[eAdStateiAdBanner].lasterror)
+        [gAdState[eAdStateiAdBanner].lasterror release];
+    gAdState[eAdStateiAdBanner].lasterror = [[NSString alloc] initWithFormat:@"%@:%@", [self getNowYYYYMMDD], [error localizedDescription]];
+    [self saveAdState];
     if (gNowAd == ADBENDER_ADMOB) {
         [self logEventParam:@"2 iAd banner load fail:Switch to Admob"];
         return;
     }
-    NSString *str = [NSString stringWithFormat:@"2 iAdyu interstitial load fail:%@", [error localizedDescription]];
-    [self logEventParam:str];
+    
+    
 
 }
 
@@ -4127,9 +4193,12 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
+    DLog(@"adViewDidReceiveAd:%@", bannerView.description);
+    
     gAdmobFailCount = 0;
     [self logEventParam:@"2 Admob banner load success"];
-    DLog(@"adViewDidReceiveAd:%@", bannerView.description);
+    gAdState[eAdStateAdmobBanner].show += 1;
+    [self saveAdState];
 }
 
 - (void) OnTimerGADRequestAgain:(NSTimer *)timer
@@ -4146,8 +4215,18 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
-    DLog(@"adView didFailToReceiveAdWithError:%@", [error localizedDescription]);
+    DLog(@"adView didFailToReceiveAdWithError:%@, %@", [error localizedDescription], error);
     [self logEventParam:@"2 Admob banner load fail"];
+    NSString *str = [NSString stringWithFormat:@"2 Admob banner load fail:%@", [error localizedDescription]];
+    [self logEventParam:str];
+
+    gAdState[eAdStateAdmobBanner].fail += 1;
+    if (gAdState[eAdStateAdmobBanner].lasterror)
+        [gAdState[eAdStateAdmobBanner].lasterror release];
+    gAdState[eAdStateAdmobBanner].lasterror = [[NSString alloc] initWithFormat:@"%@:%@", [self getNowYYYYMMDD], [error localizedDescription]];
+    [self saveAdState];
+
+    
     if (bNoAd) {
         DLog(@"No Ad");
         [self logEventParam:@"2 Admob banner load fail:No Ad"];
@@ -4157,9 +4236,6 @@ static NSInteger LEVELSCORE[] = {
         [self logEventParam:@"2 Admob banner load fail:Switch iAd"];
         return;
     }
-    NSString *str = [NSString stringWithFormat:@"2 Admob banner load fail:%@", [error localizedDescription]];
-    [self logEventParam:str];
-
     
     gAdmobFailCount++;
     
@@ -4209,6 +4285,12 @@ static NSInteger LEVELSCORE[] = {
     [self logEventParam:@"2 Admob banner click"];
     // Click Ads
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
+   /* [NSTimer scheduledTimerWithTimeInterval:1
+                                     target:self
+                                   selector:@selector(OnTimerconnectToServerInit:)
+                                   userInfo:nil
+                                    repeats:NO];*/
+    
 }
 
 
@@ -4216,13 +4298,17 @@ static NSInteger LEVELSCORE[] = {
 #pragma mark GADInterstitialDelegate implementation
 
 - (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
+    DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
     
     // init
     [self isInterstitialShowTurn:0 set:0];
     [self saveInterstitialLastTimeNow];
     
     [self logEventParam:@"2 Admob interstitial load success"];
-    DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
+    
+    gAdState[eAdStateAdmobInterstitial].show += 1;
+    [self saveAdState];
+    
     [self alertFinish];
 
 }
@@ -4233,6 +4319,12 @@ static NSInteger LEVELSCORE[] = {
     
     NSString *str = [NSString stringWithFormat:@"2 Admob interstitial load fail:%@", [error localizedDescription]];
     [self logEventParam:str];
+    
+    gAdState[eAdStateAdmobInterstitial].fail += 1;
+    if (gAdState[eAdStateAdmobInterstitial].lasterror)
+        [gAdState[eAdStateAdmobInterstitial].lasterror release];
+    gAdState[eAdStateAdmobInterstitial].lasterror = [[NSString alloc] initWithFormat:@"%@:%@", [self getNowYYYYMMDD], [error localizedDescription]];
+    [self saveAdState];
     
     
     [self alertFinish];
