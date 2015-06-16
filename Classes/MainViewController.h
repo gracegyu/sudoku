@@ -62,8 +62,10 @@ typedef struct ADSTATE
 //@class GADInterstitial;
 //@class GADRequest;
 
-@interface MainViewController : TPMultiLayoutViewController <UIGestureRecognizerDelegate
+@interface MainViewController : TPMultiLayoutViewController
+    <UIGestureRecognizerDelegate
     ,UIAlertViewDelegate
+    ,NSURLConnectionDelegate
 #ifdef USE_JMC
     ,JMCCustomDataSource
 #endif
@@ -233,6 +235,9 @@ typedef struct ADSTATE
     
     
     NSString* strMsgFinish;
+    
+    NSMutableData *_responseData;
+    NSURLConnection *connStart;
 }
 
 
@@ -460,6 +465,9 @@ typedef struct ADSTATE
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;
 #endif
+
+- (void) TreateActStart:(NSData *)theResponseData;
+
 
 @end
 

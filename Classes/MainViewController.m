@@ -1187,6 +1187,8 @@
     }
 #endif
 	DLog(@"strURI = %@", strURI);
+    [self GetHTTPDataAsync:strURI];
+/*
 	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
 	//[strURI release];
 	
@@ -1248,9 +1250,71 @@
 	
 	[strData release];
     [self saveServerData];
+ */
 }
 
-
+- (void) TreateActStart:(NSData *)theResponseData
+{
+    NSString* strData = [[NSString alloc] initWithData:theResponseData encoding:NSUTF8StringEncoding];
+    
+    if (!strData) {
+        //		[self alertLocalizedAlertViewUTF8];
+        return;
+    }
+    NSLog(@"strData = %@", strData);
+    NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
+    NSInteger count = listItems.count;
+    NSString *item;
+    
+    NSString *name;
+    NSString *value;
+    NSString *error = nil;
+    for(int idx = 0; idx < count; idx++)
+    {
+        item = [listItems objectAtIndex:idx];
+        
+        NSArray *rawData = [item componentsSeparatedByString:@"\t"];
+        if (rawData.count >= 2)
+        {
+            name = [rawData objectAtIndex:0];
+            value = [rawData objectAtIndex:1];
+            
+            if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
+                error = value;
+                if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
+                    //[self alertLocalizedAlertView:error];
+                }
+            } else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
+                gServerIP = [[NSString alloc] initWithString:value];
+            else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
+#if defined(DEBUG______) && defined(APPLY_DEBUGID_______)
+                gUserID = cDebugUserID;
+#else
+            gUserID = [value integerValue];
+#endif
+            else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
+                [self setUserName:value];
+            else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
+                gInterval = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"ITVSEC"] == NSOrderedSame)
+                gIntervalSec = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
+                gRandom = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
+                gBonus = [value integerValue];
+            else if ([name caseInsensitiveCompare:@"ADBENDOR"] == NSOrderedSame) {
+                NSInteger oldAdBendor = gAdBendor;
+                gAdBendor = [value integerValue];
+                if (gAdBendor != oldAdBendor) {
+                    [self reloadBanner];
+                }
+            }
+        }
+    }
+    
+    [strData release];
+    [self saveServerData];
+}
 
 
 #define kServerIP                   @"serverIP"
@@ -2707,9 +2771,28 @@
 	[self alertLocalizedAlertView:@"Wrong UTF8 format data was received"];
 }
 
+
+- (void) GetHTTPDataAsync:(NSString *)strURI
+{
+    NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
+#ifdef DAILYSENDER
+                        @"10.211.55.17:88",
+#else
+                        gServerIP,
+#endif
+                        cServerScript,
+                        strURI];
+    DLog(@"strURL* = \n%@", strURL);
+    NSURL *theURL = [NSURL URLWithString:strURL];
+    
+    NSURLRequest *theRequest = [NSURLRequest requestWithURL:theURL];
+    connStart = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    
+}
+
 - (NSString *) GetHTTPData:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
 {
-	NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+	NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
 #ifdef DAILYSENDER
                         @"10.211.55.17:88",
 #else
@@ -2719,7 +2802,6 @@
 						strURI];
     DLog(@"strURL* = \n%@", strURL);
 	NSURL *theURL = [NSURL URLWithString:strURL];
-	[strURL release];
 	
 	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:theURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout];
 	
@@ -4505,7 +4587,38 @@ static NSInteger LEVELSCORE[] = {
 
 
 
+#pragma mark NSURLConnection Delegate Methods
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    // A response has been received, this is where we initialize the instance var you created
+    // so that we can append data to it in the didReceiveData method
+    // Furthermore, this method is called each time there is a redirect so reinitializing it
+    // also serves to clear it
+    _responseData = [[NSMutableData alloc] init];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+    // Append the new data to the instance variable you declared
+    [_responseData appendData:data];
+}
+
+- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
+                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
+    // Return nil to indicate not necessary to store a cached response for this connection
+    return nil;
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
+    // The request is complete and data has been received
+    // You can parse the stuff in your instance variable now
+    if (connection == connStart)
+        [self TreateActStart:_responseData];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
+    // The request has failed for some reason!
+    // Check the error var
+}
 
 
 
