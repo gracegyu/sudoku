@@ -518,6 +518,7 @@ static NSUInteger SmallerColorTemplate[9] = {
          withAttributes:@{ NSFontAttributeName: font,
                            NSParagraphStyleAttributeName: textStyle,
                            NSForegroundColorAttributeName: color} ];
+        [textStyle release];
     } else {    // less than 7.0
         CGContextSetFillColorWithColor(context, color.CGColor);
         [str drawInRect:CGRectMake(rect.origin.x,

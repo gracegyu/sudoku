@@ -236,8 +236,8 @@ typedef struct ADSTATE
     
     NSString* strMsgFinish;
     
-    NSMutableData *_responseData;
-    NSURLConnection *connStart;
+    NSMutableData *_responseDataStart;
+    NSURLConnection *_connStart;
 }
 
 

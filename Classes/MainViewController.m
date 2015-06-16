@@ -870,10 +870,12 @@
 - (void) viewDidDisappear:(BOOL)animated
 {
     DLog(@"MainViewController:viewDidDisappear");
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     if (mainView.bMenuMode)
     {
         [self hideMenuView:NO];
@@ -1113,7 +1115,7 @@
     
 	// should move to after starting to show screen fastly when it starts.
     for (int i=0; i<3; i++) {
-        NSString *strOldServerIP = [[NSString alloc] initWithString:gServerIP];
+        NSString *strOldServerIP = [NSString stringWithString:gServerIP];
         
         [self serverActStart];
         if ([gServerIP isEqualToString:strOldServerIP] == YES) {
@@ -1187,70 +1189,8 @@
     }
 #endif
 	DLog(@"strURI = %@", strURI);
-    [self GetHTTPDataAsync:strURI];
-/*
-	NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
-	//[strURI release];
-	
-	// zzz error handling, if gUserID is 1 still ...
-	if (!strData) {
-		//		[self alertLocalizedAlertViewUTF8];
-		return;
-	}
-    NSLog(@"strData = %@", strData);
-	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
-	NSInteger count = listItems.count;
-	NSString *item;
-	
-	NSString *name;
-	NSString *value;
-	NSString *error = nil;
-	for(int idx = 0; idx < count; idx++)
-	{
-		item = [listItems objectAtIndex:idx];
-		
-		NSArray *rawData = [item componentsSeparatedByString:@"\t"];
-		if (rawData.count >= 2)
-		{
-			name = [rawData objectAtIndex:0];
-			value = [rawData objectAtIndex:1];
-			
-			if ([name caseInsensitiveCompare:kResultStatus] == NSOrderedSame) {
-				error = value;
-				if ([error caseInsensitiveCompare:kSuccess] != NSOrderedSame) {
-					//[self alertLocalizedAlertView:error];
-				}
-			} else if ([name caseInsensitiveCompare:@"ServerIP"] == NSOrderedSame)
-				gServerIP = [[NSString alloc] initWithString:value];
-			else if ([name caseInsensitiveCompare:@"UserID"] == NSOrderedSame)
-#if defined(DEBUG______) && defined(APPLY_DEBUGID_______)
-                gUserID = cDebugUserID;
-#else
-				gUserID = [value integerValue];
-#endif
-			else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
-                [self setUserName:value];
-            else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
-                gInterval = [value integerValue];
-            else if ([name caseInsensitiveCompare:@"ITVSEC"] == NSOrderedSame)
-                gIntervalSec = [value integerValue];
-            else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
-                gRandom = [value integerValue];
-            else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
-                gBonus = [value integerValue];
-            else if ([name caseInsensitiveCompare:@"ADBENDOR"] == NSOrderedSame) {
-                NSInteger oldAdBendor = gAdBendor;
-                gAdBendor = [value integerValue];
-                if (gAdBendor != oldAdBendor) {
-                    [self reloadBanner];
-                }
-            }
-		}
-	}
-	
-	[strData release];
-    [self saveServerData];
- */
+    _connStart = [self GetHTTPDataAsync:strURI timeoutInterval:cDefaultHTTPTimeOut];
+
 }
 
 - (void) TreateActStart:(NSData *)theResponseData
@@ -2248,7 +2188,8 @@
 }
 
 - (void)viewDidUnload {
-	DLog(@"viewDidUnload");	
+	DLog(@"viewDidUnload");
+    [super viewDidUnload];
     
 #ifdef ADMOB_FREEVERSION
     if (bNoAd) {
@@ -2772,7 +2713,7 @@
 }
 
 
-- (void) GetHTTPDataAsync:(NSString *)strURI
+- (NSMutableURLRequest *) GetTheRequest:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
 {
     NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
 #ifdef DAILYSENDER
@@ -2785,25 +2726,53 @@
     DLog(@"strURL* = \n%@", strURL);
     NSURL *theURL = [NSURL URLWithString:strURL];
     
-    NSURLRequest *theRequest = [NSURLRequest requestWithURL:theURL];
-    connStart = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:theURL
+                                                              cachePolicy:NSURLRequestReloadIgnoringCacheData
+                                                          timeoutInterval:timeout];
+    return theRequest;
+}
+
+- (NSURLConnection *) PostHTTPDataAsync:(NSString *)strURI bodyObject:(NSDictionary *)bodyObject timeoutInterval:(NSTimeInterval)timeout
+{
+    NSMutableURLRequest *theRequest = [self GetTheRequest:strURI timeoutInterval:timeout];
     
+    [theRequest setHTTPMethod:@"POST"];
+    
+    // bodyObject의 객체가 존재할 경우 QueryString형태로 변환
+    if(bodyObject)
+    {
+        // 임시 변수 선언
+        NSMutableArray *parts = [NSMutableArray array];
+        NSString *part;
+        id key;
+        id value;
+        
+        // 값을 하나하나 변환
+        for(key in bodyObject)
+        {
+            value = [bodyObject objectForKey:key];
+            part = [NSString stringWithFormat:@"%@=%@", [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
+                    [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            [parts addObject:part];
+        }
+        
+        // 값들을 &로 연결하여 Body에 사용
+        [theRequest setHTTPBody:[[parts componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    return [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+    
+}
+
+- (NSURLConnection *) GetHTTPDataAsync:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
+{
+    NSMutableURLRequest *theRequest = [self GetTheRequest:strURI timeoutInterval:timeout];
+    return [[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+
 }
 
 - (NSString *) GetHTTPData:(NSString *)strURI timeoutInterval:(NSTimeInterval)timeout
 {
-	NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
-#ifdef DAILYSENDER
-                        @"10.211.55.17:88",
-#else
-						gServerIP,
-#endif
-                        cServerScript,
-						strURI];
-    DLog(@"strURL* = \n%@", strURL);
-	NSURL *theURL = [NSURL URLWithString:strURL];
-	
-	NSMutableURLRequest *theRequest = [NSMutableURLRequest requestWithURL:theURL cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:timeout];
+    NSMutableURLRequest *theRequest = [self GetTheRequest:strURI timeoutInterval:timeout];
 	
 	NSURLResponse *theResponse;
 	NSError *theError;
@@ -2844,7 +2813,8 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     //formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
-    formatter.calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    formatter.calendar = gregorian;
     
     
     
@@ -2857,6 +2827,8 @@
     
     NSString *str = [formatter stringFromDate:today];
     //[str retain];
+    [gregorian release];
+    [formatter release];
     return str;
 }
 
@@ -4594,12 +4566,14 @@ static NSInteger LEVELSCORE[] = {
     // so that we can append data to it in the didReceiveData method
     // Furthermore, this method is called each time there is a redirect so reinitializing it
     // also serves to clear it
-    _responseData = [[NSMutableData alloc] init];
+    if (connection == _connStart)
+        _responseDataStart = [[NSMutableData alloc] init];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
     // Append the new data to the instance variable you declared
-    [_responseData appendData:data];
+    if (connection == _connStart)
+        [_responseDataStart appendData:data];
 }
 
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
@@ -4611,13 +4585,19 @@ static NSInteger LEVELSCORE[] = {
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
     // The request is complete and data has been received
     // You can parse the stuff in your instance variable now
-    if (connection == connStart)
-        [self TreateActStart:_responseData];
+    if (connection == _connStart) {
+        [self TreateActStart:_responseDataStart];
+        [_responseDataStart release];
+        [_connStart release];
+    }
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     // The request has failed for some reason!
     // Check the error var
+    if (connection == _connStart) {
+        [_connStart release];
+    }
 }
 
 

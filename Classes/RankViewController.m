@@ -94,7 +94,7 @@
     
     
     
-    NSString *strURL = [[NSString alloc] initWithFormat: @"http://%@/%@?%@",
+    NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
 						ctrl.gServerIP,
 						cServerRankingScript,
 						strURI];
@@ -102,8 +102,7 @@
     
     
     
-    NSURL *url = [NSURL URLWithString:strURL];
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:strURL]];
     
     [webView loadRequest:request];
 
@@ -127,6 +126,7 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+    [super viewDidUnload];
 }
 
 
