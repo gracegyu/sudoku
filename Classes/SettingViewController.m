@@ -78,7 +78,8 @@
 
 
 - (void) viewWillAppear:(BOOL)animated {
-	DLog(@"viewWillAppear");
+    [super viewWillAppear:animated];
+    DLog(@"viewWillAppear");
 	self.navigationController.title = gettext(@"Setting", nil);
 }
 
@@ -314,10 +315,15 @@
 - (void)viewDidUnload {
 	// Release any retained subviews of the main view.
 	// e.g. self.myOutlet = nil;
+    [super viewDidUnload];
 }
 
 
 - (void)dealloc {
+    productRequestNoAd.delegate = nil;
+    [productRequestNoAd release];
+    productRequestNoAd = nil;
+    
     [super dealloc];
 }
 
@@ -721,7 +727,7 @@
     NSLog(@"%@",queue );
     NSLog(@"Restored Transactions are once again in Queue for purchasing %@",[queue transactions]);
     
-    NSMutableArray *purchasedItemIDs = [[NSMutableArray alloc] init];
+    //NSMutableArray *purchasedItemIDs = [[NSMutableArray alloc] init];
     NSLog(@"received restored transactions: %d", (int)queue.transactions.count);
     
     //결재 기록이 없을때 alert 뛰우기
@@ -737,7 +743,7 @@
     for (SKPaymentTransaction *transaction in queue.transactions)
     {
         NSString *productID = transaction.payment.productIdentifier;
-        [purchasedItemIDs addObject:productID];
+        //[purchasedItemIDs addObject:productID];
         NSLog (@"product id is %@" , productID);
         // here put an if/then statement to write files based on previously purchased items
         // example if ([productID isequaltostring: @"youruniqueproductidentifier]){write files} else { nslog sorry}

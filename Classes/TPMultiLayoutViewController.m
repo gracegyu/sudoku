@@ -60,6 +60,8 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     DLog(@"TPMultiLayoutViewController:viewWillAppear");
     // Display correct layout for orientation
     if ( (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && !viewIsCurrentlyPortrait) ||

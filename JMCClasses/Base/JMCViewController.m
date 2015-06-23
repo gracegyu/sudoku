@@ -125,6 +125,7 @@ static NSInteger kJMCTag = 10133;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.locationManager startUpdatingLocation];
     
     // Show cancel button only if this is the first controller on the stack
@@ -151,6 +152,7 @@ static NSInteger kJMCTag = 10133;
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
     [self.locationManager stopUpdatingLocation];
     [self dismissKeyboard];
 }

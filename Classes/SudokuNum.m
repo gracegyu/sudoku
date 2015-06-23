@@ -123,7 +123,8 @@
 
 - (NSInteger) randNum:(NSInteger) num
 {
-    return ((unsigned int)arc4random()) % num;
+    
+    return num ? ((NSUInteger)arc4random()) % num : 0;
 }
 
 

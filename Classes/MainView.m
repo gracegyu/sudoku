@@ -507,7 +507,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	CGSize sizeText = [str sizeWithFont:font forWidth:rect.size.width lineBreakMode:NSLineBreakByClipping];
 	
     if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")) {
-        NSMutableParagraphStyle *textStyle = [[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy];
+        NSMutableParagraphStyle *textStyle = [[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         textStyle.lineBreakMode = NSLineBreakByClipping;
         textStyle.alignment = align;
 
@@ -518,7 +518,6 @@ static NSUInteger SmallerColorTemplate[9] = {
          withAttributes:@{ NSFontAttributeName: font,
                            NSParagraphStyleAttributeName: textStyle,
                            NSForegroundColorAttributeName: color} ];
-        [textStyle release];
     } else {    // less than 7.0
         CGContextSetFillColorWithColor(context, color.CGColor);
         [str drawInRect:CGRectMake(rect.origin.x,

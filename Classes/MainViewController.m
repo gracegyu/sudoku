@@ -927,6 +927,7 @@
         [adMobBanner release];
         adMobBanner = nil;
     }
+#ifdef IADCHANGE
     if (iADBanner) {
         iADBanner.hidden = YES;
         iADBanner.delegate = nil;
@@ -934,14 +935,19 @@
         [iADBanner release];
         iADBanner = nil;
     }
+#endif
 }
 
 - (void)initBanner
 {
+#ifdef IADCHANGE
     if (gAdBendor == ADBENDER_ADMOB)
         [self initGADBanner];
     else   // iad
         [self initiADBanner];
+#else
+    [self initGADBanner];
+#endif
 }
 
 
@@ -966,6 +972,7 @@
     [adMobBanner loadRequest:[GADRequest request]];
 }
 
+#ifdef IADCHANGE
 - (void)initiADBanner
 {
     if (bNoAd) {
@@ -981,7 +988,7 @@
     iADBanner.delegate=self;
     [self.view addSubview:iADBanner];
 }
-
+#endif
 
 - (void) requestGADagain
 {
@@ -1385,11 +1392,12 @@
             adMobBanner.frame = areaAdBanner.frame;
             adMobBanner.hidden = NO;
         }
+#ifdef IADCHANGE
         if (iADBanner) {
             iADBanner.frame = areaiAdBanner.frame;
             iADBanner.hidden = NO;
         }
-    
+#endif
     }
 #endif
 }
@@ -2199,10 +2207,12 @@
             [adMobBanner release];
             adMobBanner = nil;
         }
+#ifdef IADCHANGE
         if (iADBanner) {
             [iADBanner release];
             iADBanner = nil;
         }
+#endif
     }
 #endif
 	// Release any retained subviews of the main view.
@@ -2221,11 +2231,13 @@
             [adMobBanner release];
             adMobBanner = nil;
         }
+#ifdef IADCHANGE
         if (iADBanner) {
             iADBanner.delegate = nil;
             [iADBanner release];
             iADBanner = nil;
         }
+#endif
     }
 #endif
     [super dealloc];
@@ -3925,8 +3937,10 @@ static NSInteger LEVELSCORE[] = {
     if (bNoAd == NO) {
         if (adMobBanner)
             adMobBanner.hidden = YES;
+#ifdef IADCHANGE
         if (iADBanner)
             iADBanner.hidden = YES;
+#endif
     }
 #endif
 	[self readySlideView:viewMenu];
@@ -3948,10 +3962,12 @@ static NSInteger LEVELSCORE[] = {
             adMobBanner.frame = areaAdBanner.frame;
             adMobBanner.hidden = NO;
         }
+#ifdef IADCHANGE
         if (iADBanner) {
             iADBanner.frame = areaiAdBanner.frame;
             iADBanner.hidden = NO;
         }
+#endif
     }
 #endif
 
@@ -4210,6 +4226,7 @@ static NSInteger LEVELSCORE[] = {
 
 #ifdef ADMOB_FREEVERSION
 
+#ifdef IADCHANGE
 #pragma mark -
 #pragma mark iAD Delegate
 
@@ -4236,10 +4253,8 @@ static NSInteger LEVELSCORE[] = {
         [self logEventParam:@"2 iAd banner load fail:Switch to Admob"];
         return;
     }
-    
-    
-
 }
+#endif
 
 
 #pragma mark GADBannerViewDelegate implementation
@@ -4260,13 +4275,14 @@ static NSInteger LEVELSCORE[] = {
     DLog(@"OnTimerGADRequestAgain");
     [self requestGADagain];
 }
+#ifdef IADCHANGE
 - (void) OnTimerSwitchToiAD:(NSTimer *)timer
 {
     DLog(@"OnTimerSwitchToiAD");
     [self removeAd];
     [self initiADBanner];
 }
-
+#endif
 - (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
 {
     DLog(@"adView didFailToReceiveAdWithError:%@, %@", [error localizedDescription], error);
@@ -4292,7 +4308,7 @@ static NSInteger LEVELSCORE[] = {
     }
     
     gAdmobFailCount++;
-    
+#ifdef IADCHANGE
     if (gAdmobFailCount > MAXGADFAIL) {
         [NSTimer scheduledTimerWithTimeInterval:1
                                          target:self
@@ -4302,7 +4318,7 @@ static NSInteger LEVELSCORE[] = {
 
         return;
     }
-    
+#endif
     [NSTimer scheduledTimerWithTimeInterval:GADRETRYINTERVAL
                                      target:self
                                    selector:@selector(OnTimerGADRequestAgain:)

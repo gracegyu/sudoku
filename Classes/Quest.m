@@ -60,6 +60,7 @@ sQuest listQuest[] = {
     p.questName = name;
     p.questPoint = point;
     p.questImage = [UIImage imageNamed:imageName];
+    //p.questImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:imageName ofType:nil]];
     p.questDone = done;
     
     return p;
@@ -117,7 +118,9 @@ sQuest listQuest[] = {
 
 - (void)dealloc {
     [questImage release];
+    questImage = nil;
     [questName release];
+    questName = nil;
     
     [super dealloc];
 }

@@ -75,7 +75,9 @@ typedef struct ADSTATE
     ,SKProductsRequestDelegate
     ,SKPaymentTransactionObserver
 #ifdef ADMOB_FREEVERSION
+#ifdef IADCHANGE
     ,ADBannerViewDelegate
+#endif
     ,GADBannerViewDelegate
     ,GADInterstitialDelegate
 #endif
@@ -183,7 +185,9 @@ typedef struct ADSTATE
 	NSInteger	countHint;
 
 #ifdef ADMOB_FREEVERSION
+#ifdef IADCHANGE
     ADBannerView *iADBanner;        // iAD
+#endif
     GADBannerView *adMobBanner;
     BOOL        bNoAd;              // 광고 제거 아이템 구매
     BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
