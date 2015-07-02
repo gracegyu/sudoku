@@ -320,10 +320,11 @@
 
 
 - (void)dealloc {
+#ifdef ADMOB_FREEVERSION
     productRequestNoAd.delegate = nil;
     [productRequestNoAd release];
     productRequestNoAd = nil;
-    
+#endif
     [super dealloc];
 }
 

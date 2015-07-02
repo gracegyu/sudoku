@@ -92,7 +92,9 @@
 */
 
 - (IBAction)done
-{    
+{
+    [mainViewController startGameTimer];
+
     if (SYSTEM_VERSION_LESS_THAN(@"5.0"))
     {
         [mainViewController dismissModalViewControllerAnimated:YES];
