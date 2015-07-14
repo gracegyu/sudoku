@@ -347,18 +347,24 @@
 - (void) saveData
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
-	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
-	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4+1] = "";
-	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4] = "";
+    BOOL bRet;
+	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";     // for safe
+	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";   // for safe
+	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";    // for safe
 	
     DLog(@"[self getCageCount]=%ld", (long)[self getCageCount]);
 	DAssert([self getCageCount] > 10, @"[self getCageCount]=%ld", (long)[self getCageCount]);
 	
+    DLog(@"sizeof(KillerCage) = %ld", sizeof(KillerCage));
+    DLog(@"sizeof(NSInteger) = %ld", sizeof(NSInteger));
+    
+    
 	[KillerMap getNumsPipeSize:zStrMap		size:MAXMAPSIZE*MAXMAPSIZE	nums:&map[0][0]];
 	[KillerMap getNumsPipeSize:zStrColor	size:MAXMAPSIZE*MAXMAPSIZE	nums:&color[0][0]];
-	[KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
+	bRet = [KillerMap getNumsPipe:zStrCage		size:[self getCageCount]*sizeof(KillerCage)/sizeof(NSInteger)
 										nums:(NSInteger*)&cage[0]];
+    if (bRet == NO)
+        return; // data error
 	//DLog(@"zStrCage(%s)", zStrCage);
 	
 //	DAssert(strlen(zStrMap) >= MAXMAPSIZE*MAXMAPSIZE*2-1, @"strlen(zStrMap)=%zd", strlen(zStrMap));
@@ -374,8 +380,6 @@
 	
 	DLog(@"saveData KillerMap(%@)", str);
 	//[self printMap];
-
-
 	
 	[defaults setObject:str forKey:kKillerMap];
 }
@@ -455,7 +459,7 @@
 
 
 
-+ (void) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
++ (BOOL) getNumsPipe:(char*)str	size:(NSInteger)size nums:(NSInteger*)nums
 {
    
 	for (int i=0; i<size; i++)
@@ -467,13 +471,13 @@
 			break;
 		}
 		sprintf(str, "%ld", (long)nums[i]);
-		str += strlen(str);
+		str += strlen(str);                     // Crash
 		if (i+1 < size)
 			*str++ = '|';
     }
     
-    
 	*str = '\0';
+    return YES;
 }
 
 + (void) setNumsPipe:(NSString *)str	size:(NSInteger)size nums:(NSInteger*)nums

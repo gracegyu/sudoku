@@ -1881,11 +1881,11 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	
-	char zStrMapNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
-	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
-	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
-	char zStrFixNum[MAXMAPSIZE*MAXMAPSIZE+1] = "";
-	char zStrMemoNum[MAXMAPSIZE*MAXMAPSIZE*(MAXMAPSIZE*MAXMAPSIZE+1)+1] = "";
+	char zStrMapNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";            // for safe
+	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";         // for safe
+	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";         // for safe
+	char zStrFixNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";            // for safe
+	char zStrMemoNum[MAXMAPSIZE*MAXMAPSIZE*(MAXMAPSIZE*MAXMAPSIZE+1)+100] = ""; // for safe
 	
 	[SudokuGame get9x9Nums:zStrMapNum       size:size   nums:&mapNums[0][0]];
 	[SudokuGame get9x9Nums:zStrPuzzleNum	size:size   nums:&puzzleNums[0][0]];
