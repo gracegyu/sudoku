@@ -1250,6 +1250,7 @@
                 gRandom = [value integerValue];
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
                 gBonus = [value integerValue];
+#ifdef ADMOB_FREEVERSION
             else if ([name caseInsensitiveCompare:@"ADBENDOR"] == NSOrderedSame) {
                 NSInteger oldAdBendor = gAdBendor;
                 gAdBendor = [value integerValue];
@@ -1257,6 +1258,7 @@
                     [self reloadBanner];
                 }
             }
+#endif
         }
     }
     

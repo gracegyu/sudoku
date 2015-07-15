@@ -296,8 +296,8 @@ typedef struct SUDOKUSCORE
 #define ADCLICKBONUS            0   // 5
 
 #ifdef IADCHANGE
-#define GADRETRYINTERVAL        3
-#define MAXGADFAIL              5   // zzzzz 3
+#define GADRETRYINTERVAL        10
+#define MAXGADFAIL              6   // zzzzz 3
 #else
 #define GADRETRYINTERVAL        10
 #endif
