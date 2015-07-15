@@ -1876,11 +1876,21 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	}
 }
 
+#define kSudokuGameSaving		@"sudokugamesaving"
+
 
 - (void) saveData
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	
+    if ([defaults boolForKey:kSudokuGameSaving]) {      // Crashed last time
+        [defaults setBool:NO forKey:kSudokuGameSaving];
+        [defaults synchronize];
+        return ;
+    }
+    [defaults setBool:YES forKey:kSudokuGameSaving];
+    [defaults synchronize];
+
+    
 	char zStrMapNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";            // for safe
 	char zStrPuzzleNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";         // for safe
 	char zStrAnswerNum[MAXMAPSIZE*MAXMAPSIZE+100] = "";         // for safe
@@ -1923,23 +1933,33 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     {
         [kmap saveData];
     }
+    [defaults setBool:NO forKey:kSudokuGameSaving];
+    [defaults synchronize];
 }
+
+#define kSudokuGameLoading		@"sudokugameloading"
 
 + (SudokuGame*) loadData
 {
- //   return nil;
-    
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSString *str = (NSString*)[defaults stringForKey:kSudokuGame];	
+    
+    NSString *str = (NSString*)[defaults stringForKey:kSudokuGame];
 	if (str == nil) {
 		DLog(@"loadData Failed");
 		return nil;
 	}
 	
 	DLog(@"loadData(%@)", str);
-	
-	SudokuGame* sudokuGame = [[SudokuGame alloc] initWithSavedString:str];
-	
+    if ([defaults boolForKey:kSudokuGameLoading]) { // Crashed last time
+        [defaults setBool:NO forKey:kSudokuGameLoading];
+        [defaults synchronize];
+        return nil;
+    }
+    [defaults setBool:YES forKey:kSudokuGameLoading];
+    [defaults synchronize];
+    SudokuGame* sudokuGame = [[SudokuGame alloc] initWithSavedString:str];
+    [defaults setBool:NO forKey:kSudokuGameLoading];
+    [defaults synchronize];
 	// sudokuGame.bAutoMemo = YES;
 	//[sudokuGame initAutoMemo]; 메모를 그대로 읽어들여야 한다.
 	

@@ -572,7 +572,10 @@
 	
 	// undo array save
 	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:arrayUndo];
-	[defaults setObject:data forKey:karrayUndo];
+    if (data)   // for safe
+        [defaults setObject:data forKey:karrayUndo];    // Crash
+    
+    [defaults synchronize];
 }
 
 - (id) initWithSaveData

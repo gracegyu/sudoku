@@ -49,7 +49,7 @@ static NSBundle *bundle = nil;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     [defaults setObject:strLocale forKey:kLocale];  // locale 저장하기
-
+    [defaults synchronize];
 }
 
 + (NSString *) getFullLocale:(NSString *)strLocale

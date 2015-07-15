@@ -382,6 +382,7 @@
 	//[self printMap];
 	
 	[defaults setObject:str forKey:kKillerMap];
+    [defaults synchronize];
 }
 
 - (id) initWithSaveData

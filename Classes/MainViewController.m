@@ -349,6 +349,7 @@
         [defaults setObject:gAdState[i].lasterror forKey:[kAdStateLastError stringByAppendingFormat:@"%d", i]];
         DLog(@"save gAdState[%d] = %d,%d,%@", i, (int)gAdState[i].show, (int)gAdState[i].fail, gAdState[i].lasterror);
     }
+    [defaults synchronize];
 }
 
 - (void) alertFinish
