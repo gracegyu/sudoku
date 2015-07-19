@@ -4205,6 +4205,8 @@ static NSInteger LEVELSCORE[] = {
 
 - (void) logEventParam:(NSString*)event
 {
+    [Flurry logEvent:event];
+    /*
     NSLocale *locale = [NSLocale currentLocale];
     NSString *languageCode = [locale objectForKey: NSLocaleLanguageCode];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
@@ -4223,6 +4225,7 @@ static NSInteger LEVELSCORE[] = {
     
     
     [Flurry logEvent:event withParameters:params];
+     */
 }
 
 
