@@ -808,8 +808,6 @@
        [self decideLocale];
        
        [self loadServerData];
-       [self loadSetting];
-	   
 	   
         mainView = (MainView*) self.view;
  	    frameMainViewOrg = mainView.frame;
@@ -817,6 +815,7 @@
 
 	   
 	   //[mainView setBackgroundColor:[[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"bg3.png"]]];
+       [self loadSetting];  // loadSetting need mainView 
 
 	   areaPuzzleTable.hidden = YES;
 	   areaNumButton.hidden = YES;
