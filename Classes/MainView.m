@@ -928,6 +928,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     BOOL bConflict;
 	CGRect rectNum;    
     CGFloat margin;
+    UIColor *colorMemo;
     
     if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
         margin = 0.12f; // 부등호를 위한 공간이 조금 더 필요하다.
@@ -979,10 +980,15 @@ static NSUInteger SmallerColorTemplate[9] = {
 									 y0+height*y/countH,
 									 width/countW,
 									 height/countH);
+                if (bSettingDuplicationWarning == YES) {
+                    colorMemo = bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT] : skincolor[SC_TEXT_CELL_MEMO_OK];
+                } else {
+                    colorMemo = skincolor[SC_TEXT_CELL_MEMO_OK];
+                }
                 [self drawNumRect:context
                               num:[self CharToNum:memo[i]]
                              rect:rectNum
-                            color:bConflict? skincolor[SC_TEXT_CELL_MEMO_CONFLICT] : skincolor[SC_TEXT_CELL_MEMO_OK]
+                            color:colorMemo
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 i++;
 			}
