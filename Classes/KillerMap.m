@@ -17,11 +17,12 @@
 @implementation KillerMap
 
 @synthesize size;
-
+/*
 - (void)dealloc {
-	[super dealloc];
+	[super dealloc];    // Crash (SDSDKNINEF-11102)
+                        // 4   SUDOKU9Free  0x00136ad5 -[KillerMap dealloc] (KillerMap.m:23)
 }
-
+*/
 - (id) initWithMap:(KillerMap*)source
 {
 	if (!(self = [super init]))
