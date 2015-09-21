@@ -167,8 +167,12 @@ typedef struct SUDOKUSCORE
 #define cOSType						@"iOS"
 #define cOSVersion					[[[UIDevice currentDevice] systemVersion] floatValue]
 #define isIpad                      (cDeviceType == DEVICETYPE_IPAD)
-#define isIphone5or6                   (([UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale] == 1136) || \
+#define isIphone5or6                (([UIScreen mainScreen].bounds.size.height * [[UIScreen mainScreen] scale] == 1136) || \
                                      ([UIScreen mainScreen].bounds.size.width * [[UIScreen mainScreen] scale] == 1136))
+#define isIphone6s                  (([UIScreen mainScreen].bounds.size.height == 568 || [UIScreen mainScreen].bounds.size.width == 568) && \
+                                     [[UIScreen mainScreen] scale] >= 3)
+#define isLongIphone                ((isIphone5or6) || (isIphone6s))
+
 //#define isPortrait                  (lastOrientation == UIInterfaceOrientationPortrait || lastOrientation == UIInterfaceOrientationPortraitUpsideDown)
 #define isPortrait                  ([self interfaceOrientation] == UIInterfaceOrientationPortrait || [self interfaceOrientation] == UIInterfaceOrientationPortraitUpsideDown)
 

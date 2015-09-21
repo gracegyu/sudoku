@@ -133,14 +133,19 @@
     bNoAdRestarted = bNoAd;
 #endif
     
+    // if 1136 : iphone 5, 6
+    DLog(@"[UIScreen mainScreen].bounds.size.width = %f", [UIScreen mainScreen].bounds.size.width);
+    DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
+    DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
+    
 	NSString *strNib = [NSString stringWithString:
 #ifdef ADMOB_FREEVERSION
     bNoAd ?
-    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isIphone5or6 ? @"MainView4iPhone5" : @"MainView")) :
-	(cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" : (isIphone5or6 ? @"MainView4iPhone5Free" : @"MainViewFree"))
+    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isLongIphone ? @"MainView4iPhone5" : @"MainView")) :
+	(cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" : (isLongIphone ? @"MainView4iPhone5Free" : @"MainViewFree"))
                         
 #else
-	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isIphone5or6 ? @"MainView4iPhone5" : @"MainView")
+	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isLongIphone ? @"MainView4iPhone5" : @"MainView")
 #endif
      ];
 	

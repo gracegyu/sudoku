@@ -1461,13 +1461,14 @@
 	[self hideMenuView:NO];
     [self getRankingFromGameCenter];    // 최신 랭킹으로 update
 
-    
+    // if 1136 : iphone 5, 6
+    DLog(@"[UIScreen mainScreen].bounds.size.width = %f", [UIScreen mainScreen].bounds.size.width);
     DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
     DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
     
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
-										  (isIphone5or6 ? @"ScoreView4iPhone5" : @"ScoreView")
+										  (isLongIphone ? @"ScoreView4iPhone5" : @"ScoreView")
                                           bundle:nil];
     controller.mainViewController = self;
 	[controller setScoreData:&score];
@@ -1491,7 +1492,7 @@
     
     QuestViewController *controller = [[QuestViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"QuestView4iPad" :
-                                       (isIphone5or6 ? @"QuestView4iPhone5" : @"QuestView")
+                                       (isLongIphone ? @"QuestView4iPhone5" : @"QuestView")
                                                                             bundle:nil];
     
     
@@ -1922,7 +1923,7 @@
         UIGraphicsEndImageContext();
     }
     
-    APActivityProvider *ActivityProvider = [[APActivityProvider alloc] init];
+    APActivityProvider *ActivityProvider = [[APActivityProvider alloc] initWithPlaceholderItem:@"Default text"];
     ActivityProvider.strMsg = strMsg;
     ActivityProvider.strMsgTwitter = strMsgTwitter;
     NSArray *Items;
@@ -2099,7 +2100,7 @@
     DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
-                                        (isIphone5or6 ? @"SettingView4iPhone5" : @"SettingView")
+                                        (isLongIphone ? @"SettingView4iPhone5" : @"SettingView")
                                         bundle:nil];
     controller.mainViewController = self;
 //	controller.title = gettext(@"Setting", nil);
@@ -2126,7 +2127,7 @@
     DLog(@"showHelpView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
-                                      (isIphone5or6 ? @"HelpView4iPhone5" : @"HelpView")
+                                      (isLongIphone ? @"HelpView4iPhone5" : @"HelpView")
                                       bundle:nil];
 
 
@@ -2143,7 +2144,7 @@
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
-                                      (isIphone5or6 ? @"RankView4iPhone5" : @"RankView")
+                                      (isLongIphone ? @"RankView4iPhone5" : @"RankView")
                                                                           bundle:nil];
     controller.bMyRankCheck = bMyRanking;
     controller.mainViewController = self;
