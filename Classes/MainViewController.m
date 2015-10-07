@@ -1244,7 +1244,11 @@
             else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
                 gInterval = [value integerValue];
             else if ([name caseInsensitiveCompare:@"ITVSEC"] == NSOrderedSame)
+#ifdef DEBUG
+                gIntervalSec = 10;
+#else
                 gIntervalSec = [value integerValue];
+#endif
             else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
                 gRandom = [value integerValue];
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
