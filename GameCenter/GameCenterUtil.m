@@ -340,7 +340,7 @@ static BOOL bLoginedGamecenter = NO;
                          { // 100%면 달성완료 노티를...
                              [[GKAchievementHandler defaultHandler]notifyAchievement:achievementDescription];
                          } else { // 100%가 안되면 진행도를 노티.
-                             [[GKAchievementHandler defaultHandler]notifyAchievementTitle:achievementDescription.title andMessage:[NSString stringWithFormat:gettext(@"%.0f%% 완료하셨습니다.",nil), percent]];
+                             [[GKAchievementHandler defaultHandler]notifyAchievementTitle:achievementDescription.title andMessage:[NSString stringWithFormat:gettext(@"You have completed %.0f%%",nil), percent]];
                          }
                      }
                  }

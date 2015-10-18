@@ -549,18 +549,64 @@
 */
 }
 
+- (void) alertMessageButton:(NSString*)title msg:(NSString*) msg button:(NSString*)button
+{
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:msg
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:button
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    
+    [alert addAction:ok];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void) alertMessageOk:(NSString*)title msg:(NSString*) msg
+{
+    [self alertMessageButton:title msg:msg button:gettext(@"Ok", nil)];
+}
+
+
 - (IBAction)goReview
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Recommendation", nil)
-													message:gettext(@"Please enter your cheering message with 5 stars. We will make more interesting game with your comments.", nil)
-												   delegate:self
-										  cancelButtonTitle:gettext(@"Cancel", nil)
-										  otherButtonTitles:gettext(@"Yes", nil), nil];
-	[alert show];
-	[alert release];
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:gettext(@"Recommendation", nil)
+                                  message:gettext(@"Please enter your cheering message with 5 stars. We will make more interesting game with your comments.", nil)
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction* yes = [UIAlertAction
+                          actionWithTitle:gettext(@"Yes", nil)
+                          style:UIAlertActionStyleDefault
+                          handler:^(UIAlertAction * action)
+                          {
+                              [Appirater rateApp];
+                              [mainViewController DoneQuest:eQuestAppReview];
+                              
+                          }];
     
+    [alert addAction:yes];
+    UIAlertAction* cancel = [UIAlertAction
+                        actionWithTitle:gettext(@"Cancel", nil)
+                        style:UIAlertActionStyleDefault
+                        handler:^(UIAlertAction * action)
+                        {
+                            
+                        }];
+    
+    [alert addAction:cancel];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
     [Flurry logEvent:@"goAppReview"];
-
 }
 
 - (IBAction)goNewApps
@@ -585,14 +631,7 @@
     [self setNoAdButton];
     
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:gettext(@"All of advertisements will be removed", nil)
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [self alertMessageOk:gettext(@"Information", nil) msg:gettext(@"All of advertisements will be removed", nil)];
 }
 
 - (void)successResotreNoAd
@@ -603,14 +642,7 @@
     [self setNoAdButton];
     
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:gettext(@"Restored No Advertisements item", nil)
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [self alertMessageOk:gettext(@"Information", nil) msg:gettext(@"Restored No Advertisements item", nil)];
 }
 
 - (void)failedBuyNoAd:(NSString*)message;
@@ -619,14 +651,7 @@
     
     // 실패 메시지
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [self alertMessageOk:gettext(@"Information", nil) msg:msg];
 }
 
 - (void)failedRestoreNoAd:(NSString*)message;
@@ -635,14 +660,7 @@
     
     // 실패 메시지
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [self alertMessageOk:gettext(@"Information", nil) msg:msg];
 }
 
 - (void)paymentQueue:(SKPaymentQueue *)queue updatedTransactions:(NSArray *)transactions
@@ -733,12 +751,7 @@
     
     //결재 기록이 없을때 alert 뛰우기
     if(queue.transactions.count==0){
-        UIAlertView *resultView = [[UIAlertView alloc] initWithTitle:@"Failed"
-                                                             message:gettext(@"There is no record of your purchase.", nil)
-                                                            delegate:self
-                                                   cancelButtonTitle:nil
-                                                   otherButtonTitles:@"OK", nil];
-        [resultView show];
+        [self alertMessageOk:@"Failed" msg:gettext(@"There is no record of your purchase.", nil)];
     }
     
     for (SKPaymentTransaction *transaction in queue.transactions)
@@ -769,7 +782,7 @@
 
 
 #pragma mark - Alert
-- (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
+/*- (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 1) // "확인" 버튼
     {        
@@ -777,7 +790,7 @@
         [mainViewController DoneQuest:eQuestAppReview];
     }
 }
-
+*/
 
 
 

@@ -352,17 +352,42 @@
     [defaults synchronize];
 }
 
+
+- (void) alertMessageButton:(NSString*)title msg:(NSString*) msg button:(NSString*)button
+{
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:title
+                                  message:msg
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:button
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    
+    [alert addAction:ok];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+
+
+- (void) alertMessageOk:(NSString*)title msg:(NSString*) msg
+{
+    [self alertMessageButton:title msg:msg button:gettext(@"Ok", nil)];
+}
+
 - (void) alertFinish
 {
     DLog(@"strMsgFinish=%@", strMsgFinish);
 
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Congratulations!", nil)
-                                                    message:strMsgFinish
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
+    [self alertMessageOk:gettext(@"Congratulations!", nil) msg:strMsgFinish];
+    
 //    [strMsgFinish release];
 }
 
@@ -2710,14 +2735,7 @@
 
 - (void) alertLocalizedOkayView:(NSString*)aTitle message:(NSString*)aMessage
 {
-	UIAlertView *alert = [[UIAlertView alloc]
-						  initWithTitle:gettext(aTitle, nil)
-						  message:gettext(aMessage, nil)
-						  delegate:self
-						  cancelButtonTitle:gettext(@"Ok", nil)
-						  otherButtonTitles:nil];
-	[alert show];
-	[alert release];
+    [self alertMessageOk:gettext(aTitle, nil) msg:gettext(aMessage, nil)];
 }
 
 - (void) alertLocalizedAlertView:(NSString*)aMessage
@@ -3503,14 +3521,8 @@
     
     [self makeNewGame:GAMELEVEL_USERINPUT];
     
-    UIAlertView *alert = [[UIAlertView alloc]
-                          initWithTitle:nil
-                          message:gettext(@"Press start button after input puzzle numbers from newspapers and books.", nil)
-                          delegate:self
-                          cancelButtonTitle:gettext(@"Ok", nil)
-                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
+    [self alertMessageOk:nil msg:gettext(@"Press start button after input puzzle numbers from newspapers and books.", nil)];
+
 }
 
 - (IBAction)newgameVeryEasy
@@ -3558,24 +3570,61 @@
     [self startGameTimer];
 }
 
+
+- (void) alertNameIsTooShort
+{
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:gettext(@"Alert", nil)
+                                  message:gettext(@"Name is too short!", nil)
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:gettext(@"Ok", nil)
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [self openChangeNickNameDialog];
+                             
+                         }];
+    
+    [alert addAction:ok];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+
 - (void) openChangeNickNameDialog
 {
     [Flurry logEvent:@"ChangeNickNameDialog open"];
+    
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:nil
+                                  message:gettext(@"Please input your nickname", nil)
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:gettext(@"Save", nil) style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                   UITextField *login = alert.textFields.firstObject;
+                                                   NSString *newName = login.text;
+                                                   if ([newName length] < MIN_NAME) {
+                                                       // Warning
+                                                       [self alertNameIsTooShort];
+                                                   } else {
+                                                       [self setUserName:newName];
+                                                       //gUserName = newName;
+                                                       [self saveServerData];
+                                                       [self DoneQuest:eQuestChangeName];
+                                                   }
+                                               }];
+    [alert addAction:ok];
 
     
-    UIAlertView * alert = [[UIAlertView alloc] initWithTitle:nil
-                                                     message:gettext(@"Please input your nickname", nil)
-                                                    delegate:self
-                                           cancelButtonTitle:gettext(@"Save", nil)
-                                           otherButtonTitles:nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    UITextField *textField = [alert textFieldAtIndex:0];
-    DLog(@"gUserName:%@", gUserName);
-    textField.text = [self getUserName];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.text = [self getUserName];
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
 
-    
-    [alert show];
-    [alert release];
 }
 
 - (IBAction)changeNickName
@@ -4062,14 +4111,7 @@ static NSInteger LEVELSCORE[] = {
     [self saveSetting];
     
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:gettext(@"50 hints were increased.", nil)
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-
+    [self alertMessageOk:gettext(@"Information", nil) msg:gettext(@"Ok", nil)];
 }
 
 - (void)failedBuyHint50:(NSString*)message;
@@ -4081,14 +4123,7 @@ static NSInteger LEVELSCORE[] = {
 
     // 실패 메시지
     // 성공 메시지
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Information", nil)
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:gettext(@"Ok", nil)
-                                          otherButtonTitles:nil];
-    [alert show];
-    [alert release];
-    
+    [self alertMessageOk:gettext(@"Information", nil) msg:msg];    
 }
 
 
@@ -4160,7 +4195,7 @@ static NSInteger LEVELSCORE[] = {
 }
 
 #pragma mark - Alert
-
+/*
 - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = alert.title;
@@ -4205,7 +4240,7 @@ static NSInteger LEVELSCORE[] = {
 
     
 }
-
+*/
 
 - (void) logEventParam:(NSString*)event
 {
@@ -4252,8 +4287,8 @@ static NSInteger LEVELSCORE[] = {
     DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
 
     [self logEventParam:@"2 iAd banner load fail"];
-    NSString *str = [NSString stringWithFormat:@"2 iAd banner load fail:%@", [error localizedDescription]];
-    [self logEventParam:str];
+    //NSString *str = [NSString stringWithFormat:@"2 iAd banner load fail:%@", [error localizedDescription]];
+    //[self logEventParam:str];
     gAdState[eAdStateiAdBanner].fail += 1;
     if (gAdState[eAdStateiAdBanner].lasterror)
         [gAdState[eAdStateiAdBanner].lasterror release];
@@ -4297,8 +4332,8 @@ static NSInteger LEVELSCORE[] = {
 {
     DLog(@"adView didFailToReceiveAdWithError:%@, %@", [error localizedDescription], error);
     [self logEventParam:@"2 Admob banner load fail"];
-    NSString *str = [NSString stringWithFormat:@"2 Admob banner load fail:%@", [error localizedDescription]];
-    [self logEventParam:str];
+    //NSString *str = [NSString stringWithFormat:@"2 Admob banner load fail:%@", [error localizedDescription]];
+    //[self logEventParam:str];
 
     gAdState[eAdStateAdmobBanner].fail += 1;
     if (gAdState[eAdStateAdmobBanner].lasterror)
@@ -4397,8 +4432,8 @@ static NSInteger LEVELSCORE[] = {
     [self logEventParam:@"2 Admob interstitial load fail"];
     DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
     
-    NSString *str = [NSString stringWithFormat:@"2 Admob interstitial load fail:%@", [error localizedDescription]];
-    [self logEventParam:str];
+    //NSString *str = [NSString stringWithFormat:@"2 Admob interstitial load fail:%@", [error localizedDescription]];
+    //[self logEventParam:str];
     
     gAdState[eAdStateAdmobInterstitial].fail += 1;
     if (gAdState[eAdStateAdmobInterstitial].lasterror)

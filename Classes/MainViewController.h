@@ -64,7 +64,7 @@ typedef struct ADSTATE
 
 @interface MainViewController : TPMultiLayoutViewController
     <UIGestureRecognizerDelegate
-    ,UIAlertViewDelegate
+    //,UIAlertViewDelegate
     ,NSURLConnectionDelegate
 #ifdef USE_JMC
     ,JMCCustomDataSource
@@ -462,6 +462,7 @@ typedef struct ADSTATE
 - (NSString*) getNowYYYYMMDD;
 - (NSString *)percentEscapeString:(NSString *)string;
 - (void) DoneQuest:(eQuest)quest;
+- (void) alertMessageOk:(NSString*)title msg:(NSString*) msg;
 - (void) alertLocalizedAlertView:(NSString*)aMessage;
 - (void) logEventParam:(NSString*)event;
 

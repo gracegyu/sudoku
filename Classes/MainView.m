@@ -1992,6 +1992,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
 	NSInteger wrongSums = 0;
 	NSInteger ret = [sudokuGame clearGameCheckAllCells:&wrongSums];
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 
 	
     if (ret == 0) {
@@ -2001,34 +2002,18 @@ static NSUInteger SmallerColorTemplate[9] = {
             {
                 NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong sum(s)", nil), wrongSums];
                 
-                
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
-                                                                message:msg
-                                                               delegate:self
-                                                      cancelButtonTitle:gettext(@"Ok", nil)
-                                                      otherButtonTitles:nil];
-                [alert show];
-                [alert release];
-                
+                [ctrl alertMessageOk:gettext(@"Alert!", nil) msg:msg];
                 return;
             }
         }
 
-        MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
         
         bMemoMode = NO;
         [ctrl writeScoreAfterFinishGame:sudokuGame];
 	} else if (ret > 0) {
 		NSString *msg = [NSString stringWithFormat:gettext(@"There are %d wrong cell(s)", nil), ret];
 		
-		
-		UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert!", nil)
-														message:msg
-													   delegate:self 
-											  cancelButtonTitle:gettext(@"Ok", nil) 
-											  otherButtonTitles:nil];
-		[alert show];
-		[alert release];		
+        [ctrl alertMessageOk:gettext(@"Alert!", nil) msg:msg];
 	}
 	
 }
@@ -2093,6 +2078,57 @@ static NSUInteger SmallerColorTemplate[9] = {
         return YES;
 }
 
+
+- (void) PushBookmarkButton:(NSInteger) buttonIndex
+{
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+
+    if (buttonIndex == 0)		// goto last bookmark
+    {
+        NSInteger countBookmark = [sudokuGame.sudokuUndo countGoBookmark];
+        
+        if (countBookmark)
+        {
+            CGPoint pointLastUndoPos;
+            Bookmark *bm = [sudokuGame.sudokuUndo getLastBookmark];
+            
+            if (bm)
+            {
+                [self setSelectedXYPos:bm->x yPos:bm->y];
+                
+                if (countBookmark < 0)
+                {
+                    while ([sudokuGame.sudokuUndo getIndex] > bm->pos)
+                        pointLastUndoPos = [sudokuGame runUndo];
+                } else {
+                    while ([sudokuGame.sudokuUndo getIndex] <= bm->pos)
+                        pointLastUndoPos = [sudokuGame runRedo];
+                }
+            }
+        }
+        // delete last bookmark;
+        [sudokuGame.sudokuUndo delLastBookmark];
+        [self playSoundClick];
+        [ctrl DoneQuest:eQuestGoBack];
+        
+    } else if (buttonIndex == 1) {
+        [sudokuGame.sudokuUndo addBookmark];
+        [self playSoundClick];
+        [ctrl DoneQuest:eQuestBookmarking];
+    } else if (buttonIndex == 2) {
+        [sudokuGame.sudokuUndo delAllBookmarks];
+        [self playSound:soundClearID];
+    } else if (buttonIndex == 3) {              // cancel
+        
+    }
+    [ctrl updateButtonUndo];
+    [ctrl updateButtonBookmark];
+    [sudokuGame saveData];
+    [self setNeedsDisplay];
+
+}
+
+
 - (void) runBookmark
 {
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
@@ -2110,16 +2146,54 @@ static NSUInteger SmallerColorTemplate[9] = {
         
         alertMode = ALELRT_BOOKMARK;
         
-        UIAlertView *alert = [[UIAlertView alloc] init];
-        [alert setTitle:gettext(@"", nil)];
-        //[alert setMessage:@"Do you pick Yes or No?"];
-        [alert setDelegate:self];
-        [alert addButtonWithTitle:gettext(@"Go back last bookmark", nil)];
-        [alert addButtonWithTitle:gettext(@"Add bookmark", nil)];
-        [alert addButtonWithTitle:gettext(@"Delete all bookmarks", nil)];
-        [alert addButtonWithTitle:gettext(@"Cancel", nil)];
-        [alert show];
-        [alert release];
+        MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
+        
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:nil
+                                      message:nil
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* goback = [UIAlertAction
+                             actionWithTitle:gettext(@"Go back last bookmark", nil)
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [self PushBookmarkButton:0];
+                                 
+                             }];
+        [alert addAction:goback];
+        UIAlertAction* add = [UIAlertAction
+                                 actionWithTitle:gettext(@"Add bookmark", nil)
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [self PushBookmarkButton:1];
+                                     
+                                 }];
+        [alert addAction:add];
+        UIAlertAction* delete = [UIAlertAction
+                              actionWithTitle:gettext(@"Delete all bookmarks", nil)
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  [self PushBookmarkButton:2];
+                                  
+                              }];
+        [alert addAction:delete];
+        UIAlertAction* cancel = [UIAlertAction
+                              actionWithTitle:gettext(@"Cancel", nil)
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  [self PushBookmarkButton:3];
+                                  
+                              }];
+        [alert addAction:cancel];
+
+        
+        [ctrl presentViewController:alert animated:YES completion:nil];
+        
+        
         [self playSoundClick];
     }
 	//[sudokuGame saveData];
@@ -2177,15 +2251,47 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     if (sudokuGame.isGameFinished)
         return;
-    
+
+    MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
     alertMode = ALELRT_INIT;
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:gettext(@"Alert", nil)
-													message:gettext(@"Do you want to initialize the puzzle?", nil)
-												   delegate:self 
-										  cancelButtonTitle:gettext(@"No", nil) 
-										  otherButtonTitles:gettext(@"Yes", nil), nil];
-	[alert show];
-	[alert release];
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:gettext(@"Alert", nil)
+                                  message:gettext(@"Do you want to initialize the puzzle?", nil)
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* no = [UIAlertAction
+                         actionWithTitle:gettext(@"No", nil)
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                         }];
+    
+    [alert addAction:no];
+
+    UIAlertAction* yes = [UIAlertAction
+                         actionWithTitle:gettext(@"Yes", nil)
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [sudokuGame clearAllNums];
+                             
+                             [ctrl updateButtons];
+                             [ctrl updateHintCount];
+                             
+                             [self playSound:soundClearID];
+                             [sudokuGame saveData];
+                             
+                             [ctrl DoneQuest:eQuestResetGame];
+                             
+                             [self setNeedsDisplay];
+                             
+                         }];
+    
+    [alert addAction:yes];
+    
+    [ctrl presentViewController:alert animated:YES completion:nil];
+
 	[sudokuGame saveData];
 }
 
@@ -2309,7 +2415,8 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 
 #pragma mark - Alert
-- (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
+/*
+ - (void) alertView:(UIAlertView *)alert clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
 
@@ -2379,7 +2486,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     }
 	[self setNeedsDisplay];
 }
-
+*/
 
 - (void) OnTimer:(NSTimer *)timer
 {
