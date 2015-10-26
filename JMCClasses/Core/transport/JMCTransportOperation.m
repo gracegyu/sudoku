@@ -178,7 +178,7 @@
         msg = [msg stringByAppendingString:responseString];
     }
     NSString *absoluteURL = [[request.URL absoluteURL] description];
-    JMCDLog(@"Request failed: %@ URL: %@, response code: %d", msg, absoluteURL, statusCode);
+    JMCDLog(@"Request failed: %@ URL: %@, response code: %ld", msg, absoluteURL, statusCode);
 #endif
     
     looping = NO;

@@ -1,5 +1,5 @@
 /**
-   Copyright 2011 Atlassian Software
+   Copyright 2015 Atlassian Software
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,10 +14,15 @@
    limitations under the License.
 **/
 
-# define JMCALog(format, ...) NSLog((@"%d %s " format), __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#import <Foundation/Foundation.h>
+#import "JMC.h"
+#import "NSBundle+JMC.h"
 
-# ifdef JMC_DEBUG
-#  define JMCDLog(format, ...) JMCALog(format, ##__VA_ARGS__);
-# else
-#   define JMCDLog(...)
-# endif
+static NSBundle *JMC_stringsResourceBundle;
+
+static inline NSString * JMCLocalizedString(NSString *key, NSString *comment) {
+    if (JMC_stringsResourceBundle == NULL) {
+        JMC_stringsResourceBundle = [NSBundle JMC_stringsBundle];
+    }
+    return NSLocalizedStringFromTableInBundle((key), @"JMCLocalizable", JMC_stringsResourceBundle, (comment));
+}

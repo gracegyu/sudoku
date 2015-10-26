@@ -1,5 +1,5 @@
 /**
-   Copyright 2011 Atlassian Software
+   Copyright 2015 Atlassian Software
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -14,10 +14,17 @@
    limitations under the License.
 **/
 
-# define JMCALog(format, ...) NSLog((@"%d %s " format), __LINE__, __PRETTY_FUNCTION__, ##__VA_ARGS__);
+#import "UIImage+JMC.h"
+#import "NSBundle+JMC.h"
 
-# ifdef JMC_DEBUG
-#  define JMCDLog(format, ...) JMCALog(format, ##__VA_ARGS__);
-# else
-#   define JMCDLog(...)
-# endif
+@implementation UIImage (JMC)
+
++ (UIImage *)JMC_imageNamed:(NSString *)imageName {
+    if ([UIImage respondsToSelector:@selector(imageNamed:inBundle:compatibleWithTraitCollection:)]) {
+        return [UIImage imageNamed:imageName inBundle:[NSBundle JMC_bundle] compatibleWithTraitCollection:nil];
+    } else {
+        return [UIImage imageNamed:imageName];
+    }
+}
+
+@end

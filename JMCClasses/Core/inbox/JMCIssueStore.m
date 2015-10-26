@@ -20,6 +20,7 @@
 #import "JMCDatabase.h"
 #import "JMCMacros.h"
 #import "JMC.h"
+#import "JMCLocalization.h"
 
 @interface JMCIssueStore ()
 @property (nonatomic, strong) JMCDatabase* theDB;
@@ -120,7 +121,7 @@ static NSRecursiveLock *writeLock;
                                    "dateCreated, "
                                    "hasUpdates "
                                 "FROM issue ORDER BY hasUpdates desc, dateUpdated desc LIMIT 1 OFFSET ?",
-                           [NSNumber numberWithUnsignedInt:(unsigned int)issueIndex]];
+                           [NSNumber numberWithUnsignedInt:issueIndex]];
     if ([res next]) {
         NSDictionary* dictionary = [res resultDict];
         JMCIssue* issue = [[JMCIssue alloc] initWithDictionary:dictionary];
@@ -130,7 +131,7 @@ static NSRecursiveLock *writeLock;
         }
         return issue;
     }
-    JMCALog(@"No issue at index = %u", (unsigned int)issueIndex);
+    JMCALog(@"No issue at index = %lu", issueIndex);
     return nil;
 }
 

@@ -20,6 +20,8 @@
 #import "JMCQueueItem.h"
 #import "JMCRequestQueue.h"
 #import "JMCTransportOperation.h"
+#import "JMCLocalization.h"
+#import "JMCLocalization.h"
 
 @implementation JMCTransport
 
@@ -110,7 +112,7 @@
         if (item != nil && item.filenameFormat != nil) {
             
             NSString *filename = [NSString stringWithFormat:item.filenameFormat, attachmentIndex];
-            NSString *key = [item.name stringByAppendingFormat:@"-%d", (int)attachmentIndex];
+            NSString *key = [item.name stringByAppendingFormat:@"-%ld", (long)attachmentIndex];
             if (item.type == JMCAttachmentTypeCustom ||
                 item.type == JMCAttachmentTypeSystem) {
                 // the JIRA Plugin expects all customfields to be in the 'customfields' part.

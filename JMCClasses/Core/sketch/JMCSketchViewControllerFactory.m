@@ -9,13 +9,14 @@
 #import "JMCSketchViewControllerFactory.h"
 #import "JMCSketchViewController.h"
 #import "UIImage+JMCResize.h"
+#import "NSBundle+JMC.h"
 
 @implementation JMCSketchViewControllerFactory
 
 +(JMCSketchViewController*) makeSketchViewControllerFor:(NSData*)imageData withId:(NSInteger)imageId
 {
     JMCSketchViewController *sketchViewController = 
-        [[JMCSketchViewController alloc] initWithNibName:@"JMCSketchViewController" bundle:nil];
+        [[JMCSketchViewController alloc] initWithNibName:@"JMCSketchViewController" bundle:[NSBundle JMC_bundle]];
     
     // get the original image, wire it up to the sketch controller
     sketchViewController.image = [[UIImage alloc] initWithData:imageData];

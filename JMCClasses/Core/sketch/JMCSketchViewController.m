@@ -83,18 +83,17 @@
 
 -(void) viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
     [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
     
 }
 - (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+    
     [self.scrollView setScrollEnabled:YES];
     [self.scrollView setContentOffset:CGPointMake(0, 0)];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 }
 
-#pragma mark UIScrollViewDelegate
+#pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scView {
     
 }
@@ -103,7 +102,7 @@
     
 }
 
-- (void)scrollViewDidEndZooming:(UIScrollView *)scView withView:(UIView *)view atScale:(float)scale {
+- (void)scrollViewDidEndZooming:(UIScrollView *)scView withView:(UIView *)view atScale:(CGFloat)scale {
     
 }
 

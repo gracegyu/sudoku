@@ -19,6 +19,7 @@
 #import "JMCMacros.h"
 #import "JMCAttachmentItem.h"
 #import "JMCSketchViewControllerFactory.h"
+#import "JMCLocalization.h"
 
 @interface JMCAttachmentsViewController ()
 
@@ -76,17 +77,17 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     switch (attachment.type) {
         case JMCAttachmentTypeRecording:
-            cell.textLabel.text = JMCLocalizedString(@"JMCRecordingLabel", "Recording");
+            cell.textLabel.text = JMCLocalizedString(@"JMCRecordingLabel", @"Recording");
             break;
             
         case JMCAttachmentTypeImage:
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-            cell.textLabel.text = JMCLocalizedString(@"JMCImageLabel", "Image");
+            cell.textLabel.text = JMCLocalizedString(@"JMCImageLabel", @"Image");
             break;
             
         case JMCAttachmentTypeCustom:
-            cell.textLabel.text = JMCLocalizedString(@"JMCCustomLabel", "Custom");
+            cell.textLabel.text = JMCLocalizedString(@"JMCCustomLabel", @"Custom");
             break;
             
         default:

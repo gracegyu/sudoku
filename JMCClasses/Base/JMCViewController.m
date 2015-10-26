@@ -27,6 +27,9 @@
 #import "UIImage+JMCResize.h"
 #import "UIView+JMCAdditions.h"
 #import "JMCConsoleLogReader.h"
+#import "JMCLocalization.h"
+#import "NSBundle+JMC.h"
+#import "UIImage+JMC.h"
 
 @interface JMCViewController ()
 
@@ -91,10 +94,10 @@ static NSInteger kJMCTag = 10133;
     self.countdownView.layer.cornerRadius = 7.0;
     
     if (self.replyToIssue) {
-        self.navigationItem.title = JMCLocalizedString(@"Reply", "Title of the feedback controller");
+        self.navigationItem.title = JMCLocalizedString(@"Reply", @"Title of the feedback controller");
     }
     else {
-        self.navigationItem.title = JMCLocalizedString(@"Feedback", "Title of the feedback controller");
+        self.navigationItem.title = JMCLocalizedString(@"Feedback", @"Title of the feedback controller");
     }
 
 
@@ -125,7 +128,6 @@ static NSInteger kJMCTag = 10133;
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
     [self.locationManager startUpdatingLocation];
     
     // Show cancel button only if this is the first controller on the stack
@@ -152,7 +154,6 @@ static NSInteger kJMCTag = 10133;
 }
 
 - (void) viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
     [self.locationManager stopUpdatingLocation];
     [self dismissKeyboard];
 }
@@ -340,7 +341,7 @@ static NSInteger kJMCTag = 10133;
         NSMutableArray *sprites = [NSMutableArray arrayWithCapacity:8];
         for (int i = 1; i < 9; i++) {
             NSString *sprintName = [@"icon_record_" stringByAppendingFormat:@"%d", i];
-            UIImage *img = [UIImage imageNamed:sprintName];
+            UIImage *img = [UIImage JMC_imageNamed:sprintName];
             [sprites addObject:img];
         }
         self.voiceButton.imageView.animationImages = sprites;
@@ -449,8 +450,8 @@ static NSInteger kJMCTag = 10133;
     } else {
         // use the first 80 chars of the description as the issue summary
         NSString *description = self.descriptionField.text;
-        NSUInteger length = 80;
-        NSUInteger toIndex = [description length] > length ? length : [description length];
+        u_int length = 80;
+        u_int toIndex = [description length] > length ? length : [description length];
         NSString *truncationMarker = [description length] > length ? @"..." : @"";
         [self.issueTransport send:[[description substringToIndex:toIndex] stringByAppendingString:truncationMarker]
                       description:self.descriptionField.text
@@ -484,7 +485,7 @@ static NSInteger kJMCTag = 10133;
                                                              filenameFormat:@"recording-%d.aac"];
     
     
-    attachment.thumbnail = [UIImage imageNamed:@"audio_attachment"];
+    attachment.thumbnail = [UIImage JMC_imageNamed:@"audio_attachment"];
     [self addAttachmentItem:attachment withIcon:attachment.thumbnail action:@selector(voiceAttachmentTapped:)];
     [recorder cleanUp];
 }
@@ -592,7 +593,7 @@ static NSInteger kJMCTag = 10133;
 
 
 - (void)configureButtonOverlayView {
-    self.buttonOverlayView.image = [UIImage imageNamed:@"background_overlay.png"];
+    self.buttonOverlayView.image = [UIImage JMC_imageNamed:@"background_overlay.png"];
 }
 
 - (void)layoutButtonOverlayView {
@@ -747,7 +748,7 @@ static NSInteger kJMCTag = 10133;
 - (UIButton *)buttonFor:(NSString *)iconNamed action:(SEL)action
 {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:iconNamed] forState:UIControlStateNormal];
+    [button setImage:[UIImage JMC_imageNamed:iconNamed] forState:UIControlStateNormal];
     [button addTarget:self action:action forControlEvents:UIControlEventTouchUpInside];
     button.frame = CGRectMake(0, 0, 44, 44);
     return button;

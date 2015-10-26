@@ -20,6 +20,8 @@
 #import "UILabel+JMCVerticalAlign.h"
 #import "JMCMacros.h"
 #import "JMCRequestQueue.h"
+#import "JMCLocalization.h"
+#import "NSBundle+JMC.h"
 
 static NSString *cellId = @"CommentCell";
 
@@ -137,7 +139,7 @@ static NSString *cellId = @"CommentCell";
     JMCIssuePreviewCell *cell = (JMCIssuePreviewCell *) [tableView dequeueReusableCellWithIdentifier:cellId];
 
     if (cell == NULL) {
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"JMCIssuePreviewCell" owner:self options:nil];
+        NSArray *topLevelObjects = [[NSBundle JMC_bundle] loadNibNamed:@"JMCIssuePreviewCell" owner:self options:nil];
         cell = [topLevelObjects objectAtIndex:0];
     }
 
@@ -189,7 +191,7 @@ static NSString *cellId = @"CommentCell";
     } else {
     
         issue.comments = [self.issueStore loadCommentsFor:issue];
-        JMCIssueViewController *detailViewController = [[JMCIssueViewController alloc] initWithNibName:@"JMCIssueViewController" bundle:nil];
+        JMCIssueViewController *detailViewController = [[JMCIssueViewController alloc] initWithNibName:@"JMCIssueViewController" bundle:[NSBundle JMC_bundle]];
         detailViewController.issue = issue;
         detailViewController.title = [issue.summary stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         

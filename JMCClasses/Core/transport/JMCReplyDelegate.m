@@ -12,6 +12,7 @@
 #import "JMCComment.h"
 #import "JMCMacros.h"
 #import "JMCTransport.h"
+#import "JMCLocalization.h"
 
 @implementation JMCReplyDelegate
 

@@ -20,6 +20,8 @@
 //
 #import "JMCMessageBubble.h"
 #import "JMCComment.h"
+#import "NSBundle+JMC.h"
+#import "UIImage+JMC.h"
 
 //these values depend on the geometry of an image used as bubble's background (Balloon_1 and Balloon_2)
 #define BUBBLE_MIN_HEIGHT 32.f
@@ -65,20 +67,18 @@
 
     CGSize size;
 
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7)
-        size = [[dateFormatter stringFromDate:comment.date]
-                boundingRectWithSize:CGSizeMake(widthConstraint, 20.f)
-                             options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin
-                          attributes:@{NSFontAttributeName:[JMCMessageBubble fontDetailLabel], NSParagraphStyleAttributeName:paragraphStyle}
-                             context:nil
-        ].size;
-    else //if iOS version is below 6, use the method deprected in iOS 7
-        size = [[dateFormatter stringFromDate:comment.date]
-                sizeWithFont:[JMCMessageBubble fontDetailLabel]
-           constrainedToSize:CGSizeMake(widthConstraint, 20.f)
-               lineBreakMode:NSLineBreakByClipping
-        ];
-
+#ifdef __IPHONE_7_0
+    size = [[dateFormatter stringFromDate:comment.date]
+            boundingRectWithSize:CGSizeMake(widthConstraint, 20.f)
+            options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin
+            attributes:@{NSFontAttributeName:[JMCMessageBubble fontDetailLabel], NSParagraphStyleAttributeName:paragraphStyle}
+            context:nil].size;
+#else
+    size = [[dateFormatter stringFromDate:comment.date]
+            sizeWithFont:[JMCMessageBubble fontDetailLabel]
+            constrainedToSize:CGSizeMake(widthConstraint, 20.f)
+            lineBreakMode:NSLineBreakByClipping];
+#endif
 
     return CGSizeMake(ceilf(size.width), ceilf(size.height));
 
@@ -206,17 +206,16 @@
     if (leftAligned) {
         textFrame = CGRectMake(BUBBLE_L_MARGIN_X, 0.f, textSize.width, textSize.height);
         bubbleFrame = CGRectMake(0.f, bubbleY, textFrame.origin.x+ textFrame.size.width+ BUBBLE_R_MARGIN_X, textFrame.size.height);
-
-
+        
         balloon = [ [[[UIDevice currentDevice] systemVersion] floatValue] >= 7 ?
-                [UIImage imageNamed:@"Balloon_2_ios7"] : [UIImage imageNamed:@"Balloon_2"]
+                [UIImage JMC_imageNamed:@"Balloon_2_ios7"] : [UIImage JMC_imageNamed:@"Balloon_2"]
                 stretchableImageWithLeftCapWidth:BUBBLE_CAP_WIDTH topCapHeight:BUBBLE_CAP_HEIGHT];
         _bubble.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     } else {
         textFrame = CGRectMake(BUBBLE_R_MARGIN_X, 0.f, textSize.width, textSize.height);
         bubbleFrame = CGRectMake(2.f, bubbleY, textFrame.origin.x+ textFrame.size.width+ BUBBLE_R_MARGIN_X+ BUBBLE_CAP_WIDTH, textFrame.size.height);
         balloon = [[[[UIDevice currentDevice] systemVersion] floatValue] >= 7 ?
-                [UIImage imageNamed:@"Balloon_1_ios7"] : [UIImage imageNamed:@"Balloon_1"]
+                [UIImage JMC_imageNamed:@"Balloon_1_ios7"] : [UIImage JMC_imageNamed:@"Balloon_1"]
                 stretchableImageWithLeftCapWidth:BUBBLE_CAP_WIDTH topCapHeight:BUBBLE_CAP_HEIGHT];
         _bubble.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     }
