@@ -386,9 +386,28 @@
 {
     DLog(@"strMsgFinish=%@", strMsgFinish);
 
-    [self alertMessageOk:gettext(@"Congratulations!", nil) msg:strMsgFinish];
+//    [self alertMessageOk:gettext(@"Congratulations!", nil) msg:strMsgFinish];
     
-//    [strMsgFinish release];
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:gettext(@"Congratulations!", nil)
+                                  message:strMsgFinish
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction
+                         actionWithTitle:gettext(@"Ok", nil)
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+#ifdef ADMOB_FREEVERSION
+                             if (self.interstitial != nil && bNoAd == NO)
+                                 [self showInterstitial];
+#endif
+                         }];
+    
+    [alert addAction:ok];
+    
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (NSInteger) levelToWriteScore:(SudokuGame*)sudokuGame
@@ -4561,11 +4580,8 @@ static NSInteger LEVELSCORE[] = {
     
     // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
     // lifetime. The property will release the old one and set the new one.
-    self.interstitial = [[GADInterstitial alloc] init];
+    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:MY_INTERSTITIAL_UNIT_ID];
     self.interstitial.delegate = self;
-    
-    // Note: Edit SampleConstants.h to update kSampleAdUnitId with your interstitial ad unit id.
-    self.interstitial.adUnitID = MY_INTERSTITIAL_UNIT_ID;
     [self.interstitial loadRequest:[self request]];
     
     return YES;
