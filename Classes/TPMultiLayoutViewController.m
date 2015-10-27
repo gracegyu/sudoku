@@ -64,9 +64,10 @@
     
     DLog(@"TPMultiLayoutViewController:viewWillAppear");
     // Display correct layout for orientation
-    if ( (UIInterfaceOrientationIsPortrait(self.interfaceOrientation) && !viewIsCurrentlyPortrait) ||
-         (UIInterfaceOrientationIsLandscape(self.interfaceOrientation) && viewIsCurrentlyPortrait) ) {
-        [self applyLayoutForInterfaceOrientation:self.interfaceOrientation];
+    
+    if ( (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]) && !viewIsCurrentlyPortrait) ||
+         (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]) && viewIsCurrentlyPortrait) ) {
+        [self applyLayoutForInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     }
 }
 
