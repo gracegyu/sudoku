@@ -49,6 +49,7 @@
     NSInteger       selectedYPos;
     BOOL            bDailyPuzzle;
     BOOL            bUserInputStart;
+    BOOL            bFinishAlert;
 }
 
 @property NSInteger         size;
@@ -68,6 +69,7 @@
 @property (nonatomic, retain) KillerMap		*kmap;
 @property BOOL            bDailyPuzzle;
 @property BOOL            bUserInputStart;
+@property BOOL          bFinishAlert;
 
 
 // Create Game : Level

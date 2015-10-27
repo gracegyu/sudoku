@@ -384,6 +384,11 @@
 
 - (void) alertFinish
 {
+    if (mainView.sudokuGame.bFinishAlert == YES)    // to prevent repeat
+        return;
+    
+    mainView.sudokuGame.bFinishAlert = YES;
+        
     DLog(@"strMsgFinish=%@", strMsgFinish);
 
 //    [self alertMessageOk:gettext(@"Congratulations!", nil) msg:strMsgFinish];

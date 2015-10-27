@@ -32,6 +32,7 @@
 @synthesize kmap;
 @synthesize bDailyPuzzle;
 @synthesize bUserInputStart;
+@synthesize bFinishAlert;
 
 
 
@@ -319,6 +320,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	bAutoMemoUndoLog = YES;
     bDailyPuzzle = NO;
     bUserInputStart = NO;
+    bFinishAlert = NO;
     
 }
 
