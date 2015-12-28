@@ -540,14 +540,14 @@ static NSUInteger SmallerColorTemplate[9] = {
 {
     if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL) {
         switch (num) {
-            case 1 : return @"❤";
+            case 1 : return @"♥";
             case 2 : return @"☘";
             case 3 : return @"☂";
             case 4 : return @"⛄";
             case 5 : return @"❄";
             case 6 : return @"☺";
             case 7 : return @"⚜";
-            case 8 : return @"♨";
+            case 8 : return @"⚙";
             case 9 : return @"⚖";
         }
     }
@@ -963,22 +963,12 @@ static NSUInteger SmallerColorTemplate[9] = {
 // 검정
 - (void)drawRectCellOnePuzzle:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect dupwarn:(BOOL)bDupWarnArea
 {
-    if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL) {   // 테두리 둘러야 한다.
-
-    /*        [self drawStrRect:context
-                      str:@"⚪"
-                     rect:rect
-                    color:skincolor[SC_TEXT_CELL_PUZZLE]
-                     font:cellOneSmallFont
-                    align:NSTextAlignmentCenter];*/
-    }
     
     [self drawGameNumRect:context
                   num:num
                  rect:rect
                 color:bDupWarnArea ? skincolor[SC_TEXT_CELL_MEMO_WARN]: skincolor[SC_TEXT_CELL_PUZZLE]
                  font:cellOneSmallFont];
-    
     if (bDupWarnArea)
         bFailCell = YES;
 }
@@ -1004,6 +994,15 @@ static NSUInteger SmallerColorTemplate[9] = {
                  rect:rect
                 color:color
                  font:cellOneSmallFont];
+    
+    if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
+        [self drawStrRect:context
+                      str:@"X"
+                     rect:rect
+                    color:skincolor[SC_TEXT_CELL_MEMO_WARN]
+                     font:cellOneSmallFont
+                    align:NSTextAlignmentCenter];
+    }
 
 }
 
@@ -1033,6 +1032,8 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     if (sudokuGame.sudokuType == SUDOKUTYPE_GT)
         margin = 0.12f; // 부등호를 위한 공간이 조금 더 필요하다.
+    else if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL)
+        margin = 0.00f;
     else
         margin = 0.10f;
         
@@ -1091,6 +1092,15 @@ static NSUInteger SmallerColorTemplate[9] = {
                              rect:rectNum
                             color:colorMemo
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
+                if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
+                    [self drawStrRect:context
+                                  str:@"X"
+                                 rect:rectNum
+                                color:skincolor[SC_TEXT_CELL_MEMO_WARN]
+                                 font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)
+                                align:NSTextAlignmentCenter];
+                }
+                
                 i++;
 			}
 			else if (i < 0)
@@ -1441,8 +1451,8 @@ static NSUInteger SmallerColorTemplate[9] = {
                                                      bMemoMode ?
                                                      skincolor[SC_LINE_SECLECTED_CELL_MEMO].CGColor :
                                                      skincolor[SC_LINE_SECLECTED_CELL_NORMAL].CGColor);
-                    currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
-                                              cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
+                    currentRect = CGRectMake (xPos+cBoldLine,yPos+cBoldLine,
+                                              cCellWidth-cBoldLine*2,cCellHeight-cBoldLine*2);
                     
                     CGContextAddRect(context, currentRect);
                     CGContextDrawPath(context, kCGPathStroke);
