@@ -131,7 +131,7 @@
 @synthesize gNowAd;
 @synthesize gAdmobFailCount;
 
-@synthesize nowDate;
+//@synthesize nowDate;
 @synthesize strMsgFinish;
 
 #ifdef ADMOB_FREEVERSION
@@ -1100,7 +1100,7 @@
 #endif
      bAd = NO;
      bReplay = NO;
-     nowDate = nil;
+     nowDate[0] = '\0';
 	 
      
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
@@ -2882,13 +2882,6 @@
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     formatter.calendar = gregorian;
     
-    
-    
-    //[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    //DLog(@"DateTime=%@", [formatter stringFromDate:today]);
-    
-    
-    
     [formatter setDateFormat:@"yyyyMMdd"];
     
     NSString *str = [formatter stringFromDate:today];
@@ -3076,7 +3069,7 @@
     [self newgameDailyPuzzle];
 #endif
     
-    
+    NSLog(@"nowDate = %s", nowDate);
 	[self makeNewGameDataFromServer];
 	
 	[activityIndicatorDailyGame stopAnimating];
@@ -3239,7 +3232,7 @@
 - (void) setDailyButton:(UIButton*) button played:(BOOL) bPlayed
 {
     if (bReadyDownloadDailyPuzzle) {
-#if defined(DAILYSENDER) || defined(DEBUG)
+#if defined(DAILYSENDER)// || defined(DEBUG)
         [self setButtonMode:button mode:YES];
 #else
         [self setButtonMode:button mode:!bPlayed];
@@ -3296,7 +3289,7 @@
 
 - (void) loadDailyStat
 {
-    nowDate = [[self getNowYYYYMMDD] retain];
+    strncpy(nowDate, [[self getNowYYYYMMDD] UTF8String], 9);
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSString *str = (NSString*)[defaults stringForKey:kDailyStat];
@@ -3305,7 +3298,7 @@
         NSArray *listItems = [str componentsSeparatedByString:@","];
 
         NSString *strDate = [listItems objectAtIndex:0];
-        if ([strDate isEqualToString:nowDate])
+        if ([strDate isEqualToString:[NSString stringWithUTF8String: nowDate]])
         {
             dailyStat[0].played = [[listItems objectAtIndex:1] integerValue] == 1 ? YES : NO;
             dailyStat[1].played = [[listItems objectAtIndex:2] integerValue] == 1 ? YES : NO;
@@ -3327,13 +3320,12 @@
 - (void) saveDailyStat
 {
     NSString *newNowDate = [self getNowYYYYMMDD];
-    if ([newNowDate isEqualToString:nowDate])
+    if ([newNowDate isEqualToString:[NSString stringWithUTF8String: nowDate]])
     {
         // 그사이에 날짜가 바뀌지 않았음
     } else {
         // 그사이에 날짜가 바뀌었음
-        
-        nowDate = newNowDate;
+        strncpy(nowDate, [newNowDate UTF8String], 9);
         dailyStat[0].played = NO;
         dailyStat[1].played = NO;
         dailyStat[2].played = NO;
@@ -3341,7 +3333,7 @@
     }
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* str = [NSString stringWithFormat:@"%@,%d,%d,%d,%d",
-                     nowDate,
+                     [NSString stringWithUTF8String: nowDate],
                      dailyStat[0].played ? 1 : 0,
                      dailyStat[1].played ? 1 : 0,
                      dailyStat[2].played ? 1 : 0,
@@ -3366,7 +3358,7 @@
                                                   selector:@selector(OnTimerDailyState:)
                                                   userInfo:nil
                                                    repeats:NO];
-    
+    NSLog(@"nowDate=%s", nowDate);
     
 }
 

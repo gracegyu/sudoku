@@ -228,7 +228,7 @@ typedef struct ADSTATE
     DAILYSTAT   dailyStat[4];   // daily puzzle 통계
 
     BOOL    bReadyDownloadDailyPuzzle;
-    NSString *nowDate;
+    char    nowDate[30];
 #ifdef LOCATIONTRACK
     CLLocationManager *locationManager;
     CLLocationDegrees currentLatitude;
@@ -359,8 +359,9 @@ typedef struct ADSTATE
 #ifdef LOCATIONTRACK
 @property (nonatomic, retain) CLLocationManager *locationManager;
 #endif
-@property (nonatomic, retain) NSString *nowDate;
+//@property (nonatomic, retain) NSString *nowDate;
 @property (nonatomic, retain) NSString *strMsgFinish;
+
 
 
 #ifdef ADMOB_FREEVERSION

@@ -245,7 +245,7 @@ typedef struct SUDOKUSCORE
 
 #ifdef DEBUG
 //#define cServerHostName         @"10.211.55.17:88"
-#define cServerHostName         @"www.smartoneinc.com:88"
+#define cServerHostName         @"www.smartoneinc.com"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
 #endif
