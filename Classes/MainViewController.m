@@ -770,6 +770,8 @@
     [buttonNewGameDailyPuzzle setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
 #endif*/
     [buttonNewGameUserInput setTitle:gettext(@"user input", nil) forState:UIControlStateNormal];
+    [self setButtonMode:buttonNewGameUserInput mode:mainView.nSettingSudokuType == SUDOKUTYPE_SUDOKU];
+    
     [buttonNewGameVeryEasy setTitle:gettext(@"very easy", nil) forState:UIControlStateNormal];
     [buttonNewGameEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
     [buttonNewGameNormal setTitle:gettext(@"normal", nil) forState:UIControlStateNormal];
