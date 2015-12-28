@@ -3508,24 +3508,25 @@
     [self sendDailyPuzzle:@"20120212"];
 */
 
-    for (int j=0; j<SUDOKUTYPE_MAX; j++) {
-        mainView.nSettingSudokuType = j;
-        [com setYear:2015];
-        [com setMonth:1];
-        [com setDay:1];
+//    for (int j=2; j<SUDOKUTYPE_MAX; j++) {
+        [com setYear:2020];
+        [com setMonth:9];
+        [com setDay:27];
         
         date = [[NSCalendar currentCalendar] dateFromComponents:com];
         
-        for (int i=0; i<366; i++)
+        for (int i=0; i<200; i++)
         {
-            DLog(@"%@", [formatter stringFromDate:date]);
-            [self makeNewGame:GAMELEVEL_NORMAL];
-//            [NSThread sleepForTimeInterval:0.1];
-            [self sendDailyPuzzle:[formatter stringFromDate:date]];
-
+            for (int j=0; j<SUDOKUTYPE_MAX; j++) {
+                mainView.nSettingSudokuType = j;
+                DLog(@"%@", [formatter stringFromDate:date]);
+                [self makeNewGame:GAMELEVEL_NORMAL];
+//              [NSThread sleepForTimeInterval:0.1];
+                [self sendDailyPuzzle:[formatter stringFromDate:date]];
+            }
             date = [date dateByAddingTimeInterval:60*60*24];
         }
-    }
+//    }
     
     [formatter release];
     

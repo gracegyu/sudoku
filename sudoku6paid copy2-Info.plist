@@ -5,30 +5,31 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>SUDOKU9</string>
+	<string>SUDOKU6</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>Sudoku9PaidIcon.png</string>
-		<string>Sudoku9PaidIcon-72.png</string>
-		<string>Sudoku9PaidIcon-Small-50.png</string>
-		<string>Sudoku9PaidIcon-Small.png</string>
-		<string>Sudoku9PaidIcon-Small@2x.png</string>
-		<string>Sudoku9PaidIcon@2x.png</string>
-		<string>Sudoku9PaidIcon@2x~ipad.png</string>
-		<string>Sudoku9PaidIcon~ipad.png</string>
+		<string>Sudoku6PaidIcon.png</string>
+		<string>Sudoku6PaidIcon~ipad.png</string>
+		<string>Sudoku6PaidIcon-Small-50.png</string>
+		<string>Sudoku6PaidIcon-Small.png</string>
+		<string>Sudoku6PaidIcon-Small@2x.png</string>
+		<string>Sudoku6PaidIcon@2x.png</string>
+		<string>Sudoku6PaidIcon@2x~ipad.png</string>
 	</array>
 	<key>CFBundleIcons</key>
 	<dict/>
 	<key>CFBundleIcons~ipad</key>
 	<dict/>
 	<key>CFBundleIdentifier</key>
-	<string>com.raymond.sudoku9sende</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>SUDOKU9</string>
+	<string>SUDOKU6</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -40,19 +41,26 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb116121415220692</string>
+				<string>fb381531935263532</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>4.140</string>
+	<string>4.141</string>
 	<key>FacebookAppID</key>
-	<string>116121415220692</string>
+	<string>381531935263532</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>NSMainNibFile</key>
+	<string>MainWindow</string>
+	<key>NSMainNibFile~ipad</key>
 	<string>MainWindow</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
@@ -75,20 +83,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>10.211.55.17</key>
-            <dict>
-                <key>NSIncludesSubdomains</key>
-                <true/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-                <true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key>
-                <string>TLSv1.1</string>
-            </dict>
-        </dict>
-    </dict>
 </dict>
 </plist>
