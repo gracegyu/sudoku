@@ -119,8 +119,11 @@ enum SUDOKUTYPE {
     SUDOKUTYPE_GT = 1,
     SUDOKUTYPE_KILLER = 2,
     SUDOKUTYPE_CALCU = 3,
-    SUDOKUTYPE_MAX = 4      // SOMETIMES Auto
+    SUDOKUTYPE_SYMBOL = 4,
+    SUDOKUTYPE_MAX = 5      // SOMETIMES Auto
 };
+
+#define SUDOKUTYPE_GK_MAX   4   // Game center 연동을 제외하기 위해서
 
 typedef enum SUDOKUTYPE SUDOKUTYPE;
 
@@ -241,7 +244,8 @@ typedef struct SUDOKUSCORE
 #endif
 
 #ifdef DEBUG
-#define cServerHostName         @"10.211.55.17:88"
+//#define cServerHostName         @"10.211.55.17:88"
+#define cServerHostName         @"www.smartoneinc.com:88"
 #else
 #define cServerHostName         @"www.smartoneinc.com"
 #endif

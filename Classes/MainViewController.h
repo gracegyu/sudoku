@@ -128,12 +128,14 @@ typedef struct ADSTATE
 	UIButton	*buttonDailyGameSudoku;
 	UIButton	*buttonDailyGameGt;
 	UIButton	*buttonDailyGameKiller;
-	UIButton	*buttonDailyGameCalcu;
+    UIButton	*buttonDailyGameCalcu;
+    UIButton	*buttonDailyGameSymbol;
     UIButton    *buttonNickname;
     UILabel     *labelDailyStatSudoku;
     UILabel     *labelDailyStatGt;
     UILabel     *labelDailyStatKiller;
     UILabel     *labelDailyStatCalcu;
+    UILabel     *labelDailyStatSymbol;
     UILabel     *labelNickname;
     
 	UIButton	*buttonDailyGameCancel;
@@ -281,11 +283,13 @@ typedef struct ADSTATE
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameGt;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameKiller;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCalcu;
+@property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameSymbol;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNickname;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatSudoku;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatGt;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatKiller;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatCalcu;
+@property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatSymbol;
 @property (nonatomic, retain) IBOutlet UILabel  *labelNickname;
 
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCancel;
@@ -421,6 +425,7 @@ typedef struct ADSTATE
 - (IBAction)dailygameGt;
 - (IBAction)dailygameKiller;
 - (IBAction)dailygameCalcudoku;
+- (IBAction)dailygameSymbolSudoku;
 - (IBAction)dailygameCancel;
 - (IBAction)changeNickName;
 //- (IBAction)changeDailyAutoMemo;

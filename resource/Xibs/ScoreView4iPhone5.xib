@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScoreViewController">
@@ -749,13 +750,14 @@
                             </connections>
                         </button>
                         <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="179">
-                            <rect key="frame" x="3" y="13" width="160" height="29"/>
+                            <rect key="frame" x="3" y="13" width="171" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="" image="type_0_120s.png"/>
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                             </segments>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="182"/>
@@ -786,7 +788,7 @@
                         <navigationItem title="Score" id="481">
                             <barButtonItem key="rightBarButtonItem" id="482">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="483">
-                                    <rect key="frame" x="407" y="7" width="57" height="30"/>
+                                    <rect key="frame" x="491" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
@@ -1512,6 +1514,7 @@
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                             </segments>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="484"/>
@@ -1537,10 +1540,6 @@
         <image name="type_1_120s.png" width="120" height="120"/>
         <image name="type_2_120s.png" width="120" height="120"/>
         <image name="type_3_120s.png" width="120" height="120"/>
+        <image name="type_4_120s.png" width="120" height="120"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

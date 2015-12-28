@@ -208,7 +208,8 @@ static BOOL bLoginedGamecenter = NO;
 {
     NSLog(@"getLevelCategory(%d,%ld)", type, (long)level);
     
-    static NSString* strLevel[SUDOKUTYPE_MAX+1][5] = {
+    // Symbol sudoku는 GK와 연동 안함
+    static NSString* strLevel[SUDOKUTYPE_GK_MAX+1][5] = {
         {
             GK_CATEGORY_VERYHARD,
             GK_CATEGORY_HARD,
@@ -246,11 +247,12 @@ static BOOL bLoginedGamecenter = NO;
         }
     };
 
-    if (level >= 0 && level < 5)
-	{
+    if (type < SUDOKUTYPE_GK_MAX && level >= 0 && level < 5) {  // symbol sudoku 제외
+        NSLog(@"   => %@", strLevel[type][level]);
 		return strLevel[type][level];
-    } else if (type == SUDOKUTYPE_SUDOKU && level >= 5 && level < 10) {
-		return strLevel[SUDOKUTYPE_MAX][level-5];
+    } else if (type == SUDOKUTYPE_SUDOKU && level >= 5 && level < 10) { // auto
+        NSLog(@"   => %@", strLevel[SUDOKUTYPE_GK_MAX][level-5]);
+		return strLevel[SUDOKUTYPE_GK_MAX][level-5];
 	} else {
 		return @"";
 	}

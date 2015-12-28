@@ -192,6 +192,18 @@ static int	HandyCount[SUDOKUTYPE_MAX][10][5] = {
         { 0, 3, 8, 16, 22 }, // 7
         { 0, 4, 9, 18, 25 }, // 8
         { 0, 4, 15, 33, 45 }  // 9 ok
+    },
+    { //SUDOKU_SYMBOL
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 1, 2, 3, 4 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+        { 0, 2, 6, 13, 20 }, // 6 ok
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+        { 0, 5, 10, 20, 30 } // 9 ok
     }
 };
 static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
@@ -250,6 +262,26 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         { 0, 3, 8, 16, 22 }, // 7
         { 0, 4, 9, 18, 25 }, // 8
         { 0, 6, 18, 25, 33 }  // 9 ok
+    },
+    { //SUDOKU_SYMBOL
+        { 0, 0, 0, 0, 0 },   // 0
+        { 0, 0, 0, 0, 0 },   // 1
+        { 0, 0, 0, 0, 0 },   // 2
+        { 0, 0, 0, 0, 0 },   // 3
+        { 0, 1, 2, 3, 4 },   // 4
+        { 0, 2, 4, 10, 15 }, // 5
+#ifdef DEBUG
+        { 0, 3, 5, 8, 30 },  // 6 ok
+#else
+        { 0, 3, 5, 8, 12 },  // 6 ok
+#endif
+        { 0, 3, 8, 16, 22 }, // 7
+        { 0, 4, 9, 18, 25 }, // 8
+#ifdef DEBUG
+        { 0, 3, 5, 10, 55 }  // 9 ok
+#else
+        { 0, 3, 5, 10, 15 }  // 9 ok
+#endif
     }
 };
 
@@ -260,7 +292,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	NSInteger handy = bAutoMemo ? HandyCountAuto[sudokuType][size][gameLevel] : HandyCount[sudokuType][size][gameLevel];
 	
 	
-    if (sudokuType != SUDOKUTYPE_SUDOKU)
+    if (sudokuType != SUDOKUTYPE_SUDOKU && sudokuType != SUDOKUTYPE_SYMBOL)
         memset(puzzleNums, 0, sizeof(puzzleNums));
 
 	NSInteger countPuzzle = [self countPuzzleNum];
@@ -1386,7 +1418,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
                         }
                     }
                 }
-                else if (sudokuType == SUDOKUTYPE_SUDOKU)
+                else if (sudokuType == SUDOKUTYPE_SUDOKU || sudokuType == SUDOKUTYPE_SYMBOL)
                 {
                     if (answerNums[x][y] != fixNums[x][y]) {
                         DLog(@"wrongCell: fixNums[%ld][%ld] = %ld, answerNums[%ld][%ld] = %ld", (long)x, (long)y, (long)fixNums[x][y], (long)x, (long)y, (long)answerNums[x][y]);
@@ -2213,6 +2245,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         case SUDOKUTYPE_GT :        return gettext(@"greater than sudoku", nil);
         case SUDOKUTYPE_KILLER :    return gettext(@"sumdoku", nil);
         case SUDOKUTYPE_CALCU :     return gettext(@"calcudoku", nil);
+        case SUDOKUTYPE_SYMBOL :    return gettext(@"symbol sudoku", nil);
         default: return @"";
     }
 }
@@ -2224,6 +2257,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
         case SUDOKUTYPE_GT :        return @"greater than sudoku";
         case SUDOKUTYPE_KILLER :    return @"sumdoku";
         case SUDOKUTYPE_CALCU :     return @"calcudoku";
+        case SUDOKUTYPE_SYMBOL :    return @"symbol sudoku";
         default: return @"";
     }
 }

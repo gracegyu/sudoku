@@ -95,62 +95,62 @@
 
 
 static NSUInteger SkinColorTemplate[][COUNT_SKINCOLOR] = {
-	{	0x88A6CAFF,0x95B5DBFF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,             // old:0x809AE0FF
+	{	0x88A6CAFF,0x95B5DBFF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,             // old:0x809AE0FF
 		0x88A6CAFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x7188BAFF,0x7A93C9FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x7188BAFF,0x7A93C9FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x7188BAFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xB6B5B1FF,0xC6C6C2FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xB6B5B1FF,0xC6C6C2FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0xB6B5B1FF,0xFF0C59FF,0x80BBB7BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x9891AEFF,0xA7A0BFFF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x9891AEFF,0xA7A0BFFF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x9891AEFF,0xFF0C59FF,0xFFABA0BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xE78F99FF,0xF799A4FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xE78F99FF,0xF799A4FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0xE78F99FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xD3B89CFF,0xE2C5A7FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xD3B89CFF,0xE2C5A7FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0xD3B89CFF,0xFF0C59FF,0x9AAED1BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xDBCD3DFF,0xEAD941FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xDBCD3DFF,0xEAD941FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0xDBCD3DFF,0xFF0C59FF,0x59B2F9BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E6A0,0xE6E6E6E6,0xCCE6CCA0,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0xACC547FF,0xBDD64FFF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0xACC547FF,0xBDD64FFF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0xACC547FF,0xFF0C59FF,0xB6B5CEBB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x7CAD6DFF,0x89BC78FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x7CAD6DFF,0x89BC78FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x7CAD6DFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x50938BFF,0x59A399FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x50938BFF,0x59A399FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x50938BFF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x727AB7FF,0x7D85C6FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x727AB7FF,0x7D85C6FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x727AB7FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
     },
-	{	0x2B9FE3FF,0x2EACF4FF,0xE8E8E8FF,0xFFFFFFFF,0xF3F3C0FF,0xC0F3CAFF,
+	{	0x2B9FE3FF,0x2EACF4FF,0xE8E8E8FF,0xFFFFFFFF,0xFFFF80FF,0xB6FFC8FF,
 		0x2B9FE3FF,0xFF0C59FF,0xB9BAB2BB,0x99E6B3CC,0xFFF093EE,
 		0x606070FF,0x5DB581FF,0x80CC99FF,0x3E7BC1FF,0xFF4D00E6,0xB30080E6,0x000000FF,
 		0xE6E6E680,0xE6E6E6E6,0xCCE6CC80,0xCCE6CCE6,0x1A1A66B3,0x1A1A66B3
@@ -188,7 +188,12 @@ static NSUInteger SmallerColorTemplate[9] = {
         if (num == SC_BACKGROUND_GUIDELINE_NORMAL ||
             num == SC_BACKGROUND_GUIDELINE_MEMO)
             fAlpha = 0.0f;
+    } else if (sudokuGame.sudokuType == SUDOKUTYPE_SUDOKU || sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL) {
+        if (num == SC_BACKGROUND_GUIDELINE_NORMAL ||
+            num == SC_BACKGROUND_GUIDELINE_MEMO)
+            fAlpha = 0.5f;
     }
+
 	
 	CGFloat R = ((CGFloat)((RGBA & 0xFF000000) >> 8*3))/255.f;
 	CGFloat G = ((CGFloat)((RGBA & 0x00FF0000) >> 8*2))/255.f;
@@ -531,22 +536,49 @@ static NSUInteger SmallerColorTemplate[9] = {
 }
 
 
+- (NSString*) getNumberString:(NSInteger)num
+{
+    if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL) {
+        switch (num) {
+            case 1 : return @"❤";
+            case 2 : return @"☘";
+            case 3 : return @"☂";
+            case 4 : return @"⛄";
+            case 5 : return @"❄";
+            case 6 : return @"☺";
+            case 7 : return @"⚜";
+            case 8 : return @"♨";
+            case 9 : return @"⚖";
+        }
+    }
+    return [NSString stringWithFormat:@"%ld", (long)num];
+
+}
+
+- (void) drawGameNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
+{
+    [self drawStrRect:context
+                  str:[self getNumberString:num]
+                 rect:rect
+                color:color
+                 font:font
+				align:NSTextAlignmentCenter];
+}
+
 - (void) drawNumRect:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
-//    DAssert(num > 0 && num <= sudokuGame.size, @"drawNumRect(%d)", num);
-	
     [self drawStrRect:context
                   str:[NSString stringWithFormat:@"%ld", (long)num]
                  rect:rect
                 color:color
                  font:font
-				align:NSTextAlignmentCenter];
-
+                align:NSTextAlignmentCenter];
 }
+
 
 - (void) drawNumRect3D:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect color:(UIColor*)color font:(UIFont*)font
 {
-    NSString *str = [NSString stringWithFormat:@"%ld", (long)num];
+    NSString *str = [self getNumberString:num];
     NSInteger ratio = 70;
     
     CGRect rectBlack = CGRectMake(rect.origin.x-rect.size.width/ratio, rect.origin.y-rect.size.height/ratio, rect.size.width, rect.size.height);
@@ -556,35 +588,35 @@ static NSUInteger SmallerColorTemplate[9] = {
     UIColor *colorBlack = [UIColor colorWithRed:.5f green:.5f blue:.5f alpha:0.5f];
     UIColor *colorWhite = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.f];
 
-    
-    [self drawStrRect:context
-                  str:str
-                 rect:rectBlack
-                color:colorBlack
-                 font:font
-				align:NSTextAlignmentCenter];
-
-    [self drawStrRect:context
-                  str:str
-                 rect:rectWhite1
-                color:colorWhite
-                 font:font
-				align:NSTextAlignmentCenter];
-
-    [self drawStrRect:context
-                  str:str
-                 rect:rectWhite2
-                color:colorWhite
-                 font:font
-				align:NSTextAlignmentCenter];
-
-    [self drawStrRect:context
-                  str:str
-                 rect:rectWhite3
-                color:colorWhite
-                 font:font
-				align:NSTextAlignmentCenter];
-
+    if (sudokuGame.sudokuType != SUDOKUTYPE_SYMBOL) {
+        [self drawStrRect:context
+                      str:str
+                     rect:rectBlack
+                    color:colorBlack
+                     font:font
+                    align:NSTextAlignmentCenter];
+        
+        [self drawStrRect:context
+                      str:str
+                     rect:rectWhite1
+                    color:colorWhite
+                     font:font
+                    align:NSTextAlignmentCenter];
+        
+        [self drawStrRect:context
+                      str:str
+                     rect:rectWhite2
+                    color:colorWhite
+                     font:font
+                    align:NSTextAlignmentCenter];
+        
+        [self drawStrRect:context
+                      str:str
+                     rect:rectWhite3
+                    color:colorWhite
+                     font:font
+                    align:NSTextAlignmentCenter];
+    }
     
     [self drawStrRect:context
                   str:str
@@ -742,6 +774,65 @@ static NSUInteger SmallerColorTemplate[9] = {
 	
 }
 
+- (void)drawSymbolLine_____:(CGContextRef) context
+{
+    if (sudokuGame.sudokuType != SUDOKUTYPE_SYMBOL)
+        return;
+    
+    int x, y, xPos, yPos;
+
+    CGContextSetLineCap(context, kCGLineCapRound);
+    CGContextSetLineWidth(context, cLineDrawWidth);
+    CGContextSetStrokeColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
+    CGContextSetFillColorWithColor(context, skincolor[SC_LINE_CELL_NORMAL].CGColor);
+
+    for (xPos=0; xPos<sudokuGame.size; xPos++)
+    {
+        for (yPos=0; yPos<sudokuGame.size; yPos++)
+        {
+            NSInteger puzzleNum = [sudokuGame getPuzzleNums:xPos y:yPos];
+            if (puzzleNum > 0) {    // 원래 문제에 있는 숫자
+                x = cTableStartX + xPos*cCellWidth;
+                y = cTableStartY + yPos*cCellHeight;
+                CGContextMoveToPoint(context, x, y);
+                CGContextAddLineToPoint(context, x+cCellWidth, y+cCellHeight);
+                CGContextStrokePath(context);
+                x = cTableStartX + (xPos+1)*cCellWidth;
+                y = cTableStartY + yPos*cCellHeight;
+                CGContextMoveToPoint(context, x, y);
+                CGContextAddLineToPoint(context, x-cCellWidth, y+cCellHeight);
+                CGContextStrokePath(context);
+            }
+        }
+    }
+}
+
+- (void)drawSymbolLine:(CGContextRef) context
+{
+    if (sudokuGame.sudokuType != SUDOKUTYPE_SYMBOL)
+        return;
+    
+    int x, y, xPos, yPos;
+    UIImage *imgButton = [UIImage imageNamed:@"buttonsymbol.png"];
+    CGRect rect;
+    
+    for (xPos=0; xPos<sudokuGame.size; xPos++)
+    {
+        for (yPos=0; yPos<sudokuGame.size; yPos++)
+        {
+            NSInteger puzzleNum = [sudokuGame getPuzzleNums:xPos y:yPos];
+            if (puzzleNum > 0) {    // 원래 문제에 있는 숫자
+                x = cTableStartX + xPos*cCellWidth;
+                y = cTableStartY + yPos*cCellHeight;
+                
+                rect = CGRectMake(x,y,cCellWidth,cCellHeight);
+                [imgButton drawInRect:rect];
+            }
+        }
+    }
+}
+
+
 
 
 - (void)drawRectTableLine:(CGContextRef) context
@@ -862,7 +953,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 		return;					// delete cell
 	}
 		
-    [self drawNumRect:context
+    [self drawGameNumRect:context
                   num:pushedButton
                  rect:rect
                 color:skincolor[SC_TEXT_CELL_CHOOSING_OK]
@@ -872,7 +963,17 @@ static NSUInteger SmallerColorTemplate[9] = {
 // 검정
 - (void)drawRectCellOnePuzzle:(CGContextRef)context num:(NSInteger)num rect:(CGRect)rect dupwarn:(BOOL)bDupWarnArea
 {
-    [self drawNumRect:context
+    if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL) {   // 테두리 둘러야 한다.
+
+    /*        [self drawStrRect:context
+                      str:@"⚪"
+                     rect:rect
+                    color:skincolor[SC_TEXT_CELL_PUZZLE]
+                     font:cellOneSmallFont
+                    align:NSTextAlignmentCenter];*/
+    }
+    
+    [self drawGameNumRect:context
                   num:num
                  rect:rect
                 color:bDupWarnArea ? skincolor[SC_TEXT_CELL_MEMO_WARN]: skincolor[SC_TEXT_CELL_PUZZLE]
@@ -898,7 +999,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         color = skincolor[SC_TEXT_CELL_INPUT];
 	}
 
-    [self drawNumRect:context
+    [self drawGameNumRect:context
                   num:num
                  rect:rect
                 color:color
@@ -985,7 +1086,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                 } else {
                     colorMemo = skincolor[SC_TEXT_CELL_MEMO_OK];
                 }
-                [self drawNumRect:context
+                [self drawGameNumRect:context
                               num:[self CharToNum:memo[i]]
                              rect:rectNum
                             color:colorMemo
@@ -1330,6 +1431,21 @@ static NSUInteger SmallerColorTemplate[9] = {
                 if ([sudokuGame getDisplayNum:selectedXPos y:selectedYPos] == [sudokuGame getDisplayNum:x y:y])
                 {
                     [self drawOneCellBackground:context color:skincolor[SC_BACKGROUND_SELECTED_CELL] x:x y:y];
+                    
+                    CGRect currentRect;
+                    NSInteger xPos = cTableStartX + x*cCellWidth;
+                    NSInteger yPos = cTableStartY + y*cCellHeight;
+                    
+                    CGContextSetLineWidth(context, 2*cResizeRatioW);
+                    CGContextSetStrokeColorWithColor(context,
+                                                     bMemoMode ?
+                                                     skincolor[SC_LINE_SECLECTED_CELL_MEMO].CGColor :
+                                                     skincolor[SC_LINE_SECLECTED_CELL_NORMAL].CGColor);
+                    currentRect = CGRectMake (xPos-cBoldLine,yPos-cBoldLine,
+                                              cCellWidth+cBoldLine*2,cCellHeight+cBoldLine*2);
+                    
+                    CGContextAddRect(context, currentRect);
+                    CGContextDrawPath(context, kCGPathStroke);
                 }
             }
         } //y
@@ -1729,7 +1845,7 @@ static NSUInteger SmallerColorTemplate[9] = {
             
             [self drawNumRect:context
                           num:[sudokuGame getCountNum:i]
-                         rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
+                         rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.63f, cButtonWidth/4, cButtonHeight/4)
                         color:skincolor[SC_TEXT_BUTTON_NUMBER]
                          font:cellNineFont];
 
@@ -1774,7 +1890,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         //DLog(@"[sudokuGame getCountNum:%d] = %d", i, [sudokuGame getCountNum:i]);
         [self drawNumRect:context
                       num:[sudokuGame getCountNum:i]
-                     rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.6f, cButtonWidth/4, cButtonHeight/4)
+                     rect:CGRectMake(currentRect.origin.x+cButtonWidth*0.65f, currentRect.origin.y+cButtonHeight*0.63f, cButtonWidth/4, cButtonHeight/4)
                     color:[UIColor colorWithWhite:1.0f alpha:.7f]
                      font:cellNineFont];
 
@@ -2370,7 +2486,8 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     
     
-    if (nSettingSudokuType == SUDOKUTYPE_SUDOKU && sizePuzzle == SIZE_9 && level != GAMELEVEL_USERINPUT)    // QQWing은 9x9 일반 sudoku만 지원한다.
+    if ((nSettingSudokuType == SUDOKUTYPE_SUDOKU || nSettingSudokuType == SUDOKUTYPE_SYMBOL)
+        && sizePuzzle == SIZE_9 && level != GAMELEVEL_USERINPUT)    // QQWing은 9x9 일반 sudoku만 지원한다.
         bUseQQ = YES;	
 
 	if (bUseQQ)
@@ -2674,7 +2791,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 #define cCellSignFontSize           (1.1f * MINWHT / 3) //11*cResizeRatioW
 
 #define cButtonBigFontSize          (1.0f * MINWHB) //40*cResizeRatioW
-#define cButtonSmallFontSize        (0.8f * MINWHB) //30*cResizeRatioW
+#define cButtonSmallFontSize        (0.7f * MINWHB) //30*cResizeRatioW
 //#define cButtonTextFontSize         (0.8f * MINWHB) //20*cResizeRatioW
 #define cButtonMemoBigFontSize		(0.7f * MINWHB) //35*cResizeRatioW
 #define cButtonMemoSmallFontSize	(0.6f * MINWHB) //25*cResizeRatioW
@@ -2710,44 +2827,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 
 
-// Draw screen again
 
-- (void)drawRect:(CGRect)rect
-{
-    
-    //DLog(@"self.bounds(%f,%f)",          self.bounds.size.width, self.bounds.size.height);
-
-    
-    //	NSString* s;
-	
-    //	DLog(@"%@", [sudokuNum getNums]);
-    
-	CGContextRef context = UIGraphicsGetCurrentContext();
-    
-	//DLog(@"drawRect ---------- refresh");
-    
-    [self setFont];
-
-//    [self drawWindowsBackground:context];       // 전체 바탕 색
-	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
-	[self drawKillerBackground:context];		// killer sudoku의 바탕색
-	[self drawGuidelineBackground:context];     // 힌트 바탕 색
-    [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
-	[self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
-	[self drawGtComapreCellColor:context];      // 선택된 셀 바탕색
-	[self drawKillerLine:context];				// 테이블 라인 긎기
-	[self drawRectTableLine:context];           // 테이블 라인 긎기
-    [self drawBookmarkInCell:context];          // 북마크 표시
-	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
-    [self drawRectTableBackgroundBorder:context];
-	[self drawKillerSumNum:context];			// 합계 표시하기
-	[self drawHighlightCell:context];           // 선택된 셀 표시
-	[self drawNumButton:context];
-    
-    [self drawCongratulations:context];                 // 축하 표시
-    
-	[self drawBlurTable:context];               // 기본 테이블 바탕 색
-}
 
 - (void) drawBackgroundDrawOnImage:(CGContextRef) context strTime:(NSString*) strTime
 {
@@ -2822,7 +2902,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     [self drawBackgroundDrawOnImage:context strTime:strTime];
 	[self drawRectTableBackground:context];     // 기본 테이블 바탕 색
 	[self drawKillerBackground:context];		// killer sudoku의 바탕색
-	[self drawKillerLine:context];				// 테이블 라인 긎기
+    [self drawKillerLine:context];				// 테이블 라인 긎기
 	[self drawRectTableLine:context];           // 테이블 라인 긎기
 	[self drawRectTableBackgroundBorder:context];
 	[self drawCellNums:context];                // n*n 칸에 숫자를 출력
@@ -2830,6 +2910,49 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     bDrawOnImage = NO;
 
+}
+
+// Draw screen again
+
+- (void)drawRect:(CGRect)rect
+{
+    
+    //DLog(@"self.bounds(%f,%f)",          self.bounds.size.width, self.bounds.size.height);
+    
+    
+    //	NSString* s;
+    
+    //	DLog(@"%@", [sudokuNum getNums]);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    //DLog(@"drawRect ---------- refresh");
+    
+    [self setFont];
+    
+    //    [self drawWindowsBackground:context];       // 전체 바탕 색
+    [self drawRectTableBackground:context];     // 기본 테이블 바탕 색
+
+    [self drawSymbolLine:context];				// Symbol 테이블 라인 긎기
+
+    [self drawKillerBackground:context];		// killer sudoku의 바탕색
+    [self drawGuidelineBackground:context];     // 힌트 바탕 색
+    [self drawMarkingEqualBackgound:context];   // 같은 숫자 표시 바탕색 표시
+    [self drawHighlightCellBackground:context]; // 선택된 셀 바탕색
+    [self drawGtComapreCellColor:context];      // 선택된 셀 바탕색
+    [self drawKillerLine:context];				// 테이블 라인 긎기
+    [self drawRectTableLine:context];           // 테이블 라인 긎기
+    
+    [self drawBookmarkInCell:context];          // 북마크 표시
+    [self drawCellNums:context];                // n*n 칸에 숫자를 출력
+    [self drawRectTableBackgroundBorder:context];
+    [self drawKillerSumNum:context];			// 합계 표시하기
+    [self drawHighlightCell:context];           // 선택된 셀 표시
+    [self drawNumButton:context];
+    
+    [self drawCongratulations:context];                 // 축하 표시
+    
+    [self drawBlurTable:context];               // 기본 테이블 바탕 색
 }
 
 

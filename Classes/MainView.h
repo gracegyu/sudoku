@@ -199,6 +199,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 - (void) drawOnImage:(CGContextRef) context strTime:(NSString*) strTime;
 - (UIColor *) getSkinColor:(SKINCOLOR)skinnum;
 - (void)setViewBackgroundColor;
+- (NSString*) getNumberString:(NSInteger)num;
 
 @end
 

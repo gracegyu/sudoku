@@ -75,6 +75,10 @@
             break;
         case SUDOKUTYPE_CALCU :
             str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
+            break;
+        case SUDOKUTYPE_SYMBOL :
+            str = [str stringByAppendingString:gettext(@"ruledescsymbol", nil)];
+            break;
         case SUDOKUTYPE_MAX : // tip
         default :
             break;
