@@ -2645,9 +2645,9 @@
 		CF3F3351161E7A1D00D52A43 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		CF40ACBD19DA7CC9008D7415 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
 		CF40ACBE19DA7CC9008D7415 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
-		CF40E5561C12A56F00F814BF /* sudoku6paid copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sudoku6paid copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF40E5561C12A56F00F814BF /* sudoku6sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sudoku6sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF40E5571C12A57000F814BF /* sudoku6paid copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sudoku6paid copy2-Info.plist"; path = "/Users/gracegyu/Documents/Git/Sudoku2/sudoku6paid copy2-Info.plist"; sourceTree = "<absolute>"; };
-		CF40E6F11C12A57300F814BF /* sudoku9paid copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "sudoku9paid copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CF40E6F11C12A57300F814BF /* sudoku9sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = sudoku9sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF40E6F21C12A57300F814BF /* sudoku9paid copy2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "sudoku9paid copy2-Info.plist"; path = "/Users/gracegyu/Documents/Git/Sudoku2/sudoku9paid copy2-Info.plist"; sourceTree = "<absolute>"; };
 		CF4693D81647A47B005DA4FD /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CF4693D91647A47B005DA4FD /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -3304,8 +3304,8 @@
 				CF6BCD34161D70AB00879F6E /* SUDOKU9Paid.app */,
 				CF6E3E6B161FC48C000DD7D7 /* SUDOKU6Free.app */,
 				CF9B67E31622487E00EFD0B0 /* SUDOKU6Paid.app */,
-				CF40E5561C12A56F00F814BF /* sudoku6paid copy.app */,
-				CF40E6F11C12A57300F814BF /* sudoku9paid copy.app */,
+				CF40E5561C12A56F00F814BF /* sudoku6sender.app */,
+				CF40E6F11C12A57300F814BF /* sudoku9sender.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4363,9 +4363,9 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* SUDOKU9Free.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF40E3BC1C12A56F00F814BF /* sudoku6paid copy */ = {
+		CF40E3BC1C12A56F00F814BF /* sudoku6sender */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF40E5521C12A56F00F814BF /* Build configuration list for PBXNativeTarget "sudoku6paid copy" */;
+			buildConfigurationList = CF40E5521C12A56F00F814BF /* Build configuration list for PBXNativeTarget "sudoku6sender" */;
 			buildPhases = (
 				CF40E3BD1C12A56F00F814BF /* Resources */,
 				CF40E4E51C12A56F00F814BF /* Sources */,
@@ -4375,14 +4375,14 @@
 			);
 			dependencies = (
 			);
-			name = "sudoku6paid copy";
+			name = sudoku6sender;
 			productName = SudokuHelper;
-			productReference = CF40E5561C12A56F00F814BF /* sudoku6paid copy.app */;
+			productReference = CF40E5561C12A56F00F814BF /* sudoku6sender.app */;
 			productType = "com.apple.product-type.application";
 		};
-		CF40E5581C12A57300F814BF /* sudoku9paid copy */ = {
+		CF40E5581C12A57300F814BF /* sudoku9sender */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CF40E6ED1C12A57300F814BF /* Build configuration list for PBXNativeTarget "sudoku9paid copy" */;
+			buildConfigurationList = CF40E6ED1C12A57300F814BF /* Build configuration list for PBXNativeTarget "sudoku9sender" */;
 			buildPhases = (
 				CF40E5591C12A57300F814BF /* Resources */,
 				CF40E6811C12A57300F814BF /* Sources */,
@@ -4392,9 +4392,9 @@
 			);
 			dependencies = (
 			);
-			name = "sudoku9paid copy";
+			name = sudoku9sender;
 			productName = SudokuHelper;
-			productReference = CF40E6F11C12A57300F814BF /* sudoku9paid copy.app */;
+			productReference = CF40E6F11C12A57300F814BF /* sudoku9sender.app */;
 			productType = "com.apple.product-type.application";
 		};
 		CF6BCCD9161D70AB00879F6E /* sudoku9paid */ = {
@@ -4523,8 +4523,8 @@
 				CF9B66EB1622487E00EFD0B0 /* sudoku6paid */,
 				1D6058900D05DD3D006BFB54 /* sudoku9free */,
 				CF6BCCD9161D70AB00879F6E /* sudoku9paid */,
-				CF40E3BC1C12A56F00F814BF /* sudoku6paid copy */,
-				CF40E5581C12A57300F814BF /* sudoku9paid copy */,
+				CF40E3BC1C12A56F00F814BF /* sudoku6sender */,
+				CF40E5581C12A57300F814BF /* sudoku9sender */,
 			);
 		};
 /* End PBXProject section */
@@ -7892,7 +7892,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF40E5521C12A56F00F814BF /* Build configuration list for PBXNativeTarget "sudoku6paid copy" */ = {
+		CF40E5521C12A56F00F814BF /* Build configuration list for PBXNativeTarget "sudoku6sender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF40E5531C12A56F00F814BF /* Debug */,
@@ -7902,7 +7902,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF40E6ED1C12A57300F814BF /* Build configuration list for PBXNativeTarget "sudoku9paid copy" */ = {
+		CF40E6ED1C12A57300F814BF /* Build configuration list for PBXNativeTarget "sudoku9sender" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF40E6EE1C12A57300F814BF /* Debug */,
