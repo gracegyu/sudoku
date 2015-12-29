@@ -996,10 +996,13 @@ static NSUInteger SmallerColorTemplate[9] = {
                  font:cellOneSmallFont];
     
     if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
+        rect.origin.x += cCellWidth*0.02;
+        rect.origin.y -= cCellHeight*0.05;
+        
         [self drawStrRect:context
                       str:@"⨯"
                      rect:rect
-                    color:skincolor[SC_TEXT_CELL_MEMO_WARN]
+                    color:num == 1 ? skincolor[SC_BACKGROUND_SELECTED_CELL] : skincolor[SC_TEXT_CELL_MEMO_WARN]
                      font:cellOneSmallFont
                     align:NSTextAlignmentCenter];
     }
@@ -1092,11 +1095,14 @@ static NSUInteger SmallerColorTemplate[9] = {
                              rect:rectNum
                             color:colorMemo
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
-                if (sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
+                if (bSettingDuplicationWarning == YES && sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
+                    rectNum.origin.x += rectNum.size.width*0.04;
+                    rectNum.origin.y -= rectNum.size.height*0.09;
+
                     [self drawStrRect:context
                                   str:@"⨯"
                                  rect:rectNum
-                                color:skincolor[SC_TEXT_CELL_MEMO_WARN]
+                                color:[self CharToNum:memo[i]] == 1 ? skincolor[SC_BACKGROUND_SELECTED_CELL] : skincolor[SC_TEXT_CELL_MEMO_WARN]
                                  font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)
                                 align:NSTextAlignmentCenter];
                 }
