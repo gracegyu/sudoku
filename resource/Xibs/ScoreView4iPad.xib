@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ScoreViewController">
@@ -96,7 +97,7 @@
                         <navigationItem title="Score" id="43">
                             <barButtonItem key="rightBarButtonItem" id="139">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="140">
-                                    <rect key="frame" x="695" y="7" width="57" height="30"/>
+                                    <rect key="frame" x="691" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
@@ -127,6 +128,7 @@
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                             </segments>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="182"/>
@@ -852,7 +854,7 @@
                         <navigationItem title="Score" id="574">
                             <barButtonItem key="rightBarButtonItem" id="575">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="576">
-                                    <rect key="frame" x="951" y="7" width="57" height="30"/>
+                                    <rect key="frame" x="947" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
@@ -883,6 +885,7 @@
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                             </segments>
                             <connections>
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="586"/>
@@ -1602,10 +1605,6 @@
         <image name="type_1_120s.png" width="120" height="120"/>
         <image name="type_2_120s.png" width="120" height="120"/>
         <image name="type_3_120s.png" width="120" height="120"/>
+        <image name="type_4_120s.png" width="120" height="120"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
-    </simulatedMetricsContainer>
 </document>

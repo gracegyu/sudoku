@@ -1096,7 +1096,7 @@ static NSUInteger SmallerColorTemplate[9] = {
                             color:colorMemo
                              font:len <= 4 ? cellFourFont : (len <= 6 ? cellSixFont : cellNineFont)];
                 if (bSettingDuplicationWarning == YES && sudokuGame.sudokuType == SUDOKUTYPE_SYMBOL && bConflict) {
-                    rectNum.origin.x += rectNum.size.width*0.04;
+                    rectNum.origin.x += rectNum.size.width*0.07;
                     rectNum.origin.y -= rectNum.size.height*0.09;
 
                     [self drawStrRect:context
