@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="HelpViewController">
@@ -70,7 +71,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" lineBreakMode="wordWrap" numberOfLines="30" baselineAdjustment="none" adjustsFontSizeToFit="NO" id="192">
-                            <rect key="frame" x="16" y="79" width="299" height="152"/>
+                            <rect key="frame" x="16" y="79" width="299" height="190"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <string key="text">The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 sub-grids that compose the grid contains all of the digits from 1 to 9.
 
@@ -79,7 +80,7 @@
 
 
 </string>
-                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -91,6 +92,7 @@
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                                 <segment title="Tip"/>
                             </segments>
                             <connections>
@@ -98,7 +100,7 @@
                             </connections>
                         </segmentedControl>
                         <button opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="229">
-                            <rect key="frame" x="36" y="228" width="250" height="190"/>
+                            <rect key="frame" x="0.0" y="262" width="320" height="246"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="help9_1_iphone.png">
@@ -133,7 +135,7 @@
                         <navigationItem title="Help" id="217" userLabel="Navigation Item - Setting">
                             <barButtonItem key="rightBarButtonItem" id="218">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="219">
-                                    <rect key="frame" x="407" y="7" width="57" height="30"/>
+                                    <rect key="frame" x="491" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
@@ -180,23 +182,24 @@
 
 
 </string>
-                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <segmentedControl opaque="NO" tag="99" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="211">
-                            <rect key="frame" x="357" y="10.5" width="200" height="29"/>
+                            <rect key="frame" x="357" y="6.5" width="200" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="" image="type_0_120s.png"/>
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                                 <segment title="Tip"/>
                             </segments>
                         </segmentedControl>
                         <button opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="228">
-                            <rect key="frame" x="307" y="65" width="250" height="190"/>
+                            <rect key="frame" x="288" y="39.5" width="280" height="229.5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="help9_1_iphone.png">
@@ -225,10 +228,6 @@
         <image name="type_1_120s.png" width="120" height="120"/>
         <image name="type_2_120s.png" width="120" height="120"/>
         <image name="type_3_120s.png" width="120" height="120"/>
+        <image name="type_4_120s.png" width="120" height="120"/>
     </resources>
-    <simulatedMetricsContainer key="defaultSimulatedMetrics">
-        <simulatedStatusBarMetrics key="statusBar"/>
-        <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination" type="retina4"/>
-    </simulatedMetricsContainer>
 </document>

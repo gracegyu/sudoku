@@ -77,7 +77,11 @@
             str = [str stringByAppendingString:gettext(@"ruledesccalcu", nil)];
             break;
         case SUDOKUTYPE_SYMBOL :
-            str = [str stringByAppendingString:gettext(@"ruledescsymbol", nil)];
+#ifdef SUDOKU9
+            str = [NSString stringWithString:gettext(@"ruledescsymbol9", nil)];
+#else
+            str = [NSString stringWithString:gettext(@"ruledescsymbol6", nil)];
+#endif
             break;
         case SUDOKUTYPE_MAX : // tip
         default :
