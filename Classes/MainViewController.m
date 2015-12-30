@@ -2042,6 +2042,7 @@
              NSRange range = [act rangeOfString:@"PostTo"];
              if (range.location != NSNotFound) {
                  mainView.bSharedThisOnFacebook = YES;
+                 [self saveSetting];
              }
          } else {
              NSString* str = [NSString stringWithFormat:@"Share(%@) cancel", act];
@@ -2687,7 +2688,7 @@
 
 	[mainView newGame:levelNewGame size:DEFPUZZLESIZE];
     
-    
+    [self loadSetting];
     if (mainView.bSharedThisOnFacebook)
     {
         mainView.sudokuGame.countHint += NUM_HINTBONUS;
@@ -3043,6 +3044,7 @@
         return;
     }
     
+    [self loadSetting];
     if (mainView.bSharedThisOnFacebook)
     {
         mainView.sudokuGame.countHint += NUM_HINTBONUS;
@@ -3234,7 +3236,7 @@
 - (void) setDailyButton:(UIButton*) button played:(BOOL) bPlayed
 {
     if (bReadyDownloadDailyPuzzle) {
-#if defined(DAILYSENDER)// || defined(DEBUG)
+#if defined(DAILYSENDER) || defined(DEBUG)
         [self setButtonMode:button mode:YES];
 #else
         [self setButtonMode:button mode:!bPlayed];
