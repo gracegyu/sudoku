@@ -2387,6 +2387,13 @@
     NSString *strLevel = [NSString stringWithFormat:gettext(@"level %d", nil), (int)userLevel];
     NSString *strScore = [NSString stringWithFormat:gettext(@"%d points", nil), [self getTotalScore]];
     labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@)", strLevel, strScore];
+    /*
+     if (score.scoreRankTotal > 0) {
+     labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@, #%ld)", strLevel, strScore, (long)score.scoreRankTotal];
+     } else {
+     labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@)", strLevel, strScore];
+     }
+     */
 }
 
 - (NSString *) getUserName

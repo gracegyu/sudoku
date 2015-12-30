@@ -160,8 +160,8 @@ typedef struct SUDOKUSCORE
 	NSInteger	scoreBestTime[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
 	NSInteger	scoreClearTimeSum[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
 	NSInteger	scoreRankLevel[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];            // normal sudoku는 auto ranking도 저장
-    NSInteger   scoreTotal;
-    NSInteger   scoreRankTotal;
+    NSInteger   scoreTotal;                                                 // 총점
+    NSInteger   scoreRankTotal;                                             // 총점 랭킹
 } SUDOKUSCORE;
 
 #define cTableXMargine              60
