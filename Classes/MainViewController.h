@@ -225,7 +225,7 @@ typedef struct ADSTATE
     
     
     ADSTATE gAdState[eAdStateMax];
-    DAILYSTAT   dailyStat[4];   // daily puzzle 통계
+    DAILYSTAT   dailyStat[SUDOKUTYPE_MAX];   // daily puzzle 통계
 
     BOOL    bReadyDownloadDailyPuzzle;
     char    nowDate[30];

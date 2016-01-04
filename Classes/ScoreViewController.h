@@ -18,7 +18,8 @@ typedef enum {
     SCORETYPE_GAMES = 0,
     SCORETYPE_CLEARS,
     SCORETYPE_AVERAGE,
-    SCORETYPE_BESTTIME
+    SCORETYPE_BESTTIME,
+    SCORETYPE_MAX
 } SCORETYPE;
 
 @interface ScoreViewController : TPMultiLayoutViewController
@@ -73,7 +74,7 @@ typedef enum {
 	UILabel	*labelTotalGames;
 	UILabel	*labelTotalClears;
     UILabel *labelTotalScore;
-    UILabel *labelScoresArray[4][10];
+    UILabel *labelScoresArray[SCORETYPE_MAX][10];
 	
 	
 	UILabel *labelTitleVeryEasy;
