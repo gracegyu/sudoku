@@ -3093,6 +3093,7 @@
 {
 	DLog(@"makeNewGameDailyPuzzle");
 	
+    [self saveSetting];     // save nSettingSudokuType
     mainView.bSettingAutoMemo = NO; // only support original
 	[self allButtonLock];
 	[activityIndicatorDailyGame startAnimating];
@@ -3243,7 +3244,7 @@
 - (void) setDailyButton:(UIButton*) button played:(BOOL) bPlayed
 {
     if (bReadyDownloadDailyPuzzle) {
-#if defined(DAILYSENDER) || defined(DEBUG)
+#if defined(DAILYSENDER)// || defined(DEBUG)
         [self setButtonMode:button mode:YES];
 #else
         [self setButtonMode:button mode:!bPlayed];
@@ -3311,19 +3312,20 @@
         NSString *strDate = [listItems objectAtIndex:0];
         if ([strDate isEqualToString:[NSString stringWithUTF8String: nowDate]])
         {
-            dailyStat[0].played = [[listItems objectAtIndex:1] integerValue] == 1 ? YES : NO;
-            dailyStat[1].played = [[listItems objectAtIndex:2] integerValue] == 1 ? YES : NO;
-            dailyStat[2].played = [[listItems objectAtIndex:3] integerValue] == 1 ? YES : NO;
-            dailyStat[3].played = [[listItems objectAtIndex:4] integerValue] == 1 ? YES : NO;
+            DLog(@"[listItems count] = %d", [listItems count]);
+            for (int i=0; i<SUDOKUTYPE_MAX; i++) {
+                if ([listItems count] > i+1)
+                    dailyStat[i].played = [[listItems objectAtIndex:i+1] integerValue] == 1 ? YES : NO;
+                else
+                    dailyStat[i].played = NO;
+            }
             return;
         }
     }
     // another day or 1st try or error
     
-    dailyStat[0].played = NO;
-    dailyStat[1].played = NO;
-    dailyStat[2].played = NO;
-    dailyStat[3].played = NO;
+    for (int i=0; i<SUDOKUTYPE_MAX; i++)
+        dailyStat[i].played = NO;
     
     [self saveDailyStat];
 }
@@ -3337,18 +3339,14 @@
     } else {
         // 그사이에 날짜가 바뀌었음
         strncpy(nowDate, [newNowDate UTF8String], 9);
-        dailyStat[0].played = NO;
-        dailyStat[1].played = NO;
-        dailyStat[2].played = NO;
-        dailyStat[3].played = NO;
+        for (int i=0; i<SUDOKUTYPE_MAX; i++)
+            dailyStat[i].played = NO;
     }
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString* str = [NSString stringWithFormat:@"%@,%d,%d,%d,%d",
-                     [NSString stringWithUTF8String: nowDate],
-                     dailyStat[0].played ? 1 : 0,
-                     dailyStat[1].played ? 1 : 0,
-                     dailyStat[2].played ? 1 : 0,
-                     dailyStat[3].played ? 1 : 0];
+    NSString* str = [NSString stringWithUTF8String: nowDate];
+    for (int i=0; i<SUDOKUTYPE_MAX; i++) {
+        str = [str stringByAppendingFormat:@",%d", dailyStat[i].played ? 1 : 0];
+    }
     
     [defaults setObject:str forKey:kDailyStat];
     [defaults synchronize];
