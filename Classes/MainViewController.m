@@ -2982,10 +2982,12 @@
 						cProtocolVersion,
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
-                        mainView.nSettingSudokuType,
+                        mainView.sudokuGame.sudokuType,   // 현재 type이 정확하게 전송된다.
+                        //mainView.nSettingSudokuType,    // 게임도중 Seg. contrl을 한번 누르면 버그가 생길 수 있다.
                         [self getNowYYYYMMDD],
                         (unsigned long)gameTime,
-                        mainView.bSettingAutoMemo ? 1 : 0];
+                        mainView.sudokuGame.bAutoMemo];
+                        //mainView.bSettingAutoMemo ? 1 : 0];   // 게임도중 Seg. contrl을 한번 누르면 버그가 생길 수 있다.
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
     
@@ -3068,7 +3070,8 @@
 	if (oldGame)
 		[oldGame release];
     
-    dailyStat[mainView.nSettingSudokuType].played = YES;
+    dailyStat[mainView.sudokuGame.sudokuType].played = YES;
+//    dailyStat[mainView.nSettingSudokuType].played = YES;      // bug fix
     [self saveDailyStat];
 
 }
@@ -3486,7 +3489,8 @@
                         cProtocolVersion,
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
-                        mainView.nSettingSudokuType,
+                        //mainView.nSettingSudokuType,
+                        mainView.sudokuGame.sudokuType,
                         puzzleDate,
                         [self urlEncodeValue:dataFile]];
     
