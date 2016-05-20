@@ -968,8 +968,10 @@
 #ifdef ADMOB_FREEVERSION	
 - (void) reloadBanner
 {
+#ifdef IADCHANGE
     [self removeAd];
     [self initBanner];
+#endif
 }
 
 - (void)removeAd
