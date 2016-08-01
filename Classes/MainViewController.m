@@ -750,7 +750,8 @@
     [buttonBookmark setBackgroundImage:[UIImage imageNamed:@"bookmarkoff_h"] forState:UIControlStateHighlighted];
     
     labelTitleLevel.text = gettext(@"level", nil);
-    labelTitleGameTime.text = gettext(@"game time", nil);
+    //labelTitleGameTime.text = gettext(@"game time", nil);
+    [self updateClockTime];
     labelTitleBlank.text = gettext(@"blank", nil);
     labelTitleHint.text = gettext(@"hint", nil);
     DLog(@"labelTitleHint.frame.size.height = %f", labelTitleHint.frame.size.height);
@@ -883,6 +884,7 @@
        [self loadScoreData];
        [Quest loadQuestData];
        [self loadAdState];
+       [self updateClockTime];
 
 	   if ([mainView loadGame] == YES) {
 			[self setGameLevel];
@@ -2658,6 +2660,24 @@
 	
 }
 
+- (void) updateClockTime
+{
+    NSDateFormatter *formatter;
+    NSString        *timeString;
+    
+    formatter = [[NSDateFormatter alloc] init];
+    
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:gettext(@"locale", nil)];
+    formatter.dateStyle = NSDateFormatterNoStyle;
+    formatter.timeStyle = NSDateFormatterShortStyle;
+    
+    timeString = [formatter stringFromDate:[NSDate date]];
+    
+    [formatter release];
+    
+    labelTitleGameTime.text = timeString;
+}
+
 
 - (IBAction)showMenu
 {
@@ -3641,6 +3661,7 @@
 {
     [Flurry logEvent:@"ChangeNickNameDialog open"];
     
+    [self stopGameTimer];
     
     UIAlertController * alert=   [UIAlertController
                                   alertControllerWithTitle:nil
@@ -3659,6 +3680,7 @@
                                                        //gUserName = newName;
                                                        [self saveServerData];
                                                        [self DoneQuest:eQuestChangeName];
+                                                       [self startGameTimer];
                                                    }
                                                }];
     [alert addAction:ok];
@@ -3798,6 +3820,10 @@
 	{
 		[mainView.sudokuGame resetHintTime];
 	}
+    
+    // 시계를 표시한다.
+    [self updateClockTime];
+    
 
 	
 }

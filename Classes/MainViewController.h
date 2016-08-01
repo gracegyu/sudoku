@@ -471,6 +471,7 @@ typedef struct ADSTATE
 - (void) alertMessageOk:(NSString*)title msg:(NSString*) msg;
 - (void) alertLocalizedAlertView:(NSString*)aMessage;
 - (void) logEventParam:(NSString*)event;
+- (void) updateClockTime;
 
 
 #ifdef ADMOB_FREEVERSION
