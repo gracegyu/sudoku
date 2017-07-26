@@ -141,7 +141,8 @@
 
 - (void) initScore
 {
-	DLog(@"initScore");	
+	DLog(@"initScore");
+        
 	for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
     {
         for (int i=0; i<MAX_SCORE_TYPE; i++)
@@ -3548,9 +3549,9 @@
 */
 
 //    for (int j=2; j<SUDOKUTYPE_MAX; j++) {
-        [com setYear:2015];
-        [com setMonth:12];
-        [com setDay:28];
+        [com setYear:2022];
+        [com setMonth:1];
+        [com setDay:1];
         
         date = [[NSCalendar currentCalendar] dateFromComponents:com];
         
