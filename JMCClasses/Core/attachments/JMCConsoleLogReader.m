@@ -39,7 +39,7 @@
     
     NSOutputStream* outStream = [[NSOutputStream alloc] initToFileAtPath:path append:YES];
     [outStream open];
-    while (NULL != (m = aslresponse_next(r)))
+    while (NULL != (m = asl_next(r)))
     {        
         for (i = 0; (NULL != (key = asl_key(m, i))); i++)
         {
