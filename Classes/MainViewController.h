@@ -44,8 +44,10 @@ typedef struct DAILYSTAT
 typedef enum {
     eAdStateAdmobBanner = 0,
     eAdStateAdmobInterstitial,
+#ifdef IADCHANGE
     eAdStateiAdBanner,
     eAdStateiAdInterstitial,
+#endif
     eAdStateMax
 } eAdState;
 
