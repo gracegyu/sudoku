@@ -149,6 +149,7 @@
 #endif
      ];
 	
+    DLog(@"IphoneX = %@", IS_IPHONEX?@"YES":@"NO");
     DLog(@"Nibname = %@", strNib);
     DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
     DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
