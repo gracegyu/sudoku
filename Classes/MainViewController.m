@@ -2816,7 +2816,7 @@
 {
     NSString *strURL = [NSString stringWithFormat: @"http://%@/%@?%@",
 #ifdef DAILYSENDER
-                        @"10.211.55.17:88",
+                        @"www.abcswcon.com",
 #else
                         gServerIP,
 #endif
@@ -2962,7 +2962,7 @@
     DLog(@"AppVersion = %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]);
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&automemo=%d&countrycode=%@",
+						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&automemo=%d&countrycode=%@",
                         @"getdailypuzzle",
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
@@ -2978,6 +2978,7 @@
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
+                        2, // level default 2, 0 is very hard
                        [self getNowYYYYMMDD],
                         mainView.bSettingAutoMemo ? 1 : 0,
                         countryCode];
@@ -3282,10 +3283,14 @@
 
 - (void) setDailyStat
 {
+#ifdef DEBUG
+// do nothing
+#else
     [self setDailyButton:buttonDailyGameSudoku  played:dailyStat[SUDOKUTYPE_SUDOKU].played];
     [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
     [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
     [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
+#endif
     [self setDailyButton:buttonDailyGameSymbol  played:dailyStat[SUDOKUTYPE_SYMBOL].played];
     [self setUserName];
 
@@ -3507,13 +3512,14 @@
     }
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&version=%d&cs=%ld&size=%d&type=%d&date=%@&file=%@",
+						@"act=%@&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&file=%@",
                         @"adddailypuzzle",
                         cProtocolVersion,
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         //mainView.nSettingSudokuType,
                         mainView.sudokuGame.sudokuType,
+                        mainView.sudokuGame.gameLevel,
                         puzzleDate,
                         [self urlEncodeValue:dataFile]];
     
@@ -3549,22 +3555,23 @@
 */
 
 //    for (int j=2; j<SUDOKUTYPE_MAX; j++) {
-        [com setYear:2022];
+        [com setYear:2013];
         [com setMonth:1];
-        [com setDay:1];
+        [com setDay:23];
         
         date = [[NSCalendar currentCalendar] dateFromComponents:com];
         
-        for (int i=0; i<2000; i++)
+        for (int i=0; i<346; i++)
         {
-            for (int j=SUDOKUTYPE_SYMBOL; j<SUDOKUTYPE_MAX; j++) {
+            for (int j=SUDOKUTYPE_SUDOKU; j<SUDOKUTYPE_MAX; j++) {
                 mainView.nSettingSudokuType = j;
                 DLog(@"%@", [formatter stringFromDate:date]);
-                [self makeNewGame:GAMELEVEL_NORMAL];
+                [self makeNewGame:GAMELEVEL_VERYHARD];
+//                [self makeNewGame:GAMELEVEL_NORMAL];
 //              [NSThread sleepForTimeInterval:0.1];
                 [self sendDailyPuzzle:[formatter stringFromDate:date]];
             }
-            date = [date dateByAddingTimeInterval:60*60*24];
+            date = [date dateByAddingTimeInterval:60*60*24];    // add one day
         }
 //    }
     

@@ -277,7 +277,7 @@
 	
 	countAvailColor = sizeof(tempColor)-1 - countNeighborColor;
 
-	if (countAvailColor < 0)
+	if (countAvailColor <= 0)
 	{
 		//DLog(@"###########");
 		//DAssert(countAvailColor>0, @"##########");
