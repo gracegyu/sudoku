@@ -349,9 +349,9 @@
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL bRet;
-	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";     // for safe
-	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";   // for safe
-	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4 * 2] = "";    // for safe
+	char zStrMap[MAXMAPSIZE*MAXMAPSIZE*4 * 20] = "";     // for safe
+	char zStrColor[MAXMAPSIZE*MAXMAPSIZE*4 * 20] = "";   // for safe
+	char zStrCage[MAXMAPSIZE*MAXMAPSIZE*4 * 20] = "";    // for safe
 	
     DLog(@"[self getCageCount]=%ld", (long)[self getCageCount]);
 	DAssert([self getCageCount] > 10, @"[self getCageCount]=%ld", (long)[self getCageCount]);

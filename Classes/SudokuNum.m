@@ -28,7 +28,7 @@
     if (kmap)
         [kmap release];
 	
-	[super dealloc];
+	//[super dealloc];  // prevent 
 }
 
 - (NSInteger) getCellSize
