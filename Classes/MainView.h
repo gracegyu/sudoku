@@ -113,7 +113,8 @@ typedef enum SKINCOLOR SKINCOLOR;
     BOOL bSettingAutoMemo;
     BOOL bSharedThisOnFacebook;
     NSInteger paidHintCount;
-    SUDOKUTYPE nSettingSudokuType;            // 0~3
+    SUDOKUTYPE nSettingSudokuType;            // 0~4
+    GAMELEVEL nSettingGameLevel;              // 0~4  for daily sudoku 0 or 2
     BOOL bDrawOnImage;
     CGRect      frameDrawOnImage;
 
@@ -147,6 +148,7 @@ typedef enum SKINCOLOR SKINCOLOR;
 @property NSInteger paidHintCount;
 
 @property SUDOKUTYPE nSettingSudokuType;
+@property GAMELEVEL nSettingGameLevel;
 
 @property (nonatomic, retain) UIFont *cellOneSmallFont;
 @property (nonatomic, retain) UIFont *cellOneBigFont;

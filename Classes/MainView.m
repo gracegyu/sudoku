@@ -37,6 +37,7 @@
 @synthesize bSettingDefMap;
 @synthesize bSettingAutoMemo;
 @synthesize nSettingSudokuType;
+@synthesize nSettingGameLevel;
 @synthesize bSharedThisOnFacebook;
 @synthesize paidHintCount;
 
@@ -384,6 +385,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 	self.bSettingAutoMemo = NO;
     self.bSharedThisOnFacebook = NO;
     self.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
+    self.nSettingGameLevel = GAMELEVEL_NORMAL;
     self.paidHintCount = 0;
 	
 //	self.fPress = 1.f;

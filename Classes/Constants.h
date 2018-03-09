@@ -135,7 +135,9 @@ enum GAMELEVEL {
 	GAMELEVEL_NORMAL,
 	GAMELEVEL_EASY,
 	GAMELEVEL_VERYEASY,
-    GAMELEVEL_USERINPUT         // user input
+    GAMELEVEL_USERINPUT=5,  // user input
+    GAMELEVEL_MAX=5,        // max
+
 };
 
 typedef enum GAMELEVEL GAMELEVEL;
@@ -233,7 +235,11 @@ typedef struct SUDOKUSCORE
 #define NUM_HINTBONUS   2
 #endif
 #define NUM_DEFHINT9    3
+#ifdef DEBUG
+#define NUM_DEFHINT6    36
+#else
 #define NUM_DEFHINT6    2
+#endif
 
 #define APPVERSION      [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]
 

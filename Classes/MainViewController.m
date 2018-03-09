@@ -56,6 +56,16 @@
 @synthesize buttonDailyGameKiller;
 @synthesize buttonDailyGameCalcu;
 @synthesize buttonDailyGameSymbol;
+@synthesize buttonDailyGameSudokuEasy;
+@synthesize buttonDailyGameGtEasy;
+@synthesize buttonDailyGameKillerEasy;
+@synthesize buttonDailyGameCalcuEasy;
+@synthesize buttonDailyGameSymbolEasy;
+@synthesize buttonDailyGameSudokuHard;
+@synthesize buttonDailyGameGtHard;
+@synthesize buttonDailyGameKillerHard;
+@synthesize buttonDailyGameCalcuHard;
+@synthesize buttonDailyGameSymbolHard;
 @synthesize buttonNickname;
 
 
@@ -792,6 +802,20 @@
     [buttonDailyGameKiller setTitle:gettext(@"sumdoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameCalcu setTitle:gettext(@"calcudoku", nil) forState:UIControlStateNormal];
     [buttonDailyGameSymbol setTitle:gettext(@"symbol sudoku", nil) forState:UIControlStateNormal];
+
+    [buttonDailyGameSudokuEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+    [buttonDailyGameGtEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+    [buttonDailyGameKillerEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+    [buttonDailyGameCalcuEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+    [buttonDailyGameSymbolEasy setTitle:gettext(@"easy", nil) forState:UIControlStateNormal];
+
+    [buttonDailyGameSudokuHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+    [buttonDailyGameGtHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+    [buttonDailyGameKillerHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+    [buttonDailyGameCalcuHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+    [buttonDailyGameSymbolHard setTitle:gettext(@"hard", nil) forState:UIControlStateNormal];
+
+    
     [buttonDailyGameCancel setTitle:gettext(@"cancel", nil) forState:UIControlStateNormal];
     
     
@@ -2322,12 +2346,26 @@
 	buttonNewGameCancel.enabled = NO;
     
     buttonDailyRanking.enabled = NO;
+
     buttonDailyGameSudoku.enabled = NO;
 	buttonDailyGameGt.enabled = NO;
 	buttonDailyGameKiller.enabled = NO;
     buttonDailyGameCalcu.enabled = NO;
     buttonDailyGameSymbol.enabled = NO;
-	buttonDailyGameCancel.enabled = NO;
+
+    buttonDailyGameSudokuEasy.enabled = NO;
+    buttonDailyGameGtEasy.enabled = NO;
+    buttonDailyGameKillerEasy.enabled = NO;
+    buttonDailyGameCalcuEasy.enabled = NO;
+    buttonDailyGameSymbolEasy.enabled = NO;
+
+    buttonDailyGameSudokuHard.enabled = NO;
+    buttonDailyGameGtHard.enabled = NO;
+    buttonDailyGameKillerHard.enabled = NO;
+    buttonDailyGameCalcuHard.enabled = NO;
+    buttonDailyGameSymbolHard.enabled = NO;
+
+    buttonDailyGameCancel.enabled = NO;
 }
 
 - (void) allButtonUnLock
@@ -2344,12 +2382,26 @@
 	buttonNewGameCancel.enabled = YES;	
 
     buttonDailyRanking.enabled = YES;
+    
     buttonDailyGameSudoku.enabled = YES;
 	buttonDailyGameGt.enabled = YES;
 	buttonDailyGameKiller.enabled = YES;
     buttonDailyGameCalcu.enabled = YES;
     buttonDailyGameSymbol.enabled = YES;
-	buttonDailyGameCancel.enabled = YES;
+
+    buttonDailyGameSudokuEasy.enabled = YES;
+    buttonDailyGameGtEasy.enabled = YES;
+    buttonDailyGameKillerEasy.enabled = YES;
+    buttonDailyGameCalcuEasy.enabled = YES;
+    buttonDailyGameSymbolEasy.enabled = YES;
+
+    buttonDailyGameSudokuHard.enabled = YES;
+    buttonDailyGameGtHard.enabled = YES;
+    buttonDailyGameKillerHard.enabled = YES;
+    buttonDailyGameCalcuHard.enabled = YES;
+    buttonDailyGameSymbolHard.enabled = YES;
+
+    buttonDailyGameCancel.enabled = YES;
 }
 
 - (void) setGameLevel
@@ -2978,7 +3030,7 @@
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.nSettingSudokuType,
-                        2, // level default 2, 0 is very hard
+                        mainView.nSettingGameLevel,         //2, // level default 2, 0 is very hard
                        [self getNowYYYYMMDD],
                         mainView.bSettingAutoMemo ? 1 : 0,
                         countryCode];
@@ -2992,7 +3044,7 @@
     //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&date=%@&spend=%lu&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&spend=%lu&automemo=%d",
                         @"addresult",
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
@@ -3007,6 +3059,7 @@
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
                         mainView.sudokuGame.sudokuType,   // 현재 type이 정확하게 전송된다.
+                        mainView.sudokuGame.gameLevel,   // 현재 level이 정확하게 전송된다.
                         //mainView.nSettingSudokuType,    // 게임도중 Seg. contrl을 한번 누르면 버그가 생길 수 있다.
                         [self getNowYYYYMMDD],
                         (unsigned long)gameTime,
@@ -3094,7 +3147,7 @@
 	if (oldGame)
 		[oldGame release];
     
-    dailyStat[mainView.sudokuGame.sudokuType].played = YES;
+    dailyStat[mainView.sudokuGame.sudokuType][mainView.sudokuGame.gameLevel].played = YES;
 //    dailyStat[mainView.nSettingSudokuType].played = YES;      // bug fix
     [self saveDailyStat];
 
@@ -3143,9 +3196,11 @@
 - (void) getDailyStat
 {
 //    memset(&dailyStat, 0, sizeof(dailyStat));
-    for (int i=0; i<4; i++) {
-        dailyStat[i].total = 0;
-        dailyStat[i].besttime = 0;
+    for (int i=0; i<SUDOKUTYPE_MAX; i++) {
+        for (int j=0; j<GAMELEVEL_MAX; j++) {
+            dailyStat[i][j].total = 0;
+            dailyStat[i][j].besttime = 0;
+        }
     }
     
     //[self connectToServerInit];
@@ -3216,25 +3271,25 @@
 			value = [rawData objectAtIndex:1];
 			
             if ([name caseInsensitiveCompare:@"Total0"] == NSOrderedSame)
-				dailyStat[0].total = [value integerValue];
+				dailyStat[0][GAMELEVEL_NORMAL].total = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"Besttime0"] == NSOrderedSame)
-				dailyStat[0].besttime = [value integerValue];
+				dailyStat[0][GAMELEVEL_NORMAL].besttime = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Total1"] == NSOrderedSame)
-				dailyStat[1].total = [value integerValue];
+				dailyStat[1][GAMELEVEL_NORMAL].total = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"Besttime1"] == NSOrderedSame)
-				dailyStat[1].besttime = [value integerValue];
+				dailyStat[1][GAMELEVEL_NORMAL].besttime = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Total2"] == NSOrderedSame)
-				dailyStat[2].total = [value integerValue];
+				dailyStat[2][GAMELEVEL_NORMAL].total = [value integerValue];
 			else if ([name caseInsensitiveCompare:@"Besttime2"] == NSOrderedSame)
-				dailyStat[2].besttime = [value integerValue];
+				dailyStat[2][GAMELEVEL_NORMAL].besttime = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Total3"] == NSOrderedSame)
-                dailyStat[3].total = [value integerValue];
+                dailyStat[3][GAMELEVEL_NORMAL].total = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Besttime3"] == NSOrderedSame)
-                dailyStat[3].besttime = [value integerValue];
+                dailyStat[3][GAMELEVEL_NORMAL].besttime = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Total4"] == NSOrderedSame)
-                dailyStat[4].total = [value integerValue];
+                dailyStat[4][GAMELEVEL_NORMAL].total = [value integerValue];
             else if ([name caseInsensitiveCompare:@"Besttime4"] == NSOrderedSame)
-                dailyStat[4].besttime = [value integerValue];
+                dailyStat[4][GAMELEVEL_NORMAL].besttime = [value integerValue];
 		}
 	}
 	
@@ -3249,8 +3304,8 @@
 
 - (NSString*) getDailyStatString:(SUDOKUTYPE) type
 {
-    NSString *str;
-    
+    NSString *str = @"test";
+/*
     if (dailyStat[type].total == 0)
         str = [NSString stringWithFormat:gettext(@"not yet", nil),
                dailyStat[type].total];
@@ -3265,6 +3320,7 @@
                                  str,
                                  gettext(@"best time", nil),
                                  [self getTimeString:dailyStat[type].besttime]];
+ */
     return str;
 }
 
@@ -3286,12 +3342,21 @@
 #ifdef DEBUG
 // do nothing
 #else
-    [self setDailyButton:buttonDailyGameSudoku  played:dailyStat[SUDOKUTYPE_SUDOKU].played];
-    [self setDailyButton:buttonDailyGameGt      played:dailyStat[SUDOKUTYPE_GT].played];
-    [self setDailyButton:buttonDailyGameKiller  played:dailyStat[SUDOKUTYPE_KILLER].played];
-    [self setDailyButton:buttonDailyGameCalcu   played:dailyStat[SUDOKUTYPE_CALCU].played];
+    [self setDailyButton:buttonDailyGameSudokuEasy  played:dailyStat[SUDOKUTYPE_SUDOKU][GAMELEVEL_NORMAL].played];
+    [self setDailyButton:buttonDailyGameGtEasy      played:dailyStat[SUDOKUTYPE_GT][GAMELEVEL_NORMAL].played];
+    [self setDailyButton:buttonDailyGameKillerEasy  played:dailyStat[SUDOKUTYPE_KILLER][GAMELEVEL_NORMAL].played];
+    [self setDailyButton:buttonDailyGameCalcuEasy   played:dailyStat[SUDOKUTYPE_CALCU][GAMELEVEL_NORMAL].played];
 #endif
-    [self setDailyButton:buttonDailyGameSymbol  played:dailyStat[SUDOKUTYPE_SYMBOL].played];
+    [self setDailyButton:buttonDailyGameSymbolEasy  played:dailyStat[SUDOKUTYPE_SYMBOL][GAMELEVEL_NORMAL].played];
+#ifdef DEBUG
+    // do nothing
+#else
+    [self setDailyButton:buttonDailyGameSudokuHard  played:dailyStat[SUDOKUTYPE_SUDOKU][GAMELEVEL_VERYHARD].played];
+    [self setDailyButton:buttonDailyGameGtHard      played:dailyStat[SUDOKUTYPE_GT][GAMELEVEL_VERYHARD].played];
+    [self setDailyButton:buttonDailyGameKillerHard  played:dailyStat[SUDOKUTYPE_KILLER][GAMELEVEL_VERYHARD].played];
+    [self setDailyButton:buttonDailyGameCalcuHard   played:dailyStat[SUDOKUTYPE_CALCU][GAMELEVEL_VERYHARD].played];
+#endif
+    [self setDailyButton:buttonDailyGameSymbolHard  played:dailyStat[SUDOKUTYPE_SYMBOL][GAMELEVEL_VERYHARD].played];
     [self setUserName];
 
     if (bReadyDownloadDailyPuzzle)
@@ -3300,21 +3365,26 @@
         
         buttonDailyRanking.enabled = YES;
         buttonDailyRanking.alpha = 1.0f;
+        /* for daily2
         labelDailyStatSudoku.text = [self getDailyStatString:SUDOKUTYPE_SUDOKU];
         labelDailyStatGt.text =     [self getDailyStatString:SUDOKUTYPE_GT];
         labelDailyStatKiller.text = [self getDailyStatString:SUDOKUTYPE_KILLER];
         labelDailyStatCalcu.text =  [self getDailyStatString:SUDOKUTYPE_CALCU];
         labelDailyStatSymbol.text = [self getDailyStatString:SUDOKUTYPE_SYMBOL];
+         */
     } else  {
         labelDailyStat.text = gettext(@"Not connected to a server.", nil);
 
         buttonDailyRanking.enabled = NO;
         buttonDailyRanking.alpha = 0.3;
+        /* for daily2
         labelDailyStatSudoku.text = @"...";
         labelDailyStatGt.text = @"...";
         labelDailyStatKiller.text = @"...";
         labelDailyStatCalcu.text = @"...";
         labelDailyStatSymbol.text = @"...";
+         */
+        
     }
     
 }
@@ -3343,12 +3413,19 @@
         NSString *strDate = [listItems objectAtIndex:0];
         if ([strDate isEqualToString:[NSString stringWithUTF8String: nowDate]])
         {
-            DLog(@"[listItems count] = %d", [listItems count]);
-            for (int i=0; i<SUDOKUTYPE_MAX; i++) {
-                if ([listItems count] > i+1)
-                    dailyStat[i].played = [[listItems objectAtIndex:i+1] integerValue] == 1 ? YES : NO;
-                else
-                    dailyStat[i].played = NO;
+            DLog(@"[listItems count] = %lu", (unsigned long)[listItems count]);
+            int num=0;
+            for (int j=0; j<GAMELEVEL_MAX; j++) {
+                for (int i=0; i<SUDOKUTYPE_MAX; i++) {
+                    if ([listItems count] > num+1)
+                        if ([[listItems objectAtIndex:num+1] integerValue] == 1)
+                            dailyStat[i][j].played = YES;
+                        else
+                            dailyStat[i][j].played = NO;
+                    else
+                        dailyStat[i][j].played = NO;
+                    num++;
+                }
             }
             return;
         }
@@ -3356,7 +3433,8 @@
     // another day or 1st try or error
     
     for (int i=0; i<SUDOKUTYPE_MAX; i++)
-        dailyStat[i].played = NO;
+        for (int j=0; j<GAMELEVEL_MAX; j++)
+        dailyStat[i][j].played = NO;
     
     [self saveDailyStat];
 }
@@ -3370,13 +3448,16 @@
     } else {
         // 그사이에 날짜가 바뀌었음
         strncpy(nowDate, [newNowDate UTF8String], 9);
-        for (int i=0; i<SUDOKUTYPE_MAX; i++)
-            dailyStat[i].played = NO;
+        for (int j=0; j<GAMELEVEL_MAX; j++)
+            for (int i=0; i<SUDOKUTYPE_MAX; i++)
+                dailyStat[i][j].played = NO;
     }
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString* str = [NSString stringWithUTF8String: nowDate];
-    for (int i=0; i<SUDOKUTYPE_MAX; i++) {
-        str = [str stringByAppendingFormat:@",%d", dailyStat[i].played ? 1 : 0];
+    for (int j=0; j<GAMELEVEL_MAX; j++) {
+        for (int i=0; i<SUDOKUTYPE_MAX; i++) {
+            str = [str stringByAppendingFormat:@",%d", dailyStat[i][j].played ? 1 : 0];
+        }
     }
     
     [defaults setObject:str forKey:kDailyStat];
@@ -3750,18 +3831,21 @@
 - (IBAction)dailygameSudoku
 {
     mainView.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
+    mainView.nSettingGameLevel = GAMELEVEL_NORMAL;
     [self makeNewGameDailyPuzzle];
 }
 
 - (IBAction)dailygameGt
 {
     mainView.nSettingSudokuType = SUDOKUTYPE_GT;
+    mainView.nSettingGameLevel = GAMELEVEL_NORMAL;
     [self makeNewGameDailyPuzzle];
 }
 
 - (IBAction)dailygameKiller
 {
     mainView.nSettingSudokuType = SUDOKUTYPE_KILLER;
+    mainView.nSettingGameLevel = GAMELEVEL_NORMAL;
     [self makeNewGameDailyPuzzle];
 
 }
@@ -3769,12 +3853,50 @@
 - (IBAction)dailygameCalcudoku
 {
     mainView.nSettingSudokuType = SUDOKUTYPE_CALCU;
+    mainView.nSettingGameLevel = GAMELEVEL_NORMAL;
     [self makeNewGameDailyPuzzle];
 }
 
 - (IBAction)dailygameSymbolSudoku
 {
     mainView.nSettingSudokuType = SUDOKUTYPE_SYMBOL;
+    mainView.nSettingGameLevel = GAMELEVEL_NORMAL;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameSudoku0
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_SUDOKU;
+    mainView.nSettingGameLevel = GAMELEVEL_VERYHARD;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameGt0
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_GT;
+    mainView.nSettingGameLevel = GAMELEVEL_VERYHARD;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameKiller0
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_KILLER;
+    mainView.nSettingGameLevel = GAMELEVEL_VERYHARD;
+    [self makeNewGameDailyPuzzle];
+    
+}
+
+- (IBAction)dailygameCalcudoku0
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_CALCU;
+    mainView.nSettingGameLevel = GAMELEVEL_VERYHARD;
+    [self makeNewGameDailyPuzzle];
+}
+
+- (IBAction)dailygameSymbolSudoku0
+{
+    mainView.nSettingSudokuType = SUDOKUTYPE_SYMBOL;
+    mainView.nSettingGameLevel = GAMELEVEL_VERYHARD;
     [self makeNewGameDailyPuzzle];
 }
 

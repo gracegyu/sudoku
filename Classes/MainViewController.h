@@ -132,6 +132,16 @@ typedef struct ADSTATE
 	UIButton	*buttonDailyGameKiller;
     UIButton	*buttonDailyGameCalcu;
     UIButton	*buttonDailyGameSymbol;
+    UIButton    *buttonDailyGameSudokuEasy;
+    UIButton    *buttonDailyGameGtEasy;
+    UIButton    *buttonDailyGameKillerEasy;
+    UIButton    *buttonDailyGameCalcuEasy;
+    UIButton    *buttonDailyGameSymbolEasy;
+    UIButton    *buttonDailyGameSudokuHard;
+    UIButton    *buttonDailyGameGtHard;
+    UIButton    *buttonDailyGameKillerHard;
+    UIButton    *buttonDailyGameCalcuHard;
+    UIButton    *buttonDailyGameSymbolHard;
     UIButton    *buttonNickname;
     UILabel     *labelDailyStatSudoku;
     UILabel     *labelDailyStatGt;
@@ -227,7 +237,7 @@ typedef struct ADSTATE
     
     
     ADSTATE gAdState[eAdStateMax];
-    DAILYSTAT   dailyStat[SUDOKUTYPE_MAX];   // daily puzzle 통계
+    DAILYSTAT   dailyStat[SUDOKUTYPE_MAX][GAMELEVEL_MAX];   // daily puzzle 통계 for Normal
 
     BOOL    bReadyDownloadDailyPuzzle;
     char    nowDate[30];
@@ -286,6 +296,16 @@ typedef struct ADSTATE
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameKiller;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameCalcu;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonDailyGameSymbol;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameSudokuEasy;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameGtEasy;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameKillerEasy;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameCalcuEasy;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameSymbolEasy;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameSudokuHard;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameGtHard;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameKillerHard;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameCalcuHard;
+@property (nonatomic, retain) IBOutlet UIButton    *buttonDailyGameSymbolHard;
 @property (nonatomic, retain) IBOutlet UIButton	*buttonNickname;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatSudoku;
 @property (nonatomic, retain) IBOutlet UILabel  *labelDailyStatGt;
@@ -429,6 +449,11 @@ typedef struct ADSTATE
 - (IBAction)dailygameKiller;
 - (IBAction)dailygameCalcudoku;
 - (IBAction)dailygameSymbolSudoku;
+- (IBAction)dailygameSudoku0;
+- (IBAction)dailygameGt0;
+- (IBAction)dailygameKiller0;
+- (IBAction)dailygameCalcudoku0;
+- (IBAction)dailygameSymbolSudoku0;
 - (IBAction)dailygameCancel;
 - (IBAction)changeNickName;
 //- (IBAction)changeDailyAutoMemo;
