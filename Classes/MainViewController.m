@@ -1237,7 +1237,7 @@
 						[self urlEncodeValue:countryName],
 						@"Apple",
 						(long)[self getCheckSum]];
-#ifdef ADMOB_FREEVERSION
+#ifdef ADMOB_FREEVERSION______________________________ // disabled
     for (int i=0; i<eAdStateMax; i++) {
         NSString *str;
         if (gAdState[i].show > 0) {
@@ -3556,7 +3556,7 @@
 
 //    for (int j=2; j<SUDOKUTYPE_MAX; j++) {
         //[com setYear:2013];
-        [com setYear:2013];
+        [com setYear:2018];
         [com setMonth:1];
         [com setDay:1];
         
