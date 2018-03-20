@@ -2728,7 +2728,17 @@
     
     [formatter release];
     
+#ifdef DEBUG
+    NSString        *timeStringD;
+    
+    timeStringD = [NSString stringWithFormat:@"%@%@", timeString, @"D"];
+    labelTitleGameTime.text = timeStringD;
+
+#else
     labelTitleGameTime.text = timeString;
+#endif
+    
+    
 }
 
 
