@@ -24,3 +24,8 @@
 ..\convert.exe Sudoku9FreeIcon-1024.png -resize 152x152 Sudoku9FreeIcon-76@2x.png 
 
 ..\convert.exe Sudoku9FreeIcon-1024.png -resize 167x167 Sudoku9FreeIcon-83.5@2x.png 
+
+
+..\convert.exe Sudoku9FreeIcon-1024.png -resize 20x20 Sudoku9FreeIcon-20.png
+..\convert.exe Sudoku9FreeIcon-1024.png -resize 40x40 Sudoku9FreeIcon-20@2x.png
+..\convert.exe Sudoku9FreeIcon-1024.png -resize 60x60 Sudoku9FreeIcon-20@3x.png
