@@ -71,12 +71,13 @@
     NSString* strURI;
     if (bMyRankCheck) {
         strURI = [NSString stringWithFormat:
-                  @"act=%@&userid=%ld&size=%d&date=%@&type=%d&rankingtype=%d&countrycode=%@&locale=%@",
+                  @"act=%@&userid=%ld&size=%d&date=%@&type=%d&level=%d&rankingtype=%d&countrycode=%@&locale=%@",
                   @"rankingview",
                   (long)(ctrl.gUserID),
                   DEFPUZZLESIZE,
                   [ctrl getNowYYYYMMDD],
                   ctrl.mainView.sudokuGame.sudokuType,
+                  ctrl.mainView.sudokuGame.gameLevel,
                   0,
                   countryCode,
                   [Locale getFullLocale:gettext(@"locale", nil)]];
