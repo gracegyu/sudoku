@@ -2511,7 +2511,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     SudokuGame *newGame;
     
     str = [NSString stringWithFormat:@"DailyPuzzle(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
-    [Flurry logEvent:str];
+    //[Flurry logEvent:str];
     
     newGame = [[SudokuGame alloc] initWithFromServer:strData type:nSettingSudokuType automemo:bSettingAutoMemo];
     if (!newGame)
