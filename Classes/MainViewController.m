@@ -208,6 +208,7 @@
 #define kScoreRankTotal     @"score6RankTotal"
 #define kScoreTotal         @"score6Total"
 #endif
+#define kScoreTotalSec      @"scoreTotalSec"
 
 - (void) setButtonMode:(UIButton *)button  mode:(BOOL)mode
 {
@@ -218,6 +219,15 @@
         button.enabled = NO;
         button.alpha = 0.3f;
     }
+}
+
+- (void) saveTotalSecData
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    [defaults setInteger:score.spendTotalSec forKey:kScoreTotalSec];
+    DLog(@"spendTotalSec=%ld", (unsigned long)score.spendTotalSec);
+    [defaults synchronize];
 }
 
 
@@ -246,6 +256,7 @@
     }
     [defaults setInteger:score.scoreTotal forKey:kScoreTotal];
     [defaults setInteger:score.scoreRankTotal forKey:kScoreRankTotal];
+    [defaults setInteger:score.spendTotalSec forKey:kScoreTotalSec];
     DLog(@"scoreRankTotal=%ld", (long)score.scoreRankTotal);
 	[defaults synchronize];
     
@@ -281,6 +292,7 @@
 {
 	DLog(@"loadScoreData");	
     int num;
+    unsigned int guessTotalSec=0;
     
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     for (SUDOKUTYPE type=0; type<SUDOKUTYPE_MAX; type++)
@@ -297,14 +309,25 @@
             score.scoreBestTime[type][i] = [defaults integerForKey:[kScoreBestTime stringByAppendingFormat:@"%d", num]];
             score.scoreClearTimeSum[type][i] = [defaults integerForKey:[kScoreClearTimeSum stringByAppendingFormat:@"%d", num]];
             score.scoreRankLevel[type][i] = [defaults integerForKey:[kScoreRankLevel stringByAppendingFormat:@"%d", num]];
-            DLog(@"Score[%d][%d]:%d,%d,%d,%d,%d", type, num,
+            
+            guessTotalSec += (unsigned int) score.scoreClearTimeSum[type][i];
+            guessTotalSec += (unsigned int) score.scoreClearTimeSum[type][i] * score.scoreGames[type][i] / score.scoreClears[type][i];
+
+            DLog(@"Score[%d][%d]:%d,%d,%d,%d,%d,%ud", type, num,
                  (int)score.scoreGames[type][i],
                  (int)score.scoreClears[type][i],
                  (int)score.scoreBestTime[type][i],
                  (int)score.scoreClearTimeSum[type][i],
-                 (int)score.scoreRankLevel[type][i]);
+                 (int)score.scoreRankLevel[type][i],
+                 guessTotalSec);
         }
     }
+    
+    score.spendTotalSec = [defaults integerForKey:kScoreTotalSec];
+    
+    if (score.spendTotalSec == 0)
+        score.spendTotalSec = (NSUInteger) guessTotalSec;
+        
     
     score.scoreTotal = [defaults integerForKey:kScoreTotal];
 	if (score.scoreTotal == 0)
@@ -1237,7 +1260,7 @@
 	DLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&totalsec=%lud&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
@@ -1246,6 +1269,7 @@
                         (int)[self getMyLevel],
                         APPVERSION,
                         isFree,
+                        score.spendTotalSec,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -3219,10 +3243,11 @@
     //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
+                        @"act=%@&userid=%ld&username=%@&totalsec=%ud&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&date=%@",
                         @"getdailystat",
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
+                        (unsigned int) score.spendTotalSec,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -3954,6 +3979,12 @@
     {
         time = [mainView.sudokuGame updateGameElapsedTime];
         [self updateGameTime:time];
+        
+        if (!mainView.sudokuGame.isGameFinished) {
+            score.spendTotalSec++;
+            [self saveTotalSecData];
+        }
+        
     }
     
     // 광고를 보는 동안에도 힌트 타이머는 계속 간다.
