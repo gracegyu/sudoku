@@ -13,6 +13,8 @@
 #define JMC_APIKEY  @"0d51a400-def2-4d60-b866-31d16d4af924"
 #define FACEBOOK_ID @"302256366555317"
 #define FLURRY_KEY  @"FDJCSXX9BND2Z34G43VB"
+#define isFree      1
+
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 #define APPSHARE_ID @"403191170"  // SUDOKU9 Free
@@ -21,6 +23,7 @@
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
 #define FACEBOOK_ID @"116121415220692"
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
+#define isFree      0
 #endif
 //sudoku9
 #define MY_BANNER_UNIT_ID_IPHONE    (@"ca-app-pub-1077680179839843/2276477598")
@@ -36,6 +39,7 @@
 #define JMC_APIKEY  @"e1a7b32b-2a9d-4cf4-818e-efdd886034b9"
 #define FACEBOOK_ID @"126906610795923"
 #define FLURRY_KEY  @"MKQK34DRFGKTTSXVS5BY"
+#define isFree      1
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
 #define APPSHARE_ID @"568783854"  // SUDOKU6 Free
@@ -44,6 +48,7 @@
 #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"
 #define FACEBOOK_ID @"381531935263532"
 #define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
+#define isFree      0
 #endif
 //sudoku6
 #define MY_BANNER_UNIT_ID_IPHONE    (@"ca-app-pub-1077680179839843/8602212795")
@@ -273,6 +278,8 @@ typedef struct SUDOKUSCORE
 #define kResultStatus				@"Result"
 #define kCount						@"Count"
 #define kSuccess					@"Success"
+
+
 
 #ifdef SUDOKU9
 #ifdef ADMOB_FREEVERSION

@@ -342,7 +342,7 @@
 - (IBAction)showGameCenterLeaderboard
 {
     [self showLeaderboard:[GameCenterUtil getPointCategory]]; // 실행~
-    //[Flurry logEvent:@"ShowLeaderboard"];
+    [Flurry logEvent:@"ShowLeaderboard"];
 }
 
 - (IBAction)showGameCenterLeaderboardVeryEasy
@@ -391,7 +391,7 @@
 - (IBAction)showGameCenterAchievement
 {
     [self showArchboard];
-    //[Flurry logEvent:@"ShowAchievement"];
+    [Flurry logEvent:@"ShowAchievement"];
 
 }
 

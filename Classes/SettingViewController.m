@@ -373,7 +373,7 @@
     [mainViewController saveSetting];
     
     NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%ld)", (long)mainViewController.mainView.nSettingSoundOff];
-    //[Flurry logEvent:str];
+    [Flurry logEvent:str];
 
 }
 
@@ -422,7 +422,7 @@
     //[mainViewController saveSetting];
  
     NSString *str = @"SetChangeSkin";
-    //[Flurry logEvent:str];
+    [Flurry logEvent:str];
 
 }
 
@@ -471,7 +471,7 @@
         strLocale2 = @"en";
     
     NSString *str = [NSString stringWithFormat:@"SetLocale(%@)", strLocale2];
-    //[Flurry logEvent:str];
+    [Flurry logEvent:str];
     
     [Locale setLocale:strLocale2];
     [self setLocalizedMessage];
@@ -606,7 +606,7 @@
     
     
     [self presentViewController:alert animated:YES completion:nil];
-    //[Flurry logEvent:@"goAppReview"];
+    [Flurry logEvent:@"goAppReview"];
 }
 
 - (IBAction)goNewApps
@@ -615,7 +615,7 @@
      openURL:[NSURL URLWithString:
     @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
 
-    //[Flurry logEvent:@"goMoewApps"];
+    [Flurry logEvent:@"goMoewApps"];
 
 }
 

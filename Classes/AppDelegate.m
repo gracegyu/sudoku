@@ -104,21 +104,21 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     NSLocale *locale = [NSLocale currentLocale];
-    //NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    //NSString *majorVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
-    //NSString* strLocale = gettext(@"locale", nil);
-    //NSString *str = [NSString stringWithFormat:@"Locale(%@)", strLocale];
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *majorVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString* strLocale = gettext(@"locale", nil);
+    NSString *str = [NSString stringWithFormat:@"Locale(%@)", strLocale];
     NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
-    //NSString *strCountryCode = [NSString stringWithFormat:@"Country(%@)", countryCode];
+    NSString *strCountryCode = [NSString stringWithFormat:@"Country(%@)", countryCode];
 
     DLog(@"Country Code = %@", countryCode);
     
-    /*
+    
     [Flurry startSession:FLURRY_KEY];
     [Flurry setAppVersion:majorVersion];
     [Flurry logEvent:str];
     [Flurry logEvent:strCountryCode];
-     */
+     
 #ifdef USE_JMC
     [[JMC sharedInstance] configureJiraConnect:@"https://gracegyu.atlassian.net"
                                     projectKey:JMC_PRJKEY

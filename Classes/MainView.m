@@ -2467,7 +2467,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     if (level == GAMELEVEL_USERINPUT)           // only original is allowed
         nSettingSudokuType = SUDOKUTYPE_SUDOKU;
-/*
+
     [Flurry logEvent:@"NewGame"];
     
     str = [NSString stringWithFormat:@"GameSize(%ld)", (long)sizePuzzle];
@@ -2481,7 +2481,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     str = [NSString stringWithFormat:@"AutoMemo(%@)", bSettingAutoMemo ? @"Yes" : @"No"];
     [Flurry logEvent:str];
-*/
+
     
     
     if ((nSettingSudokuType == SUDOKUTYPE_SUDOKU || nSettingSudokuType == SUDOKUTYPE_SYMBOL)
@@ -2511,7 +2511,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     SudokuGame *newGame;
     
     str = [NSString stringWithFormat:@"DailyPuzzle(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
-    //[Flurry logEvent:str];
+    [Flurry logEvent:str];
     
     newGame = [[SudokuGame alloc] initWithFromServer:strData type:nSettingSudokuType automemo:bSettingAutoMemo];
     if (!newGame)

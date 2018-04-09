@@ -855,7 +855,7 @@
     
     [gUserName release];
     if ([newname length] > 60) {
-        //[Flurry logEvent:@"ChangeNickNameDialog Too Long name"];
+        [Flurry logEvent:@"ChangeNickNameDialog Too Long name"];
         newname = [newname substringWithRange:NSMakeRange(0, 60)];
     }
     gUserName = [[NSString stringWithString:newname] retain];
@@ -1237,7 +1237,7 @@
 	DLog(@"Country Name = %@", countryName);
 	
 	NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         @"en_US",
 						gDeviceID,
@@ -1245,6 +1245,7 @@
                         [self percentEscapeString:gUserName],
                         (int)[self getMyLevel],
                         APPVERSION,
+                        isFree,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -1543,7 +1544,7 @@
 
 - (IBAction) showScoreView
 {
-    //[Flurry logEvent:@"ShowScoreView"];
+    [Flurry logEvent:@"ShowScoreView"];
 
 	[self hideMenuView:NO];
     [self getRankingFromGameCenter];    // 최신 랭킹으로 update
@@ -1573,7 +1574,7 @@
 
 - (IBAction)showQuestView
 {
-    //[Flurry logEvent:@"ShowQuestView"];
+    [Flurry logEvent:@"ShowQuestView"];
     
     [self hideMenuView:NO];
     
@@ -1679,7 +1680,7 @@
 
 - (void) OnTimerStartUndoRepeat:(NSTimer *)timer
 {
-    //[Flurry logEvent:@"RunUndoRedoRepeat"];
+    [Flurry logEvent:@"RunUndoRedoRepeat"];
 
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 													   target:self
@@ -1694,7 +1695,7 @@
 	if (mainView.bMenuMode)
 		return;
 
-    //[Flurry logEvent:@"RunUndo"];
+    [Flurry logEvent:@"RunUndo"];
     
 	[mainView playSoundClick];
 	[mainView runUndo];
@@ -1716,7 +1717,7 @@
 	if (mainView.bMenuMode)
 		return;
 
-    ////[Flurry logEvent:@"RunRedo"];
+    [Flurry logEvent:@"RunRedo"];
 
 	[mainView playSoundClick];
 	[mainView runRedo];
@@ -1738,7 +1739,7 @@
 	if (mainView.bMenuMode)
 		return;
 
-    //[Flurry logEvent:@"RunBookmark"];
+    [Flurry logEvent:@"RunBookmark"];
 
     
 	[mainView runBookmark];
@@ -1824,7 +1825,7 @@
 {
 	[self hideMenuView:NO];	
 	
-    //[Flurry logEvent:@"RunReset"];
+    [Flurry logEvent:@"RunReset"];
 
     
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
@@ -1874,7 +1875,7 @@
         [self newgameCancel];
     }
 
-    //[Flurry logEvent:@"RunSeeReplay"];
+    [Flurry logEvent:@"RunSeeReplay"];
 
     
     bReplay = YES;
@@ -1915,10 +1916,10 @@
     }
     
     if (mainView.sudokuGame.bDailyPuzzle) {
-        //[Flurry logEvent:@"RankingCheck"];
+        [Flurry logEvent:@"RankingCheck"];
         [self gotoRankingWebView:YES];
     } else {
-        //[Flurry logEvent:@"RunPalyAgain"];
+        [Flurry logEvent:@"RunPalyAgain"];
 
         // see Replay 중이면 멈춰야 한다. timer 멈춘다.
         bReplay = NO;
@@ -2065,7 +2066,7 @@
      {
          if (done) {
              NSString* str = [NSString stringWithFormat:@"Share(%@) done", act];
-             //[Flurry logEvent:str];
+             [Flurry logEvent:str];
              
              NSLog(@"The selected activity was %@", act);
              NSRange range = [act rangeOfString:@"PostTo"];
@@ -2075,7 +2076,7 @@
              }
          } else {
              NSString* str = [NSString stringWithFormat:@"Share(%@) cancel", act];
-             //[Flurry logEvent:str];
+             [Flurry logEvent:str];
          }
      }];
     
@@ -2094,7 +2095,7 @@
         [self hideMenuView:NO];
     }
 
-    //[Flurry logEvent:@"SharePuzzle"];
+    [Flurry logEvent:@"SharePuzzle"];
 
     [self callPuzzleShare:YES];
     
@@ -2110,7 +2111,7 @@
         [self hideMenuView:NO];
     }
 
-    //[Flurry logEvent:@"ShareRecord"];
+    [Flurry logEvent:@"ShareRecord"];
     
 
     [self callPuzzleShare:NO];
@@ -2147,7 +2148,7 @@
 #endif
         ) // && 유료 힌트도 0
     {
-        //[Flurry logEvent:@"RunHint"];
+        [Flurry logEvent:@"RunHint"];
         [mainView doHint];
         [self DoneQuest:eQuestHint];
         
@@ -2170,7 +2171,7 @@
 
 - (IBAction)showSettingView
 {
-    //[Flurry logEvent:@"ShowSettingView"];
+    [Flurry logEvent:@"ShowSettingView"];
 
 	[self hideMenuView:NO];
     
@@ -2208,7 +2209,7 @@
 
 - (IBAction)showHelpView
 {
-    //[Flurry logEvent:@"ShowHelpView"];
+    [Flurry logEvent:@"ShowHelpView"];
 
 	[self hideMenuView:NO];
 	
@@ -2246,7 +2247,7 @@
 
 - (IBAction)showRankView
 {
-    //[Flurry logEvent:@"ShowRankView"];
+    [Flurry logEvent:@"ShowRankView"];
     
 	//[self hideMenuView:NO];
     [self hideDailyGameView];
@@ -3024,11 +3025,12 @@
     DLog(@"AppVersion = %@", [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]);
      
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&appversion=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&automemo=%d&countrycode=%@",
+						@"act=%@&userid=%ld&username=%@&appversion=%@&free=%d&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&automemo=%d&countrycode=%@",
                         @"getdailypuzzle",
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
                         APPVERSION,
+                        isFree,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -3054,10 +3056,11 @@
     //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&userid=%ld&username=%@&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&spend=%lu&automemo=%d",
+						@"act=%@&userid=%ld&username=%@&free=%d&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&spend=%lu&automemo=%d",
                         @"addresult",
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
+                        isFree,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
