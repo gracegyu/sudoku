@@ -311,7 +311,8 @@
             score.scoreRankLevel[type][i] = [defaults integerForKey:[kScoreRankLevel stringByAppendingFormat:@"%d", num]];
             
             guessTotalSec += (unsigned int) score.scoreClearTimeSum[type][i];
-            guessTotalSec += (unsigned int) score.scoreClearTimeSum[type][i] * score.scoreGames[type][i] / score.scoreClears[type][i];
+            if (score.scoreClears[type][i] > 0)
+                guessTotalSec += (unsigned int) score.scoreClearTimeSum[type][i] * score.scoreGames[type][i] / score.scoreClears[type][i];
 
             DLog(@"Score[%d][%d]:%d,%d,%d,%d,%d,%ud", type, num,
                  (int)score.scoreGames[type][i],
@@ -526,6 +527,9 @@
                       gettext(@"Your ranking of daily puzzle:#%d/%d", nil),
                       grade, total];
         }
+    } else {
+        // timer -> adduserresult send
+        
     }
 
     
@@ -2822,6 +2826,10 @@
     
     if (mainView.sudokuGame.bAutoMemo)
         [self DoneQuest:eQuestAutomemo];
+    
+    
+    // timer -> getuserpuzzle send
+    
 }
 
 
