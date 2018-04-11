@@ -3376,7 +3376,11 @@
 #if defined(DAILYSENDER)// || defined(DEBUG)
         [self setButtonMode:button mode:YES];
 #else
+#ifdef DEBUG
+        [self setButtonMode:button mode:YES];
+#else
         [self setButtonMode:button mode:!bPlayed];
+#endif
 #endif
     } else {
         [self setButtonMode:button mode:NO];
@@ -3385,24 +3389,19 @@
 
 - (void) setDailyStat
 {
-#ifdef DEBUG
-// do nothing
-#else
+
     [self setDailyButton:buttonDailyGameSudokuEasy  played:dailyStat[SUDOKUTYPE_SUDOKU][GAMELEVEL_NORMAL].played];
     [self setDailyButton:buttonDailyGameGtEasy      played:dailyStat[SUDOKUTYPE_GT][GAMELEVEL_NORMAL].played];
     [self setDailyButton:buttonDailyGameKillerEasy  played:dailyStat[SUDOKUTYPE_KILLER][GAMELEVEL_NORMAL].played];
     [self setDailyButton:buttonDailyGameCalcuEasy   played:dailyStat[SUDOKUTYPE_CALCU][GAMELEVEL_NORMAL].played];
-#endif
     [self setDailyButton:buttonDailyGameSymbolEasy  played:dailyStat[SUDOKUTYPE_SYMBOL][GAMELEVEL_NORMAL].played];
-#ifdef DEBUG
-    // do nothing
-#else
+
     [self setDailyButton:buttonDailyGameSudokuHard  played:dailyStat[SUDOKUTYPE_SUDOKU][GAMELEVEL_VERYHARD].played];
     [self setDailyButton:buttonDailyGameGtHard      played:dailyStat[SUDOKUTYPE_GT][GAMELEVEL_VERYHARD].played];
     [self setDailyButton:buttonDailyGameKillerHard  played:dailyStat[SUDOKUTYPE_KILLER][GAMELEVEL_VERYHARD].played];
     [self setDailyButton:buttonDailyGameCalcuHard   played:dailyStat[SUDOKUTYPE_CALCU][GAMELEVEL_VERYHARD].played];
-#endif
     [self setDailyButton:buttonDailyGameSymbolHard  played:dailyStat[SUDOKUTYPE_SYMBOL][GAMELEVEL_VERYHARD].played];
+    
     [self setUserName];
 
     if (bReadyDownloadDailyPuzzle)
