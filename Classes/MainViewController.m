@@ -517,7 +517,7 @@
     {
         NSInteger total=0, grade=0;
         
-        if ([self uploadDailyPuzzleResult:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
+        if ([self uploadDailyPuzzleResult:@"addresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
             total > 0 &&
             grade > 0 &&
             grade <= total)
@@ -529,7 +529,16 @@
         }
     } else {
         // timer -> adduserresult send
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+            // 작업이 오래 걸리는 API를 백그라운드 스레드에서 실행한다.
+            BOOL res = [self sendNormalPuzzleResult:sudokuGame];
+            DLog(@"[self sendNormalPuzzleResult] => %d", (int)res);
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // do nothing
+            });
+        });
+
     }
 
     
@@ -573,6 +582,20 @@
     [self sendDataToGameCenter:sudokuGame];
 	[self updateButtons];
 }
+
+-(BOOL) sendNormalPuzzleResult:(SudokuGame*)sudokuGame // spend
+{
+    NSInteger total=0, grade=0;
+    
+    BOOL bRet = [self uploadDailyPuzzleResult:@"adduserresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade];    // 이부분을 수정
+    if (!bRet)
+    {
+        // 전송 할 때까지 반복할 것인가?
+        return NO;
+    }
+    return YES;
+}
+
 
 - (void) OnTimerGetRanking:(NSTimer *)timer
 {
@@ -2827,10 +2850,33 @@
     if (mainView.sudokuGame.bAutoMemo)
         [self DoneQuest:eQuestAutomemo];
     
-    
+#ifndef DAILYSENDER
     // timer -> getuserpuzzle send
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+        // 작업이 오래 걸리는 API를 백그라운드 스레드에서 실행한다.
+        BOOL res = [self sendNormalPuzzleStart];
+        DLog(@"[self sendNormalPuzzleStart] => %d", (int)res);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // do nothing
+        });
+    });
+#endif
     
 }
+
+-(BOOL) sendNormalPuzzleStart
+{
+    NSString* strRet = [self downloadDailyPuzzle:@"getuserpuzzle"];
+    // 이부분을 수정
+    if (!strRet)
+    {
+        // 전송 할 때까지 반복할 것인가?
+        return NO;
+    }
+    return YES;
+}
+
 
 
 - (void)OnTimerNewGame:(NSTimer *)timer
@@ -2853,6 +2899,8 @@
 
 	[activityIndicator startAnimating];
 	levelNewGame = level;
+    mainView.nSettingGameLevel = (GAMELEVEL)level;
+
 #ifdef DAILYSENDER
 	[self makeNewGameData];
 #else
@@ -3046,7 +3094,7 @@
     }
 }
 
-- (NSString*) downloadDailyPuzzle
+- (NSString*) downloadDailyPuzzle:(NSString*)act
 {
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
 
@@ -3058,7 +3106,7 @@
      
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&username=%@&appversion=%@&free=%d&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&automemo=%d&countrycode=%@",
-                        @"getdailypuzzle",
+                        act,
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
                         APPVERSION,
@@ -3083,13 +3131,13 @@
     return strData;
 }
 
-- (BOOL) uploadDailyPuzzleResult:(NSTimeInterval)gameTime pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
+- (BOOL) uploadDailyPuzzleResult:(NSString*)act  spendTime:(NSTimeInterval)gameTime pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
 {
     //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&userid=%ld&username=%@&free=%d&latitude=%d&longitude=%d&version=%d&cs=%ld&size=%d&type=%d&level=%d&date=%@&spend=%lu&automemo=%d",
-                        @"addresult",
+                        act,
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
                         isFree,
@@ -3116,6 +3164,10 @@
     if (!strData) {
 		return NO;
 	}
+    if ([act isEqualToString:@"adduserresult"])
+        return YES;
+    
+    
 	NSArray *listItems = [strData componentsSeparatedByString:@"\n"];
 	NSInteger count = listItems.count;
 	NSString *item;
@@ -3159,7 +3211,7 @@
     SudokuGame *oldGame = mainView.sudokuGame;
     BOOL bRet;
     
-    NSString* strDailyPuzzle = [self downloadDailyPuzzle];
+    NSString* strDailyPuzzle = [self downloadDailyPuzzle:@"getdailypuzzle"];
     // 이부분을 수정
     if (!strDailyPuzzle)
     {
