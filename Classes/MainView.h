@@ -13,6 +13,7 @@
 #endif
 #import "SudokuNum.h"
 #import "SudokuGame.h"
+#import "KillerMap.h"
 
 enum ALERT_MODE {
     ALELRT_INIT = 0,

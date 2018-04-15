@@ -226,7 +226,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
     [defaults setInteger:score.spendTotalSec forKey:kScoreTotalSec];
-    DLog(@"spendTotalSec=%ld", (unsigned long)score.spendTotalSec);
+    //DLog(@"spendTotalSec=%ld", (unsigned long)score.spendTotalSec);
     [defaults synchronize];
 }
 
@@ -3734,13 +3734,13 @@
 
 //    for (int j=2; j<SUDOKUTYPE_MAX; j++) {
         //[com setYear:2013];
-        [com setYear:2018];
+        [com setYear:2019];
         [com setMonth:1];
         [com setDay:1];
         
         date = [[NSCalendar currentCalendar] dateFromComponents:com];
         
-        for (int i=0; i<365; i++)
+        for (int i=0; i<366; i++)
         {
             for (int j=SUDOKUTYPE_SUDOKU; j<SUDOKUTYPE_MAX; j++) {
                 mainView.nSettingSudokuType = j;

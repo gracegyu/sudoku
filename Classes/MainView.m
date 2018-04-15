@@ -1579,7 +1579,38 @@ static NSUInteger SmallerColorTemplate[9] = {
 		CGRect currentRect;
 		NSInteger xPos = cTableStartX + selectedXPos*cCellWidth;
 		NSInteger yPos = cTableStartY + selectedYPos*cCellHeight;
-		
+/*
+        // 곱셈 후보수 보여주기
+        //DLog(@"drawHighlightCell(%ld,%ld)", selectedXPos, selectedYPos);
+        if (sudokuGame.sudokuType == SUDOKUTYPE_CALCU) {
+            KillerMap *kmap = sudokuGame.kmap;
+            KillerCage *cage = [kmap getCageData:[kmap getCageNumber:selectedXPos yPos:selectedYPos]];
+            if (cage->sign == CS_MULTIPLE) {
+                DLog(@"CageSumCell(%ld,%ld)", cage->sum, [kmap getCageNumberCount:selectedXPos yPos:selectedYPos]);
+                NSInteger cellcount = [kmap getCageNumberCount:selectedXPos yPos:selectedYPos];
+                NSInteger num[4];
+                BOOL cand[9];
+                for (num[0]=1; num[0]<=10-cellcount; num[0]++) {
+                    for (num[1]=num[0]+1; num[1]<=11-cellcount; num[1]++) {
+                        for (num[2]=cellcount>2?num[1]+1:12-cellcount; num[2]<=12-cellcount; num[2]++) {
+                            for (num[3]=cellcount>3?num[2]+1:13-cellcount; num[3]<=13-cellcount; num[3]++) {
+                                NSInteger sumMulti = 1;
+                                for (NSInteger i=0; i<cellcount; i++) {
+                                    sumMulti *= num[i];
+                                }
+                                if (sumMulti == cage->sum) {
+                                    for (NSInteger i=0; i<cellcount; i++) { cand[i] = YES; }
+                                    if (cellcount == 2) { DLog(@"HintNum(%ld,%ld)", num[0], num[1]); }
+                                    if (cellcount == 3) { DLog(@"HintNum(%ld,%ld,%ld)", num[0], num[1], num[2]); }
+                                    if (cellcount == 4) { DLog(@"HintNum(%ld,%ld,%ld,%ld)", num[0], num[1], num[2], num[3]); }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+*/
 		CGContextSetLineWidth(context, 4*cResizeRatioW);
 		CGContextSetStrokeColorWithColor(context,
                                          bMemoMode ?
@@ -1799,6 +1830,55 @@ static NSUInteger SmallerColorTemplate[9] = {
 	}
 	
     [sudokuGame calcuCountNum];
+    
+    // 곱셈 후보수 보여주기
+    BOOL cand[9];
+    // 기간 아이템으로 구매하기
+    for (i=0; i<9; i++) cand[i] = NO;
+#ifdef __HINT_ITEM__
+    //DLog(@"drawHighlightCell(%ld,%ld)", selectedXPos, selectedYPos);
+    if (sudokuGame.sudokuType == SUDOKUTYPE_CALCU) {
+        KillerMap *kmap = sudokuGame.kmap;
+        KillerCage *cage = [kmap getCageData:[kmap getCageNumber:selectedXPos yPos:selectedYPos]];
+        NSInteger cellcount = [kmap getCageNumberCount:selectedXPos yPos:selectedYPos];
+        NSInteger num[4];
+        DLog(@"CageSumCell(%ld,%ld)", cage->sum, [kmap getCageNumberCount:selectedXPos yPos:selectedYPos]);
+        if (cage->sign == CS_MULTIPLE || cage->sign == CS_PLUS) {
+            for (num[0]=1; num[0]<=10-cellcount; num[0]++) {
+                for (num[1]=cellcount>1?num[0]+1:11-cellcount; num[1]<=11-cellcount; num[1]++) {
+                    for (num[2]=cellcount>2?num[1]+1:12-cellcount; num[2]<=12-cellcount; num[2]++) {
+                        for (num[3]=cellcount>3?num[2]+1:13-cellcount; num[3]<=13-cellcount; num[3]++) {
+                            NSInteger sumMulti = cage->sign == CS_MULTIPLE ? 1 : 0;
+                            for (i=0; i<cellcount; i++) {
+                                if (cage->sign == CS_MULTIPLE)
+                                    sumMulti *= num[i];
+                                else
+                                    sumMulti += num[i];
+                            }
+                            if (sumMulti == cage->sum) {
+                                for (i=0; i<cellcount; i++) { cand[num[i]] = YES; }
+                                if (cellcount == 2) { DLog(@"HintNum(%ld,%ld)", num[0], num[1]); }
+                                if (cellcount == 3) { DLog(@"HintNum(%ld,%ld,%ld)", num[0], num[1], num[2]); }
+                                if (cellcount == 4) { DLog(@"HintNum(%ld,%ld,%ld,%ld)", num[0], num[1], num[2], num[3]); }
+                            }
+                        }
+                    }
+                }
+            }
+        } else if (cage->sign == CS_DIVIDE || cage->sign == CS_MINUS) {
+            for (num[0]=1; num[0]<=10-cellcount; num[0]++) {
+                for (num[1]=num[0]; num[1]<=11-cellcount; num[1]++) {
+                    if (cage->sign == CS_DIVIDE) {
+                        if (cage->sum * num[0] == num[1]) { cand[num[0]] = YES; cand[num[1]] = YES; }
+                    } else {
+                        if (cage->sum + num[0] == num[1]) { cand[num[0]] = YES; cand[num[1]] = YES; }
+                    }
+                }
+            }
+        }
+    }
+#endif // __HINT_ITEM__
+    
 	
 	for (i=1; i<=sudokuGame.size; i++)    // 버튼 모양 그리기
 	{
@@ -1826,7 +1906,10 @@ static NSUInteger SmallerColorTemplate[9] = {
                 bGray = YES;
             }
             if (bGray) {
-                color = [UIColor colorWithRed:.8f green:.8f blue:.8f alpha:8.f];
+                if (cand[i])    // 곱셈 후보 숫자
+                    color = [UIColor colorWithRed:.72f green:.72f blue:.72f alpha:8.f];
+                else
+                    color = [UIColor colorWithRed:.85f green:.85f blue:.85f alpha:8.f];
             }
             
             if (bGray)

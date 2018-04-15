@@ -17,7 +17,7 @@
 
 #else
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
-#define APPSHARE_ID @"403191170"  // SUDOKU9 Free
+#define APPSHARE_ID @"403191170"  // SUDOKU9 Paid
 #define SHORTENURL  @"http://goo.gl/7tcTc"
 #define JMC_PRJKEY  @"SDSDKNINEP"
 #define JMC_APIKEY  @"0c18415e-2e1c-47a3-a61b-cd5cf322703b"
@@ -42,7 +42,7 @@
 #define isFree      1
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
-#define APPSHARE_ID @"568783854"  // SUDOKU6 Free
+#define APPSHARE_ID @"568783854"  // SUDOKU6 Paid
 #define SHORTENURL  @"http://goo.gl/DtLbw"
 #define JMC_PRJKEY  @"SDSDKSIXP"
 #define JMC_APIKEY  @"e914b167-d0f2-4501-be8a-fdbb9d7e30ba"

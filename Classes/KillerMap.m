@@ -320,6 +320,28 @@
 	return map[x][y];
 }	// from map
 
+// 해당 Cell이 몇칸으로 구성된 Cell인가?
+- (NSInteger) getCageNumberCount:(NSInteger)x yPos:(NSInteger)y
+{
+    NSInteger num = map[x][y];
+    NSInteger count = 0;
+
+    for (int y=0; y<size; y++)
+    {
+        for (int x=0; x<size; x++)
+        {
+            if (map[x][y] == num)
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+    
+}
+
+
+
 - (NSInteger) getColor:(NSInteger)x yPos:(NSInteger)y
 {
 	return color[x][y];
