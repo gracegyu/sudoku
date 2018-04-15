@@ -1525,7 +1525,7 @@
     //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
 #ifdef ADMOB_FREEVERSION
     DLog(@"areaAdBanner.frame(%f,%f,%f,%f)", areaAdBanner.frame.origin.x, areaAdBanner.frame.origin.y, areaAdBanner.frame.size.width, areaAdBanner.frame.size.height);
-    DLog(@"areaiAdBanner.frame(%f,%f,%f,%f)", areaiAdBanner.frame.origin.x, areaiAdBanner.frame.origin.y, areaiAdBanner.frame.size.width, areaiAdBanner.frame.size.height);
+    //DLog(@"areaiAdBanner.frame(%f,%f,%f,%f)", areaiAdBanner.frame.origin.x, areaiAdBanner.frame.origin.y, areaiAdBanner.frame.size.width, areaiAdBanner.frame.size.height);
     if (bNoAd) {
         DLog(@"No Ad");
     } else {
@@ -4356,13 +4356,21 @@ static NSInteger LEVELSCORE[] = {
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 #endif
 {
-    return SUPPORT_ROTATION?UIInterfaceOrientationMaskAll:UIInterfaceOrientationMaskPortrait;
+
+    
+    if (SUPPORT_ROTATION)
+        return UIInterfaceOrientationMaskAll;
+    else
+        return UIInterfaceOrientationMaskPortrait;
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return SUPPORT_ROTATION?YES:(interfaceOrientation == UIInterfaceOrientationPortrait);
+    if (SUPPORT_ROTATION)
+        return YES;
+    else
+        return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
 

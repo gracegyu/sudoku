@@ -189,7 +189,7 @@
     //[Appirater setDebug:YES];
     
     [Appirater appLaunched:YES];
-    
+
     
 }
 
@@ -232,10 +232,15 @@
 	}
 }
 
-- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window
+- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+
+//- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
     DLog(@"supportedInterfaceOrientationsForWindow");
-    return UIInterfaceOrientationMaskAll;
+    if (SUPPORT_ROTATION)
+        return UIInterfaceOrientationMaskAll;
+    else
+        return UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown;
 }
 
 - (void)dealloc
