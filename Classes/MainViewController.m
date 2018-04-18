@@ -762,9 +762,8 @@
 {
 	DLog(@"setLocalizedMessage");
 	
-    labelLicense.text = STR_LICENSE;
+    labelLicense.text = [NSString stringWithFormat:STR_LICENSEFormat, [self getNowYYYY]];
 
-    
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonQuest		setTitle:gettext(@"Quest", nil) forState:UIControlStateNormal];
@@ -3055,10 +3054,36 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
     //formatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"NZDT"];          // Pacific/Auckland
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    formatter.calendar = gregorian;
+    NSCalendar *gregorian;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    } else {
+        gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
     
     [formatter setDateFormat:@"yyyyMMdd"];
+    
+    NSString *str = [formatter stringFromDate:today];
+    //[str retain];
+    [gregorian release];
+    [formatter release];
+    return str;
+}
+
+- (NSString*) getNowYYYY
+{
+    NSDate *today = [NSDate date];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    NSCalendar *gregorian;
+    if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0")) {
+        gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    } else {
+        gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    }
+    formatter.calendar = gregorian;
+    
+    [formatter setDateFormat:@"yyyy"];
     
     NSString *str = [formatter stringFromDate:today];
     //[str retain];

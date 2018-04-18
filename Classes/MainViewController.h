@@ -493,6 +493,7 @@ typedef struct ADSTATE
 - (BOOL) isReplaying;
 - (NSInteger) getCheckSum;	// forVersion2
 - (NSString*) getNowYYYYMMDD;
+- (NSString*) getNowYYYY;
 - (NSString *)percentEscapeString:(NSString *)string;
 - (void) DoneQuest:(eQuest)quest;
 - (void) alertMessageOk:(NSString*)title msg:(NSString*) msg;

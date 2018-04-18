@@ -234,7 +234,8 @@ typedef struct SUDOKUSCORE
 
 #define SUPPORT_ROTATION    [[AppDelegate sharedAppDelegate] supportRotate]
 
-#define STR_LICENSE     @"Ⓒ 2015 SmartOne, All rights reserved."
+#define STR_LICENSE     @"Ⓒ 2018 SmartOne, All rights reserved."
+#define STR_LICENSEFormat     @"Ⓒ %@ SmartOne, All rights reserved."
 #ifdef SUDOKU9
 #define NUM_HINTBONUS   3
 #else
