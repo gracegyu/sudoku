@@ -190,7 +190,7 @@
 - (void) setLocalizedMessage
 {
 	naviItem.title = gettext(@"Score", nil);
-    labelLicense.text = STR_LICENSE;
+    labelLicense.text = [NSString stringWithFormat:STR_LICENSEFormat, [mainViewController getNowYYYY]];
     
     lableTitle.text = gettext(@"Score", nil);
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];

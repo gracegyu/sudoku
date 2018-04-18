@@ -1288,7 +1288,7 @@
 	NSString* strURI = [NSString stringWithFormat:
 						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&totalsec=%lud&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
-                        @"en_US",
+                        [Locale getFullLocale:gettext(@"locale", nil)],
 						gDeviceID,
                         (long)gUserID,
                         [self percentEscapeString:gUserName],

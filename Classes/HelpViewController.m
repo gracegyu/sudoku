@@ -40,7 +40,7 @@
 	NSString* str;
 	
     naviItem.title = gettext(@"Help", nil);
-    labelLicense.text = STR_LICENSE;
+    labelLicense.text = [NSString stringWithFormat:STR_LICENSEFormat, [mainViewController getNowYYYY]];
 
     [buttonDone setTitle:gettext(@"Done", nil) forState:UIControlStateNormal];
 
