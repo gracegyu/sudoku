@@ -1937,8 +1937,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	[SudokuGame get9x9Nums:zStrFixNum		size:size   nums:&fixNums[0][0]];
 	[SudokuGame get9x9Strs:zStrMemoNum		size:size   strs:&memoNums[0][0][0]];
 	
-	NSString *str = [NSString stringWithFormat:
-					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,%@,%ld,%ld,%s,%d,%f,%d,%d,%d",
+    NSString *str = [[NSString alloc] initWithFormat:
+					 @"%d,%f,%f,%f,%d,%s,%s,%s,%s,,%ld,%ld,%s,%d,%f,%d,%d,%d",
 					 gameLevel,	
 					 startTime,	
 					 lastTime,	
@@ -1948,7 +1948,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 					 (char*)zStrAnswerNum,
 					 (char*)zStrFixNum,
 					 (char*)zStrMemoNum,
-					 @"",//strUndo,
+					 //@"",//strUndo,
 					 (long)countHint,
                      (long)size,                  // 9칸?
                      (char*)zStrMapNum,
@@ -1961,7 +1961,8 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
-
+    [str release];
+    
 	[sudokuUndo saveData];
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
     {
