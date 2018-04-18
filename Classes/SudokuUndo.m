@@ -566,7 +566,7 @@
 	// bookmark array save
 	if ([self countBookmarked] > 0)
 		[KillerMap getNumsPipe:zStrBookmark	size:[self countBookmarked]*sizeof(Bookmark)/sizeof(NSInteger) nums:(NSInteger*)&arrayBookmark[0]];
-	NSString* str = [NSString stringWithFormat:@"%s", zStrBookmark];
+	NSString *str = [[NSString alloc] initWithFormat:@"%s", zStrBookmark];
 	//DLog(@"bookmark(%@)", str);
 	[defaults setObject:str forKey:karrayBookmark];
 	
@@ -576,6 +576,9 @@
         [defaults setObject:data forKey:karrayUndo];    // Crash
     
     [defaults synchronize];
+
+    [str release];
+
 }
 
 - (id) initWithSaveData

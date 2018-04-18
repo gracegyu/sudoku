@@ -1961,7 +1961,6 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	DLog(@"saveData(%@)", str);
 	
 	[defaults setObject:str forKey:kSudokuGame];
-    [str release];
     
 	[sudokuUndo saveData];
     if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
@@ -1970,6 +1969,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     }
     [defaults setBool:NO forKey:kSudokuGameSaving];
     [defaults synchronize];
+
+    [str release];
+
 }
 
 #define kSudokuGameLoading		@"sudokugameloading"
