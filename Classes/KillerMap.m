@@ -349,6 +349,10 @@
 
 - (KillerCage*) getCageData:(NSInteger)num
 {
+    // should validate num
+    // SDSDKNINEF-14373  Crash report
+    if (num >= MAXMAPSIZE*MAXMAPSIZE/2)
+        return NULL;
 	return cage[num].x0 >= 0 && cage[num].y0 >= 0 ? &(cage[num]) : NULL;
 }	// from cell
 
