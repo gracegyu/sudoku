@@ -3024,7 +3024,8 @@
 		char str[3000+1];
 		
 		memcpy(&str, theResponseData.bytes, MIN(theResponseData.length, 3000));
-		str[theResponseData.length] = '\0';
+        //str[theResponseData.length] = '\0';     // SDSDKNINEP-3432 Crash report
+        str[MIN(theResponseData.length, 3000)] = '\0';
 		DLog(@"char* = %s", str);
 		
 		NSString *strData = [[NSString alloc] initWithData:theResponseData encoding:NSUTF8StringEncoding];
