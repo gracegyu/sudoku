@@ -2525,21 +2525,36 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 
 
+#define kSudokuGameLoading        @"sudokugameloading"
 
 - (BOOL) loadGame
 {
 	DLog(@"loadGame");
-	sudokuGame = [SudokuGame loadData];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    BOOL bRet = NO;
+    
+    if ([defaults boolForKey:kSudokuGameLoading]) { // Crashed last time
+        [defaults setBool:NO forKey:kSudokuGameLoading];
+        [defaults synchronize];
+        return NO;
+    }
+    [defaults setBool:YES forKey:kSudokuGameLoading];
+    [defaults synchronize];
 	
-	if (sudokuGame != NULL)
+    sudokuGame = [SudokuGame loadData];
+	
+	if (sudokuGame != nil)
 	{
         [self setSelectedXYPos:0 yPos:0];
 		[sudokuGame saveData];
         
 		[self setNeedsDisplay];
-		return YES;
+		bRet = YES;
 	}
-	return NO;
+    [defaults setBool:NO forKey:kSudokuGameLoading];
+    [defaults synchronize];
+    
+	return bRet;
 }
 
 

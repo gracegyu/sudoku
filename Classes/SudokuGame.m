@@ -1974,7 +1974,6 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 
 }
 
-#define kSudokuGameLoading		@"sudokugameloading"
 
 + (SudokuGame*) loadData
 {
@@ -1987,16 +1986,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	}
 	
 	DLog(@"loadData(%@)", str);
-    if ([defaults boolForKey:kSudokuGameLoading]) { // Crashed last time
-        [defaults setBool:NO forKey:kSudokuGameLoading];
-        [defaults synchronize];
-        return nil;
-    }
-    [defaults setBool:YES forKey:kSudokuGameLoading];
-    [defaults synchronize];
     SudokuGame* sudokuGame = [[SudokuGame alloc] initWithSavedString:str];
-    [defaults setBool:NO forKey:kSudokuGameLoading];
-    [defaults synchronize];
 	// sudokuGame.bAutoMemo = YES;
 	//[sudokuGame initAutoMemo]; 메모를 그대로 읽어들여야 한다.
 	
