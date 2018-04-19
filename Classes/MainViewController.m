@@ -2282,7 +2282,7 @@
 {
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
-                                      cDeviceType == DEVICETYPE_IPAD ? @"RankView" :
+                                      cDeviceType == DEVICETYPE_IPAD ? @"RankView4iPad" :
                                       (isLongIphone ? @"RankView4iPhone5" : @"RankView")
                                                                           bundle:nil];
     controller.bMyRankCheck = bMyRanking;
