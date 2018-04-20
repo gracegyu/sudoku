@@ -1531,7 +1531,11 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 	if (puzzleNums[x][y] == 0)
 	{
 		//fixNums[x][y] = answerNums[x][y];
-		[self setFixNums:answerNums[x][y] x:x y:y];
+		//[self setFixNums:answerNums[x][y] x:x y:y];
+        
+        // Hint 아이템을 쓴 것은 undo, redo, reset을 해도 문제가 없도록 수정
+        // Undo, redo, go bookmark 문제 없도록 해야 함.
+        puzzleNums[x][y] = answerNums[x][y];
 	}	
 }
 

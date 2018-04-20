@@ -5048,6 +5048,7 @@ static NSInteger LEVELSCORE[] = {
     
     [self updateButtonHint];
     [self updateHintCount];
+    [self saveSetting];
 }
 
 - (void)rewardBasedVideoAdDidReceiveAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd {

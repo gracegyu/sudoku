@@ -2507,7 +2507,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     }
 */    
     
-	if (sudokuGame.countHint > 0) {
+	if (sudokuGame.countHint > 0) {     // 무료 hint를 먼저 사용한다.
 		sudokuGame.countHint -= 1;
 		[sudokuGame setHintNum:selectedXPos y:selectedYPos];
 	} else if (paidHintCount > 0) {
