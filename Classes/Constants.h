@@ -130,8 +130,11 @@
 #define MAX_HANDYTRAYFAIL       10
 
 #define GAMECOUNTFORREVIEW        20
+#ifdef DEBUG
+#define SECONDSFORFREEHINT        30
+#else
 #define SECONDSFORFREEHINT		1200
-
+#endif
 
 
 enum SUDOKUTYPE {

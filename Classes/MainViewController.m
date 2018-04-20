@@ -4146,6 +4146,10 @@
 	if (time <= 0)
 	{
 		[mainView.sudokuGame resetHintTime];
+        [[GKAchievementHandler defaultHandler]
+         notifyAchievementTitle:gettext(@"Bonus item", nil)
+         andMessage:gettext(@"You got 1 hint.", nil)];
+
 	}
     
     // 시계를 표시한다.
