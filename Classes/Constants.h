@@ -32,7 +32,7 @@
 #define MY_INTERSTITIAL_UNIT_ID_IPAD    (@"ca-app-pub-1077680179839843/7394521992")
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~5788347192")
 #define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/5779853912")
-#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/5779853912")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6300945703")
 #elif defined(SUDOKU6)
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"568783854"  // SUDOKU6 Free
@@ -59,8 +59,8 @@
 #define MY_INTERSTITIAL_UNIT_ID_IPHONE  (@"ca-app-pub-1077680179839843/5917788795")
 #define MY_INTERSTITIAL_UNIT_ID_IPAD    (@"ca-app-pub-1077680179839843/4441055590")
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4311613994")     
-#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/5779853912")     // 바꿔야 함
-#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/5779853912")     // 바꿔야 함
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/9996648136")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6795769726")
 
 
 #else   // etc. SUDOKU7 etc
@@ -76,8 +76,8 @@
 #define MY_INTERSTITIAL_UNIT_ID_IPHONE  (@"ca-app-pub-1077680179839843/5917788795")
 #define MY_INTERSTITIAL_UNIT_ID_IPAD    (@"ca-app-pub-1077680179839843/4441055590")
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~5788347192")     // 바꿔야 함
-#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/5779853912")     // 바꿔야 함
-#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/5779853912")     // 바꿔야 함
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/9996648136")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6795769726")
 
 #endif 
 
@@ -113,7 +113,7 @@
 
 #define MY_BANNER_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE)
 #define MY_INTERSTITIAL_UNIT_ID ((cDeviceType == DEVICETYPE_IPAD) ? MY_INTERSTITIAL_UNIT_ID_IPAD : MY_INTERSTITIAL_UNIT_ID_IPHONE)
-#ifdef DEBUG
+#ifdef DEBUG__________
 #define MY_REWARD_UNIT_ID       (@"ca-app-pub-3940256099942544/1712485313")
 #else
 #define MY_REWARD_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_REWARD_UNIT_ID_IPAD : MY_REWARD_UNIT_ID_IPHONE)
@@ -278,7 +278,7 @@ typedef struct SUDOKUSCORE
 #define cDebugUserID            158902
 #endif
 
-#ifdef DEBUG
+#ifdef DEBUG_______
 //#define cServerHostName         @"10.211.55.17:88"
 #define cServerHostName         @"www.abcswcon.com"
 #else
@@ -316,6 +316,7 @@ typedef struct SUDOKUSCORE
 
 
 #define countHint50             50
+#define countHint5             5
 
 #ifdef SUDOKU16
 #define DEFPUZZLESIZE   SIZE_16

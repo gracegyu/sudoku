@@ -2341,7 +2341,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         [self playSoundClick];
     } else {
         
-        alertMode = ALELRT_BOOKMARK;
+        alertMode = ALERT_BOOKMARK;
         
         MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
         
@@ -2450,7 +2450,7 @@ static NSUInteger SmallerColorTemplate[9] = {
         return;
 
     MainViewController *ctrl = ((AppDelegate*)[[UIApplication sharedApplication] delegate]).mainViewController;
-    alertMode = ALELRT_INIT;
+    alertMode = ALERT_INIT;
     
     UIAlertController * alert=   [UIAlertController
                                   alertControllerWithTitle:gettext(@"Alert", nil)
@@ -2635,7 +2635,7 @@ static NSUInteger SmallerColorTemplate[9] = {
 
     switch (alertMode)
     {
-        case ALELRT_INIT :
+        case ALERT_INIT :
             if (buttonIndex == 1) // "확인" 버튼
             {
                 [sudokuGame clearAllNums];
@@ -2650,7 +2650,7 @@ static NSUInteger SmallerColorTemplate[9] = {
             }
             
             break;
-        case ALELRT_BOOKMARK :
+        case ALERT_BOOKMARK :
             if (buttonIndex == 0)		// goto last bookmark
             {
                 NSInteger countBookmark = [sudokuGame.sudokuUndo countGoBookmark];

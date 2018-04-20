@@ -1175,7 +1175,10 @@
      // Create a view of the standard size at the bottom of the screen.
      DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
      
+     [GADMobileAds configureWithApplicationID:MY_APP_UNIT_ID];
      [self initBanner];
+     [GADRewardBasedVideoAd sharedInstance].delegate = self;
+     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
      
 #endif
      bAd = NO;
@@ -1224,6 +1227,7 @@
 
      productHint50 = nil;
      bBuyingHint50 = NO;
+     bReadyHintRewardVideo = NO;
      
      productRequestHint50 = [[SKProductsRequest alloc]
                              initWithProductIdentifiers:
@@ -2184,11 +2188,43 @@
 #define BUYHINTTEST______________________________
 #endif
 
+
+
+- (void) PushHintButton:(NSInteger) buttonIndex
+{
+    if (buttonIndex == 0) {    // 비디오 보고 힌트 5개 얻기
+        if ([[GADRewardBasedVideoAd sharedInstance] isReady]) {
+            [[GADRewardBasedVideoAd sharedInstance] presentFromRootViewController:self];
+        } else {
+            [self startGameTimer];
+        }
+    } else if (buttonIndex == 1) {  // 힌트 50개 구매하기
+        if (productHint50) { // buy hint
+            paymentHint50 = [SKPayment paymentWithProduct:productHint50];
+            [[SKPaymentQueue defaultQueue] addPayment:paymentHint50];
+            bBuyingHint50 = YES;
+            [self updateButtonHint];
+            
+            [NSTimer scheduledTimerWithTimeInterval:60.0f
+                                             target:self
+                                           selector:@selector(OnTimerSetFinishByuingHint50:)
+                                           userInfo:nil
+                                            repeats:NO];
+        } else {
+            [self startGameTimer];
+        }
+    } else if (buttonIndex == 2) {              // cancel
+        [self startGameTimer];
+    }
+}
+
+
+
 - (IBAction) doHint
 {
 	if (mainView.bMenuMode)
 		return;
-
+    
     
     if (
 #ifdef BUYHINTTEST
@@ -2203,17 +2239,48 @@
         [self DoneQuest:eQuestHint];
         
         [self saveSetting];
-    } else if (productHint50) { // buy hint
-        paymentHint50 = [SKPayment paymentWithProduct:productHint50];
-        [[SKPaymentQueue defaultQueue] addPayment:paymentHint50];
-        bBuyingHint50 = YES;
-        [self updateButtonHint];
+    } else {
+        UIAlertController * alert=   [UIAlertController
+                                      alertControllerWithTitle:nil
+                                      message:nil
+                                      preferredStyle:UIAlertControllerStyleAlert];
+        if (bReadyHintRewardVideo) {
+            UIAlertAction* rewardhint = [UIAlertAction
+                                         actionWithTitle:gettext(@"Get 5 hints after seeing an ad", nil)
+//                                         actionWithTitle:gettext(@"광고 보고 힌트5개 얻기", nil)
+                                         style:UIAlertActionStyleDefault
+                                         handler:^(UIAlertAction * action)
+                                         {
+                                             [self PushHintButton:0];
+                                             
+                                         }];
+            [alert addAction:rewardhint];
+        }
+        if (productHint50) { // buy hint
+            UIAlertAction* buyhint = [UIAlertAction
+                                      actionWithTitle:gettext(@"Buy 50 hints", nil)
+//                                      actionWithTitle:gettext(@"힌트 50개 구매하기", nil)
+                                  style:UIAlertActionStyleDefault
+                                  handler:^(UIAlertAction * action)
+                                  {
+                                      [self PushHintButton:1];
+                                      
+                                  }];
+            [alert addAction:buyhint];
+        }
         
-        [NSTimer scheduledTimerWithTimeInterval:60.0f
-                                         target:self
-                                       selector:@selector(OnTimerSetFinishByuingHint50:)
-                                       userInfo:nil
-                                        repeats:NO];
+        UIAlertAction* cancel = [UIAlertAction
+                                 actionWithTitle:gettext(@"Cancel", nil)
+                                 style:UIAlertActionStyleDefault
+                                 handler:^(UIAlertAction * action)
+                                 {
+                                     [self PushHintButton:2];
+                                     
+                                 }];
+        [alert addAction:cancel];
+        [self stopGameTimer];
+
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
@@ -4462,6 +4529,8 @@ static NSInteger LEVELSCORE[] = {
     
     // 성공 메시지
     [self alertMessageOk:gettext(@"Information", nil) msg:gettext(@"Ok", nil)];
+    [self startGameTimer];
+
 }
 
 - (void)failedBuyHint50:(NSString*)message;
@@ -4474,6 +4543,7 @@ static NSInteger LEVELSCORE[] = {
     // 실패 메시지
     // 성공 메시지
     [self alertMessageOk:gettext(@"Information", nil) msg:msg];    
+    [self startGameTimer];
 }
 
 
@@ -4959,6 +5029,61 @@ static NSInteger LEVELSCORE[] = {
     
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
 
+}
+
+#pragma mark GADRewaredBasedVideoAdDelegate implementation
+
+- (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
+   didRewardUserWithReward:(GADAdReward *)reward {
+    NSString *rewardMessage =
+    [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf",
+     reward.type,
+     [reward.amount doubleValue]];
+    NSLog(rewardMessage);
+    
+    // hint 줘야함
+    // hint 증가 메시지 표시해야 함(상단)
+
+    mainView.paidHintCount += countHint5;
+    
+    [self updateButtonHint];
+    [self updateHintCount];
+}
+
+- (void)rewardBasedVideoAdDidReceiveAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    // 리워드 버튼을 활성화 할 수 있음
+    NSLog(@"Reward based video ad is received.");
+    bReadyHintRewardVideo = YES;
+}
+
+- (void)rewardBasedVideoAdDidOpen:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    // 리워드 버튼을 비활성화 해야 함.
+    NSLog(@"Opened reward based video ad.");
+    bReadyHintRewardVideo = NO;
+}
+
+- (void)rewardBasedVideoAdDidStartPlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    NSLog(@"Reward based video ad started playing.");
+    bReadyHintRewardVideo = NO;
+}
+
+- (void)rewardBasedVideoAdDidCompletePlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    NSLog(@"Reward based video ad has completed.");
+}
+
+- (void)rewardBasedVideoAdDidClose:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    NSLog(@"Reward based video ad is closed.");
+    [self startGameTimer];
+    [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
+}
+
+- (void)rewardBasedVideoAdWillLeaveApplication:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
+    NSLog(@"Reward based video ad will leave application.");
+}
+
+- (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
+    didFailToLoadWithError:(NSError *)error {
+    NSLog(@"Reward based video ad failed to load.");
 }
 
 #endif

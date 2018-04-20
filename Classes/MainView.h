@@ -16,8 +16,9 @@
 #import "KillerMap.h"
 
 enum ALERT_MODE {
-    ALELRT_INIT = 0,
-    ALELRT_BOOKMARK
+    ALERT_INIT = 0,
+    ALERT_BOOKMARK,
+    ALERT_HINT    
 };
 
 typedef enum ALERT_MODE ALERT_MODE;

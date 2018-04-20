@@ -82,6 +82,7 @@ typedef struct ADSTATE
 #endif
     ,GADBannerViewDelegate
     ,GADInterstitialDelegate
+    ,GADRewardBasedVideoAdDelegate
 #endif
     >
 {
@@ -250,6 +251,7 @@ typedef struct ADSTATE
     SKProductsRequest *productRequestHint50;
     SKPayment *paymentHint50;
     BOOL    bBuyingHint50;
+    BOOL    bReadyHintRewardVideo;
     
     
     NSString* strMsgFinish;

@@ -18,9 +18,7 @@
 #import "Locale.h"
 //#import <FacebookSDK/FacebookSDK.h>
 
-#ifdef ADMOB_FREEVERSION
-@import GoogleMobileAds;
-#endif
+
 
 @implementation AppDelegate
 
@@ -32,14 +30,7 @@
 @synthesize bNoAdRestarted;     // 광고 제거된 xib으로 load됨
 #endif
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    // Initialize Google Mobile Ads SDK
-    // Sample AdMob app ID: ca-app-pub-3940256099942544~1458002511
-    [GADMobileAds configureWithApplicationID:MY_APP_UNIT_ID];
-    [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
-    return YES;
-}
+
 
 /*
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -249,7 +240,7 @@
 
 //- (NSUInteger)supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {
-    DLog(@"supportedInterfaceOrientationsForWindow");
+    //DLog(@"supportedInterfaceOrientationsForWindow");
     if (SUPPORT_ROTATION)
         return UIInterfaceOrientationMaskAll;
     else
