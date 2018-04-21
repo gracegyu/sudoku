@@ -2082,6 +2082,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 			// undo failure
 			pointLastUndoPos.x = -1;
 			pointLastUndoPos.y = -1;
+            break;
 		} else {
 			pointLastUndoPos.x = (CGFloat)undoData.x;
 			pointLastUndoPos.y = (CGFloat)undoData.y;
@@ -2110,8 +2111,9 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 				default:
 					break;
 			}
+
 		}
-	} while (bAuto);
+	} while (bAuto || puzzleNums[undoData.x][undoData.y] != 0); // Hint 사용해서 고정된 undo는 건너 뛰어야 함.
 	//[self initAutoMemo];
 	// automemo 일괄 undo를 해야 한다.
 	
@@ -2133,47 +2135,50 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     
     UndoData *undoData = [[UndoData alloc] init];
     
-    if ([sudokuUndo getRedo:undoData] == NO)
-    {
-        // redo failure
-        pointLastUndoPos.x = -1;
-        pointLastUndoPos.y = -1;
-    } else {
-        pointLastUndoPos.x = (CGFloat)undoData.x;
-        pointLastUndoPos.y = (CGFloat)undoData.y;
-        
-        switch (undoData.mode) {
-            case UNDOMODE_NUM_ADD:
-                fixNums[undoData.x][undoData.y] = undoData.num;
-				bAutoCheck = YES;
-                break;
-            case UNDOMODE_NUM_DEL:
-                fixNums[undoData.x][undoData.y] = 0;
-				// automemo 일괄 redo를 해야 한다.
-				bAutoCheck = YES;
-                break;
-            case UNDOMODE_MEMO_ADD:
-                [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
-                break;
-            case UNDOMODE_MEMO_DEL:
-                [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
-                break;
-            case UNDOMODE_AUTOMEMO_ADD:
-				[sudokuUndo printData];
-				//DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
-                [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
-				bAutoCheck = YES; // ???
-                break;
-            case UNDOMODE_AUTOMEMO_DEL:
-				[sudokuUndo printData];
-				//DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
-                [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
-				bAutoCheck = YES; // ???
-                break;
-            default:
-                break;
-		}
-    }
+    do {
+        if ([sudokuUndo getRedo:undoData] == NO)
+        {
+            // redo failure
+            pointLastUndoPos.x = -1;
+            pointLastUndoPos.y = -1;
+            break;
+        } else {
+            pointLastUndoPos.x = (CGFloat)undoData.x;
+            pointLastUndoPos.y = (CGFloat)undoData.y;
+            
+            switch (undoData.mode) {
+                case UNDOMODE_NUM_ADD:
+                    fixNums[undoData.x][undoData.y] = undoData.num;
+                    bAutoCheck = YES;
+                    break;
+                case UNDOMODE_NUM_DEL:
+                    fixNums[undoData.x][undoData.y] = 0;
+                    // automemo 일괄 redo를 해야 한다.
+                    bAutoCheck = YES;
+                    break;
+                case UNDOMODE_MEMO_ADD:
+                    [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
+                    break;
+                case UNDOMODE_MEMO_DEL:
+                    [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
+                    break;
+                case UNDOMODE_AUTOMEMO_ADD:
+                    [sudokuUndo printData];
+                    //DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
+                    [self addMemoNums:undoData.num x:undoData.x y:undoData.y];
+                    bAutoCheck = YES; // ???
+                    break;
+                case UNDOMODE_AUTOMEMO_DEL:
+                    [sudokuUndo printData];
+                    //DAssert(0, @"runRedo");		// redo시는 처음부터 auto memo를 만나면 안된다.
+                    [self delMemoNums:undoData.num x:undoData.x y:undoData.y bUndo:YES];
+                    bAutoCheck = YES; // ???
+                    break;
+                default:
+                    break;
+            }
+        }
+    } while (puzzleNums[undoData.x][undoData.y] != 0);// Hint 사용해서 고정된 undo는 건너 뛰어야 함.
 	
 	if (bAutoCheck)
 	{
