@@ -147,7 +147,7 @@
 #ifdef ADMOB_FREEVERSION
 @synthesize bNoAd;              // 광고 제거 아이템 구매
 @synthesize bNoAdRestarted;     // 광고 제거된 xib으로 load됨
-#endif
+#endif // ADMOB_FREEVERSION
 
 - (void) initScore
 {
@@ -443,7 +443,7 @@
 #ifdef ADMOB_FREEVERSION
                              if (self.interstitial != nil && bNoAd == NO)
                                  [self showInterstitial];
-#endif
+#endif // ADMOB_FREEVERSION
                          }];
     
     [alert addAction:ok];
@@ -559,7 +559,7 @@
 
 #ifdef ADMOB_FREEVERSION
     // do nothing
-    if (bLoadAds)
+    if (bLoadInterstitialAds)
         [strMsgFinish retain];
     else
         [self alertFinish];
@@ -1170,17 +1170,16 @@
 
 
 
-     
-#ifdef ADMOB_FREEVERSION
      // Create a view of the standard size at the bottom of the screen.
      DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
-     
      [GADMobileAds configureWithApplicationID:MY_APP_UNIT_ID];
+
+#ifdef ADMOB_FREEVERSION
      [self initBanner];
+#endif
      [GADRewardBasedVideoAd sharedInstance].delegate = self;
      [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
-     
-#endif
+
      bAd = NO;
      bReplay = NO;
      nowDate[0] = '\0';
@@ -4723,7 +4722,7 @@ static NSInteger LEVELSCORE[] = {
         return;
     }
 }
-#endif
+#endif // IADCHANGE
 
 
 #pragma mark GADBannerViewDelegate implementation
@@ -4930,7 +4929,7 @@ static NSInteger LEVELSCORE[] = {
 - (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
     if (bNoAd) {
-        bLoadAds = NO;
+        bLoadInterstitialAds = NO;
         return NO;  // 영원히 광고를 출력하지 않는다.
     }
     static NSInteger iTurn = 0;
@@ -4961,7 +4960,7 @@ static NSInteger LEVELSCORE[] = {
     [self saveInterstitialShowTurn:iTurn];
     
     DLog(@"iTurn=%d", (int)iTurn);
-    bLoadAds = bRet;
+    bLoadInterstitialAds = bRet;
     
     return bRet;
 }
@@ -5035,6 +5034,9 @@ static NSInteger LEVELSCORE[] = {
 
 }
 
+#endif // ADMOB_FREEVERSION
+
+
 #pragma mark GADRewaredBasedVideoAdDelegate implementation
 
 - (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
@@ -5091,7 +5093,6 @@ static NSInteger LEVELSCORE[] = {
     NSLog(@"Reward based video ad failed to load.");
 }
 
-#endif
 
 
 

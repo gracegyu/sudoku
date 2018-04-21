@@ -24,7 +24,7 @@
 #define FACEBOOK_ID @"116121415220692"
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #define isFree      0
-#endif
+#endif // ADMOB_FREEVERSION
 //sudoku9
 #define MY_BANNER_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/2276477598")
 #define MY_BANNER_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/2416078397")
@@ -52,7 +52,7 @@
 #define FACEBOOK_ID @"381531935263532"
 #define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #define isFree      0
-#endif
+#endif // ADMOB_FREEVERSION
 //sudoku6
 #define MY_BANNER_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/8602212795")
 #define MY_BANNER_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/2555679190")
@@ -113,7 +113,7 @@
 
 #define MY_BANNER_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_BANNER_UNIT_ID_IPAD : MY_BANNER_UNIT_ID_IPHONE)
 #define MY_INTERSTITIAL_UNIT_ID ((cDeviceType == DEVICETYPE_IPAD) ? MY_INTERSTITIAL_UNIT_ID_IPAD : MY_INTERSTITIAL_UNIT_ID_IPHONE)
-#ifdef DEBUG__________
+#ifdef DEBUG
 #define MY_REWARD_UNIT_ID       (@"ca-app-pub-3940256099942544/1712485313")
 #else
 #define MY_REWARD_UNIT_ID       ((cDeviceType == DEVICETYPE_IPAD) ? MY_REWARD_UNIT_ID_IPAD : MY_REWARD_UNIT_ID_IPHONE)
@@ -307,14 +307,14 @@ typedef struct SUDOKUSCORE
 #define kNoAdItem               @"com.raymond.sudoku9free.noad"
 #else
 #define kHint50Item             @"com.raymond.sudoku9.hint50"
-#endif
-#else
+#endif //ADMOB_FREEVERSION
+#else // SUDOKU6
 #ifdef ADMOB_FREEVERSION
 #define kHint50Item             @"com.raymond.sudoku6free.hint50"
 #define kNoAdItem               @"com.raymond.sudoku6free.noad"
 #else
 #define kHint50Item             @"com.raymond.sudoku6.hint50"
-#endif
+#endif // ADMOB_FREEVERSION
 #endif
 
 

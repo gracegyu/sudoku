@@ -24,9 +24,9 @@
 #endif
 
 
-#ifdef ADMOB_FREEVERSION
-@import GoogleMobileAds;
-#endif
+//#ifdef ADMOB_FREEVERSION
+@import GoogleMobileAds;    // 유료버전도 rewared video를 위해서 import
+//#endif
 
 #import "AppDelegate.h"
 #import "MainView.h"
@@ -82,8 +82,8 @@ typedef struct ADSTATE
 #endif
     ,GADBannerViewDelegate
     ,GADInterstitialDelegate
+#endif // ADMOB_FREEVERSION
     ,GADRewardBasedVideoAdDelegate
-#endif
     >
 {
 	MainView	*mainView;
@@ -206,8 +206,8 @@ typedef struct ADSTATE
     GADBannerView *adMobBanner;
     BOOL        bNoAd;              // 광고 제거 아이템 구매
     BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
-    BOOL        bLoadAds;
-#endif
+    BOOL        bLoadInterstitialAds;
+#endif // ADMOB_FREEVERSION
 	CGFloat		intervalX;
 	CGFloat		intervalX2;
 	
@@ -391,7 +391,7 @@ typedef struct ADSTATE
 #ifdef ADMOB_FREEVERSION
 @property BOOL        bNoAd;              // 광고 제거 아이템 구매
 @property BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
-#endif
+#endif // ADMOB_FREEVERSION
 
 
 
@@ -403,7 +403,7 @@ typedef struct ADSTATE
 - (GADRequest *)request;
 - (BOOL) loadInterstitial;
 - (void) showInterstitial;
-#endif
+#endif // ADMOB_FREEVERSION
 
 - (IBAction)runUndo;
 - (IBAction)runRedo;
@@ -506,7 +506,7 @@ typedef struct ADSTATE
 
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;
-#endif
+#endif // ADMOB_FREEVERSION
 
 - (void) TreateActStart:(NSData *)theResponseData;
 
