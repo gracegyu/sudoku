@@ -697,7 +697,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
     sudokuUndo = [[SudokuUndo alloc] init];
     
 	
-    if (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU)
+    if (handy && (sudokuType == SUDOKUTYPE_KILLER || sudokuType == SUDOKUTYPE_CALCU))
     {
         KillerCage *cell;
         for (NSInteger i=0; (cell = [kmap getCageData:i]) != NULL; i++)

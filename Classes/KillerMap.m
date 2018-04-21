@@ -399,7 +399,7 @@
 //	DAssert(strlen(zStrCage) >= [self getCageCount]*3*2, @"strlen(zStrCage)=%zd", strlen(zStrCage));
 	
 	NSString *str = [NSString stringWithFormat:
-					 @"%ld,%s,%s,%s",
+					 @"%ld,  %s,  %s,  %s",
 					 (long)size,
 					 zStrMap,
 					 zStrColor,
