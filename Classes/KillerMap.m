@@ -317,7 +317,7 @@
 
 - (NSInteger) getCageNumber:(NSInteger)x yPos:(NSInteger)y
 {
-	return map[x][y];
+    return map[x][y];   // SDSDKNINEF-14400 Crash report, 원인을 알 수 없음
 }	// from map
 
 // 해당 Cell이 몇칸으로 구성된 Cell인가?
