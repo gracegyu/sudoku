@@ -5,6 +5,7 @@
 #define TWITTER_ID  @"@smartone3929"
 
 #ifdef SUDOKU9
+
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"403191170"  // SUDOKU9 Free
 #define APPSHARE_ID @"403191170"  // SUDOKU9 Free
@@ -14,8 +15,12 @@
 #define FACEBOOK_ID @"302256366555317"
 #define FLURRY_KEY  @"FDJCSXX9BND2Z34G43VB"
 #define isFree      1
+#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~5788347192")
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/5779853912")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6300945703")
 
 #else
+
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 #define APPSHARE_ID @"403191170"  // SUDOKU9 Paid
 #define SHORTENURL  @"http://goo.gl/7tcTc"
@@ -24,15 +29,17 @@
 #define FACEBOOK_ID @"116121415220692"
 #define FLURRY_KEY  @"K288GF64Z2CMHD39MQQY"
 #define isFree      0
+#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4300256876")
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/1515856021")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/9145389444")
+
 #endif // ADMOB_FREEVERSION
 //sudoku9
 #define MY_BANNER_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/2276477598")
 #define MY_BANNER_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/2416078397")
 #define MY_INTERSTITIAL_UNIT_ID_IPHONE  (@"ca-app-pub-1077680179839843/8871255199")
 #define MY_INTERSTITIAL_UNIT_ID_IPAD    (@"ca-app-pub-1077680179839843/7394521992")
-#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~5788347192")
-#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/5779853912")
-#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6300945703")
+
 #elif defined(SUDOKU6)
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"568783854"  // SUDOKU6 Free
@@ -43,6 +50,10 @@
 #define FACEBOOK_ID @"126906610795923"
 #define FLURRY_KEY  @"MKQK34DRFGKTTSXVS5BY"
 #define isFree      1
+#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4311613994")
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/9996648136")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6795769726")
+
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
 #define APPSHARE_ID @"568783854"  // SUDOKU6 Paid
@@ -52,15 +63,16 @@
 #define FACEBOOK_ID @"381531935263532"
 #define FLURRY_KEY  @"DVDSHVZT8QXB8MPC4RH2"
 #define isFree      0
+#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~6632451332")
+#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/1594202485")
+#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/9005788642")
+
 #endif // ADMOB_FREEVERSION
 //sudoku6
 #define MY_BANNER_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/8602212795")
 #define MY_BANNER_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/2555679190")
 #define MY_INTERSTITIAL_UNIT_ID_IPHONE  (@"ca-app-pub-1077680179839843/5917788795")
 #define MY_INTERSTITIAL_UNIT_ID_IPAD    (@"ca-app-pub-1077680179839843/4441055590")
-#define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4311613994")     
-#define MY_REWARD_UNIT_ID_IPHONE        (@"ca-app-pub-1077680179839843/9996648136")
-#define MY_REWARD_UNIT_ID_IPAD          (@"ca-app-pub-1077680179839843/6795769726")
 
 
 #else   // etc. SUDOKU7 etc
