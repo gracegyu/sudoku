@@ -3087,15 +3087,14 @@
 	
 	if (theResponseData)
 	{
-        /*
+#ifdef DEBUG
 		char str[6000+10];   // 3000 -> 6000 fo safe
 		
 		memcpy(&str, theResponseData.bytes, MIN(theResponseData.length, 3000));
         //str[theResponseData.length] = '\0';     // SDSDKNINEP-3432 Crash report
         str[MIN(theResponseData.length, 3000)] = '\0';
-		DLog(@"char* = %s", str);
-		*/
-        
+        DLog(@"char* = %s", str);
+#endif // DEBUG        
         
 		NSString *strData = [[NSString alloc] initWithData:theResponseData encoding:NSUTF8StringEncoding];
 		
