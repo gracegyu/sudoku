@@ -1920,6 +1920,7 @@ static int	HandyCountAuto[SUDOKUTYPE_MAX][10][5] = {
 - (void) saveData
 {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    // Crash Here ? SDSDKNINEF-14362
     if ([defaults boolForKey:kSudokuGameSaving]) {      // Crashed last time
         [defaults setBool:NO forKey:kSudokuGameSaving];
         [defaults synchronize];

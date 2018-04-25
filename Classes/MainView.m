@@ -2080,6 +2080,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     selectedXPos = xPos;
     selectedYPos = yPos;
     
+    // Crash here SDSDKNINEF-14364
     if (sudokuGame.sudokuType == SUDOKUTYPE_GT) // 주변셀 대소비교 로직 시작
     {
         [sudokuGame setGtCellColors:selectedXPos y:selectedYPos];

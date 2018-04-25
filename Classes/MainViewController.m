@@ -3087,7 +3087,7 @@
 	
 	if (theResponseData)
 	{
-		char str[3000+1];
+		char str[6000+10];   // 3000 -> 6000 fo safe
 		
 		memcpy(&str, theResponseData.bytes, MIN(theResponseData.length, 3000));
         //str[theResponseData.length] = '\0';     // SDSDKNINEP-3432 Crash report
