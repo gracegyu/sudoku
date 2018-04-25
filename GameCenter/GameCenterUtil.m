@@ -175,12 +175,12 @@ static BOOL bLoginedGamecenter = NO;
     GKScore* score = [[[GKScore alloc] initWithCategory:[self getPointCategory]]autorelease];
     // 위에서 kPoint 가 게임센터에서 설정한 Leaderboard ID
     score.value = _score;
-    
+/* 타이틀바에 점수가 있어서 필요 없음
     // 아래는 겜센터 스타일의 노티를 보여준다. 첫번째가 타이틀, 두번째가 표시할 메세지
     [[GKAchievementHandler defaultHandler]
         notifyAchievementTitle:@"SUDOKU Points"
         andMessage:[NSString stringWithFormat:gettext(@"You got %d points", nil),_score]];
-    
+*/
     // 실제로 게임센터 서버에 점수를 보낸다.
     [score reportScoreWithCompletionHandler:^(NSError* error)
     {

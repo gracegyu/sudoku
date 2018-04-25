@@ -515,18 +515,31 @@
     strMsgFinish = [[NSString alloc] initWithString:gettext(@"You cleared this game.", nil)];
     if (sudokuGame.bDailyPuzzle)
     {
-        NSInteger total=0, grade=0;
-        
-        if ([self uploadDailyPuzzleResult:@"addresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
-            total > 0 &&
-            grade > 0 &&
-            grade <= total)
-        {
-            strMsgFinish = [strMsgFinish stringByAppendingString:@"\n"];
-            strMsgFinish = [strMsgFinish stringByAppendingFormat:
-                      gettext(@"Your ranking of daily puzzle:#%d/%d", nil),
-                      grade, total];
-        }
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+            // 작업이 오래 걸리는 API를 백그라운드 스레드에서 실행한다.
+            NSInteger total=0, grade=0;
+            NSString* strMsgRanking = NULL;
+            
+            if ([self uploadDailyPuzzleResult:@"addresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
+                total > 0 &&
+                grade > 0 &&
+                grade <= total)
+            {
+                strMsgRanking = [[NSString alloc] initWithFormat:gettext(@"Your ranking of daily puzzle:#%d/%d", nil), grade, total];
+                
+                //[self alertMessageOk:gettext(@"Ranking", nil) msg:strMsgRanking];
+                
+                [[GKAchievementHandler defaultHandler]
+                 notifyAchievementTitle:gettext(@"Ranking", nil)
+                 andMessage:strMsgRanking];
+                 
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // do nothing
+            });
+            [strMsgRanking release];
+        });
     } else {
         // timer -> adduserresult send
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
@@ -3094,7 +3107,7 @@
         //str[theResponseData.length] = '\0';     // SDSDKNINEP-3432 Crash report
         str[MIN(theResponseData.length, 3000)] = '\0';
         DLog(@"char* = %s", str);
-#endif // DEBUG        
+#endif // DEBUG
         
 		NSString *strData = [[NSString alloc] initWithData:theResponseData encoding:NSUTF8StringEncoding];
 		
