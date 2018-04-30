@@ -1668,22 +1668,26 @@
     {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_n"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-		buttonUndo.enabled = bLock ? NO : YES;
+        [buttonUndo setEnabled:(bLock ? NO : YES)]; // SDSDKNINEF-14429 Crash report
+//		buttonUndo.enabled = bLock ? NO : YES;
 	} else {
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_d"] forState:UIControlStateNormal];
         [buttonUndo setBackgroundImage:[UIImage imageNamed:@"undo_h"] forState:UIControlStateHighlighted];
-		buttonUndo.enabled = NO;
+        [buttonUndo setEnabled:NO]; // SDSDKNINEF-14429 Crash report
+//		buttonUndo.enabled = NO;
 	}
     
 	if ([mainView.sudokuGame.sudokuUndo countRedo] > 0 && mainView.sudokuGame.isGameFinished == NO)
     {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_n"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
-		buttonRedo.enabled = bLock ? NO : YES;
+        [buttonRedo setEnabled:(bLock ? NO : YES)]; // SDSDKNINEF-14429 Crash report
+//		buttonRedo.enabled = bLock ? NO : YES;
 	} else {
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_d"] forState:UIControlStateNormal];
         [buttonRedo setBackgroundImage:[UIImage imageNamed:@"redo_h"] forState:UIControlStateHighlighted];
-		buttonRedo.enabled = NO;
+        [buttonRedo setEnabled:NO]; // SDSDKNINEF-14429 Crash report
+//		buttonRedo.enabled = NO;
 	}
 }
 
