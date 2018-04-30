@@ -3978,6 +3978,14 @@
                                                    }
                                                }];
     [alert addAction:ok];
+    UIAlertAction* cancel = [UIAlertAction
+                             actionWithTitle:gettext(@"Cancel", nil)
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 
+                             }];
+    [alert addAction:cancel];
 
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
