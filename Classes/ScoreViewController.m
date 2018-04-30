@@ -11,8 +11,9 @@
 #import "AppDelegate.h"
 #import "Locale.h"
 #import "GameCenterUtil.h"
+#ifdef USE_FLURRY
 #import "Flurry.h"
-
+#endif
 
 
 @implementation ScoreViewController
@@ -342,7 +343,10 @@
 - (IBAction)showGameCenterLeaderboard
 {
     [self showLeaderboard:[GameCenterUtil getPointCategory]]; // 실행~
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowLeaderboard"];
+#endif
+    
 }
 
 - (IBAction)showGameCenterLeaderboardVeryEasy
@@ -391,8 +395,9 @@
 - (IBAction)showGameCenterAchievement
 {
     [self showArchboard];
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowAchievement"];
-
+#endif
 }
 
 

@@ -12,8 +12,9 @@
 #import "MainViewController.h"
 #import "Locale.h"
 #import "SudokuBoard.h"
+#ifdef USE_FLURRY
 #import "Flurry.h"
-
+#endif
 
 
 @implementation MainView
@@ -2562,11 +2563,11 @@ static NSUInteger SmallerColorTemplate[9] = {
 - (void) newGame:(NSInteger)level size:(NSInteger)sizePuzzle
 {
 	BOOL bUseQQ=NO;
-    NSString *str;
     
     if (level == GAMELEVEL_USERINPUT)           // only original is allowed
         nSettingSudokuType = SUDOKUTYPE_SUDOKU;
-
+#ifdef USE_FLURRY
+    NSString *str;
     [Flurry logEvent:@"NewGame"];
     
     str = [NSString stringWithFormat:@"GameSize(%ld)", (long)sizePuzzle];
@@ -2580,7 +2581,7 @@ static NSUInteger SmallerColorTemplate[9] = {
     
     str = [NSString stringWithFormat:@"AutoMemo(%@)", bSettingAutoMemo ? @"Yes" : @"No"];
     [Flurry logEvent:str];
-
+#endif
     
     
     if ((nSettingSudokuType == SUDOKUTYPE_SUDOKU || nSettingSudokuType == SUDOKUTYPE_SYMBOL)
@@ -2606,11 +2607,13 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (BOOL) newGameFromServer:(NSString*)strData
 {
-    NSString *str;
     SudokuGame *newGame;
     
+#ifdef USE_FLURRY
+    NSString *str;
     str = [NSString stringWithFormat:@"DailyPuzzle(%@)", [SudokuGame getSudokuTypeNameNoop:nSettingSudokuType]];
     [Flurry logEvent:str];
+#endif
     
     newGame = [[SudokuGame alloc] initWithFromServer:strData type:nSettingSudokuType automemo:bSettingAutoMemo];
     if (!newGame)

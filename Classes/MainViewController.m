@@ -21,7 +21,9 @@
 #endif
 #import "KillerMap.h"
 //#import "AddThis.h"
+#ifdef USE_FLURRY
 #import "Flurry.h"
+#endif
 #import "UIDevice+IdentifierAddition.h"
 
 
@@ -917,7 +919,9 @@
     
     [gUserName release];
     if ([newname length] > 60) {
+#ifdef USE_FLURRY
         [Flurry logEvent:@"ChangeNickNameDialog Too Long name"];
+#endif
         newname = [newname substringWithRange:NSMakeRange(0, 60)];
     }
     gUserName = [[NSString stringWithString:newname] retain];
@@ -1610,8 +1614,9 @@
 
 - (IBAction) showScoreView
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowScoreView"];
-
+#endif
 	[self hideMenuView:NO];
     [self getRankingFromGameCenter];    // 최신 랭킹으로 update
 
@@ -1640,8 +1645,9 @@
 
 - (IBAction)showQuestView
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowQuestView"];
-    
+#endif
     [self hideMenuView:NO];
     
     QuestViewController *controller = [[QuestViewController alloc] initWithNibName:
@@ -1750,8 +1756,9 @@
 
 - (void) OnTimerStartUndoRepeat:(NSTimer *)timer
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunUndoRedoRepeat"];
-
+#endif
 	timerUndoRepeat = [NSTimer scheduledTimerWithTimeInterval:TIME_UNDOINTERVAL
 													   target:self
                        
@@ -1765,8 +1772,9 @@
 	if (mainView.bMenuMode)
 		return;
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunUndo"];
-    
+#endif
 	[mainView playSoundClick];
 	[mainView runUndo];
     [self DoneQuest:eQuestUndo];
@@ -1787,8 +1795,9 @@
 	if (mainView.bMenuMode)
 		return;
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunRedo"];
-
+#endif
 	[mainView playSoundClick];
 	[mainView runRedo];
     [self DoneQuest:eQuestRedo];
@@ -1809,8 +1818,9 @@
 	if (mainView.bMenuMode)
 		return;
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunBookmark"];
-
+#endif
     
 	[mainView runBookmark];
 
@@ -1895,8 +1905,9 @@
 {
 	[self hideMenuView:NO];	
 	
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunReset"];
-
+#endif
     
 	[mainView clearNumbers];	// memo모드에서 실행하는 메뉴임
     [self startGameTimer];
@@ -1945,8 +1956,9 @@
         [self newgameCancel];
     }
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"RunSeeReplay"];
-
+#endif
     
     bReplay = YES;
     [self updateButtons];
@@ -1986,11 +1998,14 @@
     }
     
     if (mainView.sudokuGame.bDailyPuzzle) {
+#ifdef USE_FLURRY
         [Flurry logEvent:@"RankingCheck"];
+#endif
         [self gotoRankingWebView:YES];
     } else {
+#ifdef USE_FLURRY
         [Flurry logEvent:@"RunPalyAgain"];
-
+#endif
         // see Replay 중이면 멈춰야 한다. timer 멈춘다.
         bReplay = NO;
         
@@ -2135,9 +2150,10 @@
     [ActivityView setCompletionHandler:^(NSString *act, BOOL done)
      {
          if (done) {
+#ifdef USE_FLURRY
              NSString* str = [NSString stringWithFormat:@"Share(%@) done", act];
              [Flurry logEvent:str];
-             
+#endif
              NSLog(@"The selected activity was %@", act);
              NSRange range = [act rangeOfString:@"PostTo"];
              if (range.location != NSNotFound) {
@@ -2145,8 +2161,10 @@
                  [self saveSetting];
              }
          } else {
+#ifdef USE_FLURRY
              NSString* str = [NSString stringWithFormat:@"Share(%@) cancel", act];
              [Flurry logEvent:str];
+#endif
          }
      }];
     
@@ -2164,9 +2182,9 @@
     {
         [self hideMenuView:NO];
     }
-
+#ifdef USE_FLURRY
     [Flurry logEvent:@"SharePuzzle"];
-
+#endif
     [self callPuzzleShare:YES];
     
     
@@ -2181,8 +2199,9 @@
         [self hideMenuView:NO];
     }
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShareRecord"];
-    
+#endif
 
     [self callPuzzleShare:NO];
 }
@@ -2250,7 +2269,9 @@
 #endif
         ) // && 유료 힌트도 0
     {
+#ifdef USE_FLURRY
         [Flurry logEvent:@"RunHint"];
+#endif
         [mainView doHint];
         [self DoneQuest:eQuestHint];
         
@@ -2304,8 +2325,10 @@
 
 - (IBAction)showSettingView
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowSettingView"];
-
+#endif
+    
 	[self hideMenuView:NO];
     
 #ifdef ADMOB_FREEVERSION
@@ -2342,8 +2365,9 @@
 
 - (IBAction)showHelpView
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowHelpView"];
-
+#endif
 	[self hideMenuView:NO];
 	
     DLog(@"showHelpView");
@@ -2380,8 +2404,9 @@
 
 - (IBAction)showRankView
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowRankView"];
-    
+#endif
 	//[self hideMenuView:NO];
     [self hideDailyGameView];
     [self gotoRankingWebView:NO];
@@ -2393,8 +2418,9 @@
     [self hideMenuView:NO];
 
 #ifdef USE_JMC
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ShowFeedbackView"];
-
+#endif
 	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
@@ -3879,8 +3905,9 @@
 - (IBAction)newgameUserInput
 {
     // only original is allowed
+#ifdef USE_FLURRY
     [Flurry logEvent:@"GameLevel(user input try)"];
-    
+#endif
     [self makeNewGame:GAMELEVEL_USERINPUT];
     
     [self alertMessageOk:nil msg:gettext(@"Press start button after input puzzle numbers from newspapers and books.", nil)];
@@ -3957,8 +3984,9 @@
 
 - (void) openChangeNickNameDialog
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:@"ChangeNickNameDialog open"];
-    
+#endif
     [self stopGameTimer];
     
     UIAlertController * alert=   [UIAlertController
@@ -4661,8 +4689,9 @@ static NSInteger LEVELSCORE[] = {
         NSString *newName = [[[alert textFieldAtIndex:0] text] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
         
         if ([newName length] < MIN_NAME) {
+#ifdef USE_FLURRY
             [Flurry logEvent:@"ChangeNickNameDialog Short Name"];
-
+#endif
             // Warning
             [self alertLocalizedAlertView:@"Name is too short!"];
         } else {
@@ -4694,7 +4723,9 @@ static NSInteger LEVELSCORE[] = {
 
 - (void) logEventParam:(NSString*)event
 {
+#ifdef USE_FLURRY
     [Flurry logEvent:event];
+#endif
     /*
     NSLocale *locale = [NSLocale currentLocale];
     NSString *languageCode = [locale objectForKey: NSLocaleLanguageCode];

@@ -14,8 +14,9 @@
 #ifdef USE_JMC
 #import "JMC.h"
 #endif
+#ifdef USE_FLURRY
 #import "Flurry.h"
-
+#endif
 
 
 
@@ -372,9 +373,10 @@
     [mainViewController.mainView playSoundClick];
     [mainViewController saveSetting];
     
-    NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%ld)", (long)mainViewController.mainView.nSettingSoundOff];
+#ifdef USE_FLURRY
+   NSString *str = [NSString stringWithFormat:@"SetSoundEffect(%ld)", (long)mainViewController.mainView.nSettingSoundOff];
     [Flurry logEvent:str];
-
+#endif
 }
 
 - (IBAction)setGuideline
@@ -421,9 +423,10 @@
     //[mainViewController.mainView playSoundClick];
     //[mainViewController saveSetting];
  
+#ifdef USE_FLURRY
     NSString *str = @"SetChangeSkin";
     [Flurry logEvent:str];
-
+#endif
 }
 
 - (IBAction)dragChanageSkin:(id)sender
@@ -470,8 +473,10 @@
     else
         strLocale2 = @"en";
     
+#ifdef USE_FLURRY
     NSString *str = [NSString stringWithFormat:@"SetLocale(%@)", strLocale2];
     [Flurry logEvent:str];
+#endif
     
     [Locale setLocale:strLocale2];
     [self setLocalizedMessage];
@@ -606,7 +611,10 @@
     
     
     [self presentViewController:alert animated:YES completion:nil];
+#ifdef USE_FLURRY
     [Flurry logEvent:@"goAppReview"];
+#endif
+    
 }
 
 - (IBAction)goNewApps
@@ -615,8 +623,9 @@
      openURL:[NSURL URLWithString:
     @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
 
+#ifdef USE_FLURRY
     [Flurry logEvent:@"goMoewApps"];
-
+#endif
 }
 
 #ifdef ADMOB_FREEVERSION

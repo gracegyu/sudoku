@@ -14,7 +14,9 @@
 #ifdef USE_JMC
 #import "JMC.h"
 #endif
+#ifdef USE_FLURRY
 #import "Flurry.h"
+#endif
 #import "Locale.h"
 //#import <FacebookSDK/FacebookSDK.h>
 
@@ -117,12 +119,13 @@
 
     DLog(@"Country Code = %@", countryCode);
     
-    
+#ifdef USE_FLURRY
     [Flurry startSession:FLURRY_KEY];
     [Flurry setAppVersion:majorVersion];
     [Flurry logEvent:str];
     [Flurry logEvent:strCountryCode];
-     
+#endif
+    
 #ifdef USE_JMC
     [[JMC sharedInstance] configureJiraConnect:@"https://gracegyu.atlassian.net"
                                     projectKey:JMC_PRJKEY
