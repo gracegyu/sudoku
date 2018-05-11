@@ -2602,8 +2602,9 @@
     
     imageUserLevel.image = [UIImage imageNamed:[NSString stringWithFormat:@"level_%02d.png", (int)userLevel]];
     NSString *strLevel = [NSString stringWithFormat:gettext(@"level %d", nil), (int)userLevel];
-    NSString *strScore = [NSString stringWithFormat:gettext(@"%d points", nil), [self getTotalScore]];
-    labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@)", strLevel, strScore];
+//    NSString *strScore = [NSString stringWithFormat:gettext(@"%d points", nil), [self getTotalScore]];
+//    labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@)", strLevel, strScore];
+    labelUserLevel.text = [NSString stringWithFormat:@"%@ (%ld)", strLevel, [self getTotalScore]];
     /*
      if (score.scoreRankTotal > 0) {
      labelUserLevel.text = [NSString stringWithFormat:@"%@ (%@, #%ld)", strLevel, strScore, (long)score.scoreRankTotal];
