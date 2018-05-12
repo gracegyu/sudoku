@@ -25,6 +25,7 @@
 #import "Flurry.h"
 #endif
 #import "UIDevice+IdentifierAddition.h"
+#import <sys/utsname.h>
 
 
 
@@ -1611,6 +1612,28 @@
     */
 }
 
+BOOL IsiPhoneX3(void)
+{
+    static BOOL isiPhoneX = NO;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+#if TARGET_IPHONE_SIMULATOR
+        NSString *model = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
+#else
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        
+        NSString *model = [NSString stringWithCString:systemInfo.machine
+                                             encoding:NSUTF8StringEncoding];
+#endif
+        isiPhoneX = [model isEqualToString:@"iPhone10,3"] || [model isEqualToString:@"iPhone10,6"];
+    });
+    
+    return isiPhoneX;
+}
+
 
 - (IBAction) showScoreView
 {
@@ -1627,7 +1650,8 @@
     
 	ScoreViewController *controller = [[ScoreViewController alloc] initWithNibName:
 										  cDeviceType == DEVICETYPE_IPAD ? @"ScoreView4iPad" : 
-										  (isLongIphone ? @"ScoreView4iPhone5" : @"ScoreView")
+                                          (IsiPhoneX3() ? @"ScoreView4iPhoneX" :
+                                           (isLongIphone ? @"ScoreView4iPhone5" : @"ScoreView"))
                                           bundle:nil];
     controller.mainViewController = self;
 	[controller setScoreData:&score];
@@ -1652,7 +1676,8 @@
     
     QuestViewController *controller = [[QuestViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"QuestView4iPad" :
-                                       (isLongIphone ? @"QuestView4iPhone5" : @"QuestView")
+                                       (IsiPhoneX3() ? @"QuestView4iPhoneX" :
+                                       (isLongIphone ? @"QuestView4iPhone5" : @"QuestView"))
                                                                             bundle:nil];
     
     
@@ -2345,7 +2370,8 @@
     DLog(@"showSettingView");
     SettingViewController *controller = [[SettingViewController alloc] initWithNibName:
                                        cDeviceType == DEVICETYPE_IPAD ? @"SettingView4iPad" :
-                                        (isLongIphone ? @"SettingView4iPhone5" : @"SettingView")
+                                         (IsiPhoneX3() ? @"SettingView4iPhoneX" :
+                                        (isLongIphone ? @"SettingView4iPhone5" : @"SettingView"))
                                         bundle:nil];
     controller.mainViewController = self;
 //	controller.title = gettext(@"Setting", nil);
@@ -2373,7 +2399,8 @@
     DLog(@"showHelpView");
     HelpViewController *controller = [[HelpViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"HelpView4iPad" :
-                                      (isLongIphone ? @"HelpView4iPhone5" : @"HelpView")
+                                      (IsiPhoneX3() ? @"HelpView4iPhoneX" :
+                                      (isLongIphone ? @"HelpView4iPhone5" : @"HelpView"))
                                       bundle:nil];
 
 
@@ -2390,7 +2417,8 @@
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView4iPad" :
-                                      (isLongIphone ? @"RankView4iPhone5" : @"RankView")
+                                      (IsiPhoneX3() ? @"RankView4iPhoneX" :
+                                      (isLongIphone ? @"RankView4iPhone5" : @"RankView"))
                                                                           bundle:nil];
     controller.bMyRankCheck = bMyRanking;
     controller.mainViewController = self;
