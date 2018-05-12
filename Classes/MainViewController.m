@@ -2636,7 +2636,7 @@
     frameOld.origin.x -= intervalX;
     viewMenu.frame = frameOld;
 	
-	if (viewMenu.frame.origin.x >= 0)
+	if (viewMenu.frame.origin.x >= areaPuzzleTable.frame.origin.x - 0.1)
 	{
 		[timer invalidate];
 	}
@@ -2677,7 +2677,7 @@
 	[self readySlideView:viewMenu];
 	mainView.bMenuMode = YES;
 	[self stopGameTimer];
-	intervalX = (viewMenu.frame.origin.x)/25;
+	intervalX = (viewMenu.frame.origin.x - areaPuzzleTable.frame.origin.x)/20;
 	
 	[NSTimer scheduledTimerWithTimeInterval:0.01f
 									 target:self
@@ -2728,7 +2728,7 @@
     frameOld.origin.x -= intervalX2;
     viewNewGame.frame = frameOld;
 	
-	if (viewNewGame.frame.origin.x >= 0)
+	if (viewNewGame.frame.origin.x >= areaPuzzleTable.frame.origin.x - 0.1)
 	{
 		[timer invalidate];
 	}
@@ -2743,7 +2743,7 @@
 	[self readySlideView:viewNewGame];
 	mainView.bMenuMode = YES;
 	[self stopGameTimer];
-	intervalX2 = (viewNewGame.frame.origin.x)/20;
+	intervalX2 = (viewNewGame.frame.origin.x - areaPuzzleTable.frame.origin.x)/20;
 	buttonNewGameCancel.hidden = (mainView.sudokuGame == nil);
 	
 	[NSTimer scheduledTimerWithTimeInterval:0.01f
@@ -2793,7 +2793,7 @@
     frameOld.origin.x -= intervalX2;
     viewDailyGame.frame = frameOld;
 	
-	if (viewDailyGame.frame.origin.x >= 0)
+	if (viewDailyGame.frame.origin.x >= areaPuzzleTable.frame.origin.x - 0.1)
 	{
 		[timer invalidate];
 	}
@@ -2807,7 +2807,7 @@
 	[self readySlideView:viewDailyGame];
 	mainView.bMenuMode = YES;
 	[self stopGameTimer];
-	intervalX2 = (viewDailyGame.frame.origin.x)/20;
+	intervalX2 = (viewDailyGame.frame.origin.x - areaPuzzleTable.frame.origin.x)/20;
 	// zzzzzzz
     buttonDailyGameCancel.hidden = (mainView.sudokuGame == nil);
 	

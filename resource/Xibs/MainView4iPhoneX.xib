@@ -634,11 +634,11 @@
                     <accessibility key="accessibilityConfiguration" label="MenuView"/>
                 </view>
                 <view tag="110" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="54">
-                    <rect key="frame" x="-292" y="323" width="200" height="490"/>
+                    <rect key="frame" x="-200" y="323" width="200" height="490"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="417">
-                            <rect key="frame" x="10" y="13" width="182" height="29"/>
+                            <rect key="frame" x="10" y="18" width="182" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="" image="type_0_120s.png"/>
@@ -1156,7 +1156,7 @@
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="NWZ-LH-MIz"/>
-            <point key="canvasLocation" x="-794.5" y="12"/>
+            <point key="canvasLocation" x="-821" y="1"/>
         </view>
         <view clearsContextBeforeDrawing="NO" tag="1" contentMode="scaleToFill" id="146" customClass="MainView">
             <rect key="frame" x="0.0" y="0.0" width="812" height="385"/>
@@ -1176,7 +1176,7 @@
                     </state>
                 </button>
                 <button opaque="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="192">
-                    <rect key="frame" x="503" y="61" width="274" height="256"/>
+                    <rect key="frame" x="503" y="63" width="274" height="250"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1221,10 +1221,6 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="level_01.png" translatesAutoresizingMaskIntoConstraints="NO" id="DMl-uc-GUW">
-                    <rect key="frame" x="-100" y="-100" width="24" height="16"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="3xr-yH-orp">
                     <rect key="frame" x="-143" y="-120" width="90" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -1248,15 +1244,38 @@
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" fixedFrame="YES" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="159">
+                    <rect key="frame" x="408" y="121" width="102" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label="Game level"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
+                    <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" fixedFrame="YES" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="160">
+                    <rect key="frame" x="424" y="186" width="71" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
+                    <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" fixedFrame="YES" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="157">
+                    <rect key="frame" x="424" y="207" width="71" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label="Blank"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="25" contentMode="scaleToFill" fixedFrame="YES" text="hint" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="147" userLabel="Label - hint">
-                    <rect key="frame" x="630" y="21" width="82" height="18"/>
+                    <rect key="frame" x="630" y="7" width="82" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="26" contentMode="scaleToFill" fixedFrame="YES" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="151" userLabel="Label - {hint}">
-                    <rect key="frame" x="630" y="39" width="82" height="14"/>
+                    <rect key="frame" x="630" y="30" width="82" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1270,6 +1289,14 @@
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="28" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="158">
+                    <rect key="frame" x="408" y="142" width="102" height="14"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <accessibility key="accessibilityConfiguration" label="Game Time"/>
+                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="27" contentMode="scaleToFill" fixedFrame="YES" text="12:00 AM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="jPj-lo-7Aw" userLabel="Label Title Game Time">
                     <rect key="frame" x="-148" y="-121" width="64" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -1278,7 +1305,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" clearsContextBeforeDrawing="NO" tag="31" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="293">
-                    <rect key="frame" x="439" y="20" width="71" height="40"/>
+                    <rect key="frame" x="439" y="15" width="71" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="14"/>
@@ -1294,7 +1321,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" clearsContextBeforeDrawing="NO" tag="32" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="153">
-                    <rect key="frame" x="720" y="20" width="72" height="40"/>
+                    <rect key="frame" x="720" y="15" width="72" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="14"/>
@@ -1326,7 +1353,7 @@
                     </connections>
                 </button>
                 <button opaque="NO" clearsContextBeforeDrawing="NO" tag="34" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="215">
-                    <rect key="frame" x="574" y="14" width="35" height="43"/>
+                    <rect key="frame" x="559" y="12" width="35" height="43"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1814,7 +1841,7 @@
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
                 <view tag="130" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="nt5-UD-AE6">
-                    <rect key="frame" x="1" y="0.0" width="200" height="385"/>
+                    <rect key="frame" x="-200" y="0.0" width="200" height="385"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQj-WE-Rek">
@@ -2157,37 +2184,10 @@
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" fixedFrame="YES" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="159">
-                    <rect key="frame" x="408" y="121" width="102" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label="Game level"/>
-                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
-                    <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" fixedFrame="YES" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="160">
-                    <rect key="frame" x="424" y="186" width="71" height="18"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
-                    <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" fixedFrame="YES" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="157">
-                    <rect key="frame" x="424" y="207" width="71" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label="Blank"/>
-                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="28" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="158">
-                    <rect key="frame" x="408" y="142" width="102" height="14"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                    <accessibility key="accessibilityConfiguration" label="Game Time"/>
-                    <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="level_01.png" translatesAutoresizingMaskIntoConstraints="NO" id="DMl-uc-GUW">
+                    <rect key="frame" x="4" y="39" width="24" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <gestureRecognizers/>
