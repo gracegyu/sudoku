@@ -20,6 +20,7 @@
 #define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, widthFR, heightFR);
 #define kGKAchievementFrameStart    CGRectMake((widthMV-widthFR)/2, -1-heightFR, widthFR, heightFR)
 #define kGKAchievementFrameEnd      CGRectMake((widthMV-widthFR)/2, 10.0f, widthFR, heightFR)
+#define kGKAchievementFrameEndX      CGRectMake((widthMV-widthFR)/2, 30.0f, widthFR, heightFR)
 
 //#define kGKAchievementDefaultSize   CGRectMake(0.0f, 0.0f, 284.0f, 52.0f);
 //#define kGKAchievementFrameStart    CGRectMake(18.0f, -53.0f, 284.0f, 52.0f);

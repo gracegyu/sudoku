@@ -6,12 +6,15 @@
 //  $Id$
 //
 
+
 #import <GameKit/GameKit.h>
 #import "GKAchievementNotification.h"
 #import "Locale.h"
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "MainView.h"
+#import <sys/utsname.h>
+
 
 
 #pragma mark -
@@ -172,6 +175,30 @@
 
 #pragma mark -
 
+BOOL IsiPhoneX2(void)
+{
+    static BOOL isiPhoneX = NO;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+#if TARGET_IPHONE_SIMULATOR
+        NSString *model = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
+#else
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        
+        NSString *model = [NSString stringWithCString:systemInfo.machine
+                                             encoding:NSUTF8StringEncoding];
+#endif
+        isiPhoneX = [model isEqualToString:@"iPhone10,3"] || [model isEqualToString:@"iPhone10,6"];
+    });
+    
+    return isiPhoneX;
+}
+
+
+
 - (void)animateIn
 {
     [self delegateCallback:@selector(willShowAchievementNotification:) withObject:self];
@@ -180,8 +207,14 @@
     [UIView setAnimationDelegate:self];
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
-    self.frame = kGKAchievementFrameEnd;
+ 
+    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     
+    if (IsiPhoneX2() && orientation == UIInterfaceOrientationPortrait)
+        self.frame = kGKAchievementFrameEndX;
+    else
+        self.frame = kGKAchievementFrameEnd;
+
 
     
     [UIView commitAnimations];

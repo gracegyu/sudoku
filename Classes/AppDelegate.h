@@ -31,6 +31,8 @@
 - (void) saveSetting;
 - (void) saveNoAdSetting;
 - (BOOL) getNoAdSetting;
+
+
 #endif
 @end
 
