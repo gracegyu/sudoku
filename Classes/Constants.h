@@ -214,12 +214,13 @@ typedef struct SUDOKUSCORE
                                      [[UIScreen mainScreen] scale] >= 3)
 #define isLongIphone                ((isIphone5or6) || (isIphone6s))
 
+/*
 #define IS_IPHONE4 (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)
 #define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define IS_IPHONE6 (([[UIScreen mainScreen] bounds].size.height-667)?NO:YES)
 #define IS_IPHONE6P (([[UIScreen mainScreen] bounds].size.height-736)?NO:YES)
 #define IS_IPHONEX (([[UIScreen mainScreen] bounds].size.height-812)?NO:YES)
-
+*/
 
 //#define isPortrait                  (lastOrientation == UIInterfaceOrientationPortrait || lastOrientation == UIInterfaceOrientationPortraitUpsideDown)
 #define isPortrait                  ([self interfaceOrientation] == UIInterfaceOrientationPortrait || [self interfaceOrientation] == UIInterfaceOrientationPortraitUpsideDown)

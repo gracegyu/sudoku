@@ -6,6 +6,7 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
+#import <sys/utsname.h>
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "SudokuGame.h"
@@ -107,6 +108,28 @@
 #endif
 }
 
+BOOL IsiPhoneX(void)
+{
+    static BOOL isiPhoneX = NO;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+#if TARGET_IPHONE_SIMULATOR
+        NSString *model = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
+#else
+        
+        struct utsname systemInfo;
+        uname(&systemInfo);
+        
+        NSString *model = [NSString stringWithCString:systemInfo.machine
+                                             encoding:NSUTF8StringEncoding];
+#endif
+        isiPhoneX = [model isEqualToString:@"iPhone10,3"] || [model isEqualToString:@"iPhone10,6"];
+    });
+    
+    return isiPhoneX;
+}
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     NSLocale *locale = [NSLocale currentLocale];
@@ -145,18 +168,45 @@
     DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
     DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
     
-	NSString *strNib = [NSString stringWithString:
+    if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
+        DLog(@"[[UIScreen mainScreen] nativeBounds].size.height = %d", (int)[[UIScreen mainScreen] nativeBounds].size.height);
+        DLog(@"[[UIScreen mainScreen] nativeBounds].size.width = %d", (int)[[UIScreen mainScreen] nativeBounds].size.width);
+        switch ((int)[[UIScreen mainScreen] nativeBounds].size.height) {
+            case 1136:
+                DLog(@"iPhone 5 or 5S or 5C");
+                break;
+            case 1334:
+                DLog(@"iPhone 6/6S/7/8");
+                break;
+            case 2208:
+                DLog(@"iPhone 6+/6S+/7+/8+");
+                break;
+            case 1704:
+            case 2436:
+                DLog(@"iPhone X");
+                break;
+            default:
+                DLog(@"unknown(%d)", (int)[[UIScreen mainScreen] nativeBounds].size.height);
+        }
+    }
+    
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    
+    DLog(@"Device name = %@", [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding]);
+
+    
+	NSString *strNib =
 #ifdef ADMOB_FREEVERSION
     bNoAd ?
-    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isLongIphone ? @"MainView4iPhone5" : @"MainView")) :
-	(cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" : (isLongIphone ? @"MainView4iPhone5Free" : @"MainViewFree"))
+    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (IsiPhoneX() ? @"MainView4iPhoneX" :(isLongIphone ? @"MainView4iPhone5" : @"MainView"))) :
+    (cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPadFree" : (IsiPhoneX() ? @"MainView4iPhoneXFree" :(isLongIphone ? @"MainView4iPhone5Free" : @"MainViewFree")));
                         
 #else
-	cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (isLongIphone ? @"MainView4iPhone5" : @"MainView")
+    cDeviceType == DEVICETYPE_IPAD ? @"MainView4iPad" : (IsiPhoneX() ? @"MainView4iPhoneX" : (isLongIphone ? @"MainView4iPhone5" : @"MainView"));
 #endif
-     ];
+
 	
-    DLog(@"IphoneX = %@", IS_IPHONEX?@"YES":@"NO");
     DLog(@"Nibname = %@", strNib);
     DLog(@"[UIScreen mainScreen].bounds.size.height = %f", [UIScreen mainScreen].bounds.size.height);
     DLog(@"[[UIScreen mainScreen] scale] = %f", [[UIScreen mainScreen] scale]);
