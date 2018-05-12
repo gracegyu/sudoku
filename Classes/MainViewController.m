@@ -532,9 +532,10 @@
                 
                 //[self alertMessageOk:gettext(@"Ranking", nil) msg:strMsgRanking];
                 
-                [[GKAchievementHandler defaultHandler]
+                // 알수 없는 버그 : Noti 창이 사라지지 않는 경우가 1번 발생했다. 재현이 어렵고 주요한 정보가 아니니 삭제하자.
+                /*[[GKAchievementHandler defaultHandler]
                  notifyAchievementTitle:gettext(@"Ranking", nil)
-                 andMessage:strMsgRanking];
+                 andMessage:strMsgRanking];*/
                  
             }
             
