@@ -53,6 +53,7 @@ NSString *const kAppiraterReminderRequestDate		= @"kAppiraterReminderRequestDate
 NSString *templateReviewURL = @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=APP_ID";
 NSString *templateReviewURLiOS7 = @"itms-apps://itunes.apple.com/app/idAPP_ID";
 NSString *templateReviewURLiOS8 = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=APP_ID&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software";
+NSString *templateReviewURLiOS10 = @"itms-apps://itunes.apple.com/us/app/itunes-u/idAPP_ID?action=write-review";
 
 static NSString *_appId;
 static double _daysUntilPrompt = 30;
@@ -648,17 +649,23 @@ static BOOL _alwaysUseMainBundle = NO;
 		#if TARGET_IPHONE_SIMULATOR
 		NSLog(@"APPIRATER NOTE: iTunes App Store is not supported on the iOS simulator. Unable to open App Store page.");
 		#else
+        float  osVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
 		NSString *reviewURL = [templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
 
 		// iOS 7 needs a different templateReviewURL @see https://github.com/arashpayan/appirater/issues/131
         // Fixes condition @see https://github.com/arashpayan/appirater/issues/205
-		if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0 && [[[UIDevice currentDevice] systemVersion] floatValue] < 8.0) {
+		if (osVersion >= 7.0 && osVersion < 8.0) {
 			reviewURL = [templateReviewURLiOS7 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
 		}
         // iOS 8 needs a different templateReviewURL also @see https://github.com/arashpayan/appirater/issues/182
-        else if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+        else if (osVersion >= 8.0 && osVersion < 10.0)
         {
             reviewURL = [templateReviewURLiOS8 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
+        }
+        // iOS 10 needs a different templateReviewURL also @see https://stackoverflow.com/questions/45695291/how-to-link-to-app-reviews-in-app-store-in-ios-11?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+        else if (osVersion >= 10.0)
+        {
+            reviewURL = [templateReviewURLiOS10 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
         }
 
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
