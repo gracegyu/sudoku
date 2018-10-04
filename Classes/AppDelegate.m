@@ -108,6 +108,13 @@
 #endif
 }
 
+// Internal name
+// iPhoneX  : iPhone10,6
+// iPhoneXR : iPhone11,8
+// iPhoneXS : iPhone11,2
+// iPhoneX Max : iPhone11,4
+
+
 BOOL IsiPhoneX(void)
 {
     static BOOL isiPhoneX = NO;
@@ -124,7 +131,9 @@ BOOL IsiPhoneX(void)
         NSString *model = [NSString stringWithCString:systemInfo.machine
                                              encoding:NSUTF8StringEncoding];
 #endif
-        isiPhoneX = [model isEqualToString:@"iPhone10,3"] || [model isEqualToString:@"iPhone10,6"];
+        DLog(@"model = %@", model);
+        isiPhoneX = [model rangeOfString:@"iPhone10,"].location != NSNotFound ||
+                    [model rangeOfString:@"iPhone11,"].location != NSNotFound;
     });
     
     return isiPhoneX;
