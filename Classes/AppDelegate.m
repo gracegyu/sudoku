@@ -112,7 +112,7 @@
 // iPhoneX  : iPhone10,6
 // iPhoneXR : iPhone11,8
 // iPhoneXS : iPhone11,2
-// iPhoneX Max : iPhone11,4
+// iPhoneX Max : iPhone11,4 iPhone11,6
 
 
 BOOL IsiPhoneX(void)
@@ -132,7 +132,8 @@ BOOL IsiPhoneX(void)
                                              encoding:NSUTF8StringEncoding];
 #endif
         DLog(@"model = %@", model);
-        isiPhoneX = [model rangeOfString:@"iPhone10,"].location != NSNotFound ||
+        isiPhoneX = [model isEqualToString:@"iPhone10,3"] ||
+                    [model isEqualToString:@"iPhone10,6"] ||
                     [model rangeOfString:@"iPhone11,"].location != NSNotFound;
     });
     

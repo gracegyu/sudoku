@@ -1636,7 +1636,8 @@ BOOL IsiPhoneX3(void)
                                              encoding:NSUTF8StringEncoding];
 #endif
         DLog(@"model = %@", model);
-        isiPhoneX = [model rangeOfString:@"iPhone10,"].location != NSNotFound ||
+        isiPhoneX = [model isEqualToString:@"iPhone10,3"] ||
+                    [model isEqualToString:@"iPhone10,6"] ||
                     [model rangeOfString:@"iPhone11,"].location != NSNotFound;
     });
     
