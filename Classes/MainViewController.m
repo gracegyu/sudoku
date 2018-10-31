@@ -443,10 +443,11 @@
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
-#ifdef ADMOB_FREEVERSION
-                             if (self.interstitial != nil && bNoAd == NO)
+//#ifdef ADMOB_FREEVERSION
+                             //if (self.interstitial != nil && bNoAd == NO)
+                             if (self.interstitial != nil)
                                  [self showInterstitial];
-#endif // ADMOB_FREEVERSION
+//#endif // ADMOB_FREEVERSION
                          }];
     
     [alert addAction:ok];
@@ -493,10 +494,10 @@
     }
     
     
-#ifdef ADMOB_FREEVERSION
-    if (bNoAd == NO)
+//#ifdef ADMOB_FREEVERSION
+    //if (bNoAd == NO)
         [self loadInterstitial];
-#endif
+//#endif
 	DLog(@"writeScoreAfterFinishGame");	
     BOOL bNewBest = NO;
     NSInteger level = [self levelToWriteScore:sudokuGame];
@@ -574,7 +575,7 @@
     DLog(@"strMsgFinish = %@", strMsgFinish);
 
 
-#ifdef ADMOB_FREEVERSION
+#ifdef ADMOB_FREEVERSION__________
     // do nothing
     if (bLoadInterstitialAds)
         [strMsgFinish retain];
@@ -1369,6 +1370,13 @@
     NSInteger count = listItems.count;
     NSString *item;
     
+#ifdef ADMOB_FREEVERSION
+    BOOL bPaid = false;
+    if (bNoAd) bPaid = true;
+#else
+    BOOL bPaid = true;
+#endif
+    
     NSString *name;
     NSString *value;
     NSString *error = nil;
@@ -1398,17 +1406,53 @@
             else if ([name caseInsensitiveCompare:@"UserName"] == NSOrderedSame)
                 [self setUserName:value];
             else if ([name caseInsensitiveCompare:@"ITV"] == NSOrderedSame)
-                gInterval = [value integerValue];
+            {
+                if (!bPaid) gInterval = [value integerValue];
+            }
             else if ([name caseInsensitiveCompare:@"ITVSEC"] == NSOrderedSame)
+            {
+                if (!bPaid)
 #ifdef DEBUG
-                gIntervalSec = 10;
+                    gIntervalSec = 10;
 #else
-                gIntervalSec = [value integerValue];
+                    gIntervalSec = [value integerValue];
 #endif
+            }
             else if ([name caseInsensitiveCompare:@"RND"] == NSOrderedSame)
-                gRandom = [value integerValue];
+            {
+                if (!bPaid) gRandom = [value integerValue];
+            }
             else if ([name caseInsensitiveCompare:@"BNS"] == NSOrderedSame)
-                gBonus = [value integerValue];
+            {
+                if (!bPaid) gBonus = [value integerValue];
+            }
+            else if ([name caseInsensitiveCompare:@"PAID_ITV"] == NSOrderedSame)
+            {
+                if (bPaid)
+#ifdef DEBUG
+                    gInterval = 3;
+#else
+                    gInterval = [value integerValue];
+#endif
+                
+            }
+            else if ([name caseInsensitiveCompare:@"PAID_ITVSEC"] == NSOrderedSame)
+            {
+                if (bPaid)
+#ifdef DEBUG
+                    gIntervalSec = 100;
+#else
+                    gIntervalSec = [value integerValue];
+#endif
+            }
+            else if ([name caseInsensitiveCompare:@"PAID_RND"] == NSOrderedSame)
+            {
+                if (bPaid) gRandom = [value integerValue];
+            }
+            else if ([name caseInsensitiveCompare:@"PAID_BNS"] == NSOrderedSame)
+            {
+                if (bPaid) gBonus = [value integerValue];
+            }
 #ifdef ADMOB_FREEVERSION
             else if ([name caseInsensitiveCompare:@"ADBENDOR"] == NSOrderedSame) {
                 NSInteger oldAdBendor = gAdBendor;
@@ -4928,7 +4972,7 @@ static NSInteger LEVELSCORE[] = {
     
 }
 
-
+#endif // ADMOB_FREEVERSION
 
 #pragma mark GADInterstitialDelegate implementation
 
@@ -5025,9 +5069,13 @@ static NSInteger LEVELSCORE[] = {
 
 - (BOOL) isInterstitialShowTurn:(NSInteger)delta set:(NSInteger)set
 {
-    if (bNoAd) {
+    //if (bNoAd) {
+        //bLoadInterstitialAds = NO;
+        //return NO;  // 영원히 광고를 출력하지 않는다.
+    //}
+    if (gInterval < 0) {
         bLoadInterstitialAds = NO;
-        return NO;  // 영원히 광고를 출력하지 않는다.
+        return NO;  // 광고를 출력하지 않는다.
     }
     static NSInteger iTurn = 0;
     NSInteger iLastTime = [self loadInterstitialShowLastTime];
@@ -5131,7 +5179,7 @@ static NSInteger LEVELSCORE[] = {
 
 }
 
-#endif // ADMOB_FREEVERSION
+
 
 
 #pragma mark GADRewaredBasedVideoAdDelegate implementation

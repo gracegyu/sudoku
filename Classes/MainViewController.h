@@ -81,8 +81,8 @@ typedef struct ADSTATE
     ,ADBannerViewDelegate
 #endif
     ,GADBannerViewDelegate
-    ,GADInterstitialDelegate
 #endif // ADMOB_FREEVERSION
+    ,GADInterstitialDelegate
     ,GADRewardBasedVideoAdDelegate
     >
 {
@@ -206,8 +206,8 @@ typedef struct ADSTATE
     GADBannerView *adMobBanner;
     BOOL        bNoAd;              // 광고 제거 아이템 구매
     BOOL        bNoAdRestarted;     // 광고 제거된 xib으로 load됨
-    BOOL        bLoadInterstitialAds;
 #endif // ADMOB_FREEVERSION
+    BOOL        bLoadInterstitialAds;
 	CGFloat		intervalX;
 	CGFloat		intervalX2;
 	
@@ -398,12 +398,12 @@ typedef struct ADSTATE
 
 - (void) setButtonMode:(UIButton *)button  mode:(BOOL)mode;
 
-#ifdef ADMOB_FREEVERSION
+//#ifdef ADMOB_FREEVERSION
 @property (nonatomic, strong) GADInterstitial *interstitial;
 - (GADRequest *)request;
 - (BOOL) loadInterstitial;
 - (void) showInterstitial;
-#endif // ADMOB_FREEVERSION
+//#endif // ADMOB_FREEVERSION
 
 - (IBAction)runUndo;
 - (IBAction)runRedo;

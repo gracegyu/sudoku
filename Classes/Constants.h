@@ -352,7 +352,12 @@ typedef struct SUDOKUSCORE
 
 #define MIN_NAME    3
                                     // server default
+#ifdef ADMOB_FREEVERSION
 #define INTERSTITIALINTERVAL    5   // 0    (once a 2 times)
+#else
+#define INTERSTITIALINTERVAL    -1   // 0    (once a 2 times)
+#endif
+
 #define INTERSTITIALINTERVALSEC 1800   // 0
 #define INTERSTITIALRANDOM      0   // 1    (+0 ~ +2)
 #define ADCLICKBONUS            0   // 5
