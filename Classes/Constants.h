@@ -372,3 +372,8 @@ typedef struct SUDOKUSCORE
 #define ADBENDER_IAD          1   // iAd
 
 
+#ifdef ADMOB_FREEVERSION
+#define freeMode      (bNoAd ? 2 : 1)
+#else
+#define freeMode      0
+#endif

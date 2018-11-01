@@ -524,7 +524,13 @@
             NSInteger total=0, grade=0;
             NSString* strMsgRanking = NULL;
             
-            if ([self uploadDailyPuzzleResult:@"addresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade] == YES &&
+            if ([self uploadDailyPuzzleResult:@"addresult"
+                                    spendTime:sudokuGame.gameTime
+                                   sudokuType:sudokuGame.sudokuType
+                                    gameLevel:sudokuGame.gameLevel
+                                    bAutoMemo:sudokuGame.bAutoMemo
+                                       pTotal:&total
+                                       pGrade:&grade] == YES &&
                 total > 0 &&
                 grade > 0 &&
                 grade <= total)
@@ -605,7 +611,13 @@
 {
     NSInteger total=0, grade=0;
     
-    BOOL bRet = [self uploadDailyPuzzleResult:@"adduserresult" spendTime:sudokuGame.gameTime pTotal:&total pGrade:&grade];    // 이부분을 수정
+    BOOL bRet = [self uploadDailyPuzzleResult:@"adduserresult"
+                                    spendTime:sudokuGame.gameTime
+                                   sudokuType:sudokuGame.sudokuType
+                                    gameLevel:sudokuGame.gameLevel
+                                    bAutoMemo:sudokuGame.bAutoMemo
+                                       pTotal:&total
+                                       pGrade:&grade];    // 이부분을 수정
     if (!bRet)
     {
         // 전송 할 때까지 반복할 것인가?
@@ -1317,7 +1329,7 @@
                         [self percentEscapeString:gUserName],
                         (int)[self getMyLevel],
                         APPVERSION,
-                        isFree,
+                        freeMode,
                         score.spendTotalSec,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -1429,7 +1441,7 @@
             else if ([name caseInsensitiveCompare:@"PAID_ITV"] == NSOrderedSame)
             {
                 if (bPaid)
-#ifdef DEBUG
+#ifdef DEBUG_____
                     gInterval = 3;
 #else
                     gInterval = [value integerValue];
@@ -1439,7 +1451,7 @@
             else if ([name caseInsensitiveCompare:@"PAID_ITVSEC"] == NSOrderedSame)
             {
                 if (bPaid)
-#ifdef DEBUG
+#ifdef DEBUG_____
                     gIntervalSec = 100;
 #else
                     gIntervalSec = [value integerValue];
@@ -3058,7 +3070,10 @@ BOOL IsiPhoneX3(void)
 
 -(BOOL) sendNormalPuzzleStart
 {
-    NSString* strRet = [self downloadDailyPuzzle:@"getuserpuzzle"];
+    NSString* strRet = [self downloadDailyPuzzle:@"getuserpuzzle"
+                                      sudokuType:mainView.sudokuGame.sudokuType
+                                       gameLevel:mainView.sudokuGame.gameLevel
+                                       bAutoMemo:mainView.sudokuGame.bAutoMemo];
     // 이부분을 수정
     if (!strRet)
     {
@@ -3315,6 +3330,9 @@ BOOL IsiPhoneX3(void)
 }
 
 - (NSString*) downloadDailyPuzzle:(NSString*)act
+                       sudokuType:(SUDOKUTYPE)sudokuType
+                        gameLevel:(GAMELEVEL)gameLevel
+                        bAutoMemo:(BOOL)bAutoMemo
 {
     NSString *countryCode = [[NSLocale currentLocale] objectForKey: NSLocaleCountryCode];
 
@@ -3330,7 +3348,7 @@ BOOL IsiPhoneX3(void)
                         (long)gUserID,
                         [self percentEscapeString:gUserName],
                         APPVERSION,
-                        isFree,
+                        freeMode,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
                         (NSInteger) (currentLongtitude*1000000.0+0.5),
@@ -3341,17 +3359,22 @@ BOOL IsiPhoneX3(void)
 						cProtocolVersion,
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
-                        mainView.nSettingSudokuType,
-                        mainView.nSettingGameLevel,         //2, // level default 2, 0 is very hard
+                        sudokuType,
+                        gameLevel,         //2, // level default 2, 0 is very hard
                        [self getNowYYYYMMDD],
-                        mainView.bSettingAutoMemo ? 1 : 0,
+                        bAutoMemo ? 1 : 0,
                         countryCode];
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
     return strData;
 }
 
-- (BOOL) uploadDailyPuzzleResult:(NSString*)act  spendTime:(NSTimeInterval)gameTime pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
+- (BOOL) uploadDailyPuzzleResult:(NSString*)act
+                       spendTime:(NSTimeInterval)gameTime
+                      sudokuType:(SUDOKUTYPE)sudokuType
+                       gameLevel:(GAMELEVEL)gameLevel
+                       bAutoMemo:(BOOL)bAutoMemo
+                          pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
 {
     //[self connectToServerInit];
     
@@ -3371,12 +3394,12 @@ BOOL IsiPhoneX3(void)
 						cProtocolVersion,
                         (long)[self getCheckSum],
                         DEFPUZZLESIZE,
-                        mainView.sudokuGame.sudokuType,   // 현재 type이 정확하게 전송된다.
-                        mainView.sudokuGame.gameLevel,   // 현재 level이 정확하게 전송된다.
+                        sudokuType,   // 현재 type이 정확하게 전송된다.
+                        gameLevel,   // 현재 level이 정확하게 전송된다.
                         //mainView.nSettingSudokuType,    // 게임도중 Seg. contrl을 한번 누르면 버그가 생길 수 있다.
                         [self getNowYYYYMMDD],
                         (unsigned long)gameTime,
-                        mainView.sudokuGame.bAutoMemo];
+                        bAutoMemo?1:0];
                         //mainView.bSettingAutoMemo ? 1 : 0];   // 게임도중 Seg. contrl을 한번 누르면 버그가 생길 수 있다.
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
@@ -3431,7 +3454,10 @@ BOOL IsiPhoneX3(void)
     SudokuGame *oldGame = mainView.sudokuGame;
     BOOL bRet;
     
-    NSString* strDailyPuzzle = [self downloadDailyPuzzle:@"getdailypuzzle"];
+    NSString* strDailyPuzzle = [self downloadDailyPuzzle:@"getdailypuzzle"
+                                              sudokuType:oldGame.sudokuType
+                                               gameLevel:oldGame.gameLevel
+                                               bAutoMemo:oldGame.bAutoMemo];
     // 이부분을 수정
     if (!strDailyPuzzle)
     {

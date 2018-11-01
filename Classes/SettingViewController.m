@@ -101,7 +101,7 @@
     labelMarkingEqual.text = gettext(@"marking equal", nil);
     labelSkinColor.text = gettext(@"skin color", nil);
     labelLocale.text = gettext(@"language", nil);
-    labelNoAd.text = gettext(@"no advertisement", nil);
+    labelNoAd.text = gettext(@"no banner advertisement", nil);
     
     str = gettext(@"desc sound effect", nil);
 	labelDescSoundEffect.text = [str stringByAppendingString:@"\n\n\n"];
