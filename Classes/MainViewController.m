@@ -528,7 +528,7 @@
                                     spendTime:sudokuGame.gameTime
                                    sudokuType:sudokuGame.sudokuType
                                     gameLevel:sudokuGame.gameLevel
-                                    bAutoMemo:sudokuGame.bAutoMemo
+                                    bAutoMemo:false // 무조건 false다.
                                        pTotal:&total
                                        pGrade:&grade] == YES &&
                 total > 0 &&
@@ -3455,9 +3455,9 @@ BOOL IsiPhoneX3(void)
     BOOL bRet;
     
     NSString* strDailyPuzzle = [self downloadDailyPuzzle:@"getdailypuzzle"
-                                              sudokuType:oldGame.sudokuType
-                                               gameLevel:oldGame.gameLevel
-                                               bAutoMemo:oldGame.bAutoMemo];
+                                              sudokuType:mainView.nSettingSudokuType
+                                               gameLevel:mainView.nSettingGameLevel
+                                               bAutoMemo:mainView.bSettingAutoMemo];    // 무조건 automemo는 false다.
     // 이부분을 수정
     if (!strDailyPuzzle)
     {
