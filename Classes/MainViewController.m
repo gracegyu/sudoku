@@ -580,7 +580,12 @@
     
     DLog(@"strMsgFinish = %@", strMsgFinish);
 
+    if (bLoadInterstitialAds)
+        [strMsgFinish retain];
+    else
+        [self alertFinish];
 
+/*
 #ifdef ADMOB_FREEVERSION__________
     // do nothing
     if (bLoadInterstitialAds)
@@ -590,7 +595,7 @@
 #else
     [self alertFinish];
 #endif
-
+*/
 //    [self alertFinish];
     
     
