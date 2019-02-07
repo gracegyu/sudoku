@@ -1215,7 +1215,8 @@
      [self initBanner];
 #endif
      [GADRewardBasedVideoAd sharedInstance].delegate = self;
-     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
+     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_HINT_REWARD_UNIT_ID];
+     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_CALCCANDI_REWARD_UNIT_ID];
 
      bAd = NO;
      bReplay = NO;
@@ -5217,20 +5218,24 @@ static NSInteger LEVELSCORE[] = {
 
 - (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
    didRewardUserWithReward:(GADAdReward *)reward {
-    NSString *rewardMessage =
-    [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf",
-     reward.type,
-     [reward.amount doubleValue]];
-    NSLog(rewardMessage);
-    
-    // hint 줘야함
-    // hint 증가 메시지 표시해야 함(상단)
+    if (1) {
+        NSString *rewardMessage =
+        [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf",
+         reward.type,
+         [reward.amount doubleValue]];
+        NSLog(rewardMessage);
+        
+        // hint 줘야함
+        // hint 증가 메시지 표시해야 함(상단)
 
-    mainView.paidHintCount += countHint5;
-    
-    [self updateButtonHint];
-    [self updateHintCount];
-    [self saveSetting];
+        mainView.paidHintCount += countHint5;
+        
+        [self updateButtonHint];
+        [self updateHintCount];
+        [self saveSetting];
+    } else if ([rewardBasedVideoAd.userIdentifier isEqualToString:MY_CALCCANDI_REWARD_UNIT_ID]) {
+        
+    }
 }
 
 - (void)rewardBasedVideoAdDidReceiveAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
@@ -5257,7 +5262,7 @@ static NSInteger LEVELSCORE[] = {
 - (void)rewardBasedVideoAdDidClose:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
     NSLog(@"Reward based video ad is closed.");
     [self startGameTimer];
-    [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_REWARD_UNIT_ID];
+    [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_HINT_REWARD_UNIT_ID];
 }
 
 - (void)rewardBasedVideoAdWillLeaveApplication:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
