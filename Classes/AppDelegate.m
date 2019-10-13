@@ -134,7 +134,10 @@ BOOL IsiPhoneX(void)
         DLog(@"model = %@", model);
         isiPhoneX = [model isEqualToString:@"iPhone10,3"] ||
                     [model isEqualToString:@"iPhone10,6"] ||
-                    [model rangeOfString:@"iPhone11,"].location != NSNotFound;
+                    [model rangeOfString:@"iPhone11,"].location != NSNotFound ||
+                    [model rangeOfString:@"iPhone12,"].location != NSNotFound ||
+                    [model rangeOfString:@"iPhone13,"].location != NSNotFound ||
+                    [model rangeOfString:@"iPhone14,"].location != NSNotFound;
     });
     
     return isiPhoneX;
