@@ -131,8 +131,10 @@ BOOL IsiPhoneX(void)
         NSString *model = [NSString stringWithCString:systemInfo.machine
                                              encoding:NSUTF8StringEncoding];
 #endif
-        int version = [[model substringWithRange:NSMakeRange(6,2)] intValue];
-        DLog(@"model = %@, %@, %d", model, [model substringWithRange:NSMakeRange(6,2)], version);
+        int version = 0;
+        if ([model length] >= 8)
+            version = [[model substringWithRange:NSMakeRange(6,2)] intValue];
+        DLog(@"model = %@, %d", model, version);
         isiPhoneX = [model isEqualToString:@"iPhone10,3"] ||
                     [model isEqualToString:@"iPhone10,6"] ||
                     [model rangeOfString:@"iPhone11,"].location != NSNotFound;
