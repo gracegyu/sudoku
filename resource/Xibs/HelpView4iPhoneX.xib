@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,7 +32,7 @@
                     <subviews>
                         <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="88" contentMode="scaleToFill" fixedFrame="YES" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="49">
                             <rect key="frame" x="0.0" y="787" width="378" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -76,7 +75,7 @@
                         </segmentedControl>
                         <button opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="229">
                             <rect key="frame" x="0.0" y="479" width="372" height="290"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="help9_1_iphone.png">
                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -123,6 +122,7 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="139" y="152"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="207" userLabel="View" customClass="HelpView">
             <rect key="frame" x="0.0" y="0.0" width="812" height="372"/>
@@ -222,15 +222,15 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="229" y="753"/>
+            <point key="canvasLocation" x="331.8840579710145" y="504.24107142857139"/>
         </view>
     </objects>
     <resources>
-        <image name="help9_1_iphone.png" width="500" height="380"/>
-        <image name="type_0_120s.png" width="120" height="120"/>
-        <image name="type_1_120s.png" width="120" height="120"/>
-        <image name="type_2_120s.png" width="120" height="120"/>
-        <image name="type_3_120s.png" width="120" height="120"/>
-        <image name="type_4_120s.png" width="120" height="120"/>
+        <image name="help9_1_iphone.png" width="375" height="285"/>
+        <image name="type_0_120s.png" width="90" height="90"/>
+        <image name="type_1_120s.png" width="90" height="90"/>
+        <image name="type_2_120s.png" width="90" height="90"/>
+        <image name="type_3_120s.png" width="90" height="90"/>
+        <image name="type_4_120s.png" width="90" height="90"/>
     </resources>
 </document>
