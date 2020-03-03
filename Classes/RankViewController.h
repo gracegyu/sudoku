@@ -9,8 +9,10 @@
 
 //@protocol RankViewControllerDelegate;
 #import "MainViewController.h"
+#import <WebKit/WebKit.h>
 
-@interface RankViewController : TPMultiLayoutViewController <UIWebViewDelegate> {
+
+@interface RankViewController : TPMultiLayoutViewController <WKNavigationDelegate> {
     MainViewController *mainViewController;
 	
 	UINavigationItem	*naviItem;
@@ -18,7 +20,7 @@
     UIButton *buttonDone;
     BOOL bMyRankCheck;
     
-    UIWebView *webView;
+    WKWebView *webView;
     UIActivityIndicatorView *activityIndicator;
 }
 
@@ -27,7 +29,7 @@
 @property (nonatomic, retain) IBOutlet UINavigationItem	*naviItem;
 @property (nonatomic, retain) IBOutlet UILabel *lableTitle;
 @property (nonatomic, retain) IBOutlet UIButton *buttonDone;
-@property (nonatomic, retain) IBOutlet UIWebView *webView;
+@property (nonatomic, retain) IBOutlet WKWebView *webView;
 @property (nonatomic, retain) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property BOOL bMyRankCheck;
 

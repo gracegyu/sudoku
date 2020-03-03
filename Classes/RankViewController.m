@@ -63,8 +63,10 @@
     //self.view.backgroundColor = [UIColor viewFlipsideBackgroundColor];
     [self setLocalizedMessage];
     [super viewDidLoad];
- 
-    webView.delegate = self;
+    webView.navigationDelegate = self;
+
+    
+//    activityIndicator.hidden = TRUE;
     
 //    http://10.211.55.10:88/dailyranking.php?act=rankingview&userid=158902&size=6&date=20150114&type=0&rankingtype=0&countrycode=US&locale=ko_KR
 
@@ -106,6 +108,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:strURL]];
     
     [webView loadRequest:request];
+//    webView.load(request);
 
     // above ios5 && Paid
     if (SUPPORT_ROTATION)
@@ -200,20 +203,65 @@
     [mainViewController stopGameTimer];
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
+#pragma mark - WKNavigationDelegate
+
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation
 {
     [activityIndicator startAnimating];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation
 {
     [activityIndicator stopAnimating];
     activityIndicator.hidden = TRUE;
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
     [activityIndicator stopAnimating];
 }
+
+
+//- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
+//
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+//
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+//
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+//
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation {
+//
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
+//  
+//    DLog(@"%@", navigation);
+//}
+//
+//- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
+// 
+//    DLog(@"%@", navigationAction);
+//    decisionHandler(WKNavigationActionPolicyAllow);
+//}
+//
+//- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler {
+// 
+//    DLog(@"%@", navigationResponse);
+//    decisionHandler(WKNavigationResponsePolicyAllow);
+//}
 
 @end

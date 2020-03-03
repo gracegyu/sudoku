@@ -1731,6 +1731,7 @@ BOOL IsiPhoneX3(void)
 	[controller setScoreData:&score];
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
+    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:controller animated:YES completion:nil];
 
 	controller.bAuto = mainView.sudokuGame.bAutoMemo ? YES : NO;
@@ -1758,6 +1759,7 @@ BOOL IsiPhoneX3(void)
     
     controller.mainViewController = self;
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];
     
     [controller release];
@@ -2481,7 +2483,8 @@ BOOL IsiPhoneX3(void)
     
     controller.mainViewController = self;
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-	[self presentViewController:controller animated:YES completion:nil];
+	[controller setModalPresentationStyle:UIModalPresentationFullScreen];
+    [self presentViewController:controller animated:YES completion:nil];
 	
 	[controller release];
 }
@@ -2497,6 +2500,7 @@ BOOL IsiPhoneX3(void)
     controller.bMyRankCheck = bMyRanking;
     controller.mainViewController = self;
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];
     
     [controller release];
@@ -2526,6 +2530,7 @@ BOOL IsiPhoneX3(void)
 	//[self hideMenuView:NO];
 	
 	UIViewController *controller = [[JMC sharedInstance] viewController];
+    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
     [self presentViewController:controller animated:YES completion:nil];
 #endif
     [self startGameTimer];
