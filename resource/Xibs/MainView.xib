@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment version="4352" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -102,7 +100,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="187">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="187">
                     <rect key="frame" x="3" y="20" width="314" height="318"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -115,7 +113,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="191">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="191">
                     <rect key="frame" x="50" y="371" width="220" height="107"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -128,7 +126,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="335">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="335">
                     <rect key="frame" x="0.0" y="600" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -141,7 +139,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Nej-yg-XfC">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Nej-yg-XfC">
                     <rect key="frame" x="0.0" y="600" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -154,18 +152,18 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="39">
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="39">
                     <rect key="frame" x="0.0" y="447" width="325" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="level_01.png" id="xvR-Ae-TiL">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="level_01.png" translatesAutoresizingMaskIntoConstraints="NO" id="xvR-Ae-TiL">
                     <rect key="frame" x="3" y="2" width="24" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" id="jQB-G1-34D">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="jQB-G1-34D">
                     <rect key="frame" x="32" y="1" width="101" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -173,7 +171,7 @@
                     <color key="textColor" red="0.23137254901960785" green="0.27843137254901962" blue="0.41960784313725491" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="pbF-Ff-Hgi">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="pbF-Ff-Hgi">
                     <rect key="frame" x="192" y="1" width="123" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -181,14 +179,14 @@
                     <color key="textColor" red="0.23137254900000001" green="0.2784313725" blue="0.41960784309999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="level" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="84">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="level" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="84">
                     <rect key="frame" x="-100" y="339" width="76" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="87">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="87">
                     <rect key="frame" x="101" y="339" width="76" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -196,14 +194,14 @@
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="12:00 AM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="85">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="12:00 AM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="85">
                     <rect key="frame" x="130" y="2" width="64" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="88">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88">
                     <rect key="frame" x="101" y="356" width="76" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game Time"/>
@@ -211,14 +209,14 @@
                     <color key="textColor" red="0.99989897009999995" green="1" blue="0.9998418093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="86">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="86">
                     <rect key="frame" x="175" y="339" width="50" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="90">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="90">
                     <rect key="frame" x="175" y="356" width="50" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
@@ -226,14 +224,14 @@
                     <color key="textColor" red="0.99989897009999995" green="1" blue="0.9998418093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="hint" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="134" userLabel="Label - hint">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="hint" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="134" userLabel="Label - hint">
                     <rect key="frame" x="217" y="339" width="55" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="133" userLabel="Label - {hint}">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="133" userLabel="Label - {hint}">
                     <rect key="frame" x="217" y="356" width="55" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
@@ -241,7 +239,7 @@
                     <color key="textColor" red="0.99989897009999995" green="1" blue="0.9998418093" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="62">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="62">
                     <rect key="frame" x="2" y="346" width="50" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -257,7 +255,7 @@
                         <action selector="showMenu" destination="-1" eventType="touchUpInside" id="65"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="128">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="128">
                     <rect key="frame" x="264" y="346" width="50" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -273,7 +271,7 @@
                         <action selector="doHint" destination="-1" eventType="touchUpInside" id="130"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="211">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="211">
                     <rect key="frame" x="65" y="340" width="30" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -289,7 +287,7 @@
                         <action selector="runBookmark" destination="-1" eventType="touchUpInside" id="213"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="41">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="41">
                     <rect key="frame" x="5" y="387" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -309,7 +307,7 @@
                         <action selector="stopUndoRedoRepeat" destination="-1" eventType="touchDragExit" id="371"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="205">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="205">
                     <rect key="frame" x="279" y="386" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -329,7 +327,7 @@
                         <action selector="stopUndoRedoRepeat" destination="-1" eventType="touchUpInside" id="376"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="114">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="114">
                     <rect key="frame" x="2" y="435" width="60" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -345,7 +343,7 @@
                         <action selector="delNumber" destination="-1" eventType="touchUpInside" id="116"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="50">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="50">
                     <rect key="frame" x="259" y="435" width="60" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -361,7 +359,7 @@
                         <action selector="memoOnOff" destination="-1" eventType="touchUpInside" id="53"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="386">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="386">
                     <rect key="frame" x="165" y="100" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -377,7 +375,7 @@
                         <action selector="playAgain" destination="-1" eventType="touchUpInside" id="390"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="393">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="393">
                     <rect key="frame" x="165" y="150" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -393,7 +391,7 @@
                         <action selector="seeReplay" destination="-1" eventType="touchUpInside" id="395"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="95" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="50f-rs-P51">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="95" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="50f-rs-P51">
                     <rect key="frame" x="27" y="100" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -406,7 +404,7 @@
                         <action selector="openShareRecord" destination="-1" eventType="touchUpInside" id="r2U-9k-1ln"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="71" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="429">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="71" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="429">
                     <rect key="frame" x="27" y="150" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -419,7 +417,7 @@
                         <action selector="openSharePuzzle" destination="-1" eventType="touchUpInside" id="LGi-r5-aOa"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="440">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="440">
                     <rect key="frame" x="80" y="200" width="160" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -435,7 +433,7 @@
                         <action selector="showNewGame" destination="-1" eventType="touchUpInside" id="442"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="447">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="447">
                     <rect key="frame" x="289" y="72" width="18" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -450,15 +448,15 @@
                         <action selector="closeButton" destination="-1" eventType="touchUpInside" id="451"/>
                     </connections>
                 </button>
-                <view tag="90" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="" id="223">
+                <view tag="90" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="223">
                     <rect key="frame" x="1" y="97" width="160" height="383"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="111" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="468">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="111" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="468">
                             <rect key="frame" x="61" y="45" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="238">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="238">
                             <rect key="frame" x="26" y="50" width="134" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -474,7 +472,7 @@
                                 <action selector="showDailyGame" destination="-1" eventType="touchUpInside" id="d69-ow-IrU"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="hFO-Mi-q6D">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="hFO-Mi-q6D">
                             <rect key="frame" x="26" y="15" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -490,7 +488,7 @@
                                 <action selector="showNewGame" destination="-1" eventType="touchUpInside" id="ju5-ax-Wnh"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="101">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="101">
                             <rect key="frame" x="26" y="120" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -506,7 +504,7 @@
                                 <action selector="showScoreView" destination="-1" eventType="touchUpInside" id="145"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="199">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="199">
                             <rect key="frame" x="26" y="155" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -521,7 +519,7 @@
                                 <action selector="showSettingView" destination="-1" eventType="touchUpInside" id="203"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="117">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="117">
                             <rect key="frame" x="26" y="190" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -537,7 +535,7 @@
                                 <action selector="clearNumbers" destination="-1" eventType="touchUpInside" id="119"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="422">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="422">
                             <rect key="frame" x="26" y="225" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -553,7 +551,7 @@
                                 <action selector="openSharePuzzle" destination="-1" eventType="touchUpInside" id="lB0-32-lVj"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="240">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="240">
                             <rect key="frame" x="26" y="260" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -569,7 +567,7 @@
                                 <action selector="showHelpView" destination="-1" eventType="touchUpInside" id="307"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="246">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="246">
                             <rect key="frame" x="26" y="295" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -584,7 +582,7 @@
                                 <action selector="showFeedbackView" destination="-1" eventType="touchUpInside" id="310"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="250">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="250">
                             <rect key="frame" x="26" y="337" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -600,27 +598,27 @@
                                 <action selector="menuCancel" destination="-1" eventType="touchUpInside" id="254"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" tag="7781" contentMode="scaleToFill" misplaced="YES" image="earth.png" id="458">
+                        <imageView userInteractionEnabled="NO" tag="7781" contentMode="scaleToFill" fixedFrame="YES" image="earth.png" translatesAutoresizingMaskIntoConstraints="NO" id="458">
                             <rect key="frame" x="1" y="52" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="7783" contentMode="scaleToFill" misplaced="YES" image="setting.png" id="Qwd-C7-nM1">
+                        <imageView userInteractionEnabled="NO" tag="7783" contentMode="scaleToFill" fixedFrame="YES" image="setting.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qwd-C7-nM1">
                             <rect key="frame" x="1" y="155" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="7782" contentMode="scaleToFill" misplaced="YES" image="score.png" id="pEt-oF-Ef3">
+                        <imageView userInteractionEnabled="NO" tag="7782" contentMode="scaleToFill" fixedFrame="YES" image="score.png" translatesAutoresizingMaskIntoConstraints="NO" id="pEt-oF-Ef3">
                             <rect key="frame" x="1" y="120" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" misplaced="YES" image="share.png" id="zh5-YJ-Eqc">
+                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" fixedFrame="YES" image="share.png" translatesAutoresizingMaskIntoConstraints="NO" id="zh5-YJ-Eqc">
                             <rect key="frame" x="1" y="225" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="6681" contentMode="scaleToFill" misplaced="YES" image="help.png" id="mSn-zV-qYV">
+                        <imageView userInteractionEnabled="NO" tag="6681" contentMode="scaleToFill" fixedFrame="YES" image="help.png" translatesAutoresizingMaskIntoConstraints="NO" id="mSn-zV-qYV">
                             <rect key="frame" x="1" y="260" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="23B-ZO-0cl">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="23B-ZO-0cl">
                             <rect key="frame" x="26" y="85" width="134" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -640,11 +638,11 @@
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" label="MenuView"/>
                 </view>
-                <view tag="110" contentMode="scaleToFill" restorationIdentifier="" id="54">
+                <view tag="110" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="54">
                     <rect key="frame" x="-160" y="97" width="160" height="383"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="417">
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="417">
                             <rect key="frame" x="10" y="13.5" width="139" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -658,18 +656,18 @@
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="418"/>
                             </connections>
                         </segmentedControl>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="sudoku type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="465">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="sudoku type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="465">
                             <rect key="frame" x="6" y="49" width="144" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="97">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="97">
                             <rect key="frame" x="61" y="63" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="379">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="379">
                             <rect key="frame" x="16" y="62.5" width="32" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -684,18 +682,18 @@
                                 <action selector="changeAutoMemo" destination="-1" eventType="touchDown" id="383"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="auto memo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="380">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="auto memo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="380">
                             <rect key="frame" x="59" y="68.5" width="101" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="15"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="userinput.png" id="lfH-gx-c7l">
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" fixedFrame="YES" image="userinput.png" translatesAutoresizingMaskIntoConstraints="NO" id="lfH-gx-c7l">
                             <rect key="frame" x="2" y="107" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J10-wI-LTQ">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J10-wI-LTQ">
                             <rect key="frame" x="25" y="104" width="135" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -710,7 +708,7 @@
                                 <action selector="newgameUserInput" destination="-1" eventType="touchUpInside" id="q6i-v3-B62"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="58">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58">
                             <rect key="frame" x="0.0" y="141" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -725,7 +723,7 @@
                                 <action selector="newgameVeryEasy" destination="-1" eventType="touchUpInside" id="255"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="59">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="59">
                             <rect key="frame" x="0.0" y="178" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -740,7 +738,7 @@
                                 <action selector="newgameEasy" destination="-1" eventType="touchUpInside" id="256"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="60">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="60">
                             <rect key="frame" x="0.0" y="215" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -755,7 +753,7 @@
                                 <action selector="newgameNormal" destination="-1" eventType="touchUpInside" id="257"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="61">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="61">
                             <rect key="frame" x="0.0" y="251" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -770,7 +768,7 @@
                                 <action selector="newgameHard" destination="-1" eventType="touchUpInside" id="258"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="94">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="94">
                             <rect key="frame" x="0.0" y="288" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -785,7 +783,7 @@
                                 <action selector="newgameVeryHard" destination="-1" eventType="touchUpInside" id="259"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="64">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="64">
                             <rect key="frame" x="0.0" y="336" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -804,92 +802,92 @@
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
-                <view tag="130" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="" id="ag0-Fg-5Cd">
+                <view tag="130" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="ag0-Fg-5Cd">
                     <rect key="frame" x="-200" y="60" width="160" height="420"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" tag="8885" contentMode="scaleToFill" image="ranking.png" id="cZO-Az-pXD">
+                        <imageView userInteractionEnabled="NO" tag="8885" contentMode="scaleToFill" fixedFrame="YES" image="ranking.png" translatesAutoresizingMaskIntoConstraints="NO" id="cZO-Az-pXD">
                             <rect key="frame" x="2" y="35" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="9086" contentMode="scaleToFill" image="logo-128.png" id="ruX-wY-xxN">
+                        <imageView userInteractionEnabled="NO" tag="9086" contentMode="scaleToFill" fixedFrame="YES" image="logo-128.png" translatesAutoresizingMaskIntoConstraints="NO" id="ruX-wY-xxN">
                             <rect key="frame" x="2" y="74" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" image="type_0_100b.png" id="HYF-Pw-xnc">
+                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" fixedFrame="YES" image="type_0_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="HYF-Pw-xnc">
                             <rect key="frame" x="4" y="131" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="82" contentMode="scaleToFill" image="type_1_100b.png" id="gp4-ga-ovq">
+                        <imageView userInteractionEnabled="NO" tag="82" contentMode="scaleToFill" fixedFrame="YES" image="type_1_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="gp4-ga-ovq">
                             <rect key="frame" x="4" y="180" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="83" contentMode="scaleToFill" image="type_2_100b.png" id="nVf-bP-nlg">
+                        <imageView userInteractionEnabled="NO" tag="83" contentMode="scaleToFill" fixedFrame="YES" image="type_2_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="nVf-bP-nlg">
                             <rect key="frame" x="4" y="229" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="84" contentMode="scaleToFill" image="type_3_100b.png" id="Jrl-zr-pig">
+                        <imageView userInteractionEnabled="NO" tag="84" contentMode="scaleToFill" fixedFrame="YES" image="type_3_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jrl-zr-pig">
                             <rect key="frame" x="4" y="278" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="type_4_100b.png" id="G2H-J8-Lkb">
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" fixedFrame="YES" image="type_4_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="G2H-J8-Lkb">
                             <rect key="frame" x="4" y="329" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="4la-Iv-HhB">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="4la-Iv-HhB">
                             <rect key="frame" x="61" y="5" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="g4M-bT-OA2">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4M-bT-OA2">
                             <rect key="frame" x="0.0" y="8" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat sudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="9WB-id-z27">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat sudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9WB-id-z27">
                             <rect key="frame" x="-300" y="151" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="my name" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="yKt-KK-Je9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="my name" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yKt-KK-Je9">
                             <rect key="frame" x="0.0" y="96" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat greater than" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="VtL-Hg-d7d">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat greater than" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtL-Hg-d7d">
                             <rect key="frame" x="-300" y="200" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat killer" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="102-uH-YkE">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat killer" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="102-uH-YkE">
                             <rect key="frame" x="-300" y="250" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat calcudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="HFb-TY-j2u">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat calcudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HFb-TY-j2u">
                             <rect key="frame" x="-300" y="299" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat symbolsudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QNY-Cr-MjE" userLabel="Label Daily Stat Symbol">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat symbolsudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QNY-Cr-MjE" userLabel="Label Daily Stat Symbol">
                             <rect key="frame" x="-300" y="350" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8NL-2g-MgI">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8NL-2g-MgI">
                             <rect key="frame" x="20" y="30" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -904,7 +902,7 @@
                                 <action selector="showRankView" destination="-1" eventType="touchUpInside" id="iG9-r0-TFq"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b2L-WL-re7">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b2L-WL-re7">
                             <rect key="frame" x="20" y="69" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -919,7 +917,7 @@
                                 <action selector="changeNickName" destination="-1" eventType="touchUpInside" id="Y0f-X5-wpb"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vis-j3-7tz">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vis-j3-7tz">
                             <rect key="frame" x="36" y="128" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -931,7 +929,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="894-09-e9z">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="894-09-e9z">
                             <rect key="frame" x="36" y="177" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -943,7 +941,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cAk-tI-BYC">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cAk-tI-BYC">
                             <rect key="frame" x="36" y="226" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -955,7 +953,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CAQ-dI-pLP">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CAQ-dI-pLP">
                             <rect key="frame" x="36" y="275" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -967,7 +965,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7eT-Jb-L24" userLabel="Button Daily Game Symbol">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7eT-Jb-L24" userLabel="Button Daily Game Symbol">
                             <rect key="frame" x="36" y="326" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -979,7 +977,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="u1h-v6-N2b">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u1h-v6-N2b">
                             <rect key="frame" x="0.0" y="378" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -994,7 +992,7 @@
                                 <action selector="dailygameCancel" destination="-1" eventType="touchUpInside" id="YP6-oP-B91"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="M2v-Za-8bV">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M2v-Za-8bV">
                             <rect key="frame" x="43" y="235" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1009,7 +1007,7 @@
                                 <action selector="dailygameKiller" destination="-1" eventType="touchUpInside" id="zAO-Cy-xdA"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bNc-pI-y6R">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bNc-pI-y6R">
                             <rect key="frame" x="98" y="283" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1024,7 +1022,7 @@
                                 <action selector="dailygameCalcudoku0" destination="-1" eventType="touchUpInside" id="Gjf-yr-D1d"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mFs-BL-IGG">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mFs-BL-IGG">
                             <rect key="frame" x="43" y="283" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1039,7 +1037,7 @@
                                 <action selector="dailygameCalcudoku" destination="-1" eventType="touchUpInside" id="8eG-uR-GTH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zoe-JM-hUM">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zoe-JM-hUM">
                             <rect key="frame" x="43" y="136" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1054,7 +1052,7 @@
                                 <action selector="dailygameSudoku" destination="-2" eventType="touchUpInside" id="wWj-cq-5eq"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vco-rr-7dG">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vco-rr-7dG">
                             <rect key="frame" x="43" y="185" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1069,7 +1067,7 @@
                                 <action selector="dailygameGt" destination="-1" eventType="touchUpInside" id="bg3-eZ-6W6"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Rhd-jy-rlo">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rhd-jy-rlo">
                             <rect key="frame" x="98" y="136" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1084,7 +1082,7 @@
                                 <action selector="dailygameSudoku0" destination="-1" eventType="touchUpInside" id="dyt-Tz-Skm"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="pTy-CY-bRc">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTy-CY-bRc">
                             <rect key="frame" x="98" y="335" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1099,7 +1097,7 @@
                                 <action selector="dailygameSymbolSudoku0" destination="-1" eventType="touchUpInside" id="tsC-FX-LC8"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="zgk-0k-LXX">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zgk-0k-LXX">
                             <rect key="frame" x="43" y="335" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1114,7 +1112,7 @@
                                 <action selector="dailygameSymbolSudoku" destination="-1" eventType="touchUpInside" id="Dz1-Ut-MOL"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cnM-xW-CPV">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cnM-xW-CPV">
                             <rect key="frame" x="98" y="185" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1129,7 +1127,7 @@
                                 <action selector="dailygameGt0" destination="-1" eventType="touchUpInside" id="RsO-Ut-Bmp"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="g5Z-gY-et5">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5Z-gY-et5">
                             <rect key="frame" x="98" y="235" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -1155,13 +1153,13 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="320" y="239"/>
+            <point key="canvasLocation" x="463.768115942029" y="160.04464285714286"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="146" customClass="MainView">
             <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="188">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="188">
                     <rect key="frame" x="3" y="3" width="320" height="314"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1174,7 +1172,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="192">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="192">
                     <rect key="frame" x="331" y="70" width="140" height="167"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1187,7 +1185,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="336">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="336">
                     <rect key="frame" x="0.0" y="400" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1200,7 +1198,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b1B-9M-oDJ">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b1B-9M-oDJ">
                     <rect key="frame" x="0.0" y="400" width="320" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <color key="backgroundColor" red="0.66666668653488159" green="0.66666668653488159" blue="0.66666668653488159" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1213,18 +1211,18 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="163">
+                <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="163">
                     <rect key="frame" x="0.0" y="325" width="485" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="level_01.png" id="vtl-Nw-te5">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="level_01.png" translatesAutoresizingMaskIntoConstraints="NO" id="vtl-Nw-te5">
                     <rect key="frame" x="0.0" y="-100" width="24" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" id="13p-aJ-2qp">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{userlevel}" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="13p-aJ-2qp">
                     <rect key="frame" x="-100" y="-100" width="63" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -1232,7 +1230,7 @@
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" id="el5-pp-AVV">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{username}" textAlignment="right" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="el5-pp-AVV">
                     <rect key="frame" x="-100" y="-100" width="175" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -1240,14 +1238,14 @@
                     <color key="textColor" red="0.23137254900000001" green="0.2784313725" blue="0.41960784309999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="level" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="162">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="level" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="162">
                     <rect key="frame" x="330" y="-100" width="80" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="159">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{level}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="159">
                     <rect key="frame" x="329" y="33" width="80" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game level"/>
@@ -1255,14 +1253,14 @@
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="160">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="blank" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="160">
                     <rect key="frame" x="422" y="33" width="50" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="157">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{blank}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="157">
                     <rect key="frame" x="422" y="48" width="50" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
@@ -1270,14 +1268,14 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="hint" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="147" userLabel="Label - hint">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="hint" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="147" userLabel="Label - hint">
                     <rect key="frame" x="370" y="3" width="66" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="151" userLabel="Label - {hint}">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="{hint}" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="151" userLabel="Label - {hint}">
                     <rect key="frame" x="370" y="18" width="66" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Blank"/>
@@ -1285,14 +1283,14 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="game time" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="161">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="game time" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="161">
                     <rect key="frame" x="404" y="-100" width="75" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="158">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="158">
                     <rect key="frame" x="329" y="48" width="80" height="12"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <accessibility key="accessibilityConfiguration" label="Game Time"/>
@@ -1300,14 +1298,14 @@
                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" text="12:00 AM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="KrN-vH-TjH" userLabel="Label Title Game Time">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" text="12:00 AM" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="KrN-vH-TjH" userLabel="Label Title Game Time">
                     <rect key="frame" x="-100" y="-100" width="64" height="15"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                     <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="293">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="293">
                     <rect key="frame" x="326" y="3" width="50" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1323,7 +1321,7 @@
                         <action selector="showMenu" destination="-1" eventType="touchUpInside" id="294"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="153">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="153">
                     <rect key="frame" x="429" y="3" width="50" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1339,7 +1337,7 @@
                         <action selector="doHint" destination="-1" eventType="touchUpInside" id="176"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="148">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="148">
                     <rect key="frame" x="330" y="240" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1355,7 +1353,7 @@
                         <action selector="runUndo" destination="-1" eventType="touchDown" id="301"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="215">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="215">
                     <rect key="frame" x="386" y="240" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1371,7 +1369,7 @@
                         <action selector="runBookmark" destination="-1" eventType="touchUpInside" id="216"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="209">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="209">
                     <rect key="frame" x="439" y="240" width="36" height="36"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1387,7 +1385,7 @@
                         <action selector="runRedo" destination="-1" eventType="touchDown" id="302"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="154">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="154">
                     <rect key="frame" x="326" y="279" width="60" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1403,7 +1401,7 @@
                         <action selector="delNumber" destination="-1" eventType="touchUpInside" id="175"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="152">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="152">
                     <rect key="frame" x="419" y="279" width="60" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1419,7 +1417,7 @@
                         <action selector="memoOnOff" destination="-1" eventType="touchUpInside" id="179"/>
                     </connections>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="444">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="444">
                     <rect key="frame" x="80" y="196" width="160" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1432,7 +1430,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="391">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="391">
                     <rect key="frame" x="165" y="93" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1445,7 +1443,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="397">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="397">
                     <rect key="frame" x="165" y="146" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1458,7 +1456,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="95" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="OoV-3N-FMt">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="95" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="OoV-3N-FMt">
                     <rect key="frame" x="27" y="93" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1468,7 +1466,7 @@
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="71" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" id="438">
+                <button opaque="NO" clearsContextBeforeDrawing="NO" tag="71" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="438">
                     <rect key="frame" x="27" y="147" width="130" height="40"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1481,7 +1479,7 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="448">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="448">
                     <rect key="frame" x="284" y="66" width="18" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1493,27 +1491,27 @@
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
-                <view tag="90" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="" id="uQU-ik-fxy">
+                <view tag="90" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="uQU-ik-fxy">
                     <rect key="frame" x="0.0" y="0.0" width="160" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="111" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="bWj-GB-ttc">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="111" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="bWj-GB-ttc">
                             <rect key="frame" x="61" y="36" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <imageView userInteractionEnabled="NO" tag="7781" contentMode="scaleToFill" misplaced="YES" image="earth.png" id="Nnh-r2-IWQ">
+                        <imageView userInteractionEnabled="NO" tag="7781" contentMode="scaleToFill" fixedFrame="YES" image="earth.png" translatesAutoresizingMaskIntoConstraints="NO" id="Nnh-r2-IWQ">
                             <rect key="frame" x="1" y="40" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="7783" contentMode="scaleToFill" misplaced="YES" image="setting.png" id="IYr-fx-4TG">
+                        <imageView userInteractionEnabled="NO" tag="7783" contentMode="scaleToFill" fixedFrame="YES" image="setting.png" translatesAutoresizingMaskIntoConstraints="NO" id="IYr-fx-4TG">
                             <rect key="frame" x="1" y="128" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="7782" contentMode="scaleToFill" misplaced="YES" image="score.png" id="QhU-Id-Ah3">
+                        <imageView userInteractionEnabled="NO" tag="7782" contentMode="scaleToFill" fixedFrame="YES" image="score.png" translatesAutoresizingMaskIntoConstraints="NO" id="QhU-Id-Ah3">
                             <rect key="frame" x="1" y="98" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="zF5-bj-dMC">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="zF5-bj-dMC">
                             <rect key="frame" x="26" y="8" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1529,7 +1527,7 @@
                                 <action selector="showNewGame" destination="-1" eventType="touchUpInside" id="5Ch-Wf-r1u"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="pks-3Q-CBh">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="pks-3Q-CBh">
                             <rect key="frame" x="26" y="38" width="134" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1545,7 +1543,7 @@
                                 <action selector="showDailyGame" destination="-1" eventType="touchUpInside" id="2ET-AK-nNH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="v2u-xw-hSF">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="v2u-xw-hSF">
                             <rect key="frame" x="26" y="98" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1561,7 +1559,7 @@
                                 <action selector="showScoreView" destination="-1" eventType="touchUpInside" id="Qbi-kW-q0b"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="ZsU-Uh-4Lj">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="ZsU-Uh-4Lj">
                             <rect key="frame" x="26" y="68" width="134" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1577,7 +1575,7 @@
                                 <action selector="showQuestView" destination="-1" eventType="touchUpInside" id="Oma-Gm-FM3"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="7OO-XI-aOC">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7OO-XI-aOC">
                             <rect key="frame" x="26" y="128" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1592,7 +1590,7 @@
                                 <action selector="showSettingView" destination="-1" eventType="touchUpInside" id="b3p-B5-YT6"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="Nv0-WS-nN6">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Nv0-WS-nN6">
                             <rect key="frame" x="26" y="158" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1608,7 +1606,7 @@
                                 <action selector="clearNumbers" destination="-1" eventType="touchUpInside" id="fxf-2P-ZhH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="Q5C-bo-Dkq">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Q5C-bo-Dkq">
                             <rect key="frame" x="26" y="188" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1621,7 +1619,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="dgN-51-Re8">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dgN-51-Re8">
                             <rect key="frame" x="26" y="218" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1637,7 +1635,7 @@
                                 <action selector="showHelpView" destination="-1" eventType="touchUpInside" id="pvv-gR-gEh"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bTm-rG-AZZ">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bTm-rG-AZZ">
                             <rect key="frame" x="26" y="248" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1652,7 +1650,7 @@
                                 <action selector="showFeedbackView" destination="-1" eventType="touchUpInside" id="P9Y-Ey-51x"/>
                             </connections>
                         </button>
-                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" id="Eac-Ob-QHV">
+                        <button opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="Eac-Ob-QHV">
                             <rect key="frame" x="26" y="284" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.46803882419999998" green="0.56642078100000004" blue="0.94897959180000002" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1668,11 +1666,11 @@
                                 <action selector="menuCancel" destination="-1" eventType="touchUpInside" id="fDp-gK-yJi"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" misplaced="YES" image="share.png" id="vrK-wl-o9w">
+                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" fixedFrame="YES" image="share.png" translatesAutoresizingMaskIntoConstraints="NO" id="vrK-wl-o9w">
                             <rect key="frame" x="1" y="188" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="6681" contentMode="scaleToFill" misplaced="YES" image="help.png" id="jxe-tr-q0z">
+                        <imageView userInteractionEnabled="NO" tag="6681" contentMode="scaleToFill" fixedFrame="YES" image="help.png" translatesAutoresizingMaskIntoConstraints="NO" id="jxe-tr-q0z">
                             <rect key="frame" x="1" y="218" width="30" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
@@ -1680,11 +1678,11 @@
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" label="MenuView"/>
                 </view>
-                <view tag="110" contentMode="scaleToFill" restorationIdentifier="" id="MJ2-W4-s4A">
+                <view tag="110" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="MJ2-W4-s4A">
                     <rect key="frame" x="-160" y="0.0" width="160" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="3nY-Dx-8aQ">
+                        <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="3nY-Dx-8aQ">
                             <rect key="frame" x="10" y="8" width="139" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -1698,18 +1696,18 @@
                                 <action selector="setSudokuType" destination="-1" eventType="valueChanged" id="Vdd-iV-xAT"/>
                             </connections>
                         </segmentedControl>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="sudoku type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="c7S-DI-Gsc">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="sudoku type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c7S-DI-Gsc">
                             <rect key="frame" x="6" y="40" width="144" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="zlk-mk-5AQ">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="zlk-mk-5AQ">
                             <rect key="frame" x="61" y="57" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NNn-pg-GXO">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NNn-pg-GXO">
                             <rect key="frame" x="16" y="56" width="32" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
@@ -1724,14 +1722,14 @@
                                 <action selector="changeAutoMemo" destination="-1" eventType="touchDown" id="oOJ-mR-mLw"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="auto memo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eXb-cd-sv9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="auto memo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eXb-cd-sv9">
                             <rect key="frame" x="59" y="61" width="101" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="15"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TtG-Pr-5vF">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TtG-Pr-5vF">
                             <rect key="frame" x="0.0" y="130" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1746,7 +1744,7 @@
                                 <action selector="newgameVeryEasy" destination="-1" eventType="touchUpInside" id="Swu-ia-iKK"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nZD-pm-Z0u">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nZD-pm-Z0u">
                             <rect key="frame" x="26" y="98" width="134" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1761,11 +1759,11 @@
                                 <action selector="newgameUserInput" destination="-1" eventType="touchUpInside" id="oSi-aC-k5l"/>
                             </connections>
                         </button>
-                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" image="userinput.png" id="e6U-PT-snM">
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" fixedFrame="YES" image="userinput.png" translatesAutoresizingMaskIntoConstraints="NO" id="e6U-PT-snM">
                             <rect key="frame" x="2" y="101" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qSO-yL-Rfo">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qSO-yL-Rfo">
                             <rect key="frame" x="0.0" y="162" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1780,7 +1778,7 @@
                                 <action selector="newgameEasy" destination="-1" eventType="touchUpInside" id="Yn3-xB-Nfe"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hot-oZ-AQL">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hot-oZ-AQL">
                             <rect key="frame" x="0.0" y="195" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1795,7 +1793,7 @@
                                 <action selector="newgameNormal" destination="-1" eventType="touchUpInside" id="pEO-Oq-ScG"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JPc-Gi-jBA">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JPc-Gi-jBA">
                             <rect key="frame" x="0.0" y="226" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1810,7 +1808,7 @@
                                 <action selector="newgameHard" destination="-1" eventType="touchUpInside" id="zVf-bI-15A"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="L0V-fN-jw6">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L0V-fN-jw6">
                             <rect key="frame" x="0.0" y="254" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1825,7 +1823,7 @@
                                 <action selector="newgameVeryHard" destination="-1" eventType="touchUpInside" id="cAh-HV-Icg"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yRL-lv-wac">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yRL-lv-wac">
                             <rect key="frame" x="0.0" y="288" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -1844,92 +1842,92 @@
                     <color key="backgroundColor" red="0.47450980390000003" green="0.56862745100000001" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <accessibility key="accessibilityConfiguration" label="NewGameView"/>
                 </view>
-                <view tag="130" contentMode="scaleToFill" misplaced="YES" restorationIdentifier="" id="nt5-UD-AE6">
+                <view tag="130" contentMode="scaleToFill" fixedFrame="YES" restorationIdentifier="" translatesAutoresizingMaskIntoConstraints="NO" id="nt5-UD-AE6">
                     <rect key="frame" x="-160" y="0.0" width="160" height="320"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
-                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" hidesWhenStopped="YES" style="whiteLarge" id="dOA-L6-UCO">
+                        <activityIndicatorView hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="dOA-L6-UCO">
                             <rect key="frame" x="61" y="-2" width="37" height="37"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </activityIndicatorView>
-                        <imageView userInteractionEnabled="NO" tag="8885" contentMode="scaleToFill" image="ranking.png" id="2VY-8n-dR6">
+                        <imageView userInteractionEnabled="NO" tag="8885" contentMode="scaleToFill" fixedFrame="YES" image="ranking.png" translatesAutoresizingMaskIntoConstraints="NO" id="2VY-8n-dR6">
                             <rect key="frame" x="2" y="14" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" image="type_0_100b.png" id="xIZ-gO-P6J">
+                        <imageView userInteractionEnabled="NO" tag="81" contentMode="scaleToFill" fixedFrame="YES" image="type_0_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="xIZ-gO-P6J">
                             <rect key="frame" x="4" y="96" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="82" contentMode="scaleToFill" image="type_1_100b.png" id="Gf9-1n-Sbr">
+                        <imageView userInteractionEnabled="NO" tag="82" contentMode="scaleToFill" fixedFrame="YES" image="type_1_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="Gf9-1n-Sbr">
                             <rect key="frame" x="4" y="134" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="83" contentMode="scaleToFill" image="type_2_100b.png" id="Qpn-5E-S9O">
+                        <imageView userInteractionEnabled="NO" tag="83" contentMode="scaleToFill" fixedFrame="YES" image="type_2_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="Qpn-5E-S9O">
                             <rect key="frame" x="4" y="172" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="84" contentMode="scaleToFill" image="type_3_100b.png" id="WbU-4X-Puh">
+                        <imageView userInteractionEnabled="NO" tag="84" contentMode="scaleToFill" fixedFrame="YES" image="type_3_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="WbU-4X-Puh">
                             <rect key="frame" x="4" y="210" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" misplaced="YES" image="type_4_100b.png" id="hdX-wC-8OM">
+                        <imageView userInteractionEnabled="NO" tag="85" contentMode="scaleToFill" fixedFrame="YES" image="type_4_100b.png" translatesAutoresizingMaskIntoConstraints="NO" id="hdX-wC-8OM">
                             <rect key="frame" x="4" y="245" width="20" height="20"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat sudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iOv-Iw-R6V">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat sudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOv-Iw-R6V">
                             <rect key="frame" x="-300" y="115" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat greater than" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="1cU-Y5-KEf">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat greater than" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1cU-Y5-KEf">
                             <rect key="frame" x="-300" y="153.5" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat killer" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="QWm-8H-JMT">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat killer" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QWm-8H-JMT">
                             <rect key="frame" x="-300" y="192" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat calcudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MWn-p1-kmr">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat calcudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MWn-p1-kmr">
                             <rect key="frame" x="-300" y="230" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" misplaced="YES" text="daily stat symbolsudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fRl-ge-nxS">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat symbolsudoku" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRl-ge-nxS">
                             <rect key="frame" x="-300" y="266" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <imageView userInteractionEnabled="NO" tag="9086" contentMode="scaleToFill" image="logo-128.png" id="b28-g7-wYj">
+                        <imageView userInteractionEnabled="NO" tag="9086" contentMode="scaleToFill" fixedFrame="YES" image="logo-128.png" translatesAutoresizingMaskIntoConstraints="NO" id="b28-g7-wYj">
                             <rect key="frame" x="2" y="49" width="24" height="24"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="my name" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="YQw-29-nc9">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="my name" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQw-29-nc9">
                             <rect key="frame" x="0.0" y="72" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="daily stat" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="RQj-WE-Rek">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="daily stat" textAlignment="center" lineBreakMode="middleTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQj-WE-Rek">
                             <rect key="frame" x="0.0" y="-1" width="160" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <color key="textColor" red="0.054849367588758469" green="0.19804610311985016" blue="0.45828866958618164" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ojp-zH-Wpo">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ojp-zH-Wpo">
                             <rect key="frame" x="20" y="9" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1944,7 +1942,7 @@
                                 <action selector="showRankView" destination="-1" eventType="touchUpInside" id="NiJ-bn-NML"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="02a-ax-pZp">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="02a-ax-pZp">
                             <rect key="frame" x="20" y="45" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="18"/>
@@ -1959,7 +1957,7 @@
                                 <action selector="changeNickName" destination="-1" eventType="touchUpInside" id="Ozn-cs-ztH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="fHb-Rg-KDm">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fHb-Rg-KDm">
                             <rect key="frame" x="33" y="93" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -1971,7 +1969,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="ter-Im-zuQ">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ter-Im-zuQ">
                             <rect key="frame" x="33" y="131" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -1983,7 +1981,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="NqK-RN-wMV">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NqK-RN-wMV">
                             <rect key="frame" x="33" y="169" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -1995,7 +1993,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="um6-IC-igi">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="um6-IC-igi">
                             <rect key="frame" x="33" y="207" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -2007,7 +2005,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="tvV-Jv-AxK">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tvV-Jv-AxK">
                             <rect key="frame" x="33" y="243" width="120" height="15"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="12"/>
@@ -2019,7 +2017,7 @@
                                 <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </state>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="biz-OF-pE0">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="biz-OF-pE0">
                             <rect key="frame" x="0.0" y="289" width="160" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -2034,7 +2032,7 @@
                                 <action selector="dailygameCancel" destination="-1" eventType="touchUpInside" id="6nS-sP-mQH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kMc-55-BCQ">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kMc-55-BCQ">
                             <rect key="frame" x="95" y="213" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2049,7 +2047,7 @@
                                 <action selector="dailygameCalcudoku0" destination="-1" eventType="touchUpInside" id="v3V-9N-V2s"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dYg-xR-mgA">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dYg-xR-mgA">
                             <rect key="frame" x="40" y="213" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2064,7 +2062,7 @@
                                 <action selector="dailygameCalcudoku" destination="-1" eventType="touchUpInside" id="vhg-ev-NtZ"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="6nf-PB-Nuh">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6nf-PB-Nuh">
                             <rect key="frame" x="95" y="137" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2079,7 +2077,7 @@
                                 <action selector="dailygameGt0" destination="-1" eventType="touchUpInside" id="ft6-5E-geA"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="mHa-AJ-8OZ">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mHa-AJ-8OZ">
                             <rect key="frame" x="95" y="98" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2094,7 +2092,7 @@
                                 <action selector="dailygameSudoku0" destination="-1" eventType="touchUpInside" id="t41-hB-lny"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2se-iG-kbc">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2se-iG-kbc">
                             <rect key="frame" x="95" y="176" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2109,7 +2107,7 @@
                                 <action selector="dailygameKiller0" destination="-1" eventType="touchUpInside" id="qYV-Th-BrH"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Kcf-LD-nOD">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kcf-LD-nOD">
                             <rect key="frame" x="95" y="253" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2124,7 +2122,7 @@
                                 <action selector="dailygameSymbolSudoku0" destination="-1" eventType="touchUpInside" id="hke-Sn-7ZM"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sGb-5m-6qR">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGb-5m-6qR">
                             <rect key="frame" x="40" y="137" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2139,7 +2137,7 @@
                                 <action selector="dailygameGt" destination="-1" eventType="touchUpInside" id="ORQ-xf-7GV"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="1038" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sVf-TW-Jdk">
+                        <button opaque="NO" tag="1038" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sVf-TW-Jdk">
                             <rect key="frame" x="40" y="98" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2154,7 +2152,7 @@
                                 <action selector="dailygameSudoku" destination="-2" eventType="touchUpInside" id="pCR-IB-CzT"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cTO-PX-lJM">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cTO-PX-lJM">
                             <rect key="frame" x="40" y="253" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2169,7 +2167,7 @@
                                 <action selector="dailygameSymbolSudoku" destination="-1" eventType="touchUpInside" id="DzY-r9-xW9"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qLL-wA-qrG">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qLL-wA-qrG">
                             <rect key="frame" x="40" y="176" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="17"/>
@@ -2195,38 +2193,38 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="306" y="686"/>
+            <point key="canvasLocation" x="443.47826086956525" y="459.375"/>
         </view>
     </objects>
     <resources>
-        <image name="bookmarkoff_n.png" width="64" height="64"/>
-        <image name="button_big_newgame.png" width="520" height="160"/>
-        <image name="button_big_playagain.png" width="520" height="160"/>
-        <image name="button_big_seereplay.png" width="520" height="160"/>
-        <image name="button_big_share.png" width="520" height="160"/>
+        <image name="bookmarkoff_n.png" width="51.200000762939453" height="51.200000762939453"/>
+        <image name="button_big_newgame.png" width="390" height="120"/>
+        <image name="button_big_playagain.png" width="390" height="120"/>
+        <image name="button_big_seereplay.png" width="390" height="120"/>
+        <image name="button_big_share.png" width="390" height="120"/>
         <image name="buttonbg.png" width="100" height="64"/>
         <image name="checkbox_c.png" width="48" height="48"/>
         <image name="close.png" width="37" height="38"/>
-        <image name="earth.png" width="128" height="128"/>
-        <image name="help.png" width="128" height="128"/>
-        <image name="level_01.png" width="96" height="64"/>
-        <image name="logo-128.png" width="128" height="128"/>
-        <image name="ranking.png" width="160" height="160"/>
-        <image name="redo_d.png" width="64" height="64"/>
-        <image name="score.png" width="128" height="128"/>
-        <image name="setting.png" width="128" height="128"/>
-        <image name="share.png" width="128" height="128"/>
-        <image name="type_0_100b.png" width="100" height="100"/>
-        <image name="type_0_120s.png" width="120" height="120"/>
-        <image name="type_1_100b.png" width="100" height="100"/>
-        <image name="type_1_120s.png" width="120" height="120"/>
-        <image name="type_2_100b.png" width="100" height="100"/>
-        <image name="type_2_120s.png" width="120" height="120"/>
-        <image name="type_3_100b.png" width="100" height="100"/>
-        <image name="type_3_120s.png" width="120" height="120"/>
-        <image name="type_4_100b.png" width="100" height="100"/>
-        <image name="type_4_120s.png" width="120" height="120"/>
-        <image name="undo_d.png" width="64" height="64"/>
-        <image name="userinput.png" width="128" height="128"/>
+        <image name="earth.png" width="96" height="96"/>
+        <image name="help.png" width="96" height="96"/>
+        <image name="level_01.png" width="72" height="48"/>
+        <image name="logo-128.png" width="96" height="96"/>
+        <image name="ranking.png" width="80" height="80"/>
+        <image name="redo_d.png" width="48" height="48"/>
+        <image name="score.png" width="96" height="96"/>
+        <image name="setting.png" width="96" height="96"/>
+        <image name="share.png" width="96" height="96"/>
+        <image name="type_0_100b.png" width="75" height="75"/>
+        <image name="type_0_120s.png" width="90" height="90"/>
+        <image name="type_1_100b.png" width="75" height="75"/>
+        <image name="type_1_120s.png" width="90" height="90"/>
+        <image name="type_2_100b.png" width="75" height="75"/>
+        <image name="type_2_120s.png" width="90" height="90"/>
+        <image name="type_3_100b.png" width="75" height="75"/>
+        <image name="type_3_120s.png" width="90" height="90"/>
+        <image name="type_4_100b.png" width="75" height="75"/>
+        <image name="type_4_120s.png" width="90" height="90"/>
+        <image name="undo_d.png" width="48" height="48"/>
+        <image name="userinput.png" width="96" height="96"/>
     </resources>
 </document>

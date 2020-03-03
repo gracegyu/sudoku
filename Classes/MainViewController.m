@@ -2453,6 +2453,7 @@ BOOL IsiPhoneX3(void)
 //	controller.title = gettext(@"Setting", nil);
 	
 	controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;//UIModalTransitionStylePartialCurl;
+    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
 	[self presentViewController:controller animated:YES completion:nil];
     // UIModalTransitionStyleCrossDissolve for newgame
 	
@@ -2491,6 +2492,10 @@ BOOL IsiPhoneX3(void)
 
 - (void) gotoRankingWebView:(BOOL)bMyRanking
 {
+//    NSString *nibName = cDeviceType == DEVICETYPE_IPAD ? @"RankView4iPad" :
+//    (IsiPhoneX3() ? @"RankView4iPhoneX" :
+//     (isLongIphone ? @"RankView4iPhone5" : @"RankView"));
+    
     DLog(@"showRankView");
     RankViewController *controller = [[RankViewController alloc] initWithNibName:
                                       cDeviceType == DEVICETYPE_IPAD ? @"RankView4iPad" :

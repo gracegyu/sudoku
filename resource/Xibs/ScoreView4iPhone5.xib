@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <deployment version="4352" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -90,7 +89,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" shadowImage="Default.png" id="42">
+                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translucent="NO" shadowImage="Default.png" translatesAutoresizingMaskIntoConstraints="NO" id="42">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -101,7 +100,7 @@
                             <barButtonItem key="rightBarButtonItem" id="139">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="140">
                                     <rect key="frame" x="247" y="7" width="57" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
                                         <color key="titleShadowColor" red="0.3333333432674408" green="0.3333333432674408" blue="0.3333333432674408" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -118,443 +117,498 @@
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="47">
+                <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="47">
                     <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="49">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" fixedFrame="YES" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="49">
                             <rect key="frame" x="0.0" y="488" width="325" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" text="greater than sudoku" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="186">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" text="greater than sudoku" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="186">
                             <rect key="frame" x="0.0" y="64" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" text="games" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="64">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" text="games" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="64">
                             <rect key="frame" x="81" y="64" width="50" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" text="clears" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="65">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" text="clears" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="65">
                             <rect key="frame" x="127" y="64" width="47" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" text="best time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="66">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" text="best time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="66">
                             <rect key="frame" x="232" y="64" width="57" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" text="average" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="67">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" text="average" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="67">
                             <rect key="frame" x="175" y="64" width="58" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="scaleToFill" text="very easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="59">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="scaleToFill" fixedFrame="YES" text="very easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="59">
                             <rect key="frame" x="0.0" y="111" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="60">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="60">
                             <rect key="frame" x="81" y="112" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="61">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="61">
                             <rect key="frame" x="127" y="112" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="14" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="62">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="14" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="62">
                             <rect key="frame" x="227" y="112" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="63">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="63">
                             <rect key="frame" x="171" y="112" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" text="easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="68">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" fixedFrame="YES" text="easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="68">
                             <rect key="frame" x="0.0" y="156" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="69">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="69">
                             <rect key="frame" x="81" y="157" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="70">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="70">
                             <rect key="frame" x="127" y="159" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="71">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="71">
                             <rect key="frame" x="227" y="157" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="25" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="72">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="25" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="72">
                             <rect key="frame" x="171" y="157" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="31" contentMode="scaleToFill" text="normal" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="73">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="31" contentMode="scaleToFill" fixedFrame="YES" text="normal" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="73">
                             <rect key="frame" x="0.0" y="201" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="32" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="74">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="32" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="74">
                             <rect key="frame" x="81" y="201" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="33" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="75">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="33" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="75">
                             <rect key="frame" x="127" y="201" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="34" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="76">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="34" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="76">
                             <rect key="frame" x="227" y="201" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="35" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="77">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="35" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="77">
                             <rect key="frame" x="171" y="201" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="41" contentMode="scaleToFill" text="hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="78">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="41" contentMode="scaleToFill" fixedFrame="YES" text="hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="78">
                             <rect key="frame" x="0.0" y="246" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="42" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="79">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="42" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="79">
                             <rect key="frame" x="81" y="246" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="43" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="80">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="43" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="80">
                             <rect key="frame" x="127" y="246" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="44" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="81">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="44" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="81">
                             <rect key="frame" x="227" y="246" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="45" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="82">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="45" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="82">
                             <rect key="frame" x="171" y="246" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="51" contentMode="scaleToFill" text="very hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="83">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="51" contentMode="scaleToFill" fixedFrame="YES" text="very hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="83">
                             <rect key="frame" x="0.0" y="291" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="52" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="84">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="52" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="84">
                             <rect key="frame" x="81" y="291" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="53" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="85">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="53" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="85">
                             <rect key="frame" x="127" y="291" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="54" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="86">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="54" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="86">
                             <rect key="frame" x="227" y="291" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="55" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="87">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="55" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="87">
                             <rect key="frame" x="171" y="291" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="324">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="324">
                             <rect key="frame" x="81" y="133" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="113" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="325">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="113" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="325">
                             <rect key="frame" x="127" y="133" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="114" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="326">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="114" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="326">
                             <rect key="frame" x="227" y="133" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="115" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="327">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="115" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="327">
                             <rect key="frame" x="171" y="133" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="122" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="329">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="122" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="329">
                             <rect key="frame" x="81" y="178" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="123" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="330">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="123" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="330">
                             <rect key="frame" x="127" y="179" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="124" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="331">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="124" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="331">
                             <rect key="frame" x="227" y="178" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="125" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="332">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="125" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="332">
                             <rect key="frame" x="171" y="178" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="132" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="334">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="132" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="334">
                             <rect key="frame" x="81" y="222" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="133" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="335">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="133" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="335">
                             <rect key="frame" x="127" y="222" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="134" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="336">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="134" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="336">
                             <rect key="frame" x="227" y="222" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="135" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="337">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="135" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="337">
                             <rect key="frame" x="171" y="222" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="142" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="339">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="142" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="339">
                             <rect key="frame" x="81" y="266" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="143" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="340">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="143" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="340">
                             <rect key="frame" x="127" y="266" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="144" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="341">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="144" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="341">
                             <rect key="frame" x="227" y="266" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="145" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="342">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="145" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="342">
                             <rect key="frame" x="171" y="266" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="152" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="344">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="152" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="344">
                             <rect key="frame" x="81" y="311" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="153" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="345">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="153" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="345">
                             <rect key="frame" x="127" y="311" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="154" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="346">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="154" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="346">
                             <rect key="frame" x="227" y="311" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="155" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="347">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="155" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="347">
                             <rect key="frame" x="171" y="311" width="66" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" text="total" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="88">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" fixedFrame="YES" text="total" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="88">
                             <rect key="frame" x="0.0" y="335" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="62" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="89">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="62" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="89">
                             <rect key="frame" x="81" y="344" width="50" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="63" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="90">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="63" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="90">
                             <rect key="frame" x="127" y="344" width="47" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" text="point" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="129">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" fixedFrame="YES" text="point" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="129">
                             <rect key="frame" x="0.0" y="380" width="78" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" text="0" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="130">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="130">
                             <rect key="frame" x="102" y="388" width="206" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="300" contentMode="scaleToFill" text="Original" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="349">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="300" contentMode="scaleToFill" fixedFrame="YES" text="Original" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="349">
                             <rect key="frame" x="248" y="0.0" width="66" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -563,7 +617,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="scaleToFill" text="Auto" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="350">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="scaleToFill" fixedFrame="YES" text="Auto" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="350">
                             <rect key="frame" x="248" y="26" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -572,7 +626,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="135">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="135">
                             <rect key="frame" x="15" y="450" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -587,7 +641,7 @@
                                 <action selector="showGameCenterLeaderboard" destination="-1" eventType="touchUpInside" id="143"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="144">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="144">
                             <rect key="frame" x="168" y="450" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -602,8 +656,9 @@
                                 <action selector="showGameCenterAchievement" destination="-1" eventType="touchUpInside" id="146"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="376">
+                        <button opaque="NO" tag="201" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="376">
                             <rect key="frame" x="288" y="116" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -617,8 +672,9 @@
                                 <action selector="showGameCenterLeaderboardVeryEasy" destination="-1" eventType="touchUpInside" id="396"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="377">
+                        <button opaque="NO" tag="202" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="377">
                             <rect key="frame" x="288" y="135" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -632,8 +688,9 @@
                                 <action selector="showGameCenterLeaderboardVeryEasy2" destination="-1" eventType="touchUpInside" id="397"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="378">
+                        <button opaque="NO" tag="203" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="378">
                             <rect key="frame" x="288" y="161" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -647,8 +704,9 @@
                                 <action selector="showGameCenterLeaderboardEasy" destination="-1" eventType="touchUpInside" id="398"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="204" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="379">
+                        <button opaque="NO" tag="204" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="379">
                             <rect key="frame" x="288" y="181" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -662,8 +720,9 @@
                                 <action selector="showGameCenterLeaderboardEasy2" destination="-1" eventType="touchUpInside" id="399"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="205" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="380">
+                        <button opaque="NO" tag="205" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="380">
                             <rect key="frame" x="288" y="204" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -677,8 +736,9 @@
                                 <action selector="showGameCenterLeaderboardNormal" destination="-1" eventType="touchUpInside" id="400"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="206" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="381">
+                        <button opaque="NO" tag="206" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="381">
                             <rect key="frame" x="288" y="224" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -692,8 +752,9 @@
                                 <action selector="showGameCenterLeaderboardNormal2" destination="-1" eventType="touchUpInside" id="401"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="207" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="382">
+                        <button opaque="NO" tag="207" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="382">
                             <rect key="frame" x="288" y="250" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -707,8 +768,9 @@
                                 <action selector="showGameCenterLeaderboardHard" destination="-1" eventType="touchUpInside" id="402"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="208" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="383">
+                        <button opaque="NO" tag="208" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="383">
                             <rect key="frame" x="288" y="270" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -722,8 +784,9 @@
                                 <action selector="showGameCenterLeaderboardHard2" destination="-1" eventType="touchUpInside" id="403"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="384">
+                        <button opaque="NO" tag="209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="384">
                             <rect key="frame" x="288" y="292" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -737,8 +800,9 @@
                                 <action selector="showGameCenterLeaderboardVeryHard" destination="-1" eventType="touchUpInside" id="404"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="210" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="385">
+                        <button opaque="NO" tag="210" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="385">
                             <rect key="frame" x="288" y="313" width="33" height="12"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
                             <size key="titleShadowOffset" width="1" height="1"/>
                             <state key="normal" title="#">
@@ -752,7 +816,7 @@
                                 <action selector="showGameCenterLeaderboardVeryHard2" destination="-1" eventType="touchUpInside" id="405"/>
                             </connections>
                         </button>
-                        <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="179">
+                        <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="179">
                             <rect key="frame" x="3" y="13" width="171" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -775,12 +839,13 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="139" y="152"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="406" userLabel="View" customClass="ScoreView">
             <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
-                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" id="407">
+                <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" barStyle="black" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="407">
                     <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -791,10 +856,10 @@
                             <barButtonItem key="rightBarButtonItem" id="482">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="483">
                                     <rect key="frame" x="491" y="7" width="57" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
-                                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="titleShadowColor" red="0.3333333432674408" green="0.3333333432674408" blue="0.3333333432674408" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <state key="highlighted">
@@ -809,11 +874,11 @@
                         </navigationItem>
                     </items>
                 </navigationBar>
-                <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="408">
+                <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="408">
                     <rect key="frame" x="0.0" y="44" width="568" height="276"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="452">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="452">
                             <rect key="frame" x="423" y="204" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -828,7 +893,7 @@
                                 <action selector="showGameCenterLeaderboard" destination="-1" eventType="touchUpInside" id="491"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="451">
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="451">
                             <rect key="frame" x="423" y="242" width="140" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS-Bold" family="Trebuchet MS" pointSize="15"/>
@@ -843,14 +908,14 @@
                                 <action selector="showGameCenterAchievement" destination="-1" eventType="touchUpInside" id="493"/>
                             </connections>
                         </button>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="480">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="99" contentMode="scaleToFill" fixedFrame="YES" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="480">
                             <rect key="frame" x="0.0" y="280" width="573" height="36"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="300" contentMode="scaleToFill" text="Original" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="420">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="300" contentMode="scaleToFill" fixedFrame="YES" text="Original" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="420">
                             <rect key="frame" x="423" y="44" width="140" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -859,7 +924,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="scaleToFill" text="Auto" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="419">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="301" contentMode="scaleToFill" fixedFrame="YES" text="Auto" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="419">
                             <rect key="frame" x="423" y="70" width="140" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -868,7 +933,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" text="greater than sudoku" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="442">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" text="greater than sudoku" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="442">
                             <rect key="frame" x="4" y="2" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
@@ -876,7 +941,7 @@
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" text="games" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="447">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="4" contentMode="scaleToFill" fixedFrame="YES" text="games" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="447">
                             <rect key="frame" x="101" y="2" width="50" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -885,7 +950,7 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" text="clears" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="444">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="scaleToFill" fixedFrame="YES" text="clears" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="444">
                             <rect key="frame" x="156" y="2" width="47" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -894,7 +959,7 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" text="best time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="446">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="scaleToFill" fixedFrame="YES" text="best time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="446">
                             <rect key="frame" x="284" y="2" width="57" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -903,7 +968,7 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" text="average" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="445">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="scaleToFill" fixedFrame="YES" text="average" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="445">
                             <rect key="frame" x="211" y="2" width="62" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -912,14 +977,14 @@
                             <color key="shadowColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="scaleToFill" text="very easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="479">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="11" contentMode="scaleToFill" fixedFrame="YES" text="very easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="479">
                             <rect key="frame" x="4" y="36" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="478">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="12" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="478">
                             <rect key="frame" x="101" y="39" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -928,7 +993,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="450">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="13" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="450">
                             <rect key="frame" x="156" y="39" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -937,7 +1002,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="14" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="477">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="14" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="477">
                             <rect key="frame" x="279" y="39" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -946,7 +1011,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="476">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="15" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="476">
                             <rect key="frame" x="211" y="39" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -955,14 +1020,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" text="easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="475">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="21" contentMode="scaleToFill" fixedFrame="YES" text="easy" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="475">
                             <rect key="frame" x="4" y="71" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="474">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="22" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="474">
                             <rect key="frame" x="101" y="74" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -971,7 +1036,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="449">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="23" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="449">
                             <rect key="frame" x="156" y="74" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -980,7 +1045,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="473">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="24" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="473">
                             <rect key="frame" x="279" y="74" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -989,7 +1054,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="25" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="472">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="25" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="472">
                             <rect key="frame" x="211" y="74" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -998,14 +1063,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="31" contentMode="scaleToFill" text="normal" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="471">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="31" contentMode="scaleToFill" fixedFrame="YES" text="normal" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="471">
                             <rect key="frame" x="4" y="105" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="32" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="470">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="32" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="470">
                             <rect key="frame" x="101" y="108" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1014,7 +1079,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="33" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="448">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="33" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="448">
                             <rect key="frame" x="156" y="108" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1023,7 +1088,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="34" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="469">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="34" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="469">
                             <rect key="frame" x="279" y="108" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1032,7 +1097,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="35" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="468">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="35" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="468">
                             <rect key="frame" x="211" y="108" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1041,14 +1106,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="41" contentMode="scaleToFill" text="hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="467">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="41" contentMode="scaleToFill" fixedFrame="YES" text="hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="467">
                             <rect key="frame" x="4" y="138" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="42" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="466">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="42" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="466">
                             <rect key="frame" x="101" y="143" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1057,7 +1122,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="43" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="465">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="43" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="465">
                             <rect key="frame" x="156" y="143" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1066,7 +1131,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="44" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="464">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="44" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="464">
                             <rect key="frame" x="279" y="143" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1075,7 +1140,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="45" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="463">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="45" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="463">
                             <rect key="frame" x="211" y="143" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1084,14 +1149,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="51" contentMode="scaleToFill" text="very hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="462">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="51" contentMode="scaleToFill" fixedFrame="YES" text="very hard" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="462">
                             <rect key="frame" x="4" y="173" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="52" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="461">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="52" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="461">
                             <rect key="frame" x="101" y="177" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1100,7 +1165,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="53" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="460">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="53" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="460">
                             <rect key="frame" x="156" y="177" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1109,7 +1174,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="54" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="459">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="54" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="459">
                             <rect key="frame" x="279" y="177" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1118,7 +1183,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="55" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="458">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="55" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="458">
                             <rect key="frame" x="211" y="177" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1127,7 +1192,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="441">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="112" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="441">
                             <rect key="frame" x="101" y="55" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1136,7 +1201,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="113" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="440">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="113" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="440">
                             <rect key="frame" x="156" y="55" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1145,7 +1210,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="114" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="439">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="114" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="439">
                             <rect key="frame" x="279" y="55" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1154,7 +1219,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="115" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="438">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="115" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="438">
                             <rect key="frame" x="211" y="55" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1163,7 +1228,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="122" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="437">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="122" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="437">
                             <rect key="frame" x="101" y="90" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1172,7 +1237,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="123" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="436">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="123" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="436">
                             <rect key="frame" x="156" y="90" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1181,7 +1246,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="124" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="435">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="124" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="435">
                             <rect key="frame" x="279" y="90" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1190,7 +1255,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="125" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="434">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="125" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="434">
                             <rect key="frame" x="211" y="90" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1199,7 +1264,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="132" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="433">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="132" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="433">
                             <rect key="frame" x="101" y="125" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1208,7 +1273,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="133" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="432">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="133" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="432">
                             <rect key="frame" x="156" y="125" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1217,7 +1282,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="134" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="431">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="134" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="431">
                             <rect key="frame" x="279" y="125" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1226,7 +1291,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="135" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="430">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="135" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="430">
                             <rect key="frame" x="211" y="125" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1235,7 +1300,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="142" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="429">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="142" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="429">
                             <rect key="frame" x="101" y="159" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1244,7 +1309,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="143" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="428">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="143" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="428">
                             <rect key="frame" x="156" y="159" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1253,7 +1318,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="144" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="427">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="144" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="427">
                             <rect key="frame" x="279" y="159" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1262,7 +1327,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="145" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="426">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="145" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="426">
                             <rect key="frame" x="211" y="159" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1271,7 +1336,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="152" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="425">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="152" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="425">
                             <rect key="frame" x="101" y="193" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1280,7 +1345,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="153" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="424">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="153" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="424">
                             <rect key="frame" x="156" y="193" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1289,7 +1354,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="154" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="423">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="154" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="423">
                             <rect key="frame" x="279" y="193" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1298,7 +1363,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="155" contentMode="scaleToFill" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" id="422">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="155" contentMode="scaleToFill" fixedFrame="YES" text="00:00" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="422">
                             <rect key="frame" x="211" y="193" width="66" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
@@ -1307,14 +1372,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" text="total" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="457">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="61" contentMode="scaleToFill" fixedFrame="YES" text="total" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="457">
                             <rect key="frame" x="4" y="207" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="62" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="456">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="62" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="456">
                             <rect key="frame" x="101" y="217" width="50" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1323,7 +1388,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="63" contentMode="scaleToFill" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="455">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="63" contentMode="scaleToFill" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="455">
                             <rect key="frame" x="156" y="217" width="47" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1332,14 +1397,14 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" text="point" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="454">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="64" contentMode="scaleToFill" fixedFrame="YES" text="point" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="454">
                             <rect key="frame" x="4" y="236" width="78" height="33"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" red="0.23011164549999999" green="0.27717557079999999" blue="0.41836734689999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" text="0" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" id="453">
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="65" contentMode="scaleToFill" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" numberOfLines="2" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="453">
                             <rect key="frame" x="141" y="246" width="219" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
@@ -1348,7 +1413,7 @@
                             <color key="shadowColor" red="0.38702315230000001" green="0.46118573159999998" blue="0.68367346939999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <size key="shadowOffset" width="1" height="1"/>
                         </label>
-                        <button opaque="NO" tag="201" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="418">
+                        <button opaque="NO" tag="201" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="418">
                             <rect key="frame" x="349" y="42" width="33" height="11"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1364,7 +1429,7 @@
                                 <action selector="showGameCenterLeaderboardVeryEasy" destination="-1" eventType="touchUpInside" id="490"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="202" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="417">
+                        <button opaque="NO" tag="202" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="417">
                             <rect key="frame" x="349" y="56" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
@@ -1380,7 +1445,7 @@
                                 <action selector="showGameCenterLeaderboardVeryEasy2" destination="-1" eventType="touchUpInside" id="498"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="203" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="416">
+                        <button opaque="NO" tag="203" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="416">
                             <rect key="frame" x="349" y="75" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1396,7 +1461,7 @@
                                 <action selector="showGameCenterLeaderboardEasy" destination="-1" eventType="touchUpInside" id="495"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="204" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="415">
+                        <button opaque="NO" tag="204" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="415">
                             <rect key="frame" x="349" y="91" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
@@ -1412,7 +1477,7 @@
                                 <action selector="showGameCenterLeaderboardEasy2" destination="-1" eventType="touchUpInside" id="496"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="205" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="414">
+                        <button opaque="NO" tag="205" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="414">
                             <rect key="frame" x="349" y="110" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1428,7 +1493,7 @@
                                 <action selector="showGameCenterLeaderboardNormal" destination="-1" eventType="touchUpInside" id="497"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="206" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="413">
+                        <button opaque="NO" tag="206" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="413">
                             <rect key="frame" x="349" y="126" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
@@ -1444,7 +1509,7 @@
                                 <action selector="showGameCenterLeaderboardNormal2" destination="-1" eventType="touchUpInside" id="485"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="207" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="412">
+                        <button opaque="NO" tag="207" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="412">
                             <rect key="frame" x="349" y="146" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1460,7 +1525,7 @@
                                 <action selector="showGameCenterLeaderboardHard" destination="-1" eventType="touchUpInside" id="492"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="208" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="411">
+                        <button opaque="NO" tag="208" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="411">
                             <rect key="frame" x="349" y="161" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
@@ -1476,7 +1541,7 @@
                                 <action selector="showGameCenterLeaderboardHard2" destination="-1" eventType="touchUpInside" id="486"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="209" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="410">
+                        <button opaque="NO" tag="209" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="410">
                             <rect key="frame" x="349" y="180" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="10"/>
@@ -1492,7 +1557,7 @@
                                 <action selector="showGameCenterLeaderboardVeryHard" destination="-1" eventType="touchUpInside" id="489"/>
                             </connections>
                         </button>
-                        <button opaque="NO" tag="210" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="409">
+                        <button opaque="NO" tag="210" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="409">
                             <rect key="frame" x="349" y="196" width="33" height="12"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="9"/>
@@ -1508,7 +1573,7 @@
                                 <action selector="showGameCenterLeaderboardVeryHard2" destination="-1" eventType="touchUpInside" id="494"/>
                             </connections>
                         </button>
-                        <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="421">
+                        <segmentedControl opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="421">
                             <rect key="frame" x="400" y="8" width="160" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <segments>
@@ -1531,16 +1596,17 @@
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="955" y="152"/>
         </view>
     </objects>
     <resources>
-        <image name="Default.png" width="320" height="568"/>
-        <image name="goachievement.png" width="600" height="120"/>
-        <image name="goleaderboard.png" width="600" height="120"/>
-        <image name="type_0_120s.png" width="120" height="120"/>
-        <image name="type_1_120s.png" width="120" height="120"/>
-        <image name="type_2_120s.png" width="120" height="120"/>
-        <image name="type_3_120s.png" width="120" height="120"/>
-        <image name="type_4_120s.png" width="120" height="120"/>
+        <image name="Default.png" width="480" height="852"/>
+        <image name="goachievement.png" width="450" height="90"/>
+        <image name="goleaderboard.png" width="450" height="90"/>
+        <image name="type_0_120s.png" width="90" height="90"/>
+        <image name="type_1_120s.png" width="90" height="90"/>
+        <image name="type_2_120s.png" width="90" height="90"/>
+        <image name="type_3_120s.png" width="90" height="90"/>
+        <image name="type_4_120s.png" width="90" height="90"/>
     </resources>
 </document>
