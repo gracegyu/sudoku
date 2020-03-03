@@ -21,7 +21,7 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="40" userLabel="View" customClass="HelpView">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" id="42">
@@ -53,25 +53,25 @@
                     </items>
                 </navigationBar>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="47">
-                    <rect key="frame" x="0.0" y="44" width="320" height="436"/>
+                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="88" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="49">
-                            <rect key="frame" x="0.0" y="411" width="325" height="17"/>
+                            <rect key="frame" x="0.0" y="499" width="325" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" text="Game rule" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="191">
-                            <rect key="frame" x="16" y="43" width="299" height="21"/>
+                            <rect key="frame" x="16" y="52" width="299" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="0.071920304589999998" green="0.1159280015" blue="0.1956521739" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" lineBreakMode="wordWrap" numberOfLines="30" baselineAdjustment="none" adjustsFontSizeToFit="NO" id="192">
-                            <rect key="frame" x="16" y="70" width="299" height="152"/>
+                            <rect key="frame" x="16" y="79" width="299" height="190"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                             <string key="text">The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 sub-grids that compose the grid contains all of the digits from 1 to 9.
 
@@ -80,7 +80,7 @@
 
 
 </string>
-                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
@@ -92,7 +92,7 @@
                                 <segment title="" image="type_1_120s.png"/>
                                 <segment title="" image="type_2_120s.png"/>
                                 <segment title="" image="type_3_120s.png"/>
-                                <segment title="" image="type_0_120s.png"/>
+                                <segment title="" image="type_4_120s.png"/>
                                 <segment title="Tip"/>
                             </segments>
                             <connections>
@@ -100,7 +100,7 @@
                             </connections>
                         </segmentedControl>
                         <button opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="229">
-                            <rect key="frame" x="0.0" y="206" width="315" height="230"/>
+                            <rect key="frame" x="0.0" y="262" width="320" height="246"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="help9_1_iphone.png">
@@ -119,15 +119,14 @@
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
-            <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="207" userLabel="View" customClass="HelpView">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="320"/>
+            <rect key="frame" x="0.0" y="0.0" width="568" height="320"/>
             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
             <subviews>
                 <navigationBar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" barStyle="black" translucent="NO" id="208">
-                    <rect key="frame" x="0.0" y="0.0" width="480" height="44"/>
+                    <rect key="frame" x="0.0" y="0.0" width="568" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                     <color key="tintColor" red="0.53333333329999999" green="0.65098039220000004" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
@@ -136,7 +135,7 @@
                         <navigationItem title="Help" id="217" userLabel="Navigation Item - Setting">
                             <barButtonItem key="rightBarButtonItem" id="218">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="219">
-                                    <rect key="frame" x="403" y="7" width="57" height="30"/>
+                                    <rect key="frame" x="491" y="7" width="57" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                     <state key="normal" title="Done">
@@ -152,25 +151,25 @@
                     </items>
                 </navigationBar>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="209">
-                    <rect key="frame" x="0.0" y="44" width="480" height="276"/>
+                    <rect key="frame" x="0.0" y="44" width="568" height="276"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="88" contentMode="scaleToFill" text="Ⓒ 2014 SmartOne, All rights reserved." textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="216">
-                            <rect key="frame" x="0.0" y="257" width="487" height="17"/>
+                            <rect key="frame" x="0.0" y="257" width="576.5" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="13"/>
                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" text="Game rule" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" id="215">
-                            <rect key="frame" x="16" y="10.5" width="251" height="21"/>
+                            <rect key="frame" x="19" y="10.5" width="297" height="21"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="16"/>
                             <color key="textColor" red="0.071920304589999998" green="0.1159280015" blue="0.1956521739" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="3" contentMode="scaleToFill" lineBreakMode="wordWrap" numberOfLines="30" baselineAdjustment="none" adjustsFontSizeToFit="NO" id="212">
-                            <rect key="frame" x="16" y="48" width="188" height="209"/>
+                            <rect key="frame" x="19" y="48" width="270.5" height="209"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <string key="text">The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 sub-grids that compose the grid contains all of the digits from 1 to 9.
 
@@ -183,12 +182,12 @@
 
 
 </string>
-                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="12"/>
+                            <fontDescription key="fontDescription" name="TrebuchetMS" family="Trebuchet MS" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <segmentedControl opaque="NO" tag="99" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="211">
-                            <rect key="frame" x="269" y="10.5" width="200" height="29"/>
+                            <rect key="frame" x="357" y="6.5" width="200" height="29"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="" image="type_0_120s.png"/>
@@ -200,7 +199,7 @@
                             </segments>
                         </segmentedControl>
                         <button opaque="NO" userInteractionEnabled="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="228">
-                            <rect key="frame" x="212" y="48" width="268" height="226"/>
+                            <rect key="frame" x="288" y="39.5" width="280" height="229.5"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" backgroundImage="help9_1_iphone.png">
