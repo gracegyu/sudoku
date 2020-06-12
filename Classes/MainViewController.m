@@ -1703,6 +1703,10 @@ BOOL IsiPhoneX3(void)
                     [model isEqualToString:@"iPhone10,6"] ||
                     [model rangeOfString:@"iPhone11,"].location != NSNotFound;
         if (version > 11) isiPhoneX = YES;
+        if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
+            if ((int)[[UIScreen mainScreen] nativeBounds].size.height < 1704)
+                isiPhoneX = NO;
+        }
     });
     
     return isiPhoneX;
