@@ -183,35 +183,14 @@
 
 BOOL IsiPhoneX2(void)
 {
-    static BOOL isiPhoneX = NO;
-    static dispatch_once_t onceToken;
-    
-    dispatch_once(&onceToken, ^{
-#if TARGET_IPHONE_SIMULATOR
-        NSString *model = NSProcessInfo.processInfo.environment[@"SIMULATOR_MODEL_IDENTIFIER"];
-#else
-        
-        struct utsname systemInfo;
-        uname(&systemInfo);
-        
-        NSString *model = [NSString stringWithCString:systemInfo.machine
-                                             encoding:NSUTF8StringEncoding];
-#endif
-        int version = 0;
-        if ([model length] >= 8)
-            version = [[model substringWithRange:NSMakeRange(6,2)] intValue];
-        DLog(@"model = %@, %d", model, version);
-        isiPhoneX = [model isEqualToString:@"iPhone10,3"] ||
-                    [model isEqualToString:@"iPhone10,6"] ||
-                    [model rangeOfString:@"iPhone11,"].location != NSNotFound;
-        if (version > 11) isiPhoneX = YES;
-        if([[UIDevice currentDevice]userInterfaceIdiom]==UIUserInterfaceIdiomPhone) {
-            if ((int)[[UIScreen mainScreen] nativeBounds].size.height < 1704)
-                isiPhoneX = NO;
+     BOOL iPhoneX = NO;
+    if (@available(iOS 11.0, *)) {
+        UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
+        if (mainWindow.safeAreaInsets.top > 24.0) {
+            iPhoneX = YES;
         }
-    });
-    
-    return isiPhoneX;
+    }
+    return iPhoneX;
 }
 
 
