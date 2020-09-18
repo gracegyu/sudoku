@@ -26,6 +26,8 @@
 #endif
 #import "UIDevice+IdentifierAddition.h"
 #import <sys/utsname.h>
+#import <AdSupport/ASIdentifierManager.h>
+#import <AppTrackingTransparency/ATTrackingManager.h>
 
 
 
@@ -1205,6 +1207,44 @@
 	 [self hideAwayView:viewNewGame];
 	 [self hideAwayView:viewDailyGame];
 
+     if (@available (iOS 14.0, *)) {
+         // 사용자 사용권 전에 한 번 IDFA의 취득을 시도합니다
+         ASIdentifierManager *identifierManager = [ASIdentifierManager sharedManager];
+         if ([identifierManager isAdvertisingTrackingEnabled]) {
+             NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+         } else {
+             NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+         }
+         NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+         NSLog(@"[idfa] %@", idfa);
+
+         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+             NSLog(@"in requestTrackingAuthorizationWithCompletionHandler");
+             if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
+                 NSLog(@"[requestTrackingAuthorization] authorized");
+             } else if (status == ATTrackingManagerAuthorizationStatusDenied) {
+                 NSLog(@"[requestTrackingAuthorization] denied");
+             } else {
+                 NSLog(@"[requestTrackingAuthorization] something else");
+             }
+
+             // 사용자 사용권 후에 IDFA의 취득을 시도합니다
+             if ([identifierManager isAdvertisingTrackingEnabled]) {
+                 NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+             } else {
+                 NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+             }
+             NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+             NSLog(@"[idfa] %@", idfa);
+         }];
+     } else {
+        if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+            NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+            NSLog(@"%@",idfa);
+        } else {
+            NSLog(@"Settings-Privacy-Ads에서 광고 추적 기능을 켜십시오.");
+        }
+     }
 
 
      // Create a view of the standard size at the bottom of the screen.
