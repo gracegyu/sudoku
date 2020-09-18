@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
+platform :ios, '12.0'
 target 'sudoku6free' do
 pod 'Google-Mobile-Ads-SDK'
 end
