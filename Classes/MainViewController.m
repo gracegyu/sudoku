@@ -3995,7 +3995,8 @@ BOOL IsiPhoneX3(void)
     
     NSString* strData = [self GetHTTPData:strURI	timeoutInterval:cDefaultHTTPTimeOut];
     
-    [strData release];
+    if (strData)
+        [strData release];
 
     return;
 }
