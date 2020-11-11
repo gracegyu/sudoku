@@ -4459,6 +4459,8 @@ BOOL IsiPhoneX3(void)
 
 - (void) updateButtonHint	// TODO     Hint 아이템이 남아있고 힌트 가능한 셀일경우 On;
 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+    
 	BOOL bLock = mainView.bMenuMode ||
                 (mainView.sudokuGame && mainView.sudokuGame.isGameFinished) ||
                 (mainView.sudokuGame && mainView.sudokuGame.gameLevel == GAMELEVEL_USERINPUT);    
@@ -4492,6 +4494,7 @@ BOOL IsiPhoneX3(void)
 		buttonHint.alpha = 0.3f;
 		buttonHint.enabled = NO;		
 	}
+    });
 }
 
 - (void) updateButtonMenu
