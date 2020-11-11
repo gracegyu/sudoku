@@ -539,6 +539,105 @@
 
 }
 
+
+
+
+- (IBAction)goDownload
+{
+    NSString *iTunesLink = @"itms://itunes.apple.com/app/apple-store/id1539312289?mt=8";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
+}
+
+
+//typedef struct SUDOKUSCORE
+//{
+//    NSInteger    scoreGames[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];                    // original:5 automemo:5, userinput 2
+//    NSInteger    scoreClears[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+//    NSInteger    scoreBestTime[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+//    NSInteger    scoreClearTimeSum[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];
+//    NSInteger    scoreRankLevel[SUDOKUTYPE_MAX][MAX_SCORE_TYPE];            // normal sudoku는 auto ranking도 저장
+//    NSInteger   scoreTotal;                                                 // 총점
+//    NSInteger   scoreRankTotal;                                             // 총점 랭킹
+//    NSUInteger  spendTotalSec;                                              // 지금까지 총 게임 시간(초)
+//} SUDOKUSCORE;
+
+
+//{
+//    "magicNumber":847362883,
+//    "userId":203437,
+//    "userName":"Raymond Jeon",
+//    "totalScore":11111,
+//    "totalSec":4444,
+//    "games":[3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3],
+//    "clears":[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+//    "bestTime":[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
+//    "clearTimeSum":[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33]
+//}
+
+- (IBAction)goMigration
+{
+    SUDOKUSCORE *pScore = [mainViewController getScore];
+//    mainViewController.gUserID;
+//    mainViewController.gUserName;
+//  mainViewController.score
+    NSMutableDictionary *jsonDic = [[NSMutableDictionary alloc] init];
+    [jsonDic setValue:[NSNumber numberWithInt:847362883] forKey:@"magicNumber"];
+    [jsonDic setValue:[NSNumber numberWithInteger:mainViewController.gUserID] forKey:@"userId"];
+    [jsonDic setValue:mainViewController.gUserName forKey:@"userName"];
+    [jsonDic setValue:[NSNumber numberWithInteger:pScore->scoreTotal] forKey:@"totalScore"];
+    [jsonDic setValue:[NSNumber numberWithInteger:pScore->spendTotalSec] forKey:@"totalSec"];
+    NSMutableArray *listGames = [[NSMutableArray alloc] init];
+    NSMutableArray *listClears = [[NSMutableArray alloc] init];
+    NSMutableArray *listBestTime = [[NSMutableArray alloc] init];
+    NSMutableArray *listClearTimeSum = [[NSMutableArray alloc] init];
+    for (NSInteger type=0; type<5; type++) {
+        for (NSInteger level=0; level<5; level++) {
+            [listGames addObject:[NSNumber numberWithInteger:pScore->scoreGames[type][level] + pScore->scoreGames[type][level+5]]];
+            [listClears addObject:[NSNumber numberWithInteger:pScore->scoreClears[type][level] + pScore->scoreClears[type][level+5]]];
+            [listBestTime addObject:[NSNumber numberWithInteger:pScore->scoreBestTime[type][level] + pScore->scoreBestTime[type][level+5]]];
+            [listClearTimeSum addObject:[NSNumber numberWithInteger:pScore->scoreClearTimeSum[type][level] + pScore->scoreClearTimeSum[type][level+5]]];
+        }
+    }
+    [jsonDic setValue:listGames forKey:@"games"];
+    [jsonDic setValue:listClears forKey:@"clears"];
+    [jsonDic setValue:listBestTime forKey:@"bestTime"];
+    [jsonDic setValue:listClearTimeSum forKey:@"clearTimeSum"];
+
+    NSString *jsonDicStr = [NSString stringWithFormat:@"%@", jsonDic];NSData* jsonData = [NSJSONSerialization dataWithJSONObject:jsonDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString* jsonDataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+
+    NSLog(@"jsonDicStr: %@", jsonDicStr);
+    NSLog(@"jsonDataStr: %@", jsonDataStr);
+    NSData *nsdata = [jsonDataStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
+    NSLog(@"base64Encoded: %@", base64Encoded);
+
+    NSString* customURL = [NSString stringWithFormat: @"sudoku9flutter://migration/%@", base64Encoded];
+    
+//    NSString *customURL = @"sudoku9flutter://migration/eyJtYWdpY051bWJlciI6ODQ3MzYyODgzLCJ1c2VySWQiOjIwMzQzNywidXNlck5hbWUiOiJSYXltb25kIEplb24iLCJ0b3RhbFNjb3JlIjoxMTExMSwidG90YWxTZWMiOjQ0NDQsImdhbWVzIjpbMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsM10sImNsZWFycyI6WzIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDJdLCJiZXN0VGltZSI6WzksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDldLCJjbGVhclRpbWVTdW0iOlszMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzM119";
+
+
+  if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:customURL]])
+  {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customURL]];
+  }
+  else
+  {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"URL error"
+                              message:[NSString stringWithFormat:@"No custom URL defined for %@", customURL]
+                              delegate:self cancelButtonTitle:@"Ok"
+                              otherButtonTitles:nil];
+    [alert show];
+  }
+
+
+    
+    
+    
+    
+
+}
+
 - (IBAction)goBugReport
 {
 #ifdef USE_JMC

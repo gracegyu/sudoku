@@ -169,6 +169,10 @@ TPMultiLayoutViewController
 - (IBAction)goReview;
 - (IBAction)goNewApps;
 
+- (IBAction)goDownload;
+- (IBAction)goMigration;
+
+
 - (IBAction)done;
 
 @end

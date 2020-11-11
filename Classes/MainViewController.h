@@ -502,7 +502,7 @@ typedef struct ADSTATE
 - (void) alertLocalizedAlertView:(NSString*)aMessage;
 - (void) logEventParam:(NSString*)event;
 - (void) updateClockTime;
-
+- (SUDOKUSCORE*) getScore;
 
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;

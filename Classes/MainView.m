@@ -2531,6 +2531,13 @@ static NSUInteger SmallerColorTemplate[9] = {
 
 - (BOOL) loadGame
 {
+//    // for data share
+//    DLog(@"test for data share among apps");
+//    UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+//    pasteboard.string = @"Paste me!";
+//
+    
+    
 	DLog(@"loadGame");
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     BOOL bRet = NO;

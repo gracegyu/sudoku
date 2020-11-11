@@ -1365,9 +1365,11 @@
 	NSLocale *gbLocale = [[[NSLocale alloc] initWithLocaleIdentifier:@"en_GB"] autorelease];
     NSString *countryName = [gbLocale displayNameForKey: NSLocaleCountryCode value:countryCode];
 	DLog(@"Country Name = %@", countryName);
+
+    
 	
 	NSString* strURI = [NSString stringWithFormat:
-						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&totalsec=%lud&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
+						@"act=%@&locale=%@&deviceid=%@&userid=%ld&username=%@&userlevel=%d&appversion=%@&free=%d&totalscore=%lud&totalsec=%lud&latitude=%d&longitude=%d&version=%d&devicetype=%d&ostype=%@&osversion=%4.2f&languagecode=%@&countrycode=%@&countryname=%@&manufacturer=%@&cs=%ld",
 						@"start",
                         [Locale getFullLocale:gettext(@"locale", nil)],
 						gDeviceID,
@@ -1376,6 +1378,7 @@
                         (int)[self getMyLevel],
                         APPVERSION,
                         freeMode,
+                        score.scoreTotal,
                         score.spendTotalSec,
 #ifdef LOCATIONTRACK
                         (NSInteger) (currentLatitude*1000000.0+0.5),
@@ -1664,6 +1667,12 @@
 #endif
     }
 #endif
+}
+
+
+- (SUDOKUSCORE*) getScore
+{
+    return &score;
 }
 
 
@@ -1987,6 +1996,10 @@ BOOL IsiPhoneX3(void)
 
 - (IBAction) memoOnOff
 {
+
+    
+    
+    
 	if (mainView.bMenuMode || !mainView.sudokuGame)
 		return;
 
@@ -3182,6 +3195,8 @@ BOOL IsiPhoneX3(void)
 			strInt[1]);
 	
 	NSInteger csInt = (NSInteger) atoi(strScramble);
+    
+    DLog(@"getCheckSum %ld -> %ld -> %ld", (long)sec, (long)secInt, (long)csInt);
 	
 	return csInt;
 }
