@@ -445,11 +445,11 @@
                          style:UIAlertActionStyleDefault
                          handler:^(UIAlertAction * action)
                          {
-//#ifdef ADMOB_FREEVERSION
-                             //if (self.interstitial != nil && bNoAd == NO)
-                             if (self.interstitial != nil)
+#ifdef ADMOB_FREEVERSION
+                             if (self.interstitial != nil && bNoAd == NO)
+//                             if (self.interstitial != nil)
                                  [self showInterstitial];
-//#endif // ADMOB_FREEVERSION
+#endif // ADMOB_FREEVERSION
                          }];
     
     [alert addAction:ok];
