@@ -1055,7 +1055,8 @@
     // Share puzzle용
     //[self willRotateToInterfaceOrientation:[UIApplication sharedApplication].statusBarOrientation duration:0.3];
     if (SUPPORT_ROTATION)
-        self.view.frame = [[UIScreen mainScreen] applicationFrame];
+        self.view.frame = [[UIScreen mainScreen] bounds];
+//      self.view.frame = [[UIScreen mainScreen] applicationFrame];
 
     //[self willRotateToInterfaceOrientation:[UIDevice currentDevice].orientation duration:0.3];
 }
@@ -3260,8 +3261,8 @@ BOOL IsiPhoneX3(void)
         for(key in bodyObject)
         {
             value = [bodyObject objectForKey:key];
-            part = [NSString stringWithFormat:@"%@=%@", [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],
-                    [value stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+            part = [NSString stringWithFormat:@"%@=%@", [key stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]],
+                    [value stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]]];
             [parts addObject:part];
         }
         

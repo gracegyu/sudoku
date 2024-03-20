@@ -286,7 +286,7 @@
     if (parameters != nil) {
         params = [[NSMutableString alloc] init];
         for (id key in parameters) {
-            NSString *encodedKey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *encodedKey = [key stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLFragmentAllowedCharacterSet]];
             CFStringRef value = (CFStringRef) CFBridgingRetain([[parameters objectForKey:key] copy]);
 
             // Escape even the "reserved" characters for URLs
