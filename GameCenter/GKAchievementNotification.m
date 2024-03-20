@@ -183,13 +183,15 @@
 
 BOOL IsiPhoneX2(void)
 {
-     BOOL iPhoneX = NO;
+    BOOL iPhoneX = NO;
     if (@available(iOS 11.0, *)) {
         UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
         if (mainWindow.safeAreaInsets.top > 24.0) {
             iPhoneX = YES;
         }
+        printf("mainWindow.safeAreaInsets.top %f\n", mainWindow.safeAreaInsets.top);
     }
+    printf("IsiPhoneX2 %s\n", iPhoneX ? "YES" : "NO");
     return iPhoneX;
 }
 
@@ -206,7 +208,7 @@ BOOL IsiPhoneX2(void)
  
     UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
     
-    if (IsiPhoneX2() && orientation == UIInterfaceOrientationPortrait)
+    if (IsiPhoneX2() && (orientation == UIInterfaceOrientationPortrait || orientation == UIDeviceOrientationUnknown))
         self.frame = kGKAchievementFrameEndX;
     else
         self.frame = kGKAchievementFrameEnd;

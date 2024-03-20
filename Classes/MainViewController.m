@@ -798,9 +798,12 @@
 - (void) setLocalizedMessage
 {
 	DLog(@"setLocalizedMessage");
-	
+#ifdef ADMOB_FREEVERSION
+    labelLicense.text = @"";
+#else
     labelLicense.text = [NSString stringWithFormat:STR_LICENSEFormat, [self getNowYYYY]];
-
+#endif
+    
     [buttonNewGame		setTitle:gettext(@"New game", nil) forState:UIControlStateNormal];
     [buttonDailyGame	setTitle:gettext(@"daily puzzle", nil) forState:UIControlStateNormal];
     [buttonQuest		setTitle:gettext(@"Quest", nil) forState:UIControlStateNormal];
