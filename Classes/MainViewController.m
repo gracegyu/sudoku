@@ -28,7 +28,7 @@
 #import <sys/utsname.h>
 #import <AdSupport/ASIdentifierManager.h>
 #import <AppTrackingTransparency/ATTrackingManager.h>
-
+#import <AppTrackingTransparency/AppTrackingTransparency.h>
 
 
 @implementation MainViewController
@@ -1210,46 +1210,15 @@
 	 [self hideAwayView:viewMenu];
 	 [self hideAwayView:viewNewGame];
 	 [self hideAwayView:viewDailyGame];
+     
+     
+     // 1초 후에 requestTrackingAuthorizationWithCompletionHandler 함수를 실행합니다.
+     // 즉시 실행하면 UI가 아직 준비가 안되어서 1초 정도 후에 실행하는 것이 좋습니다.
+     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+         [self requestTrackingAuthorization];
+     });
 
-     if (@available (iOS 14.0, *)) {
-         // 사용자 사용권 전에 한 번 IDFA의 취득을 시도합니다
-         ASIdentifierManager *identifierManager = [ASIdentifierManager sharedManager];
-         if ([identifierManager isAdvertisingTrackingEnabled]) {
-             NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
-         } else {
-             NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
-         }
-         NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
-         NSLog(@"[idfa] %@", idfa);
-
-         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
-             NSLog(@"in requestTrackingAuthorizationWithCompletionHandler");
-             if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
-                 NSLog(@"[requestTrackingAuthorization] authorized");
-             } else if (status == ATTrackingManagerAuthorizationStatusDenied) {
-                 NSLog(@"[requestTrackingAuthorization] denied");
-             } else {
-                 NSLog(@"[requestTrackingAuthorization] something else");
-             }
-
-             // 사용자 사용권 후에 IDFA의 취득을 시도합니다
-             if ([identifierManager isAdvertisingTrackingEnabled]) {
-                 NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
-             } else {
-                 NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
-             }
-             NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
-             NSLog(@"[idfa] %@", idfa);
-         }];
-     } else {
-        if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
-            NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
-            NSLog(@"%@",idfa);
-        } else {
-            NSLog(@"Settings-Privacy-Ads에서 광고 추적 기능을 켜십시오.");
-        }
-     }
-
+     
 
      // Create a view of the standard size at the bottom of the screen.
      DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
@@ -1320,7 +1289,51 @@
      
 }
 
+- (void)requestTrackingAuthorization {
+    if (@available (iOS 14.0, *)) {
+        // 사용자 사용권 전에 한 번 IDFA의 취득을 시도합니다
+        ASIdentifierManager *identifierManager = [ASIdentifierManager sharedManager];
+        if ([identifierManager isAdvertisingTrackingEnabled]) {
+            NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+        } else {
+            NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+        }
+        NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+        NSLog(@"[idfa] %@", idfa);
 
+        [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
+            NSLog(@"in requestTrackingAuthorizationWithCompletionHandler");
+            if (status == ATTrackingManagerAuthorizationStatusAuthorized) {
+                NSLog(@"[requestTrackingAuthorization] authorized");
+            } else if (status == ATTrackingManagerAuthorizationStatusDenied) {
+                NSLog(@"[requestTrackingAuthorization] denied");
+            } else if (status == ATTrackingManagerAuthorizationStatusNotDetermined) {
+                NSLog(@"[requestTrackingAuthorization] not determined");
+            }  else if (status == ATTrackingManagerAuthorizationStatusRestricted) {
+                NSLog(@"[requestTrackingAuthorization] restricted");
+            } else {
+                NSLog(@"[requestTrackingAuthorization] something else");
+            }
+
+            // 사용자 사용권 후에 IDFA의 취득을 시도합니다
+            if ([identifierManager isAdvertisingTrackingEnabled]) {
+                NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+            } else {
+                NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+            }
+            NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+            NSLog(@"[idfa] %@", idfa);
+        }];
+    } else {
+       if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+           NSString *idfa = [[ASIdentifierManager sharedManager].advertisingIdentifier UUIDString];
+           NSLog(@"%@",idfa);
+       } else {
+           NSLog(@"Settings-Privacy-Ads에서 광고 추적 기능을 켜십시오.");
+       }
+    }
+
+}
 
 - (void)OnTimerconnectToServerInit:(NSTimer *)timer
 {
