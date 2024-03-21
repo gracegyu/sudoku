@@ -1291,15 +1291,16 @@
 
 - (void)requestTrackingAuthorization {
     if (@available (iOS 14.0, *)) {
+        // 24.3.22 IDFA는 더이상 취득을 못한다.
         // 사용자 사용권 전에 한 번 IDFA의 취득을 시도합니다
-        ASIdentifierManager *identifierManager = [ASIdentifierManager sharedManager];
-        if ([identifierManager isAdvertisingTrackingEnabled]) {
-            NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
-        } else {
-            NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
-        }
-        NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
-        NSLog(@"[idfa] %@", idfa);
+//        ASIdentifierManager *identifierManager = [ASIdentifierManager sharedManager];
+//        if ([identifierManager isAdvertisingTrackingEnabled]) {
+//            NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+//        } else {
+//            NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+//        }
+//        NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+//        NSLog(@"[idfa] %@", idfa);
 
         [ATTrackingManager requestTrackingAuthorizationWithCompletionHandler:^(ATTrackingManagerAuthorizationStatus status) {
             NSLog(@"in requestTrackingAuthorizationWithCompletionHandler");
@@ -1316,13 +1317,13 @@
             }
 
             // 사용자 사용권 후에 IDFA의 취득을 시도합니다
-            if ([identifierManager isAdvertisingTrackingEnabled]) {
-                NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
-            } else {
-                NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
-            }
-            NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
-            NSLog(@"[idfa] %@", idfa);
+//            if ([identifierManager isAdvertisingTrackingEnabled]) {
+//                NSLog(@"[idfa] isAdvertisingTrackingEnabled enabled");
+//            } else {
+//                NSLog(@"[idfa] isAdvertisingTrackingEnabled disabled");
+//            }
+//            NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
+//            NSLog(@"[idfa] %@", idfa);
         }];
     } else {
        if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
