@@ -82,8 +82,7 @@ typedef struct ADSTATE
 #endif
     ,GADBannerViewDelegate
 #endif // ADMOB_FREEVERSION
-    ,GADInterstitialDelegate
-    ,GADRewardBasedVideoAdDelegate
+    ,GADFullScreenContentDelegate
     >
 {
 	MainView	*mainView;
@@ -252,6 +251,7 @@ typedef struct ADSTATE
     SKPayment *paymentHint50;
     BOOL    bBuyingHint50;
     BOOL    bReadyHintRewardVideo;
+    BOOL    bStartedMobileAds;   // 광고 SDK 를 이미 켰는가 (중복 실행 방지)
     
     
     NSString* strMsgFinish;
@@ -399,7 +399,10 @@ typedef struct ADSTATE
 - (void) setButtonMode:(UIButton *)button  mode:(BOOL)mode;
 
 //#ifdef ADMOB_FREEVERSION
-@property (nonatomic, strong) GADInterstitial *interstitial;
+@property (nonatomic, strong) GADInterstitialAd *interstitial;
+// 힌트 보상형 광고. 예전 GADRewardBasedVideoAd 는 싱글턴이었지만 지금은
+// 인스턴스라 직접 들고 있어야 한다.
+@property (nonatomic, strong) GADRewardedAd *hintRewardedAd;
 - (GADRequest *)request;
 - (BOOL) loadInterstitial;
 - (void) showInterstitial;

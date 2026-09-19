@@ -13,6 +13,7 @@
 #import "RankViewController.h"
 #import "QuestViewController.h"
 #import "MainViewController.h"
+#import <UserMessagingPlatform/UserMessagingPlatform.h>
 #import "MainView.h"
 #import "Locale.h"
 #import "GameCenterUtil.h"
@@ -1212,24 +1213,18 @@
 	 [self hideAwayView:viewDailyGame];
      
      
-     // 1초 후에 requestTrackingAuthorizationWithCompletionHandler 함수를 실행합니다.
-     // 즉시 실행하면 UI가 아직 준비가 안되어서 1초 정도 후에 실행하는 것이 좋습니다.
-     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-         [self requestTrackingAuthorization];
-     });
+     DLog(@"Google Mobile Ads SDK version: %@", [GADMobileAds sharedInstance].versionNumber);
 
-     
-
-     // Create a view of the standard size at the bottom of the screen.
-     DLog(@"Google Mobile Ads SDK version: %@", [GADRequest sdkVersion]);
-     [GADMobileAds configureWithApplicationID:MY_APP_UNIT_ID];
-
-#ifdef ADMOB_FREEVERSION
-     [self initBanner];
-#endif
-     [GADRewardBasedVideoAd sharedInstance].delegate = self;
-     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_HINT_REWARD_UNIT_ID];
-     [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_CALCCANDI_REWARD_UNIT_ID];
+     // 광고를 켜는 순서는 아래 하나뿐이다:
+     //
+     //   ① UMP 동의  →  ② ATT  →  ③ SDK 시작  →  ④ 광고 로드
+     //
+     // ② 가 ③ 보다 **앞**이어야 한다. Apple 은 추적에 쓰일 수 있는 데이터를
+     // 모으기 전에 프롬프트가 뜨기를 요구한다 (Guideline 2.1).
+     //
+     // 1초 뒤에 ATT 를 띄우던 예전 코드는 여기서 없앴다. UMP 폼이 닫힌 뒤에
+     // 부르므로 화면은 이미 준비돼 있다 — 지연이 필요 없다.
+     [self requestConsentThenStartAds];
 
      bAd = NO;
      bReplay = NO;
@@ -1324,6 +1319,12 @@
 //            }
 //            NSString *idfa = identifierManager.advertisingIdentifier.UUIDString;
 //            NSLog(@"[idfa] %@", idfa);
+
+            // 프롬프트가 닫힌 **뒤에** 광고를 켠다. 콜백이 메인 스레드로 온다는
+            // 보장이 없어서 옮겨 준다.
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self startMobileAdsIfAllowed];
+            });
         }];
     } else {
        if ([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
@@ -1332,8 +1333,67 @@
        } else {
            NSLog(@"Settings-Privacy-Ads에서 광고 추적 기능을 켜십시오.");
        }
+       [self startMobileAdsIfAllowed];
     }
 
+}
+
+#pragma mark UMP (GDPR 동의)
+
+// EEA·영국·스위스 사용자에게 개인 맞춤 광고를 내보내려면 IAB TCF 에 등록된
+// 인증 CMP 를 거쳐야 한다. 콘솔에 GDPR 메시지를 만들어 두어도 **앱이 UMP 를
+// 부르지 않으면** 광고 요청에 TC 문자열이 붙지 않는다 — AdMob 정책 센터가
+// 「동의 요건: CMP 없음」으로 잡던 것이 이것이다.
+//
+// 동의를 못 받으면 **광고를 요청하지 않는다.** 게임은 광고 없이도 돌아가야
+// 한다.
+- (void) requestConsentThenStartAds
+{
+    UMPRequestParameters *params = [[[UMPRequestParameters alloc] init] autorelease];
+    params.tagForUnderAgeOfConsent = NO;
+
+    [UMPConsentInformation.sharedInstance
+        requestConsentInfoUpdateWithParameters:params
+                             completionHandler:^(NSError *_Nullable error) {
+        if (error) {
+            DLog(@"UMP 동의 정보 갱신 실패: %@", [error localizedDescription]);
+        }
+        // 갱신이 실패해도 폼 표시는 시도한다. 캐시된 동의가 있을 수 있고,
+        // 최종 판단은 canRequestAds 가 한다.
+        [UMPConsentForm loadAndPresentIfRequiredFromViewController:self
+                                                completionHandler:^(NSError *_Nullable formError) {
+            if (formError) {
+                DLog(@"UMP 동의 폼 실패: %@", [formError localizedDescription]);
+            }
+            [self requestTrackingAuthorization];
+        }];
+    }];
+}
+
+// 동의를 받았을 때만 SDK 를 켜고 광고를 읽는다.
+//
+// canRequestAds 를 우리가 계산하지 않고 **SDK 에 묻는다.** 캐시된 동의와
+// 실제 지역을 아는 쪽은 SDK 다. 여기서 NO 로 못 박으면 동의가 필요 없는
+// 지역에서 일시적 오류 한 번에 그 실행 내내 광고가 끊긴다.
+- (void) startMobileAdsIfAllowed
+{
+    if (bStartedMobileAds) return;   // ATT 경로가 둘이라 한 번만 돌게 막는다
+
+    if (!UMPConsentInformation.sharedInstance.canRequestAds) {
+        DLog(@"동의를 받지 못했다 — 광고를 요청하지 않는다");
+        return;
+    }
+    bStartedMobileAds = YES;
+
+    // 앱 ID 는 **Info.plist 의 GADApplicationIdentifier** 에서 읽는다.
+    // configureWithApplicationID: 는 SDK 8.0 에서 사라졌다.
+    [[GADMobileAds sharedInstance] startWithCompletionHandler:^(GADInitializationStatus *status) {
+        DLog(@"GADMobileAds started");
+#ifdef ADMOB_FREEVERSION
+        [self initBanner];
+#endif
+        [self loadHintRewardedAd];
+    }];
 }
 
 - (void)OnTimerconnectToServerInit:(NSTimer *)timer
@@ -2385,8 +2445,19 @@ BOOL IsiPhoneX3(void)
 - (void) PushHintButton:(NSInteger) buttonIndex
 {
     if (buttonIndex == 0) {    // 비디오 보고 힌트 5개 얻기
-        if ([[GADRewardBasedVideoAd sharedInstance] isReady]) {
-            [[GADRewardBasedVideoAd sharedInstance] presentFromRootViewController:self];
+        if (self.hintRewardedAd) {
+            // 보상 지급은 **이 핸들러**로 온다. 예전 didRewardUserWithReward:
+            // delegate 자리다.
+            GADRewardedAd *ad = [[self.hintRewardedAd retain] autorelease];
+            self.hintRewardedAd = nil;   // 한 번 보여 준 광고는 다시 못 쓴다
+            [ad presentFromRootViewController:self
+                     userDidEarnRewardHandler:^{
+                DLog(@"Rewarded: %@ %@", ad.adReward.type, ad.adReward.amount);
+                mainView.paidHintCount += countHint5;
+                [self updateButtonHint];
+                [self updateHintCount];
+                [self saveSetting];
+            }];
         } else {
             [self startGameTimer];
         }
@@ -4975,7 +5046,7 @@ static NSInteger LEVELSCORE[] = {
 #pragma mark GADBannerViewDelegate implementation
 
 
-- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+- (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView
 {
     DLog(@"adViewDidReceiveAd:%@", bannerView.description);
     
@@ -4998,7 +5069,7 @@ static NSInteger LEVELSCORE[] = {
     [self initiADBanner];
 }
 #endif
-- (void)adView:(GADBannerView *)view didFailToReceiveAdWithError:(GADRequestError *)error
+- (void)bannerView:(GADBannerView *)view didFailToReceiveAdWithError:(NSError *)error
 {
     DLog(@"adView didFailToReceiveAdWithError:%@, %@", [error localizedDescription], error);
     [self logEventParam:@"2 Admob banner load fail"];
@@ -5042,7 +5113,7 @@ static NSInteger LEVELSCORE[] = {
     
 }
 
-- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+- (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
 {
     bAd = YES;
     [mainView.sudokuGame bonusGameElapsedTime];
@@ -5054,19 +5125,21 @@ static NSInteger LEVELSCORE[] = {
     
 }
 
-- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+- (void)bannerViewDidDismissScreen:(GADBannerView *)bannerView
 {
     bAd = NO;
     //[self startGameTimer];
 }
 
-- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+- (void)bannerViewWillDismissScreen:(GADBannerView *)bannerView
 {
     [mainView setNeedsDisplay];
 }
 
-- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+- (void)bannerViewDidRecordClick:(GADBannerView *)bannerView
 {
+    // 예전 adViewWillLeaveApplication: 자리다. 그 콜백은 SDK 에서 사라졌고,
+    // 클릭 자체는 이 메서드로 온다 (앱을 떠나지 않아도 불린다).
     [self logEventParam:@"2 Admob banner click"];
     // Click Ads
     //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
@@ -5080,57 +5153,13 @@ static NSInteger LEVELSCORE[] = {
 
 #endif // ADMOB_FREEVERSION
 
-#pragma mark GADInterstitialDelegate implementation
-
-- (void)interstitialDidReceiveAd:(GADInterstitial *)interstitial {
-    DLog(@"interstitialDidReceiveAd:%@", interstitial.description);
-    
-    // init
-    [self isInterstitialShowTurn:0 set:0];
-    [self saveInterstitialLastTimeNow];
-    
-    [self logEventParam:@"2 Admob interstitial load success"];
-    
-    gAdState[eAdStateAdmobInterstitial].show += 1;
-    [self saveAdState];
-    
-    [self alertFinish];
-
-}
-
-- (void)interstitial:(GADInterstitial *)interstitial didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self logEventParam:@"2 Admob interstitial load fail"];
-    DLog(@"interstitial didFailToReceiveAdWithError:%@", [error localizedDescription]);
-    
-    //NSString *str = [NSString stringWithFormat:@"2 Admob interstitial load fail:%@", [error localizedDescription]];
-    //[self logEventParam:str];
-    
-    gAdState[eAdStateAdmobInterstitial].fail += 1;
-    if (gAdState[eAdStateAdmobInterstitial].lasterror)
-        [gAdState[eAdStateAdmobInterstitial].lasterror release];
-    gAdState[eAdStateAdmobInterstitial].lasterror = [[NSString alloc] initWithFormat:@"%@:%@", [self getNowYYYYMMDD], [error localizedDescription]];
-    [self saveAdState];
-    
-    
-    [self alertFinish];
- 
-}
-
 #pragma mark GADRequest implementation
 
 - (GADRequest *)request {
-    GADRequest *request = [GADRequest request];
-    
-#ifdef __TEST__
-    // Make the request for a test ad. Put in an identifier for the simulator as well as any devices
-    // you want to receive test ads.
-    request.testDevices = @[
-                            // TODO: Add your device/simulator test identifiers here. Your device identifier is printed to
-                            // the console when the app is launched.
-                            GAD_SIMULATOR_ID
-                            ];
-#endif
-    return request;
+    // 테스트 기기 지정은 **요청이 아니라 전역 설정**으로 옮겨졌다:
+    //   GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers
+    // 시뮬레이터는 따로 등록하지 않아도 자동으로 테스트 기기다.
+    return [GADRequest request];
 }
 
 
@@ -5233,12 +5262,43 @@ static NSInteger LEVELSCORE[] = {
     // Show ads only every 3 times
     
     
-    // Create a new GADInterstitial each time.  A GADInterstitial will only show one request in its
-    // lifetime. The property will release the old one and set the new one.
-    self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:MY_INTERSTITIAL_UNIT_ID];
-    self.interstitial.delegate = self;
-    [self.interstitial loadRequest:[self request]];
-    
+    // GADInterstitial 은 8.0 에서 사라졌다. 이제는 클래스 메서드로 읽고
+    // 결과가 **콜백으로** 온다 — 예전 interstitialDidReceiveAd: 와
+    // interstitial:didFailToReceiveAdWithError: 가 이 블록 안으로 들어왔다.
+    self.interstitial = nil;
+    [GADInterstitialAd loadWithAdUnitID:MY_INTERSTITIAL_UNIT_ID
+                                request:[self request]
+                      completionHandler:^(GADInterstitialAd *ad, NSError *error) {
+        if (error) {
+            [self logEventParam:@"2 Admob interstitial load fail"];
+            DLog(@"interstitial load fail:%@", [error localizedDescription]);
+
+            gAdState[eAdStateAdmobInterstitial].fail += 1;
+            if (gAdState[eAdStateAdmobInterstitial].lasterror)
+                [gAdState[eAdStateAdmobInterstitial].lasterror release];
+            gAdState[eAdStateAdmobInterstitial].lasterror =
+                [[NSString alloc] initWithFormat:@"%@:%@",
+                 [self getNowYYYYMMDD], [error localizedDescription]];
+            [self saveAdState];
+
+            [self alertFinish];
+            return;
+        }
+
+        DLog(@"interstitial loaded:%@", ad.description);
+        self.interstitial = ad;
+        ad.fullScreenContentDelegate = self;
+
+        [self isInterstitialShowTurn:0 set:0];
+        [self saveInterstitialLastTimeNow];
+        [self logEventParam:@"2 Admob interstitial load success"];
+
+        gAdState[eAdStateAdmobInterstitial].show += 1;
+        [self saveAdState];
+
+        [self alertFinish];
+    }];
+
     return YES;
 }
 
@@ -5248,110 +5308,78 @@ static NSInteger LEVELSCORE[] = {
     [self.interstitial presentFromRootViewController:self];
 }
 
-/// Called just before presenting an interstitial. After this method finishes the interstitial will
-/// animate onto the screen. Use this opportunity to stop animations and save the state of your
-/// application in case the user leaves while the interstitial is on screen (e.g. to visit the App
-/// Store from a link on the interstitial).
-- (void)interstitialWillPresentScreen:(GADInterstitial *)ad
+#pragma mark GADFullScreenContentDelegate implementation
+
+// 전면광고와 보상형 광고가 **같은 delegate** 를 쓴다. 예전에는
+// GADInterstitialDelegate 와 GADRewardBasedVideoAdDelegate 로 갈려 있었다.
+// 어느 쪽인지는 전달된 ad 의 클래스로 가른다.
+
+- (void)adWillPresentFullScreenContent:(id<GADFullScreenPresentingAd>)ad
 {
-    DLog(@"interstitialWillPresentScreen");
-}
-
-/// Called before the interstitial is to be animated off the screen.
-- (void)interstitialWillDismissScreen:(GADInterstitial *)ad
-{
-    DLog(@"interstitialWillDismissScreen");
-    
-}
-
-/// Called just after dismissing an interstitial and it has animated off the screen.
-- (void)interstitialDidDismissScreen:(GADInterstitial *)ad
-{
-    DLog(@"interstitialDidDismissScreen");
-    
-}
-
-/// Called just before the application will background or terminate because the user clicked on an
-/// ad that will launch another application (such as the App Store). The normal
-/// UIApplicationDelegate methods, like applicationDidEnterBackground:, will be called immediately
-/// before this.
-- (void)interstitialWillLeaveApplication:(GADInterstitial *)ad
-{
-    // Click Ads
-    DLog(@"interstitialWillLeaveApplication");
-    [self logEventParam:@"2 Admob interstitial click"];
-    
-    //[self isInterstitialShowTurn:0 set:(-1) * gBonus];
-
-}
-
-
-
-
-#pragma mark GADRewaredBasedVideoAdDelegate implementation
-
-- (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
-   didRewardUserWithReward:(GADAdReward *)reward {
-    if (1) {
-        NSString *rewardMessage =
-        [NSString stringWithFormat:@"Reward received with currency %@ , amount %lf",
-         reward.type,
-         [reward.amount doubleValue]];
-        NSLog(rewardMessage);
-        
-        // hint 줘야함
-        // hint 증가 메시지 표시해야 함(상단)
-
-        mainView.paidHintCount += countHint5;
-        
-        [self updateButtonHint];
-        [self updateHintCount];
-        [self saveSetting];
-    } else if ([rewardBasedVideoAd.userIdentifier isEqualToString:MY_CALCCANDI_REWARD_UNIT_ID]) {
-        
+    DLog(@"adWillPresentFullScreenContent");
+    if ([ad isKindOfClass:[GADRewardedAd class]]) {
+        bReadyHintRewardVideo = NO;
     }
 }
 
-- (void)rewardBasedVideoAdDidReceiveAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    // 리워드 버튼을 활성화 할 수 있음
-    NSLog(@"Reward based video ad is received.");
-    bReadyHintRewardVideo = YES;
+- (void)adDidDismissFullScreenContent:(id<GADFullScreenPresentingAd>)ad
+{
+    DLog(@"adDidDismissFullScreenContent");
+    if ([ad isKindOfClass:[GADRewardedAd class]]) {
+        // 보상형은 한 번 쓰면 끝이다. 다음 것을 미리 읽어 둔다.
+        [self startGameTimer];
+        [self loadHintRewardedAd];
+    } else {
+        self.interstitial = nil;
+    }
 }
 
-- (void)rewardBasedVideoAdDidOpen:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    // 리워드 버튼을 비활성화 해야 함.
-    NSLog(@"Opened reward based video ad.");
-    bReadyHintRewardVideo = NO;
+- (void)ad:(id<GADFullScreenPresentingAd>)ad
+    didFailToPresentFullScreenContentWithError:(NSError *)error
+{
+    DLog(@"didFailToPresentFullScreenContent:%@", [error localizedDescription]);
+    if ([ad isKindOfClass:[GADRewardedAd class]]) {
+        bReadyHintRewardVideo = NO;
+        [self startGameTimer];
+        [self loadHintRewardedAd];
+    } else {
+        self.interstitial = nil;
+    }
 }
 
-- (void)rewardBasedVideoAdDidStartPlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    NSLog(@"Reward based video ad started playing.");
-    bReadyHintRewardVideo = NO;
+- (void)adDidRecordClick:(id<GADFullScreenPresentingAd>)ad
+{
+    // 예전 interstitialWillLeaveApplication: 자리다.
+    if (![ad isKindOfClass:[GADRewardedAd class]]) {
+        [self logEventParam:@"2 Admob interstitial click"];
+    }
 }
 
-- (void)rewardBasedVideoAdDidCompletePlaying:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    NSLog(@"Reward based video ad has completed.");
+#pragma mark 보상형 광고
+
+// 예전 GADRewardBasedVideoAd 는 싱글턴이라 [sharedInstance loadRequest:...]
+// 한 줄이면 됐다. 지금은 인스턴스라 읽어서 들고 있어야 하고, 한 번 보여 준
+// 광고는 버리고 다시 읽어야 한다.
+//
+// **힌트 유닛 하나만 읽는다.** 예전 코드는 HINT 와 CALCCANDI 를 연달아
+// 싱글턴에 밀어 넣었는데, 그러면 뒤엣것이 앞엣것을 덮어써서 실제로는 하나만
+// 살아 있었다. 지금 화면에서 쓰는 곳도 힌트뿐이다.
+- (void) loadHintRewardedAd
+{
+    [GADRewardedAd loadWithAdUnitID:MY_HINT_REWARD_UNIT_ID
+                            request:[self request]
+                  completionHandler:^(GADRewardedAd *ad, NSError *error) {
+        if (error) {
+            DLog(@"rewarded load fail:%@", [error localizedDescription]);
+            bReadyHintRewardVideo = NO;
+            return;
+        }
+        DLog(@"rewarded loaded");
+        self.hintRewardedAd = ad;
+        ad.fullScreenContentDelegate = self;
+        bReadyHintRewardVideo = YES;
+    }];
 }
-
-- (void)rewardBasedVideoAdDidClose:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    NSLog(@"Reward based video ad is closed.");
-    [self startGameTimer];
-    [[GADRewardBasedVideoAd sharedInstance] loadRequest:[GADRequest request] withAdUnitID:MY_HINT_REWARD_UNIT_ID];
-}
-
-- (void)rewardBasedVideoAdWillLeaveApplication:(GADRewardBasedVideoAd *)rewardBasedVideoAd {
-    NSLog(@"Reward based video ad will leave application.");
-}
-
-- (void)rewardBasedVideoAd:(GADRewardBasedVideoAd *)rewardBasedVideoAd
-    didFailToLoadWithError:(NSError *)error {
-    NSLog(@"Reward based video ad failed to load.");
-}
-
-
-
-
-
 
 #pragma mark NSURLConnection Delegate Methods
 
