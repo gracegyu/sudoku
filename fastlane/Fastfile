@@ -60,22 +60,46 @@ platform :ios do
     )
   end
 
-  # 한 앱을 빌드한다. 산출물 경로를 돌려준다.
-  def build_one(scheme)
+  # 한 앱을 빌드한다.
+  #
+  # **자동 서명(-allowProvisioningUpdates)에 기대지 않는다.** 그러려면 Xcode 에
+  # Apple 계정이 로그인돼 있어야 하는데, 이 기계에는 자격증명이 없어서
+  # 「No Accounts / No profiles for ...」로 떨어졌다 (2026-09-19 첫 실행).
+  #
+  # 대신 **ASC API 키로 App Store 배포 프로필을 받아** 수동 서명으로 고정한다.
+  # 키 하나만 있으면 어느 기계에서도 같은 결과가 나온다.
+  def build_one(scheme, key)
     UI.message("🔨 #{scheme} 빌드")
-    enable_automatic_code_signing(
-      path: "sudokuall.xcodeproj",
-      team_id: TEAM_ID
+
+    get_provisioning_profile(
+      api_key: key,
+      app_identifier: APPS[scheme],
+      # App Store 배포용이 기본값이다 (development/adhoc 을 주지 않으면).
+      readonly: false,          # 없으면 만든다
+      filename: "#{scheme}_appstore.mobileprovision"
     )
+
+    update_code_signing_settings(
+      path: "sudokuall.xcodeproj",
+      use_automatic_signing: false,
+      targets: [scheme],
+      team_id: TEAM_ID,
+      profile_name: lane_context[SharedValues::SIGH_NAME],
+      code_sign_identity: "Apple Distribution"
+    )
+
     build_app(
       workspace: WORKSPACE,
       scheme: scheme,
       export_method: "app-store",
       clean: true,
       output_name: "#{scheme}.ipa",
-      xcargs: "-allowProvisioningUpdates",
-      # 네 앱을 연달아 올릴 때 이전 산출물이 섞이지 않게 이름을 나눈다.
-      export_options: { signingStyle: "automatic" }
+      export_options: {
+        signingStyle: "manual",
+        provisioningProfiles: {
+          APPS[scheme] => lane_context[SharedValues::SIGH_NAME]
+        }
+      }
     )
   end
 
@@ -87,7 +111,7 @@ platform :ios do
 
     selected_apps(options).each do |scheme|
       begin
-        build_one(scheme)
+        build_one(scheme, key)
         upload_to_testflight(
           api_key: key,
           app_identifier: APPS[scheme],
@@ -112,7 +136,7 @@ platform :ios do
 
     selected_apps(options).each do |scheme|
       begin
-        build_one(scheme)
+        build_one(scheme, key)
         upload_to_app_store(
           api_key: key,
           app_identifier: APPS[scheme],
@@ -146,7 +170,8 @@ platform :ios do
   # ── 빌드만 (업로드 안 함) ──────────────────────────────────────────────
   desc "빌드만 해 본다 — 올리지 않는다"
   lane :build_only do |options|
-    selected_apps(options).each { |scheme| build_one(scheme) }
+    key = asc_api_key
+    selected_apps(options).each { |scheme| build_one(scheme, key) }
   end
 
   # 결과를 한 번에 말한다. 실패가 있으면 **0 이 아닌 코드로 끝낸다** —

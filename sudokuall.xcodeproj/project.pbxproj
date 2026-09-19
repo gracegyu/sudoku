@@ -4615,9 +4615,11 @@
 				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 376QCT8NVY;
 						ProvisioningStyle = Automatic;
 					};
 					CF40E3BC1C12A56F00F814BF = {
+						DevelopmentTeam = 376QCT8NVY;
 						ProvisioningStyle = Automatic;
 					};
 					CF40E5581C12A57300F814BF = {
@@ -4625,9 +4627,11 @@
 						ProvisioningStyle = Automatic;
 					};
 					CF6BCCD9161D70AB00879F6E = {
+						DevelopmentTeam = 376QCT8NVY;
 						ProvisioningStyle = Automatic;
 					};
 					CF6E3D85161FC48C000DD7D7 = {
+						DevelopmentTeam = 376QCT8NVY;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -4639,6 +4643,7 @@
 						};
 					};
 					CF9B66EB1622487E00EFD0B0 = {
+						DevelopmentTeam = 376QCT8NVY;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -7426,11 +7431,11 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = sudoku9free.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7448,9 +7453,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -7461,7 +7466,7 @@
 				PRODUCT_NAME = Sudoku9;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.raymond.sudokuiphonefree AppStore";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -7501,7 +7506,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -7543,7 +7548,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = YES;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
@@ -7563,11 +7568,11 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = sudoku9free.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7588,9 +7593,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -7601,7 +7606,7 @@
 				PRODUCT_NAME = Sudoku9;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.raymond.sudokuiphonefree AppStore";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -7641,7 +7646,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				ONLY_ACTIVE_ARCH = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "8CA15EAF-BC8D-48DE-A016-42FA4BB0277F";
 				SDKROOT = iphoneos;
@@ -7661,11 +7666,11 @@
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = sudoku9free.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -7683,9 +7688,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Free/Sudoku9Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -7696,7 +7701,7 @@
 				PRODUCT_NAME = Sudoku9;
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "com.raymond.sudokuiphonefree AppStore";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -7735,7 +7740,7 @@
 					DAILYSENDER,
 				);
 				INFOPLIST_FILE = "sudoku6paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = YES;
@@ -7782,7 +7787,7 @@
 					USE_JMC,
 				);
 				INFOPLIST_FILE = "sudoku6paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = NO;
@@ -7829,7 +7834,7 @@
 					USE_JMC,
 				);
 				INFOPLIST_FILE = "sudoku6paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = NO;
@@ -7861,7 +7866,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 4.700;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7880,7 +7885,7 @@
 					DAILYSENDER,
 				);
 				INFOPLIST_FILE = "sudoku9paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = YES;
@@ -7912,7 +7917,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 4.700;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7927,7 +7932,7 @@
 					USE_JMC,
 				);
 				INFOPLIST_FILE = "sudoku9paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = NO;
@@ -7959,7 +7964,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
 				CURRENT_PROJECT_VERSION = 4.700;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -7974,7 +7979,7 @@
 					USE_JMC,
 				);
 				INFOPLIST_FILE = "sudoku9paid copy2-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = 4.700;
 				ONLY_ACTIVE_ARCH = NO;
@@ -8028,9 +8033,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8080,9 +8085,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8132,9 +8137,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku9Paid/Sudoku9Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8167,7 +8172,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -8188,9 +8193,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8223,7 +8228,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -8241,9 +8246,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8276,7 +8281,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 4.932;
+				CURRENT_PROJECT_VERSION = 4.940;
 				DEVELOPMENT_TEAM = 376QCT8NVY;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -8294,9 +8299,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Free/Sudoku6Free.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8349,9 +8354,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8401,9 +8406,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -8453,9 +8458,9 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/resource/Sudoku6Paid/Sudoku6Paid.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 4.930;
+				MARKETING_VERSION = 4.940;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-ObjC",
