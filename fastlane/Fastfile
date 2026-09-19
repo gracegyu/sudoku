@@ -1,0 +1,163 @@
+# sudoku2 배포 — 네 앱을 하나의 코드베이스로 만든다.
+#
+#   fastlane beta                          네 앱 전부 TestFlight
+#   fastlane beta apps:sudoku9free         하나만
+#   fastlane beta apps:sudoku9free,sudoku9paid
+#   fastlane release apps:sudoku9free      App Store 심사 제출
+#
+# 셸에서는 `../deploy.sh` 를 쓰는 편이 짧다.
+#
+# ## 왜 앱을 인자로 받나
+#
+# 네 앱이 **한 프로젝트의 네 타겟**이다. 하나를 고치면 넷이 다 바뀌지만,
+# 올리는 것은 고른 것만 올린다 — Sudoku9 는 수입의 절반을 내므로 다른
+# 앱과 같은 속도로 굴리지 않는다.
+
+default_platform(:ios)
+
+WORKSPACE = "sudokuall.xcworkspace"
+
+# scheme => App Store 번들 ID
+APPS = {
+  "sudoku9free" => "com.raymond.sudokuiphonefree",
+  "sudoku9paid" => "com.raymond.sudoku",
+  "sudoku6free" => "com.raymond.sudoku6free",
+  "sudoku6paid" => "com.raymond.sudoku6",
+}.freeze
+
+TEAM_ID = "376QCT8NVY"
+
+platform :ios do
+  # ── 고를 앱 ────────────────────────────────────────────────────────────
+  #
+  # `apps:` 를 안 주면 넷 전부. 모르는 이름은 **조용히 넘기지 않고 멈춘다** —
+  # 오타 하나로 "아무것도 안 올라갔는데 성공"이 되는 것이 제일 나쁘다.
+  def selected_apps(options)
+    raw = options[:apps]
+    return APPS.keys if raw.nil? || raw.to_s.strip.empty?
+
+    names = raw.to_s.split(",").map(&:strip).reject(&:empty?)
+    unknown = names - APPS.keys
+    unless unknown.empty?
+      UI.user_error!("모르는 앱: #{unknown.join(', ')}\n쓸 수 있는 것: #{APPS.keys.join(' · ')}")
+    end
+    names
+  end
+
+  # App Store Connect API 키.
+  #
+  # Apple ID + 2FA 세션은 쓰지 않는다 — 세션이 만료되면 배포가 사람 손을
+  # 기다리며 멈춘다. 키 파일은 `.gitignore` 가 막는다.
+  def asc_api_key
+    key_path = ENV["ASC_KEY_PATH"] || File.expand_path("../AuthKey_X4KL8H8SK4.p8", __dir__)
+    UI.user_error!("ASC API 키가 없다: #{key_path}") unless File.exist?(key_path)
+    app_store_connect_api_key(
+      key_id: "X4KL8H8SK4",
+      issuer_id: "69a6de70-03ff-47e3-e053-5b8c7c11a4d1",
+      key_filepath: key_path,
+      duration: 1200,
+      in_house: false
+    )
+  end
+
+  # 한 앱을 빌드한다. 산출물 경로를 돌려준다.
+  def build_one(scheme)
+    UI.message("🔨 #{scheme} 빌드")
+    enable_automatic_code_signing(
+      path: "sudokuall.xcodeproj",
+      team_id: TEAM_ID
+    )
+    build_app(
+      workspace: WORKSPACE,
+      scheme: scheme,
+      export_method: "app-store",
+      clean: true,
+      output_name: "#{scheme}.ipa",
+      xcargs: "-allowProvisioningUpdates",
+      # 네 앱을 연달아 올릴 때 이전 산출물이 섞이지 않게 이름을 나눈다.
+      export_options: { signingStyle: "automatic" }
+    )
+  end
+
+  # ── TestFlight ────────────────────────────────────────────────────────
+  desc "TestFlight 에 올린다 (내부 테스터 — 베타 심사 없음)"
+  lane :beta do |options|
+    key = asc_api_key
+    failed = []
+
+    selected_apps(options).each do |scheme|
+      begin
+        build_one(scheme)
+        upload_to_testflight(
+          api_key: key,
+          app_identifier: APPS[scheme],
+          skip_waiting_for_build_processing: true,
+          distribute_external: false
+        )
+        UI.success("✅ #{scheme} TestFlight 업로드")
+      rescue => e
+        UI.error("❌ #{scheme} 실패: #{e.message}")
+        failed << scheme
+      end
+    end
+
+    report(failed, selected_apps(options))
+  end
+
+  # ── App Store ─────────────────────────────────────────────────────────
+  desc "App Store 에 올리고 심사까지 제출한다"
+  lane :release do |options|
+    key = asc_api_key
+    failed = []
+
+    selected_apps(options).each do |scheme|
+      begin
+        build_one(scheme)
+        upload_to_app_store(
+          api_key: key,
+          app_identifier: APPS[scheme],
+          force: true,                    # HTML 미리보기 확인을 건너뛴다
+          submit_for_review: true,        # 심사 제출까지
+          automatic_release: true,        # 승인되면 자동 공개
+          skip_metadata: true,            # 메타데이터는 콘솔에서 관리한다
+          skip_screenshots: true,
+          precheck_include_in_app_purchases: false,
+          submission_information: {
+            add_id_info_uses_idfa: true,
+            add_id_info_serves_ads: true,
+            add_id_info_tracks_install: true,
+            add_id_info_tracks_action: false,
+            add_id_info_limits_tracking: true,
+            content_rights_contains_third_party_content: false,
+            export_compliance_uses_encryption: false,
+            export_compliance_encryption_updated: false
+          }
+        )
+        UI.success("✅ #{scheme} App Store 제출")
+      rescue => e
+        UI.error("❌ #{scheme} 실패: #{e.message}")
+        failed << scheme
+      end
+    end
+
+    report(failed, selected_apps(options))
+  end
+
+  # ── 빌드만 (업로드 안 함) ──────────────────────────────────────────────
+  desc "빌드만 해 본다 — 올리지 않는다"
+  lane :build_only do |options|
+    selected_apps(options).each { |scheme| build_one(scheme) }
+  end
+
+  # 결과를 한 번에 말한다. 실패가 있으면 **0 이 아닌 코드로 끝낸다** —
+  # 스크립트가 성공으로 오해하면 안 된다.
+  def report(failed, attempted)
+    UI.message("")
+    UI.message("대상: #{attempted.join(' · ')}")
+    if failed.empty?
+      UI.success("모두 성공")
+    else
+      UI.user_error!("실패: #{failed.join(' · ')}")
+    end
+  end
+end
