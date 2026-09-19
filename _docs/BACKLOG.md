@@ -22,7 +22,7 @@
 
 | # | 상태 | 우선 | 받은 날 | 항목 |
 |:---:|:---:|:---:|---|---|
-| B-1 | In Progress | **P1** | 2026-09-19 | **AdMob 정책 위반 해소 — GDPR 동의(UMP) 도입.** SDK 7.69 → 13.9 · UMP 3.1.0 · TestFlight 4.940 올림. **실기 확인 대기** |
+| B-1 | In Progress | **P1** | 2026-09-19 | **AdMob 정책 위반 해소 — GDPR 동의(UMP) 도입.** SDK 7.69 → 13.9 · 실기 확인 통과 · **4.940 심사 제출 완료.** 심사 결과와 정책 센터 대기 |
 | B-2 | **Open** | P3 | 2026-09-19 | **후보 계산(CALCCANDI)에 보상형 광고를 붙인다** — 유닛은 만들어져 있는데 **기능이 없다.** 어떻게 열어줄지 결정이 필요하다 `[사람]` |
 | B-3 | **Open** | P2 | 2026-09-19 | **나머지 세 앱(Sudoku9Pro · Sudoku6 · Sudoku6Pro)을 올린다** — 코드는 이미 고쳐져 있다. Sudoku9 심사 결과를 보고 움직인다 |
 
@@ -63,8 +63,12 @@ podspec 의 배포 타겟은 `ios 12.0` 이라 **SDK 쪽에서는 타겟을 안 
 - [x] UMP 도입 (`requestConsentThenStartAds` → ATT → `startMobileAdsIfAllowed`)
 - [x] fastlane 구축 — 네 앱 선택 배포 (`./deploy.sh testflight sudoku9free`)
 - [x] **TestFlight 4.940 업로드** (2026-09-19 19:40)
-- [ ] **실기 확인** `[사람]` — 아래 목록
-- [ ] App Store 제출 (`./deploy.sh appstore sudoku9free`)
+- [x] **실기 확인** (2026-09-19) — 앱 실행 · 배너 · 전면 · **보상형 힌트 5개 지급** ·
+      중간 종료 시 미지급 · ATT 프롬프트, 전부 정상
+- [x] 릴리스 노트 5개 언어 (`fastlane/metadata/`)
+- [x] 연령 등급 설문 `[사람]` (2026-09-19)
+- [x] **4.940 심사 제출** (2026-09-19 21:43) — `./deploy.sh submit sudoku9free`
+- [ ] 심사 결과 `[사람]`
 - [ ] 정책 센터에서 경고가 사라지는지 `[사람]` — 최대 48시간 + 신버전 확산
 
 SDK 업그레이드와 UMP 를 한 빌드에 담았다. 원래는 나눠서 검증하려 했으나
@@ -86,7 +90,7 @@ SDK 업그레이드와 UMP 를 한 빌드에 담았다. 원래는 나눠서 검�
 `Info.plist` 는 네 타겟 모두 `GADApplicationIdentifier` 가 이미 들어 있었고
 `Constants.h` 값과 일치했다 — 손댈 것이 없었다.
 
-### 확인할 것 (1차 TestFlight)
+### 확인한 것 (2026-09-19 · 전부 통과)
 
 1. **앱이 뜨는가** — `GADApplicationIdentifier` 가 없으면 SDK 8.0+ 는 실행
    즉시 죽는다
@@ -100,7 +104,7 @@ SDK 업그레이드와 UMP 를 한 빌드에 담았다. 원래는 나눠서 검�
 7. ATT 프롬프트 (첫 실행 · 1초 뒤)
 8. iPad 배너 (크기가 다르다)
 
-### TestFlight 업로드가 네 번 막혔다 — 전부 배포 설정 문제였다
+### 배포가 여섯 번 막혔다 — 전부 설정 문제였다
 
 코드는 처음부터 빌드되고 있었다. 다음에 같은 자리에서 헤매지 않게 적어 둔다.
 
@@ -110,6 +114,8 @@ SDK 업그레이드와 UMP 를 한 빌드에 담았다. 원래는 나눠서 검�
 | ② | `Could not find option 'app_store'` | `get_provisioning_profile` 에 그런 옵션이 없다. App Store 용이 기본값 |
 | ③ | `Invalid Pre-Release Train. '4.930' is closed` | 이미 출시된 버전에는 새 빌드를 못 올린다 → **4.940** |
 | ④ | `MinimumOSVersion '12.0' is not acceptable` | **SDK 가 지원하는 것과 Apple 이 받는 것은 다르다** → 배포 타겟 **15.0** |
+| ⑤ | `You must provide a value for 'whatsNew'` | 새 버전에는 릴리스 노트가 필수 → `fastlane/metadata/<locale>/release_notes.txt` |
+| ⑥ | `gunsOrOtherWeapons` 등 8개 누락 | **연령 등급 설문.** 게임 내용 판단이라 사람이 콘솔에서 한 번 답한다 — 그 뒤로는 자동 제출이 계속 동작한다 |
 
 ④ 가 특히 헷갈린다. GMA 13.9.0 의 podspec 은 `ios 12.0` 이라 타겟을 안 올려도
 되는 줄 알았는데, App Store 업로드 쪽에서 막는다. **iOS 15 미만 기기는 앞으로
