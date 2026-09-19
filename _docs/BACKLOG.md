@@ -22,7 +22,7 @@
 
 | # | 상태 | 우선 | 받은 날 | 항목 |
 |:---:|:---:|:---:|---|---|
-| B-1 | In Progress | **P1** | 2026-09-19 | **AdMob 정책 위반 해소 — GDPR 동의(UMP) 도입.** SDK 7.69(2021) → 13.9 업그레이드가 선행이었고 그쪽은 끝났다 |
+| B-1 | In Progress | **P1** | 2026-09-19 | **AdMob 정책 위반 해소 — GDPR 동의(UMP) 도입.** SDK 7.69 → 13.9 · UMP 3.1.0 · TestFlight 4.940 올림. **실기 확인 대기** |
 | B-2 | **Open** | P3 | 2026-09-19 | **후보 계산(CALCCANDI)에 보상형 광고를 붙인다** — 유닛은 만들어져 있는데 **기능이 없다.** 어떻게 열어줄지 결정이 필요하다 `[사람]` |
 
 ---
@@ -56,13 +56,16 @@ iOS 12.0** 이다 — iOS 13 상향이 필요할 줄 알았는데 아니었다.
 - [x] Podfile source 를 CDN 으로 (git Specs repo 가 낡아 13.x 를 못 찾았다)
 - [x] 광고 API 마이그레이션 — 아래 표
 - [x] 빌드 통과 (`sudoku9free` · 시뮬레이터)
-- [ ] **1차 TestFlight — SDK 업그레이드만 확인** `[사람]`
-- [ ] UMP 도입
-- [ ] 2차 TestFlight — 동의 폼 확인 `[사람]`
+- [x] UMP 도입 (`requestConsentThenStartAds` → ATT → `startMobileAdsIfAllowed`)
+- [x] fastlane 구축 — 네 앱 선택 배포 (`./deploy.sh testflight sudoku9free`)
+- [x] **TestFlight 4.940 업로드** (2026-09-19 19:40)
+- [ ] **실기 확인** `[사람]` — 아래 목록
+- [ ] App Store 제출 (`./deploy.sh appstore sudoku9free`)
 - [ ] 정책 센터에서 경고가 사라지는지 `[사람]` — 최대 48시간 + 신버전 확산
 
-**검증을 두 번으로 나눈 이유:** SDK 업그레이드와 UMP 를 한 빌드에 담으면,
-광고가 이상할 때 어느 쪽 탓인지 못 가린다. 수입의 절반을 내는 앱이다.
+SDK 업그레이드와 UMP 를 한 빌드에 담았다. 원래는 나눠서 검증하려 했으나
+**SDK 를 올리지 않으면 UMP 를 쓸 수 없어서** 나눌 수가 없었다 (UMP 1.4.0 에는
+`canRequestAds` 가 없다). 그래서 확인 목록을 두 덩어리로 갈라 둔다.
 
 ### 바꾼 API
 
@@ -92,6 +95,22 @@ iOS 12.0** 이다 — iOS 13 상향이 필요할 줄 알았는데 아니었다.
 6. 광고를 본 뒤 다시 누르면 또 뜨는가 (재로드)
 7. ATT 프롬프트 (첫 실행 · 1초 뒤)
 8. iPad 배너 (크기가 다르다)
+
+### TestFlight 업로드가 네 번 막혔다 — 전부 배포 설정 문제였다
+
+코드는 처음부터 빌드되고 있었다. 다음에 같은 자리에서 헤매지 않게 적어 둔다.
+
+| # | 막힌 것 | 푼 방법 |
+|---|---|---|
+| ① | `No Accounts` · `No profiles for ...` | Xcode 에 Apple 계정이 없다. **ASC API 키로 프로필을 받아 수동 서명**으로 고정 |
+| ② | `Could not find option 'app_store'` | `get_provisioning_profile` 에 그런 옵션이 없다. App Store 용이 기본값 |
+| ③ | `Invalid Pre-Release Train. '4.930' is closed` | 이미 출시된 버전에는 새 빌드를 못 올린다 → **4.940** |
+| ④ | `MinimumOSVersion '12.0' is not acceptable` | **SDK 가 지원하는 것과 Apple 이 받는 것은 다르다** → 배포 타겟 **15.0** |
+
+④ 가 특히 헷갈린다. GMA 13.9.0 의 podspec 은 `ios 12.0` 이라 타겟을 안 올려도
+되는 줄 알았는데, App Store 업로드 쪽에서 막는다. **iOS 15 미만 기기는 앞으로
+업데이트를 받지 못한다** — 되돌리려면 12.0 으로 낮출 수 있지만 그러면 업로드
+자체가 안 된다.
 
 ### 곁가지
 
