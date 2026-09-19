@@ -31,6 +31,14 @@ TestFlight 에 올린다 (내부 테스터 — 베타 심사 없음)
 
 App Store 에 올리고 심사까지 제출한다
 
+### ios submit
+
+```sh
+[bundle exec] fastlane ios submit
+```
+
+TestFlight 에 올라간 빌드를 그대로 심사 제출한다 (새로 빌드하지 않는다)
+
 ### ios build_only
 
 ```sh

@@ -3,7 +3,8 @@
 #   fastlane beta                          네 앱 전부 TestFlight
 #   fastlane beta apps:sudoku9free         하나만
 #   fastlane beta apps:sudoku9free,sudoku9paid
-#   fastlane release apps:sudoku9free      App Store 심사 제출
+#   fastlane release apps:sudoku9free      빌드해서 App Store 심사 제출
+#   fastlane submit  apps:sudoku9free      **이미 올라간 빌드**를 심사 제출
 #
 # 셸에서는 `../deploy.sh` 를 쓰는 편이 짧다.
 #
@@ -158,6 +159,48 @@ platform :ios do
           }
         )
         UI.success("✅ #{scheme} App Store 제출")
+      rescue => e
+        UI.error("❌ #{scheme} 실패: #{e.message}")
+        failed << scheme
+      end
+    end
+
+    report(failed, selected_apps(options))
+  end
+
+  # ── 이미 올라간 빌드를 심사에 제출한다 ────────────────────────────────
+  desc "TestFlight 에 올라간 빌드를 그대로 심사 제출한다 (새로 빌드하지 않는다)"
+  lane :submit do |options|
+    key = asc_api_key
+    failed = []
+
+    selected_apps(options).each do |scheme|
+      begin
+        # **새로 빌드하지 않는다.** 사람이 TestFlight 에서 확인한 바로 그
+        # 바이너리를 심사에 보낸다. 다시 빌드하면 번호가 달라지고, 그러면
+        # **검증하지 않은 빌드**가 심사에 가게 된다.
+        upload_to_app_store(
+          api_key: key,
+          app_identifier: APPS[scheme],
+          skip_binary_upload: true,       # ← 이미 올라간 것을 고른다
+          force: true,
+          submit_for_review: true,
+          automatic_release: true,
+          skip_metadata: true,
+          skip_screenshots: true,
+          precheck_include_in_app_purchases: false,
+          submission_information: {
+            add_id_info_uses_idfa: true,
+            add_id_info_serves_ads: true,
+            add_id_info_tracks_install: true,
+            add_id_info_tracks_action: false,
+            add_id_info_limits_tracking: true,
+            content_rights_contains_third_party_content: false,
+            export_compliance_uses_encryption: false,
+            export_compliance_encryption_updated: false
+          }
+        )
+        UI.success("✅ #{scheme} 심사 제출 (기존 빌드)")
       rescue => e
         UI.error("❌ #{scheme} 실패: #{e.message}")
         failed << scheme

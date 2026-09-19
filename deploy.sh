@@ -3,7 +3,8 @@
 #
 #   ./deploy.sh testflight                      네 앱 전부 TestFlight
 #   ./deploy.sh testflight sudoku9free          하나만
-#   ./deploy.sh appstore sudoku9free sudoku9paid  고른 것만 심사 제출
+#   ./deploy.sh submit sudoku9free              TestFlight 빌드를 그대로 심사 제출
+#   ./deploy.sh appstore sudoku9free sudoku9paid  새로 빌드해서 심사 제출
 #   ./deploy.sh build sudoku9free               빌드만 (올리지 않는다)
 #
 # GitFlutter/deploy_all.sh 와 같은 결로 만들었다. 다만 **타입 하나가 한 가지
@@ -17,11 +18,12 @@ ALL_APPS=(sudoku9free sudoku9paid sudoku6free sudoku6paid)
 
 usage() {
     echo -e "${YELLOW}사용법: ./deploy.sh <타입> [앱 ...]${NC}"
-    echo "  타입: testflight | appstore | build"
+    echo "  타입: testflight | submit | appstore | build"
     echo "  앱을 생략하면 넷 전부. 이름을 주면 그것만."
     echo
     echo "  testflight  - TestFlight (내부 테스터 · 베타 심사 없음)"
-    echo "  appstore    - App Store 업로드 + 심사 제출 + 승인 시 자동 공개"
+    echo "  submit      - **이미 TestFlight 에 올라간 빌드**를 심사 제출 (새로 빌드 안 함)"
+    echo "  appstore    - 새로 빌드해서 업로드 + 심사 제출"
     echo "  build       - 빌드만. 올리지 않는다"
     echo
     echo "  앱: ${ALL_APPS[*]}"
@@ -30,6 +32,7 @@ usage() {
 case "$1" in
     testflight) LANE=beta ;;
     appstore)   LANE=release ;;
+    submit)     LANE=submit ;;
     build)      LANE=build_only ;;
     ""|-h|--help) usage; exit 1 ;;
     *) echo -e "${RED}알 수 없는 타입: $1${NC}"; usage; exit 1 ;;
