@@ -186,7 +186,10 @@ platform :ios do
           force: true,
           submit_for_review: true,
           automatic_release: true,
-          skip_metadata: true,
+          # 새 버전에는 릴리스 노트(whatsNew)가 **필수**다. 없으면
+          # 「이 버전은 심사할 수 없습니다」로 막힌다 (2026-09-19 실측).
+          # `fastlane/metadata/<locale>/release_notes.txt` 에 있는 것만 올라간다.
+          skip_metadata: false,
           skip_screenshots: true,
           precheck_include_in_app_purchases: false,
           submission_information: {
