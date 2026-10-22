@@ -1213,7 +1213,9 @@
 	 [self hideAwayView:viewDailyGame];
      
      
-     DLog(@"Google Mobile Ads SDK version: %@", [GADMobileAds sharedInstance].versionNumber);
+     // versionNumber 는 NSString 이 아니라 GADVersionNumber 구조체다. %@ 로 찍으면 EXC_BAD_ACCESS 가 난다.
+     DLog(@"Google Mobile Ads SDK version: %@",
+          GADGetStringFromVersionNumber([GADMobileAds sharedInstance].versionNumber));
 
      // 광고를 켜는 순서는 아래 하나뿐이다:
      //

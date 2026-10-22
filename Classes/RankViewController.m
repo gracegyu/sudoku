@@ -218,7 +218,79 @@
 
 - (void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error
 {
+    [self reportRankingLoadError:error from:@"didFailNavigation"];
+}
+
+/**
+ * 주소 요청이 커밋되기도 전에 실패할 때 호출된다.
+ * ATS·인증서·DNS 가 여기로 온다. 예전에는 주석이라 스피너만 돌았다.
+ *
+ * @param webView 랭킹 웹뷰
+ * @param navigation 실패한 이동
+ * @param error 실패 원인
+ * @return 없음
+ */
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error
+{
+    [self reportRankingLoadError:error from:@"didFailProvisionalNavigation"];
+}
+
+/**
+ * 랭킹 로드 실패를 로그로 남기고, TestFlight 에서도 볼 수 있게 화면에 적는다.
+ * DLog 는 Release 에서 사라지므로 NSLog 를 쓴다. -999(취소)는 무시한다.
+ *
+ * @param error 웹뷰가 준 오류
+ * @param from  어느 콜백에서 왔는지
+ * @return 없음
+ */
+- (void)reportRankingLoadError:(NSError *)error from:(NSString *)from
+{
+    if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+        return;
+    }
+
     [activityIndicator stopAnimating];
+    activityIndicator.hidden = YES;
+
+    NSString *url = webView.URL.absoluteString;
+    if (url.length == 0) {
+        url = @"(no url)";
+    }
+    NSLog(@"[ranking] %@ code=%ld domain=%@ desc=%@ url=%@",
+          from, (long)error.code, error.domain, error.localizedDescription, url);
+
+    NSString *html = [NSString stringWithFormat:
+                      @"<html><body style='font:16px -apple-system;padding:24px;color:#222'>"
+                      @"<p><b>Ranking load failed</b></p>"
+                      @"<p>%@</p>"
+                      @"<p>code %ld / %@</p>"
+                      @"<p>%@</p>"
+                      @"<p>%@</p>"
+                      @"</body></html>",
+                      [self rankingHtmlEscape:error.localizedDescription],
+                      (long)error.code,
+                      [self rankingHtmlEscape:error.domain],
+                      [self rankingHtmlEscape:from],
+                      [self rankingHtmlEscape:url]];
+    [webView loadHTMLString:html baseURL:nil];
+}
+
+/**
+ * 실패 화면에 넣을 문자열에서 HTML 특수문자를 뺀다.
+ *
+ * @param text 원문. nil 이면 빈 문자열
+ * @return 이스케이프된 문자열
+ */
+- (NSString *)rankingHtmlEscape:(NSString *)text
+{
+    if (text.length == 0) {
+        return @"";
+    }
+    NSString *out = text;
+    out = [out stringByReplacingOccurrencesOfString:@"&" withString:@"&amp;"];
+    out = [out stringByReplacingOccurrencesOfString:@"<" withString:@"&lt;"];
+    out = [out stringByReplacingOccurrencesOfString:@">" withString:@"&gt;"];
+    return out;
 }
 
 
