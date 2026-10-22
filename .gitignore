@@ -390,6 +390,11 @@ AuthKey_*.p8
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/test_output
+# 전역 gitignore 의 Release* 가 맥(대소문자 무시)에서
+# release_notes.txt 까지 잡는다. 릴리스 노트는 추적한다.
+!fastlane/metadata/
+!fastlane/metadata/**
+!fastlane/metadata/**/release_notes.txt
 *.ipa
 *.app.dSYM.zip
 *.mobileprovision
