@@ -1,30 +1,39 @@
 #!/bin/bash
-# Sudoku9 의 App Store 크리에이티브 자산을 만든다 (Asset Library · iOS 27+).
+# Sudoku9 · Sudoku6 의 App Store 크리에이티브 자산을 만든다 (Asset Library · iOS 27+).
 #
-#   tools/creative/make_sudoku9.sh            다섯 언어 전부
-#   tools/creative/make_sudoku9.sh en-US ko   고른 언어만
+#   tools/creative/make_creative.sh sudoku9            다섯 언어 전부
+#   tools/creative/make_creative.sh sudoku6 en-US ko   고른 언어만
 #
-# 결과: fastlane/creative/sudoku9/<locale>/
+# free·paid 는 같은 그림을 쓴다 (`./deploy.sh creative sudoku6free sudoku6paid`).
+#
+# 결과: fastlane/creative/<sudoku9|sudoku6>/<locale>/
 #   search_results_3840x2560.png   검색 결과 (3:2)
 #   product_header_3840x1646.png   제품 페이지 헤더 (21:9)
 #
 # ## 그림 규칙 (factory `_docs/specs/STORE_ASSETS.md` 를 따른다)
 #
 # - **이름을 넣지 않는다.** 검색 카드에 아이콘·이름·부제가 이미 나온다.
-# - **부제와 같은 말을 쓰지 않는다.** 부제가 「5가지 스도쿠 · 매일 대결」이라
+# - **부제와 같은 말을 쓰지 않는다.** Sudoku9 부제가 「5가지 스도쿠 · 매일 대결」이라
 #   한 줄은 다른 이야기(끝없는 퍼즐·난이도)를 한다. 「5가지」는 양옆 판이 보여 준다.
+#   Sudoku6 은 부제가 **없어서**(2026-10-27) 한 줄이 6×6 · 5가지를 말한다.
 # - **판이 주인공, 가운데 세로축.** 헤더는 기기마다 양옆이 잘린다 — 양옆 판은
 #   잘려도 되는 장식이다.
 # - **알파 채널 없음** (있으면 반려된다).
 #
-# 원본은 `iTunes/sudoku9/en/12.9iPad-*.jpg` 의 판 부분만 쓴다. 판 안에는 글자가
+# 원본은 `iTunes/<앱>/en/12.9iPad-*.jpg` 의 판 부분만 쓴다. 두 앱의 화면 배치가
+# 같아 자르는 자리도 같다. 판 안에는 글자가
 # 없어 언어마다 다시 찍을 필요가 없다. 맨 위 줄(사용자 이름이 찍힌 막대)은
 # 잘라 낸다.
 set -euo pipefail
 cd "$(dirname "$0")/../.."
 
-SRC=iTunes/sudoku9/en
-OUT=fastlane/creative/sudoku9
+APP=${1:-}
+case $APP in
+  sudoku9|sudoku6) shift ;;
+  *) echo "사용: $0 <sudoku9|sudoku6> [언어…]" >&2; exit 1 ;;
+esac
+SRC=iTunes/$APP/en
+OUT=fastlane/creative/$APP
 WORK=$(mktemp -d); trap 'rm -rf "$WORK"' EXIT
 
 # 언어 → 글꼴 · 한 줄
@@ -38,12 +47,17 @@ font_of() {
   esac
 }
 line_of() {
-  case $1 in
-    en-US)   echo "Endless puzzles, beginner to expert" ;;
-    ko)      echo "끝없는 퍼즐, 초급부터 고수까지" ;;
-    ja)      echo "無限のパズル、初級から達人まで" ;;
-    zh-Hans) echo "无限谜题，从入门到高手" ;;
-    zh-Hant) echo "無限謎題，從入門到高手" ;;
+  case $APP:$1 in
+    sudoku9:en-US)   echo "Endless puzzles, beginner to expert" ;;
+    sudoku9:ko)      echo "끝없는 퍼즐, 초급부터 고수까지" ;;
+    sudoku9:ja)      echo "無限のパズル、初級から達人まで" ;;
+    sudoku9:zh-Hans) echo "无限谜题，从入门到高手" ;;
+    sudoku9:zh-Hant) echo "無限謎題，從入門到高手" ;;
+    sudoku6:en-US)   echo "Five kinds of 6×6 Sudoku, quick to play" ;;
+    sudoku6:ko)      echo "5가지 6×6 스도쿠, 짧고 가볍게" ;;
+    sudoku6:ja)      echo "5種類の6×6数独、さくっと遊べる" ;;
+    sudoku6:zh-Hans) echo "5种6×6数独，轻松快速" ;;
+    sudoku6:zh-Hant) echo "5種6×6數獨，輕鬆快速" ;;
   esac
 }
 

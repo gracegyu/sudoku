@@ -25,7 +25,7 @@
 | B-1 | In Progress | **P1** | 2026-09-19 | **AdMob 정책 위반 해소 — GDPR 동의(UMP) 도입.** SDK 7.69 → 13.9 · 실기 확인 통과 · **4.940 심사 제출 완료.** 심사 결과와 정책 센터 대기 |
 | B-2 | **Open** | P3 | 2026-09-19 | **후보 계산(CALCCANDI)에 보상형 광고를 붙인다** — 유닛은 만들어져 있는데 **기능이 없다.** 어떻게 열어줄지 결정이 필요하다 `[사람]` |
 | B-3 | **Open** | P2 | 2026-09-19 | **나머지 세 앱(Sudoku9Pro · Sudoku6 · Sudoku6Pro)을 올린다** — 코드는 이미 고쳐져 있다. Sudoku9 심사 결과를 보고 움직인다 |
-| B-4 | In Progress | P2 | 2026-10-26 | **App Store 크리에이티브 자산(검색 결과 · 헤더)** — Sudoku9 free·paid 20장 **승인·게시 완료 (10-27).** 남은 것: 전환율 비교 · Sudoku6 |
+| B-4 | In Progress | P2 | 2026-10-26 | **App Store 크리에이티브 자산(검색 결과 · 헤더)** — Sudoku9 free·paid 20장 **승인·게시 완료 (10-27).** Sudoku6 free·paid 20장 **심사 제출 (10-27)** |
 | B-5 | **Open** | P2 | 2026-10-26 | **Sudoku9 Pro 에 부제가 없다** (전 언어 빈칸) — B-3 으로 Pro 를 올릴 때 같이 넣는다 |
 
 ---
@@ -265,7 +265,7 @@ ASC 가 2026-10-05 에 **Asset Library** 를 열었다. 검색 결과 이미지(
 ### 만들기 · 올리기
 
 ```
-tools/creative/make_sudoku9.sh                       그림 (다섯 언어 × 2장)
+tools/creative/make_creative.sh sudoku9|sudoku6      그림 (다섯 언어 × 2장)
 ./deploy.sh creative sudoku9free sudoku9paid         업로드 + 심사 제출
 ./deploy.sh creative-status sudoku9free              상태
 ./deploy.sh creative-place sudoku9free sudoku9paid   승인 뒤 판매 중 버전에 꽂기
@@ -282,7 +282,10 @@ tools/creative/make_sudoku9.sh                       그림 (다섯 언어 × 2�
 - 2026-10-27 전부 APPROVED → `place` 로 판매 중 버전 언어별 자리에 꽂음.
   되읽어 free·paid 각 검색 결과 5 · 헤더 5 확인. **이 경로의 첫 실행이었다.**
 - 그 뒤: 2~4주 동안 ASC Analytics 의 노출 → 제품 페이지 전환율을 전후로 본다
-- 효과가 있으면 Sudoku6 (`make_sudoku6.sh` 는 아직 없다)
+- 2026-10-27 Sudoku6 free·paid 각 10장 제출 → `WAITING_FOR_REVIEW`
+  (reviewSubmission free `958f6eb4-…` · paid `fb5d5e6d-…`). Sudoku6 은 부제가
+  **없어서** 한 줄이 「5가지 6×6 스도쿠, 짧고 가볍게」를 말한다.
+  **다음:** 승인되면 `./deploy.sh creative-place sudoku6free sudoku6paid`
 
 ### 그림 규칙
 
