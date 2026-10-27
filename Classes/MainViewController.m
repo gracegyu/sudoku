@@ -818,9 +818,6 @@
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateNormal];
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
-#ifndef USE_JMC
-    [self setButtonMode:buttonFeedback.alpha mode:NO];
-#endif
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
 
     [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
@@ -2657,18 +2654,67 @@ BOOL IsiPhoneX3(void)
 {
     [self hideMenuView:NO];
 
-#ifdef USE_JMC
 #ifdef USE_FLURRY
     [Flurry logEvent:@"ShowFeedbackView"];
 #endif
-	//[self hideMenuView:NO];
-	
-	UIViewController *controller = [[JMC sharedInstance] viewController];
-    [controller setModalPresentationStyle:UIModalPresentationFullScreen];
-    [self presentViewController:controller animated:YES completion:nil];
-#endif
+    [self openFeedbackPortal];
     [self startGameTimer];
     [self DoneQuest:eQuestSendfeedback];
+}
+
+/// Jira 고객 포털을 브라우저로 연다.
+///
+/// 예전 JMC(gracegyu.atlassian.net) 포털이 사라져서 Allsudoku와 같은
+/// 서비스 데스크 URL을 연다. 앱 이름은 빌드 매크로로 Sudoku9/6·무료/유료를 구분한다.
+/// UserId는 항상 넣고, 닉네임은 아이디와 다른 이름을 정했을 때만 넣는다.
+///
+/// 반환값: 없음
+- (void)openFeedbackPortal
+{
+    NSDictionary *info = [[NSBundle mainBundle] infoDictionary];
+    NSString *version = [info objectForKey:@"CFBundleShortVersionString"] ?: @"";
+    NSString *build = [info objectForKey:@"CFBundleVersion"] ?: @"";
+    NSString *appVer = [NSString stringWithFormat:@"%@ (%@)", version, build];
+
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+    NSString *appName = @"Sudoku9 Free (ObjC)";
+#else
+    NSString *appName = @"Sudoku9 (ObjC)";
+#endif
+#elif defined(SUDOKU6)
+#ifdef ADMOB_FREEVERSION
+    NSString *appName = @"Sudoku6 Free (ObjC)";
+#else
+    NSString *appName = @"Sudoku6 (ObjC)";
+#endif
+#else
+    NSString *appName = @"Sudoku (ObjC)";
+#endif
+
+    UIDevice *dev = [UIDevice currentDevice];
+    NSString *osLine = [NSString stringWithFormat:@"iOS %@", [dev systemVersion] ?: @""];
+    NSString *device = [dev name] ?: ([dev model] ?: @"");
+    NSString *userIdStr = [NSString stringWithFormat:@"%ld", (long)gUserID];
+    NSString *realName = [self getUserName];
+
+    NSString *summary = [NSString stringWithFormat:@"Bug report - %@ iOS %@", appName, appVer];
+    NSMutableString *description = [NSMutableString stringWithFormat:
+                                    @"Game: %@\nOS: %@\nApp: %@\nDevice: %@\nUserId: %@\n",
+                                    appName, osLine, appVer, device, userIdStr];
+    if ([realName length] > 0) {
+        [description appendFormat:@"Nickname: %@\n", realName];
+    }
+    [description appendString:@"\n"];
+    NSString *urlStr = [NSString stringWithFormat:
+                        @"https://abctechsw.atlassian.net/servicedesk/customer/portal/13/group/14/create/62?summary=%@&description=%@",
+                        [self percentEscapeString:summary],
+                        [self percentEscapeString:description]];
+    NSURL *url = [NSURL URLWithString:urlStr];
+    if (url != nil) {
+        // iOS 18부터 deprecated openURL: 은 무조건 NO를 돌려 아무 화면도 안 연다.
+        [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+    }
 }
 
 

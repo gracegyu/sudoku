@@ -175,6 +175,10 @@ TPMultiLayoutViewController
 
 - (IBAction)done;
 
+// Crash 테스트 버튼은 심사 빌드에서 뺀다.
+//- (void)installTestFlightCrashButton;
+//- (void)crashForCrashlytics;
+
 @end
 
 

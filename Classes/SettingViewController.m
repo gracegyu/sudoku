@@ -17,7 +17,25 @@
 #ifdef USE_FLURRY
 #import "Flurry.h"
 #endif
+// Crash 테스트 버튼은 심사 빌드에서 뺀다.
+//#import <stdlib.h>
+//#import <FirebaseCore/FirebaseCore.h>
+//#import <FirebaseCrashlytics/FirebaseCrashlytics.h>
 
+#if 0
+/// TestFlight(또는 샌드박스) 설치인지 본다.
+///
+/// App Store 정식 영수증은 `receipt`이고, TestFlight는 `sandboxReceipt`다.
+/// 스토어 사용자에게는 크래시 버튼을 숨긴다.
+///
+/// 매개변수: 없음
+/// 반환값: TestFlight이면 YES
+static BOOL IsTestFlightInstall(void)
+{
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    return [[receiptURL lastPathComponent] isEqualToString:@"sandboxReceipt"];
+}
+#endif
 
 
 @implementation SettingViewController
@@ -274,6 +292,7 @@
     [self setImageSkinColor];
 	[self setImageLocale];
     [self setNoAdButton];
+    // [self installTestFlightCrashButton];
     
     
     
@@ -640,18 +659,54 @@
 
 - (IBAction)goBugReport
 {
-#ifdef USE_JMC
-    UIViewController *controller = [[JMC sharedInstance] viewController];
-
-    [self presentViewController:controller animated:YES completion:nil];
-
-#endif
-/*
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-              @"http://code.google.com/p/gracegyu/issues/entry"]];
-*/
+    [(MainViewController *)mainViewController openFeedbackPortal];
 }
+
+#if 0
+/// TestFlight일 때만 설정 네비게이션 왼쪽에 Crash 버튼을 붙인다.
+///
+/// 매개변수: 없음
+/// 반환값: 없음
+- (void)installTestFlightCrashButton
+{
+    if (!IsTestFlightInstall()) {
+        return;
+    }
+    UIBarButtonItem *crashItem = [[UIBarButtonItem alloc] initWithTitle:@"Crash"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(crashForCrashlytics)];
+    naviItem.leftBarButtonItem = crashItem;
+    [crashItem release];
+}
+
+/// 확인을 받은 뒤 Crashlytics 테스트 크래시를 낸다.
+///
+/// 매개변수: 없음
+/// 반환값: 없음
+- (void)crashForCrashlytics
+{
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:@"Crashlytics"
+                                message:@"테스트용으로 앱을 바로 종료합니다. TestFlight에서 다시 실행하면 Firebase 콘솔에 리포트가 보입니다."
+                                preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:gettext(@"Cancel", nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:nil];
+    UIAlertAction *crashAction = [UIAlertAction actionWithTitle:@"Crash"
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction *action) {
+        if ([FIRApp defaultApp] == nil) {
+            [FIRApp configure];
+        }
+        [[FIRCrashlytics crashlytics] log:@"TF settings crash button"];
+        abort();
+    }];
+    [alert addAction:cancelAction];
+    [alert addAction:crashAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+#endif
 
 - (void) alertMessageButton:(NSString*)title msg:(NSString*) msg button:(NSString*)button
 {

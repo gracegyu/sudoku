@@ -19,9 +19,22 @@
 #import "Flurry.h"
 #endif
 #import "Locale.h"
+#import <FirebaseCore/FirebaseCore.h>
 //#import <FacebookSDK/FacebookSDK.h>
 
-
+/// Firebase Crashlytics를 시작한다.
+///
+/// 번들의 GoogleService-Info.plist는 타겟별 빌드 스크립트가 복사한다.
+/// 이미 초기화된 경우에는 다시 부르지 않는다.
+///
+/// 매개변수: 없음
+/// 반환값: 없음
+static void ConfigureFirebase(void)
+{
+    if ([FIRApp defaultApp] == nil) {
+        [FIRApp configure];
+    }
+}
 
 @implementation AppDelegate
 
@@ -138,7 +151,7 @@ BOOL IsiPhoneX(void)
     NSString *strCountryCode = [NSString stringWithFormat:@"Country(%@)", countryCode];
 
     DLog(@"Country Code = %@", countryCode);
-    
+
 #ifdef USE_FLURRY
     [Flurry startSession:FLURRY_KEY];
     [Flurry setAppVersion:majorVersion];
@@ -153,6 +166,8 @@ BOOL IsiPhoneX(void)
                                       location:YES
                                     dataSource:mainViewController];
 #endif
+    // JMC CrashReporter가 예외 핸들러를 가져가므로 Crashlytics는 그 다음에 붙인다.
+    ConfigureFirebase();
     
 #ifdef ADMOB_FREEVERSION
     bNoAd = NO;

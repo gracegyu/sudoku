@@ -430,6 +430,8 @@ typedef struct ADSTATE
 - (IBAction)showHelpView;
 - (IBAction)showRankView;
 - (IBAction)showFeedbackView;
+/// Jira 고객 포털을 브라우저로 연다. 게임·OS·버전·기기·닉네임을 쿼리에 넣는다.
+- (void)openFeedbackPortal;
 
 
 
