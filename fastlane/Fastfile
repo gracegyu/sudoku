@@ -28,6 +28,18 @@ APPS = {
 
 TEAM_ID = "376QCT8NVY"
 
+# scheme => 새 사이트 slug (STORE_URLS.md §6 — factory 저장소가 정본).
+# 스킴 이름(paid)과 slug(pro)가 다르다.
+SLUGS = {
+  "sudoku9free" => "sudoku9free",
+  "sudoku9paid" => "sudoku9pro",
+  "sudoku6free" => "sudoku6free",
+  "sudoku6paid" => "sudoku6pro",
+}.freeze
+
+# 지원 · 개인정보 URL 을 올릴 로케일 = fastlane/metadata/ 의 로케일 폴더.
+URL_LOCALES = %w[en-US ja ko zh-Hans zh-Hant].freeze
+
 platform :ios do
   # ── 고를 앱 ────────────────────────────────────────────────────────────
   #
@@ -43,6 +55,21 @@ platform :ios do
       UI.user_error!("모르는 앱: #{unknown.join(', ')}\n쓸 수 있는 것: #{APPS.keys.join(' · ')}")
     end
     names
+  end
+
+  # 앱별 지원 · 개인정보 URL.
+  #
+  # 네 앱이 메타데이터 폴더 하나를 나눠 쓰는데 이 둘은 앱마다 다르다
+  # (개인정보는 Free/Pro 광고 문구가 달라 앱별 페이지). 그래서 파일이 아니라
+  # deliver 옵션(로케일 => URL 해시)으로 넘긴다. deliver 는 옵션이 있으면
+  # 폴더의 같은 이름 파일보다 옵션을 먼저 쓰므로 release_notes · subtitle ·
+  # marketing_url 동작은 그대로다.
+  def store_urls(scheme)
+    slug = SLUGS.fetch(scheme)
+    {
+      support_url: URL_LOCALES.to_h { |l| [l, "https://go.smartoneinc.com/#{slug}/support"] },
+      privacy_url: URL_LOCALES.to_h { |l| [l, "https://go.smartoneinc.com/#{slug}/privacy"] },
+    }
   end
 
   # App Store Connect API 키.
@@ -192,6 +219,7 @@ platform :ios do
           skip_metadata: false,
           skip_screenshots: true,
           precheck_include_in_app_purchases: false,
+          **store_urls(scheme),           # support_url · privacy_url (앱별)
           submission_information: {
             add_id_info_uses_idfa: true,
             add_id_info_serves_ads: true,
