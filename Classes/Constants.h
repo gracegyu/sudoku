@@ -9,7 +9,7 @@
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"403191170"  // SUDOKU9 Free
 #define APPSHARE_ID @"403191170"  // SUDOKU9 Free
-#define SHORTENURL  @"http://goo.gl/VQUlv"
+#define SHORTENURL  @"https://apps.apple.com/app/id403191170"
 #define FACEBOOK_ID @"302256366555317"
 #define isFree      1
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~5788347192")
@@ -22,7 +22,7 @@
 
 #define APP_ID      @"386917779"  // SUDOKU9 Paid
 #define APPSHARE_ID @"403191170"  // SUDOKU9 Paid
-#define SHORTENURL  @"http://goo.gl/7tcTc"
+#define SHORTENURL  @"https://apps.apple.com/app/id386917779"
 #define FACEBOOK_ID @"116121415220692"
 #define isFree      0
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4300256876")
@@ -43,7 +43,7 @@
 #ifdef ADMOB_FREEVERSION
 #define APP_ID      @"568783854"  // SUDOKU6 Free
 #define APPSHARE_ID @"568783854"  // SUDOKU6 Free
-#define SHORTENURL  @"http://goo.gl/Mofwx"
+#define SHORTENURL  @"https://apps.apple.com/app/id568783854"
 #define FACEBOOK_ID @"126906610795923"
 #define isFree      1
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~4311613994")
@@ -55,7 +55,7 @@
 #else
 #define APP_ID      @"574356934"  // SUDOKU6 Paid
 #define APPSHARE_ID @"568783854"  // SUDOKU6 Paid
-#define SHORTENURL  @"http://goo.gl/DtLbw"
+#define SHORTENURL  @"https://apps.apple.com/app/id574356934"
 #define FACEBOOK_ID @"381531935263532"
 #define isFree      0
 #define MY_APP_UNIT_ID                  (@"ca-app-pub-1077680179839843~6632451332")
