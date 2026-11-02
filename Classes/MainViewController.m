@@ -2662,11 +2662,53 @@ BOOL IsiPhoneX3(void)
     [self DoneQuest:eQuestSendfeedback];
 }
 
-/// Jira 고객 포털을 브라우저로 연다.
+/// 쿼리 값을 퍼센트 인코딩한다 — **공백은 %20** 이다 (`+` 가 아니다).
 ///
-/// 예전 JMC(gracegyu.atlassian.net) 포털이 사라져서 Allsudoku와 같은
-/// 서비스 데스크 URL을 연다. 앱 이름은 빌드 매크로로 Sudoku9/6·무료/유료를 구분한다.
-/// UserId는 항상 넣고, 닉네임은 아이디와 다른 이름을 정했을 때만 넣는다.
+/// 허용 글자는 `A-Za-z0-9-._~` 뿐이다. 지원 페이지(JS `URLSearchParams`)가
+/// 그대로 되돌려 읽는다. `percentEscapeString:` 은 공백을 `+` 로 바꾸므로
+/// 여기에는 쓰지 않는다.
+static NSString *SupportQueryEscape(NSString *string)
+{
+    if (string == nil) {
+        return @"";
+    }
+    static NSCharacterSet *allowed = nil;
+    if (allowed == nil) {
+        allowed = [[NSCharacterSet characterSetWithCharactersInString:
+                    @"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~"] retain];
+    }
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowed] ?: @"";
+}
+
+/// 지원 페이지 주소의 앱 slug. 앱별 번들 ID 가 아니라 빌드 매크로로 가른다.
+///
+/// 정본은 factory 저장소 `_docs/strategies/STORE_URLS.md` §6 의 slug 표다.
+/// 반환값: sudoku9free · sudoku9pro · sudoku6free · sudoku6pro
+- (NSString *)supportSlug
+{
+#ifdef SUDOKU9
+#ifdef ADMOB_FREEVERSION
+    return @"sudoku9free";
+#else
+    return @"sudoku9pro";
+#endif
+#elif defined(SUDOKU6)
+#ifdef ADMOB_FREEVERSION
+    return @"sudoku6free";
+#else
+    return @"sudoku6pro";
+#endif
+#else
+    return @"sudoku9pro";
+#endif
+}
+
+/// 지원(문의) 페이지를 브라우저로 연다.
+///
+/// `https://go.smartoneinc.com/<slug>/support?os=iOS&osv=…&app=…&device=…&lang=…&userid=…&nickname=…`
+/// 페이지가 이 쿼리로 Jira 서비스 데스크 양식을 채워 넘긴다.
+/// 기기 이름(사용자가 붙인 이름) 대신 모델 식별자(iPhone15,4)를 보낸다.
+/// UserId 는 항상, 닉네임은 아이디와 다른 이름을 정했을 때만 넣는다.
 ///
 /// 반환값: 없음
 - (void)openFeedbackPortal
@@ -2676,40 +2718,25 @@ BOOL IsiPhoneX3(void)
     NSString *build = [info objectForKey:@"CFBundleVersion"] ?: @"";
     NSString *appVer = [NSString stringWithFormat:@"%@ (%@)", version, build];
 
-#ifdef SUDOKU9
-#ifdef ADMOB_FREEVERSION
-    NSString *appName = @"Sudoku9 Free (ObjC)";
-#else
-    NSString *appName = @"Sudoku9 (ObjC)";
-#endif
-#elif defined(SUDOKU6)
-#ifdef ADMOB_FREEVERSION
-    NSString *appName = @"Sudoku6 Free (ObjC)";
-#else
-    NSString *appName = @"Sudoku6 (ObjC)";
-#endif
-#else
-    NSString *appName = @"Sudoku (ObjC)";
-#endif
-
-    UIDevice *dev = [UIDevice currentDevice];
-    NSString *osLine = [NSString stringWithFormat:@"iOS %@", [dev systemVersion] ?: @""];
-    NSString *device = [dev name] ?: ([dev model] ?: @"");
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *device = [NSString stringWithUTF8String:systemInfo.machine] ?: @"";
+    NSString *osv = [NSString stringWithFormat:@"iOS %@", [[UIDevice currentDevice] systemVersion] ?: @""];
+    NSString *lang = [[NSLocale preferredLanguages] firstObject] ?: @"";
     NSString *userIdStr = [NSString stringWithFormat:@"%ld", (long)gUserID];
     NSString *realName = [self getUserName];
 
-    NSString *summary = [NSString stringWithFormat:@"Bug report - %@ iOS %@", appName, appVer];
-    NSMutableString *description = [NSMutableString stringWithFormat:
-                                    @"Game: %@\nOS: %@\nApp: %@\nDevice: %@\nUserId: %@\n",
-                                    appName, osLine, appVer, device, userIdStr];
+    NSMutableString *urlStr = [NSMutableString stringWithFormat:
+                               @"https://go.smartoneinc.com/%@/support?os=iOS&osv=%@&app=%@&device=%@&lang=%@&userid=%@",
+                               [self supportSlug],
+                               SupportQueryEscape(osv),
+                               SupportQueryEscape(appVer),
+                               SupportQueryEscape(device),
+                               SupportQueryEscape(lang),
+                               SupportQueryEscape(userIdStr)];
     if ([realName length] > 0) {
-        [description appendFormat:@"Nickname: %@\n", realName];
+        [urlStr appendFormat:@"&nickname=%@", SupportQueryEscape(realName)];
     }
-    [description appendString:@"\n"];
-    NSString *urlStr = [NSString stringWithFormat:
-                        @"https://abctechsw.atlassian.net/servicedesk/customer/portal/13/group/14/create/62?summary=%@&description=%@",
-                        [self percentEscapeString:summary],
-                        [self percentEscapeString:description]];
     NSURL *url = [NSURL URLWithString:urlStr];
     if (url != nil) {
         // iOS 18부터 deprecated openURL: 은 무조건 NO를 돌려 아무 화면도 안 연다.
