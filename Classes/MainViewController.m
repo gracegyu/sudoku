@@ -5324,7 +5324,10 @@ static NSInteger LEVELSCORE[] = {
     // Check, is this turn is ad turn
     
     if (self.interstitial) {
-        [self.interstitial release];
+        // [크래시 수정] MRC 환경에서 interstitial 프로퍼티는 strong(retain)이다.
+        // 기존에는 [self.interstitial release] 를 직접 호출한 뒤 self.interstitial = nil 을 실행했는데,
+        // nil 세터가 이미 해제된 객체를 한 번 더 release 하여 이중 해제(EXC_BAD_ACCESS)가 발생했다.
+        // 세터가 release 를 대신 수행하므로 nil 대입만 한다.
         self.interstitial = nil;
     }
     
