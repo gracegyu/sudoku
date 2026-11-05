@@ -350,7 +350,11 @@ static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *lan
 @property (nonatomic, strong) UIActivityIndicatorView *spinner;
 @property (nonatomic, copy) NSArray<MGEntry *> *entries;
 @property (nonatomic, assign) BOOL loaded;
+@property (nonatomic, copy) void (^onDismiss)(void);
 @end
+
+/// 지금 떠 있는 More Games 화면. 게임 타이머가 이것을 보고 다시 돌지 않는다.
+static __weak MoreGamesViewController *sShowing = nil;
 
 @implementation MoreGamesViewController
 
@@ -370,14 +374,28 @@ static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *lan
     return top;
 }
 
++ (BOOL)isShowing
+{
+    return sShowing != nil;
+}
+
 + (void)presentFromTopViewController
 {
+    [self presentFromTopViewControllerOnDismiss:nil];
+}
+
++ (void)presentFromTopViewControllerOnDismiss:(void (^)(void))onDismiss
+{
     UIViewController *top = [self topViewController];
-    if (!top) return;
-    // 이미 떠 있으면 다시 띄우지 않는다.
-    if ([top isKindOfClass:[UINavigationController class]] &&
-        [((UINavigationController *)top).viewControllers.firstObject isKindOfClass:self]) return;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:[self new]];
+    // 띄울 곳이 없거나 이미 떠 있으면 곧바로 돌려준다 — 부른 쪽이 멈춘 것을 되살릴 수 있게.
+    if (!top || sShowing) {
+        if (onDismiss) onDismiss();
+        return;
+    }
+    MoreGamesViewController *vc = [self new];
+    vc.onDismiss = onDismiss;
+    sShowing = vc;
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     nav.modalPresentationStyle = UIModalPresentationFullScreen;
     [top presentViewController:nav animated:YES completion:nil];
 }
@@ -485,7 +503,12 @@ static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *lan
 
 - (void)close
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    void (^done)(void) = self.onDismiss;
+    self.onDismiss = nil;
+    [self dismissViewControllerAnimated:YES completion:^{
+        sShowing = nil;
+        if (done) done();
+    }];
 }
 
 #pragma mark Data

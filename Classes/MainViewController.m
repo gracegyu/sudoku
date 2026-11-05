@@ -2769,8 +2769,14 @@ BOOL IsiPhoneX3(void)
 #ifdef USE_FLURRY
     [Flurry logEvent:@"ShowMoreGames"];
 #endif
-    [Locale openMoreGames];
-    [self startGameTimer];
+    // More Games 가 떠 있는 동안은 게임 시간이 흐르지 않는다(기록 경쟁). 메뉴를 닫으면 타이머가 다시 돌므로
+    // 그 상태를 기억해 두고 멈췄다가, 화면이 닫히면(dismiss 완료) 원래대로 되살린다. 원래 멈춰 있었으면 그대로 둔다.
+    BOOL wasRunning = [timerGame isValid];
+    [self stopGameTimer];
+    [Locale openMoreGamesOnDismiss:^{
+        if (wasRunning)
+            [self startGameTimer];
+    }];
 }
 
 - (IBAction)showFeedbackView
@@ -4604,6 +4610,9 @@ static NSString *SupportQueryEscape(NSString *string)
 - (void) startGameTimer
 {
     if (mainView.sudokuGame.isGameFinished)
+        return;
+    // More Games 화면이 떠 있는 동안(앱 복귀 등)에는 돌리지 않는다. 닫힐 때 showMoreGames 가 되살린다.
+    if ([MoreGamesViewController isShowing])
         return;
     
 	if ([timerGame isValid])

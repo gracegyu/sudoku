@@ -103,4 +103,9 @@ static NSBundle *bundle = nil;
     [MoreGamesViewController presentFromTopViewController];
 }
 
++ (void) openMoreGamesOnDismiss:(void (^)(void))onDismiss
+{
+    [MoreGamesViewController presentFromTopViewControllerOnDismiss:onDismiss];
+}
+
 @end

@@ -23,5 +23,8 @@
 /// 설정의 goNewApps · 메뉴 · 완료 창이 모두 이 한 곳을 부른다.
 + (void) openMoreGames;
 
+/// 위와 같고, More Games 화면이 닫힌 뒤 onDismiss 를 부른다(게임 타이머 되살리기용).
++ (void) openMoreGamesOnDismiss:(void (^)(void))onDismiss;
+
 @end
 

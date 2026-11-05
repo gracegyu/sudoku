@@ -18,6 +18,12 @@
 /// 지금 맨 위 화면 위에 More Games 를 전체 화면으로 띄운다. 닫기는 dismiss 로 원래 화면에 돌아온다.
 + (void)presentFromTopViewController;
 
+/// 위와 같고, 닫기(dismiss) 가 끝나면 onDismiss 를 부른다. 띄우지 못했으면 곧바로 부른다.
++ (void)presentFromTopViewControllerOnDismiss:(void (^)(void))onDismiss;
+
+/// More Games 화면이 떠 있나. 떠 있는 동안 게임 타이머를 다시 돌리지 않는 데 쓴다.
++ (BOOL)isShowing;
+
 @end
 
 #ifdef DEBUG
