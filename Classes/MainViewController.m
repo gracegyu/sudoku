@@ -452,10 +452,21 @@
                                  [self showInterstitial];
 #endif // ADMOB_FREEVERSION
                          }];
-    
+
     [alert addAction:ok];
-    
-    
+
+    // More Games: 누르면 목록(지금은 개발자 페이지)을 연다. OK 의 전면 광고 흐름은 그대로이고,
+    // 이 단추를 고르면 그 판의 전면 광고는 보이지 않는다(앱 밖으로 나가는 길이라 돌아와서 띄우지 않는다).
+    UIAlertAction* more = [UIAlertAction
+                           actionWithTitle:gettext(@"More Games", nil)
+                           style:UIAlertActionStyleDefault
+                           handler:^(UIAlertAction * action)
+                           {
+                               [Locale openMoreGames];
+                           }];
+    [alert addAction:more];
+    alert.preferredAction = ok;
+
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -819,6 +830,7 @@
 	[buttonFeedback		setTitle:gettext(@"Feedback", nil) forState:UIControlStateDisabled];
     DLog(@"gettext(@\"Feedback\", nil)) => %@", gettext(@"Feedback", nil));
 	[buttonMenuClose	setTitle:gettext(@"Close", nil) forState:UIControlStateNormal];
+	[buttonMoreGames	setTitle:gettext(@"More Games", nil) forState:UIControlStateNormal];
 
     [buttonMenu			setTitle:gettext(@"menu", nil) forState:UIControlStateNormal];
     [buttonMemo			setTitle:gettext(@"memo", nil) forState:UIControlStateNormal];
@@ -1191,6 +1203,7 @@
 
      
      [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
+     [self installMoreGamesMenuButton];
      [viewNewGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [viewDailyGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      
@@ -2649,6 +2662,112 @@ BOOL IsiPhoneX3(void)
     [self gotoRankingWebView:NO];
 }
 
+
+#pragma mark - More Games
+
+/// 메뉴 맨 위에 More Games 를 끼운다.
+///
+/// 메뉴는 xib 가 여럿(기종별)이고 줄 사이 틈이 기종마다 달라서 xib 를 고치지 않는다.
+/// 맨 위 단추를 복제해 글꼴·색을 그대로 물려받고, 아래 단추들은 간격을 조금씩
+/// 줄여 Close 위에 한 줄이 들어갈 자리를 만든다. 메뉴 틀 크기는 바꾸지 않는다.
+- (void) installMoreGamesMenuButton
+{
+    if (buttonMoreGames != nil || viewMenu == nil || buttonMenuClose == nil)
+        return;
+
+    NSMutableArray *items = [NSMutableArray array];
+    for (UIView *v in viewMenu.subviews) {
+        if ([v isKindOfClass:[UIButton class]] && v != buttonMenuClose && !v.hidden)
+            [items addObject:v];
+    }
+    if ([items count] == 0)
+        return;
+    [items sortUsingComparator:^NSComparisonResult(UIView *a, UIView *b) {
+        CGFloat ya = a.frame.origin.y, yb = b.frame.origin.y;
+        return ya < yb ? NSOrderedAscending : (ya > yb ? NSOrderedDescending : NSOrderedSame);
+    }];
+
+    UIButton *top = [items objectAtIndex:0];
+    UIButton *last = [items lastObject];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:top requiringSecureCoding:NO error:nil];
+    UIButton *btn = nil;
+    if (data) {
+        NSKeyedUnarchiver *un = [[[NSKeyedUnarchiver alloc] initForReadingFromData:data error:nil] autorelease];
+        un.requiresSecureCoding = NO;
+        btn = [un decodeObjectForKey:NSKeyedArchiveRootObjectKey];
+    }
+    if (![btn isKindOfClass:[UIButton class]])
+        return;
+    btn.tag = 0;
+
+    NSUInteger count = [items count];
+    CGFloat topY = top.frame.origin.y;
+    CGFloat avail = buttonMenuClose.frame.origin.y - 8 - topY;
+    CGFloat oldPitch = count > 1 ? (last.frame.origin.y - topY) / (count - 1) : top.frame.size.height + 8;
+    CGFloat pitch = MIN(oldPitch, (avail - last.frame.size.height) / count);
+    if (pitch < 24)     // 자리가 이만큼도 없으면 넣지 않는다. 기존 메뉴가 깨지는 것보다 낫다.
+        return;
+
+    // 메뉴 항목 왼쪽의 그림(UIImageView)은 줄을 따라 같이 옮긴다. 단추와 가장 가까운 줄이 짝이다.
+    NSMutableArray *icons = [NSMutableArray array];
+    for (UIView *v in viewMenu.subviews) {
+        if ([v isKindOfClass:[UIImageView class]] && !v.hidden && v.frame.size.width > 8)
+            [icons addObject:v];
+    }
+    for (UIView *icon in icons) {
+        UIView *near = nil;
+        CGFloat best = CGFLOAT_MAX;
+        for (UIView *b in items) {
+            CGFloat d = fabs(CGRectGetMidY(b.frame) - CGRectGetMidY(icon.frame));
+            if (d < best) { best = d; near = b; }
+        }
+        if (near != nil && best < 40) {
+            NSUInteger idx = [items indexOfObject:near];
+            CGRect fr = icon.frame;
+            fr.origin.y += (topY + (idx + 1) * pitch) - near.frame.origin.y;   // 단추가 옮겨 갈 만큼
+            icon.frame = fr;
+        }
+    }
+    UIImageView *refIcon = [icons count] > 0 ? [icons objectAtIndex:0] : nil;
+
+    CGRect f = top.frame;
+    f.origin.y = topY;
+    f.size.height = MIN(f.size.height, pitch - 2);
+    btn.frame = f;
+    for (NSUInteger i = 0; i < count; i++) {
+        UIView *v = [items objectAtIndex:i];
+        CGRect r = v.frame;
+        r.origin.y = topY + (i + 1) * pitch;
+        r.size.height = MIN(r.size.height, pitch - 2);
+        v.frame = r;
+    }
+
+    [btn removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [btn addTarget:self action:@selector(showMoreGames) forControlEvents:UIControlEventTouchUpInside];
+    [btn setTitle:gettext(@"More Games", nil) forState:UIControlStateNormal];
+    [viewMenu addSubview:btn];
+    buttonMoreGames = btn;
+    if (refIcon != nil) {
+        UIImage *img = [UIImage systemImageNamed:@"square.grid.2x2.fill"];
+        UIImageView *iv = [[[UIImageView alloc] initWithImage:img] autorelease];
+        iv.contentMode = UIViewContentModeScaleAspectFit;
+        iv.tintColor = [UIColor blackColor];
+        CGRect ir = refIcon.frame;
+        ir.origin.y = CGRectGetMidY(btn.frame) - ir.size.height / 2;
+        iv.frame = ir;
+        [viewMenu addSubview:iv];
+    }
+}
+
+- (IBAction)showMoreGames
+{
+    [self hideMenuView:NO];
+#ifdef USE_FLURRY
+    [Flurry logEvent:@"ShowMoreGames"];
+#endif
+    [Locale openMoreGames];
+    [self startGameTimer];
+}
 
 - (IBAction)showFeedbackView
 {

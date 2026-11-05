@@ -6,6 +6,7 @@
 //
 //
 
+#import <UIKit/UIKit.h>
 #import "Locale.h"
 #import "Constants.h"
 
@@ -92,5 +93,11 @@ static NSBundle *bundle = nil;
 
 
 
+
++ (void) openMoreGames
+{
+    NSURL *url = [NSURL URLWithString:@"http://itunes.apple.com/artist/abc-consulting/id353770805"];
+    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+}
 
 @end

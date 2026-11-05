@@ -168,6 +168,7 @@ typedef struct ADSTATE
     UIButton    *buttonSetting;
 	
 	UIButton	*buttonMenuClose;
+	UIButton	*buttonMoreGames;	// 메뉴 첫 항목, 코드로 만든다
 	UIButton	*buttonHelp;
 	UIButton	*buttonRank;
 	UIButton	*buttonHistory;
@@ -430,6 +431,7 @@ typedef struct ADSTATE
 - (IBAction)showHelpView;
 - (IBAction)showRankView;
 - (IBAction)showFeedbackView;
+- (IBAction)showMoreGames;
 /// Jira 고객 포털을 브라우저로 연다. 게임·OS·버전·기기·닉네임을 쿼리에 넣는다.
 - (void)openFeedbackPortal;
 

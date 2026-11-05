@@ -773,9 +773,7 @@ static BOOL IsTestFlightInstall(void)
 
 - (IBAction)goNewApps
 {
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-    @"http://itunes.apple.com/artist/abc-consulting/id353770805"]];
+    [Locale openMoreGames];
 
 #ifdef USE_FLURRY
     [Flurry logEvent:@"goMoewApps"];
