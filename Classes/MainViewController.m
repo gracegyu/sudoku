@@ -1205,6 +1205,7 @@
      
      [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [self installMoreGamesMenuButton];
+     [MoreGamesViewController attachNewDotToView:buttonMenu afterTitleOfButton:NO];   // 메뉴 단추 안에 숨은 More Games 를 알린다
      [viewNewGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [viewDailyGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      
@@ -1299,7 +1300,7 @@
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch()) return; // 시뮬레이터 More Games 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo()) return; // 시뮬레이터 More Games 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
@@ -1365,6 +1366,9 @@
 // 한다.
 - (void) requestConsentThenStartAds
 {
+#ifdef DEBUG
+    if (MGDebugNewDotDemo()) return; // 새 앱 점 촬영: 동의 창(UMP·ATT)이 화면을 가린다 (Release 에 없다)
+#endif
     UMPRequestParameters *params = [[[UMPRequestParameters alloc] init] autorelease];
     params.tagForUnderAgeOfConsent = NO;
 
@@ -2751,6 +2755,7 @@ BOOL IsiPhoneX3(void)
     [btn setTitle:gettext(@"More Games", nil) forState:UIControlStateNormal];
     [viewMenu addSubview:btn];
     buttonMoreGames = btn;
+    [MoreGamesViewController attachNewDotToView:btn afterTitleOfButton:YES];   // 새 앱 출시 표시
     if (refIcon != nil) {
         UIImage *img = [UIImage systemImageNamed:@"square.grid.2x2.fill"];
         UIImageView *iv = [[[UIImageView alloc] initWithImage:img] autorelease];

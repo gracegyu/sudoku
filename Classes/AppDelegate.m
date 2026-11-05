@@ -19,6 +19,7 @@
 #import "Flurry.h"
 #endif
 #import "Locale.h"
+#import "MoreGamesViewController.h"
 #import <FirebaseCore/FirebaseCore.h>
 //#import <FacebookSDK/FacebookSDK.h>
 
@@ -259,6 +260,7 @@ BOOL IsiPhoneX(void)
     //[Appirater setDebug:YES];
     
     [Appirater appLaunched:YES];
+    [MoreGamesViewController refreshNewAppsBadge];   // 새 앱 출시 표시
 
     
 }
@@ -286,6 +288,7 @@ BOOL IsiPhoneX(void)
 
 -(void)applicationWillEnterForeground:(UIApplication*)application
 {
+    [MoreGamesViewController refreshNewAppsBadge];
     [Appirater appEnteredForeground:YES];
 }
 

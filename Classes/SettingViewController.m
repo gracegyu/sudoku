@@ -6,6 +6,7 @@
 //  Copyright Raymond 2010. All rights reserved.
 //
 
+#import "MoreGamesViewController.h"
 #import "Locale.h"
 #import "SettingViewController.h"
 #import "MainViewController.h"
@@ -96,9 +97,24 @@ static BOOL IsTestFlightInstall(void)
 
 
 
+/// goNewApps 에 걸린 단추(설정의 More Games 줄)를 찾아 점을 단다.
+- (UIButton *)newAppsButtonIn:(UIView *)root
+{
+    if ([root isKindOfClass:[UIButton class]] &&
+        ([[(UIButton *)root actionsForTarget:self forControlEvent:UIControlEventTouchUpInside] containsObject:@"goNewApps"] ||
+         [[(UIButton *)root actionsForTarget:nil forControlEvent:UIControlEventTouchUpInside] containsObject:@"goNewApps"]))
+        return (UIButton *)root;
+    for (UIView *v in root.subviews) {
+        UIButton *b = [self newAppsButtonIn:v];
+        if (b) return b;
+    }
+    return nil;
+}
+
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     DLog(@"viewWillAppear");
+    [MoreGamesViewController attachNewDotToView:[self newAppsButtonIn:self.view] afterTitleOfButton:NO];
 	self.navigationController.title = gettext(@"Setting", nil);
 }
 

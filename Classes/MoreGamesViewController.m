@@ -98,6 +98,50 @@ static NSString *MGString(id v)
     return [v isKindOfClass:[NSString class]] && [v length] > 0 ? v : nil;
 }
 
+#pragma mark - New dot (새 앱 출시 표시)
+
+// factory ga_ui more_games_new_dot.dart 와 같은 규칙: 카탈로그에 보이는 live 앱 id 집합을
+// 사용자가 More Games 를 마지막으로 열었을 때 본 집합과 비교한다. 새 id 가 있으면 점, 열면 꺼진다.
+// 첫 실행에는 점이 없다 — 그때의 목록을 「본 것」으로 시작한다.
+static NSString *const kMGSeenIdsKey = @"MoreGamesSeenIds";
+NSString *const MoreGamesNewAppsDidChangeNotification = @"MoreGamesNewAppsDidChange";
+
+@class MGEntry;
+static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *langFile, NSDictionary *popularity);
+
+static NSSet<NSString *> *MGVisibleIds(NSDictionary *games)
+{
+    NSMutableSet *ids = [NSMutableSet set];
+    for (MGEntry *e in MGBuildEntries(games, nil, nil)) [ids addObject:e.gameId];
+    return ids;
+}
+
+static NSSet<NSString *> *MGStoredSeenIds(void)
+{
+    NSArray *a = [[NSUserDefaults standardUserDefaults] arrayForKey:kMGSeenIdsKey];
+    return a ? [NSSet setWithArray:a] : nil;
+}
+
+static void MGStoreSeenIds(NSSet<NSString *> *ids)
+{
+    [[NSUserDefaults standardUserDefaults] setObject:[ids.allObjects sortedArrayUsingSelector:@selector(compare:)] forKey:kMGSeenIdsKey];
+}
+
+/// 지금 카탈로그(캐시 → 내장본)의 보이는 id. 카탈로그를 못 읽으면 nil.
+static NSSet<NSString *> *MGCurrentLocalIds(void)
+{
+    NSDictionary *games = MGLoadLocal(@"games.json");
+    return games ? MGVisibleIds(games) : nil;
+}
+
+/// 마지막으로 More Games 를 연 때 본 집합을 지금 것으로 맞춘다.
+static void MGMarkSeen(NSSet<NSString *> *current)
+{
+    if (!current) return;
+    MGStoreSeenIds(current);
+    [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];
+}
+
 static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *langFile, NSDictionary *popularity)
 {
     NSArray *list = [games[@"games"] isKindOfClass:[NSArray class]] ? games[@"games"] : @[];
@@ -158,6 +202,71 @@ static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *lan
         return [pos[a.gameId] compare:pos[b.gameId]];
     }];
 }
+
+#pragma mark - New dot view
+
+static const NSInteger kMGNewDotTag = 0x4D47;
+
+/// 빨간 점. 새 앱이 있을 때만 보인다(알림을 받아 스스로 켜고 끈다). 터치는 아래 단추로 통과한다.
+@interface MGNewDotView : UIView
+- (instancetype)initWithHost:(UIView *)host afterTitle:(BOOL)afterTitle;
+- (void)refresh;
+@end
+
+@implementation MGNewDotView {
+    __weak UIView *_host;
+    BOOL _afterTitle;
+}
+
+- (instancetype)initWithHost:(UIView *)host afterTitle:(BOOL)afterTitle
+{
+    if ((self = [super initWithFrame:CGRectMake(0, 0, 10, 10)])) {
+        _host = host;
+        _afterTitle = afterTitle;
+        self.tag = kMGNewDotTag;
+        self.userInteractionEnabled = NO;
+        self.backgroundColor = [UIColor colorWithRed:0.90 green:0.16 blue:0.16 alpha:1];
+        self.layer.cornerRadius = 5;
+        self.layer.borderWidth = 1.5;
+        self.layer.borderColor = [UIColor whiteColor].CGColor;
+        self.bounds = CGRectMake(0, 0, 11, 11);
+        self.layer.cornerRadius = 5.5;
+        self.hidden = YES;
+        self.isAccessibilityElement = NO;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh)
+                                                     name:MoreGamesNewAppsDidChangeNotification object:nil];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)refresh
+{
+    UIView *host = _host;
+    if (!host) return;
+    BOOL show = [MoreGamesViewController hasNewApps];
+    self.hidden = !show;
+    if (!show) return;
+    CGFloat x = host.bounds.size.width - 2, y = 2;
+    if (_afterTitle && [host isKindOfClass:[UIButton class]]) {
+        UILabel *t = ((UIButton *)host).titleLabel;
+        [host layoutIfNeeded];
+        CGSize sz = [t sizeThatFits:CGSizeMake(host.bounds.size.width, CGFLOAT_MAX)];
+        CGRect tf = t.frame;
+        x = MIN(CGRectGetMinX(tf) + sz.width + 6 + 5.5, host.bounds.size.width - 6);
+        y = CGRectGetMidY(tf) - 7;
+        self.center = CGPointMake(x, y + 5.5);
+        return;
+    }
+    self.center = CGPointMake(x - 3, y + 3);
+    [host bringSubviewToFront:self];
+}
+
+@end
 
 #pragma mark - Icon cache
 
@@ -374,6 +483,59 @@ static __weak MoreGamesViewController *sShowing = nil;
     return top;
 }
 
++ (BOOL)hasNewApps
+{
+    NSSet *seen = MGStoredSeenIds();
+    NSSet *cur = MGCurrentLocalIds();
+    if (!cur) return NO;
+    if (!seen) { MGStoreSeenIds(cur); return NO; }   // 첫 실행: 지금 목록이 출발점
+    return ![cur isSubsetOfSet:seen];
+}
+
++ (void)refreshNewAppsBadge
+{
+#ifdef DEBUG
+    // 시뮬레이터 촬영용: 저장된 「본 집합」에서 하나를 뺀다(새 앱이 나온 것처럼).
+    if ([[NSProcessInfo processInfo].arguments containsObject:@"-MoreGamesNewDotDemo"]) {
+        NSSet *cur = MGCurrentLocalIds();
+        NSMutableSet *seen = [(MGStoredSeenIds() ?: cur) mutableCopy];
+        NSString *drop = [seen.allObjects sortedArrayUsingSelector:@selector(compare:)].firstObject;
+        if (drop) [seen removeObject:drop];
+        MGStoreSeenIds(seen);
+        [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];
+        return;
+    }
+#endif
+    [self hasNewApps];   // 첫 실행이면 여기서 출발점이 저장된다
+    NSURLSessionConfiguration *conf = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    conf.timeoutIntervalForRequest = 10;
+    conf.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:conf];
+    NSURL *url = [NSURL URLWithString:[kMGBaseURL stringByAppendingString:@"games.json"]];
+    [[session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *resp, NSError *err) {
+        NSInteger code = [resp isKindOfClass:[NSHTTPURLResponse class]] ? ((NSHTTPURLResponse *)resp).statusCode : 0;
+        if (code == 200 && MGParseJSON(data)) {
+            [data writeToFile:[MGCacheDir() stringByAppendingPathComponent:@"games.json"] atomically:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (![MoreGamesViewController isShowing] && [self hasNewApps])
+                    [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];
+            });
+        }
+    }] resume];
+    [session finishTasksAndInvalidate];
+}
+
++ (void)attachNewDotToView:(UIView *)host afterTitleOfButton:(BOOL)afterTitle
+{
+    if (!host) return;
+    MGNewDotView *dot = (MGNewDotView *)[host viewWithTag:kMGNewDotTag];
+    if (!dot) {
+        dot = [[MGNewDotView alloc] initWithHost:host afterTitle:afterTitle];
+        [host addSubview:dot];
+    }
+    [dot refresh];
+}
+
 + (BOOL)isShowing
 {
     return sShowing != nil;
@@ -518,6 +680,7 @@ static __weak MoreGamesViewController *sShowing = nil;
     if (!games) return;
     self.entries = MGBuildEntries(games, lang, pop);
     self.loaded = YES;
+    MGMarkSeen(MGVisibleIds(games));   // 열려 있는 동안 보인 목록 = 본 것
     [self updateState];
 }
 
@@ -651,8 +814,30 @@ BOOL MGDebugMoreGamesOnLaunch(void)
     return [[NSProcessInfo processInfo].arguments containsObject:@"-MoreGamesOnLaunch"];
 }
 
+/// 새 앱 점 촬영용: -MoreGamesNewDotDemo 가 있으면 저장된 「본 집합」에서 하나를 빼고(+refreshNewAppsBadge),
+/// -MoreGamesMenuOnLaunch 면 메뉴를, -MoreGamesSettingsOnLaunch 면 설정을 연다. ATT 는 묻지 않는다.
+BOOL MGDebugNewDotDemo(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-MoreGamesNewDotDemo"];
+}
+
++ (void)debugOpenScreen
+{
+    NSArray *args = [NSProcessInfo processInfo].arguments;
+    SEL sel = [args containsObject:@"-MoreGamesMenuOnLaunch"] ? NSSelectorFromString(@"showMenu")
+            : [args containsObject:@"-MoreGamesSettingsOnLaunch"] ? NSSelectorFromString(@"showSettingView") : NULL;
+    if (!sel) return;
+    UIViewController *root = [UIApplication sharedApplication].keyWindow.rootViewController;
+    if ([root respondsToSelector:sel]) {
+        IMP imp = [root methodForSelector:sel];
+        ((void (*)(id, SEL))imp)(root, sel);
+    }
+}
+
 + (void)load
 {
+    if (MGDebugNewDotDemo())
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ [self debugOpenScreen]; });
     if (!MGDebugMoreGamesOnLaunch()) return;
     dispatch_async(dispatch_get_main_queue(), ^{ [MoreGamesViewController debugPresentAttempt:0]; });
 }
