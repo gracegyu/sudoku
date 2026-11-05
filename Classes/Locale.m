@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Locale.h"
+#import "MoreGamesViewController.h"
 #import "Constants.h"
 
 @implementation Locale
@@ -94,10 +95,12 @@ static NSBundle *bundle = nil;
 
 
 
+// 예전에는 http://itunes.apple.com/artist/abc-consulting/id353770805 를 열었다.
+// itunes.apple.com/artist/... 는 Apple Music 의 아티스트 주소 꼴이라 iOS 가 Music 앱으로 보낸다
+// (App Store 개발자 페이지는 apps.apple.com/developer/...). 이제 앱 안 More Games 화면을 띄운다.
 + (void) openMoreGames
 {
-    NSURL *url = [NSURL URLWithString:@"http://itunes.apple.com/artist/abc-consulting/id353770805"];
-    [[UIApplication sharedApplication] openURL:url options:@{} completionHandler:nil];
+    [MoreGamesViewController presentFromTopViewController];
 }
 
 @end

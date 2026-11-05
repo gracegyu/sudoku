@@ -16,6 +16,7 @@
 #import <UserMessagingPlatform/UserMessagingPlatform.h>
 #import "MainView.h"
 #import "Locale.h"
+#import "MoreGamesViewController.h"
 #import "GameCenterUtil.h"
 #ifdef USE_JMC
 #import "JMC.h"
@@ -455,8 +456,8 @@
 
     [alert addAction:ok];
 
-    // More Games: 누르면 목록(지금은 개발자 페이지)을 연다. OK 의 전면 광고 흐름은 그대로이고,
-    // 이 단추를 고르면 그 판의 전면 광고는 보이지 않는다(앱 밖으로 나가는 길이라 돌아와서 띄우지 않는다).
+    // More Games: 누르면 앱 안 More Games 화면(MoreGamesViewController)을 연다. OK 의 전면 광고 흐름은 그대로이고,
+    // 이 단추를 고르면 그 판의 전면 광고는 보이지 않는다(광고 흐름은 바꾸지 않았다).
     UIAlertAction* more = [UIAlertAction
                            actionWithTitle:gettext(@"More Games", nil)
                            style:UIAlertActionStyleDefault
@@ -1297,6 +1298,9 @@
 }
 
 - (void)requestTrackingAuthorization {
+#ifdef DEBUG
+    if (MGDebugMoreGamesOnLaunch()) return; // 시뮬레이터 More Games 촬영용 (Release 에 없다)
+#endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
         // 사용자 사용권 전에 한 번 IDFA의 취득을 시도합니다
