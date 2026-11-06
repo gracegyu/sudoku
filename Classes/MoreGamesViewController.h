@@ -24,8 +24,8 @@
 /// More Games 화면이 떠 있나. 떠 있는 동안 게임 타이머를 다시 돌리지 않는 데 쓴다.
 + (BOOL)isShowing;
 
-/// 새 앱 출시 표시(빨간 점). 카탈로그에 보이는 live 앱 id 가 마지막으로 More Games 를 열었을 때 본 집합에 없는 게 있으면 YES.
-/// 첫 실행은 NO(그때 목록이 출발점). More Games 를 열면 본 것으로 친다.
+/// 새 앱 출시 표시(빨간 점). 보이는 live 앱 중 iOS 출시일이 30일(kMGNewDays) 이내이고 More Games 에서
+/// 본 적 없는 id 가 있으면 YES. 첫 실행도 같은 규칙. More Games 를 열면 본 것으로 친다 (판정 MGNewDot.h).
 + (BOOL)hasNewApps;
 
 /// 카탈로그(games.json)를 백그라운드로 받아 캐시에 두고 점을 갱신한다. 앱 시작 · 포그라운드 복귀 때 부른다.

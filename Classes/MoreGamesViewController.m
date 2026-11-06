@@ -16,6 +16,7 @@
 #endif
 
 #import "MoreGamesViewController.h"
+#import "MGNewDot.h"
 #import <StoreKit/StoreKit.h>
 #import "Locale.h"
 
@@ -34,6 +35,8 @@ static const CGFloat kMGIconSide = 48.0;
 @property (nonatomic, copy) NSString *fallbackLetter;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, strong) NSURL *iconURL;
+/// iOS 에 처음 공개된 날(ios.released) — 「새 게임」 점이 본다. 모르면 nil.
+@property (nonatomic, strong) NSDate *released;
 @end
 
 @implementation MGEntry
@@ -100,9 +103,10 @@ static NSString *MGString(id v)
 
 #pragma mark - New dot (새 앱 출시 표시)
 
-// factory ga_ui more_games_new_dot.dart 와 같은 규칙: 카탈로그에 보이는 live 앱 id 집합을
-// 사용자가 More Games 를 마지막으로 열었을 때 본 집합과 비교한다. 새 id 가 있으면 점, 열면 꺼진다.
-// 첫 실행에는 점이 없다 — 그때의 목록을 「본 것」으로 시작한다.
+// factory ga_ui more_games_new_dot.dart 와 같은 규칙 (판정은 MGNewDot.h, factory MORE_GAMES §13):
+// 보이는 live 앱 중 iOS 출시일이 kMGNewDays(30)일 이내이고 More Games 에서 본 적 없는 id 가 있으면 점.
+// More Games 를 열면 그때 보인 id 를 「본 것」에 더하고 점을 끈다(빼지 않는다).
+// 첫 실행도 같은 규칙이다 — 최근 출시가 있으면 점이 뜬다 (예전의 「첫 목록 = 본 것」 예외는 없앴다).
 static NSString *const kMGSeenIdsKey = @"MoreGamesSeenIds";
 NSString *const MoreGamesNewAppsDidChangeNotification = @"MoreGamesNewAppsDidChange";
 
@@ -114,6 +118,14 @@ static NSSet<NSString *> *MGVisibleIds(NSDictionary *games)
     NSMutableSet *ids = [NSMutableSet set];
     for (MGEntry *e in MGBuildEntries(games, nil, nil)) [ids addObject:e.gameId];
     return ids;
+}
+
+/// 보이는 id → iOS 출시일(모르면 NSNull).
+static NSDictionary<NSString *, id> *MGVisibleReleased(NSDictionary *games)
+{
+    NSMutableDictionary *out = [NSMutableDictionary dictionary];
+    for (MGEntry *e in MGBuildEntries(games, nil, nil)) out[e.gameId] = e.released ?: [NSNull null];
+    return out;
 }
 
 static NSSet<NSString *> *MGStoredSeenIds(void)
@@ -134,11 +146,20 @@ static NSSet<NSString *> *MGCurrentLocalIds(void)
     return games ? MGVisibleIds(games) : nil;
 }
 
-/// 마지막으로 More Games 를 연 때 본 집합을 지금 것으로 맞춘다.
+/// 지금 카탈로그(캐시 → 내장본)의 보이는 id → iOS 출시일. 카탈로그를 못 읽으면 nil.
+static NSDictionary<NSString *, id> *MGCurrentLocalReleased(void)
+{
+    NSDictionary *games = MGLoadLocal(@"games.json");
+    return games ? MGVisibleReleased(games) : nil;
+}
+
+/// More Games 를 열었다 — 지금 보인 id 를 「본 것」에 더한다(빼지 않는다).
 static void MGMarkSeen(NSSet<NSString *> *current)
 {
     if (!current) return;
-    MGStoreSeenIds(current);
+    NSMutableSet *seen = [(MGStoredSeenIds() ?: [NSSet set]) mutableCopy];
+    [seen unionSet:current];
+    MGStoreSeenIds(seen);
     [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];
 }
 
@@ -184,6 +205,7 @@ static NSArray<MGEntry *> *MGBuildEntries(NSDictionary *games, NSDictionary *lan
         }
         NSString *icon = MGString(g[@"icon"]);
         e.iconURL = [NSURL URLWithString:icon ?: [NSString stringWithFormat:@"%@icon/%@.png", kMGBaseURL, gid]];
+        e.released = MGParseReleased(ios[@"released"]);
         [live addObject:e];
     }
 
@@ -485,11 +507,9 @@ static __weak MoreGamesViewController *sShowing = nil;
 
 + (BOOL)hasNewApps
 {
-    NSSet *seen = MGStoredSeenIds();
-    NSSet *cur = MGCurrentLocalIds();
+    NSDictionary *cur = MGCurrentLocalReleased();
     if (!cur) return NO;
-    if (!seen) { MGStoreSeenIds(cur); return NO; }   // 첫 실행: 지금 목록이 출발점
-    return ![cur isSubsetOfSet:seen];
+    return MGHasNewApps(cur, MGStoredSeenIds(), [NSDate date]);
 }
 
 + (void)refreshNewAppsBadge
@@ -497,16 +517,20 @@ static __weak MoreGamesViewController *sShowing = nil;
 #ifdef DEBUG
     // 시뮬레이터 촬영용: 저장된 「본 집합」에서 하나를 뺀다(새 앱이 나온 것처럼).
     if ([[NSProcessInfo processInfo].arguments containsObject:@"-MoreGamesNewDotDemo"]) {
+        // 다 본 것으로 두고 새 게임(30일 이내) 하나만 뺀다 — 새 게임이 없으면 아무거나 하나.
         NSSet *cur = MGCurrentLocalIds();
         NSMutableSet *seen = [(MGStoredSeenIds() ?: cur) mutableCopy];
-        NSString *drop = [seen.allObjects sortedArrayUsingSelector:@selector(compare:)].firstObject;
+        [seen unionSet:cur ?: [NSSet set]];
+        NSSet *fresh = MGFreshIds(MGCurrentLocalReleased() ?: @{}, [NSDate date]);
+        NSArray *pool = fresh.count ? fresh.allObjects : seen.allObjects;
+        NSString *drop = [pool sortedArrayUsingSelector:@selector(compare:)].firstObject;
         if (drop) [seen removeObject:drop];
         MGStoreSeenIds(seen);
         [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];
         return;
     }
 #endif
-    [self hasNewApps];   // 첫 실행이면 여기서 출발점이 저장된다
+    [[NSNotificationCenter defaultCenter] postNotificationName:MoreGamesNewAppsDidChangeNotification object:nil];   // 날짜가 바뀌었을 수 있다 (30일 지남)
     NSURLSessionConfiguration *conf = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     conf.timeoutIntervalForRequest = 10;
     conf.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
