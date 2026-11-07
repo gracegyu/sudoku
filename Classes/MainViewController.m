@@ -48,6 +48,49 @@ static NSString *const kGaOutcomeEarned      = @"earned";       // 보상을 받
 static NSString *const kGaOutcomeDismissed   = @"dismissed";    // 보상 전에 닫았다
 static NSString *const kGaOutcomeUnavailable = @"unavailable";  // 못 받음 · 표시 실패
 static NSString *const kGaOutcomeOffline     = @"offline";      // 망 오류로 못 받음
+
+// 판 흐름 이벤트 (A464) — 공장 표준 game_start · game_over · level_complete.
+// 모든 이벤트에 game_id(= 공장 슬러그, 타깃마다 하나) 를 싣는다. 옛 Flurry 이벤트는 그대로 둔다.
+#if defined(SUDOKU6) && defined(ADMOB_FREEVERSION)
+static NSString *const kGaGameId = @"sudoku6free";
+#elif defined(SUDOKU6)
+static NSString *const kGaGameId = @"sudoku6pro";
+#elif defined(ADMOB_FREEVERSION)
+static NSString *const kGaGameId = @"sudoku9free";
+#else
+static NSString *const kGaGameId = @"sudoku9pro";
+#endif
+
+static void GaLogEvent(NSString *name, NSDictionary *params)
+{
+    NSMutableDictionary *p = [NSMutableDictionary dictionaryWithObject:kGaGameId forKey:@"game_id"];
+    [p addEntriesFromDictionary:params];
+    [FIRAnalytics logEventWithName:name parameters:p];
+}
+
+// mode_id — 판 종류 · 난이도 (소문자 · 밑줄). 오늘의 퍼즐은 앞에 daily_.
+static NSString *GaModeId(SudokuGame *g)
+{
+    NSString *raw = [NSString stringWithFormat:@"%@%@_%@", g.bDailyPuzzle ? @"daily_" : @"",
+                     [SudokuGame getSudokuTypeNameNoop:g.sudokuType],
+                     [SudokuGame getGameLevelNameNoop:g.gameLevel]];
+    NSString *low = [[raw lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    NSMutableString *out = [NSMutableString string];
+    for (NSUInteger i = 0; i < low.length; i++) {
+        unichar c = [low characterAtIndex:i];
+        [out appendString:((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_')
+                              ? [NSString stringWithCharacters:&c length:1] : @"_"];
+    }
+    return out;
+}
+
+static void GaLogQuitIfUnfinished(SudokuGame *g)
+{
+    if (!g || g.isGameFinished) return;
+    NSInteger sec = (NSInteger)g.gameTime;
+    GaLogEvent(@"game_over", @{ @"mode_id": GaModeId(g), @"score": @(sec), @"cleared": @0,
+                                @"how": @"quit", @"duration_sec": @(sec) });
+}
 static NSString *const kGaOutcomeGoodwill    = @"goodwill";     // 광고 없이 보상을 대신 줌 (하루 한도 안)
 
 // 광고가 끝내 없을 때 보상을 대신 주는 하루 한도. Flutter FreeRewardQuota 와 같은
@@ -550,6 +593,12 @@ static BOOL GaIsOfflineError(NSError *error)
         [self loadInterstitial];
 //#endif
 	DLog(@"writeScoreAfterFinishGame");	
+    {   // 분석 (A464): 판을 깼다 — game_over(how=finished, cleared=1) + level_complete.
+        NSInteger gaSec = (NSInteger)sudokuGame.gameTime;
+        GaLogEvent(@"game_over", @{ @"mode_id": GaModeId(sudokuGame), @"score": @(gaSec), @"cleared": @1,
+                                    @"how": @"finished", @"duration_sec": @(gaSec) });
+        GaLogEvent(@"level_complete", @{ @"mode_id": GaModeId(sudokuGame), @"score": @(gaSec) });
+    }
     BOOL bNewBest = NO;
     NSInteger level = [self levelToWriteScore:sudokuGame];
     
@@ -3376,6 +3425,7 @@ static NSString *SupportQueryEscape(NSString *string)
         
 		score.scoreGames[mainView.sudokuGame.sudokuType][level] += 1;     // 게임 수 1 증가
 		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
+        GaLogEvent(@"game_start", @{ @"mode_id": GaModeId(mainView.sudokuGame) });   // 분석 (A464)
         
         [self saveScoreData];
         [self setUserLevel];
@@ -3384,6 +3434,7 @@ static NSString *SupportQueryEscape(NSString *string)
 
 - (void) makeNewGameData
 {
+    GaLogQuitIfUnfinished(mainView.sudokuGame);   // 분석 (A464): 안 끝난 판을 두고 새 판 = 그만둠
 	if (mainView.sudokuGame)
 		[mainView.sudokuGame release];
 
@@ -3828,6 +3879,7 @@ static NSString *SupportQueryEscape(NSString *string)
         [self alertLocalizedAlertView:@"Failed to make a daily puzzle."];
         return;
     }
+    GaLogQuitIfUnfinished(oldGame);   // 분석 (A464): 안 끝난 판을 두고 오늘의 퍼즐 = 그만둠
     
     [self loadSetting];
     if (mainView.bSharedThisOnFacebook)
@@ -5906,9 +5958,9 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
     }];
     if (error) p[kGaParErrorCode] = [NSString stringWithFormat:@"%ld", (long)error.code];
     DLog(@"[ad] ad_result %@", p);
-    [FIRAnalytics logEventWithName:kGaEvAdResult parameters:p];
+    GaLogEvent(kGaEvAdResult, p);
     if ([outcome isEqualToString:kGaOutcomeEarned] && [placement hasPrefix:@"rewarded"]) {
-        [FIRAnalytics logEventWithName:kGaEvAdRewardEarned parameters:@{ kGaParPlacement: placement }];
+        GaLogEvent(kGaEvAdRewardEarned, @{ kGaParPlacement: placement });
     }
 }
 
