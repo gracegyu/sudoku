@@ -48,6 +48,12 @@ static NSString *const kGaOutcomeEarned      = @"earned";       // 보상을 받
 static NSString *const kGaOutcomeDismissed   = @"dismissed";    // 보상 전에 닫았다
 static NSString *const kGaOutcomeUnavailable = @"unavailable";  // 못 받음 · 표시 실패
 static NSString *const kGaOutcomeOffline     = @"offline";      // 망 오류로 못 받음
+static NSString *const kGaOutcomeGoodwill    = @"goodwill";     // 광고 없이 보상을 대신 줌 (하루 한도 안)
+
+// 광고가 끝내 없을 때 보상을 대신 주는 하루 한도. Flutter FreeRewardQuota 와 같은
+// 키 · 꼴("yyyy-MM-dd:n", 기기 현지 날짜)이다. 날짜가 바뀌면 0 부터 다시 센다.
+static NSString *const kFreeRewardQuotaKey   = @"freeRewardQuota";
+#define FREE_REWARD_LIMIT   3
 static NSString *const kGaPlacementHint         = @"rewarded_hint";
 static NSString *const kGaPlacementInterstitial = @"interstitial_gameover";
 #ifdef ADMOB_FREEVERSION
@@ -1411,8 +1417,15 @@ static BOOL GaIsOfflineError(NSError *error)
 #ifdef DEBUG
         // 시뮬레이터는 입력을 못 넣는다 — 실행 인자 -AdHintTapTest 면 「광고 보고
         // 힌트」를 앱이 스스로 누른다 (1초 뒤 · 70초 뒤). Release 에 없다.
+        // 네 번 누른다 — -AdFailTest 와 함께면 세 번은 대신 지급, 네 번째는 거절.
+        // 70초 자리는 백오프로 쉬던 적재를 누름이 깨우는지도 본다.
+        // -FreeRewardReset 이면 오늘 쓴 대신 지급 횟수를 먼저 지운다.
+        if ([[NSProcessInfo processInfo].arguments containsObject:@"-FreeRewardReset"]) {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:kFreeRewardQuotaKey];
+            DLog(@"[ad] test: free reward quota reset");
+        }
         if ([[NSProcessInfo processInfo].arguments containsObject:@"-AdHintTapTest"]) {
-            for (NSNumber *sec in @[ @1, @70 ]) {
+            for (NSNumber *sec in @[ @1, @20, @45, @70 ]) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sec.doubleValue * NSEC_PER_SEC)),
                                dispatch_get_main_queue(), ^{
                     DLog(@"[ad] test: auto tap hint reward (t=%@s)", sec);
@@ -2469,8 +2482,9 @@ BOOL IsiPhoneX3(void)
 {
     if (buttonIndex == 0) {    // 비디오 보고 힌트 5개 얻기
         // 예전에는 광고가 없으면 말없이 타이머만 다시 돌렸다 (A463).
-        // 지금은 받는 중인 적재에 붙어 최대 8초 기다리고, 끝내 없으면 안내한다.
-        // 광고 없이 보상을 대신 주지는 않는다 (그 정책은 사람이 정한다).
+        // 지금은 받는 중인 적재에 붙어 최대 8초 기다리고, 끝내 없으면 하루 3번까지
+        // 보상을 대신 주고 안내한다 (Flutter 6종 _grantFreeOrDecline 과 같다 ·
+        // 사람 결정 2026-11-08). 다 쓰면 안내만 한다.
         [self beginHintAttempt:(self.hintRewardedAd != nil)];
         if (self.hintRewardedAd) {
             [self presentHintRewardedAd];
@@ -5515,8 +5529,8 @@ static const NSTimeInterval kBannerBackoffSec[] = { 10, 30, 90 };
     DLog(@"didFailToPresentFullScreenContent:%@", [error localizedDescription]);
     if ([ad isKindOfClass:[GADRewardedAd class]]) {
         bReadyHintRewardVideo = NO;
-        [self finishHintAttempt:kGaOutcomeUnavailable error:error];
-        [self showAdNotice];
+        // 보여 주지 못했으니 광고 없음과 같다 (Flutter 와 같다). 표시 오류는 망 오류로 보지 않는다.
+        [self grantFreeOrDecline:error showFailed:YES];
         [self startGameTimer];
         [self loadHintRewardedAd];
     } else {
@@ -5671,11 +5685,17 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
              userDidEarnRewardHandler:^{
         DLog(@"Rewarded: %@ %@", ad.adReward.type, ad.adReward.amount);
         [self finishHintAttempt:kGaOutcomeEarned error:nil];
-        mainView.paidHintCount += countHint5;
-        [self updateButtonHint];
-        [self updateHintCount];
-        [self saveSetting];
+        [self giveHintReward];
     }];
+}
+
+// 「광고 보고 힌트」 보상 — 광고를 봤을 때와 대신 줄 때가 같은 몫이다.
+- (void) giveHintReward
+{
+    mainView.paidHintCount += countHint5;
+    [self updateButtonHint];
+    [self updateHintCount];
+    [self saveSetting];
 }
 
 - (void) waitForHintRewardedAd
@@ -5729,15 +5749,67 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
     }
 }
 
-// 끝내 없다: 보상은 주지 않고 짧게 안내한다. 늦게 온 광고는 버리지 않고
-// 받아 둔다 — 다음 누름에 바로 나간다.
+// 끝내 없다: 하루 한도 안이면 보상을 대신 주고, 넘었으면 안내만 한다.
+// 늦게 온 광고는 버리지 않고 받아 둔다 — 다음 누름에 바로 나간다.
 - (void) hintWaitGiveUp
 {
     [self endHintWait];
-    [self finishHintAttempt:(GaIsOfflineError(hintLastError) ? kGaOutcomeOffline : kGaOutcomeUnavailable)
-                      error:hintLastError];
-    [self showAdNotice];
+    [self grantFreeOrDecline:hintLastError showFailed:NO];
     [self startGameTimer];
+}
+
+#pragma mark 광고 없을 때 대신 지급 (Flutter _grantFreeOrDecline · FreeRewardQuota)
+
+- (NSString *) freeRewardToday
+{
+    NSDateComponents *c = [[NSCalendar currentCalendar]
+        components:(NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay) fromDate:[NSDate date]];
+    return [NSString stringWithFormat:@"%04ld-%02ld-%02ld", (long)c.year, (long)c.month, (long)c.day];
+}
+
+// 오늘 쓴 횟수. 저장된 날짜가 오늘이 아니거나 꼴이 틀리면 0.
+- (NSInteger) freeRewardUsedToday
+{
+    NSString *v = [[NSUserDefaults standardUserDefaults] stringForKey:kFreeRewardQuotaKey];
+    NSArray *p = [v componentsSeparatedByString:@":"];
+    if (p.count != 2 || ![p[0] isEqualToString:[self freeRewardToday]]) return 0;
+    return [p[1] integerValue];
+}
+
+// 한도 안이면 하나 쓰고 쓴 횟수(1..3)를, 넘었으면 0.
+- (NSInteger) freeRewardTryConsume
+{
+    NSInteger n = [self freeRewardUsedToday];
+    if (n >= FREE_REWARD_LIMIT) return 0;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@:%ld", [self freeRewardToday], (long)(n + 1)]
+                                              forKey:kFreeRewardQuotaKey];
+    return n + 1;
+}
+
+// ad_result outcome 은 Flutter 와 같다: 못 받은 까닭이 망이면 offline, 아니면
+// 대신 줬을 때 goodwill · 한도를 넘었을 때 unavailable. 표시 실패는 망으로 보지 않는다.
+- (void) grantFreeOrDecline:(NSError *)error showFailed:(BOOL)showFailed
+{
+    NSInteger n = [self freeRewardTryConsume];
+    BOOL off = !showFailed && GaIsOfflineError(error);
+    [self finishHintAttempt:(off ? kGaOutcomeOffline : (n == 0 ? kGaOutcomeUnavailable : kGaOutcomeGoodwill))
+                      error:error];
+    if (n == 0) {
+        DLog(@"[ad] free reward: declined (used %d/%d today)", FREE_REWARD_LIMIT, FREE_REWARD_LIMIT);
+#ifdef USE_FLURRY
+        [Flurry logEvent:@"playAd failed passOnFailed:false"];
+#endif
+        [self showAdNoticeTitle:nil message:gettext(@"Couldn't load the ad", nil)];
+        return;
+    }
+    DLog(@"[ad] free reward: granted %ld/%d", (long)n, FREE_REWARD_LIMIT);
+#ifdef USE_FLURRY
+    [Flurry logEvent:[NSString stringWithFormat:@"freeReward %ld", (long)n]];
+#endif
+    [self giveHintReward];
+    [self showAdNoticeTitle:gettext(@"Couldn't load the ad (title)", nil)
+                    message:[NSString stringWithFormat:@"%@ (%ld/%d)", gettext(@"The reward is on us!", nil),
+                             (long)n, FREE_REWARD_LIMIT]];
 }
 
 - (void) endHintWait
@@ -5770,7 +5842,7 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
 
 // 「광고를 불러오지 못했어요」 — 버튼 없이 잠깐 떴다 사라진다. 힌트 창이
 // 닫히는 중일 수 있어 한 박자 늦게 띄운다.
-- (void) showAdNotice
+- (void) showAdNoticeTitle:(NSString *)title message:(NSString *)message
 {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         // 맨 위 화면에서 띄운다 — 다른 화면이 떠 있어도 안내가 사라지지 않게.
@@ -5781,9 +5853,9 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
             DLog(@"[ad] notice skipped: an alert is already up");
             return;
         }
-        DLog(@"[ad] notice: Couldn't load the ad");
-        UIAlertController *note = [UIAlertController alertControllerWithTitle:nil
-                                                                      message:gettext(@"Couldn't load the ad", nil)
+        DLog(@"[ad] notice: %@ / %@", title, message);
+        UIAlertController *note = [UIAlertController alertControllerWithTitle:title
+                                                                      message:message
                                                                preferredStyle:UIAlertControllerStyleAlert];
         [top presentViewController:note animated:YES completion:nil];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
