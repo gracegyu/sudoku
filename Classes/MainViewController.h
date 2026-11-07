@@ -253,7 +253,26 @@ typedef struct ADSTATE
     BOOL    bBuyingHint50;
     BOOL    bReadyHintRewardVideo;
     BOOL    bStartedMobileAds;   // 광고 SDK 를 이미 켰는가 (중복 실행 방지)
-    
+
+    // 힌트 보상형 받기 (A463). 받는 중이면 새로 요청하지 않고, 실패하면
+    // 2 · 8 · 30초 뒤 다시 받다가 쉰다. 쉬는 것은 앱 복귀 · 누름이 깨운다.
+    BOOL    bHintLoading;          // 받는 중
+    NSInteger hintLoadFails;       // 연속 실패 수 (받으면 0)
+    NSTimer *hintRetryTimer;       // 백오프 대기 (run loop 가 잡는다 — 여기서는 안 잡는다)
+    NSError *hintLastError;        // 마지막 받기 실패 (retain)
+    // 눌렀는데 아직 없을 때: 받는 중인 적재에 붙어 최대 8초 기다린다.
+    BOOL    bHintWaiting;
+    NSInteger hintWaitAttempts;
+    CFAbsoluteTime hintWaitStart;
+    NSTimer *hintWaitTimer;
+    UIView  *hintWaitOverlay;      // retain
+    // `ad_result` 한 건 (보상형 힌트). 콜백이 겹쳐도 한 번만 보낸다.
+    BOOL    bHintAttemptOpen;
+    BOOL    bHintAttemptCached;
+    CFAbsoluteTime hintAttemptStart;
+    CFAbsoluteTime interstitialLoadStart;   // 전면 `ad_result` 의 wait_ms
+    NSTimer *bannerRetryTimer;     // 배너 백오프 대기
+
     
     NSString* strMsgFinish;
     
@@ -514,6 +533,7 @@ typedef struct ADSTATE
 #ifdef ADMOB_FREEVERSION
 - (void)removeAd;
 #endif // ADMOB_FREEVERSION
+- (void) adsDidBecomeActive;   // 앱 복귀: 쉬고 있던 광고 받기를 깨운다 (A463)
 
 - (void) TreateActStart:(NSData *)theResponseData;
 

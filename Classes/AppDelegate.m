@@ -344,6 +344,10 @@ BOOL IsiPhoneX(void)
     // We need to properly handle activation of the application with regards to SSO
     //  (e.g., returning from iOS 6.0 authorization dialog or from fast app switching).
 	DLog(@"applicationDidBecomeActive");
+
+    // 실패 뒤 쉬고 있던 광고 받기를 다시 시작한다 (A463). 예전에는 시작 때
+    // 한 번 실패하면 다음 앱 시작까지 보상형이 없었다. 동의 확인은 안에서 한다.
+    [mainViewController adsDidBecomeActive];
     
     //[FBSession.activeSession handleDidBecomeActive];
 }

@@ -14,6 +14,7 @@
 #import "QuestViewController.h"
 #import "MainViewController.h"
 #import <UserMessagingPlatform/UserMessagingPlatform.h>
+#import <FirebaseAnalytics/FirebaseAnalytics.h>
 #import "MainView.h"
 #import "Locale.h"
 #import "MoreGamesViewController.h"
@@ -31,6 +32,35 @@
 #import <AdSupport/ASIdentifierManager.h>
 #import <AppTrackingTransparency/ATTrackingManager.h>
 #import <AppTrackingTransparency/AppTrackingTransparency.h>
+
+// 분석 이벤트 이름 — 공장 표준 그대로 (A463 · A464).
+// 출처: factory `packages/ga_analytics/lib/src/analytics_events.dart`
+//       (GaEvents · GaEventParams) 와 Flutter 6앱 `lib/ads/ga_events.dart`.
+// 같은 Firebase 프로젝트(sudoku9flutter)의 Flutter 앱과 같은 자로 잰다.
+static NSString *const kGaEvAdResult         = @"ad_result";
+static NSString *const kGaEvAdRewardEarned   = @"ad_reward_earned";
+static NSString *const kGaParPlacement       = @"placement";
+static NSString *const kGaParOutcome         = @"outcome";
+static NSString *const kGaParWasCached       = @"was_cached";
+static NSString *const kGaParWaitMs          = @"wait_ms";
+static NSString *const kGaParErrorCode       = @"error_code";
+static NSString *const kGaOutcomeEarned      = @"earned";       // 보상을 받았다 · 전면을 보여 줬다
+static NSString *const kGaOutcomeDismissed   = @"dismissed";    // 보상 전에 닫았다
+static NSString *const kGaOutcomeUnavailable = @"unavailable";  // 못 받음 · 표시 실패
+static NSString *const kGaOutcomeOffline     = @"offline";      // 망 오류로 못 받음
+static NSString *const kGaPlacementHint         = @"rewarded_hint";
+static NSString *const kGaPlacementInterstitial = @"interstitial_gameover";
+#ifdef ADMOB_FREEVERSION
+static NSString *const kGaPlacementBanner       = @"banner";
+#endif
+
+// AdMob 망 오류(GADErrorNetworkError = 2)거나 URL 오류면 오프라인으로 센다.
+static BOOL GaIsOfflineError(NSError *error)
+{
+    if (error == nil) return NO;
+    if ([error.domain isEqualToString:NSURLErrorDomain]) return YES;
+    return [error.domain isEqualToString:GADErrorDomain] && error.code == GADErrorNetworkError;
+}
 
 
 @implementation MainViewController
@@ -1413,6 +1443,20 @@
         [self initBanner];
 #endif
         [self loadHintRewardedAd];
+#ifdef DEBUG
+        // 시뮬레이터는 입력을 못 넣는다 — 실행 인자 -AdHintTapTest 면 「광고 보고
+        // 힌트」를 앱이 스스로 누른다 (1초 뒤 · 70초 뒤). Release 에 없다.
+        if ([[NSProcessInfo processInfo].arguments containsObject:@"-AdHintTapTest"]) {
+            for (NSNumber *sec in @[ @1, @70 ]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(sec.doubleValue * NSEC_PER_SEC)),
+                               dispatch_get_main_queue(), ^{
+                    DLog(@"[ad] test: auto tap hint reward (t=%@s)", sec);
+                    [self stopGameTimer];
+                    [self PushHintButton:0];
+                });
+            }
+        }
+#endif
     }];
 }
 
@@ -2465,21 +2509,14 @@ BOOL IsiPhoneX3(void)
 - (void) PushHintButton:(NSInteger) buttonIndex
 {
     if (buttonIndex == 0) {    // 비디오 보고 힌트 5개 얻기
+        // 예전에는 광고가 없으면 말없이 타이머만 다시 돌렸다 (A463).
+        // 지금은 받는 중인 적재에 붙어 최대 8초 기다리고, 끝내 없으면 안내한다.
+        // 광고 없이 보상을 대신 주지는 않는다 (그 정책은 사람이 정한다).
+        [self beginHintAttempt:(self.hintRewardedAd != nil)];
         if (self.hintRewardedAd) {
-            // 보상 지급은 **이 핸들러**로 온다. 예전 didRewardUserWithReward:
-            // delegate 자리다.
-            GADRewardedAd *ad = [[self.hintRewardedAd retain] autorelease];
-            self.hintRewardedAd = nil;   // 한 번 보여 준 광고는 다시 못 쓴다
-            [ad presentFromRootViewController:self
-                     userDidEarnRewardHandler:^{
-                DLog(@"Rewarded: %@ %@", ad.adReward.type, ad.adReward.amount);
-                mainView.paidHintCount += countHint5;
-                [self updateButtonHint];
-                [self updateHintCount];
-                [self saveSetting];
-            }];
+            [self presentHintRewardedAd];
         } else {
-            [self startGameTimer];
+            [self waitForHintRewardedAd];
         }
     } else if (buttonIndex == 1) {  // 힌트 50개 구매하기
         if (productHint50) { // buy hint
@@ -2529,7 +2566,10 @@ BOOL IsiPhoneX3(void)
                                       alertControllerWithTitle:nil
                                       message:nil
                                       preferredStyle:UIAlertControllerStyleAlert];
-        if (bReadyHintRewardVideo) {
+        // 받아 둔 게 없어도 광고를 켤 수 있으면 보인다 — 누르면 받는 중인
+        // 적재에 붙거나 쉬던 받기를 깨운다 (A463). 예전에는 시작 때 한 번
+        // 실패하면 다음 앱 시작까지 이 줄이 아예 안 보였다.
+        if (bReadyHintRewardVideo || [self canOfferHintRewardedAd]) {
             UIAlertAction* rewardhint = [UIAlertAction
                                          actionWithTitle:gettext(@"Get 5 hints after seeing an ad", nil)
 //                                         actionWithTitle:gettext(@"광고 보고 힌트5개 얻기", nil)
@@ -5257,6 +5297,9 @@ static NSInteger LEVELSCORE[] = {
 
 #pragma mark GADBannerViewDelegate implementation
 
+static const NSTimeInterval kBannerBackoffSec[] = { 10, 30, 90 };
+#define BANNER_BACKOFF_COUNT    3
+
 
 - (void)bannerViewDidReceiveAd:(GADBannerView *)bannerView
 {
@@ -5271,6 +5314,7 @@ static NSInteger LEVELSCORE[] = {
 - (void) OnTimerGADRequestAgain:(NSTimer *)timer
 {
     DLog(@"OnTimerGADRequestAgain");
+    bannerRetryTimer = nil;
     [self requestGADagain];
 }
 #ifdef IADCHANGE
@@ -5306,6 +5350,9 @@ static NSInteger LEVELSCORE[] = {
     }
     
     gAdmobFailCount++;
+    [self gaAdResult:kGaPlacementBanner
+             outcome:(GaIsOfflineError(error) ? kGaOutcomeOffline : kGaOutcomeUnavailable)
+              cached:NO waitMs:0 error:error];
 #ifdef IADCHANGE
     if (gAdmobFailCount > MAXGADFAIL) {
         [NSTimer scheduledTimerWithTimeInterval:1
@@ -5317,12 +5364,31 @@ static NSInteger LEVELSCORE[] = {
         return;
     }
 #endif
-    [NSTimer scheduledTimerWithTimeInterval:GADRETRYINTERVAL
-                                     target:self
-                                   selector:@selector(OnTimerGADRequestAgain:)
-                                   userInfo:nil
-                                    repeats:NO];
-    
+    // 예전에는 10초 고정으로 끝없이 다시 받았다 (A463). 지금은 10 · 30 · 90초
+    // 뒤 다시 받고 쉰다. 쉬는 것은 앱 복귀(wakeBannerIfResting)가 깨운다.
+    // 받으면 gAdmobFailCount 가 0 으로 돌아가고 SDK 자동 새로고침에 맡긴다.
+    if (bannerRetryTimer) return;   // 이미 대기 중 — 사슬을 둘로 만들지 않는다
+    if (gAdmobFailCount > BANNER_BACKOFF_COUNT) {
+        DLog(@"[ad] banner load fail #%d (%ld) — resting", (int)gAdmobFailCount, (long)error.code);
+        return;
+    }
+    NSTimeInterval d = kBannerBackoffSec[gAdmobFailCount - 1];
+    DLog(@"[ad] banner load fail #%d (%ld) — retry in %.0fs", (int)gAdmobFailCount, (long)error.code, d);
+    bannerRetryTimer = [NSTimer scheduledTimerWithTimeInterval:d
+                                                        target:self
+                                                      selector:@selector(OnTimerGADRequestAgain:)
+                                                      userInfo:nil
+                                                       repeats:NO];
+}
+
+// 앱 복귀: 백오프를 다 쓰고 쉬던 배너를 다시 받는다.
+- (void) wakeBannerIfResting
+{
+    if (bNoAd || adMobBanner == nil || bannerRetryTimer) return;
+    if (gAdmobFailCount <= BANNER_BACKOFF_COUNT) return;   // 쉬는 중이 아니다
+    DLog(@"[ad] foreground: wake banner (fails=%d)", (int)gAdmobFailCount);
+    gAdmobFailCount = 0;
+    [self requestGADagain];
 }
 
 - (void)bannerViewWillPresentScreen:(GADBannerView *)bannerView
@@ -5481,11 +5547,15 @@ static NSInteger LEVELSCORE[] = {
     // 결과가 **콜백으로** 온다 — 예전 interstitialDidReceiveAd: 와
     // interstitial:didFailToReceiveAdWithError: 가 이 블록 안으로 들어왔다.
     self.interstitial = nil;
+    interstitialLoadStart = CFAbsoluteTimeGetCurrent();
     [GADInterstitialAd loadWithAdUnitID:MY_INTERSTITIAL_UNIT_ID
                                 request:[self request]
                       completionHandler:^(GADInterstitialAd *ad, NSError *error) {
         if (error) {
             [self logEventParam:@"2 Admob interstitial load fail"];
+            [self gaAdResult:kGaPlacementInterstitial
+                     outcome:(GaIsOfflineError(error) ? kGaOutcomeOffline : kGaOutcomeUnavailable)
+                      cached:NO waitMs:[self msSince:interstitialLoadStart] error:error];
             DLog(@"interstitial load fail:%@", [error localizedDescription]);
 
             gAdState[eAdStateAdmobInterstitial].fail += 1;
@@ -5534,6 +5604,10 @@ static NSInteger LEVELSCORE[] = {
     DLog(@"adWillPresentFullScreenContent");
     if ([ad isKindOfClass:[GADRewardedAd class]]) {
         bReadyHintRewardVideo = NO;
+    } else {
+        // 전면은 「보여 줬다」가 성공이다 (Flutter 6앱과 같은 규칙).
+        [self gaAdResult:kGaPlacementInterstitial outcome:kGaOutcomeEarned cached:NO
+                  waitMs:[self msSince:interstitialLoadStart] error:nil];
     }
 }
 
@@ -5541,6 +5615,8 @@ static NSInteger LEVELSCORE[] = {
 {
     DLog(@"adDidDismissFullScreenContent");
     if ([ad isKindOfClass:[GADRewardedAd class]]) {
+        // 보상 전에 닫았으면 dismissed (보상 뒤면 이미 earned 로 보냈다).
+        [self finishHintAttempt:kGaOutcomeDismissed error:nil];
         // 보상형은 한 번 쓰면 끝이다. 다음 것을 미리 읽어 둔다.
         [self startGameTimer];
         [self loadHintRewardedAd];
@@ -5555,9 +5631,13 @@ static NSInteger LEVELSCORE[] = {
     DLog(@"didFailToPresentFullScreenContent:%@", [error localizedDescription]);
     if ([ad isKindOfClass:[GADRewardedAd class]]) {
         bReadyHintRewardVideo = NO;
+        [self finishHintAttempt:kGaOutcomeUnavailable error:error];
+        [self showAdNotice];
         [self startGameTimer];
         [self loadHintRewardedAd];
     } else {
+        [self gaAdResult:kGaPlacementInterstitial outcome:kGaOutcomeUnavailable cached:NO
+                  waitMs:[self msSince:interstitialLoadStart] error:error];
         self.interstitial = nil;
     }
 }
@@ -5579,21 +5659,301 @@ static NSInteger LEVELSCORE[] = {
 // **힌트 유닛 하나만 읽는다.** 예전 코드는 HINT 와 CALCCANDI 를 연달아
 // 싱글턴에 밀어 넣었는데, 그러면 뒤엣것이 앞엣것을 덮어써서 실제로는 하나만
 // 살아 있었다. 지금 화면에서 쓰는 곳도 힌트뿐이다.
+// 받기 (A463) — Flutter 6앱의 AdSlot(tenten lib/ads/ad_slot.dart)과 같은 규칙:
+//  - 받아 둔 게 있거나 · 받는 중이거나 · 백오프 대기 중이면 새로 요청하지 않는다.
+//  - 실패하면 2 · 8 · 30초 뒤 다시 받고, 세 번 뒤에는 **쉰다.** 받으면 카운터 0.
+//  - 쉬는 받기는 앱 복귀(adsDidBecomeActive)와 힌트 누름이 깨운다.
+// 예전에는 실패하면 return 만 해서, 시작 때 한 번 실패하면 다음 앱 시작까지
+// 보상형이 없었다.
+static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
+#define AD_BACKOFF_COUNT    3
+#define HINT_WAIT_SEC       8.0     // 누른 자리에서 기다리는 상한
+#define HINT_WAIT_ATTEMPTS  3       // 누른 자리에서 새로 내는 요청 상한
+
+- (BOOL) hintRewardedResting
+{
+    return !bHintLoading && hintRetryTimer == nil && self.hintRewardedAd == nil
+        && hintLoadFails > AD_BACKOFF_COUNT;
+}
+
+// 「받아 두기」. 이미 있거나 · 받는 중이거나 · 대기 중이거나 · 쉬는 중이면 아무것도 안 한다.
 - (void) loadHintRewardedAd
 {
-    [GADRewardedAd loadWithAdUnitID:MY_HINT_REWARD_UNIT_ID
+    if (self.hintRewardedAd || bHintLoading || hintRetryTimer) return;
+    if ([self hintRewardedResting]) {
+        DLog(@"[ad] rewarded: resting after %d fails — wakes on foreground or tap", (int)hintLoadFails);
+        return;
+    }
+    [self requestHintRewardedAd];
+}
+
+- (NSString *) hintRewardUnitID
+{
+#ifdef DEBUG
+    // 실패 · 재시도 경로를 시뮬레이터에서 보려고 (Release 에 없다).
+    // 실행 인자 -AdFailTest 면 없는 단위로 요청해서 반드시 실패한다.
+    if ([[NSProcessInfo processInfo].arguments containsObject:@"-AdFailTest"])
+        return @"ca-app-pub-3940256099942544/0000000000";
+#endif
+    return MY_HINT_REWARD_UNIT_ID;
+}
+
+- (void) requestHintRewardedAd
+{
+    if (!UMPConsentInformation.sharedInstance.canRequestAds) {
+        DLog(@"[ad] rewarded: no consent — not requesting");
+        return;
+    }
+    bHintLoading = YES;
+    DLog(@"[ad] rewarded request (fails so far=%d)", (int)hintLoadFails);
+    [GADRewardedAd loadWithAdUnitID:[self hintRewardUnitID]
                             request:[self request]
                   completionHandler:^(GADRewardedAd *ad, NSError *error) {
+        bHintLoading = NO;
         if (error) {
-            DLog(@"rewarded load fail:%@", [error localizedDescription]);
+            hintLoadFails += 1;
+            [hintLastError release];
+            hintLastError = [error retain];
             bReadyHintRewardVideo = NO;
+            if (hintLoadFails <= AD_BACKOFF_COUNT) {
+                NSTimeInterval d = kAdBackoffSec[hintLoadFails - 1];
+                DLog(@"[ad] rewarded load fail #%d (%ld %@) — retry in %.0fs",
+                     (int)hintLoadFails, (long)error.code, [error localizedDescription], d);
+                hintRetryTimer = [NSTimer scheduledTimerWithTimeInterval:d
+                                                                  target:self
+                                                                selector:@selector(OnTimerHintRetry:)
+                                                                userInfo:nil
+                                                                 repeats:NO];
+            } else {
+                DLog(@"[ad] rewarded load fail #%d (%ld %@) — resting",
+                     (int)hintLoadFails, (long)error.code, [error localizedDescription]);
+            }
+            [self hintWaitStep];
             return;
         }
-        DLog(@"rewarded loaded");
+        DLog(@"[ad] rewarded loaded (after %d fails)", (int)hintLoadFails);
+        hintLoadFails = 0;
+        [hintLastError release];
+        hintLastError = nil;
         self.hintRewardedAd = ad;
         ad.fullScreenContentDelegate = self;
         bReadyHintRewardVideo = YES;
+        [self hintWaitStep];
     }];
+}
+
+- (void) OnTimerHintRetry:(NSTimer *)timer
+{
+    hintRetryTimer = nil;
+    [self loadHintRewardedAd];
+}
+
+// 힌트 창에 「광고 보고 힌트」 줄을 보일지. 받아 둔 게 없어도 SDK 가 켜져
+// 있고 동의가 있으면 보인다 — 누르면 기다리거나 깨운다.
+- (BOOL) canOfferHintRewardedAd
+{
+    return bStartedMobileAds && UMPConsentInformation.sharedInstance.canRequestAds;
+}
+
+// 앱 복귀. Flutter AdSlot.restart 와 같다 — 받아 뒀거나 받는 중이면 그대로,
+// 대기 · 쉬는 중이면 카운터를 0 으로 돌리고 바로 받는다.
+- (void) adsDidBecomeActive
+{
+    if (!bStartedMobileAds) return;   // 아직 동의 · SDK 시작 전 (첫 실행의 복귀도 여기로 온다)
+    if (!UMPConsentInformation.sharedInstance.canRequestAds) return;
+    if (!self.hintRewardedAd && !bHintLoading) {
+        DLog(@"[ad] foreground: wake rewarded (fails=%d, waiting=%d)",
+             (int)hintLoadFails, hintRetryTimer != nil);
+        [hintRetryTimer invalidate];
+        hintRetryTimer = nil;
+        hintLoadFails = 0;
+        [self requestHintRewardedAd];
+    }
+#ifdef ADMOB_FREEVERSION
+    [self wakeBannerIfResting];
+#endif
+}
+
+#pragma mark 힌트 누름 — 기다리기 · 보여 주기 · 안내
+
+- (void) presentHintRewardedAd
+{
+    // 보상 지급은 **이 핸들러**로 온다. 예전 didRewardUserWithReward:
+    // delegate 자리다.
+    GADRewardedAd *ad = [[self.hintRewardedAd retain] autorelease];
+    self.hintRewardedAd = nil;   // 한 번 보여 준 광고는 다시 못 쓴다
+    bReadyHintRewardVideo = NO;
+    [ad presentFromRootViewController:self
+             userDidEarnRewardHandler:^{
+        DLog(@"Rewarded: %@ %@", ad.adReward.type, ad.adReward.amount);
+        [self finishHintAttempt:kGaOutcomeEarned error:nil];
+        mainView.paidHintCount += countHint5;
+        [self updateButtonHint];
+        [self updateHintCount];
+        [self saveSetting];
+    }];
+}
+
+- (void) waitForHintRewardedAd
+{
+    DLog(@"[ad] hint tapped without ad — waiting up to %.0fs (loading=%d, fails=%d)",
+         HINT_WAIT_SEC, bHintLoading, (int)hintLoadFails);
+    bHintWaiting = YES;
+    hintWaitAttempts = 0;
+    hintWaitStart = CFAbsoluteTimeGetCurrent();
+    [self showHintWaitOverlay];
+    hintWaitTimer = [NSTimer scheduledTimerWithTimeInterval:HINT_WAIT_SEC
+                                                     target:self
+                                                   selector:@selector(OnTimerHintWaitTimeout:)
+                                                   userInfo:nil
+                                                    repeats:NO];
+    [self hintWaitStep];
+}
+
+// 누른 자리가 기다리는 동안 받기가 끝날 때마다 부른다 (받기 콜백에서도).
+// 받는 중이면 거기에 붙고, 빠른 실패 · 쉬는 중이면 그 자리에서 다시 받는다.
+- (void) hintWaitStep
+{
+    if (!bHintWaiting) return;
+    if (self.hintRewardedAd) {
+        DLog(@"[ad] hint wait: ad arrived after %ldms", (long)[self msSince:hintWaitStart]);
+        [self endHintWait];
+        [self presentHintRewardedAd];
+        return;
+    }
+    if (bHintLoading) return;   // 받는 중인 적재에 붙는다
+    if (hintWaitAttempts >= HINT_WAIT_ATTEMPTS
+        || CFAbsoluteTimeGetCurrent() - hintWaitStart >= HINT_WAIT_SEC) {
+        [self hintWaitGiveUp];
+        return;
+    }
+    // 대기 중인 백오프는 이 요청이 대신한다 — 사슬이 둘이 되지 않게.
+    [hintRetryTimer invalidate];
+    hintRetryTimer = nil;
+    if (hintLoadFails > AD_BACKOFF_COUNT) hintLoadFails = 0;   // 쉬던 것을 깨운다
+    hintWaitAttempts += 1;
+    [self requestHintRewardedAd];
+    if (!bHintLoading) [self hintWaitGiveUp];   // 동의가 없어 요청이 안 나갔다
+}
+
+- (void) OnTimerHintWaitTimeout:(NSTimer *)timer
+{
+    hintWaitTimer = nil;
+    if (bHintWaiting) {
+        DLog(@"[ad] hint wait: timeout %.0fs", HINT_WAIT_SEC);
+        [self hintWaitGiveUp];
+    }
+}
+
+// 끝내 없다: 보상은 주지 않고 짧게 안내한다. 늦게 온 광고는 버리지 않고
+// 받아 둔다 — 다음 누름에 바로 나간다.
+- (void) hintWaitGiveUp
+{
+    [self endHintWait];
+    [self finishHintAttempt:(GaIsOfflineError(hintLastError) ? kGaOutcomeOffline : kGaOutcomeUnavailable)
+                      error:hintLastError];
+    [self showAdNotice];
+    [self startGameTimer];
+}
+
+- (void) endHintWait
+{
+    bHintWaiting = NO;
+    [hintWaitTimer invalidate];
+    hintWaitTimer = nil;
+    [hintWaitOverlay removeFromSuperview];
+    [hintWaitOverlay release];
+    hintWaitOverlay = nil;
+}
+
+- (void) showHintWaitOverlay
+{
+    if (hintWaitOverlay) return;
+    UIView *v = [[UIView alloc] initWithFrame:self.view.bounds];
+    v.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    v.backgroundColor = [UIColor colorWithWhite:0 alpha:0.35];   // 판을 덮어 누름도 막는다
+    UIActivityIndicatorView *spin =
+        [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleLarge] autorelease];
+    spin.color = [UIColor whiteColor];
+    spin.center = CGPointMake(CGRectGetMidX(v.bounds), CGRectGetMidY(v.bounds));
+    spin.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin
+        | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    [spin startAnimating];
+    [v addSubview:spin];
+    [self.view addSubview:v];
+    hintWaitOverlay = v;   // alloc 으로 잡은 것을 그대로 든다
+}
+
+// 「광고를 불러오지 못했어요」 — 버튼 없이 잠깐 떴다 사라진다. 힌트 창이
+// 닫히는 중일 수 있어 한 박자 늦게 띄운다.
+- (void) showAdNotice
+{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.35 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 맨 위 화면에서 띄운다 — 다른 화면이 떠 있어도 안내가 사라지지 않게.
+        UIViewController *top = self;
+        while (top.presentedViewController && !top.presentedViewController.isBeingDismissed)
+            top = top.presentedViewController;
+        if ([top isKindOfClass:[UIAlertController class]]) {
+            DLog(@"[ad] notice skipped: an alert is already up");
+            return;
+        }
+        DLog(@"[ad] notice: Couldn't load the ad");
+        UIAlertController *note = [UIAlertController alertControllerWithTitle:nil
+                                                                      message:gettext(@"Couldn't load the ad", nil)
+                                                               preferredStyle:UIAlertControllerStyleAlert];
+        [top presentViewController:note animated:YES completion:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (note.presentingViewController && !note.isBeingDismissed)
+                [note dismissViewControllerAnimated:YES completion:nil];
+        });
+    });
+}
+
+#pragma mark ad_result (공장 표준 이벤트)
+
+- (NSInteger) msSince:(CFAbsoluteTime)start
+{
+    if (start <= 0) return 0;
+    double ms = (CFAbsoluteTimeGetCurrent() - start) * 1000.0;
+    return ms < 0 ? 0 : (NSInteger)ms;
+}
+
+// 보상형 시도 한 건의 시작 = 「광고 보고 힌트」를 누른 순간.
+- (void) beginHintAttempt:(BOOL)cached
+{
+    bHintAttemptOpen = YES;
+    bHintAttemptCached = cached;
+    hintAttemptStart = CFAbsoluteTimeGetCurrent();
+}
+
+// 처음 부른 한 번만 보낸다 — 보상 · 닫힘 · 표시 실패 콜백이 겹쳐도 하나다.
+- (void) finishHintAttempt:(NSString *)outcome error:(NSError *)error
+{
+    if (!bHintAttemptOpen) return;
+    bHintAttemptOpen = NO;
+    [self gaAdResult:kGaPlacementHint outcome:outcome cached:bHintAttemptCached
+              waitMs:[self msSince:hintAttemptStart] error:error];
+}
+
+// `ad_result` (placement · outcome · was_cached · wait_ms [· error_code]).
+// 동의가 없으면 보내지 않는다 — 광고 결과가 아니라서 분모를 더럽힌다 (공장과 같은 규칙).
+// 기존 Flurry 문자열(logEventParam:)은 그대로 둔다.
+- (void) gaAdResult:(NSString *)placement outcome:(NSString *)outcome cached:(BOOL)cached
+             waitMs:(NSInteger)waitMs error:(NSError *)error
+{
+    if (!UMPConsentInformation.sharedInstance.canRequestAds) return;
+    NSMutableDictionary *p = [NSMutableDictionary dictionaryWithDictionary:@{
+        kGaParPlacement: placement,
+        kGaParOutcome: outcome,
+        kGaParWasCached: @(cached ? 1 : 0),   // Firebase 는 bool 을 안 받는다 — 1/0
+        kGaParWaitMs: @(waitMs),
+    }];
+    if (error) p[kGaParErrorCode] = [NSString stringWithFormat:@"%ld", (long)error.code];
+    DLog(@"[ad] ad_result %@", p);
+    [FIRAnalytics logEventWithName:kGaEvAdResult parameters:p];
+    if ([outcome isEqualToString:kGaOutcomeEarned] && [placement hasPrefix:@"rewarded"]) {
+        [FIRAnalytics logEventWithName:kGaEvAdRewardEarned parameters:@{ kGaParPlacement: placement }];
+    }
 }
 
 #pragma mark NSURLConnection Delegate Methods

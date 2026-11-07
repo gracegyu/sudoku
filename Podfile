@@ -8,16 +8,20 @@ use_modular_headers!
 target 'sudoku6free' do
 pod 'Google-Mobile-Ads-SDK', '~> 13.9'
 pod 'FirebaseCrashlytics'
+pod 'FirebaseAnalytics', '~> 12.19.0'
 end
 target 'sudoku6paid' do
 pod 'Google-Mobile-Ads-SDK', '~> 13.9'
 pod 'FirebaseCrashlytics'
+pod 'FirebaseAnalytics', '~> 12.19.0'
 end
 target 'sudoku9free' do
 pod 'Google-Mobile-Ads-SDK', '~> 13.9'
 pod 'FirebaseCrashlytics'
+pod 'FirebaseAnalytics', '~> 12.19.0'
 end
 target 'sudoku9paid' do
 pod 'Google-Mobile-Ads-SDK', '~> 13.9'
 pod 'FirebaseCrashlytics'
+pod 'FirebaseAnalytics', '~> 12.19.0'
 end
