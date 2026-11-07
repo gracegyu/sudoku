@@ -1126,12 +1126,10 @@ static BOOL GaIsOfflineError(NSError *error)
 }
 
 #ifdef ADMOB_FREEVERSION	
+// 서버 ADBENDER 값이 바뀌면 부른다. iAd 로 갈아타던 분기(IADCHANGE)는 iAd 가
+// 2016 년에 끝나 켤 수 없는 죽은 코드라 지웠다 — 지금은 AdMob 하나라 할 일이 없다.
 - (void) reloadBanner
 {
-#ifdef IADCHANGE
-    [self removeAd];
-    [self initBanner];
-#endif
 }
 
 - (void)removeAd
@@ -1143,27 +1141,11 @@ static BOOL GaIsOfflineError(NSError *error)
         [adMobBanner release];
         adMobBanner = nil;
     }
-#ifdef IADCHANGE
-    if (iADBanner) {
-        iADBanner.hidden = YES;
-        iADBanner.delegate = nil;
-        [iADBanner removeFromSuperview];
-        [iADBanner release];
-        iADBanner = nil;
-    }
-#endif
 }
 
 - (void)initBanner
 {
-#ifdef IADCHANGE
-    if (gAdBendor == ADBENDER_ADMOB)
-        [self initGADBanner];
-    else   // iad
-        [self initiADBanner];
-#else
     [self initGADBanner];
-#endif
 }
 
 
@@ -1188,23 +1170,6 @@ static BOOL GaIsOfflineError(NSError *error)
     [adMobBanner loadRequest:[GADRequest request]];
 }
 
-#ifdef IADCHANGE
-- (void)initiADBanner
-{
-    if (bNoAd) {
-        DLog(@"No Ad");
-        return;
-    }
-    gNowAd = ADBENDER_IAD;
-    
-    DLog(@"areaiAdBanner.frame(%f,%f,%f,%f)", areaiAdBanner.frame.origin.x, areaiAdBanner.frame.origin.y, areaiAdBanner.frame.size.width, areaiAdBanner.frame.size.height);
-    // iAd Banner
-    iADBanner = [[ADBannerView alloc] initWithAdType:ADAdTypeBanner];
-    iADBanner.frame = areaiAdBanner.frame;
-    iADBanner.delegate=self;
-    [self.view addSubview:iADBanner];
-}
-#endif
 
 - (void) requestGADagain
 {
@@ -1801,12 +1766,6 @@ static BOOL GaIsOfflineError(NSError *error)
             adMobBanner.frame = areaAdBanner.frame;
             adMobBanner.hidden = NO;
         }
-#ifdef IADCHANGE
-        if (iADBanner) {
-            iADBanner.frame = areaiAdBanner.frame;
-            iADBanner.hidden = NO;
-        }
-#endif
     }
 #endif
 }
@@ -2946,12 +2905,6 @@ static NSString *SupportQueryEscape(NSString *string)
             [adMobBanner release];
             adMobBanner = nil;
         }
-#ifdef IADCHANGE
-        if (iADBanner) {
-            [iADBanner release];
-            iADBanner = nil;
-        }
-#endif
     }
 #endif
 	// Release any retained subviews of the main view.
@@ -2970,13 +2923,6 @@ static NSString *SupportQueryEscape(NSString *string)
             [adMobBanner release];
             adMobBanner = nil;
         }
-#ifdef IADCHANGE
-        if (iADBanner) {
-            iADBanner.delegate = nil;
-            [iADBanner release];
-            iADBanner = nil;
-        }
-#endif
     }
 #endif
     [super dealloc];
@@ -4968,10 +4914,6 @@ static NSInteger LEVELSCORE[] = {
     if (bNoAd == NO) {
         if (adMobBanner)
             adMobBanner.hidden = YES;
-#ifdef IADCHANGE
-        if (iADBanner)
-            iADBanner.hidden = YES;
-#endif
     }
 #endif
 	[self readySlideView:viewMenu];
@@ -4993,12 +4935,6 @@ static NSInteger LEVELSCORE[] = {
             adMobBanner.frame = areaAdBanner.frame;
             adMobBanner.hidden = NO;
         }
-#ifdef IADCHANGE
-        if (iADBanner) {
-            iADBanner.frame = areaiAdBanner.frame;
-            iADBanner.hidden = NO;
-        }
-#endif
     }
 #endif
 
@@ -5264,35 +5200,6 @@ static NSInteger LEVELSCORE[] = {
 
 #ifdef ADMOB_FREEVERSION
 
-#ifdef IADCHANGE
-#pragma mark -
-#pragma mark iAD Delegate
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)bannerView {
-    DLog(@"bannerViewDidLoadAd:%@", bannerView.description);
-
-    [self logEventParam:@"2 iAd banner load success"];
-    gAdState[eAdStateiAdBanner].show += 1;
-    [self saveAdState];
-}
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error {
-    DLog(@"didFailToReceiveAdWithError:%@", [error localizedDescription]);
-
-    [self logEventParam:@"2 iAd banner load fail"];
-    //NSString *str = [NSString stringWithFormat:@"2 iAd banner load fail:%@", [error localizedDescription]];
-    //[self logEventParam:str];
-    gAdState[eAdStateiAdBanner].fail += 1;
-    if (gAdState[eAdStateiAdBanner].lasterror)
-        [gAdState[eAdStateiAdBanner].lasterror release];
-    gAdState[eAdStateiAdBanner].lasterror = [[NSString alloc] initWithFormat:@"%@:%@", [self getNowYYYYMMDD], [error localizedDescription]];
-    [self saveAdState];
-    if (gNowAd == ADBENDER_ADMOB) {
-        [self logEventParam:@"2 iAd banner load fail:Switch to Admob"];
-        return;
-    }
-}
-#endif // IADCHANGE
 
 
 #pragma mark GADBannerViewDelegate implementation
@@ -5317,14 +5224,6 @@ static const NSTimeInterval kBannerBackoffSec[] = { 10, 30, 90 };
     bannerRetryTimer = nil;
     [self requestGADagain];
 }
-#ifdef IADCHANGE
-- (void) OnTimerSwitchToiAD:(NSTimer *)timer
-{
-    DLog(@"OnTimerSwitchToiAD");
-    [self removeAd];
-    [self initiADBanner];
-}
-#endif
 - (void)bannerView:(GADBannerView *)view didFailToReceiveAdWithError:(NSError *)error
 {
     DLog(@"adView didFailToReceiveAdWithError:%@, %@", [error localizedDescription], error);
@@ -5344,26 +5243,11 @@ static const NSTimeInterval kBannerBackoffSec[] = { 10, 30, 90 };
         [self logEventParam:@"2 Admob banner load fail:No Ad"];
         return;
     }
-    if (gNowAd == ADBENDER_IAD) {
-        [self logEventParam:@"2 Admob banner load fail:Switch iAd"];
-        return;
-    }
     
     gAdmobFailCount++;
     [self gaAdResult:kGaPlacementBanner
              outcome:(GaIsOfflineError(error) ? kGaOutcomeOffline : kGaOutcomeUnavailable)
               cached:NO waitMs:0 error:error];
-#ifdef IADCHANGE
-    if (gAdmobFailCount > MAXGADFAIL) {
-        [NSTimer scheduledTimerWithTimeInterval:1
-                                         target:self
-                                       selector:@selector(OnTimerSwitchToiAD:)
-                                       userInfo:nil
-                                        repeats:NO];
-
-        return;
-    }
-#endif
     // 예전에는 10초 고정으로 끝없이 다시 받았다 (A463). 지금은 10 · 30 · 90초
     // 뒤 다시 받고 쉰다. 쉬는 것은 앱 복귀(wakeBannerIfResting)가 깨운다.
     // 받으면 gAdmobFailCount 가 0 으로 돌아가고 SDK 자동 새로고침에 맡긴다.
