@@ -18,6 +18,7 @@
 #import "MainView.h"
 #import "Locale.h"
 #import "MoreGamesViewController.h"
+#import "NewGameDialog.h"
 #import "GameCenterUtil.h"
 #ifdef USE_JMC
 #import "JMC.h"
@@ -843,6 +844,7 @@ static BOOL GaIsOfflineError(NSError *error)
 #define kSettingDefMap                  @"settingDefMap"
 #define kSettingAutoMemo                @"settingAutoMemo"
 #define kSettingSudokuType              @"settingSudokuType"
+#define kSettingNewGameLevel            @"settingNewGameLevel"   // 새 게임 창에서 마지막에 고른 난이도 (A478)
 #define kSettingSkin                    @"settingSkin"
 #define kSharedThisOnFacebook           @"sharedThisOnFacebook"
 #define kPaidHintCount                  @"paidHintCount"
@@ -1149,12 +1151,25 @@ static BOOL DebugPointsBannerOnLaunch(void)
 {
     return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugPointsBanner"];
 }
+// -DebugNewGameDialog: 새 게임 창 촬영용 (A478). 띠와 같이 Game Center 접속 · ATT 를 건너뛴다.
+static BOOL DebugNewGameDialogOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugNewGameDialog"];
+}
 #endif
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
 #ifdef DEBUG
+    // -DebugNewGameDialog: 뜨고 1.5초 뒤 새 게임 창을 연다 (시뮬레이터 촬영용, A478). Release 에 없다.
+    static BOOL debugNewGameShown = NO;
+    if (DebugNewGameDialogOnLaunch() && !debugNewGameShown) {
+        debugNewGameShown = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showNewGame];
+        });
+    }
     static BOOL debugBannerShown = NO;
     if (DebugPointsBannerOnLaunch() && !debugBannerShown) {
         debugBannerShown = YES;
@@ -1318,7 +1333,7 @@ static BOOL DebugPointsBannerOnLaunch(void)
 	 
      
 #ifdef DEBUG
-     if (!DebugPointsBannerOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
 #endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1375,7 +1390,7 @@ static BOOL DebugPointsBannerOnLaunch(void)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
@@ -4281,19 +4296,53 @@ static NSString *SupportQueryEscape(NSString *string)
                                    userInfo:nil
                                     repeats:NO];
 
-//    [self readyToDownloadDailyPuzzle];
-    //[self getDailyStat];
-    //[self setDailyStat];
-//    [activityIndicatorDailyStat startAnimating];
-
-    
     [self setSudokuTypeSegment];
     
 	[self allButtonUnLock];
-	[self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
-	[self showNewGameView];
+	[self hideMenuView:YES];	// 메뉴가 사라지고, 새 게임 창이 뜬다.
+	[self showNewGameDialog];
+}
 
-	
+// 새 게임 창 (A478). 예전의 옆에서 미끄러져 나오는 viewNewGame(그림만 있는 종류 세그먼트 +
+// 누르면 곧바로 시작하는 난이도 단추) 대신 가운데 창에서 종류 · 난이도를 고르고 [시작] 한다.
+// 판 만들기는 예전 길(makeNewGame: · newgameUserInput) 그대로라 game_start(mode_id) 도 그대로 나간다.
+// viewNewGame 은 xib 에 남아 있지만 더는 띄우지 않는다.
+- (void) showNewGameDialog
+{
+	if (mainView.bMenuMode || self.presentedViewController)
+		return;
+
+	mainView.bMenuMode = YES;
+	[self stopGameTimer];
+	[self updateButtons];
+
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    GAMELEVEL lastLevel = [defaults objectForKey:kSettingNewGameLevel]
+        ? (GAMELEVEL)[defaults integerForKey:kSettingNewGameLevel] : GAMELEVEL_NORMAL;
+
+    NewGameDialog *dlg = [[NewGameDialog alloc] initWithType:mainView.nSettingSudokuType
+                                                       level:lastLevel
+                                                    autoMemo:mainView.bSettingAutoMemo
+                                                   canCancel:(mainView.sudokuGame != nil)];
+    dlg.onStart = ^(SUDOKUTYPE type, GAMELEVEL level, BOOL autoMemo) {
+        mainView.nSettingSudokuType = type;
+        mainView.bSettingAutoMemo = autoMemo;
+        [self saveSetting];
+        [[NSUserDefaults standardUserDefaults] setInteger:level forKey:kSettingNewGameLevel];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self setSudokuTypeSegment];
+        [self updateButtonMenu];
+        [self allButtonUnLock];      // bMenuMode = NO
+        if (level == GAMELEVEL_USERINPUT)
+            [self newgameUserInput];
+        else
+            [self makeNewGame:level];
+    };
+    dlg.onCancel = ^{
+        [self newgameCancel];
+    };
+    [self presentViewController:dlg animated:YES completion:nil];
+    [dlg release];
 }
 
 
