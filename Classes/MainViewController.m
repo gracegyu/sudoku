@@ -1156,6 +1156,16 @@ static BOOL DebugNewGameDialogOnLaunch(void)
 {
     return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugNewGameDialog"];
 }
+// -DebugDailyDialog: 데일리 퍼즐 창 촬영용. 이름 묻기 · Game Center · ATT 를 건너뛰고 창을 연다.
+// -DebugDailyPlayed 를 같이 주면 「오늘 했음」 몇 칸을 (저장하지 않고) 켜고, Release 처럼 다시 시작을 막는다.
+static BOOL DebugDailyDialogOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugDailyDialog"];
+}
+static BOOL DebugDailyPlayedOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugDailyPlayed"];
+}
 #endif
 
 - (void)viewDidAppear:(BOOL)animated
@@ -1168,6 +1178,13 @@ static BOOL DebugNewGameDialogOnLaunch(void)
         debugNewGameShown = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showNewGame];
+        });
+    }
+    static BOOL debugDailyShown = NO;
+    if (DebugDailyDialogOnLaunch() && !debugDailyShown) {
+        debugDailyShown = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showDailyGame];
         });
     }
     static BOOL debugBannerShown = NO;
@@ -1333,7 +1350,7 @@ static BOOL DebugNewGameDialogOnLaunch(void)
 	 
      
 #ifdef DEBUG
-     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
 #endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1390,7 +1407,7 @@ static BOOL DebugNewGameDialogOnLaunch(void)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
@@ -4177,7 +4194,12 @@ static NSString *SupportQueryEscape(NSString *string)
          */
         
     }
-    
+
+    // 데일리 퍼즐 창이 떠 있으면 서버 상태 · 오늘 한 판을 알려 준다
+    if ([self.presentedViewController isKindOfClass:[NewGameDialog class]] &&
+        ((NewGameDialog *)self.presentedViewController).isDaily)
+        [(NewGameDialog *)self.presentedViewController
+            setDailyServerState:(bReadyDownloadDailyPuzzle ? NGDailyServerReady : NGDailyServerOffline)];
 }
 
 - (void)OnTimerDailyState:(NSTimer *)timer
@@ -4341,7 +4363,73 @@ static NSString *SupportQueryEscape(NSString *string)
     dlg.onCancel = ^{
         [self newgameCancel];
     };
+#ifdef DEBUG
+    if (DebugNewGameDialogOnLaunch()) dlg.debugSnapshotName = @"newgame_dialog.png";
+#endif
     [self presentViewController:dlg animated:YES completion:nil];
+    [dlg release];
+}
+
+// 데일리 퍼즐 창. 예전의 옆에서 미끄러져 나오는 viewDailyGame(종류 이름 5줄 × Easy · Hard 단추)
+// 대신 새 게임 창과 같은 카드에서 종류 · 난이도(보통 · 매우 어려움)를 고르고 [시작] 한다.
+// 단추 글자는 실제로 받는 판의 난이도다 — 예전 Easy 단추가 GAMELEVEL_NORMAL, Hard 가 GAMELEVEL_VERYHARD 였다.
+// 판 받기는 예전 길(makeNewGameDailyPuzzle → makeNewGameDataFromServer → increaseScoreGames)
+// 그대로라 game_start(mode_id=daily_<종류>_<난이도>) 도 그대로 나간다.
+// 창이 뜬 뒤 서버 상태를 읽는다(readyToDownloadDailyPuzzle → setDailyStat 이 창에 알려 준다).
+// viewDailyGame 은 xib 에 남아 있지만 더는 띄우지 않는다.
+- (void) showDailyDialog
+{
+	if (mainView.bMenuMode || self.presentedViewController)
+		return;
+
+	mainView.bMenuMode = YES;
+	[self stopGameTimer];
+	[self updateButtons];
+    [self loadDailyStat];
+
+    GAMELEVEL lastLevel = (mainView.nSettingGameLevel == GAMELEVEL_VERYHARD) ? GAMELEVEL_VERYHARD : GAMELEVEL_NORMAL;
+    NewGameDialog *dlg = [[NewGameDialog alloc] initDailyWithType:mainView.nSettingSudokuType
+                                                            level:lastLevel
+                                                         userName:[self getUserName]];
+    dlg.dailyPlayed = ^BOOL(SUDOKUTYPE t, GAMELEVEL l) {
+        if (t < 0 || t >= SUDOKUTYPE_MAX || l < 0 || l >= GAMELEVEL_MAX) return NO;
+#ifdef DEBUG
+        // 촬영용 — 저장하지 않는다 (readyToDownloadDailyPuzzle 이 kDailyStat 을 다시 읽어도 남게 여기서)
+        if (DebugDailyPlayedOnLaunch() &&
+            (t == SUDOKUTYPE_SUDOKU || (t == SUDOKUTYPE_KILLER && l == GAMELEVEL_NORMAL))) return YES;
+#endif
+        return dailyStat[t][l].played;
+    };
+#if defined(DAILYSENDER) || defined(DEBUG)
+    dlg.dailyAllowReplay = YES;     // 예전 setDailyButton: 과 같은 규칙
+#endif
+#ifdef DEBUG
+    if (DebugDailyPlayedOnLaunch()) dlg.dailyAllowReplay = NO;
+    if (DebugDailyDialogOnLaunch()) {
+        dlg.debugSnapshotName = @"daily_dialog.png";
+        dlg.debugSnapshotDelay = 3.0;   // 서버 상태를 받은 뒤에 찍는다
+    }
+#endif
+    dlg.onStart = ^(SUDOKUTYPE type, GAMELEVEL level, BOOL autoMemo) {
+        mainView.nSettingSudokuType = type;
+        mainView.nSettingGameLevel = level;
+        [self setSudokuTypeSegment];
+        [self makeNewGameDailyPuzzle];   // 자동 메모는 여기서 끈다 (예전과 같음)
+    };
+    dlg.onCancel = ^{
+        [self dailygameCancel];
+        if (mainView.sudokuGame == nil)   // 하던 판이 없으면 메뉴로 (빈 화면에 남지 않게)
+            [self showMenu];
+    };
+    dlg.onNickname = ^{
+        [self changeNickName];
+    };
+    dlg.onRanking = ^{
+        [self showRankView];
+    };
+    [self presentViewController:dlg animated:YES completion:^{
+        [self readyToDownloadDailyPuzzle];   // 창이 뜬 뒤 서버를 읽는다 → setDailyStat 이 창에 알린다
+    }];
     [dlg release];
 }
 
@@ -4349,8 +4437,12 @@ static NSString *SupportQueryEscape(NSString *string)
 - (IBAction)showDailyGame
 {
     DLog(@"gUserName:%@", gUserName);
-    if ([gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] == YES ||
-        [gUserName length] < 1) {
+    BOOL needName = [gUserName isEqualToString:[NSString stringWithFormat:@"%d", (int)gUserID]] == YES ||
+                    [gUserName length] < 1;
+#ifdef DEBUG
+    if (DebugDailyDialogOnLaunch()) needName = NO;   // 촬영용
+#endif
+    if (needName) {
         
         [self allButtonUnLock];
         [self hideMenuView:NO];	// 메뉴가 사라지고, newgame이 나온다.
@@ -4364,12 +4456,9 @@ static NSString *SupportQueryEscape(NSString *string)
                                        userInfo:nil
                                         repeats:NO];
         
-        [self readyToDownloadDailyPuzzle];
-        [activityIndicatorDailyStat startAnimating];
-
         [self allButtonUnLock];
-        [self hideMenuView:YES];	// 메뉴가 사라지고, newgame이 나온다.
-        [self showDailyGameView];
+        [self hideMenuView:YES];	// 메뉴가 사라지고, 데일리 퍼즐 창이 뜬다.
+        [self showDailyDialog];     // 창이 뜬 뒤 readyToDownloadDailyPuzzle
     }
     
     
