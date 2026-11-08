@@ -12,6 +12,7 @@
 #import "MainViewController.h"
 #import "AppDelegate.h"
 #import "Appirater.h"
+#import "Constants.h"
 #ifdef USE_JMC
 #import "JMC.h"
 #endif
@@ -93,6 +94,16 @@ static BOOL IsTestFlightInstall(void)
 #endif
 
 
+
+#ifdef DEBUG
+// -DebugReview: app review 줄을 누른 것과 같게 goReview 를 부른다 (URL 이 로그에 찍힌다). Release 에 없다.
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([[NSProcessInfo processInfo].arguments containsObject:@"-DebugReview"])
+        [self performSelector:@selector(goReview) withObject:nil afterDelay:1.0];
+}
+#endif
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -735,37 +746,32 @@ static BOOL IsTestFlightInstall(void)
 
 - (IBAction)goReview
 {
-    UIAlertController * alert=   [UIAlertController
-                                  alertControllerWithTitle:gettext(@"Recommendation", nil)
-                                  message:gettext(@"Please enter your cheering message with 5 stars. We will make more interesting game with your comments.", nil)
-                                  preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction* yes = [UIAlertAction
-                          actionWithTitle:gettext(@"Yes", nil)
-                          style:UIAlertActionStyleDefault
-                          handler:^(UIAlertAction * action)
-                          {
-                              [Appirater rateApp];
-                              [mainViewController DoneQuest:eQuestAppReview];
-                              
-                          }];
-    
-    [alert addAction:yes];
-    UIAlertAction* cancel = [UIAlertAction
-                        actionWithTitle:gettext(@"Cancel", nil)
-                        style:UIAlertActionStyleDefault
-                        handler:^(UIAlertAction * action)
-                        {
-                            
-                        }];
-    
-    [alert addAction:cancel];
-    
-    
-    [self presentViewController:alert animated:YES completion:nil];
+    // App Store 리뷰 쓰기 화면을 바로 연다. 앱 안 StoreKit 상품 창(Appirater)이나
+    // SKStoreReviewController 는 TestFlight 에서 뜨지 않고 운영에서도 연 3회 제한으로
+    // 조용히 무시되므로 쓰지 않는다. itms-apps 가 안 열리면 https 로 다시 시도한다.
+    NSString *appId = APP_ID;
+    NSURL *appStoreURL = [NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?action=write-review", appId]];
+    NSURL *webURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://apps.apple.com/app/id%@?action=write-review", appId]];
+    NSLog(@"goReview: %@ (fallback %@)", appStoreURL, webURL);
+    [[UIApplication sharedApplication] openURL:appStoreURL options:@{} completionHandler:^(BOOL success) {
+        if (success) {
+            NSLog(@"goReview: opened %@", appStoreURL);
+            [mainViewController DoneQuest:eQuestAppReview];
+            return;
+        }
+        NSLog(@"goReview: failed to open %@ — trying %@", appStoreURL, webURL);
+        [[UIApplication sharedApplication] openURL:webURL options:@{} completionHandler:^(BOOL ok) {
+            if (ok) {
+                NSLog(@"goReview: opened %@", webURL);
+                [mainViewController DoneQuest:eQuestAppReview];
+            } else {
+                NSLog(@"goReview: failed to open %@", webURL);
+            }
+        }];
+    }];
 #ifdef USE_FLURRY
     [Flurry logEvent:@"goAppReview"];
 #endif
-    
 }
 
 #ifdef ADMOB_FREEVERSION

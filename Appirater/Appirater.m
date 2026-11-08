@@ -622,55 +622,23 @@ static BOOL _alwaysUseMainBundle = NO;
 	[userDefaults setBool:YES forKey:kAppiraterRatedCurrentVersion];
 	[userDefaults synchronize];
 
-	//Use the in-app StoreKit view if available (iOS 6) and imported. This works in the simulator.
-	if (![Appirater sharedInstance].openInAppStore && NSStringFromClass([SKStoreProductViewController class]) != nil) {
-		
-		SKStoreProductViewController *storeViewController = [[SKStoreProductViewController alloc] init];
-		NSNumber *appId = [NSNumber numberWithInteger:_appId.integerValue];
-		[storeViewController loadProductWithParameters:@{SKStoreProductParameterITunesItemIdentifier:appId} completionBlock:nil];
-		storeViewController.delegate = self.sharedInstance;
-        
-        id <AppiraterDelegate> delegate = self.sharedInstance.delegate;
-		if ([delegate respondsToSelector:@selector(appiraterWillPresentModalView:animated:)]) {
-			[delegate appiraterWillPresentModalView:self.sharedInstance animated:_usesAnimation];
+	// App Store 의 「리뷰 쓰기」 화면을 바로 연다. 예전에는 앱 안 StoreKit 상품 창
+	// (SKStoreProductViewController, 완료 콜백 없음)을 띄웠는데 아무것도 안 뜨는 일이 있었고,
+	// 폴백의 openURL: 은 iOS 18 부터 늘 NO 를 돌려 아무 화면도 안 열었다.
+	// itms-apps 가 안 열리면 https 로 다시 시도한다.
+	NSURL *appStoreURL = [NSURL URLWithString:[NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?action=write-review", _appId]];
+	NSURL *webURL = [NSURL URLWithString:[NSString stringWithFormat:@"https://apps.apple.com/app/id%@?action=write-review", _appId]];
+	NSLog(@"Appirater rateApp: %@ (fallback %@)", appStoreURL, webURL);
+	[[UIApplication sharedApplication] openURL:appStoreURL options:@{} completionHandler:^(BOOL success) {
+		if (success) {
+			NSLog(@"Appirater rateApp: opened %@", appStoreURL);
+			return;
 		}
-		[[self getRootViewController] presentViewController:storeViewController animated:_usesAnimation completion:^{
-			[self setModalOpen:YES];
-			//Temporarily use a black status bar to match the StoreKit view.
-			[self setStatusBarStyle:[UIApplication sharedApplication].statusBarStyle];
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000
-			[[UIApplication sharedApplication]setStatusBarStyle:UIStatusBarStyleLightContent animated:_usesAnimation];
-#endif
+		NSLog(@"Appirater rateApp: failed to open %@ - trying %@", appStoreURL, webURL);
+		[[UIApplication sharedApplication] openURL:webURL options:@{} completionHandler:^(BOOL ok) {
+			NSLog(ok ? @"Appirater rateApp: opened %@" : @"Appirater rateApp: failed to open %@", webURL);
 		}];
-	
-	//Use the standard openUrl method if StoreKit is unavailable.
-	} else {
-		
-		#if TARGET_IPHONE_SIMULATOR
-		NSLog(@"APPIRATER NOTE: iTunes App Store is not supported on the iOS simulator. Unable to open App Store page.");
-		#else
-        float  osVersion = [[[UIDevice currentDevice] systemVersion] floatValue];
-		NSString *reviewURL = [templateReviewURL stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
-
-		// iOS 7 needs a different templateReviewURL @see https://github.com/arashpayan/appirater/issues/131
-        // Fixes condition @see https://github.com/arashpayan/appirater/issues/205
-		if (osVersion >= 7.0 && osVersion < 8.0) {
-			reviewURL = [templateReviewURLiOS7 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
-		}
-        // iOS 8 needs a different templateReviewURL also @see https://github.com/arashpayan/appirater/issues/182
-        else if (osVersion >= 8.0 && osVersion < 10.0)
-        {
-            reviewURL = [templateReviewURLiOS8 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
-        }
-        // iOS 10 needs a different templateReviewURL also @see https://stackoverflow.com/questions/45695291/how-to-link-to-app-reviews-in-app-store-in-ios-11?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
-        else if (osVersion >= 10.0)
-        {
-            reviewURL = [templateReviewURLiOS10 stringByReplacingOccurrencesOfString:@"APP_ID" withString:[NSString stringWithFormat:@"%@", _appId]];
-        }
-
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:reviewURL]];
-		#endif
-	}
+	}];
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
