@@ -98,6 +98,16 @@ static NSString *const kGaOutcomeGoodwill    = @"goodwill";     // 광고 없이
 // 키 · 꼴("yyyy-MM-dd:n", 기기 현지 날짜)이다. 날짜가 바뀌면 0 부터 다시 센다.
 static NSString *const kFreeRewardQuotaKey   = @"freeRewardQuota";
 #define FREE_REWARD_LIMIT   3
+
+// QA 메뉴 (A479) — 판정과 까닭은 파일 끝 「QA 메뉴」 절. 광고 실패 흉내는 그 메뉴로만 켜고 저장하지 않는다.
+static BOOL gQAAdFail = NO;
+static BOOL QAMenuEnabled(void);
+#ifdef DEBUG
+static NSString *QADebugArg(void);
+#endif
+@interface MainView (QA)
+- (void) checkClearAndUpdateButton;   // MainView.m 안에 있다 — QA 「판 풀기」가 깬 판 판정을 다시 돌린다
+@end
 static NSString *const kGaPlacementHint         = @"rewarded_hint";
 static NSString *const kGaPlacementInterstitial = @"interstitial_gameover";
 #ifdef ADMOB_FREEVERSION
@@ -1199,6 +1209,15 @@ static BOOL DebugDailyPlayedOnLaunch(void)
             [self showDailyGame];
         });
     }
+    // -DebugQA <menu|solve|solve1|hint|quota|adfail|consent>: 뜨고 2초 뒤 QA 메뉴를 열거나 그 항목을
+    // 누른 것처럼 돈다 (시뮬레이터는 입력을 못 넣는다, A479). Release 에 없다.
+    static BOOL debugQADone = NO;
+    if (QADebugArg() && !debugQADone) {
+        debugQADone = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self runQAItem:QADebugArg()];
+        });
+    }
     static BOOL debugBannerShown = NO;
     if (DebugPointsBannerOnLaunch() && !debugBannerShown) {
         debugBannerShown = YES;
@@ -1321,6 +1340,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
      
      [viewMenu setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [self installMoreGamesMenuButton];
+     [self installQAButton];   // TestFlight · 디버그 빌드만 (A479)
      [MoreGamesViewController attachNewDotToView:buttonMenu afterTitleOfButton:NO];   // 메뉴 단추 안에 숨은 More Games 를 알린다
      [viewNewGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
      [viewDailyGame setBackgroundColor:[mainView getSkinColor:SC_BACKGROUND_VIEW]];
@@ -1362,7 +1382,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 	 
      
 #ifdef DEBUG
-     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch() && !DebugSettingsOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch() && !DebugSettingsOnLaunch() && QADebugArg() == nil)   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
 #endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1419,7 +1439,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch() || DebugSettingsOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch() || DebugSettingsOnLaunch() || QADebugArg() != nil) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
@@ -5820,6 +5840,7 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
     if ([[NSProcessInfo processInfo].arguments containsObject:@"-AdFailTest"])
         return @"ca-app-pub-3940256099942544/0000000000";
 #endif
+    if (gQAAdFail) return @"ca-app-pub-3940256099942544/0000000000";   // QA 「광고 실패 흉내」 (A479)
     return MY_HINT_REWARD_UNIT_ID;
 }
 
@@ -6183,6 +6204,186 @@ static const NSTimeInterval kAdBackoffSec[] = { 2, 8, 30 };
 
 
 
+
+#pragma mark - QA 메뉴 (A479 · TestFlight · 디버그 빌드 전용)
+
+// 사람 (2026-11-08): 「Native5종도 TF 디버그 메뉴 넣을 수 있어? 기능은 게임 해결 · 힌트 증가 · 등등」.
+// 공장 QA 시트(factory packages/ga_core GaQaSheet)와 같은 뜻이다. 화면 오른쪽 위의 작은 「QA」 단추가 연다.
+//
+// 언제 보이나:
+//   Debug 빌드                     늘 (#ifdef DEBUG — 컴파일 깃발)
+//   Release · 시뮬레이터             안 보임
+//   Release · 기기                 영수증이 sandboxReceipt(TestFlight) **이고** IDFV 가 QAAllowedIDs 에 있을 때만
+//
+// 왜 컴파일 깃발만으로 안 되나 — TestFlight 에 올린 그 빌드가 그대로 심사 · App Store 로 간다.
+// 빌드를 갈라 올리면 사람이 본 것과 다른 것이 나간다. 그래서 iOS 는 실행 중에 가른다.
+// 왜 영수증만으로 안 되나 — 심사 기기에 설치된 앱도 sandbox 영수증을 갖는다. 영수증만 보면 심사자에게
+// QA 메뉴가 뜬다 (Guideline 2.1 · 2.3.1). 그래서 공장 원격 설정 qa_install_ids 와 같은 IDFV 목록을
+// 같이 본다. IDFV 는 같은 개발자 팀(376QCT8NVY) 앱끼리 같다 — 공장 앱 설정 맨 아래 「QA ID」가 이
+// 기기의 값이다. 목록을 바꾸려면 다시 빌드한다. 숨은 손짓으로 켜는 길은 만들지 않는다 (2.3.1).
+static __attribute__((unused)) NSArray *QAAllowedIDs(void)
+{
+    return @[ @"959d9188-ecb3-4353-b6b9-87350c0fe1f9" ];   // factory tools/qa_ids.dart list (2026-11-08)
+}
+
+static NSString *QADeviceID(void)
+{
+    return [[[[UIDevice currentDevice] identifierForVendor] UUIDString] lowercaseString];
+}
+
+static BOOL QAMenuEnabled(void)
+{
+#ifdef DEBUG
+    return YES;
+#elif TARGET_OS_SIMULATOR
+    return NO;
+#else
+    // 못 읽으면 꺼짐 — 「모르겠다」는 통과가 아니다.
+    NSURL *receipt = [[NSBundle mainBundle] appStoreReceiptURL];
+    if (![[receipt lastPathComponent] isEqualToString:@"sandboxReceipt"]) return NO;
+    NSString *idfv = QADeviceID();
+    return idfv != nil && [QAAllowedIDs() containsObject:idfv];
+#endif
+}
+
+#ifdef DEBUG
+static NSString *QADebugArg(void)
+{
+    return [[NSUserDefaults standardUserDefaults] stringForKey:@"DebugQA"];
+}
+#endif
+
+- (void) installQAButton
+{
+    if (!QAMenuEnabled()) return;   // 꺼졌으면 단추가 아예 없다 — 숨긴 단추가 아니라 없는 단추다
+    UIButton *b = [UIButton buttonWithType:UIButtonTypeSystem];
+    [b setTitle:@"QA" forState:UIControlStateNormal];
+    [b setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    b.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+    b.backgroundColor = [UIColor colorWithRed:0.85 green:0.2 blue:0.2 alpha:0.75];
+    b.layer.cornerRadius = 6;
+    b.accessibilityIdentifier = @"qa-button";
+    b.translatesAutoresizingMaskIntoConstraints = NO;
+    [b addTarget:self action:@selector(showQAMenu:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:b];
+    UILayoutGuide *g = self.view.safeAreaLayoutGuide;
+    [NSLayoutConstraint activateConstraints:@[
+        // 오른쪽 위, 안전 영역 바로 위 띠(「레벨」 줄 오른쪽 빈자리). 아래쪽은 배너 자리라 덮으면 안 된다.
+        [b.trailingAnchor constraintEqualToAnchor:g.trailingAnchor constant:-6],
+        [b.bottomAnchor constraintEqualToAnchor:g.topAnchor constant:-2],
+        [b.widthAnchor constraintEqualToConstant:40],
+        [b.heightAnchor constraintEqualToConstant:24],
+    ]];
+}
+
+- (void) showQAMenu:(id)sender
+{
+    NSString *src =
+#ifdef DEBUG
+        @"Debug";
+#else
+        @"TestFlight";
+#endif
+    NSString *title = [NSString stringWithFormat:@"QA (%@)", src];
+    NSString *msg = [NSString stringWithFormat:@"hints %ld+%ld · ad fallback %ld/%d today · ad fail %@\nQA ID %@",
+                     (long)mainView.sudokuGame.countHint, (long)mainView.paidHintCount,
+                     (long)[self freeRewardUsedToday], FREE_REWARD_LIMIT, gQAAdFail ? @"ON" : @"off", QADeviceID()];
+    UIAlertController *sheet = [UIAlertController alertControllerWithTitle:title message:msg
+                                                            preferredStyle:UIAlertControllerStyleActionSheet];
+    NSArray *items = @[
+        @[ @"solve",   @"Solve board" ],
+        @[ @"solve1",  @"Solve all but one cell" ],
+        @[ @"hint",    @"Hints +10" ],
+        @[ @"quota",   @"Reset ad-fallback limit (3/day)" ],
+        @[ @"adfail",  gQAAdFail ? @"Ad failure simulation: turn OFF" : @"Ad failure simulation: turn ON" ],
+        @[ @"consent", @"Reset consent (UMP)" ],
+    ];
+    for (NSArray *it in items) {
+        NSString *key = it[0];
+        [sheet addAction:[UIAlertAction actionWithTitle:it[1] style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction *a) { [self runQAItem:key]; }]];
+    }
+    [sheet addAction:[UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil]];
+    UIView *anchor = [sender isKindOfClass:[UIView class]] ? sender : self.view;
+    sheet.popoverPresentationController.sourceView = anchor;   // iPad
+    sheet.popoverPresentationController.sourceRect = anchor.bounds;
+    [self presentViewController:sheet animated:YES completion:nil];
+}
+
+// 항목 하나. 무엇을 했는지 한 줄로 말한다 (공장 시트의 스낵바 자리).
+- (void) runQAItem:(NSString *)key
+{
+    if (!QAMenuEnabled()) return;
+    if ([key isEqualToString:@"menu"]) {
+        [self showQAMenu:nil];
+    } else if ([key isEqualToString:@"solve"] || [key isEqualToString:@"solve1"]) {
+        [self qaSay:[self qaSolveLeavingOne:[key isEqualToString:@"solve1"]]];
+    } else if ([key isEqualToString:@"hint"]) {
+        mainView.paidHintCount += 10;
+        [self updateButtonHint];
+        [self updateHintCount];
+        [self saveSetting];
+        [self qaSay:[NSString stringWithFormat:@"Hints +10 (now %ld)",
+                     (long)(mainView.sudokuGame.countHint + mainView.paidHintCount)]];
+    } else if ([key isEqualToString:@"quota"]) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kFreeRewardQuotaKey];
+        [self qaSay:[NSString stringWithFormat:@"Ad-fallback limit reset (0/%d today)", FREE_REWARD_LIMIT]];
+    } else if ([key isEqualToString:@"adfail"]) {
+        gQAAdFail = !gQAAdFail;
+        // 받아 둔 광고를 버린다 — 안 그러면 다음 누름이 그것을 보여 줘서 실패 길을 못 탄다.
+        self.hintRewardedAd = nil;
+        bReadyHintRewardVideo = NO;
+        [hintRetryTimer invalidate];
+        hintRetryTimer = nil;
+        hintLoadFails = 0;
+        if (!gQAAdFail) [self loadHintRewardedAd];
+        [self qaSay:gQAAdFail ? @"Ad failure simulation ON — rewarded hint ads will fail to load"
+                              : @"Ad failure simulation OFF"];
+    } else if ([key isEqualToString:@"consent"]) {
+        [UMPConsentInformation.sharedInstance reset];
+        [self qaSay:@"Consent (UMP) reset — restart the app to see the form again (EEA only)"];
+    }
+}
+
+// 정답을 판에 채운다. leaveOne 이면 빈칸 하나를 남긴다 — 사람이 마지막 수를 두어 깨는 흐름을 본다.
+- (NSString *) qaSolveLeavingOne:(BOOL)leaveOne
+{
+    SudokuGame *g = mainView.sudokuGame;
+    if (g == nil || g.isGameFinished) return @"No game in progress";
+    // 데일리 퍼즐은 깨면 기록이 실제 랭킹 서버(addresult)로 간다 — QA 로 푼 시간이 남의 순위를 흔든다.
+    if (g.bDailyPuzzle) return @"Daily puzzle: QA solve is off (the time would go to the live daily ranking)";
+    NSInteger open = 0;
+    for (NSInteger y = 0; y < g.size; y++)
+        for (NSInteger x = 0; x < g.size; x++)
+            if ([g getPuzzleNums:x y:y] == 0 && [g getAnswerNums:x y:y] > 0) open++;
+    if (open == 0) return @"No answer for this board (user-input puzzle?)";
+    NSInteger fill = leaveOne ? open - 1 : open;
+    NSInteger done = 0;
+    for (NSInteger y = 0; y < g.size && done < fill; y++)
+        for (NSInteger x = 0; x < g.size && done < fill; x++)
+            if ([g getPuzzleNums:x y:y] == 0 && [g getAnswerNums:x y:y] > 0) {
+                [g setHintNum:x y:y];
+                done++;
+            }
+    [mainView checkClearAndUpdateButton];
+    [g saveData];
+    return leaveOne ? @"Solved all but one cell" : @"Board solved";
+}
+
+- (void) qaSay:(NSString *)message
+{
+    DLog(@"[qa] %@", message);
+    UIViewController *top = self;
+    while (top.presentedViewController && !top.presentedViewController.isBeingDismissed)
+        top = top.presentedViewController;
+    if ([top isKindOfClass:[UIAlertController class]]) return;   // 이미 창이 떠 있다 (깬 판 안내 등)
+    UIAlertController *a = [UIAlertController alertControllerWithTitle:@"QA" message:message
+                                                        preferredStyle:UIAlertControllerStyleAlert];
+    [top presentViewController:a animated:YES completion:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (a.presentingViewController && !a.isBeingDismissed) [a dismissViewControllerAnimated:YES completion:nil];
+    });
+}
 
 @end
 
