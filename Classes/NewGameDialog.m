@@ -12,6 +12,7 @@
 #import "NewGameDialog.h"
 #import "Locale.h"
 #import "SudokuGame.h"
+#import "DailyStreak.h"
 
 // 앱의 글자 색(xib 의 남색)과 맞춘다. 다크 모드와 상관없이 같은 색을 쓴다 — 앱 화면이 밝은 꼴 하나다.
 #define NG_INK        [UIColor colorWithRed:0.055 green:0.198 blue:0.458 alpha:1]
@@ -321,6 +322,11 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
     content.translatesAutoresizingMaskIntoConstraints = NO;
     [scroll addSubview:content];
 
+    if (_daily && self.streakToday.length) {   // 연속 띠 (A468 R3) — 종류 위
+        DailyStreakView *streak = [[DailyStreakView alloc] initWithToday:self.streakToday];
+        [content addArrangedSubview:streak];
+        [content setCustomSpacing:10 afterView:streak];
+    }
     [content addArrangedSubview:[self headerLabel:gettext(@"Sudoku type", nil)]];
     _typeRows = [NSMutableArray array];
     _typeBadges = [NSMutableArray array];

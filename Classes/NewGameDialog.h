@@ -62,6 +62,8 @@ typedef NS_ENUM(NSInteger, NGDailyServerState) {
 @property (nonatomic, copy) void (^onNickname)(void);
 @property (nonatomic, copy) void (^onRanking)(void);
 - (void)setDailyServerState:(NGDailyServerState)state;
+/// 오늘 날짜(yyyyMMdd). 값이 있으면 데일리 창 맨 위에 연속 띠(DailyStreakView, A468 R3)를 놓는다. 창을 띄우기 전에 정한다.
+@property (nonatomic, copy) NSString *streakToday;
 
 /// DEBUG 촬영: 값이 있으면 뜨고 debugSnapshotDelay 초 뒤 앱 창을 Documents/<이름> 으로 남긴다. Release 에서는 쓰지 않는다.
 @property (nonatomic, copy) NSString *debugSnapshotName;

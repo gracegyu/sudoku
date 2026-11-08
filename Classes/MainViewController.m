@@ -19,6 +19,8 @@
 #import "Locale.h"
 #import "MoreGamesViewController.h"
 #import "NewGameDialog.h"
+#import "DailyStreak.h"       // 데일리 연속 (A468 R3)
+#import "FirstSessionCard.h"  // 첫 세션 안내 (A468 R1)
 #import "GameCenterUtil.h"
 #ifdef USE_JMC
 #import "JMC.h"
@@ -84,6 +86,13 @@ static NSString *GaModeId(SudokuGame *g)
     }
     return out;
 }
+
+// game_start 의 from — 다음 한 번만 싣는다 (첫 세션 첫 판 = first_session, A468 R1). nil 이면 싣지 않는다.
+static NSString *gGaNextStartFrom = nil;
+
+// 첫 세션 안내 카드를 띄울 차례인가 (A468 R1) — 처음 설치해 저장된 판 · 점수가 없을 때 init 에서 켠다.
+static BOOL gFirstSessionCardPending = NO;
+static NSString *const kFirstSessionCardDone = @"firstSessionCard.done";
 
 static void GaLogQuitIfUnfinished(SudokuGame *g)
 {
@@ -629,7 +638,27 @@ static BOOL GaIsOfflineError(NSError *error)
     
     strMsgFinish = [[NSString alloc] initWithString:gettext(@"You cleared this game.", nil)];
     if (sudokuGame.bDailyPuzzle)
-    {
+    {   // 데일리 연속 (A468 R3) — 하루 한 번 센다. 마일스톤(3 · 7 · 14 · 30일, 평생 한 번)은 힌트로 준다.
+        DSClearResult sr = [DailyStreak recordClearOn:[self getNowYYYYMMDD]];
+        if (sr.rewardHints > 0) {
+            mainView.paidHintCount += sr.rewardHints;
+            [self saveSetting];
+            [self updateHintCount];
+        }
+        GaLogEvent(@"daily_clear", @{ @"mode_id": GaModeId(sudokuGame), @"streak": @(sr.streak), @"best": @(sr.best),
+                                      @"first_today": @(sr.counted ? 1 : 0), @"milestone": @(sr.milestone),
+                                      @"hints": @(sr.rewardHints) });
+        if (sr.brokenFrom > 0)
+            GaLogEvent(@"streak_broken", @{ @"was": @(sr.brokenFrom) });
+        if (sr.counted) {
+            strMsgFinish = [strMsgFinish stringByAppendingFormat:@"\n%@",
+                            [NSString stringWithFormat:gettext(@"streak.clear.msg", nil), (int)sr.streak]];
+            if (sr.milestone > 0)
+                strMsgFinish = [strMsgFinish stringByAppendingFormat:@"\n%@",
+                                [NSString stringWithFormat:gettext(@"streak.milestone.msg", nil),
+                                 (int)sr.milestone, (int)sr.rewardHints]];
+        }
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
             // 작업이 오래 걸리는 API를 백그라운드 스레드에서 실행한다.
             NSInteger total=0, grade=0;
@@ -1116,6 +1145,14 @@ static BOOL GaIsOfflineError(NSError *error)
             [self startGameTimer];          // load 했을 때만 Timer를 시작한다.
 		} else {
 			levelNewGame = GAMELEVEL_NORMAL;	// normal로 새로운 게임을 무조건 생성한다.
+            // 첫 세션 (A468 R1): 처음 설치(저장된 판도 점수도 없음)면 첫 판은 매우 쉬움 + 안내 카드.
+            // 판이 없어도 점수가 있으면(예전 사용자) 예전처럼 보통이고 카드도 없다.
+            if (score.scoreTotal == 0 &&
+                ![[NSUserDefaults standardUserDefaults] boolForKey:kFirstSessionCardDone]) {
+                levelNewGame = GAMELEVEL_VERYEASY;
+                gGaNextStartFrom = @"first_session";
+                gFirstSessionCardPending = YES;
+            }
 			[self makeNewGameData];
 			
 			[self setGameLevel];
@@ -1181,11 +1218,47 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 {
     return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugDailyPlayed"];
 }
+// -DebugFirstSession: 첫 세션 안내 카드 촬영용 (A468 R1). 카드를 억지로 띄우지는 않는다 — 앱 데이터를 지운
+// 첫 실행에서만 뜬다. 이 인자는 Game Center · ATT 를 건너뛰고(시스템 창이 가리지 않게) 카드가 뜨면
+// Documents/first_session.png 를, -DebugFirstSessionAutoStart 를 같이 주면 [시작하기] 뒤 판을 first_board.png 로 남긴다.
+static BOOL DebugFirstSessionOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugFirstSession"];
+}
+// -DebugStreak <n>: 데일리 연속 상태를 써 넣는다 (A468 R3 촬영 · 시험용). 어제까지 n일, 최고 max(n, 기존).
+// -DebugStreakDone 을 같이 주면 마지막 날이 오늘(오늘 이미 셈). n 이하 마일스톤은 받은 것으로 둔다.
+static void DebugSeedStreakIfAsked(NSString *today)
+{
+    NSString *v = [[NSUserDefaults standardUserDefaults] stringForKey:@"DebugStreak"];
+    if (v == nil) return;
+    NSInteger n = MAX(0, [v integerValue]);
+    BOOL done = [[NSProcessInfo processInfo].arguments containsObject:@"-DebugStreakDone"];
+    NSInteger mask = 0;
+    for (int i = 0; i < DS_MILESTONE_COUNT; i++) if (kDailyStreakMilestones[i] <= n) mask |= (1 << i);
+    [DailyStreak debugSetStreak:n best:MAX(n, [DailyStreak best]) lastDay:(n > 0 ? (done ? today : [DailyStreak dayBefore:today]) : nil)
+                     earnedMask:mask];
+}
+static void DebugSnapshotWindow(UIWindow *w, NSString *name)
+{
+    if (!w) return;
+    UIGraphicsImageRenderer *r = [[[UIGraphicsImageRenderer alloc] initWithBounds:w.bounds] autorelease];
+    UIImage *img = [r imageWithActions:^(UIGraphicsImageRendererContext *ctx) {
+        [w drawViewHierarchyInRect:w.bounds afterScreenUpdates:YES];
+    }];
+    NSString *dir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+    [UIImagePNGRepresentation(img) writeToFile:[dir stringByAppendingPathComponent:name] atomically:YES];
+}
 #endif
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if (gFirstSessionCardPending) {   // 첫 세션 안내 (A468 R1) — 한 번만
+        gFirstSessionCardPending = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showFirstSessionCard];
+        });
+    }
 #ifdef DEBUG
     // -DebugNewGameDialog: 뜨고 1.5초 뒤 새 게임 창을 연다 (시뮬레이터 촬영용, A478). Release 에 없다.
     static BOOL debugNewGameShown = NO;
@@ -1214,7 +1287,10 @@ static BOOL DebugDailyPlayedOnLaunch(void)
     static BOOL debugQADone = NO;
     if (QADebugArg() && !debugQADone) {
         debugQADone = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // -DebugQADelay <초>: 다른 촬영 인자(데일리 창 → [시작])가 판을 연 뒤에 누르게 (A468)
+        double qaDelay = [[NSUserDefaults standardUserDefaults] doubleForKey:@"DebugQADelay"];
+        if (qaDelay <= 0) qaDelay = 2.0;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(qaDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self runQAItem:QADebugArg()];
         });
     }
@@ -1382,7 +1458,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 	 
      
 #ifdef DEBUG
-     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch() && !DebugSettingsOnLaunch() && QADebugArg() == nil)   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch() && !DebugSettingsOnLaunch() && !DebugFirstSessionOnLaunch() && QADebugArg() == nil)   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
 #endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1439,7 +1515,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch() || DebugSettingsOnLaunch() || QADebugArg() != nil) return; // 시뮬레이터 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch() || DebugSettingsOnLaunch() || DebugFirstSessionOnLaunch() || QADebugArg() != nil) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
@@ -3514,7 +3590,11 @@ static NSString *SupportQueryEscape(NSString *string)
         
 		score.scoreGames[mainView.sudokuGame.sudokuType][level] += 1;     // 게임 수 1 증가
 		score.scoreTotal += 1;                                    // 1게임 시도당 1점 추가
-        GaLogEvent(@"game_start", @{ @"mode_id": GaModeId(mainView.sudokuGame) });   // 분석 (A464)
+        {   // 분석 (A464). from 은 첫 세션 첫 판만 (A468 R1)
+            NSMutableDictionary *gp = [NSMutableDictionary dictionaryWithObject:GaModeId(mainView.sudokuGame) forKey:@"mode_id"];
+            if (gGaNextStartFrom) { gp[@"from"] = gGaNextStartFrom; gGaNextStartFrom = nil; }
+            GaLogEvent(@"game_start", gp);
+        }
         
         [self saveScoreData];
         [self setUserLevel];
@@ -3872,6 +3952,12 @@ static NSString *SupportQueryEscape(NSString *string)
                        bAutoMemo:(BOOL)bAutoMemo
                           pTotal:(NSInteger*)pTotal pGrade:(NSInteger*)pGrade
 {
+#ifdef DEBUG
+    // 디버그 빌드는 결과를 서버에 올리지 않는다 (A468) — 데일리(addresult)는 실제 랭킹에 들어가고,
+    // 시뮬레이터 · QA 로 푼 시간이 남의 순위를 흔든다. Release(TestFlight 포함)는 예전 그대로 올린다.
+    DLog(@"[debug] skip upload %@ type=%d level=%d spend=%lu", act, (int)sudokuType, (int)gameLevel, (unsigned long)gameTime);
+    return NO;
+#endif
     //[self connectToServerInit];
     
     NSString* strURI = [NSString stringWithFormat:
@@ -3990,6 +4076,14 @@ static NSString *SupportQueryEscape(NSString *string)
     dailyStat[mainView.sudokuGame.sudokuType][mainView.sudokuGame.gameLevel].played = YES;
 //    dailyStat[mainView.nSettingSudokuType].played = YES;      // bug fix
     [self saveDailyStat];
+
+    {   // 분석 (A468 R3): 데일리를 열었다 — streak(지금 살아 있는 연속) · risk(오늘 안 깨면 끊김) · today(오늘 이미 셈)
+        NSString *today = [self getNowYYYYMMDD];
+        GaLogEvent(@"daily_start", @{ @"mode_id": GaModeId(mainView.sudokuGame),
+                                      @"streak": @([DailyStreak aliveStreakOn:today]),
+                                      @"risk": @([DailyStreak atRiskOn:today] ? 1 : 0),
+                                      @"today": @([DailyStreak clearedOn:today] ? 1 : 0) });
+    }
 
 }
 
@@ -4420,9 +4514,14 @@ static NSString *SupportQueryEscape(NSString *string)
     [self loadDailyStat];
 
     GAMELEVEL lastLevel = (mainView.nSettingGameLevel == GAMELEVEL_VERYHARD) ? GAMELEVEL_VERYHARD : GAMELEVEL_NORMAL;
+#ifdef DEBUG
+    static BOOL debugStreakSeeded = NO;
+    if (!debugStreakSeeded) { debugStreakSeeded = YES; DebugSeedStreakIfAsked([self getNowYYYYMMDD]); }
+#endif
     NewGameDialog *dlg = [[NewGameDialog alloc] initDailyWithType:mainView.nSettingSudokuType
                                                             level:lastLevel
                                                          userName:[self getUserName]];
+    dlg.streakToday = [self getNowYYYYMMDD];   // 연속 띠 (A468 R3)
     dlg.dailyPlayed = ^BOOL(SUDOKUTYPE t, GAMELEVEL l) {
         if (t < 0 || t >= SUDOKUTYPE_MAX || l < 0 || l >= GAMELEVEL_MAX) return NO;
 #ifdef DEBUG
@@ -4465,6 +4564,41 @@ static NSString *SupportQueryEscape(NSString *string)
     [dlg release];
 }
 
+
+// 첫 세션 안내 카드 (A468 R1, LEGACY_APPS_PLAN §1-3). 처음 설치 첫 실행에만 — init 이 gFirstSessionCardPending 을 켠다.
+// 카드가 떠 있는 동안 시계는 멈춘다. 닫으면(시작하기 · 규칙을 알아요) 다시는 뜨지 않는다.
+// 분석: tutorial_begin(mode_id) · tutorial_complete(how=start|skip). 첫 판의 game_start 는 from=first_session.
+- (void) showFirstSessionCard
+{
+    if (mainView.sudokuGame == nil) return;
+    [self stopGameTimer];
+    GaLogEvent(@"tutorial_begin", @{ @"mode_id": GaModeId(mainView.sudokuGame) });
+    FirstSessionCard *card = [[[FirstSessionCard alloc] initWithFirstLevelName:
+                               gettext([SudokuGame getGameLevelNameNoop:mainView.sudokuGame.gameLevel], nil)] autorelease];
+    card.onClose = ^(BOOL skipped) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:kFirstSessionCardDone];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        GaLogEvent(@"tutorial_complete", @{ @"how": skipped ? @"skip" : @"start" });
+        if (!mainView.bMenuMode && mainView.sudokuGame && !mainView.sudokuGame.isGameFinished)
+            [self startGameTimer];
+#ifdef DEBUG
+        if (DebugFirstSessionOnLaunch())
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                DebugSnapshotWindow(self.view.window, @"first_board.png");
+            });
+#endif
+    };
+    [card showInView:self.view];
+#ifdef DEBUG
+    if (DebugFirstSessionOnLaunch()) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            DebugSnapshotWindow(self.view.window, @"first_session.png");
+            if ([[NSProcessInfo processInfo].arguments containsObject:@"-DebugFirstSessionAutoStart"])
+                [card performSelector:@selector(startTapped)];
+        });
+    }
+#endif
+}
 
 - (IBAction)showDailyGame
 {
@@ -6351,7 +6485,9 @@ static NSString *QADebugArg(void)
     SudokuGame *g = mainView.sudokuGame;
     if (g == nil || g.isGameFinished) return @"No game in progress";
     // 데일리 퍼즐은 깨면 기록이 실제 랭킹 서버(addresult)로 간다 — QA 로 푼 시간이 남의 순위를 흔든다.
+#ifndef DEBUG   // 디버그 빌드는 uploadDailyPuzzleResult 가 서버로 안 올리므로 데일리도 풀 수 있다 (연속 시험, A468)
     if (g.bDailyPuzzle) return @"Daily puzzle: QA solve is off (the time would go to the live daily ranking)";
+#endif
     NSInteger open = 0;
     for (NSInteger y = 0; y < g.size; y++)
         for (NSInteger x = 0; x < g.size; x++)
