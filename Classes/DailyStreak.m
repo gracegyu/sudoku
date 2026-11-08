@@ -161,7 +161,7 @@ static UIFont *DSFont(CGFloat size, BOOL bold)
     UILabel *days = [UILabel new];
     days.text = [NSString stringWithFormat:@"%@%@", earned ? @"✓ " : @"",
                  [NSString stringWithFormat:gettext(@"streak.chip.days", nil), (int)kDailyStreakMilestones[i]]];
-    days.font = DSFont(13, YES);
+    days.font = DSFont(12.5, YES);
     days.textColor = earned ? UIColor.whiteColor : DS_INK;
     days.textAlignment = NSTextAlignmentCenter;
     days.adjustsFontSizeToFitWidth = YES;
@@ -169,7 +169,7 @@ static UIFont *DSFont(CGFloat size, BOOL bold)
 
     UILabel *reward = [UILabel new];
     reward.text = [NSString stringWithFormat:gettext(@"streak.chip.reward", nil), (int)kDailyStreakRewards[i]];
-    reward.font = [UIFont systemFontOfSize:11];
+    reward.font = [UIFont systemFontOfSize:10.5];
     reward.textColor = earned ? [UIColor colorWithWhite:1 alpha:0.9] : DS_SUB;
     reward.textAlignment = NSTextAlignmentCenter;
     reward.adjustsFontSizeToFitWidth = YES;
@@ -181,8 +181,8 @@ static UIFont *DSFont(CGFloat size, BOOL bold)
     s.translatesAutoresizingMaskIntoConstraints = NO;
     [chip addSubview:s];
     [NSLayoutConstraint activateConstraints:@[
-        [s.topAnchor constraintEqualToAnchor:chip.topAnchor constant:4],
-        [s.bottomAnchor constraintEqualToAnchor:chip.bottomAnchor constant:-4],
+        [s.topAnchor constraintEqualToAnchor:chip.topAnchor constant:2],
+        [s.bottomAnchor constraintEqualToAnchor:chip.bottomAnchor constant:-2],
         [s.leadingAnchor constraintEqualToAnchor:chip.leadingAnchor constant:3],
         [s.trailingAnchor constraintEqualToAnchor:chip.trailingAnchor constant:-3],
     ]];
@@ -255,7 +255,7 @@ static UIFont *DSFont(CGFloat size, BOOL bold)
         }
         UILabel *noteL = [UILabel new];
         noteL.text = note;
-        noteL.font = [UIFont systemFontOfSize:12.5];
+        noteL.font = [UIFont systemFontOfSize:12];
         noteL.textColor = DS_SUB;
         noteL.numberOfLines = 0;
         noteL.textAlignment = NSTextAlignmentCenter;
@@ -263,12 +263,12 @@ static UIFont *DSFont(CGFloat size, BOOL bold)
 
         UIStackView *all = [[UIStackView alloc] initWithArrangedSubviews:@[top, chips, noteL]];
         all.axis = UILayoutConstraintAxisVertical;
-        all.spacing = 7;
+        all.spacing = 4;
         all.translatesAutoresizingMaskIntoConstraints = NO;
         [self addSubview:all];
         [NSLayoutConstraint activateConstraints:@[
-            [all.topAnchor constraintEqualToAnchor:self.topAnchor constant:9],
-            [all.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-9],
+            [all.topAnchor constraintEqualToAnchor:self.topAnchor constant:6],
+            [all.bottomAnchor constraintEqualToAnchor:self.bottomAnchor constant:-6],
             [all.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
             [all.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
         ]];

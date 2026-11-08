@@ -34,7 +34,7 @@ static const GAMELEVEL kLevels[NG_LEVEL_COUNT] = {
 #define NG_DAILY_LEVEL_COUNT 2
 static const GAMELEVEL kDailyLevels[NG_DAILY_LEVEL_COUNT] = { GAMELEVEL_NORMAL, GAMELEVEL_VERYHARD };
 
-@interface NewGameDialog ()
+@interface NewGameDialog () <UIScrollViewDelegate>
 @end
 
 @implementation NewGameDialog {
@@ -53,6 +53,7 @@ static const GAMELEVEL kDailyLevels[NG_DAILY_LEVEL_COUNT] = { GAMELEVEL_NORMAL, 
     UIButton *_rankingButton;
     UIButton *_startButton;
     UIView *_card;
+    UIScrollView *_scroll;
 }
 
 + (NSString *)descriptionForType:(SUDOKUTYPE)type
@@ -171,9 +172,16 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
 
     UILabel *desc = [UILabel new];
     desc.text = [NewGameDialog descriptionForType:type];
-    desc.font = [UIFont systemFontOfSize:12.5];
+    desc.font = [UIFont systemFontOfSize:_daily ? 12 : 12.5];
     desc.textColor = NG_SUB;
-    desc.numberOfLines = 2;
+    desc.numberOfLines = _daily ? 1 : 2;   // 데일리 창은 설명을 한 줄로 (창 하나에 다 들어가게)
+    if (_daily) {
+        desc.adjustsFontSizeToFitWidth = YES;
+        desc.minimumScaleFactor = 0.85;
+        desc.lineBreakMode = NSLineBreakByTruncatingTail;
+        // 아주 작은 화면(iPhone SE 높이 이하)에서는 설명을 접는다 — 이름 · 그림 · 접근성 라벨은 그대로
+        if (UIScreen.mainScreen.bounds.size.height < 700) desc.hidden = YES;
+    }
 
     UIStackView *texts = [[UIStackView alloc] initWithArrangedSubviews:@[name, desc]];
     texts.axis = UILayoutConstraintAxisVertical;
@@ -201,11 +209,11 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
         [icon.heightAnchor constraintEqualToConstant:34],
         [texts.leadingAnchor constraintEqualToAnchor:icon.trailingAnchor constant:10],
         [texts.trailingAnchor constraintEqualToAnchor:badge.leadingAnchor constant:-6],
-        [texts.topAnchor constraintEqualToAnchor:row.topAnchor constant:7],
-        [texts.bottomAnchor constraintEqualToAnchor:row.bottomAnchor constant:-7],
+        [texts.topAnchor constraintEqualToAnchor:row.topAnchor constant:_daily ? 5 : 7],
+        [texts.bottomAnchor constraintEqualToAnchor:row.bottomAnchor constant:_daily ? -5 : -7],
         [badge.trailingAnchor constraintEqualToAnchor:row.trailingAnchor constant:-10],
         [badge.centerYAnchor constraintEqualToAnchor:row.centerYAnchor],
-        [row.heightAnchor constraintGreaterThanOrEqualToConstant:50],
+        [row.heightAnchor constraintGreaterThanOrEqualToConstant:_daily ? (UIScreen.mainScreen.bounds.size.height < 700 ? 36 : 44) : 50],
     ]];
     return row;
 }
@@ -318,8 +326,10 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
 
     UIStackView *content = [UIStackView new];
     content.axis = UILayoutConstraintAxisVertical;
-    content.spacing = 6;
+    content.spacing = _daily ? 4 : 6;
     content.translatesAutoresizingMaskIntoConstraints = NO;
+    _scroll = scroll;
+    scroll.delegate = self;
     [scroll addSubview:content];
 
     if (_daily && self.streakToday.length) {   // 연속 띠 (A468 R3) — 종류 위
@@ -472,6 +482,30 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
     ]];
 
     [self refresh];
+}
+
+// 가운데가 스크롤될 때(작은 화면) 글이 반쯤 잘려 보이지 않게 — 아래에 더 있으면 아래쪽 가장자리를 흐리게 한다.
+- (void)updateScrollFade
+{
+    UIScrollView *sv = _scroll;
+    if (!sv || sv.bounds.size.height <= 0) return;
+    BOOL more = sv.contentSize.height > sv.bounds.size.height + 1 &&
+                sv.contentOffset.y + sv.bounds.size.height < sv.contentSize.height - 1;
+    if (!more) { sv.layer.mask = nil; return; }
+    CAGradientLayer *m = [CAGradientLayer layer];
+    m.frame = sv.bounds;
+    m.colors = @[(id)UIColor.blackColor.CGColor, (id)UIColor.blackColor.CGColor, (id)UIColor.clearColor.CGColor];
+    CGFloat f = MIN(0.5, 28.0 / sv.bounds.size.height);
+    m.locations = @[@0, @(1 - f), @1];
+    sv.layer.mask = m;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)sv { [self updateScrollFade]; }
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    [self updateScrollFade];
 }
 
 - (void)viewDidAppear:(BOOL)animated
