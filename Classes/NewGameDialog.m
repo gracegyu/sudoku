@@ -352,6 +352,22 @@ static UIFont *NGFont(CGFloat size, BOOL bold)
     UIScrollView *scroll = (UIScrollView *)row.superview.superview;
     if ([scroll isKindOfClass:[UIScrollView class]])
         [scroll scrollRectToVisible:[scroll convertRect:row.bounds fromView:row] animated:NO];
+#ifdef DEBUG
+    // -DebugNewGameDialog 촬영 때 앱 창을 그대로 Documents/newgame_dialog.png 로 남긴다.
+    // 시뮬레이터 화면에 다른 앱의 시스템 창(ATT 등)이 덮여 있어도 앱이 그린 것만 찍힌다. Release 에 없다.
+    if ([[NSProcessInfo processInfo].arguments containsObject:@"-DebugNewGameDialog"]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            UIWindow *w = self.view.window;
+            if (!w) return;
+            UIGraphicsImageRenderer *r = [[UIGraphicsImageRenderer alloc] initWithBounds:w.bounds];
+            UIImage *img = [r imageWithActions:^(UIGraphicsImageRendererContext *ctx) {
+                [w drawViewHierarchyInRect:w.bounds afterScreenUpdates:YES];
+            }];
+            NSString *dir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES).firstObject;
+            [UIImagePNGRepresentation(img) writeToFile:[dir stringByAppendingPathComponent:@"newgame_dialog.png"] atomically:YES];
+        });
+    }
+#endif
 }
 
 - (void)refresh
