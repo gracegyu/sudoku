@@ -1162,6 +1162,11 @@ static BOOL DebugDailyDialogOnLaunch(void)
 {
     return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugDailyDialog"];
 }
+// -DebugSettings: 설정 화면 촬영용. 뜨고 1.5초 뒤 설정을 열고 SettingViewController 가 Documents/settings.png 를 남긴다.
+static BOOL DebugSettingsOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugSettings"];
+}
 static BOOL DebugDailyPlayedOnLaunch(void)
 {
     return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugDailyPlayed"];
@@ -1178,6 +1183,13 @@ static BOOL DebugDailyPlayedOnLaunch(void)
         debugNewGameShown = YES;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self showNewGame];
+        });
+    }
+    static BOOL debugSettingsShown = NO;
+    if (DebugSettingsOnLaunch() && !debugSettingsShown) {
+        debugSettingsShown = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self showSettingView];
         });
     }
     static BOOL debugDailyShown = NO;
@@ -1350,7 +1362,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 	 
      
 #ifdef DEBUG
-     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+     if (!DebugPointsBannerOnLaunch() && !DebugNewGameDialogOnLaunch() && !DebugDailyDialogOnLaunch() && !DebugSettingsOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
 #endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
@@ -1407,7 +1419,7 @@ static BOOL DebugDailyPlayedOnLaunch(void)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch() || DebugNewGameDialogOnLaunch() || DebugDailyDialogOnLaunch() || DebugSettingsOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.

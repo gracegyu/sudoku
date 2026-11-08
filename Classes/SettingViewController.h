@@ -58,10 +58,9 @@ TPMultiLayoutViewController
     UIButton *buttonRestore;
 
 	
-    UIButton *buttonFacebook;
-    UIButton *buttonBugReport;
     UIButton *buttonReview;
-    UIButton *buttonNewApp;
+    UILabel *labelReviewTitle;     // 코드로 만든 「app review」 줄 (layoutReviewRow)
+    UILabel *labelReviewDesc;
     
 
 	UIButton *buttonColor0;
@@ -127,10 +126,7 @@ TPMultiLayoutViewController
 @property (nonatomic, retain) IBOutlet UIButton *buttonRestore;
 
 
-@property (nonatomic, retain) IBOutlet UIButton *buttonFacebook;
-@property (nonatomic, retain) IBOutlet UIButton *buttonBugReport;
 @property (nonatomic, retain) IBOutlet UIButton *buttonReview;
-@property (nonatomic, retain) IBOutlet UIButton *buttonNewApp;
 
 
 @property (nonatomic, retain) IBOutlet UIButton *buttonColor0;
@@ -164,13 +160,8 @@ TPMultiLayoutViewController
 - (IBAction)setNoAd;
 - (IBAction)setRestore;
 
-- (IBAction)goFacebook;
-- (IBAction)goBugReport;
 - (IBAction)goReview;
-- (IBAction)goNewApps;
 
-- (IBAction)goDownload;
-- (IBAction)goMigration;
 
 
 - (IBAction)done;

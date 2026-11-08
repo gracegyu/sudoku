@@ -71,10 +71,7 @@ static BOOL IsTestFlightInstall(void)
 @synthesize buttonNoAd;
 @synthesize buttonRestore;
 
-@synthesize buttonFacebook;
-@synthesize buttonBugReport;
 @synthesize buttonReview;
-@synthesize buttonNewApp;
 
 @synthesize buttonColor0;
 @synthesize buttonColor1;
@@ -97,24 +94,9 @@ static BOOL IsTestFlightInstall(void)
 
 
 
-/// goNewApps 에 걸린 단추(설정의 More Games 줄)를 찾아 점을 단다.
-- (UIButton *)newAppsButtonIn:(UIView *)root
-{
-    if ([root isKindOfClass:[UIButton class]] &&
-        ([[(UIButton *)root actionsForTarget:self forControlEvent:UIControlEventTouchUpInside] containsObject:@"goNewApps"] ||
-         [[(UIButton *)root actionsForTarget:nil forControlEvent:UIControlEventTouchUpInside] containsObject:@"goNewApps"]))
-        return (UIButton *)root;
-    for (UIView *v in root.subviews) {
-        UIButton *b = [self newAppsButtonIn:v];
-        if (b) return b;
-    }
-    return nil;
-}
-
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     DLog(@"viewWillAppear");
-    [MoreGamesViewController attachNewDotToView:[self newAppsButtonIn:self.view] afterTitleOfButton:NO];
 	self.navigationController.title = gettext(@"Setting", nil);
 }
 
@@ -151,6 +133,10 @@ static BOOL IsTestFlightInstall(void)
     labelDescLocale.text = [str stringByAppendingString:@"\n\n\n"];
     str = gettext(@"desc noad", nil);
     labelDescNoAd.text = [str stringByAppendingString:@"\n\n\n"];
+    if (labelReviewTitle) {     // 언어를 바꿀 때 (줄은 layoutReviewRow 가 만든다)
+        labelReviewTitle.text = gettext(@"app review", nil);
+        labelReviewDesc.text = [gettext(@"desc app review", nil) stringByAppendingString:@"\n\n\n"];
+    }
 	
 	
     
@@ -267,6 +253,83 @@ static BOOL IsTestFlightInstall(void)
     buttonRestore.hidden = YES;
 }
 
+/// 설정 맨 아래 「app review」 줄. 다른 설정 줄과 같은 꼴 — 왼쪽 그림 단추 · 제목 · 설명.
+/// 위치는 마지막으로 보이는 줄(광고 제거 줄이 보이면 그 아래, 아니면 그 자리) 바로 아래다.
+/// 줄 간격 · 글꼴 · 색은 기존 줄(skin color · sound effect)에서 그대로 따른다.
+- (UIImage *)reviewIconImage
+{
+    CGFloat side = 150;
+    UIGraphicsImageRenderer *r = [[UIGraphicsImageRenderer alloc] initWithSize:CGSizeMake(side, side)];
+    UIImage *img = [r imageWithActions:^(UIGraphicsImageRendererContext *ctx) {
+        UIBezierPath *bg = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, side, side) cornerRadius:14];
+        [[UIColor whiteColor] setFill];
+        [bg fill];
+        UIBezierPath *star = [UIBezierPath bezierPath];
+        CGPoint c = CGPointMake(side / 2, side / 2 + 4);
+        for (int k = 0; k < 10; k++) {
+            CGFloat rad = (k % 2 == 0) ? 56 : 24;
+            CGFloat ang = -M_PI_2 + k * M_PI / 5;
+            CGPoint pt = CGPointMake(c.x + rad * cos(ang), c.y + rad * sin(ang));
+            if (k == 0) [star moveToPoint:pt]; else [star addLineToPoint:pt];
+        }
+        [star closePath];
+        [[UIColor colorWithRed:0.85 green:0.23 blue:0.19 alpha:1] setFill];
+        [star fill];
+    }];
+    [r release];
+    return img;
+}
+
+- (void)layoutReviewRow
+{
+    if (!buttonReview || !buttonSkinColor || !buttonMarkingEqual || !labelSkinColor || !labelDescSoundEffect || !buttonSoundEffect) return;
+    UIView *host = buttonSkinColor.superview;
+    CGFloat step = buttonSkinColor.frame.origin.y - buttonMarkingEqual.frame.origin.y;
+    CGFloat y = buttonSkinColor.frame.origin.y + step;
+    if (buttonNoAd && !buttonNoAd.hidden) y = buttonNoAd.frame.origin.y + step;
+
+    if (buttonReview.superview != host) [host addSubview:buttonReview];
+    buttonReview.frame = CGRectMake(buttonSkinColor.frame.origin.x, y, buttonSkinColor.frame.size.width, buttonSkinColor.frame.size.height);
+    [buttonReview setBackgroundImage:[self reviewIconImage] forState:UIControlStateNormal];
+    [buttonReview setBackgroundImage:nil forState:UIControlStateHighlighted];
+    [buttonReview setTitle:nil forState:UIControlStateNormal];
+    buttonReview.hidden = NO;
+
+    if (!labelReviewTitle) {
+        labelReviewTitle = [[UILabel alloc] init];
+        labelReviewTitle.font = labelSkinColor.font;
+        labelReviewTitle.textColor = labelSkinColor.textColor;
+        labelReviewTitle.backgroundColor = [UIColor clearColor];
+        labelReviewTitle.shadowColor = labelSkinColor.shadowColor;
+        labelReviewTitle.shadowOffset = labelSkinColor.shadowOffset;
+        labelReviewTitle.adjustsFontSizeToFitWidth = labelSkinColor.adjustsFontSizeToFitWidth;
+        labelReviewTitle.minimumScaleFactor = labelSkinColor.minimumScaleFactor;
+        [host addSubview:labelReviewTitle];
+        labelReviewDesc = [[UILabel alloc] init];
+        labelReviewDesc.font = labelDescSoundEffect.font;
+        labelReviewDesc.textColor = labelDescSoundEffect.textColor;
+        labelReviewDesc.backgroundColor = [UIColor clearColor];
+        labelReviewDesc.shadowColor = labelDescSoundEffect.shadowColor;
+        labelReviewDesc.shadowOffset = labelDescSoundEffect.shadowOffset;
+        labelReviewDesc.numberOfLines = labelDescSoundEffect.numberOfLines;
+        labelReviewDesc.lineBreakMode = labelDescSoundEffect.lineBreakMode;
+        [host addSubview:labelReviewDesc];
+        // 제목 · 설명을 눌러도 열리게 (투명 단추)
+        UIButton *hit = [UIButton buttonWithType:UIButtonTypeCustom];
+        hit.tag = 7701;
+        [hit addTarget:self action:@selector(goReview) forControlEvents:UIControlEventTouchUpInside];
+        [host addSubview:hit];
+    }
+    labelReviewTitle.frame = CGRectMake(labelSkinColor.frame.origin.x, y + (labelSkinColor.frame.origin.y - buttonSkinColor.frame.origin.y),
+                                        labelSkinColor.frame.size.width, labelSkinColor.frame.size.height);
+    labelReviewDesc.frame = CGRectMake(labelDescSoundEffect.frame.origin.x, y + (labelDescSoundEffect.frame.origin.y - buttonSoundEffect.frame.origin.y),
+                                       labelDescSoundEffect.frame.size.width, labelDescSoundEffect.frame.size.height);
+    labelReviewTitle.text = gettext(@"app review", nil);
+    labelReviewDesc.text = [gettext(@"desc app review", nil) stringByAppendingString:@"\n\n\n"];
+    UIView *hit = [host viewWithTag:7701];
+    hit.frame = CGRectUnion(labelReviewTitle.frame, labelReviewDesc.frame);
+}
+
 - (void) setNoAdButton
 {
 #ifdef ADMOB_FREEVERSION
@@ -275,7 +338,7 @@ static BOOL IsTestFlightInstall(void)
 #else
     [self hideNoAd];
 #endif
-    
+    [self layoutReviewRow];
 }
 
 
@@ -361,6 +424,8 @@ static BOOL IsTestFlightInstall(void)
     [productRequestNoAd release];
     productRequestNoAd = nil;
 #endif
+    [labelReviewTitle release];
+    [labelReviewDesc release];
     [super dealloc];
 }
 
@@ -565,23 +630,8 @@ static BOOL IsTestFlightInstall(void)
 
 
 
-- (IBAction)goFacebook
-{
-    [[UIApplication sharedApplication]
-     openURL:[NSURL URLWithString:
-              @"http://www.facebook.com/pages/SmartOne-Games/513654421986293"]];
-    
-
-}
 
 
-
-
-- (IBAction)goDownload
-{
-    NSString *iTunesLink = @"itms://itunes.apple.com/app/apple-store/id1539312289?mt=8";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:iTunesLink]];
-}
 
 
 //typedef struct SUDOKUSCORE
@@ -608,75 +658,6 @@ static BOOL IsTestFlightInstall(void)
 //    "bestTime":[9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9,9],
 //    "clearTimeSum":[33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33,33]
 //}
-
-- (IBAction)goMigration
-{
-    SUDOKUSCORE *pScore = [mainViewController getScore];
-//    mainViewController.gUserID;
-//    mainViewController.gUserName;
-//  mainViewController.score
-    NSMutableDictionary *jsonDic = [[NSMutableDictionary alloc] init];
-    [jsonDic setValue:[NSNumber numberWithInt:847362883] forKey:@"magicNumber"];
-    [jsonDic setValue:[NSNumber numberWithInteger:mainViewController.gUserID] forKey:@"userId"];
-    [jsonDic setValue:mainViewController.gUserName forKey:@"userName"];
-    [jsonDic setValue:[NSNumber numberWithInteger:pScore->scoreTotal] forKey:@"totalScore"];
-    [jsonDic setValue:[NSNumber numberWithInteger:pScore->spendTotalSec] forKey:@"totalSec"];
-    NSMutableArray *listGames = [[NSMutableArray alloc] init];
-    NSMutableArray *listClears = [[NSMutableArray alloc] init];
-    NSMutableArray *listBestTime = [[NSMutableArray alloc] init];
-    NSMutableArray *listClearTimeSum = [[NSMutableArray alloc] init];
-    for (NSInteger type=0; type<5; type++) {
-        for (NSInteger level=0; level<5; level++) {
-            [listGames addObject:[NSNumber numberWithInteger:pScore->scoreGames[type][level] + pScore->scoreGames[type][level+5]]];
-            [listClears addObject:[NSNumber numberWithInteger:pScore->scoreClears[type][level] + pScore->scoreClears[type][level+5]]];
-            [listBestTime addObject:[NSNumber numberWithInteger:pScore->scoreBestTime[type][level] + pScore->scoreBestTime[type][level+5]]];
-            [listClearTimeSum addObject:[NSNumber numberWithInteger:pScore->scoreClearTimeSum[type][level] + pScore->scoreClearTimeSum[type][level+5]]];
-        }
-    }
-    [jsonDic setValue:listGames forKey:@"games"];
-    [jsonDic setValue:listClears forKey:@"clears"];
-    [jsonDic setValue:listBestTime forKey:@"bestTime"];
-    [jsonDic setValue:listClearTimeSum forKey:@"clearTimeSum"];
-
-    NSString *jsonDicStr = [NSString stringWithFormat:@"%@", jsonDic];NSData* jsonData = [NSJSONSerialization dataWithJSONObject:jsonDic options:NSJSONWritingPrettyPrinted error:nil];
-    NSString* jsonDataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-
-    NSLog(@"jsonDicStr: %@", jsonDicStr);
-    NSLog(@"jsonDataStr: %@", jsonDataStr);
-    NSData *nsdata = [jsonDataStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *base64Encoded = [nsdata base64EncodedStringWithOptions:0];
-    NSLog(@"base64Encoded: %@", base64Encoded);
-
-    NSString* customURL = [NSString stringWithFormat: @"sudoku9flutter://migration/%@", base64Encoded];
-    
-//    NSString *customURL = @"sudoku9flutter://migration/eyJtYWdpY051bWJlciI6ODQ3MzYyODgzLCJ1c2VySWQiOjIwMzQzNywidXNlck5hbWUiOiJSYXltb25kIEplb24iLCJ0b3RhbFNjb3JlIjoxMTExMSwidG90YWxTZWMiOjQ0NDQsImdhbWVzIjpbMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsMywzLDMsM10sImNsZWFycyI6WzIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDIsMiwyLDJdLCJiZXN0VGltZSI6WzksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDksOSw5LDldLCJjbGVhclRpbWVTdW0iOlszMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzMywzM119";
-
-
-  if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:customURL]])
-  {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:customURL]];
-  }
-  else
-  {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"URL error"
-                              message:[NSString stringWithFormat:@"No custom URL defined for %@", customURL]
-                              delegate:self cancelButtonTitle:@"Ok"
-                              otherButtonTitles:nil];
-    [alert show];
-  }
-
-
-    
-    
-    
-    
-
-}
-
-- (IBAction)goBugReport
-{
-    [(MainViewController *)mainViewController openFeedbackPortal];
-}
 
 #if 0
 /// TestFlight일 때만 설정 네비게이션 왼쪽에 Crash 버튼을 붙인다.
@@ -785,15 +766,6 @@ static BOOL IsTestFlightInstall(void)
     [Flurry logEvent:@"goAppReview"];
 #endif
     
-}
-
-- (IBAction)goNewApps
-{
-    [Locale openMoreGames];
-
-#ifdef USE_FLURRY
-    [Flurry logEvent:@"goMoewApps"];
-#endif
 }
 
 #ifdef ADMOB_FREEVERSION
