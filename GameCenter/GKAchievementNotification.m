@@ -105,6 +105,7 @@
         self.opaque = NO;
         [tBackground release];
         [self addSubview:self.background];
+        self.userInteractionEnabled = NO;   // 띠가 떠 있는 동안에도 아래 판·버튼을 누를 수 있게
 
         CGRect r1 = kGKAchievementText1;
         CGRect r2 = kGKAchievementText2;
@@ -175,27 +176,23 @@
 
 #pragma mark -
 
-// Internal name
-// iPhoneX  : iPhone10,6
-// iPhoneXR : iPhone11,8
-// iPhoneXS : iPhone11,2
-// iPhoneX Max : iPhone11,4
-
-BOOL IsiPhoneX2(void)
+/// 띠가 내려와 멈출 자리. 노치·Dynamic Island 기기는 안전 영역 top inset 바로 아래에 둔다
+/// (전에는 45pt 고정이라 Dynamic Island 기기에서 위쪽이 가렸다). 노치 없는 기기와 가로 화면은
+/// 예전과 같은 10pt 다(상태 막대 높이 20pt 는 노치로 치지 않는다).
+/// safe top 은 창 좌표다. 띠를 얹는 mainView 가 창 위쪽에서 어긋나 있을 수 있으므로 부모 좌표로 바꾼다.
+static CGRect GKAchievementFrameEndForScreen(UIView *host)
 {
-    BOOL iPhoneX = NO;
+    CGRect frame = kGKAchievementFrameEnd;
     if (@available(iOS 11.0, *)) {
         UIWindow *mainWindow = [[[UIApplication sharedApplication] delegate] window];
-        if (mainWindow.safeAreaInsets.top > 24.0) {
-            iPhoneX = YES;
+        CGFloat top = mainWindow.safeAreaInsets.top;
+        if (top > 24.0f) {
+            CGFloat hostTop = host ? [host convertPoint:CGPointZero toView:nil].y : 0.0f;
+            frame.origin.y = top - hostTop;
         }
-        printf("mainWindow.safeAreaInsets.top %f\n", mainWindow.safeAreaInsets.top);
     }
-    printf("IsiPhoneX2 %s\n", iPhoneX ? "YES" : "NO");
-    return iPhoneX;
+    return frame;
 }
-
-
 
 - (void)animateIn
 {
@@ -206,12 +203,7 @@ BOOL IsiPhoneX2(void)
     [UIView setAnimationBeginsFromCurrentState:YES];
     [UIView setAnimationDidStopSelector:@selector(animationInDidStop:finished:context:)];
  
-    UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
-    
-    if (IsiPhoneX2() && (orientation == UIInterfaceOrientationPortrait || orientation == UIDeviceOrientationUnknown))
-        self.frame = kGKAchievementFrameEndX;
-    else
-        self.frame = kGKAchievementFrameEnd;
+    self.frame = GKAchievementFrameEndForScreen(self.superview);
 
 
     

@@ -1141,9 +1141,31 @@ static BOOL GaIsOfflineError(NSError *error)
     [super viewDidDisappear:animated];
 }
 
+#ifdef DEBUG
+/// 디버그 빌드 전용 실행 인자 -DebugPointsBanner: 뜨고 1초 뒤 점수 띠(Game Center 「Points」 꼴, 앱이 그린다)를
+/// 세 번 잇달아 띄운다. 시뮬레이터는 Game Center 로그인이 없어 띠가 저절로 뜨지 않아 위치를 찍을 수 없다.
+/// 이때 Game Center 접속 · ATT 는 하지 않는다. Release 에는 없다.
+static BOOL DebugPointsBannerOnLaunch(void)
+{
+    return [[NSProcessInfo processInfo].arguments containsObject:@"-DebugPointsBanner"];
+}
+#endif
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+#ifdef DEBUG
+    static BOOL debugBannerShown = NO;
+    if (DebugPointsBannerOnLaunch() && !debugBannerShown) {
+        debugBannerShown = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            for (int i = 0; i < 3; i++)
+                [[GKAchievementHandler defaultHandler]
+                    notifyAchievementTitle:@"Points"
+                    andMessage:[NSString stringWithFormat:gettext(@"You got %d points", nil), 21945]];
+        });
+    }
+#endif
     if (mainView.bMenuMode)
     {
         [self hideMenuView:NO];
@@ -1295,6 +1317,9 @@ static BOOL GaIsOfflineError(NSError *error)
      nowDate[0] = '\0';
 	 
      
+#ifdef DEBUG
+     if (!DebugPointsBannerOnLaunch())   // 촬영 인자를 주면 Game Center 로그인 창이 가리므로 접속하지 않는다
+#endif
      [GameCenterUtil connectGameCenter:self];       //게임센터 접속~
      
      
@@ -1350,7 +1375,7 @@ static BOOL GaIsOfflineError(NSError *error)
 
 - (void)requestTrackingAuthorization {
 #ifdef DEBUG
-    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo()) return; // 시뮬레이터 More Games 촬영용 (Release 에 없다)
+    if (MGDebugMoreGamesOnLaunch() || MGDebugNewDotDemo() || DebugPointsBannerOnLaunch()) return; // 시뮬레이터 촬영용 (Release 에 없다)
 #endif
     if (@available (iOS 14.0, *)) {
         // 24.3.22 IDFA는 더이상 취득을 못한다.
